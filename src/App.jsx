@@ -190,6 +190,7 @@ export default function App() {
             onWordResult={handleWordResult}
             onNavigateToWorkshop={() => setCurrentTab('workshop')}
             onQuestionCompleted={handleQuestionCompleted}
+            isAdventureStarted={!showWelcome}
             isMuted={state.soundMuted}
           />
         )}

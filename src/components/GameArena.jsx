@@ -71,20 +71,18 @@ const ICON_MAP = {
 // Safe color and contrast mapper to ensure 100% legibility on all backgrounds
 function getCardStyle(item) {
   const hex = item.colorHex || '#E52521';
-  // Check if color is bright yellow/amber/white
   const isLight = hex === '#FFD700' || hex === '#EAB308' || hex === '#FACC15' || item.word === 'Yellow' || item.word === 'Star' || item.word === 'Truck';
 
-  // Dark border calculation
-  let borderColor = '#991B1B'; // default dark red
-  if (hex === '#0055BF' || hex === '#2563EB') borderColor = '#002D62'; // dark blue
-  else if (hex === '#FFD700' || hex === '#EAB308' || hex === '#FACC15') borderColor = '#A16207'; // dark gold
-  else if (hex === '#237841' || hex === '#16A34A') borderColor = '#14532D'; // dark green
-  else if (hex === '#FF7F00' || hex === '#EA580C') borderColor = '#9A3412'; // dark orange
-  else if (hex === '#8A2BE2' || hex === '#9333EA') borderColor = '#581C87'; // dark purple
-  else if (hex === '#0284C7') borderColor = '#0369A1'; // dark sky
-  else if (hex === '#475569') borderColor = '#1E293B'; // dark slate
-  else if (hex === '#D97706') borderColor = '#78350F'; // dark amber
-  else if (hex === '#EC4899') borderColor = '#9D174D'; // dark pink
+  let borderColor = '#991B1B';
+  if (hex === '#0055BF' || hex === '#2563EB') borderColor = '#002D62';
+  else if (hex === '#FFD700' || hex === '#EAB308' || hex === '#FACC15') borderColor = '#A16207';
+  else if (hex === '#237841' || hex === '#16A34A') borderColor = '#14532D';
+  else if (hex === '#FF7F00' || hex === '#EA580C') borderColor = '#9A3412';
+  else if (hex === '#8A2BE2' || hex === '#9333EA') borderColor = '#581C87';
+  else if (hex === '#0284C7') borderColor = '#0369A1';
+  else if (hex === '#475569') borderColor = '#1E293B';
+  else if (hex === '#D97706') borderColor = '#78350F';
+  else if (hex === '#EC4899') borderColor = '#9D174D';
 
   return {
     bgColor: hex,
@@ -104,6 +102,7 @@ export default function GameArena({
   onWordResult,
   onNavigateToWorkshop,
   onQuestionCompleted,
+  isAdventureStarted = true,
   isMuted,
 }) {
   const [selectedLevelId, setSelectedLevelId] = useState(curriculumLevels[0].id);
@@ -117,6 +116,9 @@ export default function GameArena({
   const [levelCompleted, setLevelCompleted] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [encouragementText, setEncouragementText] = useState(null);
+
+  const hoverDebounceRef = useRef(null);
+  const repeatTimerRef = useRef(null);
 
   const currentLevel = curriculumLevels.find(l => l.id === selectedLevelId) || {
     id: 'custom',
@@ -147,9 +149,24 @@ export default function GameArena({
     });
   }, []);
 
+  // Periodic repetition while staying on the question
+  const resetRepeatTimer = useCallback((word) => {
+    if (repeatTimerRef.current) {
+      clearInterval(repeatTimerRef.current);
+    }
+    if (!word) return;
+
+    // While child stays on this question, repeat pronunciation every 7s
+    repeatTimerRef.current = setInterval(() => {
+      setIsSpeaking(true);
+      speakEnglish(word, () => setIsSpeaking(false));
+    }, 7000);
+  }, []);
+
   const setupQuestion = useCallback((index, currentPool) => {
     if (!currentPool || currentPool.length === 0) return;
     if (index >= currentPool.length) {
+      if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
       setLevelCompleted(true);
       playFanfare(isMuted);
       launchConfetti();
@@ -173,10 +190,13 @@ export default function GameArena({
     const questionChoices = shuffle([current, ...distractors]);
     setOptions(questionChoices);
 
-    // Pronounce English word automatically
-    setIsSpeaking(true);
-    speakEnglish(current.word, () => setIsSpeaking(false));
-  }, [currentLevel, isMuted, launchConfetti, onRewardEarned]);
+    // If adventure has started, pronounce immediately and begin stay-loop!
+    if (isAdventureStarted) {
+      setIsSpeaking(true);
+      speakEnglish(current.word, () => setIsSpeaking(false));
+      resetRepeatTimer(current.word);
+    }
+  }, [currentLevel, isMuted, launchConfetti, onRewardEarned, isAdventureStarted, resetRepeatTimer]);
 
   useEffect(() => {
     setQuestionIndex(0);
@@ -184,17 +204,48 @@ export default function GameArena({
     if (pool.length > 0) {
       setupQuestion(0, pool);
     }
+    return () => {
+      if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
+    };
   }, [selectedLevelId, pool.length]);
 
-  // Replay English voice
+  // When adventure starts (welcome screen dismissed), immediately play target question
+  useEffect(() => {
+    if (isAdventureStarted && targetItem && !levelCompleted && isCorrect === null) {
+      setIsSpeaking(true);
+      speakEnglish(targetItem.word, () => setIsSpeaking(false));
+      resetRepeatTimer(targetItem.word);
+    }
+  }, [isAdventureStarted]);
+
+  // Replay English voice manually
   const handleReplayEnglish = () => {
     if (!targetItem) return;
     playTap(isMuted);
     setIsSpeaking(true);
     speakEnglish(targetItem.word, () => setIsSpeaking(false));
+    resetRepeatTimer(targetItem.word);
   };
 
-  // Dedicated Card Hint Handler (Zero penalty)
+  // While staying/hovering over each card, play its English word without waiting for click!
+  const handleCardHover = (item) => {
+    if (isCorrect === true) return;
+    if (hoverDebounceRef.current) clearTimeout(hoverDebounceRef.current);
+
+    hoverDebounceRef.current = setTimeout(() => {
+      speakEnglish(item.word);
+    }, 100);
+  };
+
+  // While staying/hovering over the 🎧 headphone icon, play Turkish hint without waiting for click!
+  const handleHintHover = (e, item) => {
+    e.stopPropagation();
+    if (hoverDebounceRef.current) clearTimeout(hoverDebounceRef.current);
+    setRevealedCardHints(prev => ({ ...prev, [item.id]: true }));
+    speakTurkish(item.translation);
+  };
+
+  // Dedicated Card Hint Click Handler
   const handleCardHintClick = (e, item) => {
     e.stopPropagation();
     playTap(isMuted);
@@ -211,6 +262,7 @@ export default function GameArena({
   const handleSelectOption = (item) => {
     if (isCorrect === true || !targetItem) return;
 
+    if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
     setSelectedOptionId(item.id);
 
     if (item.id === targetItem.id) {
@@ -221,7 +273,6 @@ export default function GameArena({
       playLegoSnap(isMuted);
       playSuccessChime(isMuted);
       playStarSparkle(isMuted);
-
 
       const hadHint = revealedCardHints[item.id];
       onWordResult({
@@ -265,6 +316,7 @@ export default function GameArena({
 
       setTimeout(() => {
         setWobbleOptionId(null);
+        if (targetItem) resetRepeatTimer(targetItem.word);
       }, 500);
     }
   };
@@ -392,7 +444,7 @@ export default function GameArena({
                     <span>🔊 Playing voice...</span>
                   </span>
                 ) : (
-                  <span>🔊 Tap red button to hear again</span>
+                  <span>🔊 Hover or tap cards to listen</span>
                 )}
               </span>
             </div>
@@ -418,6 +470,8 @@ export default function GameArena({
                 <div
                   key={item.id}
                   onClick={() => handleSelectOption(item)}
+                  onMouseEnter={() => handleCardHover(item)}
+                  onPointerEnter={() => handleCardHover(item)}
                   style={{
                     backgroundColor: cardStyle.bgColor,
                     borderColor: cardStyle.borderColor,
@@ -450,23 +504,25 @@ export default function GameArena({
                     />
                   </div>
 
-                  {/* Dedicated Child-Friendly Hint / Kulaklık Button (Always high contrast) */}
+                  {/* Dedicated Child-Friendly Hint / Kulaklık Button (Hover or Tap speaks Turkish) */}
                   <button
                     type="button"
                     onClick={(e) => handleCardHintClick(e, item)}
+                    onMouseEnter={(e) => handleHintHover(e, item)}
+                    onPointerEnter={(e) => handleHintHover(e, item)}
                     className="
                       absolute top-2.5 right-2.5 min-w-[48px] min-h-[48px] p-2 rounded-2xl
                       bg-slate-950/85 hover:bg-slate-950 text-yellow-300
                       border-2 border-yellow-400/80 shadow-md
                       flex items-center justify-center transition-transform active:scale-95 cursor-pointer z-10
                     "
-                    title="İpucu / Türkçe Sesli Çeviri (Zero Penalty)"
+                    title="İpucu / Türkçe Sesli Çeviri (Hover or Tap)"
                     aria-label="Turkish Hint"
                   >
                     <Headphones className="w-5 h-5 text-yellow-300" />
                   </button>
 
-                  {/* Solid White Icon Capsule - Guarantees 100% visibility regardless of card color! */}
+                  {/* Solid White Icon Capsule - Guarantees 100% visibility */}
                   <div className="my-2 p-3 sm:p-4 rounded-2xl bg-white border-2 border-white/90 shadow-md group-hover:scale-110 transition-transform flex items-center justify-center">
                     <div style={{ color: cardStyle.bgColor }}>
                       {renderIcon(item.icon, 'w-10 h-10 sm:w-14 sm:h-14')}

@@ -1,11 +1,6 @@
 /**
- * High-Reliability Audio Pronunciation Engine for Kids English Learning.
- * 
- * Uses bundled high-definition studio voices (Samantha for English, Yelda for Turkish)
- * served directly from /audio/en/ and /audio/tr/ for 100% instant, guaranteed playback
- * without reliance on browser TTS support, network connections, or CORS.
- * 
- * Dynamic parent-added words fallback gracefully to Web Speech API.
+ * High-Reliability Trilingual Audio Engine (English en-US, German de-DE, Turkish tr-TR)
+ * Designed for early readers (7-year-olds learning reading/writing).
  */
 
 let activeAudio = null;
@@ -52,6 +47,36 @@ const TR_TRANSLATION_MAP = {
   'helikopter': 'helicopter',
   'bisiklet': 'bicycle',
   'kamyon': 'truck',
+};
+
+// Mapping of German translations to audio filenames
+const DE_TRANSLATION_MAP = {
+  'rot': 'red',
+  'blau': 'blue',
+  'gelb': 'yellow',
+  'grün': 'green',
+  'orange': 'orange',
+  'kreis': 'circle',
+  'quadrat': 'square',
+  'dreieck': 'triangle',
+  'stern': 'star',
+  'hund': 'dog',
+  'katze': 'cat',
+  'löwe': 'lion',
+  'elefant': 'elephant',
+  'affe': 'monkey',
+  'frosch': 'frog',
+  'vogel': 'bird',
+  'fisch': 'fish',
+  'auto': 'car',
+  'flugzeug': 'airplane',
+  'zug': 'train',
+  'rakete': 'rocket',
+  'boot': 'boat',
+  'hubschrauber': 'helicopter',
+  'fahrrad': 'bicycle',
+  'lastwagen': 'truck',
+  'lkw': 'truck',
 };
 
 // Safe voice loading for dynamic custom words
@@ -233,7 +258,6 @@ function playWebSpeech(text, lang = 'en-US', onEnd) {
 
 /**
  * Pronounce an English word (en-US)
- * Automatically plays high-definition voice recording (e.g. "Red") or dynamic TTS
  */
 export function speakEnglish(text, onEnd) {
   if (!text) {
@@ -244,20 +268,16 @@ export function speakEnglish(text, onEnd) {
   const cleanKey = text.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
 
   if (KNOWN_EN_WORDS.has(cleanKey)) {
-    // Play real high-definition Samantha English voice!
     playLocalAudioFile(`/audio/en/${cleanKey}`, onEnd, () => {
-      // If local file load somehow fails, fallback to Web Speech
       playWebSpeech(text, 'en-US', onEnd);
     });
   } else {
-    // Dynamic word added by parents
     playWebSpeech(text, 'en-US', onEnd);
   }
 }
 
 /**
  * Pronounce Turkish translation (tr-TR)
- * Automatically plays high-definition Yelda voice recording (e.g. "Kırmızı") or dynamic TTS
  */
 export function speakTurkish(text, onEnd) {
   if (!text) {
@@ -269,12 +289,32 @@ export function speakTurkish(text, onEnd) {
   const fileKey = TR_TRANSLATION_MAP[normalized] || normalized.replace(/[^a-z0-9_]/g, '');
 
   if (KNOWN_EN_WORDS.has(fileKey)) {
-    // Play real high-definition Yelda Turkish voice!
     playLocalAudioFile(`/audio/tr/${fileKey}`, onEnd, () => {
       playWebSpeech(text, 'tr-TR', onEnd);
     });
   } else {
     playWebSpeech(text, 'tr-TR', onEnd);
+  }
+}
+
+/**
+ * Pronounce German translation (de-DE)
+ */
+export function speakGerman(text, onEnd) {
+  if (!text) {
+    if (onEnd) onEnd();
+    return;
+  }
+
+  const normalized = text.toLowerCase().trim();
+  const fileKey = DE_TRANSLATION_MAP[normalized] || normalized.replace(/[^a-z0-9_]/g, '');
+
+  if (KNOWN_EN_WORDS.has(fileKey)) {
+    playLocalAudioFile(`/audio/de/${fileKey}`, onEnd, () => {
+      playWebSpeech(text, 'de-DE', onEnd);
+    });
+  } else {
+    playWebSpeech(text, 'de-DE', onEnd);
   }
 }
 
@@ -289,9 +329,10 @@ const ENCOURAGEMENT_KEYS = [
   'great_job',
 ];
 
-export function speakEncouragement(onEnd) {
+export function speakEncouragement(language = 'en', onEnd) {
   const chosenKey = ENCOURAGEMENT_KEYS[Math.floor(Math.random() * ENCOURAGEMENT_KEYS.length)];
-  playLocalAudioFile(`/audio/en/${chosenKey}`, onEnd, () => {
+  const folder = language === 'de' ? 'de' : 'en';
+  playLocalAudioFile(`/audio/${folder}/${chosenKey}`, onEnd, () => {
     if (onEnd) onEnd();
   });
 }

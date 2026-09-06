@@ -32,8 +32,10 @@ import {
   Feather,
   Crown,
   Box,
+  Sliders,
+  Globe,
 } from 'lucide-react';
-import { speakEnglish, speakTurkish, speakEncouragement, stopSpeech } from '../utils/speech';
+import { speakEnglish, speakTurkish, speakGerman, speakEncouragement, stopSpeech } from '../utils/speech';
 import {
   playLegoSnap,
   playSuccessChime,
@@ -68,7 +70,6 @@ const ICON_MAP = {
   Box,
 };
 
-// Safe color and contrast mapper to ensure 100% legibility on all backgrounds
 function getCardStyle(item) {
   const hex = item.colorHex || '#E52521';
   const isLight = hex === '#FFD700' || hex === '#EAB308' || hex === '#FACC15' || item.word === 'Yellow' || item.word === 'Star' || item.word === 'Truck';
@@ -117,14 +118,38 @@ export default function GameArena({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [encouragementText, setEncouragementText] = useState(null);
 
+  // Early-Reader Settings:
+  // helperLanguage: 'both' | 'de' | 'tr'
+  const [helperLanguage, setHelperLanguage] = useState(() => {
+    return localStorage.getItem('lego_helper_lang') || 'both';
+  });
+  // cardCountMode: 2 (Junior) | 4 (Master)
+  const [cardCountMode, setCardCountMode] = useState(() => {
+    return parseInt(localStorage.getItem('lego_card_mode') || '2', 10);
+  });
+
   const hoverDebounceRef = useRef(null);
   const repeatTimerRef = useRef(null);
+
+  // Save helper preferences
+  const handleSetHelperLanguage = (lang) => {
+    playTap(isMuted);
+    setHelperLanguage(lang);
+    localStorage.setItem('lego_helper_lang', lang);
+  };
+
+  const handleToggleCardMode = (mode) => {
+    playTap(isMuted);
+    setCardCountMode(mode);
+    localStorage.setItem('lego_card_mode', mode.toString());
+  };
 
   const currentLevel = curriculumLevels.find(l => l.id === selectedLevelId) || {
     id: 'custom',
     number: 4,
     title: 'Custom Words',
     titleTr: 'Özel Kelimeler',
+    titleDe: 'Eigene Wörter',
     description: 'Words added by mom and dad!',
     themeColor: 'from-purple-500 to-indigo-500',
     borderColor: 'border-purple-600',
@@ -149,21 +174,19 @@ export default function GameArena({
     });
   }, []);
 
-  // Periodic repetition while staying on the question
   const resetRepeatTimer = useCallback((word) => {
     if (repeatTimerRef.current) {
       clearInterval(repeatTimerRef.current);
     }
     if (!word) return;
 
-    // While child stays on this question, repeat pronunciation every 7s
     repeatTimerRef.current = setInterval(() => {
       setIsSpeaking(true);
       speakEnglish(word, () => setIsSpeaking(false));
     }, 7000);
   }, []);
 
-  const setupQuestion = useCallback((index, currentPool) => {
+  const setupQuestion = useCallback((index, currentPool, countMode) => {
     if (!currentPool || currentPool.length === 0) return;
     if (index >= currentPool.length) {
       if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
@@ -185,12 +208,13 @@ export default function GameArena({
     setRevealedCardHints({});
     setEncouragementText(null);
 
+    // Pick distractors according to Junior (2 cards) or Master (4 cards)
     const otherItems = currentPool.filter(item => item.id !== current.id);
-    const distractors = shuffle(otherItems).slice(0, 3);
+    const distractorCount = (countMode === 2) ? 1 : 3;
+    const distractors = shuffle(otherItems).slice(0, distractorCount);
     const questionChoices = shuffle([current, ...distractors]);
     setOptions(questionChoices);
 
-    // If adventure has started, pronounce immediately and begin stay-loop!
     if (isAdventureStarted) {
       setIsSpeaking(true);
       speakEnglish(current.word, () => setIsSpeaking(false));
@@ -202,14 +226,13 @@ export default function GameArena({
     setQuestionIndex(0);
     setLevelCompleted(false);
     if (pool.length > 0) {
-      setupQuestion(0, pool);
+      setupQuestion(0, pool, cardCountMode);
     }
     return () => {
       if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
     };
-  }, [selectedLevelId, pool.length]);
+  }, [selectedLevelId, pool.length, cardCountMode]);
 
-  // When adventure starts (welcome screen dismissed), immediately play target question
   useEffect(() => {
     if (isAdventureStarted && targetItem && !levelCompleted && isCorrect === null) {
       setIsSpeaking(true);
@@ -218,13 +241,27 @@ export default function GameArena({
     }
   }, [isAdventureStarted]);
 
-  // Replay English voice manually
+  // Replay English voice
   const handleReplayEnglish = () => {
     if (!targetItem) return;
     playTap(isMuted);
     setIsSpeaking(true);
     speakEnglish(targetItem.word, () => setIsSpeaking(false));
     resetRepeatTimer(targetItem.word);
+  };
+
+  // Play Helper Audio (German, Turkish, or Both)
+  const playHelperAudio = (item) => {
+    if (helperLanguage === 'de') {
+      speakGerman(item.translationDe || item.translation);
+    } else if (helperLanguage === 'tr') {
+      speakTurkish(item.translation);
+    } else {
+      // Both: speak German first, then Turkish
+      speakGerman(item.translationDe || item.translation, () => {
+        setTimeout(() => speakTurkish(item.translation), 200);
+      });
+    }
   };
 
   // While staying/hovering over each card, play its English word without waiting for click!
@@ -237,20 +274,20 @@ export default function GameArena({
     }, 100);
   };
 
-  // While staying/hovering over the 🎧 headphone icon, play Turkish hint without waiting for click!
+  // While staying/hovering over the 🎧 headphone icon, play helper language without click!
   const handleHintHover = (e, item) => {
     e.stopPropagation();
     if (hoverDebounceRef.current) clearTimeout(hoverDebounceRef.current);
     setRevealedCardHints(prev => ({ ...prev, [item.id]: true }));
-    speakTurkish(item.translation);
+    playHelperAudio(item);
   };
 
-  // Dedicated Card Hint Click Handler
+  // Card Hint Click Handler
   const handleCardHintClick = (e, item) => {
     e.stopPropagation();
     playTap(isMuted);
     setRevealedCardHints(prev => ({ ...prev, [item.id]: true }));
-    speakTurkish(item.translation);
+    playHelperAudio(item);
 
     onWordResult({
       wordId: item.id,
@@ -266,7 +303,7 @@ export default function GameArena({
     setSelectedOptionId(item.id);
 
     if (item.id === targetItem.id) {
-      // Correct! Speak the word and celebrate!
+      // Correct!
       setIsCorrect(true);
       setEncouragementText(null);
       speakEnglish(item.word);
@@ -296,18 +333,19 @@ export default function GameArena({
       setTimeout(() => {
         const nextIdx = questionIndex + 1;
         setQuestionIndex(nextIdx);
-        setupQuestion(nextIdx, pool);
+        setupQuestion(nextIdx, pool, cardCountMode);
       }, 1400);
     } else {
-      // Gentle error handling: NO red X, NO penalty buzzer!
+      // Gentle error handling
       setIsCorrect(false);
       setWobbleOptionId(item.id);
       playGentleWobble(isMuted);
 
+      // Friendly spoken encouragement in English or German
       const prompts = ['Try again! 🧱', 'Almost there!', 'You can do it!', 'Good try! ⭐'];
       const chosen = prompts[Math.floor(Math.random() * prompts.length)];
       setEncouragementText(chosen);
-      speakEncouragement();
+      speakEncouragement(helperLanguage === 'de' ? 'de' : 'en');
 
       onWordResult({
         wordId: targetItem.id,
@@ -325,7 +363,7 @@ export default function GameArena({
     playTap(isMuted);
     setQuestionIndex(0);
     setLevelCompleted(false);
-    setupQuestion(0, pool);
+    setupQuestion(0, pool, cardCountMode);
   };
 
   const renderIcon = (iconName, className = 'w-12 h-12') => {
@@ -336,6 +374,75 @@ export default function GameArena({
   return (
     <div className="w-full max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-6">
       
+      {/* Early-Reader Control Bar: Language Helper & Junior Mode Toggle */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3 bg-white/90 backdrop-blur-md rounded-2xl border-3 border-slate-800 p-2 sm:p-3 shadow-md">
+        
+        {/* Helper Language Switcher (German 🇩🇪 / Turkish 🇹🇷 / Both 🌟) */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] font-black uppercase text-slate-500 flex items-center gap-1">
+            <Globe className="w-3.5 h-3.5 text-blue-600" />
+            <span>Hint Language:</span>
+          </span>
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-300">
+            <button
+              onClick={() => handleSetHelperLanguage('both')}
+              className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
+                helperLanguage === 'both' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Both German and Turkish hints"
+            >
+              🇩🇪 + 🇹🇷 Both
+            </button>
+            <button
+              onClick={() => handleSetHelperLanguage('de')}
+              className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
+                helperLanguage === 'de' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="German hints (Anna)"
+            >
+              🇩🇪 Deutsch
+            </button>
+            <button
+              onClick={() => handleSetHelperLanguage('tr')}
+              className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
+                helperLanguage === 'tr' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Turkish hints (Yelda)"
+            >
+              🇹🇷 Türkçe
+            </button>
+          </div>
+        </div>
+
+        {/* Choice Density Mode (Junior 2 Cards vs Master 4 Cards) */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] font-black uppercase text-slate-500">
+            Difficulty:
+          </span>
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-300">
+            <button
+              onClick={() => handleToggleCardMode(2)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all flex items-center gap-1 ${
+                cardCountMode === 2 ? 'bg-emerald-500 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Junior 2-card mode for early readers"
+            >
+              <span>👶 2 Cards (Easy)</span>
+            </button>
+            <button
+              onClick={() => handleToggleCardMode(4)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all flex items-center gap-1 ${
+                cardCountMode === 4 ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Master 4-card mode"
+            >
+              <span>🧱 4 Cards</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
       {/* Level Selector Badges */}
       <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto pb-2 scrollbar-none">
         {curriculumLevels.map((lvl) => {
@@ -405,18 +512,25 @@ export default function GameArena({
             </div>
           </div>
 
-          {/* Persistent Audio Hero Prompt Card */}
+          {/* Persistent Audio Hero Prompt Card with Early-Reader Visual Clue */}
           <div className="bg-gradient-to-b from-amber-100 to-amber-50 rounded-3xl p-4 sm:p-6 border-3 border-amber-400 shadow-inner mb-6 text-center flex flex-col items-center relative">
             
-            <span className="px-3 py-1 bg-amber-200/80 text-amber-950 rounded-full font-bold text-xs uppercase tracking-wider mb-2">
-              🎧 Audio Challenge
-            </span>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-3 py-1 bg-amber-200/80 text-amber-950 rounded-full font-bold text-xs uppercase tracking-wider">
+                🎧 Listen & Find the Picture
+              </span>
+              {cardCountMode === 2 && (
+                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-black text-[10px] border border-emerald-300">
+                  👶 Junior Mode (2 Cards)
+                </span>
+              )}
+            </div>
 
-            {/* Large Speaker Replay Button */}
+            {/* Big Prominent Speaker Button */}
             <button
               onClick={handleReplayEnglish}
               className={`
-                group relative my-2 min-h-[72px] min-w-[240px] sm:min-w-[280px] flex items-center justify-center gap-3 px-6 py-4 rounded-3xl
+                group relative my-2 min-h-[76px] min-w-[240px] sm:min-w-[300px] flex items-center justify-center gap-3 px-7 py-4 rounded-3xl
                 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-display font-black text-2xl sm:text-3xl
                 border-4 border-b-8 border-red-800 active:border-b-2 active:translate-y-1.5 transition-all shadow-xl
                 cursor-pointer select-none
@@ -424,29 +538,54 @@ export default function GameArena({
               `}
               title="Tap to hear English word again"
             >
-              {/* Studs on top of speaker button */}
               <div className="absolute -top-2.5 left-8 w-4 h-4 rounded-full bg-red-400 border border-red-700 shadow-sm" />
               <div className="absolute -top-2.5 right-8 w-4 h-4 rounded-full bg-red-400 border border-red-700 shadow-sm" />
 
               <Volume2 className={`w-8 h-8 sm:w-10 sm:h-10 text-yellow-300 ${isSpeaking ? 'animate-bounce' : 'group-hover:scale-110'}`} />
-              <span className="tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">{targetItem.word}</span>
+              
+              {/* Syllable-formatted English Word */}
+              <div className="flex flex-col items-start text-left">
+                <span className="tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] leading-tight">
+                  {targetItem.word}
+                </span>
+                {targetItem.syllables && targetItem.syllables !== targetItem.word && (
+                  <span className="text-[11px] font-mono tracking-widest text-yellow-200 font-bold -mt-0.5">
+                    {targetItem.syllables}
+                  </span>
+                )}
+              </div>
+
+              {/* Emoji Anchor Anchor for Visual Reinforcement */}
+              {targetItem.emoji && (
+                <span className="text-2xl sm:text-3xl ml-1">{targetItem.emoji}</span>
+              )}
             </button>
 
-            {/* Visual Speech & Phonetic Helper */}
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs sm:text-sm font-bold text-slate-600">
-                Phonetic: <span className="font-mono font-bold text-slate-800 bg-white/80 px-2 py-0.5 rounded-md border border-amber-200">"{targetItem.phonetic}"</span>
-              </span>
-              <span className="text-xs text-slate-400">•</span>
-              <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
-                {isSpeaking ? (
-                  <span className="flex items-center gap-1 animate-pulse">
-                    <span>🔊 Playing voice...</span>
-                  </span>
-                ) : (
-                  <span>🔊 Hover or tap cards to listen</span>
-                )}
-              </span>
+            {/* Bilingual Meaning Helper Bar (DE / TR) */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+              {(helperLanguage === 'both' || helperLanguage === 'de') && targetItem.translationDe && (
+                <button
+                  type="button"
+                  onClick={() => speakGerman(targetItem.translationDe)}
+                  className="px-3 py-1 rounded-xl bg-white border-2 border-amber-300 text-slate-800 text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-2xs hover:bg-amber-100 transition-colors"
+                  title="Auf Deutsch anhören"
+                >
+                  <span>🇩🇪 {targetItem.translationDe}</span>
+                  <Volume2 className="w-3.5 h-3.5 text-blue-600" />
+                </button>
+              )}
+
+              {(helperLanguage === 'both' || helperLanguage === 'tr') && targetItem.translation && (
+                <button
+                  type="button"
+                  onClick={() => speakTurkish(targetItem.translation)}
+                  className="px-3 py-1 rounded-xl bg-white border-2 border-amber-300 text-slate-800 text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-2xs hover:bg-amber-100 transition-colors"
+                  title="Türkçe dinle"
+                >
+                  <span>🇹🇷 {targetItem.translation}</span>
+                  <Volume2 className="w-3.5 h-3.5 text-red-600" />
+                </button>
+              )}
             </div>
 
             {/* Friendly encouragement banner if tried recently */}
@@ -457,8 +596,8 @@ export default function GameArena({
             )}
           </div>
 
-          {/* High-Contrast, Chunky Lego Brick Answer Cards Grid */}
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
+          {/* High-Contrast, Chunky Early-Reader Answer Cards Grid */}
+          <div className={`grid gap-4 sm:gap-6 ${cardCountMode === 2 ? 'grid-cols-2 max-w-2xl mx-auto' : 'grid-cols-2'}`}>
             {options.map((item) => {
               const isSelected = selectedOptionId === item.id;
               const isWobbling = wobbleOptionId === item.id;
@@ -477,10 +616,11 @@ export default function GameArena({
                     borderColor: cardStyle.borderColor,
                   }}
                   className={`
-                    group relative min-h-[160px] sm:min-h-[190px] rounded-3xl p-4 sm:p-6
+                    group relative rounded-3xl p-4 sm:p-6
                     flex flex-col items-center justify-center text-center
                     border-4 border-b-8 cursor-pointer select-none
                     transition-all duration-150 shadow-lg
+                    ${cardCountMode === 2 ? 'min-h-[190px] sm:min-h-[220px]' : 'min-h-[160px] sm:min-h-[190px]'}
                     ${isSelected ? 'scale-102 border-b-4 translate-y-1' : 'hover:-translate-y-1 hover:shadow-2xl'}
                     ${isThisCorrect ? 'ring-6 ring-emerald-400 brightness-110 animate-brick-snap' : ''}
                     ${isWobbling ? 'animate-wobble ring-4 ring-rose-400' : ''}
@@ -504,7 +644,7 @@ export default function GameArena({
                     />
                   </div>
 
-                  {/* Dedicated Child-Friendly Hint / Kulaklık Button (Hover or Tap speaks Turkish) */}
+                  {/* Dedicated Child-Friendly Hint / Kulaklık Button (Hover or Tap speaks DE/TR) */}
                   <button
                     type="button"
                     onClick={(e) => handleCardHintClick(e, item)}
@@ -516,31 +656,55 @@ export default function GameArena({
                       border-2 border-yellow-400/80 shadow-md
                       flex items-center justify-center transition-transform active:scale-95 cursor-pointer z-10
                     "
-                    title="İpucu / Türkçe Sesli Çeviri (Hover or Tap)"
-                    aria-label="Turkish Hint"
+                    title="İpucu / Hilfe (Deutsch & Türkçe)"
+                    aria-label="Hint in German or Turkish"
                   >
                     <Headphones className="w-5 h-5 text-yellow-300" />
                   </button>
 
-                  {/* Solid White Icon Capsule - Guarantees 100% visibility */}
-                  <div className="my-2 p-3 sm:p-4 rounded-2xl bg-white border-2 border-white/90 shadow-md group-hover:scale-110 transition-transform flex items-center justify-center">
+                  {/* Solid White Icon Capsule - Large Picture for Early Readers */}
+                  <div className={`
+                    rounded-2xl bg-white border-2 border-white/90 shadow-md group-hover:scale-105 transition-transform flex items-center justify-center relative
+                    ${cardCountMode === 2 ? 'w-20 h-20 sm:w-24 sm:h-24 my-2' : 'w-16 h-16 sm:w-20 sm:h-20 my-1.5'}
+                  `}>
                     <div style={{ color: cardStyle.bgColor }}>
-                      {renderIcon(item.icon, 'w-10 h-10 sm:w-14 sm:h-14')}
+                      {renderIcon(item.icon, cardCountMode === 2 ? 'w-12 h-12 sm:w-16 sm:h-16' : 'w-10 h-10 sm:w-14 sm:h-14')}
                     </div>
+                    {/* Visual Emoji Badge Anchor */}
+                    {item.emoji && (
+                      <span className="absolute -bottom-2 -right-2 text-xl sm:text-2xl drop-shadow-sm">
+                        {item.emoji}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Ultra-Clear High-Contrast English Word Label */}
+                  {/* Large English Word Label */}
                   <span
                     style={{ textShadow: cardStyle.textShadow }}
-                    className={`font-display font-black text-xl sm:text-3xl tracking-wide leading-tight mt-1 ${cardStyle.textColor}`}
+                    className={`font-display font-black tracking-wide leading-tight mt-1 ${
+                      cardCountMode === 2 ? 'text-2xl sm:text-4xl' : 'text-xl sm:text-3xl'
+                    } ${cardStyle.textColor}`}
                   >
                     {item.word}
                   </span>
 
-                  {/* Turkish Translation Chip */}
+                  {/* Early-Reader Syllables Breakdown */}
+                  {item.syllables && item.syllables !== item.word && (
+                    <span className="text-[11px] font-mono tracking-wider font-bold opacity-90 text-white/90 bg-black/25 px-2 py-0.5 rounded-md mt-0.5">
+                      {item.syllables}
+                    </span>
+                  )}
+
+                  {/* Bilingual Translation Chip (Revealed on hover or tap) */}
                   {isHintRevealed && (
-                    <div className="mt-2 px-3 py-1 rounded-xl bg-slate-950 text-yellow-300 text-xs sm:text-sm font-black border border-yellow-400 shadow-md animate-fadeIn">
-                      🇹🇷 {item.translation}
+                    <div className="mt-2 px-3 py-1 rounded-xl bg-slate-950 text-yellow-300 text-xs sm:text-sm font-black border border-yellow-400 shadow-md animate-fadeIn flex items-center gap-1.5">
+                      {helperLanguage === 'de' && <span>🇩🇪 {item.translationDe || item.translation}</span>}
+                      {helperLanguage === 'tr' && <span>🇹🇷 {item.translation}</span>}
+                      {helperLanguage === 'both' && (
+                        <span>
+                          🇩🇪 {item.translationDe || item.word} • 🇹🇷 {item.translation}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>

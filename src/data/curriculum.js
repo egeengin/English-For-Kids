@@ -1,7 +1,7 @@
 /**
  * Curriculum definitions for Lego English Adventure.
- * Designed for a 7-year-old child: high visual recognition, minimal reading,
- * audio-first questions with English (en-US) & Turkish (tr-TR) support.
+ * Tailored for early readers (7-year-old children learning reading in German and Turkish).
+ * Features syllable breakdowns, visual emoji anchors, and bilingual DE/TR helpers.
  */
 
 export const CURRICULUM_LEVELS = [
@@ -10,6 +10,7 @@ export const CURRICULUM_LEVELS = [
     number: 1,
     title: 'Colors & Shapes',
     titleTr: 'Renkler ve Şekiller',
+    titleDe: 'Farben & Formen',
     description: 'Find colorful Lego bricks and shapes!',
     themeColor: 'from-red-500 to-yellow-400',
     borderColor: 'border-red-600',
@@ -21,7 +22,11 @@ export const CURRICULUM_LEVELS = [
         id: 'c1',
         word: 'Red',
         translation: 'Kırmızı',
+        translationDe: 'Rot',
         phonetic: 'Red',
+        phoneticDe: 'Rädd',
+        syllables: 'RED',
+        emoji: '🔴',
         category: 'Colors',
         icon: 'Square',
         colorHex: '#E52521',
@@ -29,13 +34,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-red-700',
         studColor: '#ff5c59',
         hintSentence: 'Like a shiny red race car! 🏎️',
-        hintSentenceTr: 'Kırmızı bir yarış arabası gibi!'
+        hintSentenceTr: 'Kırmızı bir yarış arabası gibi!',
+        hintSentenceDe: 'Wie ein rotes Rennauto!'
       },
       {
         id: 'c2',
         word: 'Blue',
         translation: 'Mavi',
+        translationDe: 'Blau',
         phonetic: 'Blu',
+        phoneticDe: 'Bluu',
+        syllables: 'BLUE',
+        emoji: '🔵',
         category: 'Colors',
         icon: 'Square',
         colorHex: '#0055BF',
@@ -43,13 +53,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-blue-800',
         studColor: '#3b82f6',
         hintSentence: 'Like the deep blue sea! 🌊',
-        hintSentenceTr: 'Derin mavi deniz gibi!'
+        hintSentenceTr: 'Derin mavi deniz gibi!',
+        hintSentenceDe: 'Wie das blaue Meer!'
       },
       {
         id: 'c3',
         word: 'Yellow',
         translation: 'Sarı',
+        translationDe: 'Gelb',
         phonetic: 'Yel-lo',
+        phoneticDe: 'Jäl-lou',
+        syllables: 'YEL • LOW',
+        emoji: '🟡',
         category: 'Colors',
         icon: 'Square',
         colorHex: '#FFD700',
@@ -57,13 +72,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-yellow-600',
         studColor: '#fde047',
         hintSentence: 'Like warm sunshine! ☀️',
-        hintSentenceTr: 'Sıcak sarı güneş gibi!'
+        hintSentenceTr: 'Sıcak sarı güneş gibi!',
+        hintSentenceDe: 'Wie die gelbe Sonne!'
       },
       {
         id: 'c4',
         word: 'Green',
         translation: 'Yeşil',
+        translationDe: 'Grün',
         phonetic: 'Griin',
+        phoneticDe: 'Griin',
+        syllables: 'GREEN',
+        emoji: '🟢',
         category: 'Colors',
         icon: 'Square',
         colorHex: '#237841',
@@ -71,13 +91,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-emerald-800',
         studColor: '#34d399',
         hintSentence: 'Like the green Lego grass baseplate! 🌱',
-        hintSentenceTr: 'Yeşil Lego zemin plakası gibi!'
+        hintSentenceTr: 'Yeşil Lego zemin plakası gibi!',
+        hintSentenceDe: 'Wie die grüne Lego-Bauplatte!'
       },
       {
         id: 'c5',
         word: 'Orange',
         translation: 'Turuncu',
+        translationDe: 'Orange',
         phonetic: 'O-rınç',
+        phoneticDe: 'O-rendsch',
+        syllables: 'OR • ANGE',
+        emoji: '🟠',
         category: 'Colors',
         icon: 'Square',
         colorHex: '#FF7F00',
@@ -85,13 +110,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-orange-700',
         studColor: '#fb923c',
         hintSentence: 'Like a juicy sweet orange! 🍊',
-        hintSentenceTr: 'Tatlı sulu bir portakal gibi!'
+        hintSentenceTr: 'Tatlı sulu bir portakal gibi!',
+        hintSentenceDe: 'Wie eine süße Orange!'
       },
       {
         id: 'c6',
         word: 'Circle',
-        translation: 'Daire / Çember',
+        translation: 'Daire',
+        translationDe: 'Kreis',
         phonetic: 'Sör-kıl',
+        phoneticDe: 'Sör-kəl',
+        syllables: 'CIR • CLE',
+        emoji: '⚪',
         category: 'Shapes',
         icon: 'Circle',
         colorHex: '#8A2BE2',
@@ -99,13 +129,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-purple-800',
         studColor: '#c084fc',
         hintSentence: 'Round and round like a wheel! ⚙️',
-        hintSentenceTr: 'Tekerlek gibi yuvarlak!'
+        hintSentenceTr: 'Tekerlek gibi yuvarlak!',
+        hintSentenceDe: 'Rund wie ein Rad!'
       },
       {
         id: 'c7',
         word: 'Square',
         translation: 'Kare',
+        translationDe: 'Quadrat',
         phonetic: 'Sk-ve-yır',
+        phoneticDe: 'Skwär',
+        syllables: 'SQUARE',
+        emoji: '⬛',
         category: 'Shapes',
         icon: 'Box',
         colorHex: '#0284C7',
@@ -113,13 +148,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-sky-700',
         studColor: '#38bdf8',
         hintSentence: 'Four equal sides like a 2x2 brick! 🧱',
-        hintSentenceTr: '4 eşit kenarı olan bir Lego tuğlası gibi!'
+        hintSentenceTr: '4 eşit kenarı olan bir Lego tuğlası gibi!',
+        hintSentenceDe: 'Vier gleiche Seiten wie ein 2x2 Stein!'
       },
       {
         id: 'c8',
         word: 'Triangle',
         translation: 'Üçgen',
+        translationDe: 'Dreieck',
         phonetic: 'Tray-en-gıl',
+        phoneticDe: 'Trai-en-gl',
+        syllables: 'TRI • AN • GLE',
+        emoji: '🔺',
         category: 'Shapes',
         icon: 'Triangle',
         colorHex: '#EC4899',
@@ -127,13 +167,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-pink-700',
         studColor: '#f472b6',
         hintSentence: 'Three corners like a Lego roof slope! 📐',
-        hintSentenceTr: 'Çatı eğimi gibi üç köşeli!'
+        hintSentenceTr: 'Çatı eğimi gibi üç köşeli!',
+        hintSentenceDe: 'Drei Ecken wie ein Lego-Dach!'
       },
       {
         id: 'c9',
         word: 'Star',
         translation: 'Yıldız',
+        translationDe: 'Stern',
         phonetic: 'Staar',
+        phoneticDe: 'Staar',
+        syllables: 'STAR',
+        emoji: '⭐',
         category: 'Shapes',
         icon: 'Star',
         colorHex: '#EAB308',
@@ -141,7 +186,8 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-amber-600',
         studColor: '#fde047',
         hintSentence: 'Twinkling in the night sky! ⭐',
-        hintSentenceTr: 'Gece gökyüzünde parlayan yıldız!'
+        hintSentenceTr: 'Gece gökyüzünde parlayan yıldız!',
+        hintSentenceDe: 'Ein leuchtender Stern am Nachthimmel!'
       }
     ]
   },
@@ -150,6 +196,7 @@ export const CURRICULUM_LEVELS = [
     number: 2,
     title: 'Animals',
     titleTr: 'Hayvanlar',
+    titleDe: 'Tiere',
     description: 'Meet friendly safari & pet animal friends!',
     themeColor: 'from-emerald-500 to-teal-400',
     borderColor: 'border-emerald-600',
@@ -161,7 +208,11 @@ export const CURRICULUM_LEVELS = [
         id: 'a1',
         word: 'Dog',
         translation: 'Köpek',
+        translationDe: 'Hund',
         phonetic: 'Dog',
+        phoneticDe: 'Dog',
+        syllables: 'DOG',
+        emoji: '🐶',
         category: 'Pets',
         icon: 'Dog',
         colorHex: '#D97706',
@@ -169,13 +220,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-amber-800',
         studColor: '#f59e0b',
         hintSentence: 'Woof woof! Loves to play fetch! 🐶',
-        hintSentenceTr: 'Hav hav! Top yakalamayı çok sever!'
+        hintSentenceTr: 'Hav hav! Top yakalamayı çok sever!',
+        hintSentenceDe: 'Wuff wuff! Spielt gerne mit dem Ball!'
       },
       {
         id: 'a2',
         word: 'Cat',
         translation: 'Kedi',
+        translationDe: 'Katze',
         phonetic: 'Ket',
+        phoneticDe: 'Kätt',
+        syllables: 'CAT',
+        emoji: '🐱',
         category: 'Pets',
         icon: 'Cat',
         colorHex: '#8B5CF6',
@@ -183,13 +239,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-violet-800',
         studColor: '#a78bfa',
         hintSentence: 'Meow! Loves milk and warm naps! 🐱',
-        hintSentenceTr: 'Miyav! Sütü ve uykuyu sever!'
+        hintSentenceTr: 'Miyav! Sütü ve uykuyu sever!',
+        hintSentenceDe: 'Miau! Liebt Milch und Kuscheln!'
       },
       {
         id: 'a3',
         word: 'Lion',
         translation: 'Aslan',
+        translationDe: 'Löwe',
         phonetic: 'Lay-ın',
+        phoneticDe: 'Lai-ən',
+        syllables: 'LI • ON',
+        emoji: '🦁',
         category: 'Wild',
         icon: 'Crown',
         colorHex: '#EA580C',
@@ -197,13 +258,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-orange-800',
         studColor: '#fb923c',
         hintSentence: 'The king of the jungle with a big roar! 🦁',
-        hintSentenceTr: 'Ormanların güçlü kralı!'
+        hintSentenceTr: 'Ormanların güçlü kralı!',
+        hintSentenceDe: 'Der König der Tiere mit lautem Brüllen!'
       },
       {
         id: 'a4',
         word: 'Elephant',
         translation: 'Fil',
+        translationDe: 'Elefant',
         phonetic: 'E-lı-fınt',
+        phoneticDe: 'E-le-fant',
+        syllables: 'EL • E • PHANT',
+        emoji: '🐘',
         category: 'Wild',
         icon: 'Shield',
         colorHex: '#475569',
@@ -211,13 +277,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-slate-800',
         studColor: '#64748b',
         hintSentence: 'Has a long trunk and big ears! 🐘',
-        hintSentenceTr: 'Uzun hortumu ve kocaman kulakları var!'
+        hintSentenceTr: 'Uzun hortumu ve kocaman kulakları var!',
+        hintSentenceDe: 'Hat einen langen Rüssel und große Ohren!'
       },
       {
         id: 'a5',
         word: 'Monkey',
         translation: 'Maymun',
+        translationDe: 'Affe',
         phonetic: 'Man-ki',
+        phoneticDe: 'Man-ki',
+        syllables: 'MON • KEY',
+        emoji: '🐵',
         category: 'Wild',
         icon: 'Smile',
         colorHex: '#B45309',
@@ -225,13 +296,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-yellow-900',
         studColor: '#d97706',
         hintSentence: 'Swings through trees and eats bananas! 🐵',
-        hintSentenceTr: 'Ağaçlarda sallanır ve muz yer!'
+        hintSentenceTr: 'Ağaçlarda sallanır ve muz yer!',
+        hintSentenceDe: 'Schwingt durch Bäume und isst Bananen!'
       },
       {
         id: 'a6',
         word: 'Frog',
         translation: 'Kurbağa',
+        translationDe: 'Frosch',
         phonetic: 'Frog',
+        phoneticDe: 'Frogg',
+        syllables: 'FROG',
+        emoji: '🐸',
         category: 'Water',
         icon: 'Zap',
         colorHex: '#16A34A',
@@ -239,13 +315,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-green-800',
         studColor: '#4ade80',
         hintSentence: 'Ribbit ribbit! Jumps from lily pad to pad! 🐸',
-        hintSentenceTr: 'Vrak vrak! Nilüfer yapraklarında zıplar!'
+        hintSentenceTr: 'Vrak vrak! Nilüfer yapraklarında zıplar!',
+        hintSentenceDe: 'Quak quak! Hüpft von Blatt zu Blatt!'
       },
       {
         id: 'a7',
         word: 'Bird',
         translation: 'Kuş',
+        translationDe: 'Vogel',
         phonetic: 'Börd',
+        phoneticDe: 'Börd',
+        syllables: 'BIRD',
+        emoji: '🐦',
         category: 'Air',
         icon: 'Feather',
         colorHex: '#0284C7',
@@ -253,13 +334,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-sky-700',
         studColor: '#38bdf8',
         hintSentence: 'Flaps its wings and flies high in the sky! 🐦',
-        hintSentenceTr: 'Kanat çırpar ve gökyüzünde uçar!'
+        hintSentenceTr: 'Kanat çırpar ve gökyüzünde uçar!',
+        hintSentenceDe: 'Fliegt hoch am Himmel!'
       },
       {
         id: 'a8',
         word: 'Fish',
         translation: 'Balık',
+        translationDe: 'Fisch',
         phonetic: 'Fiş',
+        phoneticDe: 'Fisch',
+        syllables: 'FISH',
+        emoji: '🐟',
         category: 'Water',
         icon: 'Fish',
         colorHex: '#0D9488',
@@ -267,7 +353,8 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-teal-800',
         studColor: '#2dd4bf',
         hintSentence: 'Swims in the clear blue water! 🐟',
-        hintSentenceTr: 'Mavi sularda yüzer!'
+        hintSentenceTr: 'Mavi sularda yüzer!',
+        hintSentenceDe: 'Schwimmt im blauen Wasser!'
       }
     ]
   },
@@ -276,6 +363,7 @@ export const CURRICULUM_LEVELS = [
     number: 3,
     title: 'Vehicles',
     titleTr: 'Araçlar',
+    titleDe: 'Fahrzeuge',
     description: 'Build fast cars, supersonic jets, and trains!',
     themeColor: 'from-blue-600 to-indigo-500',
     borderColor: 'border-blue-700',
@@ -287,7 +375,11 @@ export const CURRICULUM_LEVELS = [
         id: 'v1',
         word: 'Car',
         translation: 'Araba',
+        translationDe: 'Auto',
         phonetic: 'Kaar',
+        phoneticDe: 'Kaa',
+        syllables: 'CAR',
+        emoji: '🚗',
         category: 'Vehicles',
         icon: 'Car',
         colorHex: '#DC2626',
@@ -295,13 +387,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-red-800',
         studColor: '#f87171',
         hintSentence: 'Beep beep! Vroom on four wheels! 🚗',
-        hintSentenceTr: 'Düt düt! 4 tekerlekli araba!'
+        hintSentenceTr: 'Düt düt! 4 tekerlekli araba!',
+        hintSentenceDe: 'Brumm brumm auf vier Rädern!'
       },
       {
         id: 'v2',
         word: 'Airplane',
         translation: 'Uçak',
+        translationDe: 'Flugzeug',
         phonetic: 'Eyr-pleyn',
+        phoneticDe: 'Är-pläin',
+        syllables: 'AIR • PLANE',
+        emoji: '✈️',
         category: 'Vehicles',
         icon: 'Plane',
         colorHex: '#2563EB',
@@ -309,13 +406,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-blue-800',
         studColor: '#60a5fa',
         hintSentence: 'Zooms above the white fluffy clouds! ✈️',
-        hintSentenceTr: 'Bulutların üstünde hızla uçar!'
+        hintSentenceTr: 'Bulutların üstünde hızla uçar!',
+        hintSentenceDe: 'Fliegt über den weißen Wolken!'
       },
       {
         id: 'v3',
         word: 'Train',
         translation: 'Tren',
+        translationDe: 'Zug',
         phonetic: 'Treyn',
+        phoneticDe: 'Träin',
+        syllables: 'TRAIN',
+        emoji: '🚂',
         category: 'Vehicles',
         icon: 'Train',
         colorHex: '#4F46E5',
@@ -323,13 +425,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-indigo-800',
         studColor: '#818cf8',
         hintSentence: 'Choo-choo along the shiny tracks! 🚂',
-        hintSentenceTr: 'Çuf çuf raylarda ilerler!'
+        hintSentenceTr: 'Çuf çuf raylarda ilerler!',
+        hintSentenceDe: 'Tschu-tschu auf den Schienen!'
       },
       {
         id: 'v4',
         word: 'Rocket',
         translation: 'Roket',
+        translationDe: 'Rakete',
         phonetic: 'Ra-kıt',
+        phoneticDe: 'Rokk-et',
+        syllables: 'ROCK • ET',
+        emoji: '🚀',
         category: 'Space',
         icon: 'Rocket',
         colorHex: '#E11D48',
@@ -337,13 +444,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-rose-800',
         studColor: '#fb7185',
         hintSentence: '3, 2, 1, Blast off into outer space! 🚀',
-        hintSentenceTr: '3, 2, 1, Uzaya fırlatılan roket!'
+        hintSentenceTr: '3, 2, 1, Uzaya fırlatılan roket!',
+        hintSentenceDe: '3, 2, 1, Ab ins Weltall!'
       },
       {
         id: 'v5',
         word: 'Boat',
-        translation: 'Gemi / Bot',
+        translation: 'Gemi',
+        translationDe: 'Boot',
         phonetic: 'Bowt',
+        phoneticDe: 'Bout',
+        syllables: 'BOAT',
+        emoji: '⛵',
         category: 'Vehicles',
         icon: 'Ship',
         colorHex: '#0284C7',
@@ -351,13 +463,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-sky-800',
         studColor: '#38bdf8',
         hintSentence: 'Floats on water and explores islands! ⛵',
-        hintSentenceTr: 'Denizlerde yüzer ve adalara gider!'
+        hintSentenceTr: 'Denizlerde yüzer ve adalara gider!',
+        hintSentenceDe: 'Schwimmt auf dem Wasser zu Inseln!'
       },
       {
         id: 'v6',
         word: 'Helicopter',
         translation: 'Helikopter',
+        translationDe: 'Hubschrauber',
         phonetic: 'He-li-kop-tır',
+        phoneticDe: 'Hä-li-kopp-tər',
+        syllables: 'HEL • I • COP • TER',
+        emoji: '🚁',
         category: 'Vehicles',
         icon: 'Compass',
         colorHex: '#059669',
@@ -365,13 +482,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-emerald-800',
         studColor: '#34d399',
         hintSentence: 'Spinning propeller blades lift it straight up! 🚁',
-        hintSentenceTr: 'Pervanesi dönerek havaya yükselir!'
+        hintSentenceTr: 'Pervanesi dönerek havaya yükselir!',
+        hintSentenceDe: 'Die Propeller heben ihn direkt hoch!'
       },
       {
         id: 'v7',
         word: 'Bicycle',
         translation: 'Bisiklet',
+        translationDe: 'Fahrrad',
         phonetic: 'Bay-sı-kıl',
+        phoneticDe: 'Bai-si-kəl',
+        syllables: 'BI • CY • CLE',
+        emoji: '🚲',
         category: 'Vehicles',
         icon: 'Bike',
         colorHex: '#D97706',
@@ -379,13 +501,18 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-amber-800',
         studColor: '#fbbf24',
         hintSentence: 'Push the pedals and ring the bell! 🚲',
-        hintSentenceTr: 'Pedallara bas ve zili çal!'
+        hintSentenceTr: 'Pedallara bas ve zili çal!',
+        hintSentenceDe: 'Tritt in die Pedale und klingle!'
       },
       {
         id: 'v8',
         word: 'Truck',
         translation: 'Kamyon',
+        translationDe: 'Lastwagen',
         phonetic: 'Trak',
+        phoneticDe: 'Trakk',
+        syllables: 'TRUCK',
+        emoji: '🚛',
         category: 'Vehicles',
         icon: 'Truck',
         colorHex: '#EAB308',
@@ -393,165 +520,63 @@ export const CURRICULUM_LEVELS = [
         borderClass: 'border-yellow-700',
         studColor: '#fde047',
         hintSentence: 'Carries heavy loads of Lego bricks! 🚛',
-        hintSentenceTr: 'Ağır Lego tuğlalarını taşır!'
+        hintSentenceTr: 'Ağır Lego tuğlalarını taşır!',
+        hintSentenceDe: 'Transportiert schwere Lego-Steine!'
       }
     ]
   }
 ];
 
-// Initial starter models for the Lego Virtual Builder
 export const LEGO_BUILD_MODELS = [
   {
     id: 'rocket',
     name: 'Cosmic Star Explorer',
     nameTr: 'Uzay Roketi',
+    nameDe: 'Weltraum-Rakete',
     icon: 'Rocket',
     theme: 'Space Adventure',
     requiredBricks: 10,
     color: '#E52521',
     stages: [
-      {
-        stage: 1,
-        title: 'Booster Engine',
-        titleTr: 'Ateşleme Motoru',
-        cost: 2,
-        unlocked: false,
-        visual: 'thruster'
-      },
-      {
-        stage: 2,
-        title: 'Fuel Tanks',
-        titleTr: 'Yakıt Tankı',
-        cost: 2,
-        unlocked: false,
-        visual: 'fuel_tank'
-      },
-      {
-        stage: 3,
-        title: 'Crew Cabin & Cockpit',
-        titleTr: 'Pilot Kabini',
-        cost: 2,
-        unlocked: false,
-        visual: 'cockpit'
-      },
-      {
-        stage: 4,
-        title: 'Aerodynamic Wing Fins',
-        titleTr: 'Roket Kanatları',
-        cost: 2,
-        unlocked: false,
-        visual: 'wings'
-      },
-      {
-        stage: 5,
-        title: 'Space Antenna & Nose Cone',
-        titleTr: 'Uzay Anteni & Burun',
-        cost: 2,
-        unlocked: false,
-        visual: 'nose_cone'
-      }
+      { stage: 1, title: 'Booster Engine', titleTr: 'Ateşleme Motoru', titleDe: 'Triebwerk', cost: 2, unlocked: false, visual: 'thruster' },
+      { stage: 2, title: 'Fuel Tanks', titleTr: 'Yakıt Tankı', titleDe: 'Treibstofftank', cost: 2, unlocked: false, visual: 'fuel_tank' },
+      { stage: 3, title: 'Crew Cabin', titleTr: 'Pilot Kabini', titleDe: 'Cockpit', cost: 2, unlocked: false, visual: 'cockpit' },
+      { stage: 4, title: 'Wing Fins', titleTr: 'Roket Kanatları', titleDe: 'Flügel', cost: 2, unlocked: false, visual: 'wings' },
+      { stage: 5, title: 'Space Antenna', titleTr: 'Uzay Anteni', titleDe: 'Antenne', cost: 2, unlocked: false, visual: 'nose_cone' }
     ]
   },
   {
     id: 'racecar',
     name: 'Thunder Turbo Racer',
     nameTr: 'Hızlı Yarış Arabası',
+    nameDe: 'Turbo-Rennwagen',
     icon: 'Car',
     theme: 'Speed Champions',
     requiredBricks: 10,
     color: '#0055BF',
     stages: [
-      {
-        stage: 1,
-        title: 'Steel Base Chassis',
-        titleTr: 'Şasi Tabanı',
-        cost: 2,
-        unlocked: false,
-        visual: 'chassis'
-      },
-      {
-        stage: 2,
-        title: 'High-Grip Racing Tires',
-        titleTr: 'Büyük Yarış Lastikleri',
-        cost: 2,
-        unlocked: false,
-        visual: 'wheels'
-      },
-      {
-        stage: 3,
-        title: 'V8 Turbo Engine Block',
-        titleTr: 'Turbo Motor',
-        cost: 2,
-        unlocked: false,
-        visual: 'engine'
-      },
-      {
-        stage: 4,
-        title: 'Driver Seat & Steering Wheel',
-        titleTr: 'Sürücü Koltuğu & Direksiyon',
-        cost: 2,
-        unlocked: false,
-        visual: 'interior'
-      },
-      {
-        stage: 5,
-        title: 'Aerodynamic Rear Spoiler & Gold Trophy',
-        titleTr: 'Arka Rüzgarlık & Kupa',
-        cost: 2,
-        unlocked: false,
-        visual: 'spoiler'
-      }
+      { stage: 1, title: 'Steel Chassis', titleTr: 'Şasi Tabanı', titleDe: 'Chassis', cost: 2, unlocked: false, visual: 'chassis' },
+      { stage: 2, title: 'Racing Tires', titleTr: 'Büyük Yarış Lastikleri', titleDe: 'Rennreifen', cost: 2, unlocked: false, visual: 'wheels' },
+      { stage: 3, title: 'V8 Engine', titleTr: 'Turbo Motor', titleDe: 'V8-Motor', cost: 2, unlocked: false, visual: 'engine' },
+      { stage: 4, title: 'Driver Seat', titleTr: 'Sürücü Koltuğu', titleDe: 'Fahrersitz', cost: 2, unlocked: false, visual: 'interior' },
+      { stage: 5, title: 'Rear Spoiler', titleTr: 'Arka Rüzgarlık', titleDe: 'Heckspoiler', cost: 2, unlocked: false, visual: 'spoiler' }
     ]
   },
   {
     id: 'castle',
     name: 'Lion Knight Fortress',
     nameTr: 'Aslan Şövalye Kalesi',
+    nameDe: 'Ritterburg',
     icon: 'Castle',
     theme: 'Medieval Kingdom',
     requiredBricks: 10,
     color: '#237841',
     stages: [
-      {
-        stage: 1,
-        title: 'Moat & Stone Foundation',
-        titleTr: 'Taş Temel & Hendek',
-        cost: 2,
-        unlocked: false,
-        visual: 'foundation'
-      },
-      {
-        stage: 2,
-        title: 'Heavy Drawbridge Gate',
-        titleTr: 'Kale Kapısı & Asma Köprü',
-        cost: 2,
-        unlocked: false,
-        visual: 'gate'
-      },
-      {
-        stage: 3,
-        title: 'Twin Watchtowers',
-        titleTr: 'İkiz Gözetleme Kuleleri',
-        cost: 2,
-        unlocked: false,
-        visual: 'towers'
-      },
-      {
-        stage: 4,
-        title: 'Stone Battlements',
-        titleTr: 'Kale Siperleri',
-        cost: 2,
-        unlocked: false,
-        visual: 'battlements'
-      },
-      {
-        stage: 5,
-        title: 'Royal Crown Flagpole',
-        titleTr: 'Krallık Bayrağı',
-        cost: 2,
-        unlocked: false,
-        visual: 'flag'
-      }
+      { stage: 1, title: 'Stone Foundation', titleTr: 'Taş Temel', titleDe: 'Fundament', cost: 2, unlocked: false, visual: 'foundation' },
+      { stage: 2, title: 'Drawbridge Gate', titleTr: 'Kale Kapısı', titleDe: 'Burgtor', cost: 2, unlocked: false, visual: 'gate' },
+      { stage: 3, title: 'Watchtowers', titleTr: 'İkiz Kuleler', titleDe: 'Wachtürme', cost: 2, unlocked: false, visual: 'towers' },
+      { stage: 4, title: 'Battlements', titleTr: 'Kale Siperleri', titleDe: 'Zinnen', cost: 2, unlocked: false, visual: 'battlements' },
+      { stage: 5, title: 'Royal Flag', titleTr: 'Krallık Bayrağı', titleDe: 'Königsflagge', cost: 2, unlocked: false, visual: 'flag' }
     ]
   }
 ];

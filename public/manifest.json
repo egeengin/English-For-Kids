@@ -1,0 +1,21 @@
+{
+  "name": "Lego English Adventure",
+  "short_name": "Lego English",
+  "description": "Fun, gamified English learning for kids through Lego building and interactive audio challenges!",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#0F172A",
+  "theme_color": "#E52521",
+  "orientation": "any",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

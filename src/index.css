@@ -11,7 +11,7 @@
 
   body {
     background-color: #F8FAFC;
-    color: #1E293B;
+    color: #0F172A;
     font-family: 'Nunito', system-ui, sans-serif;
     touch-action: manipulation;
   }
@@ -21,7 +21,7 @@
   }
 }
 
-/* Lego Baseplate Studded Background */
+/* Page Baseplate Background (Applied only to main app shell) */
 .lego-baseplate-pattern {
   background-color: #f1f5f9;
   background-image: radial-gradient(#cbd5e1 22%, transparent 26%);
@@ -29,64 +29,63 @@
   background-position: 0 0;
 }
 
-.lego-green-baseplate {
-  background-color: #15803d;
-  background-image: radial-gradient(#166534 26%, transparent 30%);
-  background-size: 32px 32px;
-}
-
-.lego-gray-baseplate {
-  background-color: #475569;
-  background-image: radial-gradient(#334155 26%, transparent 30%);
-  background-size: 32px 32px;
-}
-
 .lego-blue-baseplate {
-  background-color: #1d4ed8;
-  background-image: radial-gradient(#1e40af 26%, transparent 30%);
+  background-color: #1e3a8a;
+  background-image: radial-gradient(#172554 26%, transparent 30%);
   background-size: 32px 32px;
+}
+
+/* High Contrast Lego Card Styles */
+.lego-card-solid {
+  position: relative;
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25), 0 14px 20px rgba(0, 0, 0, 0.15);
+}
+
+.lego-card-solid:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 8px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* 3D Tactile Lego Stud */
-.lego-stud {
-  position: relative;
+.lego-stud-3d {
   box-shadow: 
-    inset 0 3px 2px rgba(255, 255, 255, 0.45),
-    inset 0 -3px 2px rgba(0, 0, 0, 0.35),
-    0 2px 3px rgba(0, 0, 0, 0.25);
+    inset 0 2px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.35),
+    0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* 3D Chunky Lego Button Effect */
 .lego-btn-3d {
   position: relative;
   transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.22);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
 }
 
 .lego-btn-3d:active, .lego-btn-3d.active {
   transform: translateY(4px);
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* Interactive Card Bounce & Animations */
+/* Animations */
 @keyframes card-wobble {
   0%, 100% { transform: translateX(0) rotate(0deg); }
-  20% { transform: translateX(-8px) rotate(-3deg); }
-  40% { transform: translateX(8px) rotate(3deg); }
+  20% { transform: translateX(-10px) rotate(-4deg); }
+  40% { transform: translateX(10px) rotate(4deg); }
   60% { transform: translateX(-6px) rotate(-2deg); }
   80% { transform: translateX(6px) rotate(2deg); }
 }
 
 @keyframes brick-snap {
-  0% { transform: translateY(-20px) scale(1.15); opacity: 0; }
-  60% { transform: translateY(4px) scale(0.95); opacity: 1; }
+  0% { transform: translateY(-24px) scale(1.18); opacity: 0.7; }
+  60% { transform: translateY(4px) scale(0.96); opacity: 1; }
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 @keyframes pulse-ring {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 37, 33, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 16px rgba(229, 37, 33, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 37, 33, 0); }
+  0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(229, 37, 33, 0.7); }
+  70% { transform: scale(1.02); box-shadow: 0 0 0 18px rgba(229, 37, 33, 0); }
+  100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(229, 37, 33, 0); }
 }
 
 .animate-wobble {
@@ -101,7 +100,7 @@
   animation: pulse-ring 1.8s infinite;
 }
 
-/* Custom scrollbars for tablet/desktop */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -112,7 +111,4 @@
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }

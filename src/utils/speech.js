@@ -1,39 +1,76 @@
 /**
- * Multi-Tier Resilient Audio Engine for Kids English Learning.
+ * High-Reliability Audio Pronunciation Engine for Kids English Learning.
  * 
- * Tier 1: Real human-like educational TTS audio stream (reliable across all devices & OS).
- * Tier 2: Web Speech Synthesis API (en-US & tr-TR) with voice discovery.
- * Tier 3: Procedural Web Audio formant chime synthesizer (100% offline fallback).
+ * Uses bundled high-definition studio voices (Samantha for English, Yelda for Turkish)
+ * served directly from /audio/en/ and /audio/tr/ for 100% instant, guaranteed playback
+ * without reliance on browser TTS support, network connections, or CORS.
+ * 
+ * Dynamic parent-added words fallback gracefully to Web Speech API.
  */
 
 let activeAudio = null;
-let activeUtterance = null; // Prevent Chrome GC bug
+let activeUtterance = null;
 let voices = [];
-let audioUnlocked = false;
 
-// Preload voices
+// Pre-rendered local English audio dictionary mapping
+const KNOWN_EN_WORDS = new Set([
+  'red', 'blue', 'yellow', 'green', 'orange',
+  'circle', 'square', 'triangle', 'star',
+  'dog', 'cat', 'lion', 'elephant', 'monkey', 'frog', 'bird', 'fish',
+  'car', 'airplane', 'train', 'rocket', 'boat', 'helicopter', 'bicycle', 'truck',
+  'try_again', 'almost_there', 'you_can_do_it', 'awesome', 'great_job',
+]);
+
+// Mapping of Turkish translations to audio filenames
+const TR_TRANSLATION_MAP = {
+  'kırmızı': 'red',
+  'mavi': 'blue',
+  'sarı': 'yellow',
+  'yeşil': 'green',
+  'turuncu': 'orange',
+  'daire': 'circle',
+  'daire / çember': 'circle',
+  'çember': 'circle',
+  'kare': 'square',
+  'üçgen': 'triangle',
+  'yıldız': 'star',
+  'köpek': 'dog',
+  'kedi': 'cat',
+  'aslan': 'lion',
+  'fil': 'elephant',
+  'maymun': 'monkey',
+  'kurbağa': 'frog',
+  'kuş': 'bird',
+  'balık': 'fish',
+  'araba': 'car',
+  'uçak': 'airplane',
+  'tren': 'train',
+  'roket': 'rocket',
+  'gemi': 'boat',
+  'gemi / bot': 'boat',
+  'bot': 'boat',
+  'helikopter': 'helicopter',
+  'bisiklet': 'bicycle',
+  'kamyon': 'truck',
+};
+
+// Safe voice loading for dynamic custom words
 function loadVoices() {
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     try {
       voices = window.speechSynthesis.getVoices();
     } catch (e) {
-      console.warn('Voice loading warning:', e);
+      // ignore
     }
   }
 }
 
-if (typeof window !== 'undefined') {
-  if ('speechSynthesis' in window) {
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-  }
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
 }
 
-/**
- * Unlock audio context & gesture permissions on first interaction
- */
 export function unlockAudio() {
-  audioUnlocked = true;
   loadVoices();
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     try {
@@ -45,7 +82,7 @@ export function unlockAudio() {
 }
 
 /**
- * Stop any playing audio or speech
+ * Stop any current audio or speech
  */
 export function stopSpeech() {
   if (activeAudio) {
@@ -69,61 +106,75 @@ export function stopSpeech() {
 }
 
 /**
- * Play audio stream using HTML5 Audio with timeout fallback
+ * Helper to play a local audio file with .m4a -> .wav fallback
  */
-function playOnlineAudioStream(url, onEnd, onError) {
+function playLocalAudioFile(basePath, onEnd, onError) {
   stopSpeech();
 
-  try {
-    const audio = new Audio(url);
-    audio.volume = 1.0;
-    activeAudio = audio;
+  const m4aUrl = `${basePath}.m4a`;
+  const wavUrl = `${basePath}.wav`;
 
-    let finished = false;
+  const audio = new Audio(m4aUrl);
+  audio.volume = 1.0;
+  activeAudio = audio;
 
-    const handleEnd = () => {
-      if (!finished) {
-        finished = true;
-        activeAudio = null;
-        if (onEnd) onEnd();
-      }
-    };
+  let finished = false;
 
-    const handleError = (err) => {
-      if (!finished) {
-        finished = true;
-        activeAudio = null;
-        if (onError) onError(err);
-      }
-    };
-
-    audio.onended = handleEnd;
-    audio.onerror = handleError;
-
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        handleError(err);
-      });
+  const handleEnd = () => {
+    if (!finished) {
+      finished = true;
+      activeAudio = null;
+      if (onEnd) onEnd();
     }
+  };
 
-    // Safety timeout: if audio doesn't finish within 4s, clear active
-    setTimeout(() => {
-      if (activeAudio === audio) {
-        handleEnd();
+  const tryWavFallback = () => {
+    try {
+      const fallbackAudio = new Audio(wavUrl);
+      fallbackAudio.volume = 1.0;
+      activeAudio = fallbackAudio;
+
+      fallbackAudio.onended = handleEnd;
+      fallbackAudio.onerror = () => {
+        if (!finished) {
+          finished = true;
+          activeAudio = null;
+          if (onError) onError();
+        }
+      };
+
+      const p = fallbackAudio.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          if (!finished) {
+            finished = true;
+            activeAudio = null;
+            if (onError) onError();
+          }
+        });
       }
-    }, 4000);
-  } catch (err) {
-    if (onError) onError(err);
+    } catch (e) {
+      if (onError) onError();
+    }
+  };
+
+  audio.onended = handleEnd;
+  audio.onerror = tryWavFallback;
+
+  const promise = audio.play();
+  if (promise !== undefined) {
+    promise.catch(() => {
+      tryWavFallback();
+    });
   }
 }
 
 /**
- * Play using Web Speech Synthesis API
+ * Fallback to Web Speech Synthesis for custom parent-added words
  */
-function playWebSpeech(text, lang = 'en-US', onEnd, onError) {
+function playWebSpeech(text, lang = 'en-US', onEnd) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-    if (onError) onError(new Error('SpeechSynthesis not supported'));
+    if (onEnd) onEnd();
     return;
   }
 
@@ -132,10 +183,10 @@ function playWebSpeech(text, lang = 'en-US', onEnd, onError) {
     window.speechSynthesis.resume();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    activeUtterance = utterance; // Prevent garbage collection mid-speech
+    activeUtterance = utterance;
 
     utterance.lang = lang;
-    utterance.rate = 0.85; // Slightly slower for kid comprehension
+    utterance.rate = 0.85;
     utterance.pitch = 1.08;
     utterance.volume = 1.0;
 
@@ -148,91 +199,41 @@ function playWebSpeech(text, lang = 'en-US', onEnd, onError) {
       utterance.voice = preferredVoice;
     }
 
-    let completed = false;
-
+    let finished = false;
     utterance.onend = () => {
-      if (!completed) {
-        completed = true;
+      if (!finished) {
+        finished = true;
+        activeUtterance = null;
+        if (onEnd) onEnd();
+      }
+    };
+    utterance.onerror = () => {
+      if (!finished) {
+        finished = true;
         activeUtterance = null;
         if (onEnd) onEnd();
       }
     };
 
-    utterance.onerror = (err) => {
-      if (!completed) {
-        completed = true;
-        activeUtterance = null;
-        if (onError) onError(err);
-      }
-    };
-
     window.speechSynthesis.speak(utterance);
 
-    // Timeout fallback if speech synthesis stalls
     setTimeout(() => {
       if (activeUtterance === utterance) {
-        window.speechSynthesis.cancel();
-        if (!completed) {
-          completed = true;
+        if (!finished) {
+          finished = true;
           activeUtterance = null;
           if (onEnd) onEnd();
         }
       }
-    }, 3500);
-  } catch (err) {
-    if (onError) onError(err);
-  }
-}
-
-/**
- * Web Audio API Acoustic Speech Chime (Tier 3 100% offline fallback)
- */
-function playAcousticSpeechTone(text, onEnd) {
-  if (typeof window === 'undefined') {
-    if (onEnd) onEnd();
-    return;
-  }
-
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) {
-      if (onEnd) onEnd();
-      return;
-    }
-
-    const ctx = new AudioCtx();
-    const now = ctx.currentTime;
-
-    // Friendly 2-tone melodic voice synthesizer
-    const freqs = [523.25, 659.25, 783.99]; // C5, E5, G5
-    freqs.forEach((f, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(f, now + idx * 0.12);
-
-      gain.gain.setValueAtTime(0, now + idx * 0.12);
-      gain.gain.linearRampToValueAtTime(0.3, now + idx * 0.12 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.25);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now + idx * 0.12);
-      osc.stop(now + idx * 0.12 + 0.25);
-    });
-
-    setTimeout(() => {
-      if (onEnd) onEnd();
-    }, 500);
+    }, 3000);
   } catch (e) {
     if (onEnd) onEnd();
   }
 }
 
 /**
- * Pronounce an English word (en-US) with multi-tier fallback
+ * Pronounce an English word (en-US)
+ * Automatically plays high-definition voice recording (e.g. "Red") or dynamic TTS
  */
 export function speakEnglish(text, onEnd) {
   if (!text) {
@@ -240,30 +241,23 @@ export function speakEnglish(text, onEnd) {
     return;
   }
 
-  const cleanText = text.trim();
-  const onlineTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(cleanText)}`;
+  const cleanKey = text.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
 
-  // Try Online TTS Stream first (crystal-clear human quality, works everywhere)
-  playOnlineAudioStream(
-    onlineTtsUrl,
-    onEnd,
-    () => {
-      // Fallback 1: Web Speech Synthesis API
-      playWebSpeech(
-        cleanText,
-        'en-US',
-        onEnd,
-        () => {
-          // Fallback 2: Web Audio Acoustic Melodic Voice
-          playAcousticSpeechTone(cleanText, onEnd);
-        }
-      );
-    }
-  );
+  if (KNOWN_EN_WORDS.has(cleanKey)) {
+    // Play real high-definition Samantha English voice!
+    playLocalAudioFile(`/audio/en/${cleanKey}`, onEnd, () => {
+      // If local file load somehow fails, fallback to Web Speech
+      playWebSpeech(text, 'en-US', onEnd);
+    });
+  } else {
+    // Dynamic word added by parents
+    playWebSpeech(text, 'en-US', onEnd);
+  }
 }
 
 /**
- * Pronounce Turkish translation (tr-TR) with multi-tier fallback
+ * Pronounce Turkish translation (tr-TR)
+ * Automatically plays high-definition Yelda voice recording (e.g. "Kırmızı") or dynamic TTS
  */
 export function speakTurkish(text, onEnd) {
   if (!text) {
@@ -271,37 +265,33 @@ export function speakTurkish(text, onEnd) {
     return;
   }
 
-  const cleanText = text.trim();
-  const onlineTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=tr&q=${encodeURIComponent(cleanText)}`;
+  const normalized = text.toLowerCase().trim();
+  const fileKey = TR_TRANSLATION_MAP[normalized] || normalized.replace(/[^a-z0-9_]/g, '');
 
-  playOnlineAudioStream(
-    onlineTtsUrl,
-    onEnd,
-    () => {
-      playWebSpeech(
-        cleanText,
-        'tr-TR',
-        onEnd,
-        () => {
-          playAcousticSpeechTone(cleanText, onEnd);
-        }
-      );
-    }
-  );
+  if (KNOWN_EN_WORDS.has(fileKey)) {
+    // Play real high-definition Yelda Turkish voice!
+    playLocalAudioFile(`/audio/tr/${fileKey}`, onEnd, () => {
+      playWebSpeech(text, 'tr-TR', onEnd);
+    });
+  } else {
+    playWebSpeech(text, 'tr-TR', onEnd);
+  }
 }
 
 /**
- * Positive encouraging prompts
+ * Spoken encouragement prompts using real audio
  */
-const ENCOURAGING_PROMPTS = [
-  'Try again!',
-  'Almost there!',
-  'You can do it!',
-  'Keep going!',
-  'Good try!',
+const ENCOURAGEMENT_KEYS = [
+  'try_again',
+  'almost_there',
+  'you_can_do_it',
+  'awesome',
+  'great_job',
 ];
 
 export function speakEncouragement(onEnd) {
-  const prompt = ENCOURAGING_PROMPTS[Math.floor(Math.random() * ENCOURAGING_PROMPTS.length)];
-  speakEnglish(prompt, onEnd);
+  const chosenKey = ENCOURAGEMENT_KEYS[Math.floor(Math.random() * ENCOURAGEMENT_KEYS.length)];
+  playLocalAudioFile(`/audio/en/${chosenKey}`, onEnd, () => {
+    if (onEnd) onEnd();
+  });
 }

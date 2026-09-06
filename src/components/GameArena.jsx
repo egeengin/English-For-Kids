@@ -214,12 +214,14 @@ export default function GameArena({
     setSelectedOptionId(item.id);
 
     if (item.id === targetItem.id) {
-      // Correct!
+      // Correct! Speak the word and celebrate!
       setIsCorrect(true);
       setEncouragementText(null);
+      speakEnglish(item.word);
       playLegoSnap(isMuted);
       playSuccessChime(isMuted);
       playStarSparkle(isMuted);
+
 
       const hadHint = revealedCardHints[item.id];
       onWordResult({

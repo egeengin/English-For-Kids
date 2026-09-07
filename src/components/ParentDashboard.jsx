@@ -46,6 +46,7 @@ export default function ParentDashboard({
   childAge = 7,
   geminiApiKey = '',
   onUpdateProfile,
+  onOpenCertificate,
 }) {
   // Child Profile & Gemini AI state
   const [profileName, setProfileName] = useState(childName);
@@ -271,7 +272,16 @@ export default function ParentDashboard({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              {onOpenCertificate && (
+                <button
+                  onClick={() => onOpenCertificate()}
+                  className="px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 border border-amber-500 text-slate-950 font-display font-black text-xs rounded-xl shadow-2xs transition-all flex items-center gap-1 cursor-pointer"
+                >
+                  <Award className="w-3.5 h-3.5 text-amber-900" />
+                  <span>Print Diploma 🖨️</span>
+                </button>
+              )}
               <button
                 onClick={() => setActiveTab('profile')}
                 className="px-3 py-1.5 bg-white hover:bg-blue-50 border border-blue-300 text-blue-700 font-display font-bold text-xs rounded-xl shadow-2xs transition-all flex items-center gap-1 cursor-pointer"
@@ -395,6 +405,55 @@ export default function ParentDashboard({
               <p className="text-xs text-slate-500 font-bold">
                 Configure your child's name and age to personalize stories, minifigure builders, and audio prompts.
               </p>
+            </div>
+          </div>
+
+          {/* Multi-Child Student Profile Switcher */}
+          <div className="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl max-w-lg mb-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-700">
+                Active Student Profiles:
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase bg-slate-200 px-2 py-0.5 rounded-md">
+                Multi-Child & Classroom
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Active Profile Card */}
+              <div className="px-3.5 py-2 bg-blue-100 border-2 border-blue-500 text-blue-950 rounded-xl font-display font-black text-xs flex items-center gap-2 shadow-xs">
+                <span className="text-base">👦</span>
+                <span>{profileName} (Age {profileAge})</span>
+                <span className="px-1.5 py-0.5 bg-blue-600 text-white text-[9px] rounded-full">Active</span>
+              </div>
+
+              {/* Quick Sibling Profile Presets */}
+              <button
+                type="button"
+                onClick={() => {
+                  setProfileName('Aylin');
+                  setProfileAge(6);
+                }}
+                className="px-3 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                title="Switch to student profile Aylin"
+              >
+                <span>👧</span>
+                <span>Aylin (Age 6)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const newName = prompt('Enter new student / child name:');
+                  if (newName && newName.trim()) {
+                    setProfileName(newName.trim());
+                  }
+                }}
+                className="px-3 py-2 bg-dashed border-2 border-slate-300 hover:border-blue-400 text-slate-600 rounded-xl font-bold text-xs flex items-center gap-1 transition cursor-pointer"
+                title="Add a new child or student profile"
+              >
+                <PlusCircle className="w-3.5 h-3.5 text-blue-600" />
+                <span>Add Student</span>
+              </button>
             </div>
           </div>
 

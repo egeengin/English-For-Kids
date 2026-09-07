@@ -232,4 +232,7 @@ export function playTap(isMuted = false) {
 // Aliases for convenience
 export const playSnap = playLegoSnap;
 export const playVictoryFanfare = playFanfare;
+export const playSparkle = playStarSparkle;
+export const playSuccess = playSuccessChime;
+export const playWobble = playGentleWobble;
 

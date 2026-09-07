@@ -9,19 +9,26 @@ import BreakModal from './components/BreakModal';
 import SceneExplorer from './components/SceneExplorer';
 import StoryAdventure from './components/StoryAdventure';
 import BalloonPopGame from './components/BalloonPopGame';
+import AdventureRoad from './components/AdventureRoad';
+import PhonicsBuilder from './components/PhonicsBuilder';
+import LegoDiorama from './components/LegoDiorama';
+import WalkieTalkieModal from './components/WalkieTalkieModal';
+import CertificateModal from './components/CertificateModal';
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
 import { playTap } from './utils/soundEffects';
-import { Gamepad2, Wrench, ShieldCheck, Search, BookOpen, Sparkles } from 'lucide-react';
+import { Gamepad2, Wrench, ShieldCheck, Search, BookOpen, Sparkles, Compass, Radio } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState('differences'); // 'differences' | 'story' | 'balloons' | 'arena' | 'workshop' | 'parent'
+  const [currentTab, setCurrentTab] = useState('road'); // 'road' | 'story' | 'phonics' | 'differences' | 'balloons' | 'town' | 'arena' | 'workshop' | 'parent'
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
   const [showBreakModal, setShowBreakModal] = useState(false);
+  const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
+  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
 
   // Sync state to localStorage
   useEffect(() => {
@@ -187,6 +194,25 @@ export default function App() {
     }));
   };
 
+  // Lego Town diorama items persistence
+  const handleSaveDioramaItems = (items) => {
+    setState(prev => ({
+      ...prev,
+      dioramaItems: items,
+    }));
+  };
+
+  // Adventure Road progress tracking
+  const handleStageCompleted = (stageId, stars = 3) => {
+    setState(prev => ({
+      ...prev,
+      roadProgress: {
+        ...(prev.roadProgress || {}),
+        [stageId]: Math.max(prev.roadProgress?.[stageId] || 0, stars),
+      },
+    }));
+  };
+
   const childName = state.childName || 'Deniz';
   const childAge = state.childAge || 7;
   const geminiApiKey = state.geminiApiKey || '';
@@ -217,13 +243,40 @@ export default function App() {
         onTabChange={handleTabChange}
         stars={state.stars}
         bricks={state.bricks}
+        streak={state.streak || 1}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
+        onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
+        onOpenCertificate={() => setIsCertificateOpen(true)}
         childName={childName}
       />
 
       {/* Main Content Arena */}
       <main className="flex-1 w-full flex flex-col items-center">
+        {/* Guru Feature 1: The Lego Adventure Road Map */}
+        {currentTab === 'road' && (
+          <AdventureRoad
+            onSelectStage={(tabId) => handleTabChange(tabId)}
+            onOpenCertificate={() => setIsCertificateOpen(true)}
+            roadProgress={state.roadProgress || { 'stage-1': 3 }}
+            childName={childName}
+            childAge={childAge}
+            isMuted={state.soundMuted}
+          />
+        )}
+
+        {/* Guru Feature 2: Phonics Letter-Brick Snapping */}
+        {currentTab === 'phonics' && (
+          <PhonicsBuilder
+            onRewardEarned={handleRewardEarned}
+            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            isMuted={state.soundMuted}
+            childName={childName}
+            childAge={childAge}
+          />
+        )}
+
+        {/* Spot 7 Differences Explorer */}
         {currentTab === 'differences' && (
           <SceneExplorer
             onRewardEarned={handleRewardEarned}
@@ -232,6 +285,7 @@ export default function App() {
           />
         )}
 
+        {/* Story Adventure with Voice Talk & Karaoke */}
         {currentTab === 'story' && (
           <StoryAdventure
             onRewardEarned={handleRewardEarned}
@@ -243,6 +297,7 @@ export default function App() {
           />
         )}
 
+        {/* Active Listening Balloon Pop */}
         {currentTab === 'balloons' && (
           <BalloonPopGame
             onRewardEarned={handleRewardEarned}
@@ -251,6 +306,17 @@ export default function App() {
           />
         )}
 
+        {/* Guru Feature 5: My Lego Town Sticker Diorama */}
+        {currentTab === 'town' && (
+          <LegoDiorama
+            initialItems={state.dioramaItems || []}
+            onSaveItems={handleSaveDioramaItems}
+            isMuted={state.soundMuted}
+            childName={childName}
+          />
+        )}
+
+        {/* Traditional Quiz Arena */}
         {currentTab === 'arena' && (
           <GameArena
             curriculumLevels={CURRICULUM_LEVELS}
@@ -267,12 +333,13 @@ export default function App() {
           />
         )}
 
+        {/* 3D Lego Workshop & Dress Up Minifigure Studio */}
         {currentTab === 'workshop' && (
           <LegoWorkshop
             unlockedStages={state.unlockedStages || {}}
             bricks={state.bricks}
             onUnlockStage={handleUnlockStage}
-            onNavigateToArena={() => setCurrentTab('differences')}
+            onNavigateToArena={() => setCurrentTab('road')}
             isMuted={state.soundMuted}
             unlockedAccessories={state.unlockedAccessories || ['cap']}
             equippedAccessory={state.equippedAccessory || 'cap'}
@@ -282,6 +349,7 @@ export default function App() {
           />
         )}
 
+        {/* Parent Hub & Multi-Child Settings */}
         {currentTab === 'parent' && (
           <ParentDashboard
             streak={state.streak}
@@ -294,32 +362,43 @@ export default function App() {
             onAddCustomWord={handleAddCustomWord}
             onDeleteCustomWord={handleDeleteCustomWord}
             onResetProgress={handleResetProgress}
-            onCloseDashboard={() => setCurrentTab('differences')}
+            onCloseDashboard={() => setCurrentTab('road')}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}
             geminiApiKey={geminiApiKey}
             onUpdateProfile={handleUpdateProfile}
+            onOpenCertificate={() => setIsCertificateOpen(true)}
           />
         )}
       </main>
 
-      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 54px height) */}
+      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 50px height) */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 py-2 flex items-center justify-around">
         <button
-          onClick={() => handleTabChange('differences')}
+          onClick={() => handleTabChange('road')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'differences' ? 'text-amber-400' : 'text-slate-400'
+            currentTab === 'road' ? 'text-emerald-400 font-black' : 'text-slate-400'
           }`}
         >
-          <Search className="w-5 h-5" />
-          <span>7 Diff</span>
+          <Compass className="w-5 h-5" />
+          <span>Map 🗺️</span>
+        </button>
+
+        <button
+          onClick={() => handleTabChange('phonics')}
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
+            currentTab === 'phonics' ? 'text-amber-400 font-black' : 'text-slate-400'
+          }`}
+        >
+          <Sparkles className="w-5 h-5" />
+          <span>Phonics</span>
         </button>
 
         <button
           onClick={() => handleTabChange('story')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'story' ? 'text-purple-400' : 'text-slate-400'
+            currentTab === 'story' ? 'text-purple-400 font-black' : 'text-slate-400'
           }`}
         >
           <BookOpen className="w-5 h-5" />
@@ -327,19 +406,19 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => handleTabChange('balloons')}
+          onClick={() => handleTabChange('town')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'balloons' ? 'text-rose-400' : 'text-slate-400'
+            currentTab === 'town' ? 'text-indigo-400 font-black' : 'text-slate-400'
           }`}
         >
-          <Sparkles className="w-5 h-5" />
-          <span>Pop 🎈</span>
+          <Gamepad2 className="w-5 h-5" />
+          <span>Town 🏙️</span>
         </button>
 
         <button
           onClick={() => handleTabChange('workshop')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'workshop' ? 'text-blue-400' : 'text-slate-400'
+            currentTab === 'workshop' ? 'text-blue-400 font-black' : 'text-slate-400'
           }`}
         >
           <Wrench className="w-5 h-5" />
@@ -349,7 +428,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('parent')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'parent' ? 'text-emerald-400' : 'text-slate-400'
+            currentTab === 'parent' ? 'text-emerald-400 font-black' : 'text-slate-400'
           }`}
         >
           <ShieldCheck className="w-5 h-5" />
@@ -365,6 +444,28 @@ export default function App() {
         isMuted={state.soundMuted}
       />
 
+      {/* Walkie-Talkie Open-Ended Gemini Companion Modal */}
+      <WalkieTalkieModal
+        isOpen={isWalkieTalkieOpen}
+        onClose={() => setIsWalkieTalkieOpen(false)}
+        childName={childName}
+        childAge={childAge}
+        geminiApiKey={geminiApiKey}
+        isMuted={state.soundMuted}
+      />
+
+      {/* Printable Refrigerator Diploma / Certificate Modal */}
+      <CertificateModal
+        isOpen={isCertificateOpen}
+        onClose={() => setIsCertificateOpen(false)}
+        childName={childName}
+        childAge={childAge}
+        masteredWordsCount={(state.masteredWords || []).length || 18}
+        totalBricks={state.bricks || 12}
+        totalStars={state.stars || 36}
+        isMuted={state.soundMuted}
+      />
+
       {/* Footer Stud Strip */}
       <footer className="w-full py-4 text-center text-xs font-bold text-slate-400 border-t border-slate-200 bg-white/60">
         <div className="flex items-center justify-center gap-1.5 mb-1">
@@ -374,7 +475,7 @@ export default function App() {
           <span>Kids English Learning PWA</span>
         </div>
         <p className="text-[11px] text-slate-400">
-          Audio-first gamification with dual English & Turkish learning support.
+          Audio-first gamification with trilingual English, German & Turkish learning support.
         </p>
       </footer>
 

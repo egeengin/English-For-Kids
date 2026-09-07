@@ -24,6 +24,34 @@ import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobbl
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
+// Lightweight dictionary for word-by-word inspector in karaoke read-along
+const WORD_TRANSLATIONS = {
+  good: { de: 'gut', tr: 'iyi' },
+  morning: { de: 'Morgen', tr: 'günaydın' },
+  hello: { de: 'Hallo', tr: 'merhaba' },
+  name: { de: 'Name', tr: 'isim' },
+  what: { de: 'was', tr: 'ne' },
+  is: { de: 'ist', tr: 'nedir / dir' },
+  your: { de: 'dein', tr: 'senin' },
+  my: { de: 'mein', tr: 'benim' },
+  fine: { de: 'gut / prima', tr: 'iyi' },
+  thank: { de: 'danke', tr: 'teşekkür' },
+  you: { de: 'du / dir', tr: 'sen / sana' },
+  how: { de: 'wie', tr: 'nasıl' },
+  are: { de: 'bist', tr: 'sın' },
+  welcome: { de: 'willkommen', tr: 'hoş geldin' },
+  to: { de: 'zu / in', tr: 'e / a' },
+  school: { de: 'Schule', tr: 'okul' },
+  bus: { de: 'Bus', tr: 'otobüs' },
+  teacher: { de: 'Lehrer', tr: 'öğretmen' },
+  friend: { de: 'Freund', tr: 'arkadaş' },
+  class: { de: 'Klasse', tr: 'sınıf' },
+  ready: { de: 'bereit', tr: 'hazır' },
+  lets: { de: 'lass uns', tr: 'hadi' },
+  go: { de: 'gehen', tr: 'gidelim' },
+  deniz: { de: 'Deniz', tr: 'Deniz' },
+};
+
 export default function StoryAdventure({
   onRewardEarned,
   onNavigateToWorkshop,
@@ -48,6 +76,11 @@ export default function StoryAdventure({
   const [voiceError, setVoiceError] = useState(null);
   const speechRecognitionRef = useRef(null);
 
+  // Synchronized Karaoke Read-Along & Word Inspector State
+  const [highlightedWordIndex, setHighlightedWordIndex] = useState(null);
+  const [inspectedWord, setInspectedWord] = useState(null);
+  const karaokeTimerRef = useRef(null);
+
   const story = useMemo(() => getStoryData(childName), [childName]);
   const chapter = story.chapters[currentChapterIndex] || story.chapters[0];
   const totalChapters = story.chapters.length;
@@ -55,26 +88,55 @@ export default function StoryAdventure({
   const targetChoice = chapter.choices.find(c => c.isCorrect) || chapter.choices[0];
   const targetPhraseClean = (targetChoice?.text || '').replace(/[🧱⭐🎈🎉]/g, '').trim();
 
-  // Clean up speech recognition on unmount
+  // Play dialogue line with synchronized karaoke word highlight
+  const playKaraokeDialogue = (chapterObj) => {
+    if (!chapterObj) return;
+    if (karaokeTimerRef.current) clearInterval(karaokeTimerRef.current);
+    setHighlightedWordIndex(null);
+    setInspectedWord(null);
+
+    const words = (chapterObj.characterLine || '').split(' ');
+    speakDialoguePhrase(chapterObj.audioKey, chapterObj.characterLine, 'en');
+
+    let currentWord = 0;
+    setHighlightedWordIndex(0);
+    const intervalMs = Math.max(300, Math.min(500, Math.floor(2200 / Math.max(1, words.length))));
+
+    karaokeTimerRef.current = setInterval(() => {
+      currentWord++;
+      if (currentWord < words.length) {
+        setHighlightedWordIndex(currentWord);
+      } else {
+        clearInterval(karaokeTimerRef.current);
+        karaokeTimerRef.current = null;
+        setTimeout(() => setHighlightedWordIndex(null), 600);
+      }
+    }, intervalMs);
+  };
+
+  // Clean up speech recognition & karaoke timers on unmount
   useEffect(() => {
     return () => {
       if (speechRecognitionRef.current) {
         speechRecognitionRef.current.abort();
       }
+      if (karaokeTimerRef.current) {
+        clearInterval(karaokeTimerRef.current);
+      }
     };
   }, []);
 
-  // Speak character line when chapter loads
+  // Speak character line with karaoke when chapter loads
   useEffect(() => {
     setSelectedChoiceId(null);
     setBuiltSentenceWords([]);
     setIsChapterSolved(false);
     setFeedbackMessage('');
+    setInspectedWord(null);
 
     if (!isMuted && chapter) {
-      // Small timeout to allow render transition
       const timer = setTimeout(() => {
-        speakDialoguePhrase(chapter.audioKey, chapter.characterLine, 'en');
+        playKaraokeDialogue(chapter);
       }, 350);
       return () => clearTimeout(timer);
     }
@@ -421,16 +483,58 @@ export default function StoryAdventure({
 
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
-                <p className="font-display font-black text-xl sm:text-2xl text-slate-900 leading-snug">
-                  "{chapter.characterLine}"
-                </p>
+                <div className="font-display font-black text-xl sm:text-2xl text-slate-900 leading-snug flex flex-wrap items-center">
+                  <span className="text-amber-500 mr-1">“</span>
+                  {(chapter.characterLine || '').split(' ').map((word, idx) => {
+                    const isCurrent = highlightedWordIndex === idx;
+                    return (
+                      <span
+                        key={idx}
+                        onClick={() => {
+                          const clean = word.toLowerCase().replace(/[^a-z]/g, '');
+                          if (!isMuted) speakEnglish(clean);
+                          const trans = WORD_TRANSLATIONS[clean] || { de: clean, tr: clean };
+                          setInspectedWord({ word: word.replace(/[^a-zA-Z]/g, ''), de: trans.de, tr: trans.tr });
+                        }}
+                        className={`inline-block mx-0.5 px-1.5 py-0.5 rounded-xl transition-all duration-150 cursor-pointer ${
+                          isCurrent
+                            ? 'bg-yellow-300 text-slate-950 scale-110 shadow-md font-black ring-2 ring-yellow-400'
+                            : 'hover:bg-amber-100 hover:text-amber-900'
+                        }`}
+                        title="Click to hear word & see translation!"
+                      >
+                        {word}
+                      </span>
+                    );
+                  })}
+                  <span className="text-amber-500 ml-1">”</span>
+                </div>
+
+                {/* Word Inspector Card (if clicked) */}
+                {inspectedWord && (
+                  <div className="mt-2.5 p-2.5 bg-yellow-50 border-2 border-yellow-300 rounded-xl flex items-center justify-between text-xs animate-scale-up">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-black text-slate-900 text-sm">"{inspectedWord.word}"</span>
+                      <span className="text-slate-400">•</span>
+                      <span className="text-slate-700 font-semibold">🇩🇪 {inspectedWord.de}</span>
+                      <span className="text-slate-400">•</span>
+                      <span className="text-slate-700 font-semibold">🇹🇷 {inspectedWord.tr}</span>
+                    </div>
+                    <button
+                      onClick={() => setInspectedWord(null)}
+                      className="text-slate-400 hover:text-slate-700 font-bold px-1.5 py-0.5 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {/* English Replay Speaker */}
+              {/* English Replay Speaker with Karaoke sync */}
               <button
-                onClick={() => speakDialoguePhrase(chapter.audioKey, chapter.characterLine, 'en')}
-                className="w-12 h-12 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 flex items-center justify-center shadow-md flex-shrink-0 transition-transform active:scale-95"
-                title="Hear English line"
+                onClick={() => playKaraokeDialogue(chapter)}
+                className="w-12 h-12 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 flex items-center justify-center shadow-md flex-shrink-0 transition-transform active:scale-95 cursor-pointer"
+                title="Hear English line with word highlight"
                 aria-label="Replay English pronunciation"
               >
                 <Volume2 className="w-6 h-6" />

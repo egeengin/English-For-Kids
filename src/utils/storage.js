@@ -25,6 +25,17 @@ export const INITIAL_STATE = {
   customWords: [],
   soundMuted: false,
   geminiApiKey: '',
+  // Guru features persistence:
+  roadProgress: { 'stage-1': 3 }, // stage-1 unlocked with 3 stars by default
+  dioramaItems: [
+    { id: 'd-1', word: 'Red Brick', emoji: '🧱', x: 20, y: 65, size: 64 },
+    { id: 'd-2', word: 'School Bus', emoji: '🚌', x: 50, y: 55, size: 80 },
+    { id: 'd-3', word: 'Cat', emoji: '🐱', x: 75, y: 70, size: 55 }
+  ],
+  profiles: [
+    { id: 'p-1', name: 'Deniz', age: 7, avatar: '👦', targetLanguage: 'en', nativeLanguages: ['de', 'tr'] }
+  ],
+  activeProfileId: 'p-1',
 };
 
 /**

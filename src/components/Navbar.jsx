@@ -31,7 +31,10 @@ export default function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-900 text-white shadow-xl border-b-4 border-slate-950">
+    <header
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+      className="sticky top-0 z-40 w-full bg-slate-900 text-white shadow-xl border-b-4 border-slate-950"
+    >
       {/* Decorative Studs on Top Bar */}
       <div className="w-full h-2.5 bg-red-600 flex justify-around items-center px-2 overflow-hidden">
         {Array.from({ length: 24 }).map((_, i) => (

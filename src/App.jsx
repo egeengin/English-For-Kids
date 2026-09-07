@@ -218,7 +218,7 @@ export default function App() {
   const geminiApiKey = state.geminiApiKey || '';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 lego-baseplate-pattern pb-16 sm:pb-8">
+    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 lego-baseplate-pattern pb-32 sm:pb-8">
       
       {/* Welcome & Audio Unlock Overlay on First Load */}
       {showWelcome && (
@@ -373,8 +373,11 @@ export default function App() {
         )}
       </main>
 
-      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 50px height) */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 py-2 flex items-center justify-around">
+      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 50px height + iPhone Safe Area) */}
+      <div
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 8px)' }}
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 pt-2 flex items-center justify-around"
+      >
         <button
           onClick={() => handleTabChange('road')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${

@@ -228,3 +228,8 @@ export function playTap(isMuted = false) {
   osc.start(now);
   osc.stop(now + 0.04);
 }
+
+// Aliases for convenience
+export const playSnap = playLegoSnap;
+export const playVictoryFanfare = playFanfare;
+

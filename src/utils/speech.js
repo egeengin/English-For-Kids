@@ -9,15 +9,32 @@ let voices = [];
 
 // Pre-rendered local English audio dictionary mapping
 const KNOWN_EN_WORDS = new Set([
+  // Original curriculum
   'red', 'blue', 'yellow', 'green', 'orange',
   'circle', 'square', 'triangle', 'star',
   'dog', 'cat', 'lion', 'elephant', 'monkey', 'frog', 'bird', 'fish',
   'car', 'airplane', 'train', 'rocket', 'boat', 'helicopter', 'bicycle', 'truck',
   'try_again', 'almost_there', 'you_can_do_it', 'awesome', 'great_job',
+
+  // Classroom scene objects
+  'backpack', 'pencil', 'clock', 'apple', 'book', 'globe', 'scissors',
+
+  // Playground scene objects
+  'slide', 'swing', 'soccer_ball', 'balloon', 'kite', 'tree', 'skateboard',
+
+  // City scene objects
+  'school_bus', 'police_car', 'traffic_light', 'scooter', 'stop_sign', 'bridge', 'building',
+
+  // Conversational story phrases
+  'good_morning', 'good_night', 'hello_leo', 'time_for_school', 'breakfast_time',
+  'milk_and_bread', 'no_thank_you', 'yes_please', 'are_you_ready', 'lets_go',
+  'how_are_you', 'i_am_happy', 'i_am_sleepy', 'what_is_your_name', 'my_name_is_leo',
+  'lets_play', 'see_you_tomorrow', 'goodbye', 'welcome_to_school', 'teacher', 'friend', 'school',
 ]);
 
 // Mapping of Turkish translations to audio filenames
 const TR_TRANSLATION_MAP = {
+  // Original curriculum
   'kırmızı': 'red',
   'mavi': 'blue',
   'sarı': 'yellow',
@@ -47,10 +64,76 @@ const TR_TRANSLATION_MAP = {
   'helikopter': 'helicopter',
   'bisiklet': 'bicycle',
   'kamyon': 'truck',
+
+  // Classroom
+  'sırt çantası': 'backpack',
+  'çanta': 'backpack',
+  'kalem': 'pencil',
+  'saat': 'clock',
+  'elma': 'apple',
+  'kitap': 'book',
+  'küre': 'globe',
+  'dünya küresi': 'globe',
+  'makas': 'scissors',
+
+  // Playground
+  'kaydırak': 'slide',
+  'salıncak': 'swing',
+  'futbol topu': 'soccer_ball',
+  'top': 'soccer_ball',
+  'balon': 'balloon',
+  'uçurtma': 'kite',
+  'ağaç': 'tree',
+  'kaykay': 'skateboard',
+
+  // City
+  'okul servisi': 'school_bus',
+  'okul otobüsü': 'school_bus',
+  'polis arabası': 'police_car',
+  'trafik ışığı': 'traffic_light',
+  'skuter': 'scooter',
+  'scooter': 'scooter',
+  'dur tabelası': 'stop_sign',
+  'dur': 'stop_sign',
+  'köprü': 'bridge',
+  'bina': 'building',
+
+  // Story phrases
+  'günaydın': 'good_morning',
+  'günaydın!': 'good_morning',
+  'iyi geceler': 'good_night',
+  'iyi geceler!': 'good_night',
+  'merhaba leo': 'hello_leo',
+  'merhaba leo!': 'hello_leo',
+  'okul vakti': 'time_for_school',
+  'kahvaltı vakti': 'breakfast_time',
+  'süt ve ekmek, lütfen': 'milk_and_bread',
+  'süt ve ekmek, lütfen!': 'milk_and_bread',
+  'hayır, teşekkürler': 'no_thank_you',
+  'evet, lütfen': 'yes_please',
+  'hazır mısın?': 'are_you_ready',
+  'evet, gidelim!': 'lets_go',
+  'bugün nasılsın?': 'how_are_you',
+  'ben mutluyum': 'i_am_happy',
+  'ben mutluyum!': 'i_am_happy',
+  'uykum var': 'i_am_sleepy',
+  'adın ne?': 'what_is_your_name',
+  'benim adım leo': 'my_name_is_leo',
+  'benim adım leo!': 'my_name_is_leo',
+  'evet, hadi oynayalım!': 'lets_play',
+  'yarın görüşürüz': 'see_you_tomorrow',
+  'yarın görüşürüz!': 'see_you_tomorrow',
+  'hoşça kal': 'goodbye',
+  'hoşça kal!': 'goodbye',
+  'okula hoş geldin': 'welcome_to_school',
+  'öğretmen': 'teacher',
+  'arkadaş': 'friend',
+  'okul': 'school',
 };
 
 // Mapping of German translations to audio filenames
 const DE_TRANSLATION_MAP = {
+  // Original curriculum
   'rot': 'red',
   'blau': 'blue',
   'gelb': 'yellow',
@@ -77,6 +160,90 @@ const DE_TRANSLATION_MAP = {
   'fahrrad': 'bicycle',
   'lastwagen': 'truck',
   'lkw': 'truck',
+
+  // Classroom
+  'rucksack': 'backpack',
+  'der rucksack': 'backpack',
+  'bleistift': 'pencil',
+  'der bleistift': 'pencil',
+  'uhr': 'clock',
+  'die uhr': 'clock',
+  'apfel': 'apple',
+  'der apfel': 'apple',
+  'buch': 'book',
+  'das buch': 'book',
+  'globus': 'globe',
+  'der globus': 'globe',
+  'schere': 'scissors',
+  'die schere': 'scissors',
+
+  // Playground
+  'rutsche': 'slide',
+  'die rutsche': 'slide',
+  'schaukel': 'swing',
+  'die schaukel': 'swing',
+  'fußball': 'soccer_ball',
+  'der fußball': 'soccer_ball',
+  'luftballon': 'balloon',
+  'der luftballon': 'balloon',
+  'ballon': 'balloon',
+  'drachen': 'kite',
+  'der drachen': 'kite',
+  'baum': 'tree',
+  'der baum': 'tree',
+  'skateboard': 'skateboard',
+  'das skateboard': 'skateboard',
+
+  // City
+  'schulbus': 'school_bus',
+  'der schulbus': 'school_bus',
+  'polizeiauto': 'police_car',
+  'das polizeiauto': 'police_car',
+  'ampel': 'traffic_light',
+  'die ampel': 'traffic_light',
+  'roller': 'scooter',
+  'der roller': 'scooter',
+  'stoppschild': 'stop_sign',
+  'das stoppschild': 'stop_sign',
+  'brücke': 'bridge',
+  'die brücke': 'bridge',
+  'gebäude': 'building',
+  'das gebäude': 'building',
+
+  // Story phrases
+  'guten morgen': 'good_morning',
+  'guten morgen!': 'good_morning',
+  'gute nacht': 'good_night',
+  'gute nacht!': 'good_night',
+  'hallo leo': 'hello_leo',
+  'hallo leo!': 'hello_leo',
+  'zeit für die schule': 'time_for_school',
+  'frühstückszeit': 'breakfast_time',
+  'milch und brot, bitte': 'milk_and_bread',
+  'milch und brot, bitte!': 'milk_and_bread',
+  'nein, danke': 'no_thank_you',
+  'ja, bitte': 'yes_please',
+  'bist du bereit?': 'are_you_ready',
+  "ja, los geht's!": 'lets_go',
+  'wie geht es dir heute?': 'how_are_you',
+  'ich bin glücklich': 'i_am_happy',
+  'ich bin glücklich!': 'i_am_happy',
+  'ich bin müde': 'i_am_sleepy',
+  'wie heißt du?': 'what_is_your_name',
+  'ich heiße leo': 'my_name_is_leo',
+  'ich heiße leo!': 'my_name_is_leo',
+  'ja, lass uns spielen!': 'lets_play',
+  'bis morgen': 'see_you_tomorrow',
+  'bis morgen!': 'see_you_tomorrow',
+  'tschüss': 'goodbye',
+  'tschüss!': 'goodbye',
+  'willkommen in der schule': 'welcome_to_school',
+  'lehrerin': 'teacher',
+  'die lehrerin': 'teacher',
+  'freund': 'friend',
+  'der freund': 'friend',
+  'schule': 'school',
+  'die schule': 'school',
 };
 
 // Safe voice loading for dynamic custom words
@@ -336,3 +503,21 @@ export function speakEncouragement(language = 'en', onEnd) {
     if (onEnd) onEnd();
   });
 }
+
+/**
+ * Universal dialogue / scene audio player
+ */
+export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) {
+  const cleanKey = (audioKey || '').toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
+  const folder = lang === 'de' ? 'de' : lang === 'tr' ? 'tr' : 'en';
+  const speechLang = lang === 'de' ? 'de-DE' : lang === 'tr' ? 'tr-TR' : 'en-US';
+
+  if (KNOWN_EN_WORDS.has(cleanKey)) {
+    playLocalAudioFile(`/audio/${folder}/${cleanKey}`, onEnd, () => {
+      playWebSpeech(fallbackText || cleanKey, speechLang, onEnd);
+    });
+  } else {
+    playWebSpeech(fallbackText || cleanKey, speechLang, onEnd);
+  }
+}
+

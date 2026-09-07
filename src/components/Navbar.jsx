@@ -1,5 +1,5 @@
 import React from 'react';
-import { Volume2, VolumeX, Sparkles, Box, Gamepad2, Wrench, ShieldCheck } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, Box, Gamepad2, Wrench, ShieldCheck, Search, BookOpen } from 'lucide-react';
 import { playTap } from '../utils/soundEffects';
 
 export default function Navbar({
@@ -11,9 +11,11 @@ export default function Navbar({
   onToggleMute,
 }) {
   const tabs = [
-    { id: 'arena', label: 'Play', icon: Gamepad2, color: 'bg-red-500 hover:bg-red-600', border: 'border-red-700' },
+    { id: 'differences', label: '7 Differences', icon: Search, color: 'bg-amber-500 hover:bg-amber-600', border: 'border-amber-700' },
+    { id: 'story', label: 'Story', icon: BookOpen, color: 'bg-purple-600 hover:bg-purple-700', border: 'border-purple-800' },
+    { id: 'arena', label: 'Cards', icon: Gamepad2, color: 'bg-red-500 hover:bg-red-600', border: 'border-red-700' },
     { id: 'workshop', label: 'Workshop', icon: Wrench, color: 'bg-blue-600 hover:bg-blue-700', border: 'border-blue-800' },
-    { id: 'parent', label: 'Parents', icon: ShieldCheck, color: 'bg-amber-500 hover:bg-amber-600', border: 'border-amber-700' },
+    { id: 'parent', label: 'Parents', icon: ShieldCheck, color: 'bg-slate-700 hover:bg-slate-600', border: 'border-slate-800' },
   ];
 
   const handleTabClick = (tabId) => {

@@ -6,14 +6,16 @@ import ParentDashboard from './components/ParentDashboard';
 import MathGateModal from './components/MathGateModal';
 import WelcomeScreen from './components/WelcomeScreen';
 import BreakModal from './components/BreakModal';
+import SceneExplorer from './components/SceneExplorer';
+import StoryAdventure from './components/StoryAdventure';
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
 import { playTap } from './utils/soundEffects';
-import { Gamepad2, Wrench, ShieldCheck } from 'lucide-react';
+import { Gamepad2, Wrench, ShieldCheck, Search, BookOpen } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState('arena'); // 'arena' | 'workshop' | 'parent'
+  const [currentTab, setCurrentTab] = useState('differences'); // 'differences' | 'story' | 'arena' | 'workshop' | 'parent'
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
@@ -182,6 +184,22 @@ export default function App() {
 
       {/* Main Content Arena */}
       <main className="flex-1 w-full flex flex-col items-center">
+        {currentTab === 'differences' && (
+          <SceneExplorer
+            onRewardEarned={handleRewardEarned}
+            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            isMuted={state.soundMuted}
+          />
+        )}
+
+        {currentTab === 'story' && (
+          <StoryAdventure
+            onRewardEarned={handleRewardEarned}
+            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            isMuted={state.soundMuted}
+          />
+        )}
+
         {currentTab === 'arena' && (
           <GameArena
             curriculumLevels={CURRICULUM_LEVELS}
@@ -200,7 +218,7 @@ export default function App() {
             unlockedStages={state.unlockedStages || {}}
             bricks={state.bricks}
             onUnlockStage={handleUnlockStage}
-            onNavigateToArena={() => setCurrentTab('arena')}
+            onNavigateToArena={() => setCurrentTab('differences')}
             isMuted={state.soundMuted}
           />
         )}
@@ -217,41 +235,61 @@ export default function App() {
             onAddCustomWord={handleAddCustomWord}
             onDeleteCustomWord={handleDeleteCustomWord}
             onResetProgress={handleResetProgress}
-            onCloseDashboard={() => setCurrentTab('arena')}
+            onCloseDashboard={() => setCurrentTab('differences')}
             isMuted={state.soundMuted}
           />
         )}
       </main>
 
-      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 64px height) */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-4 py-2.5 flex items-center justify-around">
+      {/* Mobile Sticky Thumb Bar (Large Touch Targets >= 54px height) */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 py-2 flex items-center justify-around">
+        <button
+          onClick={() => handleTabChange('differences')}
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
+            currentTab === 'differences' ? 'text-amber-400' : 'text-slate-400'
+          }`}
+        >
+          <Search className="w-5 h-5" />
+          <span>7 Diff</span>
+        </button>
+
+        <button
+          onClick={() => handleTabChange('story')}
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
+            currentTab === 'story' ? 'text-purple-400' : 'text-slate-400'
+          }`}
+        >
+          <BookOpen className="w-5 h-5" />
+          <span>Story</span>
+        </button>
+
         <button
           onClick={() => handleTabChange('arena')}
-          className={`min-h-[52px] min-w-[72px] flex flex-col items-center justify-center gap-1 text-xs font-bold cursor-pointer ${
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
             currentTab === 'arena' ? 'text-red-400' : 'text-slate-400'
           }`}
         >
-          <Gamepad2 className="w-6 h-6" />
-          <span>Play</span>
+          <Gamepad2 className="w-5 h-5" />
+          <span>Cards</span>
         </button>
 
         <button
           onClick={() => handleTabChange('workshop')}
-          className={`min-h-[52px] min-w-[72px] flex flex-col items-center justify-center gap-1 text-xs font-bold cursor-pointer ${
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
             currentTab === 'workshop' ? 'text-blue-400' : 'text-slate-400'
           }`}
         >
-          <Wrench className="w-6 h-6" />
+          <Wrench className="w-5 h-5" />
           <span>Build ({state.bricks} 🧱)</span>
         </button>
 
         <button
           onClick={() => handleTabChange('parent')}
-          className={`min-h-[52px] min-w-[72px] flex flex-col items-center justify-center gap-1 text-xs font-bold cursor-pointer ${
-            currentTab === 'parent' ? 'text-amber-400' : 'text-slate-400'
+          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
+            currentTab === 'parent' ? 'text-emerald-400' : 'text-slate-400'
           }`}
         >
-          <ShieldCheck className="w-6 h-6" />
+          <ShieldCheck className="w-5 h-5" />
           <span>Parents</span>
         </button>
       </div>

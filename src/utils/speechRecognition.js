@@ -4,7 +4,7 @@
  * with German/Turkish native language backgrounds, and Gemini AI fallback!
  */
 
-import { evaluateChildSpeechWithGemini } from './gemini';
+import { evaluateChildSpeechWithGemini } from './gemini.js';
 
 /**
  * Check if browser supports Web Speech Recognition API

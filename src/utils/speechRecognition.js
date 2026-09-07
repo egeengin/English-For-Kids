@@ -146,6 +146,8 @@ export function calculateSimilarity(s1, s2) {
 export function createSpeechListener({
   lang = 'en-US',
   onResult,
+  onInterim,
+  onFinal,
   onError,
   onEnd,
   onStart,
@@ -163,7 +165,12 @@ export function createSpeechListener({
   recognition.continuous = false;
   recognition.maxAlternatives = 3;
 
+  let lastRecognizedText = '';
+  let hasEmittedFinal = false;
+
   recognition.onstart = () => {
+    hasEmittedFinal = false;
+    lastRecognizedText = '';
     onStart && onStart();
   };
 
@@ -180,24 +187,48 @@ export function createSpeechListener({
       }
     }
 
-    onResult && onResult({
-      transcript: (finalTranscript || interimTranscript).trim(),
-      isFinal: Boolean(finalTranscript),
-    });
+    const currentText = (finalTranscript || interimTranscript).trim();
+    if (currentText) {
+      lastRecognizedText = currentText;
+    }
+
+    if (finalTranscript) {
+      hasEmittedFinal = true;
+      onFinal && onFinal(finalTranscript.trim());
+      onResult && onResult({
+        transcript: finalTranscript.trim(),
+        isFinal: true,
+      });
+    } else if (interimTranscript) {
+      onInterim && onInterim(interimTranscript.trim());
+      onResult && onResult({
+        transcript: interimTranscript.trim(),
+        isFinal: false,
+      });
+    }
   };
 
   recognition.onerror = (event) => {
     console.warn('Speech recognition error event:', event.error);
     let msg = 'Could not hear speech clearly. Please try again!';
-    if (event.error === 'not-allowed') {
+    if (event.error === 'not-allowed' || event.error === 'permission-denied') {
       msg = 'Microphone permission was not granted. Please allow microphone access.';
     } else if (event.error === 'no-speech') {
-      msg = 'No speech detected. Tap the microphone and speak out loud!';
+      msg = 'No speech detected. Speak clearly into the microphone!';
     }
     onError && onError(msg, event.error);
   };
 
   recognition.onend = () => {
+    // If recognition stopped without an explicit isFinal, recover last recognized text
+    if (!hasEmittedFinal && lastRecognizedText) {
+      hasEmittedFinal = true;
+      onFinal && onFinal(lastRecognizedText);
+      onResult && onResult({
+        transcript: lastRecognizedText,
+        isFinal: true,
+      });
+    }
     onEnd && onEnd();
   };
 

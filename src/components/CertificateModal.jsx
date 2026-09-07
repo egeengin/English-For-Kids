@@ -30,11 +30,26 @@ export default function CertificateModal({
     year: 'numeric',
   });
 
+  // Listen for Escape key to close
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in print:p-0 print:bg-white print:static">
+    <div
+      onClick={handleClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in print:p-0 print:bg-white print:static overflow-y-auto"
+    >
       
       {/* Container - hide overlay elements when printing */}
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border-4 border-amber-400 overflow-hidden print:border-none print:shadow-none print:rounded-none">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-3xl my-auto bg-white rounded-3xl shadow-2xl border-4 border-amber-400 overflow-hidden print:border-none print:shadow-none print:rounded-none"
+      >
         
         {/* Top Control Bar (Hidden when printing) */}
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-400 border-b-2 border-amber-600 print:hidden">
@@ -172,6 +187,23 @@ export default function CertificateModal({
             <p className="text-xs text-slate-400 font-semibold">
               💡 Tip: Click <strong>Print / Save PDF</strong> and choose landscape or portrait to hang {childName}'s diploma on the refrigerator!
             </p>
+          </div>
+
+          {/* Bottom Action Buttons (Print & Close) */}
+          <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-center gap-3 print:hidden">
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-yellow-300 rounded-xl text-sm font-black shadow-md cursor-pointer transition active:scale-95"
+            >
+              <Printer className="w-4 h-4" />
+              <span>Print / Save PDF 🖨️</span>
+            </button>
+            <button
+              onClick={handleClose}
+              className="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-sm font-bold shadow-xs cursor-pointer transition active:scale-95"
+            >
+              Close ✕
+            </button>
           </div>
 
         </div>

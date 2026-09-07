@@ -16,6 +16,7 @@ import {
 import { STORY_DATA } from '../data/storyData';
 import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
+import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 export default function StoryAdventure({
   onRewardEarned,
@@ -468,6 +469,18 @@ export default function StoryAdventure({
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}
+            </div>
+          )}
+
+          {/* Voice Echo Studio Widget: Child practices speaking Leo's response line! */}
+          {isChapterSolved && (
+            <div className="mt-4 pt-3 border-t border-slate-200 animate-fadeIn">
+              <VoiceRecorderWidget
+                targetWord={chapter.choices.find(c => c.isCorrect)?.text || ''}
+                targetAudioKey={chapter.choices.find(c => c.isCorrect)?.audioKey || ''}
+                onRewardEarned={onRewardEarned}
+                isMuted={isMuted}
+              />
             </div>
           )}
 

@@ -8,14 +8,15 @@ import WelcomeScreen from './components/WelcomeScreen';
 import BreakModal from './components/BreakModal';
 import SceneExplorer from './components/SceneExplorer';
 import StoryAdventure from './components/StoryAdventure';
+import BalloonPopGame from './components/BalloonPopGame';
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
 import { playTap } from './utils/soundEffects';
-import { Gamepad2, Wrench, ShieldCheck, Search, BookOpen } from 'lucide-react';
+import { Gamepad2, Wrench, ShieldCheck, Search, BookOpen, Sparkles } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState('differences'); // 'differences' | 'story' | 'arena' | 'workshop' | 'parent'
+  const [currentTab, setCurrentTab] = useState('differences'); // 'differences' | 'story' | 'balloons' | 'arena' | 'workshop' | 'parent'
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
@@ -113,6 +114,29 @@ export default function App() {
     });
   };
 
+  // Minifigure accessory unlock
+  const handleUnlockAccessory = (accessoryId, cost) => {
+    setState(prev => {
+      const currentUnlocked = prev.unlockedAccessories || ['cap'];
+      if (currentUnlocked.includes(accessoryId)) return prev;
+
+      return {
+        ...prev,
+        bricks: Math.max(0, prev.bricks - cost),
+        unlockedAccessories: [...currentUnlocked, accessoryId],
+        equippedAccessory: accessoryId,
+      };
+    });
+  };
+
+  // Minifigure accessory equip
+  const handleEquipAccessory = (accessoryId) => {
+    setState(prev => ({
+      ...prev,
+      equippedAccessory: accessoryId,
+    }));
+  };
+
   // Parent adds custom word
   const handleAddCustomWord = (newWordObj) => {
     setState(prev => ({
@@ -200,6 +224,14 @@ export default function App() {
           />
         )}
 
+        {currentTab === 'balloons' && (
+          <BalloonPopGame
+            onRewardEarned={handleRewardEarned}
+            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            isMuted={state.soundMuted}
+          />
+        )}
+
         {currentTab === 'arena' && (
           <GameArena
             curriculumLevels={CURRICULUM_LEVELS}
@@ -220,6 +252,10 @@ export default function App() {
             onUnlockStage={handleUnlockStage}
             onNavigateToArena={() => setCurrentTab('differences')}
             isMuted={state.soundMuted}
+            unlockedAccessories={state.unlockedAccessories || ['cap']}
+            equippedAccessory={state.equippedAccessory || 'cap'}
+            onUnlockAccessory={handleUnlockAccessory}
+            onEquipAccessory={handleEquipAccessory}
           />
         )}
 
@@ -264,13 +300,13 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => handleTabChange('arena')}
+          onClick={() => handleTabChange('balloons')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'arena' ? 'text-red-400' : 'text-slate-400'
+            currentTab === 'balloons' ? 'text-rose-400' : 'text-slate-400'
           }`}
         >
-          <Gamepad2 className="w-5 h-5" />
-          <span>Cards</span>
+          <Sparkles className="w-5 h-5" />
+          <span>Pop 🎈</span>
         </button>
 
         <button

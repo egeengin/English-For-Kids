@@ -17,7 +17,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import LegoBrick from './LegoBrick';
-import { LEGO_BUILD_MODELS } from '../data/curriculum';
+import { LEGO_BUILD_MODELS, LEO_ACCESSORIES } from '../data/curriculum';
 import {
   playLegoSnap,
   playStarSparkle,
@@ -32,10 +32,15 @@ export default function LegoWorkshop({
   onUnlockStage,
   onNavigateToArena,
   isMuted,
+  unlockedAccessories = ['cap'],
+  equippedAccessory = 'cap',
+  onUnlockAccessory,
+  onEquipAccessory,
 }) {
-  const [selectedModelId, setSelectedModelId] = useState('rocket');
+  const [selectedModelId, setSelectedModelId] = useState('rocket'); // 'rocket' | 'racecar' | 'castle' | 'minifigure'
   const [justBuiltStage, setJustBuiltStage] = useState(null);
 
+  const isMinifigureTab = selectedModelId === 'minifigure';
   const currentModel = LEGO_BUILD_MODELS.find(m => m.id === selectedModelId) || LEGO_BUILD_MODELS[0];
   const modelUnlockedStages = unlockedStages[selectedModelId] || [];
 
@@ -311,6 +316,78 @@ export default function LegoWorkshop({
     );
   };
 
+  // Minifigure Leo Avatar Builder Visual
+  const renderLeoMinifigureVisual = () => {
+    const acc = LEO_ACCESSORIES.find(a => a.id === equippedAccessory);
+    return (
+      <div className="flex flex-col items-center justify-center py-4 relative select-none">
+        {/* Head & Hat Container */}
+        <div className="relative flex flex-col items-center">
+          {/* Equipped Accessory Display */}
+          <div className="text-5xl sm:text-6xl drop-shadow-lg -mb-4 z-20 animate-bounce">
+            {acc?.icon || '🧢'}
+          </div>
+
+          {/* Lego Head */}
+          <div className="w-18 h-16 bg-yellow-400 rounded-2xl border-4 border-yellow-600 relative flex items-center justify-center shadow-md">
+            {/* Top stud */}
+            <div className="absolute -top-2 w-6 h-2.5 bg-yellow-500 rounded-t-md border-t-2 border-x-2 border-yellow-600" />
+            
+            {/* Eyes */}
+            <div className="flex items-center gap-5 mt-1">
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-900" />
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-900" />
+            </div>
+
+            {/* Smile */}
+            <div className="absolute bottom-2.5 w-6 h-2 border-b-3 border-slate-900 rounded-b-full" />
+
+            {/* Sunglasses if equipped */}
+            {equippedAccessory === 'sunglasses' && (
+              <div className="absolute top-4 w-14 h-4 bg-slate-900 rounded-md border border-white/40 flex items-center justify-around px-1 z-10">
+                <div className="w-4 h-3 bg-slate-800 rounded-xs" />
+                <div className="w-4 h-3 bg-slate-800 rounded-xs" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Torso & Cape */}
+        <div className="relative mt-1 flex items-center justify-center">
+          {equippedAccessory === 'cape' && (
+            <div className="absolute -inset-x-5 -top-2 -bottom-2 bg-red-600 rounded-b-2xl shadow-lg -z-10 animate-pulse" />
+          )}
+
+          <div className="w-22 h-18 bg-blue-600 rounded-t-lg border-4 border-blue-800 flex items-center justify-center relative shadow-md">
+            <span className="text-xl text-yellow-300 font-black font-display">🧱</span>
+
+            {/* Arms & Hands */}
+            <div className="absolute -left-3 top-1 w-4 h-12 bg-blue-700 rounded-full rotate-12 flex items-end justify-center pb-1">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-yellow-500 bg-yellow-400" />
+            </div>
+            <div className="absolute -right-3 top-1 w-4 h-12 bg-blue-700 rounded-full -rotate-12 flex items-end justify-center pb-1">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-yellow-500 bg-yellow-400" />
+            </div>
+          </div>
+        </div>
+
+        {/* Hips & Legs */}
+        <div className="w-20 flex flex-col items-center">
+          <div className="w-20 h-3.5 bg-slate-800 border-x-2 border-slate-900" />
+          <div className="flex gap-1">
+            <div className="w-9 h-14 bg-red-600 border-2 border-red-800 rounded-b-md" />
+            <div className="w-9 h-14 bg-red-600 border-2 border-red-800 rounded-b-md" />
+          </div>
+        </div>
+
+        {/* Leo Name Badge */}
+        <div className="mt-3 bg-yellow-400 text-slate-950 px-3.5 py-1 rounded-full font-display font-black text-xs shadow-md">
+          Leo the Builder 👦
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6">
       
@@ -340,8 +417,8 @@ export default function LegoWorkshop({
         </div>
       </div>
 
-      {/* Model Selector Tabs */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+      {/* Model Selector Tabs (Now 4 Tabs including Dress Up Leo!) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
         {LEGO_BUILD_MODELS.map((model) => {
           const isSelected = model.id === selectedModelId;
           const stagesBuilt = (unlockedStages[model.id] || []).length;
@@ -356,7 +433,7 @@ export default function LegoWorkshop({
               }}
               className={`
                 relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl font-display font-black text-xs sm:text-sm
-                transition-all duration-100 border-3 border-b-6
+                transition-all duration-100 border-3 border-b-6 cursor-pointer
                 ${isSelected
                   ? 'bg-white text-slate-900 border-blue-600 scale-102 shadow-lg ring-2 ring-blue-400'
                   : 'bg-white/80 text-slate-600 hover:bg-white border-slate-300'}
@@ -386,6 +463,34 @@ export default function LegoWorkshop({
             </button>
           );
         })}
+
+        {/* Tab 4: Dress-Up Leo Studio */}
+        <button
+          onClick={() => {
+            playTap(isMuted);
+            setSelectedModelId('minifigure');
+          }}
+          className={`
+            relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl font-display font-black text-xs sm:text-sm
+            transition-all duration-100 border-3 border-b-6 cursor-pointer
+            ${isMinifigureTab
+              ? 'bg-white text-slate-900 border-yellow-500 scale-102 shadow-lg ring-2 ring-yellow-400'
+              : 'bg-white/80 text-slate-600 hover:bg-white border-slate-300'}
+          `}
+        >
+          <div className="text-2xl sm:text-3xl mb-1">👦</div>
+          <span className="leading-tight text-center">Dress Up Leo</span>
+          
+          <div className="mt-2 w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-yellow-400 transition-all"
+              style={{ width: `${(unlockedAccessories.length / LEO_ACCESSORIES.length) * 100}%` }}
+            />
+          </div>
+          <span className="text-[10px] text-slate-400 mt-1 font-mono">
+            {unlockedAccessories.length}/{LEO_ACCESSORIES.length} Outfits
+          </span>
+        </button>
       </div>
 
       {/* Main Building Canvas Floor (Lego Baseplate) */}
@@ -394,17 +499,22 @@ export default function LegoWorkshop({
         {/* Baseplate Studded Background */}
         <div className="absolute inset-0 lego-blue-baseplate opacity-40 pointer-events-none" />
 
-        {/* Model Info Header */}
+        {/* Header inside Canvas */}
         <div className="relative z-10 flex items-center justify-between mb-4 pb-3 border-b border-white/20">
           <div>
             <span className="text-xs font-bold text-yellow-400 uppercase tracking-widest">
-              {currentModel.theme}
+              {isMinifigureTab ? 'Minifigure Studio' : currentModel.theme}
             </span>
             <h3 className="text-xl sm:text-3xl font-black font-display text-white">
-              {currentModel.name}
+              {isMinifigureTab ? 'Dress Up Leo 👦' : currentModel.name}
             </h3>
           </div>
-          {isModelFullyBuilt ? (
+          {isMinifigureTab ? (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-400 text-slate-950 rounded-xl font-display font-black text-xs sm:text-sm shadow-md">
+              <Sparkles className="w-4 h-4" />
+              <span>Customize Avatar</span>
+            </div>
+          ) : isModelFullyBuilt ? (
             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-400 text-slate-950 rounded-xl font-display font-black text-xs sm:text-sm shadow-md">
               <Trophy className="w-4 h-4" />
               <span>COMPLETED! 🏆</span>
@@ -418,12 +528,92 @@ export default function LegoWorkshop({
 
         {/* 3D Visual Assembly Preview */}
         <div className="relative z-10 min-h-[220px] flex items-center justify-center">
-          {selectedModelId === 'rocket' && renderRocketVisual()}
-          {selectedModelId === 'racecar' && renderRaceCarVisual()}
-          {selectedModelId === 'castle' && renderCastleVisual()}
+          {isMinifigureTab && renderLeoMinifigureVisual()}
+          {!isMinifigureTab && selectedModelId === 'rocket' && renderRocketVisual()}
+          {!isMinifigureTab && selectedModelId === 'racecar' && renderRaceCarVisual()}
+          {!isMinifigureTab && selectedModelId === 'castle' && renderCastleVisual()}
         </div>
 
-        {/* Interactive Building Controls */}
+        {/* Controls: If Minifigure Tab, render Accessories Tray */}
+        {isMinifigureTab ? (
+          <div className="relative z-10 mt-6 pt-4 border-t border-white/20">
+            <h4 className="text-sm font-black font-display text-yellow-300 uppercase tracking-wider mb-3 text-center sm:text-left">
+              Choose Leo's Hats & Outfits:
+            </h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {LEO_ACCESSORIES.map((acc) => {
+                const isUnlocked = unlockedAccessories.includes(acc.id);
+                const isEquipped = equippedAccessory === acc.id;
+
+                return (
+                  <div
+                    key={acc.id}
+                    className={`
+                      bg-white/10 backdrop-blur-md rounded-2xl p-3 border-2 flex flex-col justify-between transition-all
+                      ${isEquipped
+                        ? 'border-yellow-400 bg-yellow-400/20 shadow-lg'
+                        : isUnlocked
+                        ? 'border-white/30 hover:bg-white/15'
+                        : 'border-white/10 opacity-75'}
+                    `}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-3xl">{acc.icon}</span>
+                      <div className="flex flex-col">
+                        <span className="font-display font-black text-white text-xs leading-tight">
+                          {acc.name}
+                        </span>
+                        <span className="text-[10px] text-yellow-200/80 font-bold">
+                          {acc.nameDe} • {acc.nameTr}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="mt-2">
+                      {isEquipped ? (
+                        <div className="w-full py-1.5 bg-yellow-400 text-slate-950 font-display font-black text-xs rounded-xl text-center shadow">
+                          Wearing ⭐
+                        </div>
+                      ) : isUnlocked ? (
+                        <button
+                          onClick={() => {
+                            playLegoSnap(isMuted);
+                            if (onEquipAccessory) onEquipAccessory(acc.id);
+                          }}
+                          className="w-full py-1.5 bg-white/20 hover:bg-white/30 text-white font-display font-black text-xs rounded-xl transition-all active:scale-95 cursor-pointer border border-white/30"
+                        >
+                          Wear This
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            if (bricks >= acc.cost) {
+                              playLegoSnap(isMuted);
+                              playStarSparkle(isMuted);
+                              confetti({ particleCount: 35, spread: 50 });
+                              if (onUnlockAccessory) onUnlockAccessory(acc.id, acc.cost);
+                            } else {
+                              playGentleWobble(isMuted);
+                            }
+                          }}
+                          className={`w-full py-1.5 rounded-xl font-display font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-1 cursor-pointer ${
+                            bricks >= acc.cost
+                              ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md'
+                              : 'bg-slate-700 text-slate-400'
+                          }`}
+                        >
+                          <Lock className="w-3.5 h-3.5" />
+                          <span>Unlock ({acc.cost} 🧱)</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          /* Normal Model Stage Controls */
         <div className="relative z-10 mt-6 pt-4 border-t border-white/20">
           {nextStage ? (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
@@ -478,6 +668,7 @@ export default function LegoWorkshop({
             </div>
           )}
         </div>
+        )}
 
       </div>
 

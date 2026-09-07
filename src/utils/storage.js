@@ -18,6 +18,8 @@ export const INITIAL_STATE = {
     racecar: [],
     castle: []
   },
+  unlockedAccessories: ['cap'],
+  equippedAccessory: 'cap',
   customWords: [],
   soundMuted: false,
 };

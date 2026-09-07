@@ -16,6 +16,7 @@ import {
 import { SCENES_DATA } from '../data/scenesData';
 import { speakEnglish, speakGerman, speakTurkish, stopSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
+import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 export default function SceneExplorer({
   onRewardEarned,
@@ -403,6 +404,17 @@ export default function SceneExplorer({
             </div>
 
           </div>
+
+          {/* Voice Echo Studio Widget: Practice speaking out loud! */}
+          <div className="mt-3 pt-3 border-t border-yellow-200">
+            <VoiceRecorderWidget
+              targetWord={activeItem.name}
+              targetAudioKey={activeItem.audioKey || activeItem.targetWord}
+              onRewardEarned={onRewardEarned}
+              isMuted={isMuted}
+            />
+          </div>
+
         </div>
       )}
 

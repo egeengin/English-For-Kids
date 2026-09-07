@@ -91,7 +91,9 @@ EN_WORDS = {
     "deniz": "Deniz",
     "hello_deniz": "Hello Deniz!",
     "my_name_is_deniz": "My name is Deniz!",
-    "good_morning_deniz": "Good morning, Deniz!",
+    "good_morning_deniz": "Good morning, Deniz! Time for school!",
+    "good_morning_deniz_how_are_you": "Good morning, Deniz! How are you today?",
+    "mom_breakfast_ready": "Good morning, sunshine! Breakfast is ready on the table!",
     "goodbye_deniz": "Goodbye Deniz!",
 }
 
@@ -181,7 +183,9 @@ TR_WORDS = {
     "deniz": "Deniz",
     "hello_deniz": "Merhaba Deniz!",
     "my_name_is_deniz": "Benim adım Deniz!",
-    "good_morning_deniz": "Günaydın Deniz!",
+    "good_morning_deniz": "Günaydın Deniz! Okul vakti!",
+    "good_morning_deniz_how_are_you": "Günaydın Deniz! Bugün nasılsın?",
+    "mom_breakfast_ready": "Günaydın canım! Kahvaltı masada hazır!",
     "goodbye_deniz": "Güle güle Deniz!",
 }
 
@@ -271,7 +275,9 @@ DE_WORDS = {
     "deniz": "Deniz",
     "hello_deniz": "Hallo Deniz!",
     "my_name_is_deniz": "Ich heiße Deniz!",
-    "good_morning_deniz": "Guten Morgen, Deniz!",
+    "good_morning_deniz": "Guten Morgen, Deniz! Zeit für die Schule!",
+    "good_morning_deniz_how_are_you": "Guten Morgen, Deniz! Wie geht es dir heute?",
+    "mom_breakfast_ready": "Guten Morgen, Sonnenschein! Das Frühstück steht bereit!",
     "goodbye_deniz": "Tschüss Deniz!",
 }
 

@@ -17,6 +17,9 @@ import {
   Bot,
   AlertCircle,
   Radio,
+  MapPin,
+  Clock,
+  MessageCircle,
 } from 'lucide-react';
 import { getStoryData } from '../data/storyData';
 import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase } from '../utils/speech';
@@ -28,6 +31,9 @@ import VoiceRecorderWidget from './VoiceRecorderWidget';
 const WORD_TRANSLATIONS = {
   good: { de: 'gut', tr: 'iyi' },
   morning: { de: 'Morgen', tr: 'günaydın' },
+  time: { de: 'Zeit', tr: 'zaman / vakit' },
+  for: { de: 'für', tr: 'için' },
+  school: { de: 'Schule', tr: 'okul' },
   hello: { de: 'Hallo', tr: 'merhaba' },
   name: { de: 'Name', tr: 'isim' },
   what: { de: 'was', tr: 'ne' },
@@ -39,9 +45,9 @@ const WORD_TRANSLATIONS = {
   you: { de: 'du / dir', tr: 'sen / sana' },
   how: { de: 'wie', tr: 'nasıl' },
   are: { de: 'bist', tr: 'sın' },
+  today: { de: 'heute', tr: 'bugün' },
   welcome: { de: 'willkommen', tr: 'hoş geldin' },
   to: { de: 'zu / in', tr: 'e / a' },
-  school: { de: 'Schule', tr: 'okul' },
   bus: { de: 'Bus', tr: 'otobüs' },
   teacher: { de: 'Lehrer', tr: 'öğretmen' },
   friend: { de: 'Freund', tr: 'arkadaş' },
@@ -49,6 +55,12 @@ const WORD_TRANSLATIONS = {
   ready: { de: 'bereit', tr: 'hazır' },
   lets: { de: 'lass uns', tr: 'hadi' },
   go: { de: 'gehen', tr: 'gidelim' },
+  play: { de: 'spielen', tr: 'oynayalım' },
+  ball: { de: 'Ball', tr: 'top' },
+  breakfast: { de: 'Frühstück', tr: 'kahvaltı' },
+  eat: { de: 'essen', tr: 'yemek' },
+  would: { de: 'möchtest', tr: 'ister misin' },
+  like: { de: 'mögen', tr: 'sevmek' },
   deniz: { de: 'Deniz', tr: 'Deniz' },
 };
 
@@ -67,6 +79,10 @@ export default function StoryAdventure({
   const [isChapterSolved, setIsChapterSolved] = useState(false);
   const [isStoryComplete, setIsStoryComplete] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
+
+  // 2-Way Conversational Turn-Taking & Interactive Props State
+  const [activeReply, setActiveReply] = useState(null);
+  const [activeProp, setActiveProp] = useState(null);
 
   // Voice Interaction State
   const [isListening, setIsListening] = useState(false);
@@ -88,7 +104,7 @@ export default function StoryAdventure({
   const targetChoice = chapter.choices.find(c => c.isCorrect) || chapter.choices[0];
   const targetPhraseClean = (targetChoice?.text || '').replace(/[🧱⭐🎈🎉]/g, '').trim();
 
-  // Play dialogue line with synchronized karaoke word highlight
+  // Play dialogue line with synchronized karaoke word highlight matching actual speech pace
   const playKaraokeDialogue = (chapterObj) => {
     if (!chapterObj) return;
     if (karaokeTimerRef.current) clearInterval(karaokeTimerRef.current);
@@ -100,7 +116,9 @@ export default function StoryAdventure({
 
     let currentWord = 0;
     setHighlightedWordIndex(0);
-    const intervalMs = Math.max(300, Math.min(500, Math.floor(2200 / Math.max(1, words.length))));
+    // Approximate Samantha's 400ms per word pace for natural cadence
+    const estimatedTotalMs = Math.max(2000, words.length * 400);
+    const intervalMs = Math.floor(estimatedTotalMs / Math.max(1, words.length));
 
     karaokeTimerRef.current = setInterval(() => {
       currentWord++;
@@ -133,6 +151,8 @@ export default function StoryAdventure({
     setIsChapterSolved(false);
     setFeedbackMessage('');
     setInspectedWord(null);
+    setActiveReply(null);
+    setActiveProp(null);
 
     if (!isMuted && chapter) {
       const timer = setTimeout(() => {
@@ -141,6 +161,15 @@ export default function StoryAdventure({
       return () => clearTimeout(timer);
     }
   }, [currentChapterIndex, isMuted]);
+
+  // Handle clicking an interactive scene prop
+  const handlePropClick = (prop) => {
+    playSnap(isMuted);
+    setActiveProp(prop);
+    if (!isMuted) {
+      speakDialoguePhrase(prop.audioKey, prop.name, 'en');
+    }
+  };
 
   // Handle clicking a choice in 2-choice mode
   const handleChoiceClick = (choice) => {
@@ -155,6 +184,16 @@ export default function StoryAdventure({
       setIsChapterSolved(true);
       setFeedbackMessage(choice.feedback);
       playStarSparkle(isMuted);
+
+      // Trigger Mom / Character reply back
+      if (choice.characterReply) {
+        setActiveReply(choice.characterReply);
+        if (!isMuted) {
+          setTimeout(() => {
+            speakDialoguePhrase(choice.characterReply.audioKey, choice.characterReply.text, 'en');
+          }, 1100);
+        }
+      }
 
       confetti({
         particleCount: 50,
@@ -213,10 +252,14 @@ export default function StoryAdventure({
       setFeedbackMessage('Fantastic sentence building! You snapped the bricks together!');
       playStarSparkle(isMuted);
 
-      if (!isMuted) {
-        setTimeout(() => {
-          speakDialoguePhrase(chapter.choices.find(c => c.isCorrect)?.audioKey, updated.join(' '), 'en');
-        }, 400);
+      const correctChoice = chapter.choices.find(c => c.isCorrect);
+      if (correctChoice?.characterReply) {
+        setActiveReply(correctChoice.characterReply);
+        if (!isMuted) {
+          setTimeout(() => {
+            speakDialoguePhrase(correctChoice.characterReply.audioKey, correctChoice.characterReply.text, 'en');
+          }, 1100);
+        }
       }
 
       confetti({
@@ -288,6 +331,17 @@ export default function StoryAdventure({
             setFeedbackMessage(evalResult.feedbackEn);
             playSnap(isMuted);
             playVictoryFanfare(isMuted);
+
+            const correctChoice = chapter.choices.find(c => c.isCorrect);
+            if (correctChoice?.characterReply) {
+              setActiveReply(correctChoice.characterReply);
+              if (!isMuted) {
+                setTimeout(() => {
+                  speakDialoguePhrase(correctChoice.characterReply.audioKey, correctChoice.characterReply.text, 'en');
+                }, 1200);
+              }
+            }
+
             confetti({
               particleCount: 70,
               spread: 70,
@@ -295,12 +349,6 @@ export default function StoryAdventure({
             });
             if (onRewardEarned) {
               onRewardEarned({ stars: evalResult.stars || 3, bricks: 1 });
-            }
-
-            if (!isMuted) {
-              setTimeout(() => {
-                speakEnglish(evalResult.feedbackEn);
-              }, 400);
             }
 
             if (currentChapterIndex === totalChapters - 1) {
@@ -447,30 +495,115 @@ export default function StoryAdventure({
       {/* Main Conversation Stage Card */}
       <div className="w-full bg-white rounded-3xl shadow-xl border-4 border-slate-200 overflow-hidden mb-4">
         
-        {/* Scene Backdrop Strip */}
-        <div className="w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-4 sm:p-6 text-white flex items-center justify-between relative overflow-hidden">
-          <div className="flex items-center gap-3 z-10">
-            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-3xl shadow-inner">
-              {chapter.character.avatar}
+        {/* Illustrated Scene Backdrop & Interactive Props Canvas */}
+        <div className={`w-full bg-gradient-to-r ${chapter.sceneBackdrop?.bgGradient || 'from-blue-500 via-indigo-500 to-purple-500'} p-4 sm:p-5 text-white relative overflow-hidden transition-all duration-300`}>
+          {/* Subtle stud texture */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:16px_16px]" />
+
+          {/* Scene Header Strip */}
+          <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="bg-black/35 backdrop-blur-md text-yellow-300 font-mono font-black text-xs px-3 py-1 rounded-full border border-yellow-400/30 flex items-center gap-1.5 shadow-xs">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{chapter.sceneBackdrop?.timeTag || 'School Day'}</span>
+              </span>
+              <span className="bg-white/25 backdrop-blur-md text-white font-display font-black text-xs px-3 py-1 rounded-full border border-white/30 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-yellow-200" />
+                <span>{chapter.sceneBackdrop?.location || chapter.title}</span>
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-display font-black text-xl text-yellow-300">
-                  {chapter.character.name}
-                </span>
-                <span className="text-[11px] font-bold bg-white/20 px-2 py-0.5 rounded-full">
-                  {chapter.character.role}
-                </span>
-              </div>
-              <p className="text-xs font-bold text-white/90">
-                Chapter {chapter.chapterNumber} of {totalChapters} • {chapter.title}
-              </p>
+
+            <div className="flex items-center gap-1.5 bg-black/25 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-bold text-yellow-300">
+              <span>{chapter.character.avatar}</span>
+              <span className="hidden sm:inline">{chapter.character.role}:</span>
+              <span>{chapter.character.name}</span>
+              {chapter.character.actionBadge && (
+                <span className="hidden sm:inline opacity-80 font-normal">• {chapter.character.actionBadge}</span>
+              )}
             </div>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 bg-black/20 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/20 text-xs font-mono font-bold text-yellow-300">
-            <span>Reward: +1 🧱 Lego Brick</span>
+          {/* Interactive Props Grid */}
+          <div className="relative z-10">
+            <div className="flex items-center justify-between text-xs font-bold text-white/90 mb-2 px-1">
+              <span className="flex items-center gap-1.5">
+                <span>🔍</span>
+                <span>Tap objects in {childName}'s room to explore words:</span>
+              </span>
+              <span className="text-[11px] text-yellow-200 font-medium hidden sm:inline">
+                Interactive Picture Book ✨
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {(chapter.sceneBackdrop?.props || []).map((prop) => {
+                const isSelected = activeProp?.id === prop.id;
+                return (
+                  <button
+                    key={prop.id}
+                    onClick={() => handlePropClick(prop)}
+                    className={`
+                      p-2.5 rounded-2xl border-2 transition-all flex items-center gap-2.5 text-left cursor-pointer
+                      ${isSelected
+                        ? 'bg-white text-slate-900 border-yellow-400 shadow-lg scale-105 ring-2 ring-yellow-300'
+                        : 'bg-black/25 hover:bg-black/40 text-white border-white/25 hover:border-white/50 backdrop-blur-sm active:scale-95'}
+                    `}
+                  >
+                    <span className="text-2xl flex-shrink-0 animate-bounce">{prop.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-display font-black text-xs truncate">
+                        {prop.name}
+                      </div>
+                      <div className="text-[10px] opacity-80 truncate">
+                        {prop.labelDe} • {prop.labelTr}
+                      </div>
+                    </div>
+                    <Volume2 className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-white/70'}`} />
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Active Prop Detail Popover */}
+          {activeProp && (
+            <div className="relative z-10 mt-3 bg-white text-slate-900 rounded-2xl p-3 sm:p-4 shadow-lg border-2 border-yellow-400 flex items-center justify-between gap-3 animate-scaleUp">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{activeProp.emoji}</span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-display font-black text-sm text-slate-950">
+                      {activeProp.name}
+                    </span>
+                    <button
+                      onClick={() => {
+                        if (!isMuted) speakDialoguePhrase(activeProp.audioKey, activeProp.name, 'en');
+                      }}
+                      className="p-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors cursor-pointer"
+                      title="Hear English pronunciation"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-600 font-bold">
+                    {activeProp.tagline}
+                  </p>
+                  <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 mt-0.5">
+                    <span>🇩🇪 {activeProp.labelDe}</span>
+                    <span>•</span>
+                    <span>🇹🇷 {activeProp.labelTr}</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveProp(null)}
+                className="text-slate-400 hover:text-slate-700 font-black p-1 text-sm cursor-pointer"
+                aria-label="Close prop detail"
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Dialogue Bubble Section */}
@@ -512,7 +645,7 @@ export default function StoryAdventure({
 
                 {/* Word Inspector Card (if clicked) */}
                 {inspectedWord && (
-                  <div className="mt-2.5 p-2.5 bg-yellow-50 border-2 border-yellow-300 rounded-xl flex items-center justify-between text-xs animate-scale-up">
+                  <div className="mt-2.5 p-2.5 bg-yellow-50 border-2 border-yellow-300 rounded-xl flex items-center justify-between text-xs animate-scaleUp">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-black text-slate-900 text-sm">"{inspectedWord.word}"</span>
                       <span className="text-slate-400">•</span>
@@ -545,7 +678,7 @@ export default function StoryAdventure({
             <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
               <button
                 onClick={() => speakGerman(chapter.translationDe)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200 cursor-pointer"
                 title="Listen in German"
               >
                 <span>🇩🇪</span>
@@ -555,7 +688,7 @@ export default function StoryAdventure({
 
               <button
                 onClick={() => speakTurkish(chapter.translationTr)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200 cursor-pointer"
                 title="Listen in Turkish"
               >
                 <span>🇹🇷</span>
@@ -688,7 +821,7 @@ export default function StoryAdventure({
               {builtSentenceWords.length > 0 && !isChapterSolved && (
                 <button
                   onClick={handleResetSentence}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1"
+                  className="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Start over</span>
@@ -814,29 +947,88 @@ export default function StoryAdventure({
             </div>
           )}
 
+          {/* Conversational 2-Way Turn-Taking Reply from Mom / Character */}
+          {isChapterSolved && activeReply && (
+            <div className="mt-4 p-4 sm:p-5 bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 rounded-3xl border-3 border-amber-400 shadow-md animate-scaleUp">
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-900 flex items-center justify-center text-2xl shadow-sm border-2 border-amber-500 flex-shrink-0">
+                    {activeReply.avatar || chapter.character.avatar}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 text-xs font-black text-amber-900 uppercase tracking-wide">
+                      <MessageCircle className="w-3.5 h-3.5 text-amber-600" />
+                      <span>{activeReply.speaker || chapter.character.name} replies back:</span>
+                    </div>
+                    <p className="font-display font-black text-base sm:text-lg text-slate-900 leading-snug">
+                      "{activeReply.text}"
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    if (!isMuted) speakDialoguePhrase(activeReply.audioKey, activeReply.text, 'en');
+                  }}
+                  className="w-10 h-10 rounded-xl bg-amber-200 hover:bg-amber-300 text-amber-950 flex items-center justify-center flex-shrink-0 shadow-xs cursor-pointer active:scale-95 transition-all"
+                  title="Hear reply again"
+                  aria-label="Replay Mom reply"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Bilingual translation pills */}
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-200/70 text-xs font-bold text-slate-700">
+                <button
+                  onClick={() => speakGerman(activeReply.translationDe)}
+                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-amber-100 border border-amber-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <span>🇩🇪</span>
+                  <Volume2 className="w-3 h-3 text-slate-500" />
+                  <span>{activeReply.translationDe}</span>
+                </button>
+
+                <button
+                  onClick={() => speakTurkish(activeReply.translationTr)}
+                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-amber-100 border border-amber-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <span>🇹🇷</span>
+                  <Volume2 className="w-3 h-3 text-slate-500" />
+                  <span>{activeReply.translationTr}</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Feedback Message Bar */}
           {feedbackMessage && (
-            <div className={`mt-4 p-3 rounded-xl text-xs font-black flex items-center justify-between ${
+            <div className={`mt-4 p-3 rounded-2xl text-xs font-black flex items-center justify-between shadow-xs ${
               isChapterSolved ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'
             }`}>
               <div className="flex items-center gap-2">
                 <span className="text-base">{isChapterSolved ? '🎉' : '💡'}</span>
                 <span>{feedbackMessage}</span>
               </div>
-
-              {isChapterSolved && (
-                <button
-                  onClick={handleNextChapter}
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <span>{currentChapterIndex < totalChapters - 1 ? 'Next Chapter' : 'Finish Story'}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
             </div>
           )}
 
-          {/* Voice Echo Studio Widget: Child practices speaking response line! */}
+          {/* Prominent Next Chapter Action Button */}
+          {isChapterSolved && (
+            <button
+              onClick={handleNextChapter}
+              className="w-full mt-4 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-display font-black text-base sm:text-lg shadow-xl border-2 border-b-6 border-emerald-700 active:border-b-2 active:translate-y-1 transition-all flex items-center justify-center gap-3 cursor-pointer select-none"
+            >
+              <span>
+                {currentChapterIndex < totalChapters - 1
+                  ? `Next: Chapter ${currentChapterIndex + 2} — ${story.chapters[currentChapterIndex + 1]?.title} ➔`
+                  : 'Finish School Day Story! 🎓'}
+              </span>
+              <ArrowRight className="w-6 h-6 animate-pulse" />
+            </button>
+          )}
+
+          {/* Voice Echo Studio Widget: Child practices speaking response line */}
           {isChapterSolved && (
             <div className="mt-4 pt-3 border-t border-slate-200 animate-fadeIn">
               <VoiceRecorderWidget

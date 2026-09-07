@@ -31,6 +31,7 @@ const KNOWN_EN_WORDS = new Set([
   'how_are_you', 'i_am_happy', 'i_am_sleepy', 'what_is_your_name', 'my_name_is_leo',
   'lets_play', 'see_you_tomorrow', 'goodbye', 'welcome_to_school', 'teacher', 'friend', 'school',
   'deniz', 'hello_deniz', 'my_name_is_deniz', 'good_morning_deniz', 'goodbye_deniz',
+  'good_morning_deniz_how_are_you', 'mom_breakfast_ready',
 ]);
 
 // Mapping of Turkish translations to audio filenames
@@ -137,6 +138,9 @@ const TR_TRANSLATION_MAP = {
   'benim adım deniz!': 'my_name_is_deniz',
   'günaydın deniz': 'good_morning_deniz',
   'günaydın deniz!': 'good_morning_deniz',
+  'günaydın deniz! okul vakti!': 'good_morning_deniz',
+  'günaydın deniz! bugün nasılsın?': 'good_morning_deniz_how_are_you',
+  'günaydın canım! kahvaltı masada hazır!': 'mom_breakfast_ready',
   'güle güle deniz': 'goodbye_deniz',
   'güle güle deniz!': 'goodbye_deniz',
 };
@@ -261,6 +265,9 @@ const DE_TRANSLATION_MAP = {
   'ich heiße deniz!': 'my_name_is_deniz',
   'guten morgen deniz': 'good_morning_deniz',
   'guten morgen deniz!': 'good_morning_deniz',
+  'guten morgen, deniz! zeit für die schule!': 'good_morning_deniz',
+  'guten morgen, deniz! wie geht es dir heute?': 'good_morning_deniz_how_are_you',
+  'guten morgen, sonnenschein! das frühstück steht bereit!': 'mom_breakfast_ready',
   'tschüss deniz': 'goodbye_deniz',
   'tschüss deniz!': 'goodbye_deniz',
 };
@@ -322,8 +329,15 @@ export function stopSpeech() {
 function playLocalAudioFile(basePath, onEnd, onError) {
   stopSpeech();
 
-  const m4aUrl = `${basePath}.m4a`;
-  const wavUrl = `${basePath}.wav`;
+  // Strip leading slash to allow relative base resolution for GitHub Pages
+  const cleanPath = basePath.replace(/^\/+/, '');
+  const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL)
+    ? import.meta.env.BASE_URL
+    : './';
+  const prefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+  const m4aUrl = `${prefix}${cleanPath}.m4a`;
+  const wavUrl = `${prefix}${cleanPath}.wav`;
 
   const audio = new Audio(m4aUrl);
   audio.volume = 1.0;

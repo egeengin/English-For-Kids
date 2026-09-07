@@ -230,9 +230,9 @@ export function playTap(isMuted = false) {
 }
 
 // Aliases for convenience
-export const playSnap = playLegoSnap;
-export const playVictoryFanfare = playFanfare;
-export const playSparkle = playStarSparkle;
-export const playSuccess = playSuccessChime;
-export const playWobble = playGentleWobble;
+export function playSnap(isMuted = false) { return playLegoSnap(isMuted); }
+export function playVictoryFanfare(isMuted = false) { return playFanfare(isMuted); }
+export function playSparkle(isMuted = false) { return playStarSparkle(isMuted); }
+export function playSuccess(isMuted = false) { return playSuccessChime(isMuted); }
+export function playWobble(isMuted = false) { return playGentleWobble(isMuted); }
 

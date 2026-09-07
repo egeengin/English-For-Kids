@@ -540,3 +540,19 @@ export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) 
   }
 }
 
+/**
+ * Phoneme sound player for early reader letter blending
+ */
+export function speakPhoneme(letter, onEnd) {
+  const phonemeSounds = {
+    A: 'ah', B: 'buh', C: 'kuh', D: 'duh', E: 'eh',
+    F: 'fff', G: 'guh', H: 'huh', I: 'ih', J: 'juh',
+    K: 'kuh', L: 'lll', M: 'mmm', N: 'nnn', O: 'aw',
+    P: 'puh', Q: 'kwuh', R: 'rrr', S: 'sss', T: 'tuh',
+    U: 'uh', V: 'vvv', W: 'wuh', X: 'ks', Y: 'yuh', Z: 'zzz'
+  };
+  const char = (letter || '').toUpperCase().trim();
+  const phoneticSound = phonemeSounds[char] || char;
+  playWebSpeech(phoneticSound, 'en-US', onEnd);
+}
+

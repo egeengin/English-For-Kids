@@ -8,6 +8,7 @@ export default function VoiceRecorderWidget({
   targetAudioKey = '',
   onRewardEarned,
   isMuted = false,
+  childName = 'Deniz',
 }) {
   const [isRecording, setIsRecording] = useState(false);
   const [countdown, setCountdown] = useState(null);
@@ -162,7 +163,7 @@ export default function VoiceRecorderWidget({
         <div>
           <div className="flex items-center gap-1.5">
             <span className="font-display font-black text-xs text-emerald-950">
-              Echo Studio: Speak like Leo!
+              Echo Studio: Speak like {childName}!
             </span>
             {hasPracticed && (
               <span className="bg-emerald-200 text-emerald-900 text-[10px] font-black px-2 py-0.2 rounded-full flex items-center gap-0.5">
@@ -172,7 +173,7 @@ export default function VoiceRecorderWidget({
             )}
           </div>
           <p className="text-[11px] font-bold text-emerald-700">
-            Listen to Leo, then record your own voice and listen back!
+            Listen to {childName}, then record your own voice and listen back!
           </p>
           {micError && (
             <p className="text-[10px] font-bold text-red-600 mt-0.5">{micError}</p>

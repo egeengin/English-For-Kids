@@ -88,6 +88,11 @@ EN_WORDS = {
     "teacher": "Teacher",
     "friend": "Friend",
     "school": "School",
+    "deniz": "Deniz",
+    "hello_deniz": "Hello Deniz!",
+    "my_name_is_deniz": "My name is Deniz!",
+    "good_morning_deniz": "Good morning, Deniz!",
+    "goodbye_deniz": "Goodbye Deniz!",
 }
 
 TR_WORDS = {
@@ -173,6 +178,11 @@ TR_WORDS = {
     "teacher": "Öğretmen",
     "friend": "Arkadaş",
     "school": "Okul",
+    "deniz": "Deniz",
+    "hello_deniz": "Merhaba Deniz!",
+    "my_name_is_deniz": "Benim adım Deniz!",
+    "good_morning_deniz": "Günaydın Deniz!",
+    "goodbye_deniz": "Güle güle Deniz!",
 }
 
 DE_WORDS = {
@@ -258,6 +268,11 @@ DE_WORDS = {
     "teacher": "Lehrerin",
     "friend": "Freund",
     "school": "Schule",
+    "deniz": "Deniz",
+    "hello_deniz": "Hallo Deniz!",
+    "my_name_is_deniz": "Ich heiße Deniz!",
+    "good_morning_deniz": "Guten Morgen, Deniz!",
+    "goodbye_deniz": "Tschüss Deniz!",
 }
 
 print("Generating English audio with Samantha...")

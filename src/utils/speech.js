@@ -30,6 +30,7 @@ const KNOWN_EN_WORDS = new Set([
   'milk_and_bread', 'no_thank_you', 'yes_please', 'are_you_ready', 'lets_go',
   'how_are_you', 'i_am_happy', 'i_am_sleepy', 'what_is_your_name', 'my_name_is_leo',
   'lets_play', 'see_you_tomorrow', 'goodbye', 'welcome_to_school', 'teacher', 'friend', 'school',
+  'deniz', 'hello_deniz', 'my_name_is_deniz', 'good_morning_deniz', 'goodbye_deniz',
 ]);
 
 // Mapping of Turkish translations to audio filenames
@@ -129,6 +130,15 @@ const TR_TRANSLATION_MAP = {
   'öğretmen': 'teacher',
   'arkadaş': 'friend',
   'okul': 'school',
+  'deniz': 'deniz',
+  'merhaba deniz': 'hello_deniz',
+  'merhaba deniz!': 'hello_deniz',
+  'benim adım deniz': 'my_name_is_deniz',
+  'benim adım deniz!': 'my_name_is_deniz',
+  'günaydın deniz': 'good_morning_deniz',
+  'günaydın deniz!': 'good_morning_deniz',
+  'güle güle deniz': 'goodbye_deniz',
+  'güle güle deniz!': 'goodbye_deniz',
 };
 
 // Mapping of German translations to audio filenames
@@ -244,6 +254,15 @@ const DE_TRANSLATION_MAP = {
   'der freund': 'friend',
   'schule': 'school',
   'die schule': 'school',
+  'deniz': 'deniz',
+  'hallo deniz': 'hello_deniz',
+  'hallo deniz!': 'hello_deniz',
+  'ich heiße deniz': 'my_name_is_deniz',
+  'ich heiße deniz!': 'my_name_is_deniz',
+  'guten morgen deniz': 'good_morning_deniz',
+  'guten morgen deniz!': 'good_morning_deniz',
+  'tschüss deniz': 'goodbye_deniz',
+  'tschüss deniz!': 'goodbye_deniz',
 };
 
 // Safe voice loading for dynamic custom words

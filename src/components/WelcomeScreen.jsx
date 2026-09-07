@@ -3,7 +3,7 @@ import { Volume2, Sparkles, Play, Rocket, Star, Heart } from 'lucide-react';
 import { unlockAudio } from '../utils/speech';
 import { initAudioContext, playLegoSnap, playSuccessChime } from '../utils/soundEffects';
 
-export default function WelcomeScreen({ onStart, isMuted }) {
+export default function WelcomeScreen({ onStart, isMuted, childName = 'Deniz' }) {
   const handleStartAdventure = () => {
     // Unlock browser audio context & SpeechSynthesis on explicit user gesture
     unlockAudio();
@@ -41,12 +41,14 @@ export default function WelcomeScreen({ onStart, isMuted }) {
         </div>
 
         {/* Title & Welcome Copy */}
-        <span className="inline-block px-4 py-1.5 bg-yellow-400 text-slate-950 font-display font-black text-xs sm:text-sm rounded-full tracking-wider uppercase mb-2 shadow-xs">
-          Kids English Learning Game
-        </span>
+        <div className="inline-flex items-center gap-1 px-4 py-1.5 bg-yellow-400 text-slate-950 font-display font-black text-xs sm:text-sm rounded-full tracking-wider uppercase mb-2 shadow-xs">
+          <span>✨</span>
+          <span>Welcome, {childName}!</span>
+          <span>🧱</span>
+        </div>
 
         <h1 className="text-3xl sm:text-5xl font-black font-display text-slate-900 leading-tight mb-2">
-          LEGO ENGLISH <br />
+          {childName ? `${childName.toUpperCase()}'S` : 'LEGO'}{' '}
           <span className="text-red-600">ADVENTURE</span>
         </h1>
 

@@ -16,9 +16,18 @@ import {
   Tag,
   Smile,
   LogOut,
+  User,
+  Key,
+  Eye,
+  EyeOff,
+  Check,
+  Bot,
+  ExternalLink,
+  Sliders,
 } from 'lucide-react';
 import { speakEnglish, speakTurkish } from '../utils/speech';
 import { playTap, playSuccessChime, playGentleWobble } from '../utils/soundEffects';
+import { testGeminiApiKey } from '../utils/gemini';
 
 export default function ParentDashboard({
   streak,
@@ -33,7 +42,21 @@ export default function ParentDashboard({
   onResetProgress,
   onCloseDashboard,
   isMuted,
+  childName = 'Deniz',
+  childAge = 7,
+  geminiApiKey = '',
+  onUpdateProfile,
 }) {
+  // Child Profile & Gemini AI state
+  const [profileName, setProfileName] = useState(childName);
+  const [profileAge, setProfileAge] = useState(childAge);
+  const [apiKeyInput, setApiKeyInput] = useState(geminiApiKey || '');
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [testingApiKey, setTestingApiKey] = useState(false);
+  const [apiTestResult, setApiTestResult] = useState(null);
+  const [profileSaved, setProfileSaved] = useState(false);
+  const [geminiSaved, setGeminiSaved] = useState(false);
+
   // New word form state
   const [newWord, setNewWord] = useState('');
   const [newTranslation, setNewTranslation] = useState('');
@@ -41,7 +64,7 @@ export default function ParentDashboard({
   const [newCategory, setNewCategory] = useState('Home');
   const [newHintSentence, setNewHintSentence] = useState('');
   const [formSuccess, setFormSuccess] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'words' | 'add'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'profile' | 'gemini' | 'words' | 'add'
 
   // Map all curriculum items for lookup
   const allCurriculumItems = [
@@ -84,6 +107,48 @@ export default function ParentDashboard({
     setTimeout(() => setFormSuccess(false), 2500);
   };
 
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    if (!profileName.trim()) return;
+    if (onUpdateProfile) {
+      onUpdateProfile({
+        childName: profileName.trim(),
+        childAge: Number(profileAge) || 7,
+        geminiApiKey: apiKeyInput.trim(),
+      });
+    }
+    playSuccessChime(isMuted);
+    setProfileSaved(true);
+    setTimeout(() => setProfileSaved(false), 2500);
+  };
+
+  const handleSaveGemini = (e) => {
+    e.preventDefault();
+    if (onUpdateProfile) {
+      onUpdateProfile({
+        childName: profileName.trim() || 'Deniz',
+        childAge: Number(profileAge) || 7,
+        geminiApiKey: apiKeyInput.trim(),
+      });
+    }
+    playSuccessChime(isMuted);
+    setGeminiSaved(true);
+    setTimeout(() => setGeminiSaved(false), 2500);
+  };
+
+  const handleTestGeminiConnection = async () => {
+    setTestingApiKey(true);
+    setApiTestResult(null);
+    const res = await testGeminiApiKey(apiKeyInput);
+    setTestingApiKey(false);
+    setApiTestResult(res);
+    if (res.success) {
+      playSuccessChime(isMuted);
+    } else {
+      playGentleWobble(isMuted);
+    }
+  };
+
   const handleTestAudio = (lang, text) => {
     playTap(isMuted);
     if (!text) return;
@@ -113,7 +178,7 @@ export default function ParentDashboard({
               </span>
             </div>
             <p className="text-xs text-slate-500 font-bold">
-              Track your child's learning metrics and add customized vocabulary words.
+              Personalize for {childName}, manage AI voice listening, and track learning progress.
             </p>
           </div>
         </div>
@@ -127,11 +192,11 @@ export default function ParentDashboard({
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-2 mb-6 border-b-2 border-slate-200 pb-2">
+      {/* Tabs Bar (Scrollable on small devices) */}
+      <div className="flex items-center gap-2 mb-6 border-b-2 border-slate-200 pb-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+          className={`px-3.5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
             activeTab === 'overview'
               ? 'bg-amber-500 text-white border-2 border-amber-700 shadow-sm'
               : 'text-slate-600 hover:bg-slate-100'
@@ -140,30 +205,90 @@ export default function ParentDashboard({
           📊 Progress & Stats
         </button>
         <button
+          onClick={() => setActiveTab('profile')}
+          className={`px-3.5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'profile'
+              ? 'bg-blue-600 text-white border-2 border-blue-800 shadow-sm'
+              : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          <User className="w-4 h-4" />
+          <span>Child Profile ({profileName})</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('gemini')}
+          className={`px-3.5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'gemini'
+              ? 'bg-purple-600 text-white border-2 border-purple-800 shadow-sm'
+              : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          <Bot className="w-4 h-4 text-amber-300" />
+          <span>Gemini AI Voice {apiKeyInput ? '🟢' : '⚪'}</span>
+        </button>
+        <button
           onClick={() => setActiveTab('words')}
-          className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+          className={`px-3.5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
             activeTab === 'words'
               ? 'bg-amber-500 text-white border-2 border-amber-700 shadow-sm'
               : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          📚 Word Mastery ({masteredWords.length}/{allCurriculumItems.length})
+          📚 Words ({masteredWords.length}/{allCurriculumItems.length})
         </button>
         <button
           onClick={() => setActiveTab('add')}
-          className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+          className={`px-3.5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
             activeTab === 'add'
               ? 'bg-amber-500 text-white border-2 border-amber-700 shadow-sm'
               : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          ➕ Add Custom Words ({customWords.length})
+          ➕ Custom Words ({customWords.length})
         </button>
       </div>
 
       {/* Tab 1: Overview & Metrics */}
       {activeTab === 'overview' && (
         <div className="space-y-6 animate-fadeIn">
+          {/* Quick Profile & AI Status Banner */}
+          <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+                👦
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
+                    Active Student: {childName} (Age {childAge})
+                  </h3>
+                  <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded-full border border-blue-300">
+                    Trilingual 🇩🇪 🇹🇷 🇬🇧
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 font-bold mt-0.5">
+                  AI Voice Listener: {apiKeyInput ? '✨ Gemini AI Connected' : '🧠 Built-in Phonetics Engine Active'}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setActiveTab('profile')}
+                className="px-3 py-1.5 bg-white hover:bg-blue-50 border border-blue-300 text-blue-700 font-display font-bold text-xs rounded-xl shadow-2xs transition-all flex items-center gap-1 cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Customize Profile</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('gemini')}
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-xs rounded-xl shadow-2xs transition-all flex items-center gap-1 cursor-pointer"
+              >
+                <Bot className="w-3.5 h-3.5 text-amber-300" />
+                <span>Configure AI</span>
+              </button>
+            </div>
+          </div>
+
           {/* Key Metric Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white rounded-2xl border-3 border-amber-300 p-4 shadow-md flex flex-col">
@@ -185,7 +310,7 @@ export default function ParentDashboard({
               <span className="text-2xl sm:text-3xl font-black font-display text-slate-800">
                 {masteredWords.length}
               </span>
-              <span className="text-[10px] text-slate-400 font-bold mt-1">First-try accuracy</span>
+              <span className="text-[10px] text-slate-400 font-bold mt-1">{childName}'s accuracy</span>
             </div>
 
             <div className="bg-white rounded-2xl border-3 border-rose-300 p-4 shadow-md flex flex-col">
@@ -207,7 +332,7 @@ export default function ParentDashboard({
               <span className="text-2xl sm:text-3xl font-black font-display text-slate-800">
                 {totalQuestionsAnswered}
               </span>
-              <span className="text-[10px] text-slate-400 font-bold mt-1">Questions completed</span>
+              <span className="text-[10px] text-slate-400 font-bold mt-1">{childName}'s questions</span>
             </div>
           </div>
 
@@ -256,7 +381,230 @@ export default function ParentDashboard({
         </div>
       )}
 
-      {/* Tab 2: Word Lists & Progress Details */}
+      {/* Tab: Child Profile Editor & Personalization */}
+      {activeTab === 'profile' && (
+        <div className="bg-white rounded-3xl border-4 border-slate-800 p-4 sm:p-6 shadow-xl space-y-6 animate-fadeIn">
+          <div className="flex items-center gap-3 pb-4 border-b border-slate-200">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+              👦
+            </div>
+            <div>
+              <h3 className="text-lg sm:text-xl font-black font-display text-slate-800">
+                Child Learning Profile & Customization
+              </h3>
+              <p className="text-xs text-slate-500 font-bold">
+                Configure your child's name and age to personalize stories, minifigure builders, and audio prompts.
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={handleSaveProfile} className="space-y-4 max-w-lg">
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1">
+                Child's First Name:
+              </label>
+              <input
+                type="text"
+                value={profileName}
+                onChange={(e) => setProfileName(e.target.value)}
+                placeholder="e.g. Deniz"
+                className="w-full px-4 py-3 rounded-2xl border-2 border-slate-300 focus:border-blue-600 focus:outline-none text-base font-black font-display text-slate-900 shadow-inner"
+                required
+              />
+              <span className="text-[11px] text-slate-400 font-bold mt-1 block">
+                This updates the welcome screen, story dialogues, minifigure workshop, and certificates!
+              </span>
+            </div>
+
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1">
+                Child's Age:
+              </label>
+              <input
+                type="number"
+                min="3"
+                max="14"
+                value={profileAge}
+                onChange={(e) => setProfileAge(e.target.value)}
+                className="w-32 px-4 py-2.5 rounded-xl border-2 border-slate-300 focus:border-blue-600 focus:outline-none text-sm font-bold text-slate-900"
+                required
+              />
+              <span className="text-[11px] text-slate-400 font-bold ml-3">
+                Early reader mode (7 years old) with large tactile hitboxes and trilingual help.
+              </span>
+            </div>
+
+            {/* Live Preview Card */}
+            <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-2xl space-y-2">
+              <span className="text-xs font-black uppercase tracking-wider text-blue-900 block">
+                👀 Live Product Personalization Preview:
+              </span>
+              <div className="text-xs text-blue-950 space-y-1 font-bold">
+                <div>• Header Branding: <span className="font-mono bg-white px-2 py-0.5 rounded border border-blue-200">{(profileName || 'Deniz').toUpperCase()}'S LEGO ENGLISH</span></div>
+                <div>• School Story: <span className="font-mono bg-white px-2 py-0.5 rounded border border-blue-200">"{profileName || 'Deniz'}'s Day at School"</span></div>
+                <div>• Mom Character: <span className="font-mono bg-white px-2 py-0.5 rounded border border-blue-200">"Good morning, {profileName || 'Deniz'}! Time for school!"</span></div>
+                <div>• Minifigure Workshop: <span className="font-mono bg-white px-2 py-0.5 rounded border border-blue-200">"Dress Up {profileName || 'Deniz'} 👦"</span></div>
+                <div>• Echo Studio: <span className="font-mono bg-white px-2 py-0.5 rounded border border-blue-200">"Speak like {profileName || 'Deniz'}!"</span></div>
+              </div>
+            </div>
+
+            {profileSaved && (
+              <div className="p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-xl flex items-center gap-2 animate-scaleUp">
+                <Check className="w-4 h-4 text-emerald-700" />
+                <span>Profile updated! {profileName} is now personalized across all games! 🎉</span>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-display font-black rounded-xl border-2 border-b-4 border-blue-800 active:border-b-2 active:translate-y-0.5 transition-all flex items-center gap-2 shadow-md text-sm cursor-pointer"
+            >
+              <Check className="w-4 h-4" />
+              <span>Save & Apply Child Profile</span>
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Tab: Gemini AI Settings & Pronunciation Coach */}
+      {activeTab === 'gemini' && (
+        <div className="bg-white rounded-3xl border-4 border-slate-800 p-4 sm:p-6 shadow-xl space-y-6 animate-fadeIn">
+          <div className="flex items-center gap-3 pb-4 border-b border-slate-200">
+            <div className="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
+              <Bot className="w-7 h-7 text-amber-300" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg sm:text-xl font-black font-display text-slate-800">
+                  Google Gemini AI Voice Coach
+                </h3>
+                <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${
+                  apiKeyInput ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-slate-100 text-slate-600 border-slate-300'
+                }`}>
+                  {apiKeyInput ? 'Key Configured' : 'Local Fallback Active'}
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 font-bold">
+                Listen to {childName}'s voice, understand German & Turkish accents, and give gentle feedback when he speaks!
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={handleSaveGemini} className="space-y-4 max-w-lg">
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <Key className="w-3.5 h-3.5 text-purple-600" />
+                  <span>Gemini API Key:</span>
+                </label>
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1 hover:underline"
+                >
+                  <span>Get Free Key at Google AI Studio</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+
+              <div className="relative">
+                <input
+                  type={showApiKey ? 'text' : 'password'}
+                  value={apiKeyInput}
+                  onChange={(e) => {
+                    setApiKeyInput(e.target.value);
+                    setApiTestResult(null);
+                  }}
+                  placeholder="AIzaSy..."
+                  className="w-full pl-4 pr-12 py-3 rounded-2xl border-2 border-slate-300 focus:border-purple-600 focus:outline-none text-sm font-mono text-slate-900 shadow-inner"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1.5"
+                  title={showApiKey ? 'Hide key' : 'Show key'}
+                >
+                  {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              <span className="text-[11px] text-slate-400 font-bold mt-1.5 block">
+                Saved securely in your browser's private storage. Never shared or uploaded.
+              </span>
+            </div>
+
+            {/* Test Connection Button & Result */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={handleTestGeminiConnection}
+                disabled={testingApiKey || !apiKeyInput.trim()}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-800 font-display font-bold text-xs rounded-xl border-2 border-slate-300 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                {testingApiKey ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Connecting to Gemini...</span>
+                  </>
+                ) : (
+                  <>
+                    <Bot className="w-3.5 h-3.5 text-purple-600" />
+                    <span>Test Connection ⚡</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="submit"
+                className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-display font-black text-xs rounded-xl border-2 border-b-4 border-purple-800 active:border-b-2 active:translate-y-0.5 transition-all flex items-center gap-1.5 shadow-md cursor-pointer"
+              >
+                <Check className="w-4 h-4" />
+                <span>Save Gemini Key</span>
+              </button>
+            </div>
+
+            {apiTestResult && (
+              <div className={`p-3 rounded-xl border text-xs font-bold flex items-center gap-2 ${
+                apiTestResult.success
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                  : 'bg-rose-50 border-rose-300 text-rose-800'
+              }`}>
+                {apiTestResult.success ? <CheckCircle2 className="w-4 h-4 flex-shrink-0" /> : <AlertCircle className="w-4 h-4 flex-shrink-0" />}
+                <span>{apiTestResult.message}</span>
+              </div>
+            )}
+
+            {geminiSaved && (
+              <div className="p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-xl flex items-center gap-2 animate-scaleUp">
+                <Check className="w-4 h-4 text-emerald-700" />
+                <span>Gemini API settings saved successfully! 🚀</span>
+              </div>
+            )}
+
+            {/* Explanatory Architecture Box */}
+            <div className="p-4 bg-purple-50 border-2 border-purple-200 rounded-2xl space-y-2 mt-4">
+              <h4 className="text-xs font-black uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-700" />
+                <span>How Voice Listening & Gemini AI Work for {childName}:</span>
+              </h4>
+              <ul className="text-xs text-purple-950 space-y-1.5 font-bold list-disc list-inside">
+                <li>
+                  <span className="text-slate-800">1. Hands-Free Voice Input:</span> During stories and quizzes, {childName} can press the microphone and speak English out loud.
+                </li>
+                <li>
+                  <span className="text-slate-800">2. Dual-Layer AI Evaluation:</span> If {childName} says "Gud morning" or speaks with Turkish/German intonation, Gemini recognizes the attempt, awards Lego bricks, and praises him!
+                </li>
+                <li>
+                  <span className="text-slate-800">3. Safe Offline Guarantee:</span> If no Gemini key is provided, the app automatically runs our built-in phonetic analyzer, ensuring the game is always 100% playable anywhere!
+                </li>
+              </ul>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Tab: Word Lists & Progress Details */}
       {activeTab === 'words' && (
         <div className="bg-white rounded-3xl border-4 border-slate-800 p-4 sm:p-6 shadow-xl space-y-6 animate-fadeIn">
           

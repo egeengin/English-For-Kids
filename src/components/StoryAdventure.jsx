@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Volume2,
@@ -12,27 +12,57 @@ import {
   Check,
   ChevronRight,
   HelpCircle,
+  Mic,
+  MicOff,
+  Bot,
+  AlertCircle,
+  Radio,
 } from 'lucide-react';
-import { STORY_DATA } from '../data/storyData';
+import { getStoryData } from '../data/storyData';
 import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase } from '../utils/speech';
-import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
+import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
+import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 export default function StoryAdventure({
   onRewardEarned,
   onNavigateToWorkshop,
   isMuted = false,
+  childName = 'Deniz',
+  childAge = 7,
+  geminiApiKey = '',
 }) {
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
-  const [interactionMode, setInteractionMode] = useState('choices'); // 'choices' | 'sentence'
+  const [interactionMode, setInteractionMode] = useState('choices'); // 'choices' | 'sentence' | 'voice'
   const [selectedChoiceId, setSelectedChoiceId] = useState(null);
   const [builtSentenceWords, setBuiltSentenceWords] = useState([]);
   const [isChapterSolved, setIsChapterSolved] = useState(false);
   const [isStoryComplete, setIsStoryComplete] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
 
-  const chapter = STORY_DATA.chapters[currentChapterIndex] || STORY_DATA.chapters[0];
-  const totalChapters = STORY_DATA.chapters.length;
+  // Voice Interaction State
+  const [isListening, setIsListening] = useState(false);
+  const [interimSpeech, setInterimSpeech] = useState('');
+  const [voiceEvaluation, setVoiceEvaluation] = useState(null);
+  const [isEvaluatingSpeech, setIsEvaluatingSpeech] = useState(false);
+  const [voiceError, setVoiceError] = useState(null);
+  const speechRecognitionRef = useRef(null);
+
+  const story = useMemo(() => getStoryData(childName), [childName]);
+  const chapter = story.chapters[currentChapterIndex] || story.chapters[0];
+  const totalChapters = story.chapters.length;
+
+  const targetChoice = chapter.choices.find(c => c.isCorrect) || chapter.choices[0];
+  const targetPhraseClean = (targetChoice?.text || '').replace(/[🧱⭐🎈🎉]/g, '').trim();
+
+  // Clean up speech recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (speechRecognitionRef.current) {
+        speechRecognitionRef.current.abort();
+      }
+    };
+  }, []);
 
   // Speak character line when chapter loads
   useEffect(() => {
@@ -151,6 +181,90 @@ export default function StoryAdventure({
     setFeedbackMessage('');
   };
 
+  // Interactive Voice recognition and AI pronunciation evaluation
+  const handleStartVoiceListening = () => {
+    if (isListening) {
+      if (speechRecognitionRef.current) speechRecognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
+    playTap(isMuted);
+    setVoiceError(null);
+    setVoiceEvaluation(null);
+    setInterimSpeech('');
+
+    if (!isSpeechRecognitionSupported()) {
+      setVoiceError('Speech recognition is not supported in this browser. Please try Chrome or Safari.');
+      return;
+    }
+
+    const listener = createSpeechListener({
+      lang: 'en-US',
+      onStart: () => {
+        setIsListening(true);
+      },
+      onResult: async ({ transcript, isFinal }) => {
+        setInterimSpeech(transcript);
+        if (isFinal && transcript) {
+          setIsListening(false);
+          setIsEvaluatingSpeech(true);
+
+          const evalResult = await evaluateKidPronunciation({
+            targetPhrase: targetPhraseClean,
+            transcript,
+            childName,
+            childAge,
+            geminiApiKey,
+          });
+
+          setIsEvaluatingSpeech(false);
+          setVoiceEvaluation(evalResult);
+
+          if (evalResult.isAccepted) {
+            setIsChapterSolved(true);
+            setFeedbackMessage(evalResult.feedbackEn);
+            playSnap(isMuted);
+            playVictoryFanfare(isMuted);
+            confetti({
+              particleCount: 70,
+              spread: 70,
+              origin: { y: 0.6 },
+            });
+            if (onRewardEarned) {
+              onRewardEarned({ stars: evalResult.stars || 3, bricks: 1 });
+            }
+
+            if (!isMuted) {
+              setTimeout(() => {
+                speakEnglish(evalResult.feedbackEn);
+              }, 400);
+            }
+
+            if (currentChapterIndex === totalChapters - 1) {
+              setIsStoryComplete(true);
+            }
+          } else {
+            setFeedbackMessage(evalResult.feedbackEn);
+            playGentleWobble(isMuted);
+          }
+        }
+      },
+      onError: (msg) => {
+        setIsListening(false);
+        setVoiceError(msg);
+      },
+      onEnd: () => {
+        setIsListening(false);
+      },
+    });
+
+    if (listener) {
+      speechRecognitionRef.current = listener;
+      listener.start();
+    }
+  };
+
   // Advance to next chapter
   const handleNextChapter = () => {
     playTap(isMuted);
@@ -180,26 +294,26 @@ export default function StoryAdventure({
           <div>
             <div className="flex items-center gap-2">
               <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
-                {STORY_DATA.title}
+                {story.title}
               </h2>
               <span className="bg-blue-100 text-blue-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-blue-300 uppercase">
                 Story Mode
               </span>
             </div>
             <p className="text-xs font-bold text-slate-500">
-              {STORY_DATA.subtitle}
+              {story.subtitle}
             </p>
           </div>
         </div>
 
         {/* Interaction Style Toggle */}
-        <div className="flex items-center bg-slate-100 rounded-xl p-1 border-2 border-slate-200">
+        <div className="flex items-center bg-slate-100 rounded-xl p-1 border-2 border-slate-200 overflow-x-auto">
           <button
             onClick={() => {
               playTap(isMuted);
               setInteractionMode('choices');
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap ${
               interactionMode === 'choices'
                 ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
@@ -212,7 +326,7 @@ export default function StoryAdventure({
               playTap(isMuted);
               setInteractionMode('sentence');
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap ${
               interactionMode === 'sentence'
                 ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
@@ -220,13 +334,27 @@ export default function StoryAdventure({
           >
             🧱 Sentence Bricks
           </button>
+          <button
+            onClick={() => {
+              playTap(isMuted);
+              setInteractionMode('voice');
+            }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap flex items-center gap-1 ${
+              interactionMode === 'voice'
+                ? 'bg-purple-600 text-white shadow-sm'
+                : 'text-purple-700 hover:text-purple-950 bg-purple-50'
+            }`}
+          >
+            <Mic className="w-3.5 h-3.5 text-amber-300" />
+            <span>🎙️ Voice Talk {geminiApiKey ? '✨' : ''}</span>
+          </button>
         </div>
       </div>
 
       {/* Chapters Progress Bar with Lego Studs */}
       <div className="w-full bg-slate-900 text-white px-3 sm:px-4 py-3 rounded-2xl shadow-lg border-2 border-slate-800 mb-4">
         <div className="flex items-center justify-between gap-2 overflow-x-auto pb-1 sm:pb-0">
-          {STORY_DATA.chapters.map((chap, idx) => {
+          {story.chapters.map((chap, idx) => {
             const isCurrent = idx === currentChapterIndex;
             const isPast = idx < currentChapterIndex || (idx === currentChapterIndex && isChapterSolved);
             return (
@@ -334,10 +462,26 @@ export default function StoryAdventure({
 
           </div>
 
-          {/* Child Character (Leo) Prompt */}
-          <div className="flex items-center gap-2 text-xs font-black text-slate-600 px-1">
-            <span className="text-base">👦</span>
-            <span>{chapter.questionPrompt}</span>
+          {/* Child Character Prompt + Voice Action Button */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+            <div className="flex items-center gap-2 text-xs font-black text-slate-600">
+              <span className="text-base">👦</span>
+              <span>{chapter.questionPrompt}</span>
+            </div>
+
+            {/* Quick Microphone Button for instant voice conversation */}
+            <button
+              onClick={handleStartVoiceListening}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all shadow-sm cursor-pointer select-none ${
+                isListening
+                  ? 'bg-rose-500 text-white animate-pulse ring-2 ring-rose-300'
+                  : 'bg-purple-100 hover:bg-purple-200 text-purple-900 border border-purple-300'
+              }`}
+              title="Speak directly to character"
+            >
+              <Mic className="w-3.5 h-3.5" />
+              <span>{isListening ? 'Listening to ' + childName + '...' : 'Speak Now! 🎙️'}</span>
+            </button>
           </div>
 
         </div>
@@ -405,7 +549,7 @@ export default function StoryAdventure({
               
               {/* Sentence Assembly Strip */}
               <div className="w-full min-h-[64px] bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 p-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-slate-400 mr-2">Leo says:</span>
+                <span className="text-xs font-bold text-slate-400 mr-2">{childName} says:</span>
                 {builtSentenceWords.length === 0 && (
                   <span className="text-xs font-bold text-slate-400 italic">
                     Tap the Lego word bricks below in order!
@@ -450,6 +594,122 @@ export default function StoryAdventure({
             </div>
           )}
 
+          {/* MODE 3: Interactive Voice Conversation & Gemini AI Pronunciation */}
+          {interactionMode === 'voice' && (
+            <div className="flex flex-col items-center justify-center p-4 sm:p-6 bg-purple-50/60 rounded-3xl border-3 border-dashed border-purple-300 space-y-4 text-center animate-fadeIn">
+              
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                <span className="text-xs font-black uppercase tracking-wider text-purple-900">
+                  Target Phrase for {childName}:
+                </span>
+                <span className="font-display font-black text-base sm:text-lg text-slate-900 bg-white px-3.5 py-1.5 rounded-xl shadow-xs border border-purple-200">
+                  "{targetPhraseClean}"
+                </span>
+                <button
+                  onClick={() => speakEnglish(targetPhraseClean)}
+                  className="p-2 bg-white text-purple-700 hover:bg-purple-100 rounded-xl shadow-2xs border border-purple-200 cursor-pointer"
+                  title="Listen to native pronunciation"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Helper translations in German and Turkish */}
+              <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-500 flex-wrap">
+                <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                  🇩🇪 {targetChoice?.translationDe}
+                </span>
+                <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                  🇹🇷 {targetChoice?.translationTr}
+                </span>
+              </div>
+
+              {/* Big Interactive Lego Microphone Brick Button */}
+              <button
+                onClick={handleStartVoiceListening}
+                disabled={isEvaluatingSpeech}
+                className={`
+                  w-full max-w-md py-5 px-6 rounded-3xl font-display font-black text-lg sm:text-xl
+                  transition-all duration-200 flex items-center justify-center gap-3 shadow-xl cursor-pointer select-none
+                  border-4 border-b-8 active:border-b-2 active:translate-y-1.5
+                  ${isListening
+                    ? 'bg-rose-500 hover:bg-rose-600 text-white border-rose-800 animate-pulse ring-4 ring-rose-300'
+                    : isEvaluatingSpeech
+                    ? 'bg-amber-400 text-slate-900 border-amber-600'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white border-purple-900'}
+                `}
+              >
+                {isListening ? (
+                  <>
+                    <Radio className="w-7 h-7 text-white animate-spin" />
+                    <span>LISTENING TO {childName.toUpperCase()}... 🌊</span>
+                  </>
+                ) : isEvaluatingSpeech ? (
+                  <>
+                    <Sparkles className="w-7 h-7 text-slate-900 animate-spin" />
+                    <span>EVALUATING WITH AI... ✨</span>
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-7 h-7 text-yellow-300" />
+                    <span>TAP & SPEAK TO {chapter.character.name.toUpperCase()}! 🎙️</span>
+                  </>
+                )}
+              </button>
+
+              {/* Live Transcript / Speech Indicator */}
+              {interimSpeech && (
+                <div className="bg-white border-2 border-purple-300 rounded-2xl p-3.5 text-xs font-bold text-slate-800 shadow-sm max-w-md w-full animate-scaleUp">
+                  <div className="text-purple-700 font-black mb-1 flex items-center justify-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                    <span>What we heard from {childName}:</span>
+                  </div>
+                  <span className="text-base font-black font-display italic text-slate-900">
+                    "{interimSpeech}"
+                  </span>
+                </div>
+              )}
+
+              {/* Evaluation Result Feedback Card */}
+              {voiceEvaluation && (
+                <div className={`p-4 rounded-2xl border-2 text-xs font-bold max-w-md w-full text-center space-y-1.5 animate-scaleUp shadow-md ${
+                  voiceEvaluation.isAccepted
+                    ? 'bg-emerald-50 border-emerald-400 text-emerald-950'
+                    : 'bg-amber-50 border-amber-400 text-amber-950'
+                }`}>
+                  <div className="text-xl">
+                    {voiceEvaluation.stars === 3 ? '⭐⭐⭐' : voiceEvaluation.stars === 2 ? '⭐⭐' : '⭐'}
+                  </div>
+                  <p className="text-sm font-black font-display">
+                    {voiceEvaluation.feedbackEn}
+                  </p>
+                  <div className="text-[11px] text-slate-600 flex items-center justify-center gap-2 pt-1 border-t border-slate-200/60">
+                    <span>🇩🇪 {voiceEvaluation.feedbackDe}</span>
+                    <span>•</span>
+                    <span>🇹🇷 {voiceEvaluation.feedbackTr}</span>
+                  </div>
+                  {voiceEvaluation.source === 'gemini' && (
+                    <div className="inline-flex items-center gap-1 text-[10px] font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full mt-1 border border-purple-200">
+                      <Bot className="w-3 h-3 text-purple-600" />
+                      <span>Coached by Google Gemini AI ✨</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {voiceError && (
+                <div className="p-3 bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold rounded-xl flex items-center gap-2 max-w-md">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span>{voiceError}</span>
+                </div>
+              )}
+
+              <p className="text-[11px] text-slate-400 font-bold">
+                {geminiApiKey ? '✨ Gemini AI Voice is active for intelligent Turkish & German accent recognition!' : '🧠 Built-in smart phonetic forgiving active for early learners.'}
+              </p>
+            </div>
+          )}
+
           {/* Feedback Message Bar */}
           {feedbackMessage && (
             <div className={`mt-4 p-3 rounded-xl text-xs font-black flex items-center justify-between ${
@@ -472,7 +732,7 @@ export default function StoryAdventure({
             </div>
           )}
 
-          {/* Voice Echo Studio Widget: Child practices speaking Leo's response line! */}
+          {/* Voice Echo Studio Widget: Child practices speaking response line! */}
           {isChapterSolved && (
             <div className="mt-4 pt-3 border-t border-slate-200 animate-fadeIn">
               <VoiceRecorderWidget
@@ -480,6 +740,7 @@ export default function StoryAdventure({
                 targetAudioKey={chapter.choices.find(c => c.isCorrect)?.audioKey || ''}
                 onRewardEarned={onRewardEarned}
                 isMuted={isMuted}
+                childName={childName}
               />
             </div>
           )}
@@ -498,7 +759,7 @@ export default function StoryAdventure({
               </div>
               <div>
                 <h3 className="font-display font-black text-2xl text-slate-950">
-                  Congratulations! Leo Finished School Today!
+                  Congratulations! {childName} Finished School Today!
                 </h3>
                 <p className="text-xs font-bold text-slate-800">
                   You learned all daily greetings and conversations! +5 Stars ⭐ and +3 Lego Bricks 🧱!

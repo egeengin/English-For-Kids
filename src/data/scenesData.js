@@ -92,7 +92,7 @@ export const SCENES_DATA = [
         y: 78,
         r: 9,
         differenceText: 'Blue backpack changed to a red backpack!',
-        hint: 'Hanging beside Leo’s chair!',
+        hint: 'Hanging beside the school chair!',
       },
       {
         id: 'book',

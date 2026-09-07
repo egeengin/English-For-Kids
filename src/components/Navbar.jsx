@@ -9,6 +9,7 @@ export default function Navbar({
   bricks,
   isMuted,
   onToggleMute,
+  childName = 'Deniz',
 }) {
   const tabs = [
     { id: 'differences', label: '7 Differences', icon: Search, color: 'bg-amber-500 hover:bg-amber-600', border: 'border-amber-700' },
@@ -48,11 +49,11 @@ export default function Navbar({
             <div className="absolute -top-1 right-2 w-2 h-2 rounded-full bg-red-300" />
           </div>
           <div className="flex flex-col">
-            <span className="font-display font-black text-lg sm:text-xl tracking-wide text-yellow-400 drop-shadow-sm leading-tight flex items-center gap-1">
-              LEGO ENGLISH
+            <span className="font-display font-black text-sm sm:text-base tracking-wide text-yellow-400 drop-shadow-sm leading-tight flex items-center gap-1">
+              {(childName || 'Deniz').toUpperCase()}'S LEGO ENGLISH
             </span>
             <span className="text-[10px] sm:text-xs font-bold text-slate-300 tracking-wider uppercase">
-              Kids Adventure
+              {childName || 'Deniz'}'s Adventure
             </span>
           </div>
         </div>

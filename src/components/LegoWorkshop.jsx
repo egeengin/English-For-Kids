@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Rocket,
@@ -17,7 +17,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import LegoBrick from './LegoBrick';
-import { LEGO_BUILD_MODELS, LEO_ACCESSORIES } from '../data/curriculum';
+import { LEGO_BUILD_MODELS, getMinifigureAccessories } from '../data/curriculum';
 import {
   playLegoSnap,
   playStarSparkle,
@@ -36,10 +36,12 @@ export default function LegoWorkshop({
   equippedAccessory = 'cap',
   onUnlockAccessory,
   onEquipAccessory,
+  childName = 'Deniz',
 }) {
   const [selectedModelId, setSelectedModelId] = useState('rocket'); // 'rocket' | 'racecar' | 'castle' | 'minifigure'
   const [justBuiltStage, setJustBuiltStage] = useState(null);
 
+  const accessories = useMemo(() => getMinifigureAccessories(childName), [childName]);
   const isMinifigureTab = selectedModelId === 'minifigure';
   const currentModel = LEGO_BUILD_MODELS.find(m => m.id === selectedModelId) || LEGO_BUILD_MODELS[0];
   const modelUnlockedStages = unlockedStages[selectedModelId] || [];
@@ -316,9 +318,9 @@ export default function LegoWorkshop({
     );
   };
 
-  // Minifigure Leo Avatar Builder Visual
+  // Minifigure Avatar Builder Visual
   const renderLeoMinifigureVisual = () => {
-    const acc = LEO_ACCESSORIES.find(a => a.id === equippedAccessory);
+    const acc = accessories.find(a => a.id === equippedAccessory);
     return (
       <div className="flex flex-col items-center justify-center py-4 relative select-none">
         {/* Head & Hat Container */}
@@ -380,9 +382,9 @@ export default function LegoWorkshop({
           </div>
         </div>
 
-        {/* Leo Name Badge */}
+        {/* Child Name Badge */}
         <div className="mt-3 bg-yellow-400 text-slate-950 px-3.5 py-1 rounded-full font-display font-black text-xs shadow-md">
-          Leo the Builder 👦
+          {childName} the Builder 👦
         </div>
       </div>
     );
@@ -479,16 +481,16 @@ export default function LegoWorkshop({
           `}
         >
           <div className="text-2xl sm:text-3xl mb-1">👦</div>
-          <span className="leading-tight text-center">Dress Up Leo</span>
+          <span className="leading-tight text-center">Dress Up {childName}</span>
           
           <div className="mt-2 w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div
               className="h-full bg-yellow-400 transition-all"
-              style={{ width: `${(unlockedAccessories.length / LEO_ACCESSORIES.length) * 100}%` }}
+              style={{ width: `${(unlockedAccessories.length / accessories.length) * 100}%` }}
             />
           </div>
           <span className="text-[10px] text-slate-400 mt-1 font-mono">
-            {unlockedAccessories.length}/{LEO_ACCESSORIES.length} Outfits
+            {unlockedAccessories.length}/{accessories.length} Outfits
           </span>
         </button>
       </div>
@@ -506,7 +508,7 @@ export default function LegoWorkshop({
               {isMinifigureTab ? 'Minifigure Studio' : currentModel.theme}
             </span>
             <h3 className="text-xl sm:text-3xl font-black font-display text-white">
-              {isMinifigureTab ? 'Dress Up Leo 👦' : currentModel.name}
+              {isMinifigureTab ? `Dress Up ${childName} 👦` : currentModel.name}
             </h3>
           </div>
           {isMinifigureTab ? (
@@ -538,10 +540,10 @@ export default function LegoWorkshop({
         {isMinifigureTab ? (
           <div className="relative z-10 mt-6 pt-4 border-t border-white/20">
             <h4 className="text-sm font-black font-display text-yellow-300 uppercase tracking-wider mb-3 text-center sm:text-left">
-              Choose Leo's Hats & Outfits:
+              Choose {childName}'s Hats & Outfits:
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {LEO_ACCESSORIES.map((acc) => {
+              {accessories.map((acc) => {
                 const isUnlocked = unlockedAccessories.includes(acc.id);
                 const isEquipped = equippedAccessory === acc.id;
 

@@ -5,6 +5,8 @@
 const STORAGE_KEY = 'lego_english_adventure_state_v1';
 
 export const INITIAL_STATE = {
+  childName: 'Deniz', // Customizable for white-labeling / selling as a product
+  childAge: 7,
   stars: 0,
   bricks: 4, // Initial starter bricks so child can immediately explore builder!
   streak: 1,
@@ -22,6 +24,7 @@ export const INITIAL_STATE = {
   equippedAccessory: 'cap',
   customWords: [],
   soundMuted: false,
+  geminiApiKey: '',
 };
 
 /**
@@ -51,6 +54,9 @@ export function loadSavedState() {
     return {
       ...INITIAL_STATE,
       ...parsed,
+      childName: (parsed.childName && parsed.childName.trim()) || 'Deniz',
+      childAge: Number(parsed.childAge) || 7,
+      geminiApiKey: parsed.geminiApiKey || '',
       streak,
       lastActiveDate: today,
     };

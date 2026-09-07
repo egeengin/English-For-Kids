@@ -169,6 +169,16 @@ export default function App() {
     setSessionQuestionsCount(0);
   };
 
+  // Parent updates child profile or Gemini API settings
+  const handleUpdateProfile = ({ childName, childAge, geminiApiKey }) => {
+    setState(prev => ({
+      ...prev,
+      childName: (childName && childName.trim()) || 'Deniz',
+      childAge: Number(childAge) || 7,
+      geminiApiKey: typeof geminiApiKey === 'string' ? geminiApiKey.trim() : prev.geminiApiKey || '',
+    }));
+  };
+
   // Sound toggle
   const handleToggleMute = () => {
     setState(prev => ({
@@ -176,6 +186,10 @@ export default function App() {
       soundMuted: !prev.soundMuted,
     }));
   };
+
+  const childName = state.childName || 'Deniz';
+  const childAge = state.childAge || 7;
+  const geminiApiKey = state.geminiApiKey || '';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 lego-baseplate-pattern pb-16 sm:pb-8">
@@ -185,6 +199,7 @@ export default function App() {
         <WelcomeScreen
           onStart={() => setShowWelcome(false)}
           isMuted={state.soundMuted}
+          childName={childName}
         />
       )}
 
@@ -204,6 +219,7 @@ export default function App() {
         bricks={state.bricks}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
+        childName={childName}
       />
 
       {/* Main Content Arena */}
@@ -221,6 +237,9 @@ export default function App() {
             onRewardEarned={handleRewardEarned}
             onNavigateToWorkshop={() => setCurrentTab('workshop')}
             isMuted={state.soundMuted}
+            childName={childName}
+            childAge={childAge}
+            geminiApiKey={geminiApiKey}
           />
         )}
 
@@ -242,6 +261,9 @@ export default function App() {
             onQuestionCompleted={handleQuestionCompleted}
             isAdventureStarted={!showWelcome}
             isMuted={state.soundMuted}
+            childName={childName}
+            childAge={childAge}
+            geminiApiKey={geminiApiKey}
           />
         )}
 
@@ -256,6 +278,7 @@ export default function App() {
             equippedAccessory={state.equippedAccessory || 'cap'}
             onUnlockAccessory={handleUnlockAccessory}
             onEquipAccessory={handleEquipAccessory}
+            childName={childName}
           />
         )}
 
@@ -273,6 +296,10 @@ export default function App() {
             onResetProgress={handleResetProgress}
             onCloseDashboard={() => setCurrentTab('differences')}
             isMuted={state.soundMuted}
+            childName={childName}
+            childAge={childAge}
+            geminiApiKey={geminiApiKey}
+            onUpdateProfile={handleUpdateProfile}
           />
         )}
       </main>

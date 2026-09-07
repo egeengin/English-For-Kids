@@ -34,8 +34,13 @@ import {
   Box,
   Sliders,
   Globe,
+  Mic,
+  MicOff,
+  Bot,
+  Radio,
 } from 'lucide-react';
 import { speakEnglish, speakTurkish, speakGerman, speakEncouragement, stopSpeech } from '../utils/speech';
+import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import {
   playLegoSnap,
   playSuccessChime,
@@ -105,6 +110,9 @@ export default function GameArena({
   onQuestionCompleted,
   isAdventureStarted = true,
   isMuted,
+  childName = 'Deniz',
+  childAge = 7,
+  geminiApiKey = '',
 }) {
   const [selectedLevelId, setSelectedLevelId] = useState(curriculumLevels[0].id);
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -118,6 +126,12 @@ export default function GameArena({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [encouragementText, setEncouragementText] = useState(null);
 
+  // Voice Interaction State
+  const [isListeningVoice, setIsListeningVoice] = useState(false);
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+  const [voiceFeedback, setVoiceFeedback] = useState(null);
+  const voiceRecognitionRef = useRef(null);
+
   // Early-Reader Settings:
   // helperLanguage: 'both' | 'de' | 'tr'
   const [helperLanguage, setHelperLanguage] = useState(() => {
@@ -130,6 +144,16 @@ export default function GameArena({
 
   const hoverDebounceRef = useRef(null);
   const repeatTimerRef = useRef(null);
+
+  // Reset voice on question change
+  useEffect(() => {
+    setIsListeningVoice(false);
+    setVoiceTranscript('');
+    setVoiceFeedback(null);
+    if (voiceRecognitionRef.current) {
+      voiceRecognitionRef.current.abort();
+    }
+  }, [questionIndex]);
 
   // Save helper preferences
   const handleSetHelperLanguage = (lang) => {
@@ -359,6 +383,77 @@ export default function GameArena({
     }
   };
 
+  // Voice interactive answering with Gemini AI fallback
+  const handleStartVoiceAnswer = () => {
+    if (isListeningVoice) {
+      if (voiceRecognitionRef.current) voiceRecognitionRef.current.stop();
+      setIsListeningVoice(false);
+      return;
+    }
+
+    if (!targetItem || isCorrect === true) return;
+    playTap(isMuted);
+    setVoiceTranscript('');
+    setVoiceFeedback(null);
+
+    if (!isSpeechRecognitionSupported()) {
+      setVoiceFeedback({ text: 'Speech recognition is not supported in this browser. Try Chrome or Safari!', isError: true });
+      return;
+    }
+
+    const listener = createSpeechListener({
+      lang: 'en-US',
+      onStart: () => {
+        setIsListeningVoice(true);
+      },
+      onResult: async ({ transcript, isFinal }) => {
+        setVoiceTranscript(transcript);
+        if (isFinal && transcript) {
+          setIsListeningVoice(false);
+
+          const evalResult = await evaluateKidPronunciation({
+            targetPhrase: targetItem.word,
+            transcript,
+            childName,
+            childAge,
+            geminiApiKey,
+          });
+
+          if (evalResult.isAccepted) {
+            setVoiceFeedback({ text: `Heard "${transcript}": Perfect! 🌟`, isSuccess: true, source: evalResult.source });
+            handleSelectOption(targetItem);
+          } else {
+            // Check if spoken word matched one of the other options
+            const matchedOption = options.find(opt => {
+              const optLower = opt.word.toLowerCase();
+              return transcript.toLowerCase().includes(optLower);
+            });
+
+            if (matchedOption) {
+              setVoiceFeedback({ text: `Heard "${transcript}"`, isSuccess: false });
+              handleSelectOption(matchedOption);
+            } else {
+              setVoiceFeedback({ text: evalResult.feedbackEn, isSuccess: false, source: evalResult.source });
+              playGentleWobble(isMuted);
+            }
+          }
+        }
+      },
+      onError: (msg) => {
+        setIsListeningVoice(false);
+        setVoiceFeedback({ text: msg, isError: true });
+      },
+      onEnd: () => {
+        setIsListeningVoice(false);
+      },
+    });
+
+    if (listener) {
+      voiceRecognitionRef.current = listener;
+      listener.start();
+    }
+  };
+
   const handleRestartLevel = () => {
     playTap(isMuted);
     setQuestionIndex(0);
@@ -585,6 +680,53 @@ export default function GameArena({
                   <span>🇹🇷 {targetItem.translation}</span>
                   <Volume2 className="w-3.5 h-3.5 text-red-600" />
                 </button>
+              )}
+            </div>
+
+            {/* Interactive Voice Answer Button (Hands-free voice recognition with Gemini AI) */}
+            <div className="mt-3 flex flex-col items-center gap-1.5 w-full max-w-xs">
+              <button
+                type="button"
+                onClick={handleStartVoiceAnswer}
+                disabled={isCorrect === true}
+                className={`
+                  w-full py-2.5 px-4 rounded-2xl font-display font-black text-xs sm:text-sm
+                  transition-all duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer select-none
+                  border-2 border-b-4 active:border-b-2 active:translate-y-1
+                  ${isListeningVoice
+                    ? 'bg-rose-500 hover:bg-rose-600 text-white border-rose-800 animate-pulse ring-4 ring-rose-300'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white border-purple-900'}
+                `}
+                title="Speak the English word into your microphone"
+              >
+                {isListeningVoice ? (
+                  <>
+                    <Radio className="w-4 h-4 text-white animate-spin" />
+                    <span>Listening to {childName}... 🎙️</span>
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-4 h-4 text-amber-300" />
+                    <span>Say it Out Loud! 🎙️</span>
+                  </>
+                )}
+              </button>
+
+              {voiceTranscript && (
+                <div className="text-[11px] font-bold text-purple-900 bg-purple-100 px-3 py-1 rounded-xl border border-purple-200 animate-scaleUp">
+                  Heard: "{voiceTranscript}"
+                </div>
+              )}
+
+              {voiceFeedback && (
+                <div className={`text-[11px] font-black px-3 py-1 rounded-xl border animate-scaleUp flex items-center gap-1 ${
+                  voiceFeedback.isSuccess
+                    ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                    : 'bg-amber-100 text-amber-900 border-amber-300'
+                }`}>
+                  {voiceFeedback.source === 'gemini' && <Bot className="w-3.5 h-3.5 text-purple-600" />}
+                  <span>{voiceFeedback.text}</span>
+                </div>
               )}
             </div>
 

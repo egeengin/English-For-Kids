@@ -581,12 +581,15 @@ export const LEGO_BUILD_MODELS = [
   }
 ];
 
-export const LEO_ACCESSORIES = [
-  { id: 'astronaut', name: 'Astronaut Helmet', emoji: '🚀', icon: '👨‍🚀', cost: 2, description: 'Explore outer space with Leo!', nameDe: 'Astronautenhelm', nameTr: 'Astronot Kaskı' },
-  { id: 'crown', name: 'Golden Crown', emoji: '👑', icon: '🤴', cost: 4, description: 'King Leo of the Lego Castle!', nameDe: 'Goldene Krone', nameTr: 'Altın Taç' },
-  { id: 'pirate', name: 'Pirate Hat', emoji: '🏴‍☠️', icon: '🏴‍☠️', cost: 3, description: 'Ahoy, matey! Sail the Lego seas!', nameDe: 'Piratenhut', nameTr: 'Korsan Şapkası' },
-  { id: 'cape', name: 'Superhero Cape', emoji: '🦸', icon: '🦸', cost: 3, description: 'Super Leo saves the day!', nameDe: 'Superhelden-Umhang', nameTr: 'Süper Kahraman Pelerini' },
+export const getMinifigureAccessories = (childName = 'Deniz') => [
+  { id: 'astronaut', name: 'Astronaut Helmet', emoji: '🚀', icon: '👨‍🚀', cost: 2, description: `Explore outer space with ${childName}!`, nameDe: 'Astronautenhelm', nameTr: 'Astronot Kaskı' },
+  { id: 'crown', name: 'Golden Crown', emoji: '👑', icon: '🤴', cost: 4, description: `King ${childName} of the Lego Castle!`, nameDe: 'Goldene Krone', nameTr: 'Altın Taç' },
+  { id: 'pirate', name: 'Pirate Hat', emoji: '🏴‍☠️', icon: '🏴‍☠️', cost: 3, description: `Ahoy, matey! Sail the Lego seas!`, nameDe: 'Piratenhut', nameTr: 'Korsan Şapkası' },
+  { id: 'cape', name: 'Superhero Cape', emoji: '🦸', icon: '🦸', cost: 3, description: `Super ${childName} saves the day!`, nameDe: 'Superhelden-Umhang', nameTr: 'Süper Kahraman Pelerini' },
   { id: 'sunglasses', name: 'Cool Sunglasses', emoji: '😎', icon: '🕶️', cost: 2, description: 'The coolest kid in class!', nameDe: 'Coole Sonnenbrille', nameTr: 'Havalı Güneş Gözlüğü' },
   { id: 'cap', name: 'Baseball Cap', emoji: '🧢', icon: '🧢', cost: 1, description: 'Ready for playground sports!', nameDe: 'Baseballkappe', nameTr: 'Beyzbol Şapkası' },
 ];
+
+export const LEO_ACCESSORIES = getMinifigureAccessories('Deniz');
+
 

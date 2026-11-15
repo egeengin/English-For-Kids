@@ -158,7 +158,7 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Gece gökyüzündeki altın yıldıza benzeyen şekil hangisi?',
         promptDeHelper: 'Welche Form sieht aus wie ein goldener Stern am Himmel?',
         options: [
-          { id: 'a', textEn: 'A green triangle', labelTr: 'Yeşil üçgen', emoji: '🔺', isCorrect: false },
+          { id: 'a', textEn: 'A red triangle', labelTr: 'Kırmızı üçgen', emoji: '🔺', isCorrect: false },
           { id: 'b', textEn: 'A yellow star', labelTr: 'Sarı yıldız', emoji: '⭐', isCorrect: true },
           { id: 'c', textEn: 'A blue square', labelTr: 'Mavi kare', emoji: '🟦', isCorrect: false },
         ],

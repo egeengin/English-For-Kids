@@ -25,154 +25,10 @@ import {
   playWobble,
 } from '../utils/soundEffects';
 
-const PHONICS_COMPLETED_STORAGE_KEY = 'lego_phonics_completed_v1';
+import { VOCAB_CATEGORIES, getPhonicsWordsFromBank } from '../data/vocabularyBank500';
 
-const PHONICS_WORDS = [
-  {
-    id: 'pw-1',
-    word: 'CAT',
-    letters: ['C', 'A', 'T'],
-    emoji: '🐱',
-    tr: 'Kedi',
-    de: 'Katze',
-    phoneticGuide: 'C says /k/, A says /æ/, T says /t/',
-  },
-  {
-    id: 'pw-2',
-    word: 'DOG',
-    letters: ['D', 'O', 'G'],
-    emoji: '🐶',
-    tr: 'Köpek',
-    de: 'Hund',
-    phoneticGuide: 'D says /d/, O says /ɒ/, G says /g/',
-  },
-  {
-    id: 'pw-3',
-    word: 'BUS',
-    letters: ['B', 'U', 'S'],
-    emoji: '🚌',
-    tr: 'Otobüs',
-    de: 'Bus',
-    phoneticGuide: 'B says /b/, U says /ʌ/, S says /s/',
-  },
-  {
-    id: 'pw-4',
-    word: 'RED',
-    letters: ['R', 'E', 'D'],
-    emoji: '🔴',
-    tr: 'Kırmızı',
-    de: 'Rot',
-    phoneticGuide: 'R says /r/, E says /e/, D says /d/',
-  },
-  {
-    id: 'pw-5',
-    word: 'SUN',
-    letters: ['S', 'U', 'N'],
-    emoji: '☀️',
-    tr: 'Güneş',
-    de: 'Sonne',
-    phoneticGuide: 'S says /s/, U says /ʌ/, N says /n/',
-  },
-  {
-    id: 'pw-6',
-    word: 'CAR',
-    letters: ['C', 'A', 'R'],
-    emoji: '🚗',
-    tr: 'Araba',
-    de: 'Auto',
-    phoneticGuide: 'C says /k/, A says /ɑː/, R says /r/',
-  },
-  {
-    id: 'pw-7',
-    word: 'PEN',
-    letters: ['P', 'E', 'N'],
-    emoji: '🖊️',
-    tr: 'Kalem',
-    de: 'Stift',
-    phoneticGuide: 'P says /p/, E says /e/, N says /n/',
-  },
-  {
-    id: 'pw-8',
-    word: 'BOX',
-    letters: ['B', 'O', 'X'],
-    emoji: '📦',
-    tr: 'Kutu',
-    de: 'Kiste',
-    phoneticGuide: 'B says /b/, O says /ɒ/, X says /ks/',
-  },
-  {
-    id: 'pw-9',
-    word: 'HAT',
-    letters: ['H', 'A', 'T'],
-    emoji: '🧢',
-    tr: 'Şapka',
-    de: 'Hut',
-    phoneticGuide: 'H says /h/, A says /æ/, T says /t/',
-  },
-  {
-    id: 'pw-10',
-    word: 'PIG',
-    letters: ['P', 'I', 'G'],
-    emoji: '🐷',
-    tr: 'Domuzcuk',
-    de: 'Schwein',
-    phoneticGuide: 'P says /p/, I says /ɪ/, G says /g/',
-  },
-  {
-    id: 'pw-11',
-    word: 'MAP',
-    letters: ['M', 'A', 'P'],
-    emoji: '🗺️',
-    tr: 'Harita',
-    de: 'Karte',
-    phoneticGuide: 'M says /m/, A says /æ/, P says /p/',
-  },
-  {
-    id: 'pw-12',
-    word: 'CUP',
-    letters: ['C', 'U', 'P'],
-    emoji: '🥤',
-    tr: 'Bardak',
-    de: 'Becher',
-    phoneticGuide: 'C says /k/, U says /ʌ/, P says /p/',
-  },
-  {
-    id: 'pw-13',
-    word: 'BED',
-    letters: ['B', 'E', 'D'],
-    emoji: '🛏️',
-    tr: 'Yatak',
-    de: 'Bett',
-    phoneticGuide: 'B says /b/, E says /e/, D says /d/',
-  },
-  {
-    id: 'pw-14',
-    word: 'FROG',
-    letters: ['F', 'R', 'O', 'G'],
-    emoji: '🐸',
-    tr: 'Kurbağa',
-    de: 'Frosch',
-    phoneticGuide: 'F /f/, R /r/, O /ɒ/, G /g/',
-  },
-  {
-    id: 'pw-15',
-    word: 'FISH',
-    letters: ['F', 'I', 'S', 'H'],
-    emoji: '🐟',
-    tr: 'Balık',
-    de: 'Fisch',
-    phoneticGuide: 'F /f/, I /ɪ/, SH says /ʃ/',
-  },
-  {
-    id: 'pw-16',
-    word: 'STAR',
-    letters: ['S', 'T', 'A', 'R'],
-    emoji: '⭐',
-    tr: 'Yıldız',
-    de: 'Stern',
-    phoneticGuide: 'S /s/, T /t/, AR says /ɑːr/',
-  },
-];
+const PHONICS_COMPLETED_STORAGE_KEY = 'lego_phonics_completed_v1';
+const PHONICS_WORDS = getPhonicsWordsFromBank();
 
 function loadSavedCompletedIds() {
   if (typeof window === 'undefined' || !window.localStorage) return [];
@@ -208,11 +64,13 @@ function createShuffledBricks(wordObj) {
     .sort(() => Math.random() - 0.5);
 }
 
-function findNextUncompletedIndex(completedIds, afterIndex = -1) {
+function findNextUncompletedIndex(completedIds, afterIndex = -1, categoryId = 'all') {
   const doneSet = new Set(completedIds);
   for (let offset = 1; offset <= PHONICS_WORDS.length; offset += 1) {
     const candidate = (afterIndex + offset) % PHONICS_WORDS.length;
-    if (!doneSet.has(PHONICS_WORDS[candidate].id)) {
+    const item = PHONICS_WORDS[candidate];
+    const matchesCat = categoryId === 'all' || item.category === categoryId;
+    if (matchesCat && !doneSet.has(item.id)) {
       return candidate;
     }
   }
@@ -224,6 +82,7 @@ export default function PhonicsBuilder({
   isMuted = false,
   childName = 'Deniz',
 }) {
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [completedIds, setCompletedIds] = useState(() => loadSavedCompletedIds());
   const [currentIndex, setCurrentIndex] = useState(() => {
     const saved = loadSavedCompletedIds();
@@ -396,7 +255,13 @@ export default function PhonicsBuilder({
     unlockAudio();
     if (!isMuted) playTap();
 
-    const nextIdx = findNextUncompletedIndex(completedIds, currentIndex);
+    let nextIdx = findNextUncompletedIndex(completedIds, currentIndex, selectedCategory);
+    if (nextIdx === -1 && selectedCategory !== 'all') {
+      nextIdx = findNextUncompletedIndex(completedIds, currentIndex, 'all');
+      if (nextIdx !== -1) {
+        setSelectedCategory('all');
+      }
+    }
     if (nextIdx === -1) {
       setAllDone(true);
       if (!isMuted) playSparkle();
@@ -406,13 +271,32 @@ export default function PhonicsBuilder({
     loadWordAtIndex(nextIdx);
   };
 
+  const handleSelectCategory = (catId) => {
+    cancelHoverSpeech();
+    unlockAudio();
+    if (!isMuted) playTap();
+    setSelectedCategory(catId);
+    const nextUnfinished = findNextUncompletedIndex(completedIds, -1, catId);
+    if (nextUnfinished !== -1) {
+      loadWordAtIndex(nextUnfinished);
+      return;
+    }
+    const firstInCat = PHONICS_WORDS.findIndex(
+      (w) => catId === 'all' || w.category === catId
+    );
+    loadWordAtIndex(firstInCat === -1 ? 0 : firstInCat);
+  };
+
   const handleResetProgress = () => {
     cancelHoverSpeech();
     unlockAudio();
     if (!isMuted) playTap();
     setCompletedIds([]);
     saveCompletedIds([]);
-    loadWordAtIndex(0);
+    const firstInCat = PHONICS_WORDS.findIndex(
+      (w) => selectedCategory === 'all' || w.category === selectedCategory
+    );
+    loadWordAtIndex(firstInCat === -1 ? 0 : firstInCat);
   };
 
   const handleHearTargetWord = () => {
@@ -424,17 +308,29 @@ export default function PhonicsBuilder({
     }
   };
 
+  const categoryEntries = PHONICS_WORDS.map((item, idx) => ({ item, idx })).filter(
+    ({ item }) => selectedCategory === 'all' || item.category === selectedCategory
+  );
+  const activePosInCat = categoryEntries.findIndex(({ idx }) => idx === currentIndex);
+  const stripEntries =
+    categoryEntries.length <= 55
+      ? categoryEntries
+      : categoryEntries.slice(
+          Math.max(0, (activePosInCat === -1 ? 0 : activePosInCat) - 6),
+          Math.max(18, (activePosInCat === -1 ? 0 : activePosInCat) + 12)
+        );
+
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
       {/* Phonics Lab Header */}
-      <div className="w-full flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-4">
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-3">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center text-2xl shadow-inner border border-amber-600">
             🔤
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-display font-black text-slate-900 tracking-tight">
-              {childName}&apos;s Phonics Sound Lab 🧱
+              {childName}&apos;s Harf Birleştirme ({PHONICS_WORDS.length} Kelime)
             </h1>
             <p className="text-xs sm:text-sm font-semibold text-slate-500">
               Tamamladığın kelimeler kaydedilir, aynı kelime tekrar sorulmaz!
@@ -461,10 +357,46 @@ export default function PhonicsBuilder({
         </div>
       </div>
 
+      {/* Category Filter Bar */}
+      <div className="w-full flex items-center gap-2 overflow-x-auto pb-2 mb-3">
+        {VOCAB_CATEGORIES.map((cat) => {
+          const isActive = selectedCategory === cat.id;
+          const wordsInCat =
+            cat.id === 'all'
+              ? PHONICS_WORDS
+              : PHONICS_WORDS.filter((w) => w.category === cat.id);
+          const doneInCat = wordsInCat.filter((w) => completedSet.has(w.id)).length;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => handleSelectCategory(cat.id)}
+              className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-bold text-xs border-2 transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm scale-[1.02]'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-amber-300 hover:bg-amber-50'
+              }`}
+            >
+              <span>{cat.emoji}</span>
+              <span>{cat.labelTr}</span>
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                  isActive ? 'bg-slate-900/15 text-slate-950' : 'bg-slate-100 text-slate-500'
+                }`}
+              >
+                {doneInCat}/{wordsInCat.length}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Completed Words Memory Strip */}
-      <div className="w-full bg-white rounded-2xl p-3 border-2 border-slate-200 shadow-sm mb-4 flex flex-wrap items-center gap-1.5 sm:gap-2">
-        <span className="text-xs font-black text-slate-500 mr-1">Kelimeler:</span>
-        {PHONICS_WORDS.map((w, idx) => {
+      <div className="w-full bg-white rounded-2xl p-3 border-2 border-slate-200 shadow-sm mb-4 max-h-28 overflow-y-auto flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <span className="text-xs font-black text-slate-500 mr-1">
+          Kelimeler ({categoryEntries.length}):
+        </span>
+        {stripEntries.map(({ item: w, idx }) => {
           const isDone = completedSet.has(w.id);
           const isCurrent = !allDone && idx === currentIndex;
           return (

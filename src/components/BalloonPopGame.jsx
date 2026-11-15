@@ -24,291 +24,29 @@ import {
   playTap,
 } from '../utils/soundEffects';
 
-// Rich comprehension + vocabulary challenges for 7-year-old learners
-const BALLOON_CHALLENGES = [
-  {
-    id: 'cat',
-    word: 'Cat',
-    emoji: '🐱',
-    color: 'bg-orange-500 border-orange-700',
-    de: 'Katze',
-    tr: 'Kedi',
-    questionEn: 'Which cute pet says "Meow, meow"?',
-    repeatPhrase: 'A cat says meow!',
-  },
-  {
-    id: 'dog',
-    word: 'Dog',
-    emoji: '🐶',
-    color: 'bg-amber-500 border-amber-700',
-    de: 'Hund',
-    tr: 'Köpek',
-    questionEn: 'Which friendly animal says "Woof, woof" and loves bones?',
-    repeatPhrase: 'A dog says woof!',
-  },
-  {
-    id: 'lion',
-    word: 'Lion',
-    emoji: '🦁',
-    color: 'bg-yellow-500 border-yellow-700',
-    de: 'Löwe',
-    tr: 'Aslan',
-    questionEn: 'Who is the loud king of the jungle?',
-    repeatPhrase: 'The lion is the king!',
-  },
-  {
-    id: 'seven',
-    word: 'Seven',
-    emoji: '7️⃣',
-    color: 'bg-indigo-500 border-indigo-700',
-    de: 'Sieben',
-    tr: 'Yedi',
-    questionEn: 'Count carefully: five plus two equals what number?',
-    repeatPhrase: 'Five plus two is seven!',
-  },
-  {
-    id: 'airplane',
-    word: 'Airplane',
-    emoji: '✈️',
-    color: 'bg-sky-500 border-sky-700',
-    de: 'Flugzeug',
-    tr: 'Uçak',
-    questionEn: 'Which machine flies high above the clouds?',
-    repeatPhrase: 'An airplane flies in the sky!',
-  },
-  {
-    id: 'rocket',
-    word: 'Rocket',
-    emoji: '🚀',
-    color: 'bg-rose-500 border-rose-700',
-    de: 'Rakete',
-    tr: 'Roket',
-    questionEn: 'Which fast ship blasts off to the moon and stars?',
-    repeatPhrase: 'A rocket goes to space!',
-  },
-  {
-    id: 'train',
-    word: 'Train',
-    emoji: '🚂',
-    color: 'bg-purple-500 border-purple-700',
-    de: 'Zug',
-    tr: 'Tren',
-    questionEn: 'Which long vehicle rides on iron tracks and says "Choo-choo"?',
-    repeatPhrase: 'The train goes on the tracks!',
-  },
-  {
-    id: 'apple',
-    word: 'Apple',
-    emoji: '🍎',
-    color: 'bg-emerald-500 border-emerald-700',
-    de: 'Apfel',
-    tr: 'Elma',
-    questionEn: 'Which sweet crunchy red fruit grows on trees?',
-    repeatPhrase: 'I like red apples!',
-  },
-  {
-    id: 'banana',
-    word: 'Banana',
-    emoji: '🍌',
-    color: 'bg-yellow-400 border-yellow-600',
-    de: 'Banane',
-    tr: 'Muz',
-    questionEn: 'Which long yellow fruit do monkeys love to eat?',
-    repeatPhrase: 'Monkeys love yellow bananas!',
-  },
-  {
-    id: 'backpack',
-    word: 'Backpack',
-    emoji: '🎒',
-    color: 'bg-blue-600 border-blue-800',
-    de: 'Rucksack',
-    tr: 'Sırt Çantası',
-    questionEn: 'What do you wear on your back to carry books to school?',
-    repeatPhrase: 'I carry my backpack to school!',
-  },
-  {
-    id: 'clock',
-    word: 'Clock',
-    emoji: '⏰',
-    color: 'bg-red-500 border-red-700',
-    de: 'Uhr',
-    tr: 'Saat',
-    questionEn: 'What tells you the time when you wake up in the morning?',
-    repeatPhrase: 'The clock tells the time!',
-  },
-  {
-    id: 'star',
-    word: 'Star',
-    emoji: '⭐',
-    color: 'bg-amber-400 border-amber-600',
-    de: 'Stern',
-    tr: 'Yıldız',
-    questionEn: 'Which bright yellow shape shines in the night sky?',
-    repeatPhrase: 'A golden star shines at night!',
-  },
-  {
-    id: 'triangle',
-    word: 'Triangle',
-    emoji: '🔺',
-    color: 'bg-red-600 border-red-800',
-    de: 'Dreieck',
-    tr: 'Üçgen',
-    questionEn: 'Which red shape has exactly three corners and three sides?',
-    repeatPhrase: 'A triangle has three sides!',
-  },
-  {
-    id: 'blue',
-    word: 'Blue',
-    emoji: '🔵',
-    color: 'bg-blue-500 border-blue-700',
-    de: 'Blau',
-    tr: 'Mavi',
-    questionEn: 'What color is the clear daytime sky and the deep ocean?',
-    repeatPhrase: 'The sky is blue!',
-  },
-  {
-    id: 'green',
-    word: 'Green',
-    emoji: '🟢',
-    color: 'bg-green-500 border-green-700',
-    de: 'Grün',
-    tr: 'Yeşil',
-    questionEn: 'What color are fresh leaves on trees and grass in the park?',
-    repeatPhrase: 'The grass is green!',
-  },
-  {
-    id: 'cake',
-    word: 'Cake',
-    emoji: '🎂',
-    color: 'bg-pink-500 border-pink-700',
-    de: 'Kuchen',
-    tr: 'Pasta',
-    questionEn: 'What sweet treat has candles on top for your birthday?',
-    repeatPhrase: 'Happy birthday! Let us eat cake!',
-  },
-  {
-    id: 'bricks',
-    word: 'Bricks',
-    emoji: '🧱',
-    color: 'bg-orange-600 border-orange-800',
-    de: 'Bausteine',
-    tr: 'Lego Parçaları',
-    questionEn: 'What colorful blocks do we snap together to build tall towers?',
-    repeatPhrase: 'I build towers with Lego bricks!',
-  },
-  {
-    id: 'bicycle',
-    word: 'Bicycle',
-    emoji: '🚲',
-    color: 'bg-teal-500 border-teal-700',
-    de: 'Fahrrad',
-    tr: 'Bisiklet',
-    questionEn: 'Which fun ride has two wheels and pedals you push with your feet?',
-    repeatPhrase: 'I can ride my bicycle!',
-  },
-  {
-    id: 'sun',
-    word: 'Sun',
-    emoji: '☀️',
-    color: 'bg-amber-400 border-amber-600',
-    de: 'Sonne',
-    tr: 'Güneş',
-    questionEn: 'What bright yellow ball warms us up on a sunny day?',
-    repeatPhrase: 'The sun is bright and warm!',
-  },
-  {
-    id: 'rain',
-    word: 'Rain',
-    emoji: '🌧️',
-    color: 'bg-sky-600 border-sky-800',
-    de: 'Regen',
-    tr: 'Yağmur',
-    questionEn: 'What falls from gray clouds when you need an umbrella?',
-    repeatPhrase: 'Take an umbrella in the rain!',
-  },
-  {
-    id: 'hot',
-    word: 'Hot',
-    emoji: '🔥',
-    color: 'bg-red-500 border-red-700',
-    de: 'Heiß',
-    tr: 'Sıcak',
-    questionEn: 'What is the opposite of COLD? Soup and fire are very...',
-    repeatPhrase: 'The soup is hot, be careful!',
-  },
-  {
-    id: 'cold',
-    word: 'Cold',
-    emoji: '❄️',
-    color: 'bg-cyan-500 border-cyan-700',
-    de: 'Kalt',
-    tr: 'Soğuk',
-    questionEn: 'How does snow and ice cream feel when you touch it?',
-    repeatPhrase: 'Ice cream is sweet and cold!',
-  },
-  {
-    id: 'book',
-    word: 'Book',
-    emoji: '📖',
-    color: 'bg-indigo-600 border-indigo-800',
-    de: 'Buch',
-    tr: 'Kitap',
-    questionEn: 'What has pages with fun stories and pictures to read?',
-    repeatPhrase: 'I read an English book!',
-  },
-  {
-    id: 'fish',
-    word: 'Fish',
-    emoji: '🐟',
-    color: 'bg-blue-500 border-blue-700',
-    de: 'Fisch',
-    tr: 'Balık',
-    questionEn: 'Which animal lives underwater and swims with fins?',
-    repeatPhrase: 'A little fish swims in the sea!',
-  },
-  {
-    id: 'bird',
-    word: 'Bird',
-    emoji: '🐦',
-    color: 'bg-sky-500 border-sky-700',
-    de: 'Vogel',
-    tr: 'Kuş',
-    questionEn: 'Which animal has two wings and sings in the trees?',
-    repeatPhrase: 'The bird can fly high!',
-  },
-  {
-    id: 'milk',
-    word: 'Milk',
-    emoji: '🥛',
-    color: 'bg-slate-500 border-slate-700',
-    de: 'Milch',
-    tr: 'Süt',
-    questionEn: 'Which healthy white drink goes great with breakfast cereal?',
-    repeatPhrase: 'I drink a glass of milk!',
-  },
-  {
-    id: 'frog',
-    word: 'Frog',
-    emoji: '🐸',
-    color: 'bg-emerald-500 border-emerald-700',
-    de: 'Frosch',
-    tr: 'Kurbağa',
-    questionEn: 'Which green animal says "Ribbit" and jumps on lily pads?',
-    repeatPhrase: 'A green frog jumps in the pond!',
-  },
-  {
-    id: 'bed',
-    word: 'Bed',
-    emoji: '🛏️',
-    color: 'bg-purple-500 border-purple-700',
-    de: 'Bett',
-    tr: 'Yatak',
-    questionEn: 'Where do you sleep with a cozy pillow at night?',
-    repeatPhrase: 'I sleep in my cozy bed!',
-  },
-];
+import { VOCAB_CATEGORIES, VOCAB_BANK_500 } from '../data/vocabularyBank500';
 
 const INITIAL_ROUNDS = 10;
+const BALLOON_MASTERED_KEY = 'lego_balloon_mastered_v1';
+
+function loadMasteredIds() {
+  try {
+    const raw = localStorage.getItem(BALLOON_MASTERED_KEY);
+    if (!raw) return new Set();
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? new Set(parsed) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+function saveMasteredIds(idsSet) {
+  try {
+    localStorage.setItem(BALLOON_MASTERED_KEY, JSON.stringify([...idsSet]));
+  } catch {
+    // Ignore storage quota errors
+  }
+}
 
 function shuffleArray(list) {
   const arr = [...list];
@@ -319,13 +57,27 @@ function shuffleArray(list) {
   return arr;
 }
 
-function buildRoundOptions(target) {
-  const others = shuffleArray(BALLOON_CHALLENGES.filter((b) => b.id !== target.id));
+function getCategoryPool(categoryId) {
+  if (!categoryId || categoryId === 'all') return VOCAB_BANK_500;
+  const filtered = VOCAB_BANK_500.filter((item) => item.category === categoryId);
+  return filtered.length >= 3 ? filtered : VOCAB_BANK_500;
+}
+
+function buildRoundOptions(target, categoryId = 'all') {
+  const pool = getCategoryPool(categoryId).filter((b) => b.id !== target.id);
+  const fallbackPool =
+    pool.length >= 2
+      ? pool
+      : VOCAB_BANK_500.filter((b) => b.id !== target.id);
+  const others = shuffleArray(fallbackPool);
   return shuffleArray([target, others[0], others[1]]);
 }
 
-function createInitialDeck() {
-  return shuffleArray(BALLOON_CHALLENGES)
+function createInitialDeck(categoryId = 'all', masteredIds = new Set()) {
+  const pool = getCategoryPool(categoryId);
+  const unmastered = shuffleArray(pool.filter((item) => !masteredIds.has(item.id)));
+  const mastered = shuffleArray(pool.filter((item) => masteredIds.has(item.id)));
+  return [...unmastered, ...mastered]
     .slice(0, INITIAL_ROUNDS)
     .map((item) => ({ item, isReview: false }));
 }
@@ -334,12 +86,18 @@ export default function BalloonPopGame({
   onRewardEarned,
   isMuted = false,
 }) {
-  const [deck, setDeck] = useState(() => createInitialDeck());
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [masteredIds, setMasteredIds] = useState(() => loadMasteredIds());
+  const [deck, setDeck] = useState(() =>
+    createInitialDeck('all', loadMasteredIds())
+  );
   const [roundIdx, setRoundIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [hypeMessage, setHypeMessage] = useState('');
-  const [options, setOptions] = useState(() => buildRoundOptions(deck[0].item));
+  const [options, setOptions] = useState(() =>
+    buildRoundOptions(deck[0].item, 'all')
+  );
   const [poppedIds, setPoppedIds] = useState(() => new Set());
   const [isRoundLocked, setIsRoundLocked] = useState(false);
   const [echoPhrase, setEchoPhrase] = useState(null);
@@ -349,7 +107,9 @@ export default function BalloonPopGame({
   const [wobbleId, setWobbleId] = useState(null);
 
   const deckRef = useRef(deck);
-  deckRef.current = deck;
+  useEffect(() => {
+    deckRef.current = deck;
+  }, [deck]);
   const advanceTimerRef = useRef(null);
   const promptTimerRef = useRef(null);
   const wobbleTimerRef = useRef(null);
@@ -423,7 +183,7 @@ export default function BalloonPopGame({
 
       const nextEntry = latestDeck[nextIndex];
       setRoundIdx(nextIndex);
-      setOptions(buildRoundOptions(nextEntry.item));
+      setOptions(buildRoundOptions(nextEntry.item, selectedCategory));
       setPoppedIds(new Set());
       setEchoPhrase(null);
       setHypeMessage('');
@@ -431,7 +191,7 @@ export default function BalloonPopGame({
       setWobbleId(null);
       setIsRoundLocked(false);
     },
-    [clearPendingTimers, isMuted, onRewardEarned]
+    [clearPendingTimers, isMuted, onRewardEarned, selectedCategory]
   );
 
   const handleBalloonClick = (item) => {
@@ -450,6 +210,14 @@ export default function BalloonPopGame({
       setPoppedIds(newPopped);
       setScore((prev) => prev + 1);
       setEchoPhrase(targetItem.repeatPhrase);
+
+      setMasteredIds((prev) => {
+        if (prev.has(targetItem.id)) return prev;
+        const updated = new Set(prev);
+        updated.add(targetItem.id);
+        saveMasteredIds(updated);
+        return updated;
+      });
 
       const nextStreak = wrongCountInRound === 0 ? streak + 1 : 1;
       setStreak(nextStreak);
@@ -529,18 +297,19 @@ export default function BalloonPopGame({
     }
   };
 
-  const handleRestartGame = () => {
+  const startFreshDeck = (categoryId = selectedCategory) => {
     clearPendingTimers();
     cancelHoverSpeech();
     unlockAudio();
     playTap(isMuted);
-    const freshDeck = createInitialDeck();
+    const freshDeck = createInitialDeck(categoryId, masteredIds);
+    setSelectedCategory(categoryId);
     setDeck(freshDeck);
     setRoundIdx(0);
     setScore(0);
     setStreak(0);
     setHypeMessage('');
-    setOptions(buildRoundOptions(freshDeck[0].item));
+    setOptions(buildRoundOptions(freshDeck[0].item, categoryId));
     setPoppedIds(new Set());
     setIsRoundLocked(false);
     setEchoPhrase(null);
@@ -550,10 +319,14 @@ export default function BalloonPopGame({
     setIsGameOver(false);
   };
 
+  const handleRestartGame = () => {
+    startFreshDeck(selectedCategory);
+  };
+
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
       {/* Header Bar */}
-      <div className="w-full flex flex-wrap items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 mb-3 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl shadow-md border-2 border-rose-600">
             🎈
@@ -561,7 +334,7 @@ export default function BalloonPopGame({
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
-                Lego Balloon Pop!
+                Balon Patlatma ({VOCAB_BANK_500.length} Kelime)
               </h2>
               <span className="bg-rose-100 text-rose-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-rose-300 uppercase">
                 Dinle • Bul • Tekrar Et
@@ -574,7 +347,7 @@ export default function BalloonPopGame({
               )}
             </div>
             <p className="text-xs font-bold text-slate-500">
-              Soruyu dinle, doğru balonu patlat ve cümleyi tekrar et! Üstüne gelince sesli okur.
+              Soruyu dinle, doğru balonu patlat ve cümleyi tekrar et! Toplam {masteredIds.size} / {VOCAB_BANK_500.length} kelime öğrenildi.
             </p>
           </div>
         </div>
@@ -586,6 +359,9 @@ export default function BalloonPopGame({
               <span>🔥 {streak}x Seri!</span>
             </div>
           )}
+          <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-800 border border-indigo-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
+            <span>📚 {masteredIds.size}/{VOCAB_BANK_500.length}</span>
+          </div>
           <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
             <span>Skor: {score}</span>
           </div>
@@ -605,6 +381,35 @@ export default function BalloonPopGame({
             <RotateCcw className="w-4 h-4" />
           </button>
         </div>
+      </div>
+
+      {/* Category Filter Bar */}
+      <div className="w-full flex items-center gap-2 overflow-x-auto pb-2 mb-3">
+        {VOCAB_CATEGORIES.map((cat) => {
+          const isActive = selectedCategory === cat.id;
+          const catCount =
+            cat.id === 'all'
+              ? VOCAB_BANK_500.length
+              : VOCAB_BANK_500.filter((v) => v.category === cat.id).length;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => startFreshDeck(cat.id)}
+              className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-bold text-xs border-2 transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-rose-500 text-white border-rose-700 shadow-sm scale-[1.02]'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-rose-300 hover:bg-rose-50'
+              }`}
+            >
+              <span>{cat.emoji}</span>
+              <span>{cat.labelTr}</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                {catCount}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Question Prompt Banner (Hover or Click to Listen) */}

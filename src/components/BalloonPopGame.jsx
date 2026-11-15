@@ -28,10 +28,11 @@ import { VOCAB_CATEGORIES, VOCAB_BANK_500 } from '../data/vocabularyBank500';
 
 const INITIAL_ROUNDS = 10;
 const BALLOON_MASTERED_KEY = 'lego_balloon_mastered_v1';
+const BALLOON_REVIEW_KEY = 'lego_balloon_review_v1';
 
-function loadMasteredIds() {
+function loadIdSet(storageKey) {
   try {
-    const raw = localStorage.getItem(BALLOON_MASTERED_KEY);
+    const raw = localStorage.getItem(storageKey);
     if (!raw) return new Set();
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? new Set(parsed) : new Set();
@@ -40,9 +41,9 @@ function loadMasteredIds() {
   }
 }
 
-function saveMasteredIds(idsSet) {
+function saveIdSet(storageKey, idsSet) {
   try {
-    localStorage.setItem(BALLOON_MASTERED_KEY, JSON.stringify([...idsSet]));
+    localStorage.setItem(storageKey, JSON.stringify([...idsSet]));
   } catch {
     // Ignore storage quota errors
   }
@@ -73,13 +74,19 @@ function buildRoundOptions(target, categoryId = 'all') {
   return shuffleArray([target, others[0], others[1]]);
 }
 
-function createInitialDeck(categoryId = 'all', masteredIds = new Set()) {
+function createInitialDeck(categoryId = 'all', masteredIds = new Set(), reviewIds = new Set()) {
   const pool = getCategoryPool(categoryId);
-  const unmastered = shuffleArray(pool.filter((item) => !masteredIds.has(item.id)));
-  const mastered = shuffleArray(pool.filter((item) => masteredIds.has(item.id)));
-  return [...unmastered, ...mastered]
-    .slice(0, INITIAL_ROUNDS)
-    .map((item) => ({ item, isReview: false }));
+  const dueReviews = shuffleArray(pool.filter((item) => reviewIds.has(item.id))).map((item) => ({
+    item,
+    isReview: true,
+  }));
+  const unmastered = shuffleArray(
+    pool.filter((item) => !reviewIds.has(item.id) && !masteredIds.has(item.id))
+  ).map((item) => ({ item, isReview: false }));
+  const mastered = shuffleArray(
+    pool.filter((item) => !reviewIds.has(item.id) && masteredIds.has(item.id))
+  ).map((item) => ({ item, isReview: false }));
+  return [...dueReviews, ...unmastered, ...mastered].slice(0, INITIAL_ROUNDS);
 }
 
 export default function BalloonPopGame({
@@ -87,9 +94,10 @@ export default function BalloonPopGame({
   isMuted = false,
 }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [masteredIds, setMasteredIds] = useState(() => loadMasteredIds());
+  const [masteredIds, setMasteredIds] = useState(() => loadIdSet(BALLOON_MASTERED_KEY));
+  const [reviewIds, setReviewIds] = useState(() => loadIdSet(BALLOON_REVIEW_KEY));
   const [deck, setDeck] = useState(() =>
-    createInitialDeck('all', loadMasteredIds())
+    createInitialDeck('all', loadIdSet(BALLOON_MASTERED_KEY), loadIdSet(BALLOON_REVIEW_KEY))
   );
   const [roundIdx, setRoundIdx] = useState(0);
   const [score, setScore] = useState(0);
@@ -215,9 +223,19 @@ export default function BalloonPopGame({
         if (prev.has(targetItem.id)) return prev;
         const updated = new Set(prev);
         updated.add(targetItem.id);
-        saveMasteredIds(updated);
+        saveIdSet(BALLOON_MASTERED_KEY, updated);
         return updated;
       });
+
+      if (wrongCountInRound === 0) {
+        setReviewIds((prev) => {
+          if (!prev.has(targetItem.id)) return prev;
+          const updated = new Set(prev);
+          updated.delete(targetItem.id);
+          saveIdSet(BALLOON_REVIEW_KEY, updated);
+          return updated;
+        });
+      }
 
       const nextStreak = wrongCountInRound === 0 ? streak + 1 : 1;
       setStreak(nextStreak);
@@ -285,6 +303,14 @@ export default function BalloonPopGame({
 
     setWrongCountInRound((prev) => prev + 1);
 
+    setReviewIds((prev) => {
+      if (prev.has(targetItem.id)) return prev;
+      const updated = new Set(prev);
+      updated.add(targetItem.id);
+      saveIdSet(BALLOON_REVIEW_KEY, updated);
+      return updated;
+    });
+
     if (!currentEntry?.isReview && !missedIdsQueued.has(targetItem.id)) {
       const nextQueued = new Set(missedIdsQueued);
       nextQueued.add(targetItem.id);
@@ -302,7 +328,7 @@ export default function BalloonPopGame({
     cancelHoverSpeech();
     unlockAudio();
     playTap(isMuted);
-    const freshDeck = createInitialDeck(categoryId, masteredIds);
+    const freshDeck = createInitialDeck(categoryId, masteredIds, reviewIds);
     setSelectedCategory(categoryId);
     setDeck(freshDeck);
     setRoundIdx(0);
@@ -357,6 +383,11 @@ export default function BalloonPopGame({
           {streak >= 2 && (
             <div className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black shadow-sm animate-bounce">
               <span>🔥 {streak}x Seri!</span>
+            </div>
+          )}
+          {reviewIds.size > 0 && (
+            <div className="flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black" title="Yanlış yapılan kelimeler sonraki turlarda öncelikli sorulur">
+              <span>🔁 {reviewIds.size} Tekrar</span>
             </div>
           )}
           <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-800 border border-indigo-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">

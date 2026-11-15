@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Square, Music, Volume2, Sparkles, Tv, X } from 'lucide-react';
+import { Play, Square, Music, Volume2, Sparkles, Tv, X, Mic } from 'lucide-react';
 import { DAY_LESSONS } from '../data/dailyLessonsData';
 import {
   speakEnglish,
@@ -23,8 +23,13 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
   const [beatStep, setBeatStep] = useState(0);
   const [activeCardIdx, setActiveCardIdx] = useState(-1);
   const [selectedPatternChips, setSelectedPatternChips] = useState({});
+  const [recordingPatternId, setRecordingPatternId] = useState(null);
+  const [playingPatternId, setPlayingPatternId] = useState(null);
+  const [micStatus, setMicStatus] = useState('');
   const singSessionRef = useRef(0);
   const stepTimerRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const micStopTimerRef = useRef(null);
 
   const stopSingAlong = () => {
     singSessionRef.current += 1;
@@ -46,10 +51,92 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
         clearTimeout(stepTimerRef.current);
         stepTimerRef.current = null;
       }
+      if (micStopTimerRef.current) {
+        clearTimeout(micStopTimerRef.current);
+        micStopTimerRef.current = null;
+      }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        try {
+          mediaRecorderRef.current.stop();
+        } catch {
+          // ignore
+        }
+      }
       stopKidsSongBeat();
       cancelHoverSpeech();
     };
   }, []);
+
+  const handlePracticeSpeak = async (patternId) => {
+    cancelHoverSpeech();
+    stopSingAlong();
+
+    if (recordingPatternId === patternId) {
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        mediaRecorderRef.current.stop();
+      }
+      return;
+    }
+
+    if (
+      typeof navigator === 'undefined' ||
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia ||
+      typeof MediaRecorder === 'undefined'
+    ) {
+      setMicStatus('Bu tarayıcıda ses kaydı desteklenmiyor.');
+      return;
+    }
+
+    try {
+      setMicStatus('');
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const chunks = [];
+      const recorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
+      setRecordingPatternId(patternId);
+
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        setRecordingPatternId(null);
+        if (micStopTimerRef.current) {
+          clearTimeout(micStopTimerRef.current);
+          micStopTimerRef.current = null;
+        }
+        if (chunks.length === 0) return;
+        const blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        setPlayingPatternId(patternId);
+        audio.onended = () => {
+          setPlayingPatternId(null);
+          URL.revokeObjectURL(url);
+        };
+        audio.onerror = () => {
+          setPlayingPatternId(null);
+          URL.revokeObjectURL(url);
+        };
+        audio.play().catch(() => {
+          setPlayingPatternId(null);
+          URL.revokeObjectURL(url);
+        });
+      };
+
+      recorder.start();
+      micStopTimerRef.current = setTimeout(() => {
+        if (recorder.state === 'recording') {
+          recorder.stop();
+        }
+      }, 3500);
+    } catch {
+      setRecordingPatternId(null);
+      setMicStatus('Mikrofon izni verilmedi.');
+    }
+  };
 
   if (!lesson) return null;
 
@@ -341,23 +428,49 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
                   key={pattern.id}
                   className="bg-white/10 border border-white/20 rounded-2xl p-3.5 sm:p-4 space-y-3"
                 >
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-xs font-black text-yellow-300 uppercase">
                       {pattern.titleTr}
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        cancelHoverSpeech();
-                        unlockAudio();
-                        speakEnglish(activeOpt.fullEn);
-                      }}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-yellow-300"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                      <span>Dinle</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handlePracticeSpeak(pattern.id)}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-black text-[11px] cursor-pointer transition ${
+                          recordingPatternId === pattern.id
+                            ? 'bg-rose-500 text-white animate-pulse'
+                            : playingPatternId === pattern.id
+                            ? 'bg-emerald-400 text-slate-950'
+                            : 'bg-white/20 hover:bg-white/30 text-white'
+                        }`}
+                        title="Cümleyi sesli söyle ve kendi sesini dinle"
+                      >
+                        <Mic className="w-3.5 h-3.5" />
+                        <span>
+                          {recordingPatternId === pattern.id
+                            ? 'Dinliyorum... (Durdur)'
+                            : playingPatternId === pattern.id
+                            ? 'Sesin Çalıyor!'
+                            : 'Söyle & Dinle'}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cancelHoverSpeech();
+                          unlockAudio();
+                          speakEnglish(activeOpt.fullEn);
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-yellow-300"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                        <span>Dinle</span>
+                      </button>
+                    </div>
                   </div>
+                  {micStatus && (
+                    <div className="text-[11px] font-bold text-amber-200">{micStatus}</div>
+                  )}
 
                   {/* Assembled Sentence Slot */}
                   <div className="bg-slate-950/60 border border-white/15 rounded-xl p-3">

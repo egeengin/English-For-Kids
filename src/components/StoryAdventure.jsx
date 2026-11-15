@@ -602,22 +602,19 @@ export default function StoryAdventure({
                 <span className="text-3xl">{activeProp.emoji}</span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-display font-black text-sm text-slate-950">
+                    <span className="font-display font-black text-lg text-slate-950">
                       {activeProp.name}
                     </span>
                     <button
                       onClick={() => {
                         if (!isMuted) speakDialoguePhrase(activeProp.audioKey, activeProp.name, 'en');
                       }}
-                      className="p-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors cursor-pointer"
                       title="Hear English pronunciation"
                     >
-                      <Volume2 className="w-3.5 h-3.5" />
+                      <Volume2 className="w-4 h-4" />
                     </button>
                   </div>
-                  <p className="text-sm text-slate-700 font-bold">
-                    {activeProp.tagline}
-                  </p>
                 </div>
               </div>
               <button

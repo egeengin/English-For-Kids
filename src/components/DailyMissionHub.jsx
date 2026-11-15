@@ -49,6 +49,16 @@ export default function DailyMissionHub({
 
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(0);
   const [speakingTarget, setSpeakingTarget] = useState(null);
+  const [isSlowMode, setIsSlowMode] = useState(false);
+  const [todayGoalCount, setTodayGoalCount] = useState(() => {
+    try {
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const saved = JSON.parse(localStorage.getItem('lego_daily_micro_goal_v1') || '{}');
+      return saved.date === todayKey ? Number(saved.count || 0) : 0;
+    } catch {
+      return 0;
+    }
+  });
   const quizSpeechSessionRef = useRef(0);
   const quizSpeechTimerRef = useRef(null);
 
@@ -144,20 +154,24 @@ export default function DailyMissionHub({
           runStep(stepIdx + 1);
         }, 4500);
 
-        speakEnglish(step.text, () => {
-          if (sessionId !== quizSpeechSessionRef.current) return;
-          if (quizSpeechTimerRef.current) {
-            clearTimeout(quizSpeechTimerRef.current);
-          }
-          quizSpeechTimerRef.current = setTimeout(() => {
-            runStep(stepIdx + 1);
-          }, 260);
-        });
+        speakEnglish(
+          step.text,
+          () => {
+            if (sessionId !== quizSpeechSessionRef.current) return;
+            if (quizSpeechTimerRef.current) {
+              clearTimeout(quizSpeechTimerRef.current);
+            }
+            quizSpeechTimerRef.current = setTimeout(() => {
+              runStep(stepIdx + 1);
+            }, 260);
+          },
+          { rate: isSlowMode ? 0.8 : 1.0 }
+        );
       };
 
       runStep(0);
     },
-    [isMuted, stopQuizSpeech]
+    [isMuted, isSlowMode, stopQuizSpeech]
   );
 
   const handleSelectQuestion = (idx, autoRead = true) => {
@@ -182,7 +196,20 @@ export default function DailyMissionHub({
       playWobble(isMuted);
     }
     if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn), 280);
+      setTimeout(() => speakEnglish(opt.textEn, undefined, { rate: isSlowMode ? 0.8 : 1.0 }), 280);
+    }
+    if (!dailyQuizAnswers[questionId]) {
+      const nextCount = todayGoalCount + 1;
+      setTodayGoalCount(nextCount);
+      try {
+        const todayKey = new Date().toISOString().slice(0, 10);
+        localStorage.setItem('lego_daily_micro_goal_v1', JSON.stringify({ date: todayKey, count: nextCount }));
+      } catch {
+        // ignore
+      }
+      if (nextCount === 10) {
+        confetti({ particleCount: 90, spread: 90, origin: { y: 0.5 } });
+      }
     }
     if (onSaveDailyQuizAnswer) {
       onSaveDailyQuizAnswer(questionId, opt.id);
@@ -205,10 +232,10 @@ export default function DailyMissionHub({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900">
-              📅 Günlük Plan &amp; Basılabilir 10 Soruluk Testler
+              🗺️ 14 Bölümlük Öğrenme Yolculuğu
             </h1>
             <p className="text-xs text-slate-500 font-semibold">
-              Günü seç, evdeki kısa oyunu oyna ve 10 soruluk siyah-beyaz kağıt testi yazdır.
+              Her gün acele etmeden 10–15 dakika ilerle, istediğin zaman kağıt test yazdır!
             </p>
           </div>
 
@@ -240,6 +267,26 @@ export default function DailyMissionHub({
                 <span>50 Soruluk Seviye Testi</span>
               </button>
             )}
+          </div>
+        </div>
+
+        {/* Daily Micro-Goal Bar */}
+        <div className="bg-gradient-to-r from-amber-50 to-emerald-50 border border-amber-200 rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{todayGoalCount >= 10 ? '🏆' : '🎯'}</span>
+            <span className="text-xs sm:text-sm font-display font-black text-slate-800">
+              {todayGoalCount >= 10
+                ? 'Bugünkü Mikro-Hedef Tamamlandı! Harikasın!'
+                : `Bugünkü Hedef: ${Math.min(todayGoalCount, 10)} / 10 Soru`}
+            </span>
+          </div>
+          <div className="flex-1 min-w-[140px] max-w-xs h-2.5 bg-white rounded-full overflow-hidden border border-amber-200">
+            <div
+              className={`h-full transition-all duration-500 ${
+                todayGoalCount >= 10 ? 'bg-emerald-500' : 'bg-amber-400'
+              }`}
+              style={{ width: `${Math.min(100, (todayGoalCount / 10) * 100)}%` }}
+            />
           </div>
         </div>
 
@@ -489,6 +536,21 @@ export default function DailyMissionHub({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                setIsSlowMode((prev) => !prev);
+              }}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-display font-black text-xs border-2 transition cursor-pointer ${
+                isSlowMode
+                  ? 'bg-emerald-500 text-white border-emerald-600 shadow-sm'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
+              }`}
+              title="Uzun cümleleri %80 hızda daha yavaş ve net oku"
+            >
+              <span>🐢 {isSlowMode ? 'Yavaş Mod Açık' : 'Yavaş Mod'}</span>
+            </button>
             {dayQuizQuestions[activeQuestionIdx] && (
               <button
                 type="button"

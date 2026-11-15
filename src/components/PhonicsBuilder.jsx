@@ -64,13 +64,42 @@ function createShuffledBricks(wordObj) {
     .sort(() => Math.random() - 0.5);
 }
 
-function findNextUncompletedIndex(completedIds, afterIndex = -1, categoryId = 'all') {
+const PHONICS_TIERS = [
+  { id: 'all', label: '🌟 Tüm Seviyeler' },
+  { id: 'tier1', label: '🧱 Seviye 1 (3 Harf)' },
+  { id: 'tier2', label: '⚡ Seviye 2 (4–5 Harf)' },
+  { id: 'tier3', label: '🚀 Seviye 3 (6–8 Harf)' },
+];
+
+function matchesTier(item, tierId) {
+  if (!tierId || tierId === 'all') return true;
+  const len = item.letters.length;
+  if (tierId === 'tier1') return len === 3;
+  if (tierId === 'tier2') return len >= 4 && len <= 5;
+  return len >= 6;
+}
+
+function getGermanFalseFriendHint(upperWord) {
+  if (!upperWord) return null;
+  if (upperWord.includes('W')) {
+    return '🇩🇪 İpucu: İngilizcede W harfi dudak yuvarlanarak /w/ okunur (V değil)!';
+  }
+  if (upperWord.includes('V')) {
+    return '🇩🇪 İpucu: İngilizcede V harfi /v/ okunur (Almancadaki F değil)!';
+  }
+  if (upperWord.includes('EI')) {
+    return '🇩🇪 İpucu: Burada EI harfleri Almancadaki "ay" gibi okunmaz!';
+  }
+  return null;
+}
+
+function findNextUncompletedIndex(completedIds, afterIndex = -1, categoryId = 'all', tierId = 'all') {
   const doneSet = new Set(completedIds);
   for (let offset = 1; offset <= PHONICS_WORDS.length; offset += 1) {
     const candidate = (afterIndex + offset) % PHONICS_WORDS.length;
     const item = PHONICS_WORDS[candidate];
     const matchesCat = categoryId === 'all' || item.category === categoryId;
-    if (matchesCat && !doneSet.has(item.id)) {
+    if (matchesCat && matchesTier(item, tierId) && !doneSet.has(item.id)) {
       return candidate;
     }
   }
@@ -83,6 +112,7 @@ export default function PhonicsBuilder({
   childName = 'Deniz',
 }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedTier, setSelectedTier] = useState('all');
   const [completedIds, setCompletedIds] = useState(() => loadSavedCompletedIds());
   const [currentIndex, setCurrentIndex] = useState(() => {
     const saved = loadSavedCompletedIds();
@@ -255,11 +285,12 @@ export default function PhonicsBuilder({
     unlockAudio();
     if (!isMuted) playTap();
 
-    let nextIdx = findNextUncompletedIndex(completedIds, currentIndex, selectedCategory);
-    if (nextIdx === -1 && selectedCategory !== 'all') {
-      nextIdx = findNextUncompletedIndex(completedIds, currentIndex, 'all');
+    let nextIdx = findNextUncompletedIndex(completedIds, currentIndex, selectedCategory, selectedTier);
+    if (nextIdx === -1 && (selectedCategory !== 'all' || selectedTier !== 'all')) {
+      nextIdx = findNextUncompletedIndex(completedIds, currentIndex, 'all', 'all');
       if (nextIdx !== -1) {
         setSelectedCategory('all');
+        setSelectedTier('all');
       }
     }
     if (nextIdx === -1) {
@@ -271,20 +302,32 @@ export default function PhonicsBuilder({
     loadWordAtIndex(nextIdx);
   };
 
+  const applyFilterJump = (catId, tierId) => {
+    const nextUnfinished = findNextUncompletedIndex(completedIds, -1, catId, tierId);
+    if (nextUnfinished !== -1) {
+      loadWordAtIndex(nextUnfinished);
+      return;
+    }
+    const firstMatch = PHONICS_WORDS.findIndex(
+      (w) => (catId === 'all' || w.category === catId) && matchesTier(w, tierId)
+    );
+    loadWordAtIndex(firstMatch === -1 ? 0 : firstMatch);
+  };
+
   const handleSelectCategory = (catId) => {
     cancelHoverSpeech();
     unlockAudio();
     if (!isMuted) playTap();
     setSelectedCategory(catId);
-    const nextUnfinished = findNextUncompletedIndex(completedIds, -1, catId);
-    if (nextUnfinished !== -1) {
-      loadWordAtIndex(nextUnfinished);
-      return;
-    }
-    const firstInCat = PHONICS_WORDS.findIndex(
-      (w) => catId === 'all' || w.category === catId
-    );
-    loadWordAtIndex(firstInCat === -1 ? 0 : firstInCat);
+    applyFilterJump(catId, selectedTier);
+  };
+
+  const handleSelectTier = (tierId) => {
+    cancelHoverSpeech();
+    unlockAudio();
+    if (!isMuted) playTap();
+    setSelectedTier(tierId);
+    applyFilterJump(selectedCategory, tierId);
   };
 
   const handleResetProgress = () => {
@@ -294,7 +337,7 @@ export default function PhonicsBuilder({
     setCompletedIds([]);
     saveCompletedIds([]);
     const firstInCat = PHONICS_WORDS.findIndex(
-      (w) => selectedCategory === 'all' || w.category === selectedCategory
+      (w) => (selectedCategory === 'all' || w.category === selectedCategory) && matchesTier(w, selectedTier)
     );
     loadWordAtIndex(firstInCat === -1 ? 0 : firstInCat);
   };
@@ -309,8 +352,9 @@ export default function PhonicsBuilder({
   };
 
   const categoryEntries = PHONICS_WORDS.map((item, idx) => ({ item, idx })).filter(
-    ({ item }) => selectedCategory === 'all' || item.category === selectedCategory
+    ({ item }) => (selectedCategory === 'all' || item.category === selectedCategory) && matchesTier(item, selectedTier)
   );
+  const falseFriendHint = getGermanFalseFriendHint(currentWord?.word);
   const activePosInCat = categoryEntries.findIndex(({ idx }) => idx === currentIndex);
   const stripEntries =
     categoryEntries.length <= 55
@@ -355,6 +399,27 @@ export default function PhonicsBuilder({
             <RefreshCw className="w-4 h-4" />
           </button>
         </div>
+      </div>
+
+      {/* Tier Difficulty Selector Bar */}
+      <div className="w-full flex flex-wrap items-center gap-2 mb-2">
+        {PHONICS_TIERS.map((tier) => {
+          const isTierActive = selectedTier === tier.id;
+          return (
+            <button
+              key={tier.id}
+              type="button"
+              onClick={() => handleSelectTier(tier.id)}
+              className={`px-3 py-1.5 rounded-xl font-display font-bold text-xs border-2 transition cursor-pointer ${
+                isTierActive
+                  ? 'bg-indigo-600 text-white border-indigo-700 shadow-sm'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-indigo-300'
+              }`}
+            >
+              {tier.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Category Filter Bar */}
@@ -455,7 +520,7 @@ export default function PhonicsBuilder({
           />
 
           {/* Top Hint / Translation Bar */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-6 bg-emerald-900/40 backdrop-blur-sm px-4 py-2.5 rounded-2xl border border-emerald-400/30">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-4 bg-emerald-900/40 backdrop-blur-sm px-4 py-2.5 rounded-2xl border border-emerald-400/30">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -472,6 +537,11 @@ export default function PhonicsBuilder({
                 <Volume2 className="w-4 h-4 text-slate-900" />
                 <span>Kelimeyi Dinle 🔊</span>
               </button>
+              {falseFriendHint && (
+                <span className="px-3 py-1 rounded-xl bg-amber-300 text-slate-950 font-display font-black text-xs shadow-sm">
+                  {falseFriendHint}
+                </span>
+              )}
 
               <button
                 type="button"

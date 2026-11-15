@@ -5,6 +5,8 @@
  * loves Lego, Pokemon Cards, Basketball, Piano, and Checker Tobi / Woozle Goozle).
  */
 
+import { EXTRA_LEVELS } from './extraLevelsData.js';
+
 export const DISCOVERY_STAGES = [
   {
     id: 'stage-1',
@@ -883,11 +885,11 @@ export const DISCOVERY_STAGES = [
   },
 ];
 
-export const DAILY_EXPEDITION_DAYS = [
+const BASE_EXPEDITION_DAYS = [
   {
     id: 'day-1',
     dayNumber: 1,
-    shortLabel: 'Gün 1',
+    shortLabel: 'Bölüm 1',
     badge: '🍕 Tercihler & Mutfak Şifresi',
     title: 'I Like / I Don’t Like & Kibarca İsteme',
     desc: 'Tek kelimelerden ("Apple", "Red") tam cümlelere geçiyoruz! Evdeki yiyeceklerle komik oylama oyunu ve mutfak şifresi.',
@@ -928,8 +930,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-2',
-    dayNumber: 2,
-    shortLabel: 'Gün 2',
+    dayNumber: 3,
+    shortLabel: 'Bölüm 3',
     badge: '🏀🎹 Basket & Piyano Güçleri',
     title: 'I Can / I Can’t + Hızlı, Yavaş, Yüksek, Kısık',
     desc: 'Deniz’in iki gerçek hobisi olan Basketbol ve Piyanoyu doğrudan İngilizceye bağlıyoruz!',
@@ -970,8 +972,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-3',
-    dayNumber: 3,
-    shortLabel: 'Gün 3',
+    dayNumber: 5,
+    shortLabel: 'Bölüm 5',
     badge: '🏃 Hareket & Şu An Ne Yapıyorum?',
     title: 'Dad Says (TPR) & Donma Oyunu (-ing)',
     desc: 'Tüm vücutla hareket ederek fiilleri ve "I am building / playing" şimdiki zaman kalıbını öğreniyoruz.',
@@ -1012,8 +1014,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-4',
-    dayNumber: 4,
-    shortLabel: 'Gün 4',
+    dayNumber: 8,
+    shortLabel: 'Bölüm 8',
     badge: '🔬 Checker Deniz Bilim & Canavar',
     title: 'Batar mı Yüzer mi? (Why/Because) & Zarla Canavar',
     desc: 'Checker Tobi ve Woozle Goozle merakını İngilizce bilim deneyine çeviriyoruz!',
@@ -1054,8 +1056,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-5',
-    dayNumber: 5,
-    shortLabel: 'Gün 5',
+    dayNumber: 7,
+    shortLabel: 'Bölüm 7',
     badge: '🗺️ Hazine Avı & Pokemon Matematik',
     title: 'Nerede Saklanıyor? & Pokemon Kart Takası',
     desc: 'Evin içinde sıcak-soğuk hazine avı ve 11–20 arası sayılarla Pokemon kart matematiği!',
@@ -1096,8 +1098,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-6',
-    dayNumber: 6,
-    shortLabel: 'Gün 6',
+    dayNumber: 9,
+    shortLabel: 'Bölüm 9',
     badge: '⏰ Sabah Rutinim & Hikaye Dedektifi',
     title: 'Okul Günü Pantomimi, Saatler & Who/Where',
     desc: 'Dinleme hafızasını 2–3 cümlelik hikayelere taşıyor, günlük rutinleri ve odaları öğreniyoruz.',
@@ -1138,8 +1140,8 @@ export const DAILY_EXPEDITION_DAYS = [
   },
   {
     id: 'day-7',
-    dayNumber: 7,
-    shortLabel: 'Gün 7',
+    dayNumber: 11,
+    shortLabel: 'Bölüm 11',
     badge: '👑 Büyük Turnuva & Boss Finali',
     title: 'Pokemon Karşılaştırma, Geçmiş Zaman & 3 Cümle Finali',
     desc: 'Haftanın finali! Karşılaştırma yapıyoruz ("stronger than"), dün ne yaptığımızı söylüyoruz ("Yesterday") ve 3 cümleyle kartımızı tanıtıyoruz.',
@@ -1180,6 +1182,10 @@ export const DAILY_EXPEDITION_DAYS = [
   },
 ];
 
+export const DAILY_EXPEDITION_DAYS = [...BASE_EXPEDITION_DAYS, ...EXTRA_LEVELS].sort(
+  (a, b) => a.dayNumber - b.dayNumber
+);
+
 /**
  * Returns an exact 10-question worksheet set ({ title, subtitle, vocabFocus, questions })
  * for either a Stage ('stage-1'..'stage-5') or a Day ('day-1'..'day-7').
@@ -1187,6 +1193,14 @@ export const DAILY_EXPEDITION_DAYS = [
 export function getWorksheetQuestions({ mode = 'stage', stageId = 'stage-1', dayId = 'day-1' } = {}) {
   if (mode === 'day') {
     const dayObj = DAILY_EXPEDITION_DAYS.find((d) => d.id === dayId) || DAILY_EXPEDITION_DAYS[0];
+    if (Array.isArray(dayObj.questions) && dayObj.questions.length > 0) {
+      return {
+        title: `${dayObj.shortLabel}: ${dayObj.title}`,
+        subtitle: dayObj.grammarFocus,
+        vocabFocus: dayObj.vocabFocus || [],
+        questions: dayObj.questions.slice(0, 10),
+      };
+    }
     const allFlat = DISCOVERY_STAGES.flatMap((s) => s.questions);
     const matching = allFlat.filter((q) => q.curriculumDayTarget === dayObj.id);
     const matchingIds = new Set(matching.map((q) => q.id));

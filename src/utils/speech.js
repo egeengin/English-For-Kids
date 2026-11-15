@@ -6,16 +6,16 @@
 import { getEffectiveGeminiApiKey } from './gemini.js';
 
 const GEMINI_TTS_MODELS = [
-  'gemini-3.8-flash-lite-tts',
-  'gemini-3.1-flash-tts-preview',
+  'gemini-2.5-flash-preview-tts',
   'gemini-3.8-flash-tts',
+  'gemini-3.8-flash-lite-tts',
 ];
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const DEFAULT_VOICE_NAME = 'Kore';
 const ALLOWED_VOICES = new Set(['Charon', 'Kore', 'Fenrir', 'Aoede', 'Puck']);
 const MAX_TTS_CACHE_SIZE = 160;
 const MODEL_COOLDOWN_MS = 10 * 60 * 1000;
-const TTS_IDB_NAME = 'lego_gemini_tts_idb_v1';
+const TTS_IDB_NAME = 'lego_gemini_tts_idb_v2';
 const TTS_IDB_STORE = 'wav_cache';
 
 const ttsCache = new Map();
@@ -309,40 +309,88 @@ export function cleanTextForTTS(rawText) {
   return withSpaces
     .replace(/[^\p{L}\p{N}\s.,!?'’":;-]/gu, ' ')
     .replace(/\s+/g, ' ')
+    .replace(/!+\s+(?=[\p{L}\p{N}])/gu, ', ')
     .trim()
     .slice(0, 1800);
 }
 
+function findAsciiTagOffset(bytes, tag) {
+  const codes = Array.from(tag, (ch) => ch.charCodeAt(0));
+  const limit = bytes.length - codes.length;
+  for (let i = 0; i <= limit; i++) {
+    let matched = true;
+    for (let j = 0; j < codes.length; j++) {
+      if (bytes[i + j] !== codes[j]) {
+        matched = false;
+        break;
+      }
+    }
+    if (matched) return i;
+  }
+  return -1;
+}
+
 /**
- * Convert Gemini base64 audio payload (already-framed RIFF WAV or raw PCM16) into a playable WAV Blob.
+ * Convert Gemini base64 audio payload (RIFF WAV or raw PCM16) into a clean, click-free WAV Blob,
+ * stripping non-audio trailing chunks (such as C2PA metadata) and applying gentle fade-in/out ramps.
  */
 export function audioDataToWavBlob(base64Data, mimeType = '') {
   const binaryStr = atob(base64Data);
   const totalBytes = binaryStr.length;
-
-  const isAlreadyWav =
-    totalBytes >= 44 &&
-    binaryStr.slice(0, 4) === 'RIFF' &&
-    binaryStr.slice(8, 12) === 'WAVE';
-
-  if (isAlreadyWav) {
-    const buffer = new ArrayBuffer(totalBytes);
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < totalBytes; i++) {
-      bytes[i] = binaryStr.charCodeAt(i);
-    }
-    const view = new DataView(buffer);
-    view.setUint32(4, totalBytes - 8, true);
-    if (binaryStr.slice(36, 40) === 'data') {
-      view.setUint32(40, totalBytes - 44, true);
-    }
-    return new Blob([buffer], { type: 'audio/wav' });
+  const rawBytes = new Uint8Array(totalBytes);
+  for (let i = 0; i < totalBytes; i++) {
+    rawBytes[i] = binaryStr.charCodeAt(i);
   }
+  const rawView = new DataView(rawBytes.buffer);
+  const readTag = (off) =>
+    String.fromCharCode(rawBytes[off], rawBytes[off + 1], rawBytes[off + 2], rawBytes[off + 3]);
 
   const rateMatch = String(mimeType || '').toLowerCase().match(/rate=(\d+)/);
-  const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+  let sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
 
-  const buffer = new ArrayBuffer(44 + totalBytes);
+  let pcmSlice = rawBytes;
+  const isAlreadyWav =
+    totalBytes >= 44 &&
+    readTag(0) === 'RIFF' &&
+    readTag(8) === 'WAVE';
+
+  if (isAlreadyWav) {
+    let offset = 12;
+    let dataOffset = 44;
+    let dataByteLen = Math.max(0, totalBytes - 44);
+
+    while (offset + 8 <= totalBytes) {
+      const chunkId = readTag(offset);
+      const chunkSize = rawView.getUint32(offset + 4, true);
+
+      if (chunkId === 'fmt ' && offset + 8 + 16 <= totalBytes) {
+        const parsedRate = rawView.getUint32(offset + 8 + 4, true);
+        if (parsedRate > 0) sampleRate = parsedRate;
+      } else if (chunkId === 'data') {
+        dataOffset = offset + 8;
+        const maxAvail = Math.max(0, totalBytes - dataOffset);
+        dataByteLen = chunkSize > 0 && chunkSize <= maxAvail ? chunkSize : maxAvail;
+        break;
+      }
+
+      offset += 8 + chunkSize + (chunkSize % 2);
+    }
+
+    pcmSlice = rawBytes.subarray(dataOffset, dataOffset + dataByteLen);
+  }
+
+  // Defensive strip if any C2PA/JUMBF trailer appears inside extracted PCM bytes
+  const c2paIdx = findAsciiTagOffset(pcmSlice, 'C2PA');
+  const jumbIdx = findAsciiTagOffset(pcmSlice, 'jumb');
+  let truncateAt = pcmSlice.length;
+  if (c2paIdx >= 0) truncateAt = Math.min(truncateAt, c2paIdx);
+  if (jumbIdx >= 0) truncateAt = Math.min(truncateAt, jumbIdx);
+  if (truncateAt < pcmSlice.length) {
+    pcmSlice = pcmSlice.subarray(0, truncateAt);
+  }
+
+  const pcmByteLen = pcmSlice.length & ~1;
+  const buffer = new ArrayBuffer(44 + pcmByteLen);
   const view = new DataView(buffer);
   const writeStr = (off, s) => {
     for (let i = 0; i < s.length; i++) {
@@ -351,7 +399,7 @@ export function audioDataToWavBlob(base64Data, mimeType = '') {
   };
 
   writeStr(0, 'RIFF');
-  view.setUint32(4, 36 + totalBytes, true);
+  view.setUint32(4, 36 + pcmByteLen, true);
   writeStr(8, 'WAVE');
   writeStr(12, 'fmt ');
   view.setUint32(16, 16, true);
@@ -362,17 +410,43 @@ export function audioDataToWavBlob(base64Data, mimeType = '') {
   view.setUint16(32, 2, true);
   view.setUint16(34, 16, true);
   writeStr(36, 'data');
-  view.setUint32(40, totalBytes, true);
+  view.setUint32(40, pcmByteLen, true);
 
-  const bytes = new Uint8Array(buffer, 44);
-  for (let i = 0; i < totalBytes; i++) {
-    bytes[i] = binaryStr.charCodeAt(i);
+  const outBytes = new Uint8Array(buffer, 44);
+  outBytes.set(pcmSlice.subarray(0, pcmByteLen));
+
+  // Smooth 15ms fade-in and 35ms fade-out to prevent start/end clicks or pops
+  const totalSamples = pcmByteLen / 2;
+  const fadeInSamples = Math.min(Math.floor(sampleRate * 0.015), Math.floor(totalSamples / 4));
+  const fadeOutSamples = Math.min(Math.floor(sampleRate * 0.035), Math.floor(totalSamples / 4));
+
+  for (let i = 0; i < fadeInSamples; i++) {
+    const off = 44 + i * 2;
+    const s = view.getInt16(off, true);
+    view.setInt16(off, Math.round(s * (i / fadeInSamples)), true);
   }
+  for (let i = 0; i < fadeOutSamples; i++) {
+    const sampleIdx = totalSamples - 1 - i;
+    const off = 44 + sampleIdx * 2;
+    const s = view.getInt16(off, true);
+    view.setInt16(off, Math.round(s * (i / fadeOutSamples)), true);
+  }
+
   return new Blob([buffer], { type: 'audio/wav' });
 }
 
+let didPurgeLegacyIdb = false;
+
 function openTtsIdb() {
   if (typeof indexedDB === 'undefined') return Promise.resolve(null);
+  if (!didPurgeLegacyIdb) {
+    didPurgeLegacyIdb = true;
+    try {
+      indexedDB.deleteDatabase('lego_gemini_tts_idb_v1');
+    } catch {
+      // Ignore legacy IDB cleanup failures
+    }
+  }
   if (ttsIdbPromise) return ttsIdbPromise;
 
   ttsIdbPromise = new Promise((resolve) => {
@@ -708,45 +782,57 @@ function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9) {
   }
 
   try {
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.resume();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    activeUtterance = utterance;
-
-    utterance.lang = lang;
-    utterance.rate = rate;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-
     if (voices.length === 0) {
       voices = window.speechSynthesis.getVoices();
     }
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
 
-    const preferredVoice = selectBestWebSpeechVoice(voices, lang);
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-    }
+    // Brief 40ms gap after cancel() avoids synchronous Chromium/WebKit audio buffer glitches
+    webSpeechTimeout = setTimeout(() => {
+      if (myToken !== speechSeqToken) return;
 
-    let finished = false;
-    const finish = () => {
-      if (!finished) {
-        finished = true;
-        if (activeUtterance === utterance) activeUtterance = null;
+      try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        activeUtterance = utterance;
+
+        utterance.lang = lang;
+        utterance.rate = rate;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        if (voices.length === 0) {
+          voices = window.speechSynthesis.getVoices();
+        }
+
+        const preferredVoice = selectBestWebSpeechVoice(voices, lang);
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+
+        let finished = false;
+        const finish = () => {
+          if (!finished) {
+            finished = true;
+            if (activeUtterance === utterance) activeUtterance = null;
+            if (myToken === speechSeqToken && onEnd) onEnd();
+          }
+        };
+
+        utterance.onend = finish;
+        utterance.onerror = finish;
+
+        window.speechSynthesis.speak(utterance);
+
+        webSpeechTimeout = setTimeout(() => {
+          if (activeUtterance === utterance) {
+            finish();
+          }
+        }, Math.max(3000, Math.min(8000, text.length * 110)));
+      } catch {
         if (myToken === speechSeqToken && onEnd) onEnd();
       }
-    };
-
-    utterance.onend = finish;
-    utterance.onerror = finish;
-
-    window.speechSynthesis.speak(utterance);
-
-    webSpeechTimeout = setTimeout(() => {
-      if (activeUtterance === utterance) {
-        finish();
-      }
-    }, Math.max(3000, Math.min(8000, text.length * 110)));
+    }, 40);
   } catch {
     if (myToken === speechSeqToken && onEnd) onEnd();
   }

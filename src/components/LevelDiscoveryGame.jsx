@@ -114,7 +114,7 @@ export default function LevelDiscoveryGame({
     }
 
     if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn), 150);
+      setTimeout(() => speakEnglish(opt.textEn), 380);
     }
 
     onSaveDiscoveryResult(currentQuestion.id, {
@@ -324,7 +324,6 @@ export default function LevelDiscoveryGame({
                 <button
                   type="button"
                   onClick={() => {
-                    playTap(isMuted);
                     speakEnglish(currentQuestion.promptEn);
                   }}
                   className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-sm sm:text-base shadow-sm cursor-pointer"
@@ -394,7 +393,6 @@ export default function LevelDiscoveryGame({
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        playTap(isMuted);
                         speakEnglish(opt.textEn);
                       }}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-slate-300 hover:border-blue-500 text-blue-700 font-black text-xs sm:text-sm shadow-sm cursor-pointer"

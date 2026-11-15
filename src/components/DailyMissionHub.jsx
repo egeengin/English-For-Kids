@@ -85,7 +85,7 @@ export default function DailyMissionHub({
       playWobble(isMuted);
     }
     if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn), 120);
+      setTimeout(() => speakEnglish(opt.textEn), 380);
     }
     setDailyQuizAnswers((prev) => ({
       ...prev,
@@ -218,7 +218,6 @@ export default function DailyMissionHub({
               key={v.en}
               type="button"
               onClick={() => {
-                playTap(isMuted);
                 speakEnglish(v.en);
               }}
               className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-2xl p-4 sm:p-5 text-left transition cursor-pointer"
@@ -271,7 +270,6 @@ export default function DailyMissionHub({
                           key={phrase}
                           type="button"
                           onClick={() => {
-                            playTap(isMuted);
                             speakEnglish(phrase);
                           }}
                           className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-[11px] hover:bg-blue-600 hover:text-white transition cursor-pointer"
@@ -367,7 +365,6 @@ export default function DailyMissionHub({
                   <button
                     type="button"
                     onClick={() => {
-                      playTap(isMuted);
                       speakEnglish(q.promptEn);
                     }}
                     className="p-2 rounded-xl bg-white border border-slate-300 text-blue-700 flex-shrink-0 cursor-pointer"

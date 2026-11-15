@@ -72,7 +72,24 @@ export default function StoryAdventure({
   childAge = 7,
   geminiApiKey = '',
 }) {
-  const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+  const [currentChapterIndex, setCurrentChapterIndex] = useState(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return 0;
+    try {
+      const saved = Number(window.localStorage.getItem('lego_story_chapter_v1'));
+      return Number.isFinite(saved) && saved >= 0 ? saved : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+    try {
+      window.localStorage.setItem('lego_story_chapter_v1', String(currentChapterIndex));
+    } catch {
+      // ignore
+    }
+  }, [currentChapterIndex]);
   const [interactionMode, setInteractionMode] = useState('choices'); // 'choices' | 'sentence' | 'voice'
   const [selectedChoiceId, setSelectedChoiceId] = useState(null);
   const [builtSentenceWords, setBuiltSentenceWords] = useState([]);

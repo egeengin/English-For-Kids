@@ -1,8 +1,8 @@
-// Animated Sing-Along Chants & Visual Mini-Lessons for Gün 1 - Gün 7
+// Animated Sing-Along Chants, Visual Mini-Lessons & Interactive Sentence Pattern Builders (Gün 1 - Gün 7)
 export const DAY_LESSONS = {
   'day-1': {
     songTitle: 'Yummy Food & Polite Magic Words 🎵',
-    songSubtitleTr: 'Önce şarkıyı dinle ve tekrar et, sonra teste geç!',
+    songSubtitleTr: 'Önce şarkıyı dinle, kalıplarla cümle kur, sonra teste geç!',
     chantLines: [
       { emoji: '🍎', en: 'Do you like apples? Yes, I do!', tr: 'Elma sever misin? Evet, severim!' },
       { emoji: '🥦', en: 'Do you like broccoli? No, I don’t!', tr: 'Brokoli sever misin? Hayır, sevmem!' },
@@ -38,10 +38,36 @@ export const DAY_LESSONS = {
         de: 'Kann ich bitte einen Apfel haben?',
       },
     ],
+    patterns: [
+      {
+        id: 'd1-p1',
+        titleTr: 'Sevdiğini Söyleme Kalıbı',
+        templateBefore: 'I like',
+        templateAfter: '!',
+        options: [
+          { emoji: '🍎', word: 'apples', fullEn: 'I like apples!', tr: 'Elma severim!', de: 'Ich mag Äpfel!' },
+          { emoji: '🍕', word: 'pizza', fullEn: 'I like pizza!', tr: 'Pizza severim!', de: 'Ich mag Pizza!' },
+          { emoji: '🍌', word: 'bananas', fullEn: 'I like bananas!', tr: 'Muz severim!', de: 'Ich mag Bananen!' },
+          { emoji: '🍦', word: 'ice cream', fullEn: 'I like ice cream!', tr: 'Dondurma severim!', de: 'Ich mag Eis!' },
+        ],
+      },
+      {
+        id: 'd1-p2',
+        titleTr: 'Kibarca İsteme Kalıbı',
+        templateBefore: 'Can I have',
+        templateAfter: ', please?',
+        options: [
+          { emoji: '💧', word: 'water', fullEn: 'Can I have water, please?', tr: 'Su alabilir miyim lütfen?', de: 'Kann ich bitte Wasser haben?' },
+          { emoji: '🍎', word: 'an apple', fullEn: 'Can I have an apple, please?', tr: 'Bir elma alabilir miyim lütfen?', de: 'Kann ich bitte einen Apfel haben?' },
+          { emoji: '🥛', word: 'milk', fullEn: 'Can I have milk, please?', tr: 'Süt alabilir miyim lütfen?', de: 'Kann ich bitte Milch haben?' },
+          { emoji: '🧱', word: 'a brick', fullEn: 'Can I have a brick, please?', tr: 'Bir Lego parçası alabilir miyim lütfen?', de: 'Kann ich bitte einen Baustein haben?' },
+        ],
+      },
+    ],
   },
   'day-2': {
     songTitle: 'I Can Do It! Fast & Slow Chant 🎶',
-    songSubtitleTr: 'Yeteneklerini ve hızları şarkıyla öğren!',
+    songSubtitleTr: 'Yeteneklerini ve hızları şarkıyla ve kalıplarla öğren!',
     chantLines: [
       { emoji: '🦘', en: 'I can jump! Jump, jump, jump!', tr: 'Zıplayabilirim! Zıpla, zıpla, zıpla!' },
       { emoji: '🎹', en: 'I can play piano, fast and slow!', tr: 'Hızlı ve yavaş piyano çalabilirim!' },
@@ -77,10 +103,36 @@ export const DAY_LESSONS = {
         de: 'Schnell und langsam!',
       },
     ],
+    patterns: [
+      {
+        id: 'd2-p1',
+        titleTr: 'Yapabildiklerini Söyleme Kalıbı',
+        templateBefore: 'I can',
+        templateAfter: '!',
+        options: [
+          { emoji: '🦘', word: 'jump', fullEn: 'I can jump!', tr: 'Zıplayabilirim!', de: 'Ich kann springen!' },
+          { emoji: '🏀', word: 'play basketball', fullEn: 'I can play basketball!', tr: 'Basketbol oynayabilirim!', de: 'Ich kann Basketball spielen!' },
+          { emoji: '🎹', word: 'play piano', fullEn: 'I can play piano!', tr: 'Piyano çalabilirim!', de: 'Ich kann Klavier spielen!' },
+          { emoji: '🏊', word: 'swim fast', fullEn: 'I can swim fast!', tr: 'Hızlı yüzebilirim!', de: 'Ich kann schnell schwimmen!' },
+        ],
+      },
+      {
+        id: 'd2-p2',
+        titleTr: 'Soru Sorma Kalıbı',
+        templateBefore: 'Can you',
+        templateAfter: '?',
+        options: [
+          { emoji: '🏃', word: 'run fast', fullEn: 'Can you run fast?', tr: 'Hızlı koşabilir misin?', de: 'Kannst du schnell rennen?' },
+          { emoji: '✈️', word: 'fly', fullEn: 'Can you fly?', tr: 'Uçabilir misin?', de: 'Kannst du fliegen?' },
+          { emoji: '🎶', word: 'sing a song', fullEn: 'Can you sing a song?', tr: 'Şarkı söyleyebilir misin?', de: 'Kannst du ein Lied singen?' },
+          { emoji: '🤸', word: 'spin around', fullEn: 'Can you spin around?', tr: 'Etrafında dönebilir misin?', de: 'Kannst du dich drehen?' },
+        ],
+      },
+    ],
   },
   'day-3': {
     songTitle: 'Move & Freeze Action Song! ❄️',
-    songSubtitleTr: 'Hareketleri canlandır, donma oyununa hazırlan!',
+    songSubtitleTr: 'Hareketleri canlandır, -ing kalıbını öğren!',
     chantLines: [
       { emoji: '👏', en: 'Clap your hands, clap, clap, clap!', tr: 'Ellerini çırp, şak şak şak!' },
       { emoji: '🦘', en: 'What are you doing? I am jumping!', tr: 'Ne yapıyorsun? Zıplıyorum!' },
@@ -114,6 +166,32 @@ export const DAY_LESSONS = {
         en: 'Freeze! Don’t move!',
         tr: 'Freeze = Don ve kıpırdama!',
         de: 'Stopp! Nicht bewegen!',
+      },
+    ],
+    patterns: [
+      {
+        id: 'd3-p1',
+        titleTr: 'Şu An Ne Yaptığını Söyleme (-ing)',
+        templateBefore: 'I am',
+        templateAfter: '!',
+        options: [
+          { emoji: '🦘', word: 'jumping', fullEn: 'I am jumping!', tr: 'Zıplıyorum!', de: 'Ich springe!' },
+          { emoji: '🏃', word: 'running', fullEn: 'I am running!', tr: 'Koşuyorum!', de: 'Ich renne!' },
+          { emoji: '👏', word: 'clapping', fullEn: 'I am clapping!', tr: 'Alkışlıyorum!', de: 'Ich klatsche!' },
+          { emoji: '💃', word: 'dancing', fullEn: 'I am dancing!', tr: 'Dans ediyorum!', de: 'Ich tanze!' },
+        ],
+      },
+      {
+        id: 'd3-p2',
+        titleTr: 'Komut Verme Kalıbı',
+        templateBefore: 'Touch your',
+        templateAfter: '!',
+        options: [
+          { emoji: '👃', word: 'nose', fullEn: 'Touch your nose!', tr: 'Burnuna dokun!', de: 'Fass dir an die Nase!' },
+          { emoji: '👂', word: 'ears', fullEn: 'Touch your ears!', tr: 'Kulaklarına dokun!', de: 'Fass dir an die Ohren!' },
+          { emoji: '🗣️', word: 'head', fullEn: 'Touch your head!', tr: 'Başına dokun!', de: 'Fass dir an den Kopf!' },
+          { emoji: '🦶', word: 'toes', fullEn: 'Touch your toes!', tr: 'Ayak parmaklarına dokun!', de: 'Fass dir an die Zehen!' },
+        ],
       },
     ],
   },
@@ -155,6 +233,32 @@ export const DAY_LESSONS = {
         de: 'Warum? Weil es leicht ist!',
       },
     ],
+    patterns: [
+      {
+        id: 'd4-p1',
+        titleTr: 'Sebep Açıklama Kalıbı (Because)',
+        templateBefore: 'Because it is',
+        templateAfter: '!',
+        options: [
+          { emoji: '🪨', word: 'heavy', fullEn: 'Because it is heavy!', tr: 'Çünkü o ağır!', de: 'Weil es schwer ist!' },
+          { emoji: '🪶', word: 'light', fullEn: 'Because it is light!', tr: 'Çünkü o hafif!', de: 'Weil es leicht ist!' },
+          { emoji: '🐘', word: 'big', fullEn: 'Because it is big!', tr: 'Çünkü o büyük!', de: 'Weil es groß ist!' },
+          { emoji: '🐭', word: 'small', fullEn: 'Because it is small!', tr: 'Çünkü o küçük!', de: 'Weil es klein ist!' },
+        ],
+      },
+      {
+        id: 'd4-p2',
+        titleTr: 'Bilim Tahmini Kalıbı',
+        templateBefore: 'The',
+        templateAfter: 'in water!',
+        options: [
+          { emoji: '🦆', word: 'duck floats', fullEn: 'The duck floats in water!', tr: 'Ördek suda yüzer!', de: 'Die Ente schwimmt im Wasser!' },
+          { emoji: '🪨', word: 'rock sinks', fullEn: 'The rock sinks in water!', tr: 'Taş suda batar!', de: 'Der Stein sinkt im Wasser!' },
+          { emoji: '⛵', word: 'boat floats', fullEn: 'The boat floats in water!', tr: 'Tekne suda yüzer!', de: 'Das Boot schwimmt im Wasser!' },
+          { emoji: '🪙', word: 'coin sinks', fullEn: 'The coin sinks in water!', tr: 'Bozuk para suda batar!', de: 'Die Münze sinkt im Wasser!' },
+        ],
+      },
+    ],
   },
   'day-5': {
     songTitle: 'In, On, Under — Where is Pikachu? ⚡',
@@ -192,6 +296,32 @@ export const DAY_LESSONS = {
         en: 'The ball is under the bed!',
         tr: 'Bir şeyin altındaysa: UNDER',
         de: 'Der Ball ist unter dem Bett!',
+      },
+    ],
+    patterns: [
+      {
+        id: 'd5-p1',
+        titleTr: 'Yer Tarif Etme Kalıbı (In / On / Under)',
+        templateBefore: 'Pikachu is',
+        templateAfter: 'the box!',
+        options: [
+          { emoji: '📦', word: 'in', fullEn: 'Pikachu is in the box!', tr: 'Pikachu kutunun içinde!', de: 'Pikachu ist in der Kiste!' },
+          { emoji: '⬆️', word: 'on', fullEn: 'Pikachu is on the box!', tr: 'Pikachu kutunun üstünde!', de: 'Pikachu ist auf der Kiste!' },
+          { emoji: '⬇️', word: 'under', fullEn: 'Pikachu is under the box!', tr: 'Pikachu kutunun altında!', de: 'Pikachu ist unter der Kiste!' },
+          { emoji: '👉', word: 'next to', fullEn: 'Pikachu is next to the box!', tr: 'Pikachu kutunun yanında!', de: 'Pikachu ist neben der Kiste!' },
+        ],
+      },
+      {
+        id: 'd5-p2',
+        titleTr: 'Sayı Sayma Kalıbı',
+        templateBefore: 'I have',
+        templateAfter: 'Pokemon cards!',
+        options: [
+          { emoji: '🔟', word: 'ten', fullEn: 'I have ten Pokemon cards!', tr: '10 Pokemon kartım var!', de: 'Ich habe zehn Karten!' },
+          { emoji: '1️⃣2️⃣', word: 'twelve', fullEn: 'I have twelve Pokemon cards!', tr: '12 Pokemon kartım var!', de: 'Ich habe zwölf Karten!' },
+          { emoji: '1️⃣5️⃣', word: 'fifteen', fullEn: 'I have fifteen Pokemon cards!', tr: '15 Pokemon kartım var!', de: 'Ich habe fünfzehn Karten!' },
+          { emoji: '2️⃣0️⃣', word: 'twenty', fullEn: 'I have twenty Pokemon cards!', tr: '20 Pokemon kartım var!', de: 'Ich habe zwanzig Karten!' },
+        ],
       },
     ],
   },
@@ -233,6 +363,32 @@ export const DAY_LESSONS = {
         de: 'Wo ist mein Buch?',
       },
     ],
+    patterns: [
+      {
+        id: 'd6-p1',
+        titleTr: 'Saat Söyleme Kalıbı',
+        templateBefore: 'It is',
+        templateAfter: 'o’clock!',
+        options: [
+          { emoji: '7️⃣', word: 'seven', fullEn: 'It is seven o’clock!', tr: 'Saat yedi!', de: 'Es ist sieben Uhr!' },
+          { emoji: '8️⃣', word: 'eight', fullEn: 'It is eight o’clock!', tr: 'Saat sekiz!', de: 'Es ist acht Uhr!' },
+          { emoji: '9️⃣', word: 'nine', fullEn: 'It is nine o’clock!', tr: 'Saat dokuz!', de: 'Es ist neun Uhr!' },
+          { emoji: '🔟', word: 'ten', fullEn: 'It is ten o’clock!', tr: 'Saat on!', de: 'Es ist zehn Uhr!' },
+        ],
+      },
+      {
+        id: 'd6-p2',
+        titleTr: 'Sabah Rutini Kalıbı',
+        templateBefore: 'In the morning, I',
+        templateAfter: '!',
+        options: [
+          { emoji: '⏰', word: 'wake up', fullEn: 'In the morning, I wake up!', tr: 'Sabah uyanırım!', de: 'Am Morgen wache ich auf!' },
+          { emoji: '🪥', word: 'brush my teeth', fullEn: 'In the morning, I brush my teeth!', tr: 'Sabah dişlerimi fırçalarım!', de: 'Am Morgen putze ich Zähne!' },
+          { emoji: '🥣', word: 'eat breakfast', fullEn: 'In the morning, I eat breakfast!', tr: 'Sabah kahvaltı yaparım!', de: 'Am Morgen frühstücke ich!' },
+          { emoji: '🎒', word: 'go to school', fullEn: 'In the morning, I go to school!', tr: 'Sabah okula giderim!', de: 'Am Morgen gehe ich zur Schule!' },
+        ],
+      },
+    ],
   },
   'day-7': {
     songTitle: 'Champion Comparison & Past Song! 👑',
@@ -270,6 +426,32 @@ export const DAY_LESSONS = {
         en: 'My name is Deniz. I am seven. I love Lego!',
         tr: 'Kendini 3 net cümleyle tanıtabilirsin!',
         de: 'Ich heiße Deniz und bin sieben Jahre alt!',
+      },
+    ],
+    patterns: [
+      {
+        id: 'd7-p1',
+        titleTr: 'Karşılaştırma Kalıbı (-er than)',
+        templateBefore: 'A lion is',
+        templateAfter: 'than a cat!',
+        options: [
+          { emoji: '🐘', word: 'bigger', fullEn: 'A lion is bigger than a cat!', tr: 'Aslan kediden daha büyüktür!', de: 'Ein Löwe ist größer als eine Katze!' },
+          { emoji: '💪', word: 'stronger', fullEn: 'A lion is stronger than a cat!', tr: 'Aslan kediden daha güçlüdür!', de: 'Ein Löwe ist stärker als eine Katze!' },
+          { emoji: '🐆', word: 'faster', fullEn: 'A lion is faster than a cat!', tr: 'Aslan kediden daha hızlıdır!', de: 'Ein Löwe ist schneller als eine Katze!' },
+          { emoji: '🔊', word: 'louder', fullEn: 'A lion is louder than a cat!', tr: 'Aslan kediden daha gürültülüdür!', de: 'Ein Löwe ist lauter als eine Katze!' },
+        ],
+      },
+      {
+        id: 'd7-p2',
+        titleTr: 'Dün Ne Yaptım Kalıbı (Yesterday)',
+        templateBefore: 'Yesterday, I',
+        templateAfter: '!',
+        options: [
+          { emoji: '🏀', word: 'played basketball', fullEn: 'Yesterday, I played basketball!', tr: 'Dün basketbol oynadım!', de: 'Gestern habe ich Basketball gespielt!' },
+          { emoji: '🎹', word: 'played piano', fullEn: 'Yesterday, I played piano!', tr: 'Dün piyano çaldım!', de: 'Gestern habe ich Klavier gespielt!' },
+          { emoji: '🧱', word: 'built a castle', fullEn: 'Yesterday, I built a castle!', tr: 'Dün bir kale inşa ettim!', de: 'Gestern habe ich eine Burg gebaut!' },
+          { emoji: '📖', word: 'read a story', fullEn: 'Yesterday, I read a story!', tr: 'Dün bir hikaye okudum!', de: 'Gestern habe ich eine Geschichte gelesen!' },
+        ],
       },
     ],
   },

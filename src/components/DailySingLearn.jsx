@@ -15,6 +15,7 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
   const [isSinging, setIsSinging] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState(-1);
   const [activeCardIdx, setActiveCardIdx] = useState(-1);
+  const [selectedPatternChips, setSelectedPatternChips] = useState({});
   const singSessionRef = useRef(0);
   const stepTimerRef = useRef(null);
 
@@ -233,6 +234,97 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
           })}
         </div>
       </div>
+
+      {/* Interactive Sentence Pattern Builder (Kalıp Kurucu) */}
+      {Array.isArray(lesson.patterns) && lesson.patterns.length > 0 && (
+        <div className="space-y-3 pt-2 border-t border-white/15">
+          <div className="flex items-center gap-1.5 text-xs font-black text-emerald-300 uppercase tracking-wide">
+            <span>🧩 Kelime Kalıbı Kurucu (Kelimeye dokun, cümleyi kur ve dinle):</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {lesson.patterns.map((pattern) => {
+              const selectedIdx = selectedPatternChips[pattern.id] ?? 0;
+              const activeOpt = pattern.options[selectedIdx] || pattern.options[0];
+              return (
+                <div
+                  key={pattern.id}
+                  className="bg-white/10 border border-white/20 rounded-2xl p-3.5 sm:p-4 space-y-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-black text-yellow-300 uppercase">
+                      {pattern.titleTr}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        cancelHoverSpeech();
+                        unlockAudio();
+                        speakEnglish(activeOpt.fullEn);
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-yellow-300"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                      <span>Dinle</span>
+                    </button>
+                  </div>
+
+                  {/* Assembled Sentence Slot */}
+                  <div className="bg-slate-950/60 border border-white/15 rounded-xl p-3">
+                    <div className="font-display font-black text-base sm:text-lg text-white flex flex-wrap items-center gap-1.5">
+                      <span>{pattern.templateBefore}</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-yellow-400 text-slate-950 shadow-sm">
+                        {activeOpt.emoji} {activeOpt.word}
+                      </span>
+                      <span>{pattern.templateAfter}</span>
+                    </div>
+                    <div className="text-xs font-bold text-indigo-200 mt-1.5">
+                      🇹🇷 {activeOpt.tr} • 🇩🇪 {activeOpt.de}
+                    </div>
+                  </div>
+
+                  {/* Selectable Word Chips */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {pattern.options.map((opt, oIdx) => {
+                      const isPicked = oIdx === selectedIdx;
+                      return (
+                        <button
+                          key={opt.word}
+                          type="button"
+                          onPointerEnter={(e) =>
+                            triggerHoverSpeech(opt.fullEn, {
+                              isMuted,
+                              pointerType: e.pointerType,
+                            })
+                          }
+                          onPointerLeave={cancelHoverSpeech}
+                          onClick={() => {
+                            cancelHoverSpeech();
+                            unlockAudio();
+                            playTap(isMuted);
+                            setSelectedPatternChips((prev) => ({
+                              ...prev,
+                              [pattern.id]: oIdx,
+                            }));
+                            speakEnglish(opt.fullEn);
+                          }}
+                          className={`px-2.5 py-1.5 rounded-xl text-xs font-display font-black border transition cursor-pointer ${
+                            isPicked
+                              ? 'bg-emerald-500 text-white border-emerald-300 shadow-sm'
+                              : 'bg-white text-slate-900 border-slate-200 hover:bg-yellow-100'
+                          }`}
+                        >
+                          {opt.emoji} {opt.word}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -28,6 +28,8 @@ export const INITIAL_STATE = {
   soundMuted: false,
   geminiApiKey: getEffectiveGeminiApiKey(),
   // Guru features persistence:
+  lastTab: 'discovery',
+  selectedDayId: 'day-1',
   roadProgress: { 'stage-1': 3 }, // stage-1 unlocked with 3 stars by default
   dailyChecklist: {},
   dailyQuizAnswers: {},
@@ -73,6 +75,11 @@ export function loadSavedState() {
       childName: (parsed.childName && parsed.childName.trim()) || 'Deniz',
       childAge: Number(parsed.childAge) || 7,
       geminiApiKey: (parsed.geminiApiKey && parsed.geminiApiKey.trim()) || getEffectiveGeminiApiKey(),
+      lastTab:
+        parsed.lastTab && parsed.lastTab !== 'parent' && parsed.lastTab !== 'workshop'
+          ? parsed.lastTab
+          : 'discovery',
+      selectedDayId: parsed.selectedDayId || 'day-1',
       dailyChecklist: parsed.dailyChecklist || {},
       dailyQuizAnswers: parsed.dailyQuizAnswers || {},
       discoveryResults: parsed.discoveryResults || {},

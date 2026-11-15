@@ -136,6 +136,42 @@ const PHONICS_WORDS = [
     de: 'Becher',
     phoneticGuide: 'C says /k/, U says /ʌ/, P says /p/',
   },
+  {
+    id: 'pw-13',
+    word: 'BED',
+    letters: ['B', 'E', 'D'],
+    emoji: '🛏️',
+    tr: 'Yatak',
+    de: 'Bett',
+    phoneticGuide: 'B says /b/, E says /e/, D says /d/',
+  },
+  {
+    id: 'pw-14',
+    word: 'FROG',
+    letters: ['F', 'R', 'O', 'G'],
+    emoji: '🐸',
+    tr: 'Kurbağa',
+    de: 'Frosch',
+    phoneticGuide: 'F /f/, R /r/, O /ɒ/, G /g/',
+  },
+  {
+    id: 'pw-15',
+    word: 'FISH',
+    letters: ['F', 'I', 'S', 'H'],
+    emoji: '🐟',
+    tr: 'Balık',
+    de: 'Fisch',
+    phoneticGuide: 'F /f/, I /ɪ/, SH says /ʃ/',
+  },
+  {
+    id: 'pw-16',
+    word: 'STAR',
+    letters: ['S', 'T', 'A', 'R'],
+    emoji: '⭐',
+    tr: 'Yıldız',
+    de: 'Stern',
+    phoneticGuide: 'S /s/, T /t/, AR says /ɑːr/',
+  },
 ];
 
 function loadSavedCompletedIds() {

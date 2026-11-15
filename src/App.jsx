@@ -22,7 +22,7 @@ import { Sparkles, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState('discovery'); // 'discovery' | 'daily' | 'story' | 'differences' | 'balloons' | 'phonics' | 'workshop' | 'parent'
+  const [currentTab, setCurrentTab] = useState(() => loadSavedState().lastTab || 'discovery');
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -31,7 +31,7 @@ export default function App() {
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [isPrintableOpen, setIsPrintableOpen] = useState(false);
-  const [selectedDayId, setSelectedDayId] = useState('day-1');
+  const [selectedDayId, setSelectedDayId] = useState(() => loadSavedState().selectedDayId || 'day-1');
   const [printConfig, setPrintConfig] = useState({
     mode: 'stage',
     stageId: 'stage-1',
@@ -63,6 +63,14 @@ export default function App() {
       }
     }
     setCurrentTab(tabId);
+    if (tabId !== 'parent') {
+      setState(prev => ({ ...prev, lastTab: tabId }));
+    }
+  };
+
+  const handleSelectDayId = (dayId) => {
+    setSelectedDayId(dayId);
+    setState(prev => ({ ...prev, selectedDayId: dayId }));
   };
 
   // Math gate solved successfully
@@ -372,7 +380,7 @@ export default function App() {
             onOpenStory={() => setCurrentTab('story')}
             onOpenPrintable={handleOpenPrintable}
             selectedDayId={selectedDayId}
-            onSelectDayId={setSelectedDayId}
+            onSelectDayId={handleSelectDayId}
             isMuted={state.soundMuted}
           />
         )}

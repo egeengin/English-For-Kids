@@ -155,6 +155,45 @@ export default function DailyMissionHub({
           </div>
         </div>
 
+        {/* Weekly Progress Tracker */}
+        {(() => {
+          const allDayStats = DAILY_EXPEDITION_DAYS.map((day) => {
+            const ws = getWorksheetQuestions({ mode: 'day', dayId: day.id });
+            const qs = ws.questions || [];
+            const done = qs.filter((q) => Boolean(dailyQuizAnswers[q.id])).length;
+            return { id: day.id, shortLabel: day.shortLabel, done, total: qs.length || 10 };
+          });
+          const weeklyDone = allDayStats.reduce((sum, s) => sum + s.done, 0);
+          const weeklyTotal = allDayStats.reduce((sum, s) => sum + s.total, 0) || 70;
+          const weeklyPct = Math.round((weeklyDone / weeklyTotal) * 100);
+          const firstIncomplete = allDayStats.find((s) => s.done < s.total);
+          return (
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex-1 space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-black text-slate-700">
+                  <span>📊 Haftalık Test İlerlemesi: {weeklyDone} / {weeklyTotal} Soru</span>
+                  <span className="text-emerald-700">%{weeklyPct}</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-emerald-500 to-blue-500 transition-all duration-300"
+                    style={{ width: `${weeklyPct}%` }}
+                  />
+                </div>
+              </div>
+              {firstIncomplete && firstIncomplete.id !== activeDay.id && (
+                <button
+                  type="button"
+                  onClick={() => setDayId(firstIncomplete.id)}
+                  className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs whitespace-nowrap cursor-pointer shadow-sm"
+                >
+                  🎯 Kaldığın Güne Git ({firstIncomplete.shortLabel})
+                </button>
+              )}
+            </div>
+          );
+        })()}
+
         {/* Gün 1 - Gün 7 Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
           {DAILY_EXPEDITION_DAYS.map((day) => {
@@ -386,11 +425,41 @@ export default function DailyMissionHub({
           </div>
         </div>
 
+        {/* 1..10 Quick Question Status Pills */}
+        <div className="flex flex-wrap items-center gap-1.5 pb-1">
+          <span className="text-xs font-bold text-slate-400 mr-1">Sorular:</span>
+          {dayQuizQuestions.map((q, qIdx) => {
+            const chosenId = dailyQuizAnswers[q.id];
+            const isCorrect = chosenId && q.options.some((o) => o.id === chosenId && o.isCorrect);
+            let pillCls = 'bg-slate-100 text-slate-600 border-slate-200 hover:border-blue-300';
+            if (chosenId) {
+              pillCls = isCorrect
+                ? 'bg-emerald-100 text-emerald-800 border-emerald-400'
+                : 'bg-rose-100 text-rose-800 border-rose-400';
+            }
+            return (
+              <button
+                key={q.id}
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById(`daily-q-${q.id}`);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+                className={`w-8 h-8 rounded-lg border font-display font-black text-xs flex items-center justify-center transition cursor-pointer ${pillCls}`}
+                title={`Soru ${qIdx + 1}`}
+              >
+                {qIdx + 1}
+              </button>
+            );
+          })}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {dayQuizQuestions.map((q, qIdx) => {
             const chosenId = dailyQuizAnswers[q.id];
             return (
               <div
+                id={`daily-q-${q.id}`}
                 key={q.id}
                 className="rounded-2xl p-4 sm:p-5 border-2 border-slate-200 bg-slate-50 space-y-3"
               >

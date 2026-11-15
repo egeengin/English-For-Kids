@@ -633,26 +633,10 @@ export default function StoryAdventure({
             </div>
           </div>
 
-          {/* Child Character Prompt + Voice Action Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
-            <div className="flex items-center gap-2 text-xs font-black text-slate-600">
-              <span className="text-base">👦</span>
-              <span>{chapter.questionPrompt}</span>
-            </div>
-
-            {/* Quick Microphone Button for instant voice conversation */}
-            <button
-              onClick={handleStartVoiceListening}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all shadow-sm cursor-pointer select-none ${
-                isListening
-                  ? 'bg-rose-500 text-white animate-pulse ring-2 ring-rose-300'
-                  : 'bg-purple-100 hover:bg-purple-200 text-purple-900 border border-purple-300'
-              }`}
-              title="Speak directly to character"
-            >
-              <Mic className="w-3.5 h-3.5" />
-              <span>{isListening ? 'Listening to ' + childName + '...' : 'Speak Now! 🎙️'}</span>
-            </button>
+          {/* Child Character Prompt */}
+          <div className="flex items-center gap-2 text-sm sm:text-base font-black text-slate-700 px-1">
+            <span className="text-lg">👦</span>
+            <span>{chapter.questionPrompt}</span>
           </div>
 
         </div>
@@ -660,10 +644,7 @@ export default function StoryAdventure({
         {/* Interaction Response Area */}
         <div ref={interactionAreaRef} className="p-4 sm:p-6 bg-white space-y-4">
           {/* Local Mode Tabs right where the answer area renders */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">
-            <span className="text-xs font-black uppercase tracking-wide text-slate-400">
-              Cevaplama Şekli:
-            </span>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pb-2 border-b border-slate-100">
             <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
               <button
                 type="button"
@@ -878,12 +859,6 @@ export default function StoryAdventure({
                   <p className="text-base font-black font-display">
                     {voiceEvaluation.feedbackEn}
                   </p>
-                  {voiceEvaluation.source === 'gemini' && (
-                    <div className="inline-flex items-center gap-1 text-[10px] font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full mt-1 border border-purple-200">
-                      <Bot className="w-3 h-3 text-purple-600" />
-                      <span>Coached by Google Gemini AI ✨</span>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -893,10 +868,6 @@ export default function StoryAdventure({
                   <span>{voiceError}</span>
                 </div>
               )}
-
-              <p className="text-[11px] text-slate-400 font-bold">
-                {geminiApiKey ? '✨ Gemini AI Voice is active for intelligent Turkish & German accent recognition!' : '🧠 Built-in smart phonetic forgiving active for early learners.'}
-              </p>
             </div>
           )}
 

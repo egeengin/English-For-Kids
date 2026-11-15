@@ -445,7 +445,7 @@ export default function PhonicsBuilder({
               <span>{cat.emoji}</span>
               <span>{cat.labelTr}</span>
               <span
-                className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                className={`text-xs px-1.5 py-0.5 rounded-full ${
                   isActive ? 'bg-slate-900/15 text-slate-950' : 'bg-slate-100 text-slate-500'
                 }`}
               >

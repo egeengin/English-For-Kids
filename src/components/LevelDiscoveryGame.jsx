@@ -257,7 +257,7 @@ export default function LevelDiscoveryGame({
                     {stat.isCompleted ? '⭐' : stage.number >= 4 ? '👑' : ''}
                   </span>
                 </div>
-                <div className={`text-[11px] font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
+                <div className={`text-xs sm:text-sm font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
                   {stat.answeredCount}/10 soru
                 </div>
               </button>

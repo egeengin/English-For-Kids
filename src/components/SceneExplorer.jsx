@@ -102,26 +102,14 @@ export default function SceneExplorer({
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center">
       
       {/* Header & Scene Selector */}
-      <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-slate-200">
+      <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-sm border-2 border-slate-200">
         
-        {/* Title & Badge */}
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md border-2 border-amber-600">
-            🔍
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
-                Spot the 7 Differences
-              </h2>
-              <span className="bg-amber-100 text-amber-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-amber-300 uppercase">
-                Interactive Map
-              </span>
-            </div>
-            <p className="text-xs font-bold text-slate-500">
-              Tap any item to see it, hear it in English, and collect Lego Bricks!
-            </p>
-          </div>
+        {/* Compact Title */}
+        <div className="flex items-center gap-2.5">
+          <span className="text-3xl">🔍</span>
+          <h2 className="font-display font-black text-lg sm:text-xl text-slate-900">
+            7 Fark Bul
+          </h2>
         </div>
 
         {/* Scene Selection Pills */}

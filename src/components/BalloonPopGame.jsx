@@ -349,30 +349,20 @@ export default function BalloonPopGame({
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
-      {/* Header Bar */}
-      <div className="w-full flex flex-wrap items-center justify-between gap-3 mb-3 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
+      {/* Compact Header Bar */}
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 mb-3 bg-white p-3 sm:p-4 rounded-2xl shadow-sm border-2 border-rose-200">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl shadow-md border-2 border-rose-600">
-            🎈
-          </div>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
-                Balon Patlatma ({VOCAB_BANK_500.length} Kelime)
-              </h2>
-              <span className="bg-rose-100 text-rose-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-rose-300 uppercase">
-                Dinle • Bul • Tekrar Et
+          <span className="text-3xl">🎈</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h2 className="font-display font-black text-lg sm:text-xl text-slate-900">
+              {masteredIds.size} / {VOCAB_BANK_500.length}
+            </h2>
+            {currentEntry?.isReview && !isGameOver && (
+              <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 text-xs font-black px-2.5 py-0.5 rounded-full border border-amber-400">
+                <Repeat className="w-3.5 h-3.5" />
+                <span>Tekrar</span>
               </span>
-              {currentEntry?.isReview && !isGameOver && (
-                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 text-[11px] font-black px-2.5 py-0.5 rounded-full border border-amber-400">
-                  <Repeat className="w-3 h-3" />
-                  <span>Tekrar Turu</span>
-                </span>
-              )}
-            </div>
-            <p className="text-xs font-bold text-slate-500">
-              Soruyu dinle, doğru balonu patlat ve cümleyi tekrar et! Toplam {masteredIds.size} / {VOCAB_BANK_500.length} kelime öğrenildi.
-            </p>
+            )}
           </div>
         </div>
 

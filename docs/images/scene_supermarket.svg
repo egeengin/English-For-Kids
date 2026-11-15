@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="marketWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="marketFloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="620" fill="url(#marketWall)"/>
+  <rect y="620" width="1600" height="280" fill="url(#marketFloor)"/>
+  <line x1="0" y1="620" x2="1600" y2="620" stroke="#94a3b8" stroke-width="6"/>
+
+  <!-- Ceiling Lights -->
+  <rect x="220" y="30" width="260" height="24" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <rect x="680" y="30" width="260" height="24" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <rect x="1140" y="30" width="260" height="24" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+
+  <!-- Left Produce Stand (Fruits & Veggies) -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="180" width="380" height="440" rx="20" fill="#22c55e" stroke="#15803d" stroke-width="5"/>
+    <rect x="78" y="200" width="344" height="32" rx="10" fill="#86efac"/>
+    <!-- Shelf 1 -->
+    <rect x="85" y="265" width="330" height="120" rx="14" fill="#fef3c7"/>
+    <!-- Bananas (160, 324 -> x:10%, y:36%) -->
+    <g transform="translate(115, 290)">
+      <path d="M10 45 Q35 75 75 35 Q45 50 18 32 Z" fill="#facc15" stroke="#ca8a04" stroke-width="3"/>
+      <path d="M22 30 Q48 62 88 22 Q58 38 30 18 Z" fill="#fde047" stroke="#ca8a04" stroke-width="3"/>
+    </g>
+    <!-- Apples (320, 324 -> x:20%, y:36%) -->
+    <g transform="translate(275, 290)">
+      <circle cx="25" cy="38" r="22" fill="#ef4444"/>
+      <circle cx="60" cy="40" r="22" fill="#dc2626"/>
+      <circle cx="42" cy="18" r="20" fill="#f87171"/>
+      <ellipse cx="46" cy="2" rx="8" ry="4" transform="rotate(-25 46 2)" fill="#16a34a"/>
+    </g>
+
+    <!-- Shelf 2 -->
+    <rect x="85" y="420" width="330" height="120" rx="14" fill="#fef3c7"/>
+    <!-- Carrots (176, 477 -> x:11%, y:53%) -->
+    <g transform="translate(120, 445)">
+      <polygon points="10,45 55,15 62,32" fill="#fb923c" stroke="#ea580c" stroke-width="2"/>
+      <polygon points="20,60 70,32 76,48" fill="#f97316" stroke="#ea580c" stroke-width="2"/>
+      <circle cx="68" cy="20" r="8" fill="#22c55e"/>
+      <circle cx="80" cy="36" r="8" fill="#16a34a"/>
+    </g>
+    <!-- Tomatoes (352, 477 -> x:22%, y:53%) -->
+    <g transform="translate(305, 452)">
+      <circle cx="22" cy="32" r="20" fill="#ef4444"/>
+      <circle cx="58" cy="32" r="20" fill="#dc2626"/>
+      <circle cx="40" cy="16" r="18" fill="#ef4444"/>
+      <circle cx="40" cy="4" r="5" fill="#15803d"/>
+    </g>
+  </g>
+
+  <!-- Center Grocery & Fridge Shelf -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="160" width="500" height="460" rx="22" fill="#ffffff" stroke="#38bdf8" stroke-width="6"/>
+    <rect x="500" y="185" width="460" height="150" rx="12" fill="#e0f2fe"/>
+    <rect x="500" y="355" width="460" height="150" rx="12" fill="#e0f2fe"/>
+
+    <!-- Bread (576, 288 -> x:36%, y:32%) -->
+    <g transform="translate(528, 240)">
+      <path d="M10 55 Q10 15 48 15 Q86 15 86 55 L86 80 L10 80 Z" fill="#f59e0b" stroke="#b45309" stroke-width="3"/>
+      <path d="M25 35 L40 25 M48 35 L63 25" stroke="#fde68a" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Cereal Box (720, 288 -> x:45%, y:32%) -->
+    <g transform="translate(682, 215)">
+      <rect x="0" y="0" width="76" height="105" rx="8" fill="#a855f7" stroke="#7e22ce" stroke-width="3"/>
+      <circle cx="38" cy="48" r="22" fill="#fde047"/>
+      <circle cx="38" cy="48" r="10" fill="#f97316"/>
+    </g>
+
+    <!-- Orange Juice (896, 288 -> x:56%, y:32%) -->
+    <g transform="translate(862, 222)">
+      <rect x="0" y="18" width="64" height="80" rx="8" fill="#fb923c" stroke="#ea580c" stroke-width="3"/>
+      <polygon points="0,18 32,0 64,18" fill="#fdba74" stroke="#ea580c" stroke-width="3"/>
+      <circle cx="32" cy="58" r="16" fill="#f97316" stroke="#ffffff" stroke-width="3"/>
+    </g>
+
+    <!-- Milk Carton (592, 450 -> x:37%, y:50%) -->
+    <g transform="translate(558, 390)">
+      <rect x="0" y="20" width="66" height="82" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="4"/>
+      <polygon points="0,20 33,2 66,20" fill="#bae6fd" stroke="#3b82f6" stroke-width="4"/>
+      <rect x="14" y="45" width="38" height="32" rx="6" fill="#3b82f6"/>
+    </g>
+
+    <!-- Cheese (736, 450 -> x:46%, y:50%) -->
+    <g transform="translate(690, 412)">
+      <polygon points="10,70 92,70 92,25 10,45" fill="#fde047" stroke="#eab308" stroke-width="3"/>
+      <circle cx="42" cy="54" r="7" fill="#ca8a04"/>
+      <circle cx="70" cy="48" r="9" fill="#ca8a04"/>
+      <circle cx="62" cy="62" r="5" fill="#ca8a04"/>
+    </g>
+
+    <!-- Eggs Carton (896, 450 -> x:56%, y:50%) -->
+    <g transform="translate(848, 420)">
+      <rect x="0" y="26" width="96" height="44" rx="10" fill="#cbd5e1" stroke="#64748b" stroke-width="3"/>
+      <ellipse cx="24" cy="24" rx="12" ry="16" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <ellipse cx="48" cy="24" rx="12" ry="16" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <ellipse cx="72" cy="24" rx="12" ry="16" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Boy / Deniz (1024, 468 -> x:64%, y:52%) -->
+  <g filter="url(#shadow)">
+    <rect x="996" y="575" width="22" height="90" rx="9" fill="#1d4ed8"/>
+    <rect x="1032" y="575" width="22" height="90" rx="9" fill="#1d4ed8"/>
+    <ellipse cx="1005" cy="670" rx="20" ry="10" fill="#f97316"/>
+    <ellipse cx="1045" cy="670" rx="20" ry="10" fill="#f97316"/>
+    <rect x="984" y="445" width="82" height="136" rx="24" fill="#38bdf8" stroke="#0284c7" stroke-width="3"/>
+    <path d="M1062 465 L1105 510" stroke="#38bdf8" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="1110" cy="515" r="12" fill="#fed7aa"/>
+    <circle cx="1025" cy="396" r="44" fill="#fed7aa"/>
+    <path d="M982 388 Q988 342 1025 342 Q1062 342 1068 388 Q1048 368 1025 370 Q1000 368 982 388 Z" fill="#451a03"/>
+    <circle cx="1010" cy="396" r="5" fill="#1e293b"/>
+    <circle cx="1040" cy="396" r="5" fill="#1e293b"/>
+    <path d="M1012 414 Q1025 426 1038 414" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Shopping Cart (1088, 594 -> x:68%, y:66%) -->
+  <g filter="url(#shadow)">
+    <path d="M1085 510 L1115 510 L1145 615 L1255 615 L1275 535 L1122 535" fill="none" stroke="#64748b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="1158" y1="535" x2="1165" y2="615" stroke="#94a3b8" stroke-width="6"/>
+    <line x1="1198" y1="535" x2="1200" y2="615" stroke="#94a3b8" stroke-width="6"/>
+    <line x1="1238" y1="535" x2="1232" y2="615" stroke="#94a3b8" stroke-width="6"/>
+    <line x1="1135" y1="575" x2="1264" y2="575" stroke="#94a3b8" stroke-width="6"/>
+    <!-- Items inside cart -->
+    <circle cx="1175" cy="522" r="18" fill="#ef4444"/>
+    <circle cx="1210" cy="524" r="16" fill="#facc15"/>
+    <circle cx="1155" cy="655" r="16" fill="#1e293b"/>
+    <circle cx="1245" cy="655" r="16" fill="#1e293b"/>
+  </g>
+
+  <!-- Mom (1248, 396 -> x:78%, y:44%) -->
+  <g filter="url(#shadow)">
+    <rect x="1220" y="535" width="24" height="125" rx="10" fill="#334155"/>
+    <rect x="1258" y="535" width="24" height="125" rx="10" fill="#334155"/>
+    <ellipse cx="1230" cy="665" rx="20" ry="10" fill="#ec4899"/>
+    <ellipse cx="1272" cy="665" rx="20" ry="10" fill="#ec4899"/>
+    <path d="M1198 370 Q1250 355 1302 370 L1315 545 L1185 545 Z" fill="#f472b6" stroke="#db2777" stroke-width="4"/>
+    <circle cx="1250" cy="306" r="50" fill="#fed7aa"/>
+    <path d="M1198 302 Q1204 244 1250 244 Q1296 244 1302 302 Q1284 274 1250 274 Q1216 274 1198 302 Z" fill="#78350f"/>
+    <circle cx="1234" cy="306" r="5" fill="#1e293b"/>
+    <circle cx="1266" cy="306" r="5" fill="#1e293b"/>
+    <path d="M1234 328 Q1250 342 1266 328" fill="none" stroke="#9a3412" stroke-width="4.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Checkout Counter & Shopping Bag (right, 1440, 558 -> x:90%, y:62%) -->
+  <g filter="url(#shadow)">
+    <rect x="1355" y="485" width="210" height="185" rx="18" fill="#0ea5e9" stroke="#0369a1" stroke-width="5"/>
+    <rect x="1345" y="468" width="230" height="24" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+    <!-- Register -->
+    <rect x="1370" y="410" width="76" height="58" rx="10" fill="#334155"/>
+    <rect x="1382" y="422" width="52" height="24" rx="4" fill="#38bdf8"/>
+    <!-- Shopping Bag (1472, 432 -> x:92%, y:48%) -->
+    <rect x="1455" y="388" width="70" height="80" rx="8" fill="#d97706" stroke="#92400e" stroke-width="3"/>
+    <path d="M1474 388 Q1490 362 1506 388" fill="none" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

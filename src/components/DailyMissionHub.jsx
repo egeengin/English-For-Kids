@@ -21,6 +21,7 @@ import {
   cancelHoverSpeech,
 } from '../utils/speech';
 import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
+import DailySingLearn from './DailySingLearn';
 
 export default function DailyMissionHub({
   dailyChecklist = {},
@@ -225,7 +226,13 @@ export default function DailyMissionHub({
             <button
               key={v.en}
               type="button"
+              onPointerEnter={(e) =>
+                triggerHoverSpeech(v.en, { isMuted, pointerType: e.pointerType })
+              }
+              onPointerLeave={cancelHoverSpeech}
               onClick={() => {
+                cancelHoverSpeech();
+                unlockAudio();
                 speakEnglish(v.en);
               }}
               className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-2xl p-4 sm:p-5 text-left transition cursor-pointer"
@@ -325,6 +332,9 @@ export default function DailyMissionHub({
           </div>
         )}
       </div>
+
+      {/* Animated Sing-Along & Mini Lesson Before Quiz */}
+      <DailySingLearn key={activeDay.id} dayId={activeDay.id} isMuted={isMuted} />
 
       {/* Daily 10-Question Interactive + Printable Quiz */}
       <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-4">

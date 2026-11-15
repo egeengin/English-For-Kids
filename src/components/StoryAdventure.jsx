@@ -91,6 +91,15 @@ export default function StoryAdventure({
     }
   }, [currentChapterIndex]);
   const [interactionMode, setInteractionMode] = useState('choices'); // 'choices' | 'sentence' | 'voice'
+  const interactionAreaRef = useRef(null);
+
+  const handleSwitchInteractionMode = (mode) => {
+    playTap(isMuted);
+    setInteractionMode(mode);
+    setTimeout(() => {
+      interactionAreaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 40);
+  };
   const [selectedChoiceId, setSelectedChoiceId] = useState(null);
   const [builtSentenceWords, setBuiltSentenceWords] = useState([]);
   const [isChapterSolved, setIsChapterSolved] = useState(false);
@@ -449,11 +458,9 @@ export default function StoryAdventure({
         {/* Interaction Style Toggle */}
         <div className="flex items-center bg-slate-100 rounded-xl p-1 border-2 border-slate-200 overflow-x-auto">
           <button
-            onClick={() => {
-              playTap(isMuted);
-              setInteractionMode('choices');
-            }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap ${
+            type="button"
+            onClick={() => handleSwitchInteractionMode('choices')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap cursor-pointer ${
               interactionMode === 'choices'
                 ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
@@ -462,11 +469,9 @@ export default function StoryAdventure({
             2 Big Choices
           </button>
           <button
-            onClick={() => {
-              playTap(isMuted);
-              setInteractionMode('sentence');
-            }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap ${
+            type="button"
+            onClick={() => handleSwitchInteractionMode('sentence')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap cursor-pointer ${
               interactionMode === 'sentence'
                 ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
@@ -475,11 +480,9 @@ export default function StoryAdventure({
             🧱 Sentence Bricks
           </button>
           <button
-            onClick={() => {
-              playTap(isMuted);
-              setInteractionMode('voice');
-            }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap flex items-center gap-1 ${
+            type="button"
+            onClick={() => handleSwitchInteractionMode('voice')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap flex items-center gap-1 cursor-pointer ${
               interactionMode === 'voice'
                 ? 'bg-purple-600 text-white shadow-sm'
                 : 'text-purple-700 hover:text-purple-950 bg-purple-50'
@@ -754,8 +757,49 @@ export default function StoryAdventure({
         </div>
 
         {/* Interaction Response Area */}
-        <div className="p-4 sm:p-6 bg-white">
-          
+        <div ref={interactionAreaRef} className="p-4 sm:p-6 bg-white space-y-4">
+          {/* Local Mode Tabs right where the answer area renders */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">
+            <span className="text-xs font-black uppercase tracking-wide text-slate-400">
+              Cevaplama Şekli:
+            </span>
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <button
+                type="button"
+                onClick={() => handleSwitchInteractionMode('choices')}
+                className={`px-3 py-1 rounded-lg text-xs font-display font-black transition cursor-pointer ${
+                  interactionMode === 'choices'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                2 Big Choices
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSwitchInteractionMode('sentence')}
+                className={`px-3 py-1 rounded-lg text-xs font-display font-black transition cursor-pointer ${
+                  interactionMode === 'sentence'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                🧱 Sentence Bricks
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSwitchInteractionMode('voice')}
+                className={`px-3 py-1 rounded-lg text-xs font-display font-black transition cursor-pointer ${
+                  interactionMode === 'voice'
+                    ? 'bg-purple-600 text-white shadow-sm'
+                    : 'text-purple-700 hover:text-purple-950'
+                }`}
+              >
+                🎙️ Voice Talk
+              </button>
+            </div>
+          </div>
+
           {/* MODE 1: 2 Big Colorful Choices (50/50 Early-Reader Friendly) */}
           {interactionMode === 'choices' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -767,10 +811,16 @@ export default function StoryAdventure({
                 return (
                   <button
                     key={choice.id}
+                    onPointerEnter={(e) => {
+                      if (!isMuted) {
+                        speakEnglish(choice.text);
+                      }
+                      void e;
+                    }}
                     onClick={() => handleChoiceClick(choice)}
                     className={`
                       relative p-6 sm:p-8 rounded-3xl border-4 text-left transition-all duration-200 cursor-pointer
-                      flex flex-col justify-between min-h-[130px] sm:min-h-[170px]
+                      flex items-center justify-between gap-3 min-h-[110px] sm:min-h-[140px]
                       ${showSuccess
                         ? 'bg-emerald-50 border-emerald-500 shadow-lg scale-[1.02]'
                         : showError
@@ -778,24 +828,11 @@ export default function StoryAdventure({
                         : 'bg-white border-slate-300 hover:border-blue-400 hover:bg-blue-50/50 shadow-sm'}
                     `}
                   >
-                    {/* Top row: Choice Text & Speaker */}
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-slate-900 leading-tight">
-                        {choice.text}
-                      </span>
-                      <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
-                        <Volume2 className="w-4 h-4" />
-                      </div>
-                    </div>
-
-                    {/* Bottom row: German & Turkish Helper Badges */}
-                    <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 flex-wrap">
-                      <span className="bg-slate-100 px-2 py-0.5 rounded-md">
-                        🇩🇪 {choice.translationDe}
-                      </span>
-                      <span className="bg-slate-100 px-2 py-0.5 rounded-md">
-                        🇹🇷 {choice.translationTr}
-                      </span>
+                    <span className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-slate-900 leading-tight">
+                      {choice.text}
+                    </span>
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center flex-shrink-0">
+                      <Volume2 className="w-5 h-5" />
                     </div>
 
                     {/* Selection Indicator */}

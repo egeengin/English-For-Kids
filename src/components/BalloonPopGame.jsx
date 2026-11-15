@@ -237,6 +237,8 @@ export default function BalloonPopGame({
   const [deck, setDeck] = useState(() => createInitialDeck());
   const [roundIdx, setRoundIdx] = useState(0);
   const [score, setScore] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [hypeMessage, setHypeMessage] = useState('');
   const [options, setOptions] = useState(() => buildRoundOptions(deck[0].item));
   const [poppedIds, setPoppedIds] = useState(() => new Set());
   const [isRoundLocked, setIsRoundLocked] = useState(false);
@@ -246,6 +248,8 @@ export default function BalloonPopGame({
   const [isGameOver, setIsGameOver] = useState(false);
   const [wobbleId, setWobbleId] = useState(null);
 
+  const deckRef = useRef(deck);
+  deckRef.current = deck;
   const advanceTimerRef = useRef(null);
   const promptTimerRef = useRef(null);
   const wobbleTimerRef = useRef(null);
@@ -297,16 +301,18 @@ export default function BalloonPopGame({
   }, [roundIdx, isGameOver, targetItem, isMuted]);
 
   const finishOrAdvanceRound = useCallback(
-    (nextIndex, activeDeckLength) => {
+    (nextIndex) => {
       clearPendingTimers();
-      if (nextIndex >= activeDeckLength) {
+      const latestDeck = deckRef.current;
+      if (nextIndex >= latestDeck.length) {
         setIsGameOver(true);
         setEchoPhrase(null);
+        setHypeMessage('');
         setIsRoundLocked(false);
         playVictoryFanfare(isMuted);
         confetti({
-          particleCount: 100,
-          spread: 90,
+          particleCount: 110,
+          spread: 100,
           origin: { y: 0.5 },
         });
         if (onRewardEarned) {
@@ -315,16 +321,17 @@ export default function BalloonPopGame({
         return;
       }
 
-      const nextEntry = deck[nextIndex];
+      const nextEntry = latestDeck[nextIndex];
       setRoundIdx(nextIndex);
       setOptions(buildRoundOptions(nextEntry.item));
       setPoppedIds(new Set());
       setEchoPhrase(null);
+      setHypeMessage('');
       setWrongCountInRound(0);
       setWobbleId(null);
       setIsRoundLocked(false);
     },
-    [clearPendingTimers, deck, isMuted, onRewardEarned]
+    [clearPendingTimers, isMuted, onRewardEarned]
   );
 
   const handleBalloonClick = (item) => {
@@ -344,22 +351,49 @@ export default function BalloonPopGame({
       setScore((prev) => prev + 1);
       setEchoPhrase(targetItem.repeatPhrase);
 
+      const nextStreak = wrongCountInRound === 0 ? streak + 1 : 1;
+      setStreak(nextStreak);
+
+      const bonusStars = nextStreak >= 3 ? 2 : 1;
       if (onRewardEarned) {
-        onRewardEarned({ stars: 1, bricks: 1 });
+        onRewardEarned({ stars: bonusStars, bricks: 1 });
+      }
+
+      if (nextStreak === 2) {
+        setHypeMessage('🔥 2’li Seri! Harika gidiyorsun!');
+      } else if (nextStreak === 3) {
+        setHypeMessage('⚡ 3’lü Süper Kombo! (+1 Bonus ⭐)');
+      } else if (nextStreak >= 4) {
+        setHypeMessage(`👑 ${nextStreak}x Efsane Seri! Durdurulamıyorsun! (+1 Bonus ⭐)`);
+      } else {
+        setHypeMessage('');
       }
 
       confetti({
-        particleCount: 45,
-        spread: 65,
+        particleCount: nextStreak >= 2 ? 75 : 50,
+        spread: nextStreak >= 2 ? 85 : 65,
         origin: { y: 0.6 },
       });
 
+      if (nextStreak >= 2) {
+        confetti({
+          particleCount: 38,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0.1, y: 0.65 },
+        });
+        confetti({
+          particleCount: 38,
+          angle: 120,
+          spread: 55,
+          origin: { x: 0.9, y: 0.65 },
+        });
+      }
+
       const nextIdx = roundIdx + 1;
-      const currentDeckLen = deck.length;
-      const moveNext = () => finishOrAdvanceRound(nextIdx, currentDeckLen);
+      const moveNext = () => finishOrAdvanceRound(nextIdx);
 
       if (!isMuted) {
-        // Safety fallback so round never stalls if speech fails to fire onEnd
         advanceTimerRef.current = setTimeout(moveNext, 4800);
         speakEnglish(`Great job! ${targetItem.repeatPhrase}`, () => {
           if (advanceTimerRef.current) {
@@ -373,7 +407,9 @@ export default function BalloonPopGame({
       return;
     }
 
-    // Wrong balloon: gentle wobble, teach the clicked word, and schedule spaced review
+    // Wrong balloon: reset combo, gentle wobble, teach word, and queue review
+    setStreak(0);
+    setHypeMessage('');
     playGentleWobble(isMuted);
     setWobbleId(item.id);
     if (wobbleTimerRef.current) clearTimeout(wobbleTimerRef.current);
@@ -402,6 +438,8 @@ export default function BalloonPopGame({
     setDeck(freshDeck);
     setRoundIdx(0);
     setScore(0);
+    setStreak(0);
+    setHypeMessage('');
     setOptions(buildRoundOptions(freshDeck[0].item));
     setPoppedIds(new Set());
     setIsRoundLocked(false);
@@ -441,8 +479,13 @@ export default function BalloonPopGame({
           </div>
         </div>
 
-        {/* Score & Round Pill */}
-        <div className="flex items-center gap-2">
+        {/* Score, Combo Streak & Round Pill */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {streak >= 2 && (
+            <div className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black shadow-sm animate-bounce">
+              <span>🔥 {streak}x Seri!</span>
+            </div>
+          )}
           <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
             <span>Skor: {score}</span>
           </div>
@@ -534,12 +577,17 @@ export default function BalloonPopGame({
         </div>
       )}
 
-      {/* Repeat-After-Me Echo Banner when Balloon Pops */}
+      {/* Repeat-After-Me Echo Banner + Combo Hype when Balloon Pops */}
       {echoPhrase && !isGameOver && (
         <div className="w-full mb-4 bg-emerald-50 border-4 border-emerald-400 rounded-2xl p-3.5 sm:p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">🗣️</span>
+            <span className="text-3xl animate-bounce">🗣️</span>
             <div>
+              {hypeMessage && (
+                <div className="inline-block mb-1 px-2.5 py-0.5 rounded-full bg-orange-500 text-white font-display font-black text-xs shadow-sm">
+                  {hypeMessage}
+                </div>
+              )}
               <div className="text-xs font-black text-emerald-700 uppercase">
                 Süper! Şimdi sesli tekrar et:
               </div>
@@ -562,7 +610,7 @@ export default function BalloonPopGame({
             </button>
             <button
               type="button"
-              onClick={() => finishOrAdvanceRound(roundIdx + 1, totalRounds)}
+              onClick={() => finishOrAdvanceRound(roundIdx + 1)}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs shadow-sm cursor-pointer"
             >
               <span>Sonraki Balon</span>
@@ -595,12 +643,21 @@ export default function BalloonPopGame({
               return (
                 <div
                   key={balloon.id}
-                  className="w-32 sm:w-40 flex flex-col items-center justify-center animate-balloon-pop pointer-events-none"
+                  className="relative w-36 sm:w-44 h-44 flex flex-col items-center justify-center pointer-events-none"
                 >
-                  <span className="text-6xl">💥</span>
-                  <span className="font-display font-black text-sm text-emerald-700 mt-1">
-                    +1 🧱
-                  </span>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="w-28 h-28 rounded-full border-4 border-yellow-400/80 animate-ping" />
+                  </div>
+                  <div className="relative flex flex-col items-center animate-balloon-pop">
+                    <div className="flex items-center gap-1 text-4xl sm:text-5xl">
+                      <span>✨</span>
+                      <span className="text-6xl">💥</span>
+                      <span>🎊</span>
+                    </div>
+                    <span className="font-display font-black text-sm sm:text-base text-amber-700 bg-yellow-200 px-3 py-0.5 rounded-full border border-yellow-400 shadow-sm mt-1">
+                      {streak >= 3 ? '+2 ⭐ KOMBO!' : '+1 ⭐ Süper!'}
+                    </span>
+                  </div>
                 </div>
               );
             }

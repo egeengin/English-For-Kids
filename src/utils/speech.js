@@ -1239,6 +1239,17 @@ async function speakWithGeminiOrFallback(
   const notFileProtocol =
     typeof window === 'undefined' || !window.location || window.location.protocol !== 'file:';
 
+  if (canTryNetwork && notFileProtocol) {
+    try {
+      const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
+      if (myToken !== speechSeqToken) return;
+      await playBlobAudio(wavBlob, myToken, onEnd, blobRate);
+      return;
+    } catch {
+      if (myToken !== speechSeqToken) return;
+    }
+  }
+
   if (localKey && KNOWN_EN_WORDS.has(localKey)) {
     playLocalAudioFile(`/audio/${localFolder}/${localKey}`, myToken, onEnd, () => {
       if (canTryNetwork && notFileProtocol) {
@@ -1255,15 +1266,6 @@ async function speakWithGeminiOrFallback(
   }
 
   if (canTryNetwork && notFileProtocol) {
-    try {
-      const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
-      if (myToken !== speechSeqToken) return;
-      await playBlobAudio(wavBlob, myToken, onEnd, blobRate);
-      return;
-    } catch {
-      if (myToken !== speechSeqToken) return;
-    }
-
     try {
       await playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate);
       return;
@@ -1412,11 +1414,13 @@ export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) 
   const speechLang = lang === 'de' ? 'de-DE' : lang === 'tr' ? 'tr-TR' : 'en-US';
   const folder = lang === 'de' ? 'de' : lang === 'tr' ? 'tr' : 'en';
 
+  // Only allow offline static file fallback if spokenText genuinely matches audioKey or KNOWN_EN_WORDS
   const snakeFromText = spokenText.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
   const cleanKey = (audioKey || '').toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
   const safeLocalKey = KNOWN_EN_WORDS.has(snakeFromText)
     ? snakeFromText
-    : KNOWN_EN_WORDS.has(cleanKey)
+    : (!fallbackText || cleanTextForTTS(expandedKey).toLowerCase() === spokenText.toLowerCase()) &&
+      KNOWN_EN_WORDS.has(cleanKey)
     ? cleanKey
     : null;
 

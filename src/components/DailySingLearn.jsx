@@ -207,9 +207,10 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
           <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
             <iframe
               className="w-full h-full"
-              src={`https://www.youtube-nocookie.com/embed/${lesson.youtubeClip.videoId}?start=${lesson.youtubeClip.start}&end=${lesson.youtubeClip.end}&autoplay=1&rel=0&modestbranding=1`}
+              src={`https://www.youtube.com/embed/${lesson.youtubeClip.videoId}?start=${lesson.youtubeClip.start}&end=${lesson.youtubeClip.end}&autoplay=1&rel=0&modestbranding=1`}
               title={lesson.youtubeClip.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </div>

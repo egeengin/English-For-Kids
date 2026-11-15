@@ -9,7 +9,6 @@ import BreakModal from './components/BreakModal';
 import SceneExplorer from './components/SceneExplorer';
 import StoryAdventure from './components/StoryAdventure';
 import BalloonPopGame from './components/BalloonPopGame';
-import AdventureRoad from './components/AdventureRoad';
 import PhonicsBuilder from './components/PhonicsBuilder';
 import LegoDiorama from './components/LegoDiorama';
 import WalkieTalkieModal from './components/WalkieTalkieModal';
@@ -18,13 +17,12 @@ import DailyMissionHub from './components/DailyMissionHub';
 import LevelDiscoveryGame from './components/LevelDiscoveryGame';
 import PrintableMissionSheetModal from './components/PrintableMissionSheetModal';
 import { CURRICULUM_LEVELS } from './data/curriculum';
-import { DAILY_EXPEDITION_DAYS } from './data/dailyMissionsData';
 import { loadSavedState, saveState } from './utils/storage';
-import { Wrench, ShieldCheck, BookOpen, Sparkles, Compass, Award } from 'lucide-react';
+import { Wrench, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState('daily'); // 'daily' | 'discovery' | 'road' | 'story' | 'phonics' | 'differences' | 'balloons' | 'town' | 'arena' | 'workshop' | 'parent'
+  const [currentTab, setCurrentTab] = useState('discovery'); // 'discovery' | 'daily' | 'story' | 'differences' | 'balloons' | 'phonics' | 'workshop' | 'parent'
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -33,7 +31,12 @@ export default function App() {
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [isPrintableOpen, setIsPrintableOpen] = useState(false);
-  const [selectedDayId, setSelectedDayId] = useState('day-0');
+  const [selectedDayId, setSelectedDayId] = useState('day-1');
+  const [printConfig, setPrintConfig] = useState({
+    mode: 'stage',
+    stageId: 'stage-1',
+    dayId: 'day-1',
+  });
 
   // Sync state to localStorage
   useEffect(() => {
@@ -207,17 +210,6 @@ export default function App() {
     }));
   };
 
-  // Adventure Road progress tracking
-  const handleStageCompleted = (stageId, stars = 3) => {
-    setState(prev => ({
-      ...prev,
-      roadProgress: {
-        ...(prev.roadProgress || {}),
-        [stageId]: Math.max(prev.roadProgress?.[stageId] || 0, stars),
-      },
-    }));
-  };
-
   // Daily Mission checklist toggle
   const handleToggleChecklistItem = (itemId) => {
     setState(prev => {
@@ -250,6 +242,21 @@ export default function App() {
     });
   };
 
+  // Clear specific question results (e.g. "Yanlışları Tekrar Çöz")
+  const handleClearDiscoveryQuestions = (questionIds = []) => {
+    if (!Array.isArray(questionIds) || questionIds.length === 0) return;
+    setState(prev => {
+      const existing = { ...(prev.discoveryResults || {}) };
+      questionIds.forEach(id => {
+        delete existing[id];
+      });
+      return {
+        ...prev,
+        discoveryResults: existing,
+      };
+    });
+  };
+
   // Reset 5-Stage Level Discovery progress
   const handleResetDiscovery = () => {
     setState(prev => ({
@@ -263,15 +270,26 @@ export default function App() {
     setCurrentTab('daily');
   };
 
-  const handleOpenPrintable = (dayObj) => {
-    if (dayObj?.id) {
-      setSelectedDayId(dayObj.id);
+  const handleOpenPrintable = (config) => {
+    if (config && typeof config === 'object') {
+      setPrintConfig(prev => ({
+        ...prev,
+        mode: config.mode || prev.mode || 'stage',
+        stageId: config.stageId || prev.stageId || 'stage-1',
+        dayId: config.dayId || selectedDayId || 'day-1',
+      }));
+      if (config.dayId) {
+        setSelectedDayId(config.dayId);
+      }
+    } else {
+      setPrintConfig(prev => ({
+        ...prev,
+        mode: currentTab === 'daily' ? 'day' : 'stage',
+        dayId: selectedDayId || 'day-1',
+      }));
     }
     setIsPrintableOpen(true);
   };
-
-  const selectedDayObj =
-    DAILY_EXPEDITION_DAYS.find(d => d.id === selectedDayId) || DAILY_EXPEDITION_DAYS[0];
 
   const childName = state.childName || 'Deniz';
   const childAge = state.childAge || 7;
@@ -302,30 +320,25 @@ export default function App() {
         currentTab={currentTab}
         onTabChange={handleTabChange}
         stars={state.stars}
-        bricks={state.bricks}
-        streak={state.streak || 1}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
-        onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
-        onOpenCertificate={() => setIsCertificateOpen(true)}
+        onOpenPrintable={() => handleOpenPrintable()}
         childName={childName}
       />
 
       {/* Main Content Arena */}
       <main className={`flex-1 w-full flex flex-col items-center ${isPrintableOpen || isCertificateOpen ? 'print:hidden' : ''}`}>
-        {/* Daily Mission Hub (İstanbul Seyahat Style) */}
+        {/* Daily Mission Hub */}
         {currentTab === 'daily' && (
           <DailyMissionHub
             dailyChecklist={state.dailyChecklist || {}}
             onToggleChecklistItem={handleToggleChecklistItem}
-            discoveryResults={state.discoveryResults || {}}
             onOpenDiscoveryGame={() => setCurrentTab('discovery')}
+            onOpenStory={() => setCurrentTab('story')}
             onOpenPrintable={handleOpenPrintable}
             selectedDayId={selectedDayId}
             onSelectDayId={setSelectedDayId}
             isMuted={state.soundMuted}
-            childName={childName}
-            childAge={childAge}
           />
         )}
 
@@ -334,23 +347,12 @@ export default function App() {
           <LevelDiscoveryGame
             discoveryResults={state.discoveryResults || {}}
             onSaveDiscoveryResult={handleSaveDiscoveryResult}
+            onClearDiscoveryQuestions={handleClearDiscoveryQuestions}
             onResetDiscovery={handleResetDiscovery}
-            onOpenPrintable={() => handleOpenPrintable(selectedDayObj)}
+            onOpenPrintable={handleOpenPrintable}
             onSwitchToDay={handleSwitchToDay}
             isMuted={state.soundMuted}
             childName={childName}
-          />
-        )}
-
-        {/* Guru Feature 1: The Lego Adventure Road Map */}
-        {currentTab === 'road' && (
-          <AdventureRoad
-            onSelectStage={(tabId) => handleTabChange(tabId)}
-            onOpenCertificate={() => setIsCertificateOpen(true)}
-            roadProgress={state.roadProgress || { 'stage-1': 3 }}
-            childName={childName}
-            childAge={childAge}
-            isMuted={state.soundMuted}
           />
         )}
 
@@ -428,7 +430,7 @@ export default function App() {
             unlockedStages={state.unlockedStages || {}}
             bricks={state.bricks}
             onUnlockStage={handleUnlockStage}
-            onNavigateToArena={() => setCurrentTab('road')}
+            onNavigateToArena={() => setCurrentTab('discovery')}
             isMuted={state.soundMuted}
             unlockedAccessories={state.unlockedAccessories || ['cap']}
             equippedAccessory={state.equippedAccessory || 'cap'}
@@ -468,16 +470,6 @@ export default function App() {
         className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 pt-2 flex items-center justify-around print:hidden"
       >
         <button
-          onClick={() => handleTabChange('daily')}
-          className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'daily' ? 'text-blue-400 font-black' : 'text-slate-400'
-          }`}
-        >
-          <Compass className="w-5 h-5" />
-          <span>Sefer 🚀</span>
-        </button>
-
-        <button
           onClick={() => handleTabChange('discovery')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
             currentTab === 'discovery' ? 'text-yellow-400 font-black' : 'text-slate-400'
@@ -488,13 +480,13 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => handleTabChange('road')}
+          onClick={() => handleTabChange('daily')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'road' ? 'text-emerald-400 font-black' : 'text-slate-400'
+            currentTab === 'daily' ? 'text-blue-400 font-black' : 'text-slate-400'
           }`}
         >
-          <Sparkles className="w-5 h-5" />
-          <span>Map 🗺️</span>
+          <Compass className="w-5 h-5" />
+          <span>Günlük 🚀</span>
         </button>
 
         <button
@@ -524,18 +516,17 @@ export default function App() {
           }`}
         >
           <ShieldCheck className="w-5 h-5" />
-          <span>Parents</span>
+          <span>Ebeveyn</span>
         </button>
       </div>
 
-      {/* Black & White Printable Mission & Pokemon Card Modal */}
+      {/* Black & White Printable 10-Question Test Worksheet Modal */}
       <PrintableMissionSheetModal
         isOpen={isPrintableOpen}
         onClose={() => setIsPrintableOpen(false)}
         childName={childName}
         childAge={childAge}
-        discoveryResults={state.discoveryResults || {}}
-        selectedDay={selectedDayObj}
+        printConfig={printConfig}
         isMuted={state.soundMuted}
       />
 

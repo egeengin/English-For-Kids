@@ -508,7 +508,7 @@ export default function StoryAdventure({
                   setCurrentChapterIndex(idx);
                 }}
                 className={`
-                  flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-black transition-all flex-shrink-0
+                  flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm sm:text-base font-black transition-all flex-shrink-0
                   ${isCurrent
                     ? 'bg-yellow-400 text-slate-950 shadow-md scale-105 border-2 border-yellow-500'
                     : isPast
@@ -534,20 +534,20 @@ export default function StoryAdventure({
           <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:16px_16px]" />
 
           {/* Scene Header Strip */}
-          <div className="flex items-center justify-between gap-2 mb-3 relative z-10 flex-wrap">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="bg-slate-900/90 text-yellow-300 font-mono font-black text-xs px-3 py-1 rounded-full border border-yellow-400/50 flex items-center gap-1.5 shadow-sm">
-                <Clock className="w-3.5 h-3.5" />
+          <div className="flex items-center justify-between gap-2.5 mb-4 relative z-10 flex-wrap">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="bg-slate-900/90 text-yellow-300 font-mono font-black text-sm sm:text-base px-3.5 py-1.5 rounded-full border border-yellow-400/50 flex items-center gap-1.5 shadow-sm">
+                <Clock className="w-4 h-4" />
                 <span>{chapter.sceneBackdrop?.timeTag || 'School Day'}</span>
               </span>
-              <span className="bg-white text-slate-900 font-display font-black text-xs px-3 py-1 rounded-full border border-white flex items-center gap-1.5 shadow-sm">
-                <MapPin className="w-3.5 h-3.5 text-rose-600" />
+              <span className="bg-white text-slate-900 font-display font-black text-sm sm:text-base px-4 py-1.5 rounded-full border border-white flex items-center gap-1.5 shadow-sm">
+                <MapPin className="w-4 h-4 text-rose-600" />
                 <span>{chapter.sceneBackdrop?.location || chapter.title}</span>
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-full border border-white/25 text-xs font-bold text-white shadow-sm">
-              <span>{chapter.character.avatar}</span>
+            <div className="flex items-center gap-2 bg-slate-900/90 px-4 py-1.5 rounded-full border border-white/25 text-sm sm:text-base font-bold text-white shadow-sm">
+              <span className="text-lg">{chapter.character.avatar}</span>
               <span className="hidden sm:inline text-yellow-300">{chapter.character.role}:</span>
               <span>{chapter.character.name}</span>
               {chapter.character.actionBadge && (
@@ -558,14 +558,14 @@ export default function StoryAdventure({
 
           {/* Interactive Props Grid */}
           <div className="relative z-10">
-            <div className="flex items-center justify-between text-xs font-bold mb-2">
-              <span className="inline-flex items-center gap-1.5 bg-slate-900/80 text-white px-3 py-1 rounded-xl shadow-xs">
+            <div className="flex items-center justify-between text-sm sm:text-base font-bold mb-3">
+              <span className="inline-flex items-center gap-2 bg-slate-900/85 text-white px-3.5 py-1.5 rounded-xl shadow-xs">
                 <span>🔍</span>
                 <span>Tap objects to listen:</span>
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
               {(chapter.sceneBackdrop?.props || []).map((prop) => {
                 const isSelected = activeProp?.id === prop.id;
                 return (
@@ -573,19 +573,19 @@ export default function StoryAdventure({
                     key={prop.id}
                     onClick={() => handlePropClick(prop)}
                     className={`
-                      p-3 rounded-2xl border-2 transition-all flex items-center gap-2.5 text-left cursor-pointer shadow-md
+                      p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-center gap-3 text-left cursor-pointer shadow-md
                       ${isSelected
                         ? 'bg-yellow-50 text-slate-950 border-yellow-400 scale-105 ring-2 ring-yellow-300'
                         : 'bg-white/95 hover:bg-white text-slate-900 border-white active:scale-95'}
                     `}
                   >
-                    <span className="text-3xl flex-shrink-0">{prop.emoji}</span>
+                    <span className="text-4xl sm:text-5xl leading-none flex-shrink-0">{prop.emoji}</span>
                     <div className="min-w-0 flex-1">
-                      <div className="font-display font-black text-sm text-slate-900 truncate">
+                      <div className="font-display font-black text-base sm:text-xl text-slate-900 leading-tight">
                         {prop.name}
                       </div>
                     </div>
-                    <Volume2 className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-blue-600'}`} />
+                    <Volume2 className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-blue-600'}`} />
                   </button>
                 );
               })}

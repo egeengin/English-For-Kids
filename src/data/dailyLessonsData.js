@@ -3,6 +3,12 @@ export const DAY_LESSONS = {
   'day-1': {
     songTitle: 'Yummy Food & Polite Magic Words 🎵',
     songSubtitleTr: 'Önce şarkıyı dinle, kalıplarla cümle kur, sonra teste geç!',
+    youtubeClip: {
+      videoId: 'YCf-PGu55Nc',
+      title: 'Do You Like Broccoli Ice Cream? (Super Simple Songs)',
+      start: 10,
+      end: 70,
+    },
     chantLines: [
       { emoji: '🍎', en: 'Do you like apples? Yes, I do!', tr: 'Elma sever misin? Evet, severim!' },
       { emoji: '🥦', en: 'Do you like broccoli? No, I don’t!', tr: 'Brokoli sever misin? Hayır, sevmem!' },
@@ -68,6 +74,12 @@ export const DAY_LESSONS = {
   'day-2': {
     songTitle: 'I Can Do It! Fast & Slow Chant 🎶',
     songSubtitleTr: 'Yeteneklerini ve hızları şarkıyla ve kalıplarla öğren!',
+    youtubeClip: {
+      videoId: '_Ir0Mc6Qilo',
+      title: 'Yes, I Can! Animal Song (Super Simple Songs)',
+      start: 8,
+      end: 68,
+    },
     chantLines: [
       { emoji: '🦘', en: 'I can jump! Jump, jump, jump!', tr: 'Zıplayabilirim! Zıpla, zıpla, zıpla!' },
       { emoji: '🎹', en: 'I can play piano, fast and slow!', tr: 'Hızlı ve yavaş piyano çalabilirim!' },
@@ -133,6 +145,12 @@ export const DAY_LESSONS = {
   'day-3': {
     songTitle: 'Move & Freeze Action Song! ❄️',
     songSubtitleTr: 'Hareketleri canlandır, -ing kalıbını öğren!',
+    youtubeClip: {
+      videoId: 'T2qXSMENrQA',
+      title: 'Action Song (The Singing Walrus)',
+      start: 12,
+      end: 72,
+    },
     chantLines: [
       { emoji: '👏', en: 'Clap your hands, clap, clap, clap!', tr: 'Ellerini çırp, şak şak şak!' },
       { emoji: '🦘', en: 'What are you doing? I am jumping!', tr: 'Ne yapıyorsun? Zıplıyorum!' },
@@ -198,6 +216,12 @@ export const DAY_LESSONS = {
   'day-4': {
     songTitle: 'Sink or Float Science Chant! 🔬',
     songSubtitleTr: 'Batma, yüzme ve "Why / Because" kalıbını öğren!',
+    youtubeClip: {
+      videoId: 'MiMALONJUBY',
+      title: 'Float or Sink Science Song (The Learning Station)',
+      start: 15,
+      end: 75,
+    },
     chantLines: [
       { emoji: '🧱', en: 'Drop a brick, does it sink or float?', tr: 'Tuğlayı bırak, batar mı yüzer mi?' },
       { emoji: '⛵', en: 'Heavy goes down, light stays up!', tr: 'Ağır dibe iner, hafif yukarıda kalır!' },
@@ -263,6 +287,12 @@ export const DAY_LESSONS = {
   'day-5': {
     songTitle: 'In, On, Under — Where is Pikachu? ⚡',
     songSubtitleTr: 'Yer yön kelimelerini ve 10-20 sayılarını şarkıyla ezberle!',
+    youtubeClip: {
+      videoId: 'QYerFOnPxu8',
+      title: 'In On Under Song (Busy Beavers)',
+      start: 10,
+      end: 70,
+    },
     chantLines: [
       { emoji: '📦', en: 'In the box, on the chair, under the bed!', tr: 'Kutunun içinde, sandalyenin üstünde, yatağın altında!' },
       { emoji: '⚡', en: 'Where is Pikachu? Look around!', tr: 'Pikachu nerede? Etrafa bak!' },
@@ -328,6 +358,12 @@ export const DAY_LESSONS = {
   'day-6': {
     songTitle: 'School Morning & Clock Song! ⏰',
     songSubtitleTr: 'Sabah rutinini, saatleri ve "Who / Where" sorularını öğren!',
+    youtubeClip: {
+      videoId: '4XLQpRI_wOQ',
+      title: 'This Is The Way (Super Simple Songs)',
+      start: 8,
+      end: 68,
+    },
     chantLines: [
       { emoji: '☀️', en: 'Wake up, brush your teeth, grab your bag!', tr: 'Uyan, dişlerini fırçala, çantanı al!' },
       { emoji: '⏰', en: 'What time is it? Seven o’clock!', tr: 'Saat kaç? Saat yedi!' },
@@ -393,6 +429,12 @@ export const DAY_LESSONS = {
   'day-7': {
     songTitle: 'Champion Comparison & Past Song! 👑',
     songSubtitleTr: 'Karşılaştırma (-er) ve dün yaptıklarımızı şarkıyla pekiştir!',
+    youtubeClip: {
+      videoId: 'l4WNrvVjiTw',
+      title: "If You're Happy (Super Simple Songs)",
+      start: 8,
+      end: 68,
+    },
     chantLines: [
       { emoji: '🐆', en: 'A cheetah is faster than a turtle!', tr: 'Çita kaplumbağadan daha hızlıdır!' },
       { emoji: '⚽', en: 'Yesterday I played and had fun!', tr: 'Dün oyun oynadım ve çok eğlendim!' },

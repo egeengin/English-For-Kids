@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Square, Music, Volume2, Sparkles } from 'lucide-react';
+import { Play, Square, Music, Volume2, Sparkles, Tv, X } from 'lucide-react';
 import { DAY_LESSONS } from '../data/dailyLessonsData';
 import {
   speakEnglish,
@@ -18,6 +18,7 @@ import {
 export default function DailySingLearn({ dayId, isMuted = false }) {
   const lesson = DAY_LESSONS[dayId];
   const [isSinging, setIsSinging] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState(-1);
   const [beatStep, setBeatStep] = useState(0);
   const [activeCardIdx, setActiveCardIdx] = useState(-1);
@@ -97,6 +98,7 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
       return;
     }
 
+    setShowVideo(false);
     singSessionRef.current += 1;
     const sessionId = singSessionRef.current;
     const dayNum = parseInt(String(dayId).replace(/\D/g, ''), 10) || 1;
@@ -132,31 +134,87 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleToggleSingAlong}
-          className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-display font-black text-sm shadow-lg transition active:scale-95 cursor-pointer flex-shrink-0 ${
-            isSinging
-              ? 'bg-rose-500 hover:bg-rose-600 text-white ring-4 ring-yellow-300/60'
-              : 'bg-yellow-400 hover:bg-yellow-300 text-slate-950'
-          }`}
-        >
-          {isSinging ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-          <span>{isSinging ? 'Durdur' : '🎵 Şarkıyı Çal'}</span>
-          {isSinging && (
-            <span className="inline-flex items-end gap-0.5 h-4 ml-1" aria-hidden="true">
-              {[0, 1, 2].map((bar) => (
-                <span
-                  key={bar}
-                  className={`w-1 rounded-full bg-yellow-300 transition-all duration-150 ${
-                    (beatStep + bar) % 2 === 0 ? 'h-4' : 'h-1.5'
-                  }`}
-                />
-              ))}
-            </span>
+        <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
+          {lesson.youtubeClip && (
+            <button
+              type="button"
+              onClick={() => {
+                cancelHoverSpeech();
+                if (!showVideo) {
+                  stopSingAlong();
+                }
+                setShowVideo((prev) => !prev);
+              }}
+              className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-display font-black text-sm shadow-lg transition active:scale-95 cursor-pointer ${
+                showVideo
+                  ? 'bg-slate-800 hover:bg-slate-700 text-white border-2 border-red-400'
+                  : 'bg-red-600 hover:bg-red-500 text-white'
+              }`}
+            >
+              {showVideo ? <X className="w-4 h-4" /> : <Tv className="w-4 h-4" />}
+              <span>{showVideo ? 'Klibi Kapat' : '🎬 YouTube Şarkısı (Kesit)'}</span>
+            </button>
           )}
-        </button>
+
+          <button
+            type="button"
+            onClick={handleToggleSingAlong}
+            className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-display font-black text-sm shadow-lg transition active:scale-95 cursor-pointer ${
+              isSinging
+                ? 'bg-rose-500 hover:bg-rose-600 text-white ring-4 ring-yellow-300/60'
+                : 'bg-yellow-400 hover:bg-yellow-300 text-slate-950'
+            }`}
+          >
+            {isSinging ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
+            <span>{isSinging ? 'Durdur' : '🎵 Ritimle Çal'}</span>
+            {isSinging && (
+              <span className="inline-flex items-end gap-0.5 h-4 ml-1" aria-hidden="true">
+                {[0, 1, 2].map((bar) => (
+                  <span
+                    key={bar}
+                    className={`w-1 rounded-full bg-yellow-300 transition-all duration-150 ${
+                      (beatStep + bar) % 2 === 0 ? 'h-4' : 'h-1.5'
+                    }`}
+                  />
+                ))}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Curated YouTube Song Clip (Exact Cut Segment) */}
+      {showVideo && lesson.youtubeClip && (
+        <div className="bg-slate-950/80 border-2 border-red-400/60 rounded-2xl p-3 sm:p-4 space-y-2.5 shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-lg bg-red-600 text-white font-black text-[11px] uppercase">
+                🎬 Şarkı Kesiti ({lesson.youtubeClip.start}s – {lesson.youtubeClip.end}s)
+              </span>
+              <span className="font-display font-bold text-xs sm:text-sm text-white">
+                {lesson.youtubeClip.title}
+              </span>
+            </div>
+            <a
+              href={`https://www.youtube.com/watch?v=${lesson.youtubeClip.videoId}&t=${lesson.youtubeClip.start}s`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-red-300 hover:text-red-200 underline"
+            >
+              YouTube&apos;da Aç ↗
+            </a>
+          </div>
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube-nocookie.com/embed/${lesson.youtubeClip.videoId}?start=${lesson.youtubeClip.start}&end=${lesson.youtubeClip.end}&autoplay=1&rel=0&modestbranding=1`}
+              title={lesson.youtubeClip.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
 
       {/* Karaoke Chant Lines */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">

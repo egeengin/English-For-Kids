@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import confetti from 'canvas-confetti';
 import {
   Volume2,
   Printer,
@@ -8,6 +9,9 @@ import {
   BookOpen,
   Star,
   RotateCcw,
+  ArrowRight,
+  ArrowLeft,
+  Play,
 } from 'lucide-react';
 import {
   DAILY_EXPEDITION_DAYS,
@@ -15,6 +19,7 @@ import {
 } from '../data/dailyMissionsData';
 import {
   speakEnglish,
+  stopSpeech,
   prefetchSpeech,
   unlockAudio,
   triggerHoverSpeech,
@@ -42,8 +47,32 @@ export default function DailyMissionHub({
       ? selectedDayId
       : internalDayId;
 
+  const [activeQuestionIdx, setActiveQuestionIdx] = useState(0);
+  const [speakingTarget, setSpeakingTarget] = useState(null);
+  const quizSpeechSessionRef = useRef(0);
+  const quizSpeechTimerRef = useRef(null);
+
+  const stopQuizSpeech = useCallback(() => {
+    quizSpeechSessionRef.current += 1;
+    if (quizSpeechTimerRef.current) {
+      clearTimeout(quizSpeechTimerRef.current);
+      quizSpeechTimerRef.current = null;
+    }
+    setSpeakingTarget(null);
+    stopSpeech();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      stopQuizSpeech();
+      cancelHoverSpeech();
+    };
+  }, [stopQuizSpeech]);
+
   const setDayId = (dayId) => {
     playTap(isMuted);
+    stopQuizSpeech();
+    setActiveQuestionIdx(0);
     if (onSelectDayId) {
       onSelectDayId(dayId);
     } else {
@@ -87,16 +116,73 @@ export default function DailyMissionHub({
     onToggleChecklistItem(itemId);
   };
 
+  const playQuestionAndOptions = useCallback(
+    (question) => {
+      if (!question || isMuted) return;
+      cancelHoverSpeech();
+      unlockAudio();
+      stopQuizSpeech();
+
+      const sessionId = quizSpeechSessionRef.current;
+      const steps = [
+        { target: 'prompt', text: question.promptEn },
+        ...question.options.map((opt, idx) => ({
+          target: idx,
+          text: `${['A', 'B', 'C'][idx]}: ${opt.textEn}`,
+        })),
+      ];
+
+      const runStep = (stepIdx) => {
+        if (sessionId !== quizSpeechSessionRef.current) return;
+        if (stepIdx >= steps.length) {
+          setSpeakingTarget(null);
+          return;
+        }
+        const step = steps[stepIdx];
+        setSpeakingTarget(step.target);
+        quizSpeechTimerRef.current = setTimeout(() => {
+          runStep(stepIdx + 1);
+        }, 4500);
+
+        speakEnglish(step.text, () => {
+          if (sessionId !== quizSpeechSessionRef.current) return;
+          if (quizSpeechTimerRef.current) {
+            clearTimeout(quizSpeechTimerRef.current);
+          }
+          quizSpeechTimerRef.current = setTimeout(() => {
+            runStep(stepIdx + 1);
+          }, 260);
+        });
+      };
+
+      runStep(0);
+    },
+    [isMuted, stopQuizSpeech]
+  );
+
+  const handleSelectQuestion = (idx, autoRead = true) => {
+    const safeIdx = Math.max(0, Math.min(idx, dayQuizQuestions.length - 1));
+    setActiveQuestionIdx(safeIdx);
+    const targetQ = dayQuizQuestions[safeIdx];
+    if (autoRead && targetQ) {
+      playQuestionAndOptions(targetQ);
+    } else {
+      stopQuizSpeech();
+    }
+  };
+
   const handleDailyQuizClick = (questionId, opt) => {
     cancelHoverSpeech();
+    stopQuizSpeech();
     unlockAudio();
     if (opt.isCorrect) {
       playSuccess(isMuted);
+      confetti({ particleCount: 45, spread: 65, origin: { y: 0.65 } });
     } else {
       playWobble(isMuted);
     }
     if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn), 380);
+      setTimeout(() => speakEnglish(opt.textEn), 280);
     }
     if (onSaveDailyQuizAnswer) {
       onSaveDailyQuizAnswer(questionId, opt.id);
@@ -105,6 +191,8 @@ export default function DailyMissionHub({
 
   const handleResetDayQuiz = () => {
     playTap(isMuted);
+    stopQuizSpeech();
+    setActiveQuestionIdx(0);
     if (onResetDailyQuizQuestions) {
       onResetDailyQuizQuestions(dayQuizQuestions.map((q) => q.id));
     }
@@ -387,20 +475,30 @@ export default function DailyMissionHub({
       {/* Animated Sing-Along & Mini Lesson Before Quiz */}
       <DailySingLearn key={activeDay.id} dayId={activeDay.id} isMuted={isMuted} />
 
-      {/* Daily 10-Question Interactive + Printable Quiz */}
-      <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-4">
+      {/* Daily Interactive Step-by-Step + Printable Quiz */}
+      <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-md border-2 border-slate-200 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h2 className="text-base sm:text-lg font-display font-black text-slate-900">
-              📝 {activeDay.shortLabel}: 10 Soruluk Hızlı Test (Ekranda Çöz veya Kağıda Yazdır)
+              🎯 {activeDay.shortLabel}: Sesli Adım Adım Test
             </h2>
             <p className="text-xs text-slate-500 font-semibold">
-              Skor: <strong>{dayQuizScore} / 10</strong> ({dayQuizAnsweredCount}/10 işaretlendi) •{' '}
+              Skor: <strong>{dayQuizScore} / {dayQuizQuestions.length}</strong> ({dayQuizAnsweredCount}/{dayQuizQuestions.length} tamamlandı) •{' '}
               <span className="text-amber-600 font-black">⭐ +{dayQuizAnsweredCount} Yıldız Kaydedildi</span>
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {dayQuizQuestions[activeQuestionIdx] && (
+              <button
+                type="button"
+                onClick={() => playQuestionAndOptions(dayQuizQuestions[activeQuestionIdx])}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs shadow-sm cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Soruyu & Şıkları Sesli Dinle</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={handleResetDayQuiz}
@@ -420,17 +518,18 @@ export default function DailyMissionHub({
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs cursor-pointer"
             >
               <Printer className="w-4 h-4 text-yellow-300" />
-              <span>Kağıt Test Olarak Yazdır (A4)</span>
+              <span>Kağıt Test (A4)</span>
             </button>
           </div>
         </div>
 
-        {/* 1..10 Quick Question Status Pills */}
+        {/* 1..10 Interactive Step Pills */}
         <div className="flex flex-wrap items-center gap-1.5 pb-1">
           <span className="text-xs font-bold text-slate-400 mr-1">Sorular:</span>
           {dayQuizQuestions.map((q, qIdx) => {
             const chosenId = dailyQuizAnswers[q.id];
             const isCorrect = chosenId && q.options.some((o) => o.id === chosenId && o.isCorrect);
+            const isActive = qIdx === activeQuestionIdx;
             let pillCls = 'bg-slate-100 text-slate-600 border-slate-200 hover:border-blue-300';
             if (chosenId) {
               pillCls = isCorrect
@@ -441,11 +540,10 @@ export default function DailyMissionHub({
               <button
                 key={q.id}
                 type="button"
-                onClick={() => {
-                  const el = document.getElementById(`daily-q-${q.id}`);
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                className={`w-8 h-8 rounded-lg border font-display font-black text-xs flex items-center justify-center transition cursor-pointer ${pillCls}`}
+                onClick={() => handleSelectQuestion(qIdx, true)}
+                className={`w-9 h-9 rounded-xl border-2 font-display font-black text-xs flex items-center justify-center transition cursor-pointer ${pillCls} ${
+                  isActive ? 'ring-4 ring-blue-300/60 scale-110 border-blue-600' : ''
+                }`}
                 title={`Soru ${qIdx + 1}`}
               >
                 {qIdx + 1}
@@ -454,78 +552,125 @@ export default function DailyMissionHub({
           })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {dayQuizQuestions.map((q, qIdx) => {
-            const chosenId = dailyQuizAnswers[q.id];
-            return (
-              <div
-                id={`daily-q-${q.id}`}
-                key={q.id}
-                className="rounded-2xl p-4 sm:p-5 border-2 border-slate-200 bg-slate-50 space-y-3"
-              >
-                <div
-                  onPointerEnter={(e) =>
-                    triggerHoverSpeech(q.promptEn, { isMuted, pointerType: e.pointerType })
-                  }
-                  onPointerLeave={cancelHoverSpeech}
-                  className="flex items-start justify-between gap-2 rounded-xl p-1 -m-1 hover:bg-blue-50/70 transition"
+        {/* Single Focused Question Card */}
+        {(() => {
+          const safeIdx = Math.min(activeQuestionIdx, Math.max(0, dayQuizQuestions.length - 1));
+          const q = dayQuizQuestions[safeIdx];
+          if (!q) return null;
+          const chosenId = dailyQuizAnswers[q.id];
+          const isPromptSpeaking = speakingTarget === 'prompt';
+          const hasNext = safeIdx < dayQuizQuestions.length - 1;
+          const hasPrev = safeIdx > 0;
+
+          return (
+            <div className="rounded-3xl p-5 sm:p-7 border-4 border-blue-200 bg-gradient-to-br from-slate-50 to-blue-50/40 space-y-5 shadow-inner">
+              <div className="flex items-center justify-between gap-2">
+                <span className="px-3 py-1 rounded-full bg-blue-600 text-white font-display font-black text-xs">
+                  Soru {safeIdx + 1} / {dayQuizQuestions.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => playQuestionAndOptions(q)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-blue-300 text-blue-700 font-display font-black text-xs hover:bg-blue-50 cursor-pointer"
                 >
-                  <div className="text-sm sm:text-lg font-display font-black text-slate-900 leading-snug">
-                    <span className="text-blue-700 mr-1">{qIdx + 1}.</span>
-                    <span>{q.characterEmoji} {q.promptEn}</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      cancelHoverSpeech();
-                      unlockAudio();
-                      speakEnglish(q.promptEn);
-                    }}
-                    className="p-2 rounded-xl bg-white border border-slate-300 text-blue-700 flex-shrink-0 cursor-pointer"
-                    title="Dinle"
-                  >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
-                </div>
+                  <Volume2 className="w-4 h-4" />
+                  <span>Tekrar Dinle</span>
+                </button>
+              </div>
 
-                <div className="space-y-2">
-                  {q.options.map((opt, optIdx) => {
-                    const letter = ['A', 'B', 'C'][optIdx];
-                    const isChosen = chosenId === opt.id;
-                    let cls = 'bg-white border-slate-200 hover:border-blue-400 text-slate-800';
-                    if (chosenId) {
-                      if (opt.isCorrect) {
-                        cls = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-black';
-                      } else if (isChosen) {
-                        cls = 'bg-rose-50 border-rose-400 text-rose-900';
-                      }
-                    }
-
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onPointerEnter={(e) =>
-                          triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
-                        }
-                        onPointerLeave={cancelHoverSpeech}
-                        onClick={() => handleDailyQuizClick(q.id, opt)}
-                        className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold flex items-center justify-between gap-2 transition cursor-pointer ${cls}`}
-                      >
-                        <span>
-                          <strong className="mr-1">{letter})</strong>
-                          {opt.emoji} {opt.textEn}
-                        </span>
-                        {chosenId && opt.isCorrect && <span>✅</span>}
-                        {chosenId && isChosen && !opt.isCorrect && <span>❌</span>}
-                      </button>
-                    );
-                  })}
+              <div
+                onPointerEnter={(e) =>
+                  triggerHoverSpeech(q.promptEn, { isMuted, pointerType: e.pointerType })
+                }
+                onPointerLeave={cancelHoverSpeech}
+                className={`rounded-2xl p-4 bg-white border-2 transition flex items-center gap-4 ${
+                  isPromptSpeaking
+                    ? 'border-yellow-400 ring-4 ring-yellow-300/50 shadow-md'
+                    : 'border-slate-200'
+                }`}
+              >
+                <span className="text-4xl sm:text-5xl flex-shrink-0">{q.characterEmoji}</span>
+                <div className="text-lg sm:text-2xl font-display font-black text-slate-900 leading-snug flex-1">
+                  {q.promptEn}
                 </div>
               </div>
-            );
-          })}
-        </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {q.options.map((opt, optIdx) => {
+                  const letter = ['A', 'B', 'C'][optIdx];
+                  const isChosen = chosenId === opt.id;
+                  const isOptSpeaking = speakingTarget === optIdx;
+                  let cls =
+                    'bg-white border-slate-200 hover:border-blue-400 text-slate-800 hover:-translate-y-0.5';
+                  if (chosenId) {
+                    if (opt.isCorrect) {
+                      cls = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-black shadow-md';
+                    } else if (isChosen) {
+                      cls = 'bg-rose-50 border-rose-400 text-rose-900';
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onPointerEnter={(e) =>
+                        triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
+                      }
+                      onPointerLeave={cancelHoverSpeech}
+                      onClick={() => handleDailyQuizClick(q.id, opt)}
+                      className={`w-full text-left px-4 py-4 rounded-2xl border-2 text-base sm:text-lg font-display font-bold flex items-center justify-between gap-2 transition cursor-pointer shadow-sm ${cls} ${
+                        isOptSpeaking ? 'ring-4 ring-yellow-400 border-yellow-500 scale-[1.02]' : ''
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 font-black text-xs flex items-center justify-center flex-shrink-0">
+                          {letter}
+                        </span>
+                        <span className="text-2xl">{opt.emoji}</span>
+                        <span>{opt.textEn}</span>
+                      </span>
+                      {chosenId && opt.isCorrect && <span className="text-xl">✅</span>}
+                      {chosenId && isChosen && !opt.isCorrect && <span className="text-xl">❌</span>}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Navigation Footer */}
+              <div className="flex items-center justify-between gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={!hasPrev}
+                  onClick={() => handleSelectQuestion(safeIdx - 1, true)}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-display font-black text-sm border-2 transition ${
+                    hasPrev
+                      ? 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 cursor-pointer'
+                      : 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
+                  }`}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Önceki</span>
+                </button>
+
+                {hasNext ? (
+                  <button
+                    type="button"
+                    onClick={() => handleSelectQuestion(safeIdx + 1, true)}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-sm shadow-md border-2 border-yellow-500 cursor-pointer transition active:scale-95"
+                  >
+                    <span>Sonraki Soru</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <div className="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-display font-black text-sm border border-emerald-300">
+                    🏁 Test Sonu: {dayQuizScore} / {dayQuizQuestions.length} Doğru!
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

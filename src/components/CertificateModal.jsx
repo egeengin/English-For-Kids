@@ -105,7 +105,7 @@ export default function CertificateModal({
             <div className="text-center space-y-2 mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 border border-amber-300 rounded-full text-amber-800 text-xs font-black uppercase tracking-widest">
                 <Sparkles className="w-4 h-4 text-amber-600" />
-                <span>Lego English Adventure Academy</span>
+                <span>İngilizce Dünyası Akademisi</span>
                 <Sparkles className="w-4 h-4 text-amber-600" />
               </div>
 

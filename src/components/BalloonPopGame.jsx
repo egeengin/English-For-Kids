@@ -4,7 +4,6 @@ import {
   Volume2,
   Sparkles,
   RotateCcw,
-  Wrench,
   ArrowRight,
   Repeat,
 } from 'lucide-react';
@@ -233,7 +232,6 @@ function createInitialDeck() {
 
 export default function BalloonPopGame({
   onRewardEarned,
-  onNavigateToWorkshop,
   isMuted = false,
 }) {
   const [deck, setDeck] = useState(() => createInitialDeck());
@@ -686,14 +684,6 @@ export default function BalloonPopGame({
                 className="px-4 py-2.5 rounded-xl bg-slate-900 text-white font-display font-black text-sm shadow-md hover:bg-slate-800 transition-all cursor-pointer"
               >
                 Tekrar Oyna 🎈
-              </button>
-              <button
-                type="button"
-                onClick={onNavigateToWorkshop}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-display font-black text-sm shadow-md hover:bg-blue-700 transition-all cursor-pointer"
-              >
-                <Wrench className="w-4 h-4" />
-                <span>Atölyede İnşa Et</span>
               </button>
             </div>
           </div>

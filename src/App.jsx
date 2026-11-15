@@ -18,7 +18,7 @@ import LevelDiscoveryGame from './components/LevelDiscoveryGame';
 import PrintableMissionSheetModal from './components/PrintableMissionSheetModal';
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
-import { Wrench, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
+import { Sparkles, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
@@ -501,13 +501,13 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => handleTabChange('workshop')}
+          onClick={() => handleTabChange('balloons')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'workshop' ? 'text-blue-400 font-black' : 'text-slate-400'
+            currentTab === 'balloons' ? 'text-rose-400 font-black' : 'text-slate-400'
           }`}
         >
-          <Wrench className="w-5 h-5" />
-          <span>Build ({state.bricks} 🧱)</span>
+          <Sparkles className="w-5 h-5" />
+          <span>Balonlar</span>
         </button>
 
         <button
@@ -564,8 +564,8 @@ export default function App() {
       {/* Footer Stud Strip */}
       <footer className="w-full py-4 text-center text-xs font-bold text-slate-400 border-t border-slate-200 bg-white/60 print:hidden">
         <div className="flex items-center justify-center gap-1.5 mb-1">
-          <span className="text-sm">🧱</span>
-          <span className="font-display font-black text-slate-700">LEGO English Adventure</span>
+          <span className="text-sm">🌟</span>
+          <span className="font-display font-black text-slate-700">{childName}’in İngilizce Dünyası</span>
           <span className="text-slate-300">•</span>
           <span>Kids English Learning PWA</span>
         </div>

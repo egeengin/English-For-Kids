@@ -3,7 +3,6 @@ import {
   Volume2,
   VolumeX,
   Sparkles,
-  Wrench,
   ShieldCheck,
   Search,
   BookOpen,
@@ -33,7 +32,6 @@ export default function Navbar({
     { id: 'differences', label: '🔍 7 Fark Bul', icon: Search, activeClass: 'bg-teal-600 text-white border-teal-800' },
     { id: 'balloons', label: '🎈 Balon Patlat', icon: Sparkles, activeClass: 'bg-rose-500 text-white border-rose-700' },
     { id: 'phonics', label: '🔤 Harf Birleştir', icon: Type, activeClass: 'bg-amber-500 text-slate-950 border-amber-700' },
-    { id: 'workshop', label: '🧱 Lego Atölye', icon: Wrench, activeClass: 'bg-indigo-600 text-white border-indigo-800' },
   ];
 
   const handleTabClick = (tabId) => {
@@ -54,9 +52,9 @@ export default function Navbar({
             onClick={() => handleTabClick('discovery')}
             className="flex items-center gap-2 cursor-pointer text-left"
           >
-            <span className="text-2xl">🧱</span>
+            <span className="text-2xl">🌟</span>
             <span className="font-display font-black text-base sm:text-xl text-slate-900">
-              {childName}’in İngilizce Macerası
+              {childName}’in İngilizce Dünyası
             </span>
           </button>
 

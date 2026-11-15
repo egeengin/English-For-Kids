@@ -185,7 +185,6 @@ function findNextUncompletedIndex(completedIds, afterIndex = -1) {
 
 export default function PhonicsBuilder({
   onRewardEarned,
-  onNavigateToWorkshop,
   isMuted = false,
   childName = 'Deniz',
 }) {
@@ -464,7 +463,7 @@ export default function PhonicsBuilder({
             Harika {childName}! Tüm {PHONICS_WORDS.length} Kelimeyi Tamamladın! 🎉
           </h2>
           <p className="text-sm sm:text-base font-bold text-emerald-100 max-w-xl mx-auto">
-            Yaptığın bütün kelimeler hafızada işaretlendi. İstersen baştan tekrar çözebilir veya 3D Lego Atölyesine geçebilirsin!
+            Yaptığın bütün kelimeler hafızada işaretlendi. İstersen baştan tekrar çözebilirsin!
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
@@ -474,15 +473,6 @@ export default function PhonicsBuilder({
             >
               🔄 Tüm Kelimeleri Baştan Çöz
             </button>
-            {onNavigateToWorkshop && (
-              <button
-                type="button"
-                onClick={onNavigateToWorkshop}
-                className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-sm shadow-lg cursor-pointer"
-              >
-                🧱 3D Atölyeye Git
-              </button>
-            )}
           </div>
         </div>
       ) : (
@@ -672,24 +662,6 @@ export default function PhonicsBuilder({
         </div>
       )}
 
-      {/* Workshop Navigation Banner */}
-      <div className="w-full mt-6 flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
-        <div className="flex items-center gap-2 text-slate-600 text-xs sm:text-sm font-semibold">
-          <span>🧱 Usta İnşaatçı İpucu:</span>
-          <span className="text-slate-500">
-            Tamamlanan her kelime 3D Atölye için +2 Lego Parçası kazandırır!
-          </span>
-        </div>
-        {onNavigateToWorkshop && (
-          <button
-            type="button"
-            onClick={onNavigateToWorkshop}
-            className="text-xs font-bold text-blue-600 hover:text-blue-700 underline cursor-pointer"
-          >
-            3D Atölyeye Git ➔
-          </button>
-        )}
-      </div>
     </div>
   );
 }

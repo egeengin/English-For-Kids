@@ -498,71 +498,90 @@ export default function StoryAdventure({
             </div>
           </div>
 
-          {/* Interactive Props Grid */}
-          <div className="relative z-10">
-            <div className="flex items-center justify-between text-sm sm:text-base font-bold mb-3">
-              <span className="inline-flex items-center gap-2 bg-slate-900/85 text-white px-3.5 py-1.5 rounded-xl shadow-xs">
-                <span>🔍</span>
-                <span>Tap objects to listen:</span>
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-              {(chapter.sceneBackdrop?.props || []).map((prop) => {
-                const isSelected = activeProp?.id === prop.id;
+          {/* Interactive Scene Picture (if available) or Props Grid */}
+          {chapter.sceneBackdrop?.sceneImage ? (
+            <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border-4 border-white/90 bg-slate-900">
+              <img
+                src={`${import.meta.env.BASE_URL}${chapter.sceneBackdrop.sceneImage}`}
+                alt={chapter.title}
+                className="w-full h-full object-cover select-none"
+                draggable={false}
+              />
+              {(chapter.sceneBackdrop.hotspots || []).map((spot) => {
+                const isSelected = activeProp?.id === spot.id;
                 return (
                   <button
-                    key={prop.id}
-                    onClick={() => handlePropClick(prop)}
-                    className={`
-                      p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-center gap-3 text-left cursor-pointer shadow-md
-                      ${isSelected
-                        ? 'bg-yellow-50 text-slate-950 border-yellow-400 scale-105 ring-2 ring-yellow-300'
-                        : 'bg-white/95 hover:bg-white text-slate-900 border-white active:scale-95'}
-                    `}
+                    key={spot.id}
+                    type="button"
+                    style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+                    onPointerEnter={() => {
+                      setActiveProp(spot);
+                      if (!isMuted) {
+                        speakEnglish(spot.speakText || spot.name);
+                      }
+                    }}
+                    onClick={() => {
+                      playSnap(isMuted);
+                      setActiveProp(spot);
+                      if (!isMuted) {
+                        speakEnglish(spot.speakText || spot.name);
+                      }
+                    }}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-200 cursor-pointer flex items-center gap-1.5 rounded-full shadow-lg border-2 ${
+                      isSelected
+                        ? 'z-30 scale-125 bg-yellow-300 text-slate-950 border-white px-3.5 py-1.5 ring-4 ring-yellow-400/60'
+                        : 'z-10 bg-white/90 hover:bg-yellow-200 text-slate-900 border-white px-2.5 py-1 hover:scale-115'
+                    }`}
                   >
-                    <span className="text-4xl sm:text-5xl leading-none flex-shrink-0">{prop.emoji}</span>
-                    <div className="min-w-0 flex-1">
-                      <div className="font-display font-black text-base sm:text-xl text-slate-900 leading-tight">
-                        {prop.name}
-                      </div>
-                    </div>
-                    <Volume2 className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-blue-600'}`} />
+                    <span className={isSelected ? 'text-2xl leading-none' : 'text-lg sm:text-xl leading-none'}>
+                      {spot.emoji}
+                    </span>
+                    {isSelected && (
+                      <>
+                        <span className="font-display font-black text-sm sm:text-base whitespace-nowrap">
+                          {spot.name}
+                        </span>
+                        <Volume2 className="w-4 h-4 text-amber-800 flex-shrink-0" />
+                      </>
+                    )}
                   </button>
                 );
               })}
             </div>
-          </div>
-
-          {/* Active Prop Detail Popover */}
-          {activeProp && (
-            <div className="relative z-10 mt-3 bg-white text-slate-900 rounded-2xl p-3 sm:p-4 shadow-lg border-2 border-yellow-400 flex items-center justify-between gap-3 animate-scaleUp">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">{activeProp.emoji}</span>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-display font-black text-lg text-slate-950">
-                      {activeProp.name}
-                    </span>
-                    <button
-                      onClick={() => {
-                        if (!isMuted) speakDialoguePhrase(activeProp.audioKey, activeProp.name, 'en');
-                      }}
-                      className="p-1.5 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors cursor-pointer"
-                      title="Hear English pronunciation"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
+          ) : (
+            <div className="relative z-10">
+              <div className="flex items-center justify-between text-sm sm:text-base font-bold mb-3">
+                <span className="inline-flex items-center gap-2 bg-slate-900/85 text-white px-3.5 py-1.5 rounded-xl shadow-xs">
+                  <span>🔍</span>
+                  <span>Tap objects to listen:</span>
+                </span>
               </div>
-              <button
-                onClick={() => setActiveProp(null)}
-                className="text-slate-400 hover:text-slate-700 font-black p-1 text-sm cursor-pointer"
-                aria-label="Close prop detail"
-              >
-                ✕
-              </button>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                {(chapter.sceneBackdrop?.props || []).map((prop) => {
+                  const isSelected = activeProp?.id === prop.id;
+                  return (
+                    <button
+                      key={prop.id}
+                      onClick={() => handlePropClick(prop)}
+                      className={`
+                        p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-center gap-3 text-left cursor-pointer shadow-md
+                        ${isSelected
+                          ? 'bg-yellow-50 text-slate-950 border-yellow-400 scale-105 ring-2 ring-yellow-300'
+                          : 'bg-white/95 hover:bg-white text-slate-900 border-white active:scale-95'}
+                      `}
+                    >
+                      <span className="text-4xl sm:text-5xl leading-none flex-shrink-0">{prop.emoji}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-display font-black text-base sm:text-xl text-slate-900 leading-tight">
+                          {prop.name}
+                        </div>
+                      </div>
+                      <Volume2 className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-blue-600'}`} />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

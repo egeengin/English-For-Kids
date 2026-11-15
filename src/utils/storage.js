@@ -2,6 +2,8 @@
  * LocalStorage persistence layer for Lego English Adventure.
  */
 
+import { getEffectiveGeminiApiKey } from './gemini.js';
+
 const STORAGE_KEY = 'lego_english_adventure_state_v1';
 
 export const INITIAL_STATE = {
@@ -24,7 +26,7 @@ export const INITIAL_STATE = {
   equippedAccessory: 'cap',
   customWords: [],
   soundMuted: false,
-  geminiApiKey: '',
+  geminiApiKey: getEffectiveGeminiApiKey(),
   // Guru features persistence:
   roadProgress: { 'stage-1': 3 }, // stage-1 unlocked with 3 stars by default
   dailyChecklist: {},
@@ -69,7 +71,7 @@ export function loadSavedState() {
       ...parsed,
       childName: (parsed.childName && parsed.childName.trim()) || 'Deniz',
       childAge: Number(parsed.childAge) || 7,
-      geminiApiKey: parsed.geminiApiKey || '',
+      geminiApiKey: (parsed.geminiApiKey && parsed.geminiApiKey.trim()) || getEffectiveGeminiApiKey(),
       dailyChecklist: parsed.dailyChecklist || {},
       discoveryResults: parsed.discoveryResults || {},
       streak,

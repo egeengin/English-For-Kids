@@ -4,7 +4,7 @@
  * and provides gentle feedback for German and Turkish speaking children.
  */
 
-const GEMINI_TEXT_MODELS = ['gemini-3.6-flash', 'gemini-2.5-flash'];
+const GEMINI_TEXT_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 // Built-in base64-encoded default key for seamless out-of-the-box & GitHub Pages operation
@@ -30,7 +30,7 @@ export function getEffectiveGeminiApiKey(explicitKey = '') {
 
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const savedRaw = window.localStorage.getItem('lego_english_adventure_v1');
+      const savedRaw = window.localStorage.getItem('lego_english_adventure_state_v1');
       if (savedRaw) {
         const parsed = JSON.parse(savedRaw);
         if (parsed?.geminiApiKey && String(parsed.geminiApiKey).trim().length >= 20) {
@@ -89,6 +89,22 @@ async function postGeminiWithFallback(apiKey, payload, timeoutMs = 6500) {
 
   if (lastResponse) return lastResponse;
   throw lastError || new Error('GEMINI_REQUEST_FAILED');
+}
+
+/**
+ * Extract and parse the non-thought JSON text payload from a Gemini generateContent response.
+ */
+function extractGeminiJson(data) {
+  const parts = data?.candidates?.[0]?.content?.parts || [];
+  const rawText = (parts.find((p) => !p.thought && typeof p.text === 'string') || parts[0])?.text;
+  if (!rawText) return null;
+  let jsonString = rawText.replace(/```json/gi, '').replace(/```/gi, '').trim();
+  const firstBrace = jsonString.indexOf('{');
+  const lastBrace = jsonString.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    jsonString = jsonString.substring(firstBrace, lastBrace + 1);
+  }
+  return JSON.parse(jsonString);
 }
 
 /**
@@ -188,11 +204,11 @@ Respond strictly in valid JSON format:
         ],
         generationConfig: {
           responseMimeType: 'application/json',
-          maxOutputTokens: 250,
           temperature: 0.3,
+          thinkingConfig: { thinkingBudget: 0 },
         },
       },
-      6000
+      8000
     );
 
     if (!response.ok) {
@@ -201,10 +217,8 @@ Respond strictly in valid JSON format:
     }
 
     const data = await response.json();
-    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!rawText) return null;
-
-    const parsed = JSON.parse(rawText);
+    const parsed = extractGeminiJson(data);
+    if (!parsed) return null;
     return {
       isAccepted: Boolean(parsed.isAccepted),
       stars: Math.min(3, Math.max(1, Number(parsed.stars) || 2)),
@@ -353,11 +367,11 @@ Respond strictly in valid JSON format:
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: {
           responseMimeType: 'application/json',
-          maxOutputTokens: 200,
-          temperature: 0.7,
+          temperature: 0.5,
+          thinkingConfig: { thinkingBudget: 0 },
         },
       },
-      6000
+      8000
     );
 
     if (!response.ok) {
@@ -365,10 +379,8 @@ Respond strictly in valid JSON format:
     }
 
     const data = await response.json();
-    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!rawText) return getOfflineLeoResponse(message, childName);
-
-    const parsed = JSON.parse(rawText);
+    const parsed = extractGeminiJson(data);
+    if (!parsed) return getOfflineLeoResponse(message, childName);
     return {
       replyEn: parsed.replyEn || `Awesome, ${childName}! Let's build!`,
       replyDe: parsed.replyDe || 'Toll gemacht!',

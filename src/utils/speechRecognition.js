@@ -4,7 +4,7 @@
  * with German/Turkish native language backgrounds, and Gemini AI fallback!
  */
 
-import { evaluateChildSpeechWithGemini } from './gemini.js';
+import { evaluateChildSpeechWithGemini, getEffectiveGeminiApiKey } from './gemini.js';
 
 /**
  * Check if browser supports Web Speech Recognition API
@@ -338,11 +338,12 @@ export async function evaluateKidPronunciation({
   }
 
   // Check 4: Gemini AI Integration Fallback!
-  // If the child was not recognized by local heuristics and parent provided a Gemini API Key:
-  if (geminiApiKey && geminiApiKey.trim()) {
+  // If the child was not recognized by local heuristics, use the configured Gemini API Key:
+  const effectiveKey = getEffectiveGeminiApiKey(geminiApiKey);
+  if (effectiveKey) {
     try {
       const geminiResult = await evaluateChildSpeechWithGemini({
-        apiKey: geminiApiKey,
+        apiKey: effectiveKey,
         targetPhrase,
         transcript,
         childName,

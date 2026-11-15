@@ -22,7 +22,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { getStoryData } from '../data/storyData';
-import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase } from '../utils/speech';
+import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
@@ -102,7 +102,10 @@ export default function StoryAdventure({
   const totalChapters = story.chapters.length;
 
   const targetChoice = chapter.choices.find(c => c.isCorrect) || chapter.choices[0];
-  const targetPhraseClean = (targetChoice?.text || '').replace(/[🧱⭐🎈🎉]/g, '').trim();
+  const targetPhraseClean = (targetChoice?.text || '')
+    .replace(/[^\p{L}\p{N}\s.,!?'’-]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
   // Play dialogue line with synchronized karaoke word highlight matching actual speech pace
   const playKaraokeDialogue = (chapterObj) => {
@@ -143,6 +146,16 @@ export default function StoryAdventure({
       }
     };
   }, []);
+
+  // Pre-warm Gemini TTS cache for chapter dialogue, choices, and scene props
+  useEffect(() => {
+    if (isMuted || !chapter) return;
+    prefetchSpeech([
+      chapter.characterLine,
+      ...(chapter.choices || []).map((c) => c.text),
+      ...(chapter.sceneBackdrop?.props || []).map((p) => p.name),
+    ]);
+  }, [chapter, isMuted]);
 
   // Speak character line with karaoke when chapter loads
   useEffect(() => {
@@ -1032,8 +1045,8 @@ export default function StoryAdventure({
           {isChapterSolved && (
             <div className="mt-4 pt-3 border-t border-slate-200 animate-fadeIn">
               <VoiceRecorderWidget
-                targetWord={chapter.choices.find(c => c.isCorrect)?.text || ''}
-                targetAudioKey={chapter.choices.find(c => c.isCorrect)?.audioKey || ''}
+                targetWord={targetPhraseClean}
+                targetAudioKey=""
                 onRewardEarned={onRewardEarned}
                 isMuted={isMuted}
                 childName={childName}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Volume2,
   Printer,
@@ -13,7 +13,7 @@ import {
   DAILY_EXPEDITION_DAYS,
   getWorksheetQuestions,
 } from '../data/dailyMissionsData';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, prefetchSpeech } from '../utils/speech';
 import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
 
 export default function DailyMissionHub({
@@ -45,8 +45,23 @@ export default function DailyMissionHub({
   const activeDay =
     DAILY_EXPEDITION_DAYS.find((d) => d.id === currentDayId) || DAILY_EXPEDITION_DAYS[0];
 
-  const dayWorksheet = getWorksheetQuestions({ mode: 'day', dayId: activeDay.id });
-  const dayQuizQuestions = dayWorksheet.questions || [];
+  const dayWorksheet = useMemo(
+    () => getWorksheetQuestions({ mode: 'day', dayId: activeDay.id }),
+    [activeDay.id]
+  );
+  const dayQuizQuestions = useMemo(
+    () => dayWorksheet.questions || [],
+    [dayWorksheet]
+  );
+
+  // Pre-warm Gemini TTS cache for daily key vocabulary & initial quiz prompts
+  useEffect(() => {
+    if (isMuted || !activeDay) return;
+    prefetchSpeech([
+      ...(activeDay.vocabFocus || []).map((v) => v.en),
+      ...dayQuizQuestions.slice(0, 2).map((q) => q.promptEn),
+    ]);
+  }, [activeDay, dayQuizQuestions, isMuted]);
   const dayQuizScore = dayQuizQuestions.filter((q) => {
     const chosenId = dailyQuizAnswers[q.id];
     return q.options.some((o) => o.id === chosenId && o.isCorrect);

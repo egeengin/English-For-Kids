@@ -178,6 +178,15 @@ export function getStoryData(childName = 'Deniz') {
         questionPrompt: `What does polite ${childName} order?`,
         choices: [
           {
+            id: 'opt_2',
+            text: 'No, thank you. 🚫',
+            audioKey: 'no_thank_you',
+            isCorrect: false,
+            translationDe: 'Nein, danke. 🚫',
+            translationTr: 'Hayır, teşekkürler. 🚫',
+            feedback: `${childName} needs energy for school! Choose Milk and bread!`,
+          },
+          {
             id: 'opt_1',
             text: 'Milk and bread, please! 🥛',
             audioKey: 'milk_and_bread',
@@ -193,15 +202,6 @@ export function getStoryData(childName = 'Deniz') {
               translationDe: 'Hier bitte! Leckere Milch und frisches Brot! 🥛🍞',
               translationTr: 'İşte burada! Lezzetli süt ve taze ekmek! Afiyet olsun! 🥛🍞',
             },
-          },
-          {
-            id: 'opt_2',
-            text: 'No, thank you. 🚫',
-            audioKey: 'no_thank_you',
-            isCorrect: false,
-            translationDe: 'Nein, danke. 🚫',
-            translationTr: 'Hayır, teşekkürler. 🚫',
-            feedback: `${childName} needs energy for school! Choose Milk and bread!`,
           },
         ],
         sentenceBuilder: {
@@ -370,6 +370,15 @@ export function getStoryData(childName = 'Deniz') {
         questionPrompt: `How does happy ${childName} reply to his teacher?`,
         choices: [
           {
+            id: 'opt_2',
+            text: 'Good night! 🌙',
+            audioKey: 'good_night',
+            isCorrect: false,
+            translationDe: 'Gute Nacht! 🌙',
+            translationTr: 'İyi geceler! 🌙',
+            feedback: 'Tell Mrs. Brick how you feel: "I am happy!"',
+          },
+          {
             id: 'opt_1',
             text: 'I am happy! 😊',
             audioKey: 'i_am_happy',
@@ -385,15 +394,6 @@ export function getStoryData(childName = 'Deniz') {
               translationDe: 'Ich liebe dein Lächeln! Willkommen in unserer Klasse! ✨',
               translationTr: 'Bu gülüşünü çok seviyorum! Sınıfımıza hoş geldin! ✨',
             },
-          },
-          {
-            id: 'opt_2',
-            text: 'Good night! 🌙',
-            audioKey: 'good_night',
-            isCorrect: false,
-            translationDe: 'Gute Nacht! 🌙',
-            translationTr: 'İyi geceler! 🌙',
-            feedback: 'Tell Mrs. Brick how you feel: "I am happy!"',
           },
         ],
         sentenceBuilder: {
@@ -562,6 +562,15 @@ export function getStoryData(childName = 'Deniz') {
         questionPrompt: `${childName} loves soccer! What does he say to Tim?`,
         choices: [
           {
+            id: 'opt_2',
+            text: 'No, thank you. 🚫',
+            audioKey: 'no_thank_you',
+            isCorrect: false,
+            translationDe: 'Nein, danke. 🚫',
+            translationTr: 'Hayır, teşekkürler. 🚫',
+            feedback: 'Soccer is fun! Say: "Yes, let\'s play!"',
+          },
+          {
             id: 'opt_1',
             text: "Yes, let's play! ⚽",
             audioKey: 'lets_play',
@@ -577,15 +586,6 @@ export function getStoryData(childName = 'Deniz') {
               translationDe: 'Pass rüber! Tor! Was für ein Team! ⚽🎉',
               translationTr: 'Buraya at! Gol! Harika bir takımız! ⚽🎉',
             },
-          },
-          {
-            id: 'opt_2',
-            text: 'No, thank you. 🚫',
-            audioKey: 'no_thank_you',
-            isCorrect: false,
-            translationDe: 'Nein, danke. 🚫',
-            translationTr: 'Hayır, teşekkürler. 🚫',
-            feedback: 'Soccer is fun! Say: "Yes, let\'s play!"',
           },
         ],
         sentenceBuilder: {

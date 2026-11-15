@@ -63,8 +63,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Welches Tier ist klein, grün und springt im Teich?',
         options: [
           { id: 'a', textEn: 'A big grey elephant', labelTr: 'Büyük gri fil', emoji: '🐘', isCorrect: false },
-          { id: 'b', textEn: 'A little green frog', labelTr: 'Küçük yeşil kurbağa', emoji: '🐸', isCorrect: true },
-          { id: 'c', textEn: 'A sleepy orange cat', labelTr: 'Uykulu turuncu kedi', emoji: '🐱', isCorrect: false },
+          { id: 'b', textEn: 'A sleepy orange cat', labelTr: 'Uykulu turuncu kedi', emoji: '🐱', isCorrect: false },
+          { id: 'c', textEn: 'A little green frog', labelTr: 'Küçük yeşil kurbağa', emoji: '🐸', isCorrect: true },
         ],
       },
       {
@@ -94,9 +94,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Dışarı bak! Güneş parlak. Hava nasıl?',
         promptDeHelper: 'Schau raus! Die Sonne scheint hell. Wie ist das Wetter?',
         options: [
-          { id: 'a', textEn: 'It is sunny!', labelTr: 'Hava güneşli!', emoji: '☀️', isCorrect: true },
-          { id: 'b', textEn: 'It is snowy!', labelTr: 'Hava karlı!', emoji: '❄️', isCorrect: false },
-          { id: 'c', textEn: 'It is rainy!', labelTr: 'Hava yağmurlu!', emoji: '🌧️', isCorrect: false },
+          { id: 'a', textEn: 'It is snowy!', labelTr: 'Hava karlı!', emoji: '❄️', isCorrect: false },
+          { id: 'b', textEn: 'It is rainy!', labelTr: 'Hava yağmurlu!', emoji: '🌧️', isCorrect: false },
+          { id: 'c', textEn: 'It is sunny!', labelTr: 'Hava güneşli!', emoji: '☀️', isCorrect: true },
         ],
       },
       {
@@ -110,8 +110,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Kağıda adını yazacaksın. Hangisini kullanırsın?',
         promptDeHelper: 'Du möchtest deinen Namen schreiben. Was benutzt du?',
         options: [
-          { id: 'a', textEn: 'A yellow pencil', labelTr: 'Sarı bir kurşun kalem', emoji: '✏️', isCorrect: true },
-          { id: 'b', textEn: 'A rubber duck', labelTr: 'Plastik ördek', emoji: '🦆', isCorrect: false },
+          { id: 'a', textEn: 'A rubber duck', labelTr: 'Plastik ördek', emoji: '🦆', isCorrect: false },
+          { id: 'b', textEn: 'A yellow pencil', labelTr: 'Sarı bir kurşun kalem', emoji: '✏️', isCorrect: true },
           { id: 'c', textEn: 'A big watermelon', labelTr: 'Büyük karpuz', emoji: '🍉', isCorrect: false },
         ],
       },
@@ -127,8 +127,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Wie heißen Mama und Papa auf Englisch?',
         options: [
           { id: 'a', textEn: 'Teacher and doctor', labelTr: 'Öğretmen ve doktor', emoji: '👩‍🏫', isCorrect: false },
-          { id: 'b', textEn: 'Mom and Dad', labelTr: 'Anne ve Baba', emoji: '👩‍👦', isCorrect: true },
-          { id: 'c', textEn: 'Dog and cat', labelTr: 'Köpek ve kedi', emoji: '🐶', isCorrect: false },
+          { id: 'b', textEn: 'Dog and cat', labelTr: 'Köpek ve kedi', emoji: '🐶', isCorrect: false },
+          { id: 'c', textEn: 'Mom and Dad', labelTr: 'Anne ve Baba', emoji: '👩‍👦', isCorrect: true },
         ],
       },
       {
@@ -174,9 +174,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Basketbol toplarını say: 5 top artı 2 top daha kaç eder?',
         promptDeHelper: 'Zähle die Basketbälle: fünf plus zwei ist...?',
         options: [
-          { id: 'a', textEn: 'Seven basketballs!', labelTr: 'Yedi basketbol topu!', emoji: '7️⃣', isCorrect: true },
-          { id: 'b', textEn: 'Four basketballs!', labelTr: 'Dört basketbol topu!', emoji: '4️⃣', isCorrect: false },
-          { id: 'c', textEn: 'Ten basketballs!', labelTr: 'On basketbol topu!', emoji: '🔟', isCorrect: false },
+          { id: 'a', textEn: 'Four basketballs!', labelTr: 'Dört basketbol topu!', emoji: '4️⃣', isCorrect: false },
+          { id: 'b', textEn: 'Ten basketballs!', labelTr: 'On basketbol topu!', emoji: '🔟', isCorrect: false },
+          { id: 'c', textEn: 'Seven basketballs!', labelTr: 'Yedi basketbol topu!', emoji: '7️⃣', isCorrect: true },
         ],
       },
     ],
@@ -205,8 +205,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Gerçek bir kaplumbağa ne yapabilir, ne yapamaz?',
         promptDeHelper: 'Was kann eine echte Schildkröte tun und was nicht?',
         options: [
-          { id: 'a', textEn: 'It can swim, but it cannot dribble a basketball!', labelTr: 'Yüzebilir ama basket topu süremez!', emoji: '🏊', isCorrect: true },
-          { id: 'b', textEn: 'It can fly to the moon in a rocket!', labelTr: 'Roketle aya uçabilir!', emoji: '🚀', isCorrect: false },
+          { id: 'a', textEn: 'It can fly to the moon in a rocket!', labelTr: 'Roketle aya uçabilir!', emoji: '🚀', isCorrect: false },
+          { id: 'b', textEn: 'It can swim, but it cannot dribble a basketball!', labelTr: 'Yüzebilir ama basket topu süremez!', emoji: '🏊', isCorrect: true },
           { id: 'c', textEn: 'It can drive a big school bus!', labelTr: 'Okul otobüsü sürebilir!', emoji: '🚌', isCorrect: false },
         ],
       },
@@ -237,9 +237,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Koç diyor ki: Burnuna dokun ve iki kez zıpla!',
         promptDeHelper: 'Trainer sagt: Berühre deine Nase und springe zweimal!',
         options: [
-          { id: 'a', textEn: 'Touch nose and jump two times!', labelTr: 'Burnuna dokun ve 2 kez zıpla!', emoji: '👃🤸', isCorrect: true },
-          { id: 'b', textEn: 'Clap your hands and go to sleep!', labelTr: 'Alkışla ve uyu!', emoji: '👏😴', isCorrect: false },
-          { id: 'c', textEn: 'Spin around and open the book!', labelTr: 'Dön ve kitabı aç!', emoji: '🌀📖', isCorrect: false },
+          { id: 'a', textEn: 'Clap your hands and go to sleep!', labelTr: 'Alkışla ve uyu!', emoji: '👏😴', isCorrect: false },
+          { id: 'b', textEn: 'Spin around and open the book!', labelTr: 'Dön ve kitabı aç!', emoji: '🌀📖', isCorrect: false },
+          { id: 'c', textEn: 'Touch nose and jump two times!', labelTr: 'Burnuna dokun ve 2 kez zıpla!', emoji: '👃🤸', isCorrect: true },
         ],
       },
       {
@@ -269,7 +269,7 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Herkes uyuyor! Şu an piyanoyu nasıl çalmalısın?',
         promptDeHelper: 'Alle schlafen! Wie solltest du jetzt Klavier spielen?',
         options: [
-          { id: 'a', textEn: 'Play very quiet!', labelTr: 'Çok sessiz / kısık sesle çal!', emoji: '🤫🎹', isCorrect: true },
+          { id: 'a', textEn: 'Play very quietly!', labelTr: 'Çok sessiz / kısık sesle çal!', emoji: '🤫🎹', isCorrect: true },
           { id: 'b', textEn: 'Play super loud!', labelTr: 'Çok gürültülü çal!', emoji: '📢💥', isCorrect: false },
           { id: 'c', textEn: 'Throw the piano!', labelTr: 'Piyanoyu fırlat!', emoji: '🛸', isCorrect: false },
         ],
@@ -281,13 +281,13 @@ export const DISCOVERY_STAGES = [
         curriculumDayTarget: 'day-2',
         characterName: 'Yarış Pisti',
         characterEmoji: '🚀',
-        promptEn: 'A space rocket flies fast! Which animal moves very slow?',
+        promptEn: 'A space rocket flies fast! Which animal moves very slowly?',
         promptTrHelper: 'Uzay roketi hızlı uçar! Hangi hayvan çok yavaş hareket eder?',
         promptDeHelper: 'Eine Rakete ist schnell! Welches Tier bewegt sich sehr langsam?',
         options: [
           { id: 'a', textEn: 'A cheetah', labelTr: 'Çita', emoji: '🐆', isCorrect: false },
-          { id: 'b', textEn: 'A tiny snail', labelTr: 'Küçük bir salyangoz', emoji: '🐌', isCorrect: true },
-          { id: 'c', textEn: 'A jet airplane', labelTr: 'Jet uçağı', emoji: '✈️', isCorrect: false },
+          { id: 'b', textEn: 'A jet airplane', labelTr: 'Jet uçağı', emoji: '✈️', isCorrect: false },
+          { id: 'c', textEn: 'A tiny snail', labelTr: 'Küçük bir salyangoz', emoji: '🐌', isCorrect: true },
         ],
       },
       {
@@ -317,9 +317,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Arkadaşın soruyor: Garajda hangi oyuncağın var?',
         promptDeHelper: 'Welches Spielzeug hast du in der Garage?',
         options: [
-          { id: 'a', textEn: 'I have got a blue bicycle!', labelTr: 'Mavi bir bisikletim var!', emoji: '🚲', isCorrect: true },
-          { id: 'b', textEn: 'I am swimming in the soup!', labelTr: 'Çorbanın içinde yüzüyorum!', emoji: '🍲', isCorrect: false },
-          { id: 'c', textEn: 'The moon is made of cheese!', labelTr: 'Ay peynirden yapılmıştır!', emoji: '🧀', isCorrect: false },
+          { id: 'a', textEn: 'I am swimming in the soup!', labelTr: 'Çorbanın içinde yüzüyorum!', emoji: '🍲', isCorrect: false },
+          { id: 'b', textEn: 'The moon is made of cheese!', labelTr: 'Ay peynirden yapılmıştır!', emoji: '🧀', isCorrect: false },
+          { id: 'c', textEn: 'I have got a blue bicycle!', labelTr: 'Mavi bir bisikletim var!', emoji: '🚲', isCorrect: true },
         ],
       },
       {
@@ -396,9 +396,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Baba şu an piyanoda müzik yapıyor. Şu an ne yapıyor?',
         promptDeHelper: 'Papa sitzt gerade am Klavier. Was macht er?',
         options: [
-          { id: 'a', textEn: 'He is playing the piano.', labelTr: 'Piyano çalıyor.', emoji: '🎹🎶', isCorrect: true },
-          { id: 'b', textEn: 'He is sleeping in the tent.', labelTr: 'Çadırda uyuyor.', emoji: '⛺', isCorrect: false },
-          { id: 'c', textEn: 'He is eating spaghetti.', labelTr: 'Spagetti yiyor.', emoji: '🍝', isCorrect: false },
+          { id: 'a', textEn: 'He is sleeping in the tent.', labelTr: 'Çadırda uyuyor.', emoji: '⛺', isCorrect: false },
+          { id: 'b', textEn: 'He is eating spaghetti.', labelTr: 'Spagetti yiyor.', emoji: '🍝', isCorrect: false },
+          { id: 'c', textEn: 'He is playing the piano.', labelTr: 'Piyano çalıyor.', emoji: '🎹🎶', isCorrect: true },
         ],
       },
       {
@@ -424,7 +424,7 @@ export const DISCOVERY_STAGES = [
         curriculumDayTarget: 'day-6',
         characterName: 'Okul Çantası',
         characterEmoji: '🎒',
-        promptEn: 'It is seven o clock in the morning before school! What do you do first?',
+        promptEn: "It is seven o'clock in the morning before school! What do you do first?",
         promptTrHelper: 'Okuldan önce sabah saat 7! İlk olarak ne yaparsın?',
         promptDeHelper: 'Es ist 7 Uhr morgens vor der Schule! Was machst du zuerst?',
         options: [
@@ -445,8 +445,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Die Katze versteckt sich unter dem Tisch. Wo ist sie?',
         options: [
           { id: 'a', textEn: 'It is on the roof.', labelTr: 'Çatının üstünde.', emoji: '🏠', isCorrect: false },
-          { id: 'b', textEn: 'It is under the table.', labelTr: 'Masanın altında.', emoji: '🐱⬇️', isCorrect: true },
-          { id: 'c', textEn: 'It is driving a train.', labelTr: 'Tren sürüyor.', emoji: '🚆', isCorrect: false },
+          { id: 'b', textEn: 'It is driving a train.', labelTr: 'Tren sürüyor.', emoji: '🚆', isCorrect: false },
+          { id: 'c', textEn: 'It is under the table.', labelTr: 'Masanın altında.', emoji: '🐱⬇️', isCorrect: true },
         ],
       },
       {
@@ -476,8 +476,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Maya’nın elinde şu an Lego parçaları var. Ne yapıyor?',
         promptDeHelper: 'Maya hat Legosteine in der Hand. Was macht sie gerade?',
         options: [
-          { id: 'a', textEn: 'She is building a Lego castle.', labelTr: 'Lego kalesi inşa ediyor.', emoji: '🏰🧱', isCorrect: true },
-          { id: 'b', textEn: 'She is riding a horse.', labelTr: 'Ata biniyor.', emoji: '🐴', isCorrect: false },
+          { id: 'a', textEn: 'She is riding a horse.', labelTr: 'Ata biniyor.', emoji: '🐴', isCorrect: false },
+          { id: 'b', textEn: 'She is building a Lego castle.', labelTr: 'Lego kalesi inşa ediyor.', emoji: '🏰🧱', isCorrect: true },
           { id: 'c', textEn: 'She is swimming in snow.', labelTr: 'Karda yüzüyor.', emoji: '❄️', isCorrect: false },
         ],
       },
@@ -492,9 +492,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Biri sınıf kapısını çalıyor! KİM olduğunu sormak için hangi soruyu sorarsın?',
         promptDeHelper: 'Jemand klopft! Welche Frage fragt nach der Person (Wer)?',
         options: [
-          { id: 'a', textEn: 'Who is at the door?', labelTr: 'Kapıdaki KİM?', emoji: '🚪❓', isCorrect: true },
-          { id: 'b', textEn: 'What color is Tuesday?', labelTr: 'Salı ne renk?', emoji: '📅', isCorrect: false },
-          { id: 'c', textEn: 'Where is the moon?', labelTr: 'Ay nerede?', emoji: '🌙', isCorrect: false },
+          { id: 'a', textEn: 'What color is Tuesday?', labelTr: 'Salı ne renk?', emoji: '📅', isCorrect: false },
+          { id: 'b', textEn: 'Where is the moon?', labelTr: 'Ay nerede?', emoji: '🌙', isCorrect: false },
+          { id: 'c', textEn: 'Who is at the door?', labelTr: 'Kapıdaki KİM?', emoji: '🚪❓', isCorrect: true },
         ],
       },
       {
@@ -555,9 +555,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Charizard 150 HP, Pikachu 60 HP. Hangi cümle doğru?',
         promptDeHelper: 'Glurak hat 150 KP, Pikachu hat 60 KP. Welcher Satz stimmt?',
         options: [
-          { id: 'a', textEn: 'Charizard is stronger than Pikachu!', labelTr: 'Charizard, Pikachu’dan daha güçlüdür!', emoji: '🔥💪', isCorrect: true },
-          { id: 'b', textEn: 'Pikachu is heavier than an elephant!', labelTr: 'Pikachu filden daha ağırdır!', emoji: '🐘', isCorrect: false },
-          { id: 'c', textEn: 'Sixty is bigger than one hundred fifty!', labelTr: '60, 150’den büyüktür!', emoji: '❌', isCorrect: false },
+          { id: 'a', textEn: 'Pikachu is heavier than an elephant!', labelTr: 'Pikachu filden daha ağırdır!', emoji: '🐘', isCorrect: false },
+          { id: 'b', textEn: 'Sixty is bigger than one hundred fifty!', labelTr: '60, 150’den büyüktür!', emoji: '❌', isCorrect: false },
+          { id: 'c', textEn: 'Charizard is stronger than Pikachu!', labelTr: 'Charizard, Pikachu’dan daha güçlüdür!', emoji: '🔥💪', isCorrect: true },
         ],
       },
       {
@@ -604,8 +604,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Ich habe schwarze und weiße Tasten, keine Türen. Was bin ich?',
         options: [
           { id: 'a', textEn: 'A red bicycle', labelTr: 'Kırmızı bisiklet', emoji: '🚲', isCorrect: false },
-          { id: 'b', textEn: 'A grand piano', labelTr: 'Büyük piyano', emoji: '🎹', isCorrect: true },
-          { id: 'c', textEn: 'A football stadium', labelTr: 'Futbol stadyumu', emoji: '🏟️', isCorrect: false },
+          { id: 'b', textEn: 'A football stadium', labelTr: 'Futbol stadyumu', emoji: '🏟️', isCorrect: false },
+          { id: 'c', textEn: 'A grand piano', labelTr: 'Büyük piyano', emoji: '🎹', isCorrect: true },
         ],
       },
       {
@@ -651,9 +651,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Sıcak yaz güneşine buz küpü koydun. Neden suya dönüşür?',
         promptDeHelper: 'Warum schmilzt ein Eiswürfel in der warmen Sonne?',
         options: [
-          { id: 'a', textEn: 'Because the sun is hot and melts the ice!', labelTr: 'Çünkü güneş sıcaktır ve buzu eritir!', emoji: '☀️💧', isCorrect: true },
-          { id: 'b', textEn: 'Because the ice went to basketball!', labelTr: 'Çünkü buz basketbola gitti!', emoji: '🏀', isCorrect: false },
-          { id: 'c', textEn: 'Because ice is made of Lego bricks!', labelTr: 'Çünkü buz Legodan yapılmıştır!', emoji: '🧱', isCorrect: false },
+          { id: 'a', textEn: 'Because the ice went to basketball!', labelTr: 'Çünkü buz basketbola gitti!', emoji: '🏀', isCorrect: false },
+          { id: 'b', textEn: 'Because ice is made of Lego bricks!', labelTr: 'Çünkü buz Legodan yapılmıştır!', emoji: '🧱', isCorrect: false },
+          { id: 'c', textEn: 'Because the sun is hot and melts the ice!', labelTr: 'Çünkü güneş sıcaktır ve buzu eritir!', emoji: '☀️💧', isCorrect: true },
         ],
       },
       {
@@ -730,8 +730,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: '8 Pokemon kartın var. 3 tanesini verdin, baban 5 tane daha verdi. Kaç kartın oldu?',
         promptDeHelper: 'Du hast 8 Karten, gibst 3 ab und bekommst 5 von Papa. Wie viele jetzt?',
         options: [
-          { id: 'a', textEn: 'Ten Pokemon cards!', labelTr: 'On (10) Pokemon kartı!', emoji: '🔟🃏', isCorrect: true },
-          { id: 'b', textEn: 'Sixteen Pokemon cards!', labelTr: 'On altı (16) Pokemon kartı!', emoji: '1️⃣6️⃣', isCorrect: false },
+          { id: 'a', textEn: 'Sixteen Pokemon cards!', labelTr: 'On altı (16) Pokemon kartı!', emoji: '1️⃣6️⃣', isCorrect: false },
+          { id: 'b', textEn: 'Ten Pokemon cards!', labelTr: 'On (10) Pokemon kartı!', emoji: '🔟🃏', isCorrect: true },
           { id: 'c', textEn: 'Two Pokemon cards!', labelTr: 'İki (2) Pokemon kartı!', emoji: '2️⃣', isCorrect: false },
         ],
       },
@@ -747,8 +747,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Leo legte sein blaues Lego-Auto auf den Küchentisch und ging Basketball spielen. Wo ist es?',
         options: [
           { id: 'a', textEn: 'In the basketball hoop!', labelTr: 'Basket potasının içinde!', emoji: '🏀', isCorrect: false },
-          { id: 'b', textEn: 'On the kitchen table!', labelTr: 'Mutfak masasının üstünde!', emoji: '🍽️🚙', isCorrect: true },
-          { id: 'c', textEn: 'Inside the banana peel!', labelTr: 'Muz kabuğunun içinde!', emoji: '🍌', isCorrect: false },
+          { id: 'b', textEn: 'Inside the banana peel!', labelTr: 'Muz kabuğunun içinde!', emoji: '🍌', isCorrect: false },
+          { id: 'c', textEn: 'On the kitchen table!', labelTr: 'Mutfak masasının üstünde!', emoji: '🍽️🚙', isCorrect: true },
         ],
       },
       {
@@ -778,8 +778,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: 'Hangi şık Pikachu’yu 3 tam İngilizce cümleyle (adı, rengi, yeteneği) anlatır?',
         promptDeHelper: 'Welche Antwort beschreibt Pikachu in drei vollständigen Sätzen?',
         options: [
-          { id: 'a', textEn: 'This is Pikachu. It is yellow. It can jump fast!', labelTr: 'Bu Pikachu. O sarı. Hızlı zıplayabilir!', emoji: '⚡👑', isCorrect: true },
-          { id: 'b', textEn: 'Yesterday pizza blue seven.', labelTr: 'Dün pizza mavi yedi.', emoji: '🍕', isCorrect: false },
+          { id: 'a', textEn: 'Yesterday pizza blue seven.', labelTr: 'Dün pizza mavi yedi.', emoji: '🍕', isCorrect: false },
+          { id: 'b', textEn: 'This is Pikachu. It is yellow. It can jump fast!', labelTr: 'Bu Pikachu. O sarı. Hızlı zıplayabilir!', emoji: '⚡👑', isCorrect: true },
           { id: 'c', textEn: 'Under the chair is a banana.', labelTr: 'Sandalyenin altında muz var.', emoji: '🍌', isCorrect: false },
         ],
       },
@@ -794,9 +794,9 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: '3 tane Lego kulesi yaptın ve her birinde 4 parça var. Toplam kaç parça?',
         promptDeHelper: 'Du baust 3 Türme mit je 4 Legosteinen. Wie viele Steine insgesamt?',
         options: [
-          { id: 'a', textEn: 'Twelve Lego bricks!', labelTr: 'On iki (12) Lego parçası!', emoji: '1️⃣2️⃣', isCorrect: true },
-          { id: 'b', textEn: 'Seven Lego bricks!', labelTr: 'Yedi (7) Lego parçası!', emoji: '7️⃣', isCorrect: false },
-          { id: 'c', textEn: 'Twenty Lego bricks!', labelTr: 'Yirmi (20) Lego parçası!', emoji: '2️⃣0️⃣', isCorrect: false },
+          { id: 'a', textEn: 'Seven Lego bricks!', labelTr: 'Yedi (7) Lego parçası!', emoji: '7️⃣', isCorrect: false },
+          { id: 'b', textEn: 'Twenty Lego bricks!', labelTr: 'Yirmi (20) Lego parçası!', emoji: '2️⃣0️⃣', isCorrect: false },
+          { id: 'c', textEn: 'Twelve Lego bricks!', labelTr: 'On iki (12) Lego parçası!', emoji: '1️⃣2️⃣', isCorrect: true },
         ],
       },
       {
@@ -827,8 +827,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Nach dem Klavier ging Tom in die Turnhalle und vergaß seine rote Jacke dort.',
         options: [
           { id: 'a', textEn: 'At the piano school!', labelTr: 'Piyano okulunda!', emoji: '🎹', isCorrect: false },
-          { id: 'b', textEn: 'Inside the gym!', labelTr: 'Spor salonunda!', emoji: '🏟️🧥', isCorrect: true },
-          { id: 'c', textEn: 'In the kitchen!', labelTr: 'Mutfakta!', emoji: '🍳', isCorrect: false },
+          { id: 'b', textEn: 'In the kitchen!', labelTr: 'Mutfakta!', emoji: '🍳', isCorrect: false },
+          { id: 'c', textEn: 'Inside the gym!', labelTr: 'Spor salonunda!', emoji: '🏟️🧥', isCorrect: true },
         ],
       },
       {
@@ -858,8 +858,8 @@ export const DISCOVERY_STAGES = [
         promptTrHelper: '"Dolu"nun zıttı "boş"tur. "Ağır"ın (heavy) zıt anlamlısı nedir?',
         promptDeHelper: 'Das Gegenteil von "voll" ist "leer". Was ist das Gegenteil von "schwer" (heavy)?',
         options: [
-          { id: 'a', textEn: 'Light!', labelTr: 'Hafif (Light)!', emoji: '🪶', isCorrect: true },
-          { id: 'b', textEn: 'Dark!', labelTr: 'Karanlık (Dark)!', emoji: '🌑', isCorrect: false },
+          { id: 'a', textEn: 'Dark!', labelTr: 'Karanlık (Dark)!', emoji: '🌑', isCorrect: false },
+          { id: 'b', textEn: 'Light!', labelTr: 'Hafif (Light)!', emoji: '🪶', isCorrect: true },
           { id: 'c', textEn: 'Loud!', labelTr: 'Sesli (Loud)!', emoji: '📢', isCorrect: false },
         ],
       },
@@ -875,8 +875,8 @@ export const DISCOVERY_STAGES = [
         promptDeHelper: 'Es ist 8:30 Uhr morgens! Wie sagt man das auf Englisch?',
         options: [
           { id: 'a', textEn: 'Half past eight!', labelTr: 'Sekiz buçuk (Half past eight)!', emoji: '🕣', isCorrect: true },
-          { id: 'b', textEn: 'Five o clock!', labelTr: 'Saat beş!', emoji: '🕔', isCorrect: false },
-          { id: 'c', textEn: 'Twelve o clock!', labelTr: 'Saat on iki!', emoji: '🕛', isCorrect: false },
+          { id: 'b', textEn: "Five o'clock!", labelTr: 'Saat beş!', emoji: '🕔', isCorrect: false },
+          { id: 'c', textEn: "Twelve o'clock!", labelTr: 'Saat on iki!', emoji: '🕛', isCorrect: false },
         ],
       },
     ],

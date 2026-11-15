@@ -13,7 +13,7 @@ import {
   Target,
 } from 'lucide-react';
 import { DISCOVERY_STAGES } from '../data/dailyMissionsData';
-import { speakEnglish, stopSpeech } from '../utils/speech';
+import { speakEnglish, stopSpeech, prefetchSpeech } from '../utils/speech';
 import { playTap, playSuccess, playFanfare, playWobble } from '../utils/soundEffects';
 
 export default function LevelDiscoveryGame({
@@ -33,14 +33,19 @@ export default function LevelDiscoveryGame({
 
   const currentStage = DISCOVERY_STAGES[activeStageIdx] || DISCOVERY_STAGES[0];
   const currentQuestion = currentStage.questions[activeQuestionIdx] || currentStage.questions[0];
+  const nextQuestion = currentStage.questions[activeQuestionIdx + 1] || null;
   const savedAnswer = currentQuestion ? discoveryResults[currentQuestion.id] : null;
   const chosenOptionId = savedAnswer?.selectedOptionId || null;
 
-  // Auto-speak English question prompt when moving to a question
+  // Auto-speak English question prompt and pre-warm Gemini TTS cache for options & next question
   useEffect(() => {
     if (viewMode !== 'play' || isMuted || !currentQuestion?.promptEn) {
       return;
     }
+    prefetchSpeech([
+      ...(currentQuestion.options || []).map((o) => o.textEn),
+      nextQuestion?.promptEn,
+    ]);
     const timer = setTimeout(() => {
       speakEnglish(currentQuestion.promptEn);
     }, 240);
@@ -48,7 +53,7 @@ export default function LevelDiscoveryGame({
       clearTimeout(timer);
       stopSpeech();
     };
-  }, [viewMode, activeStageIdx, activeQuestionIdx, currentQuestion?.promptEn, isMuted]);
+  }, [viewMode, activeStageIdx, activeQuestionIdx, currentQuestion, nextQuestion, isMuted]);
 
   const stageStats = DISCOVERY_STAGES.map((stage) => {
     const answered = stage.questions.filter((q) => Boolean(discoveryResults[q.id]));

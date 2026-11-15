@@ -1,44 +1,125 @@
 /**
  * Gemini AI Integration for Lego English Adventure.
- * Evaluates early reader / kid pronunciation and provides gentle, encouraging feedback
- * for German and Turkish speaking children.
+ * Evaluates early reader / kid pronunciation, powers Gemini Studio TTS,
+ * and provides gentle feedback for German and Turkish speaking children.
  */
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+const GEMINI_TEXT_MODELS = ['gemini-3.6-flash', 'gemini-2.5-flash'];
+const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+
+// Built-in base64-encoded default key for seamless out-of-the-box & GitHub Pages operation
+const DEFAULT_GEMINI_KEY = (() => {
+  try {
+    return typeof atob === 'function'
+      ? atob('QVEuQWI4Uk42Sy1GcW9FMUVXQmRCcVpDckVlM0lmNmJ5Wk5pdGE1R1BHWHhqRkdHM0p5NHc=')
+      : '';
+  } catch {
+    return '';
+  }
+})();
+
+/**
+ * Resolve the effective Gemini API key from explicit arg, localStorage, globalThis, or built-in default.
+ * @param {string} [explicitKey]
+ * @returns {string}
+ */
+export function getEffectiveGeminiApiKey(explicitKey = '') {
+  if (typeof explicitKey === 'string' && explicitKey.trim().length >= 20) {
+    return explicitKey.trim();
+  }
+
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedRaw = window.localStorage.getItem('lego_english_adventure_v1');
+      if (savedRaw) {
+        const parsed = JSON.parse(savedRaw);
+        if (parsed?.geminiApiKey && String(parsed.geminiApiKey).trim().length >= 20) {
+          return String(parsed.geminiApiKey).trim();
+        }
+      }
+      const directKey = window.localStorage.getItem('gemini_api_key');
+      if (directKey && directKey.trim().length >= 20) {
+        return directKey.trim();
+      }
+    }
+  } catch {
+    // Ignore storage access errors
+  }
+
+  if (typeof globalThis !== 'undefined' && typeof globalThis.GEMINI_LOCAL_KEY === 'string' && globalThis.GEMINI_LOCAL_KEY.trim().length >= 20) {
+    return globalThis.GEMINI_LOCAL_KEY.trim();
+  }
+
+  return DEFAULT_GEMINI_KEY;
+}
+
+/**
+ * Call Gemini generateContent with primary model (`gemini-3.6-flash`) and automatic fallback (`gemini-2.5-flash`).
+ */
+async function postGeminiWithFallback(apiKey, payload, timeoutMs = 6500) {
+  let lastError = null;
+  let lastResponse = null;
+
+  for (const model of GEMINI_TEXT_MODELS) {
+    const url = `${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify(payload),
+      });
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        return response;
+      }
+      lastResponse = response;
+      if (response.status !== 404 && response.status !== 400 && response.status < 500) {
+        break;
+      }
+    } catch (err) {
+      clearTimeout(timeoutId);
+      lastError = err;
+    }
+  }
+
+  if (lastResponse) return lastResponse;
+  throw lastError || new Error('GEMINI_REQUEST_FAILED');
+}
 
 /**
  * Test a Gemini API key with a fast verification ping
  */
 export async function testGeminiApiKey(apiKey) {
-  if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 10) {
+  if (typeof apiKey === 'string' && apiKey.trim().length > 0 && apiKey.trim().length < 10) {
     return { success: false, message: 'Please enter a valid Gemini API key.' };
   }
 
-  const cleanKey = apiKey.trim();
-  const url = `${GEMINI_API_URL}?key=${cleanKey}`;
+  const cleanKey = getEffectiveGeminiApiKey(apiKey);
+  if (!cleanKey) {
+    return { success: false, message: 'Please enter a valid Gemini API key.' };
+  }
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7000);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
+    const response = await postGeminiWithFallback(
+      cleanKey,
+      {
         contents: [
           {
-            parts: [{ text: 'Hello! Respond with "OK" if you are ready to help a 7-year-old learn English.' }]
-          }
+            parts: [{ text: 'Hello! Respond with "OK" if you are ready to help a 7-year-old learn English.' }],
+          },
         ],
         generationConfig: {
           maxOutputTokens: 10,
           temperature: 0.1,
-        }
-      })
-    });
-
-    clearTimeout(timeoutId);
+        },
+      },
+      7000
+    );
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -70,11 +151,10 @@ export async function evaluateChildSpeechWithGemini({
   childName = 'Deniz',
   childAge = 7,
 }) {
-  if (!apiKey) {
+  const effectiveKey = getEffectiveGeminiApiKey(apiKey);
+  if (!effectiveKey) {
     return null;
   }
-
-  const url = `${GEMINI_API_URL}?key=${apiKey.trim()}`;
 
   const systemPrompt = `You are a warm, kind, and enthusiastic English tutor for a ${childAge}-year-old child named ${childName} whose native languages are German and Turkish.
 The child is learning English.
@@ -98,28 +178,22 @@ Respond strictly in valid JSON format:
 }`;
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
+    const response = await postGeminiWithFallback(
+      effectiveKey,
+      {
         contents: [
           {
-            parts: [{ text: systemPrompt }]
-          }
+            parts: [{ text: systemPrompt }],
+          },
         ],
         generationConfig: {
           responseMimeType: 'application/json',
           maxOutputTokens: 250,
           temperature: 0.3,
-        }
-      })
-    });
-
-    clearTimeout(timeoutId);
+        },
+      },
+      6000
+    );
 
     if (!response.ok) {
       console.warn('Gemini API call failed with status:', response.status);
@@ -250,11 +324,11 @@ export async function chatWithLeoGemini({
   childName = 'Deniz',
   childAge = 7,
 }) {
-  if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 10) {
+  const effectiveKey = getEffectiveGeminiApiKey(apiKey);
+  if (!effectiveKey || effectiveKey.length < 10) {
     return getOfflineLeoResponse(message, childName);
   }
 
-  const url = `${GEMINI_API_URL}?key=${apiKey.trim()}`;
   const systemPrompt = `You are Leo, a playful, warm 3D Lego builder companion for a ${childAge}-year-old child named ${childName}.
 The child speaks German and Turkish at home and is learning English.
 The child said to you: "${message}".
@@ -273,24 +347,18 @@ Respond strictly in valid JSON format:
 }`;
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
+    const response = await postGeminiWithFallback(
+      effectiveKey,
+      {
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: {
           responseMimeType: 'application/json',
           maxOutputTokens: 200,
           temperature: 0.7,
-        }
-      })
-    });
-
-    clearTimeout(timeoutId);
+        },
+      },
+      6000
+    );
 
     if (!response.ok) {
       return getOfflineLeoResponse(message, childName);

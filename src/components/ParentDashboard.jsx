@@ -161,7 +161,7 @@ export default function ParentDashboard({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1">
       
       {/* Top Header */}
       <div className="bg-white rounded-3xl border-4 border-slate-800 p-4 sm:p-6 shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">

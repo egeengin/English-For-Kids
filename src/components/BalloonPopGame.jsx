@@ -149,7 +149,7 @@ export default function BalloonPopGame({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-4 flex flex-col items-center select-none">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
       
       {/* Header Bar */}
       <div className="w-full flex items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
@@ -237,7 +237,7 @@ export default function BalloonPopGame({
 
       {/* Balloon Play Sky Area */}
       {!isGameOver && (
-        <div className="w-full h-80 sm:h-96 bg-gradient-to-b from-sky-200 via-sky-100 to-amber-50 rounded-3xl border-4 border-slate-300 shadow-inner relative overflow-hidden flex items-center justify-around px-4">
+        <div className="w-full min-h-[52vh] sm:min-h-[60vh] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-50 rounded-3xl border-4 border-slate-300 shadow-inner relative overflow-hidden flex items-center justify-around px-4">
           
           {/* Subtle clouds in background */}
           <div className="absolute top-6 left-10 text-4xl opacity-50 select-none">☁️</div>

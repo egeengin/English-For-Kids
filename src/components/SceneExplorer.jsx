@@ -99,7 +99,7 @@ export default function SceneExplorer({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-2 sm:px-4 py-4 flex flex-col items-center">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center">
       
       {/* Header & Scene Selector */}
       <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-slate-200">

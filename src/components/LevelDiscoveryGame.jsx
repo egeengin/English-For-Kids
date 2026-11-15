@@ -178,14 +178,14 @@ export default function LevelDiscoveryGame({
   };
 
   return (
-    <div className="w-full max-w-4xl px-3 sm:px-4 py-4 space-y-4">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 space-y-5 flex-1 flex flex-col">
       {/* Compact Light Top Card */}
-      <div className="bg-white rounded-3xl p-4 shadow-md border-2 border-slate-200 space-y-3">
+      <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xl">⭐</span>
+            <span className="text-xl sm:text-2xl">⭐</span>
             <div>
-              <h1 className="text-base sm:text-lg font-display font-black text-slate-900 leading-tight">
+              <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900 leading-tight">
                 5 Bölümlü Seviye Testi ({earnedStarsCount}/5 Yıldız)
               </h1>
               <p className="text-xs text-slate-500 font-semibold">
@@ -238,7 +238,7 @@ export default function LevelDiscoveryGame({
                 key={stage.id}
                 type="button"
                 onClick={() => handleSelectStage(idx)}
-                className={`rounded-2xl px-2 py-2 border-2 text-left transition cursor-pointer ${
+                className={`rounded-2xl px-3 py-3 border-2 text-left transition cursor-pointer ${
                   isActive
                     ? 'bg-blue-600 text-white border-blue-800 shadow-sm'
                     : stat.isCompleted
@@ -247,7 +247,7 @@ export default function LevelDiscoveryGame({
                 }`}
               >
                 <div className="flex items-center justify-between gap-1">
-                  <span className="font-display font-black text-xs sm:text-sm">
+                  <span className="font-display font-black text-sm sm:text-base">
                     Bölüm {stage.number}
                   </span>
                   <span className="text-xs">
@@ -265,7 +265,7 @@ export default function LevelDiscoveryGame({
 
       {/* MODE 1: ACTIVE QUESTION */}
       {viewMode === 'play' && (
-        <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-md border-2 border-slate-200 space-y-5">
+        <div className="bg-white rounded-3xl p-4 sm:p-7 lg:p-8 shadow-md border-2 border-slate-200 space-y-6 flex-1 flex flex-col justify-between">
           {/* Question Number Pills (1..10) + Next Button */}
           <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
             <div className="flex flex-wrap items-center gap-1.5">
@@ -290,7 +290,7 @@ export default function LevelDiscoveryGame({
                       setActiveQuestionIdx(qIdx);
                       setShowHelper(false);
                     }}
-                    className={`w-8 h-8 rounded-xl font-black text-xs border-2 transition cursor-pointer ${pillStyle}`}
+                    className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl font-black text-sm sm:text-base border-2 transition cursor-pointer ${pillStyle}`}
                   >
                     {qIdx + 1}
                   </button>
@@ -298,23 +298,23 @@ export default function LevelDiscoveryGame({
               })}
             </div>
 
-            <span className={`px-2.5 py-1 rounded-full text-xs font-black ${currentStage.difficultyColor}`}>
+            <span className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-black ${currentStage.difficultyColor}`}>
               {currentStage.difficultyLabel}
             </span>
           </div>
 
           {/* Question Prompt */}
-          <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border-2 border-slate-200 space-y-3">
+          <div className="bg-slate-50 rounded-2xl p-4 sm:p-6 border-2 border-slate-200 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-2xl flex-shrink-0">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
                   {currentQuestion.characterEmoji}
                 </div>
                 <div>
-                  <div className="text-xs font-black text-slate-400 uppercase">
+                  <div className="text-xs sm:text-sm font-black text-slate-400 uppercase">
                     Soru {activeQuestionIdx + 1} / 10 • {currentQuestion.skillLabelTr}
                   </div>
-                  <p className="text-lg sm:text-xl font-display font-black text-slate-900 leading-snug mt-0.5">
+                  <p className="text-xl sm:text-2xl lg:text-3xl font-display font-black text-slate-900 leading-snug mt-0.5">
                     “{currentQuestion.promptEn}”
                   </p>
                 </div>
@@ -327,9 +327,9 @@ export default function LevelDiscoveryGame({
                     playTap(isMuted);
                     speakEnglish(currentQuestion.promptEn);
                   }}
-                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs sm:text-sm shadow-sm cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-sm sm:text-base shadow-sm cursor-pointer"
                 >
-                  <Volume2 className="w-4 h-4" />
+                  <Volume2 className="w-5 h-5" />
                   <span>Soruyu Dinle</span>
                 </button>
                 <button
@@ -359,7 +359,7 @@ export default function LevelDiscoveryGame({
           </div>
 
           {/* 3 Self-Graded Visual Answer Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             {currentQuestion.options.map((opt, optIdx) => {
               const letter = ['A', 'B', 'C'][optIdx] || '';
               const isChosen = chosenOptionId === opt.id;
@@ -380,14 +380,14 @@ export default function LevelDiscoveryGame({
                 <div
                   key={opt.id}
                   onClick={() => handleOptionSelect(opt)}
-                  className={`rounded-2xl p-4 border-4 transition cursor-pointer flex flex-col justify-between gap-3 ${cardStyle}`}
+                  className={`rounded-3xl p-5 sm:p-7 border-4 transition cursor-pointer flex flex-col justify-between gap-4 min-h-[150px] sm:min-h-[220px] ${cardStyle}`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-lg bg-slate-900 text-white font-display font-black text-xs flex items-center justify-center">
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 text-white font-display font-black text-sm sm:text-base flex items-center justify-center">
                         {letter}
                       </span>
-                      <span className="text-3xl leading-none">{opt.emoji}</span>
+                      <span className="text-4xl sm:text-6xl leading-none">{opt.emoji}</span>
                     </div>
 
                     <button
@@ -397,16 +397,16 @@ export default function LevelDiscoveryGame({
                         playTap(isMuted);
                         speakEnglish(opt.textEn);
                       }}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white border-2 border-slate-300 hover:border-blue-500 text-blue-700 font-black text-xs shadow-sm cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-slate-300 hover:border-blue-500 text-blue-700 font-black text-xs sm:text-sm shadow-sm cursor-pointer"
                       title="Şıkkı Dinle"
                     >
-                      <Volume2 className="w-3.5 h-3.5" />
+                      <Volume2 className="w-4 h-4" />
                       <span>Dinle</span>
                     </button>
                   </div>
 
                   <div>
-                    <p className="font-display font-black text-base text-slate-900 leading-snug">
+                    <p className="font-display font-black text-lg sm:text-2xl lg:text-3xl text-slate-900 leading-snug">
                       {opt.textEn}
                     </p>
                     {showHelper && (
@@ -447,14 +447,14 @@ export default function LevelDiscoveryGame({
             <button
               type="button"
               onClick={handleNextStep}
-              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-yellow-300 font-display font-black text-sm shadow-md transition active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-yellow-300 font-display font-black text-base sm:text-lg shadow-md transition active:scale-95 cursor-pointer"
             >
               <span>
                 {activeQuestionIdx < currentStage.questions.length - 1
                   ? 'Sonraki Soru'
                   : 'Bölümü Tamamla 🏆'}
               </span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>

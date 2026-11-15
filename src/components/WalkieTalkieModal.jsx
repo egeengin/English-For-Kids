@@ -204,13 +204,13 @@ export default function WalkieTalkieModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
       
       {/* Walkie-Talkie Device Frame */}
-      <div className="relative w-full max-w-md bg-gradient-to-b from-amber-400 via-yellow-400 to-amber-500 rounded-3xl p-4 sm:p-5 shadow-2xl border-4 border-amber-600 flex flex-col items-center">
+      <div className="relative w-full h-[100dvh] sm:h-[92dvh] sm:max-w-5xl bg-gradient-to-b from-amber-400 via-yellow-400 to-amber-500 rounded-none sm:rounded-3xl p-4 sm:p-6 shadow-2xl border-0 sm:border-4 border-amber-600 flex flex-col justify-between">
         
         {/* Rubber Walkie-Talkie Antenna on top */}
-        <div className="absolute -top-7 left-12 w-4 h-8 bg-slate-800 rounded-t-lg border-2 border-slate-900 shadow-md">
+        <div className="hidden sm:block absolute -top-7 left-12 w-4 h-8 bg-slate-800 rounded-t-lg border-2 border-slate-900 shadow-md">
           <div className="w-2 h-2 rounded-full bg-slate-600 mx-auto mt-1" />
         </div>
 
@@ -221,7 +221,7 @@ export default function WalkieTalkieModal({
             <div className={`w-3.5 h-3.5 rounded-full border-2 border-slate-900 ${
               isListening ? 'bg-red-500 animate-ping' : 'bg-emerald-400 shadow-sm'
             }`} />
-            <span className="font-display font-black text-slate-900 text-xs sm:text-sm tracking-wide">
+            <span className="font-display font-black text-slate-900 text-sm sm:text-lg tracking-wide">
               LEO'S 2-WAY WALKIE-TALKIE 📻
             </span>
           </div>
@@ -252,7 +252,7 @@ export default function WalkieTalkieModal({
                   setMicLanguage(lang.code);
                   if (isListening) handleStopListening();
                 }}
-                className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition flex items-center gap-1 cursor-pointer ${
+                className={`px-3 py-1 rounded-lg text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
                   micLanguage === lang.code
                     ? 'bg-slate-900 text-yellow-300 shadow-xs scale-105'
                     : 'bg-amber-200/60 hover:bg-white text-slate-800'
@@ -266,13 +266,13 @@ export default function WalkieTalkieModal({
         </div>
 
         {/* Walkie-Talkie LCD Screen / Chat Window */}
-        <div className="w-full h-60 sm:h-64 bg-slate-950 rounded-2xl p-3 sm:p-4 border-4 border-slate-800 shadow-inner flex flex-col justify-between overflow-hidden relative">
+        <div className="w-full flex-1 min-h-0 bg-slate-950 rounded-2xl p-4 sm:p-6 border-4 border-slate-800 shadow-inner flex flex-col justify-between overflow-hidden relative">
           
           {/* LCD Scanline effect */}
           <div className="absolute inset-0 opacity-5 pointer-events-none bg-[repeating-linear-gradient(0deg,#fff,#fff_1px,transparent_1px,transparent_3px)]" />
 
           {/* Messages Scroll Area */}
-          <div className="flex-1 overflow-y-auto space-y-2.5 pr-1 text-xs">
+          <div className="flex-1 overflow-y-auto space-y-3 pr-1 text-sm">
             {conversation.map((msg, idx) => (
               <div
                 key={idx}
@@ -281,30 +281,30 @@ export default function WalkieTalkieModal({
                 }`}
               >
                 {/* Speaker Tag */}
-                <span className="text-[10px] font-bold text-slate-400 mb-0.5 flex items-center gap-1">
+                <span className="text-xs font-bold text-slate-400 mb-0.5 flex items-center gap-1">
                   {msg.sender === 'leo' ? '🧱 Leo (Friend)' : `👦 ${childName}`}
                 </span>
 
                 {/* Message Bubble */}
                 <div
-                  className={`max-w-[88%] p-2.5 sm:p-3 rounded-2xl font-semibold leading-relaxed shadow ${
+                  className={`max-w-[90%] p-3 sm:p-4 rounded-2xl font-semibold leading-relaxed shadow ${
                     msg.sender === 'leo'
                       ? 'bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 rounded-tl-sm'
                       : 'bg-blue-600 text-white rounded-tr-sm'
                   }`}
                 >
-                  <p className="font-bold text-xs sm:text-sm">{msg.en}</p>
+                  <p className="font-bold text-sm sm:text-lg">{msg.en}</p>
 
                   {/* Bilingual Helper Subtitles for Leo's replies (clickable for audio) */}
                   {msg.sender === 'leo' && (msg.de || msg.tr) && (
-                    <div className="mt-1.5 pt-1.5 border-t border-amber-500/40 text-[10px] text-slate-800 space-y-1">
+                    <div className="mt-2 pt-2 border-t border-amber-500/40 text-xs sm:text-sm text-slate-800 space-y-1">
                       {msg.de && (
                         <button
                           type="button"
                           onClick={() => !isMuted && speakGerman(msg.de)}
-                          className="w-full text-left flex items-center gap-1 hover:bg-amber-200/70 rounded px-1 py-0.5 cursor-pointer transition"
+                          className="w-full text-left flex items-center gap-1.5 hover:bg-amber-200/70 rounded px-1.5 py-1 cursor-pointer transition"
                         >
-                          <Volume2 className="w-3 h-3 flex-shrink-0 text-amber-900" />
+                          <Volume2 className="w-3.5 h-3.5 flex-shrink-0 text-amber-900" />
                           <span>🇩🇪 {msg.de}</span>
                         </button>
                       )}
@@ -312,9 +312,9 @@ export default function WalkieTalkieModal({
                         <button
                           type="button"
                           onClick={() => !isMuted && speakTurkish(msg.tr)}
-                          className="w-full text-left flex items-center gap-1 hover:bg-amber-200/70 rounded px-1 py-0.5 cursor-pointer transition"
+                          className="w-full text-left flex items-center gap-1.5 hover:bg-amber-200/70 rounded px-1.5 py-1 cursor-pointer transition"
                         >
-                          <Volume2 className="w-3 h-3 flex-shrink-0 text-amber-900" />
+                          <Volume2 className="w-3.5 h-3.5 flex-shrink-0 text-amber-900" />
                           <span>🇹🇷 {msg.tr}</span>
                         </button>
                       )}
@@ -324,19 +324,19 @@ export default function WalkieTalkieModal({
 
                 {/* Audio replay buttons for Leo (Normal & Slow) */}
                 {msg.sender === 'leo' && (
-                  <div className="mt-1 flex items-center gap-2">
+                  <div className="mt-1.5 flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => handleSpeakReply(msg.en, 0.95)}
-                      className="flex items-center gap-1 text-[10px] font-bold text-amber-300 hover:text-amber-200 bg-slate-900/70 px-2 py-0.5 rounded-lg border border-amber-500/30 cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-300 hover:text-amber-200 bg-slate-900/70 px-3 py-1 rounded-lg border border-amber-500/30 cursor-pointer"
                     >
-                      <Volume2 className="w-3 h-3" />
+                      <Volume2 className="w-3.5 h-3.5" />
                       <span>Normal Dinle</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSpeakReply(msg.en, 0.78)}
-                      className="flex items-center gap-1 text-[10px] font-bold text-emerald-300 hover:text-emerald-200 bg-slate-900/70 px-2 py-0.5 rounded-lg border border-emerald-500/30 cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-300 hover:text-emerald-200 bg-slate-900/70 px-3 py-1 rounded-lg border border-emerald-500/30 cursor-pointer"
                     >
                       <span>🐢 Yavaş ve Net Dinle</span>
                     </button>
@@ -396,7 +396,7 @@ export default function WalkieTalkieModal({
         <div className="w-full flex flex-col items-center gap-1.5">
           <button
             onClick={handleToggleListening}
-            className={`w-full py-3 sm:py-3.5 px-4 rounded-2xl font-display font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-xl cursor-pointer select-none transition transform active:scale-95 border-2 ${
+            className={`w-full py-4 sm:py-5 px-6 rounded-2xl font-display font-black text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl cursor-pointer select-none transition transform active:scale-95 border-2 ${
               isListening
                 ? 'bg-red-500 text-white animate-pulse ring-4 ring-red-300 border-red-600'
                 : 'bg-slate-900 hover:bg-slate-800 text-yellow-300 border-slate-950'
@@ -436,15 +436,15 @@ export default function WalkieTalkieModal({
             onChange={(e) => setTextInput(e.target.value)}
             placeholder={`Or type a message to Leo...`}
             disabled={isLoading || isListening}
-            className="flex-1 bg-white px-2.5 py-1 text-xs rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="flex-1 bg-white px-3.5 py-2 text-sm sm:text-base rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
           <button
             type="submit"
             disabled={!textInput.trim() || isLoading || isListening}
-            className="p-1.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 text-slate-950 rounded-lg cursor-pointer transition shadow-xs"
+            className="p-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 text-slate-950 rounded-lg cursor-pointer transition shadow-xs"
             aria-label="Send text"
           >
-            <Send className="w-3.5 h-3.5" />
+            <Send className="w-4 h-4" />
           </button>
         </form>
 
@@ -453,13 +453,13 @@ export default function WalkieTalkieModal({
           <p className="text-[10px] font-bold uppercase tracking-wider text-amber-950 mb-1">
             Quick Questions:
           </p>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {QUICK_PROMPTS.map((prompt, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(prompt)}
                 disabled={isLoading || isListening}
-                className="px-2 py-0.5 bg-amber-100 hover:bg-white text-slate-900 rounded-md text-[10px] sm:text-[11px] font-bold shadow-2xs border border-amber-400/50 transition cursor-pointer"
+                className="px-3 py-1.5 bg-amber-100 hover:bg-white text-slate-900 rounded-lg text-xs sm:text-sm font-bold shadow-2xs border border-amber-400/50 transition cursor-pointer"
               >
                 {prompt}
               </button>

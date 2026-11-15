@@ -406,7 +406,7 @@ export default function StoryAdventure({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-4 flex flex-col items-center">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
       
       {/* Story Header & Mode Selector */}
       <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-blue-400">
@@ -629,7 +629,7 @@ export default function StoryAdventure({
 
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
-                <div className="font-display font-black text-xl sm:text-2xl text-slate-900 leading-snug flex flex-wrap items-center">
+                <div className="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-slate-900 leading-snug flex flex-wrap items-center">
                   <span className="text-amber-500 mr-1">“</span>
                   {(chapter.characterLine || '').split(' ').map((word, idx) => {
                     const isCurrent = highlightedWordIndex === idx;
@@ -752,8 +752,8 @@ export default function StoryAdventure({
                     key={choice.id}
                     onClick={() => handleChoiceClick(choice)}
                     className={`
-                      relative p-5 rounded-2xl border-4 text-left transition-all duration-200 cursor-pointer
-                      flex flex-col justify-between min-h-[110px]
+                      relative p-6 sm:p-8 rounded-3xl border-4 text-left transition-all duration-200 cursor-pointer
+                      flex flex-col justify-between min-h-[130px] sm:min-h-[170px]
                       ${showSuccess
                         ? 'bg-emerald-50 border-emerald-500 shadow-lg scale-[1.02]'
                         : showError
@@ -763,7 +763,7 @@ export default function StoryAdventure({
                   >
                     {/* Top row: Choice Text & Speaker */}
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="font-display font-black text-lg sm:text-xl text-slate-900 leading-tight">
+                      <span className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-slate-900 leading-tight">
                         {choice.text}
                       </span>
                       <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
@@ -879,7 +879,7 @@ export default function StoryAdventure({
                 onClick={handleStartVoiceListening}
                 disabled={isEvaluatingSpeech}
                 className={`
-                  w-full max-w-md py-5 px-6 rounded-3xl font-display font-black text-lg sm:text-xl
+                  w-full max-w-2xl py-5 px-6 rounded-3xl font-display font-black text-lg sm:text-xl
                   transition-all duration-200 flex items-center justify-center gap-3 shadow-xl cursor-pointer select-none
                   border-4 border-b-8 active:border-b-2 active:translate-y-1.5
                   ${isListening
@@ -909,7 +909,7 @@ export default function StoryAdventure({
 
               {/* Live Transcript / Speech Indicator */}
               {interimSpeech && (
-                <div className="bg-white border-2 border-purple-300 rounded-2xl p-3.5 text-xs font-bold text-slate-800 shadow-sm max-w-md w-full animate-scaleUp">
+                <div className="bg-white border-2 border-purple-300 rounded-2xl p-3.5 text-xs font-bold text-slate-800 shadow-sm max-w-2xl w-full animate-scaleUp">
                   <div className="text-purple-700 font-black mb-1 flex items-center justify-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                     <span>What we heard from {childName}:</span>
@@ -922,7 +922,7 @@ export default function StoryAdventure({
 
               {/* Evaluation Result Feedback Card */}
               {voiceEvaluation && (
-                <div className={`p-4 rounded-2xl border-2 text-xs font-bold max-w-md w-full text-center space-y-1.5 animate-scaleUp shadow-md ${
+                <div className={`p-4 rounded-2xl border-2 text-xs font-bold max-w-2xl w-full text-center space-y-1.5 animate-scaleUp shadow-md ${
                   voiceEvaluation.isAccepted
                     ? 'bg-emerald-50 border-emerald-400 text-emerald-950'
                     : 'bg-amber-50 border-amber-400 text-amber-950'
@@ -948,7 +948,7 @@ export default function StoryAdventure({
               )}
 
               {voiceError && (
-                <div className="p-3 bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold rounded-xl flex items-center gap-2 max-w-md">
+                <div className="p-3 bg-rose-50 border border-rose-300 text-rose-800 text-xs font-bold rounded-xl flex items-center gap-2 max-w-2xl">
                   <AlertCircle className="w-4 h-4 flex-shrink-0" />
                   <span>{voiceError}</span>
                 </div>

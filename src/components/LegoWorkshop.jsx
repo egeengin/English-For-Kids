@@ -391,7 +391,7 @@ export default function LegoWorkshop({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1">
       
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 bg-white/90 backdrop-blur-md rounded-2xl border-4 border-slate-800 p-4 shadow-xl">

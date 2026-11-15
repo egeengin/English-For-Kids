@@ -258,7 +258,7 @@ export default function PhonicsBuilder({
   };
 
   return (
-    <div className="w-full max-w-4xl px-4 py-6 flex flex-col items-center animate-fade-in">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center animate-fade-in">
       
       {/* Phonics Lab Header */}
       <div className="w-full flex items-center justify-between bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-6">

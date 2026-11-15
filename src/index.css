@@ -9,6 +9,13 @@
     -webkit-user-select: none;
   }
 
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-height: 100dvh;
+  }
+
   body {
     background-color: #F8FAFC;
     color: #0F172A;

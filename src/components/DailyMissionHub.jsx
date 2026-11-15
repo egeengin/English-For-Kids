@@ -105,12 +105,12 @@ export default function DailyMissionHub({
   };
 
   return (
-    <div className="w-full max-w-4xl px-3 sm:px-4 py-4 space-y-4">
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 space-y-5 flex-1">
       {/* Clean Day Selector & Print Bar */}
-      <div className="bg-white rounded-3xl p-4 shadow-md border-2 border-slate-200 space-y-3">
+      <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h1 className="text-base sm:text-lg font-display font-black text-slate-900">
+            <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900">
               📅 Günlük Plan &amp; Basılabilir 10 Soruluk Testler
             </h1>
             <p className="text-xs text-slate-500 font-semibold">
@@ -212,7 +212,7 @@ export default function DailyMissionHub({
         </div>
 
         {/* 4 Key Words */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           {(activeDay.vocabFocus || []).map((v) => (
             <button
               key={v.en}
@@ -221,14 +221,14 @@ export default function DailyMissionHub({
                 playTap(isMuted);
                 speakEnglish(v.en);
               }}
-              className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-2xl p-2.5 text-left transition cursor-pointer"
+              className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-2xl p-4 sm:p-5 text-left transition cursor-pointer"
             >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-lg">{v.emoji}</span>
-                <Volume2 className="w-3.5 h-3.5 text-blue-600" />
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl sm:text-4xl leading-none">{v.emoji}</span>
+                <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
               </div>
-              <div className="font-display font-black text-xs sm:text-sm text-slate-900">{v.en}</div>
-              <div className="text-[11px] font-semibold text-slate-500">
+              <div className="font-display font-black text-base sm:text-xl text-slate-900">{v.en}</div>
+              <div className="text-xs sm:text-sm font-semibold text-slate-500 mt-0.5">
                 🇹🇷 {v.tr} • 🇩🇪 {v.de}
               </div>
             </button>
@@ -351,16 +351,16 @@ export default function DailyMissionHub({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {dayQuizQuestions.map((q, qIdx) => {
             const chosenId = dailyQuizAnswers[q.id];
             return (
               <div
                 key={q.id}
-                className="rounded-2xl p-3.5 border-2 border-slate-200 bg-slate-50 space-y-2.5"
+                className="rounded-2xl p-4 sm:p-5 border-2 border-slate-200 bg-slate-50 space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div className="text-xs sm:text-sm font-display font-black text-slate-900 leading-snug">
+                  <div className="text-sm sm:text-lg font-display font-black text-slate-900 leading-snug">
                     <span className="text-blue-700 mr-1">{qIdx + 1}.</span>
                     <span>{q.characterEmoji} {q.promptEn}</span>
                   </div>
@@ -370,14 +370,14 @@ export default function DailyMissionHub({
                       playTap(isMuted);
                       speakEnglish(q.promptEn);
                     }}
-                    className="p-1.5 rounded-lg bg-white border border-slate-300 text-blue-700 flex-shrink-0 cursor-pointer"
+                    className="p-2 rounded-xl bg-white border border-slate-300 text-blue-700 flex-shrink-0 cursor-pointer"
                     title="Dinle"
                   >
-                    <Volume2 className="w-3.5 h-3.5" />
+                    <Volume2 className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-2">
                   {q.options.map((opt, optIdx) => {
                     const letter = ['A', 'B', 'C'][optIdx];
                     const isChosen = chosenId === opt.id;
@@ -395,7 +395,7 @@ export default function DailyMissionHub({
                         key={opt.id}
                         type="button"
                         onClick={() => handleDailyQuizClick(q.id, opt)}
-                        className={`w-full text-left px-3 py-2 rounded-xl border-2 text-xs font-bold flex items-center justify-between gap-2 transition cursor-pointer ${cls}`}
+                        className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold flex items-center justify-between gap-2 transition cursor-pointer ${cls}`}
                       >
                         <span>
                           <strong className="mr-1">{letter})</strong>

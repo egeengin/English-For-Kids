@@ -46,7 +46,7 @@ export default function Navbar({
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       className="sticky top-0 z-40 w-full bg-white text-slate-900 shadow-sm border-b-2 border-slate-200 print:hidden"
     >
-      <div className="max-w-5xl mx-auto px-3 sm:px-5 py-2.5 space-y-2">
+      <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-3 space-y-2.5">
         {/* Top Row: Simple Brand + Quick Actions */}
         <div className="flex items-center justify-between gap-2">
           <button
@@ -54,8 +54,8 @@ export default function Navbar({
             onClick={() => handleTabClick('discovery')}
             className="flex items-center gap-2 cursor-pointer text-left"
           >
-            <span className="text-xl">🧱</span>
-            <span className="font-display font-black text-sm sm:text-base text-slate-900">
+            <span className="text-2xl">🧱</span>
+            <span className="font-display font-black text-base sm:text-xl text-slate-900">
               {childName}’in İngilizce Macerası
             </span>
           </button>
@@ -76,9 +76,9 @@ export default function Navbar({
                   playTap(isMuted);
                   onOpenWalkieTalkie();
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-xs shadow-sm border border-amber-500 cursor-pointer transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-xs sm:text-sm shadow-sm border border-amber-500 cursor-pointer transition"
               >
-                <Radio className="w-3.5 h-3.5 text-slate-900" />
+                <Radio className="w-4 h-4 text-slate-900" />
                 <span>🎙️ Leo ile Konuş</span>
               </button>
             )}
@@ -90,9 +90,9 @@ export default function Navbar({
                   playTap(isMuted);
                   onOpenPrintable();
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs shadow-sm cursor-pointer transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs sm:text-sm shadow-sm cursor-pointer transition"
               >
-                <Printer className="w-3.5 h-3.5 text-yellow-300" />
+                <Printer className="w-4 h-4 text-yellow-300" />
                 <span>Test Yazdır</span>
               </button>
             )}
@@ -131,7 +131,7 @@ export default function Navbar({
         </div>
 
         {/* Navigation Row: Always visible on all screen sizes */}
-        <nav className="flex items-center gap-1.5 overflow-x-auto pb-0.5">
+        <nav className="flex items-center gap-2 overflow-x-auto pb-0.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = currentTab === tab.id;
@@ -140,13 +140,13 @@ export default function Navbar({
                 key={tab.id}
                 type="button"
                 onClick={() => handleTabClick(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display font-black whitespace-nowrap border-2 transition cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm md:text-base font-display font-black whitespace-nowrap border-2 transition cursor-pointer ${
                   isActive
                     ? tab.activeClass
                     : 'bg-slate-100 text-slate-700 border-transparent hover:bg-slate-200'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
                 <span>{tab.label}</span>
               </button>
             );

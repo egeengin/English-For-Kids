@@ -26,6 +26,9 @@ import DailySingLearn from './DailySingLearn';
 export default function DailyMissionHub({
   dailyChecklist = {},
   onToggleChecklistItem,
+  dailyQuizAnswers = {},
+  onSaveDailyQuizAnswer,
+  onResetDailyQuizQuestions,
   onOpenDiscoveryGame,
   onOpenStory,
   onOpenPrintable,
@@ -34,7 +37,6 @@ export default function DailyMissionHub({
   isMuted = false,
 }) {
   const [internalDayId, setInternalDayId] = useState('day-1');
-  const [dailyQuizAnswers, setDailyQuizAnswers] = useState({});
   const currentDayId =
     selectedDayId && DAILY_EXPEDITION_DAYS.some((d) => d.id === selectedDayId)
       ? selectedDayId
@@ -96,21 +98,16 @@ export default function DailyMissionHub({
     if (!isMuted) {
       setTimeout(() => speakEnglish(opt.textEn), 380);
     }
-    setDailyQuizAnswers((prev) => ({
-      ...prev,
-      [questionId]: opt.id,
-    }));
+    if (onSaveDailyQuizAnswer) {
+      onSaveDailyQuizAnswer(questionId, opt.id);
+    }
   };
 
   const handleResetDayQuiz = () => {
     playTap(isMuted);
-    setDailyQuizAnswers((prev) => {
-      const next = { ...prev };
-      dayQuizQuestions.forEach((q) => {
-        delete next[q.id];
-      });
-      return next;
-    });
+    if (onResetDailyQuizQuestions) {
+      onResetDailyQuizQuestions(dayQuizQuestions.map((q) => q.id));
+    }
   };
 
   return (
@@ -164,7 +161,13 @@ export default function DailyMissionHub({
             const isSelected = day.id === activeDay.id;
             const doneCount = (day.items || []).filter((i) => Boolean(dailyChecklist[i.id])).length;
             const totalCount = day.items?.length || 0;
-            const isComplete = totalCount > 0 && doneCount === totalCount;
+            const dayWs = getWorksheetQuestions({ mode: 'day', dayId: day.id });
+            const dayQuizTotal = (dayWs.questions || []).length || 10;
+            const dayQuizDone = (dayWs.questions || []).filter((q) =>
+              Boolean(dailyQuizAnswers[q.id])
+            ).length;
+            const isComplete =
+              (totalCount > 0 && doneCount === totalCount) || dayQuizDone === dayQuizTotal;
 
             return (
               <button
@@ -180,6 +183,15 @@ export default function DailyMissionHub({
                 }`}
               >
                 <span>{day.shortLabel}</span>
+                {dayQuizDone > 0 && (
+                  <span
+                    className={`text-[11px] px-1.5 py-0.5 rounded-full ${
+                      isSelected ? 'bg-white/20 text-white' : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
+                    ⭐{dayQuizDone}/{dayQuizTotal}
+                  </span>
+                )}
                 {isComplete && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />}
               </button>
             );
@@ -344,7 +356,8 @@ export default function DailyMissionHub({
               📝 {activeDay.shortLabel}: 10 Soruluk Hızlı Test (Ekranda Çöz veya Kağıda Yazdır)
             </h2>
             <p className="text-xs text-slate-500 font-semibold">
-              Skor: <strong>{dayQuizScore} / 10</strong> ({dayQuizAnsweredCount}/10 işaretlendi)
+              Skor: <strong>{dayQuizScore} / 10</strong> ({dayQuizAnsweredCount}/10 işaretlendi) •{' '}
+              <span className="text-amber-600 font-black">⭐ +{dayQuizAnsweredCount} Yıldız Kaydedildi</span>
             </p>
           </div>
 

@@ -30,6 +30,7 @@ export const INITIAL_STATE = {
   // Guru features persistence:
   roadProgress: { 'stage-1': 3 }, // stage-1 unlocked with 3 stars by default
   dailyChecklist: {},
+  dailyQuizAnswers: {},
   discoveryResults: {},
   dioramaItems: [
     { id: 'd-1', word: 'Red Brick', emoji: '🧱', x: 20, y: 65, size: 64 },
@@ -73,6 +74,7 @@ export function loadSavedState() {
       childAge: Number(parsed.childAge) || 7,
       geminiApiKey: (parsed.geminiApiKey && parsed.geminiApiKey.trim()) || getEffectiveGeminiApiKey(),
       dailyChecklist: parsed.dailyChecklist || {},
+      dailyQuizAnswers: parsed.dailyQuizAnswers || {},
       discoveryResults: parsed.discoveryResults || {},
       streak,
       lastActiveDate: today,

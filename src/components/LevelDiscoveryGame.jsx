@@ -33,8 +33,17 @@ export default function LevelDiscoveryGame({
   isMuted = false,
   childName = 'Deniz',
 }) {
-  const [activeStageIdx, setActiveStageIdx] = useState(0);
-  const [activeQuestionIdx, setActiveQuestionIdx] = useState(0);
+  const findResumePosition = () => {
+    for (let sIdx = 0; sIdx < DISCOVERY_STAGES.length; sIdx += 1) {
+      const qs = DISCOVERY_STAGES[sIdx].questions;
+      const qIdx = qs.findIndex((q) => !discoveryResults[q.id]);
+      if (qIdx !== -1) return { sIdx, qIdx };
+    }
+    return { sIdx: 0, qIdx: 0 };
+  };
+
+  const [activeStageIdx, setActiveStageIdx] = useState(() => findResumePosition().sIdx);
+  const [activeQuestionIdx, setActiveQuestionIdx] = useState(() => findResumePosition().qIdx);
   const [showHelper, setShowHelper] = useState(false);
   const [viewMode, setViewMode] = useState('play'); // 'play' | 'stage-complete' | 'report'
 

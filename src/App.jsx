@@ -265,6 +265,37 @@ export default function App() {
     }));
   };
 
+  // Save Daily 10-Question Quiz answer & award +1 star on first answer
+  const handleSaveDailyQuizAnswer = (questionId, optionId) => {
+    setState(prev => {
+      const existing = prev.dailyQuizAnswers || {};
+      const isNew = !existing[questionId];
+      return {
+        ...prev,
+        stars: isNew ? prev.stars + 1 : prev.stars,
+        dailyQuizAnswers: {
+          ...existing,
+          [questionId]: optionId,
+        },
+      };
+    });
+  };
+
+  // Clear Daily Quiz answers for a specific day
+  const handleResetDailyQuizQuestions = (questionIds = []) => {
+    if (!Array.isArray(questionIds) || questionIds.length === 0) return;
+    setState(prev => {
+      const next = { ...(prev.dailyQuizAnswers || {}) };
+      questionIds.forEach(id => {
+        delete next[id];
+      });
+      return {
+        ...prev,
+        dailyQuizAnswers: next,
+      };
+    });
+  };
+
   const handleSwitchToDay = (dayId) => {
     if (dayId) setSelectedDayId(dayId);
     setCurrentTab('daily');
@@ -334,6 +365,9 @@ export default function App() {
           <DailyMissionHub
             dailyChecklist={state.dailyChecklist || {}}
             onToggleChecklistItem={handleToggleChecklistItem}
+            dailyQuizAnswers={state.dailyQuizAnswers || {}}
+            onSaveDailyQuizAnswer={handleSaveDailyQuizAnswer}
+            onResetDailyQuizQuestions={handleResetDailyQuizQuestions}
             onOpenDiscoveryGame={() => setCurrentTab('discovery')}
             onOpenStory={() => setCurrentTab('story')}
             onOpenPrintable={handleOpenPrintable}

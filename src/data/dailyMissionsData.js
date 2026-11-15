@@ -897,7 +897,7 @@ const BASE_EXPEDITION_DAYS = [
     vocabFocus: [
       { en: 'I like', tr: 'Severim', de: 'Ich mag', emoji: '😋' },
       { en: 'I don’t like', tr: 'Sevmem', de: 'Ich mag nicht', emoji: '🤢' },
-      { en: 'Hungry / Happy', tr: 'Aç / Mutlu', de: 'Hungrig / Glücklich', emoji: '🍕' },
+      { en: 'I am hungry!', tr: 'Açım!', de: 'Ich habe Hunger!', emoji: '🍕' },
       { en: 'Can I have...?', tr: '... alabilir miyim?', de: 'Kann ich ... haben?', emoji: '🙏' },
     ],
     tvRecommendation: {
@@ -937,10 +937,10 @@ const BASE_EXPEDITION_DAYS = [
     desc: 'Deniz’in iki gerçek hobisi olan Basketbol ve Piyanoyu doğrudan İngilizceye bağlıyoruz!',
     grammarFocus: 'I can ... / I can’t ... / Fast / Slow / Quiet',
     vocabFocus: [
-      { en: 'Shoot / Catch', tr: 'Şut atmak / Tutmak', de: 'Werfen / Fangen', emoji: '🏀' },
-      { en: 'Fast / Slow', tr: 'Hızlı / Yavaş', de: 'Schnell / Langsam', emoji: '⚡' },
-      { en: 'Loud / Quiet', tr: 'Gürültülü / Sessiz', de: 'Laut / Leise', emoji: '🎹' },
-      { en: 'Fly / Swim', tr: 'Uçmak / Yüzmek', de: 'Fliegen / Schwimmen', emoji: '🦅' },
+      { en: 'Shoot!', tr: 'Şut at!', de: 'Wirf!', emoji: '🏀' },
+      { en: 'Fast!', tr: 'Hızlı!', de: 'Schnell!', emoji: '⚡' },
+      { en: 'Quiet!', tr: 'Sessiz!', de: 'Leise!', emoji: '🤫' },
+      { en: 'Swim', tr: 'Yüzmek', de: 'Schwimmen', emoji: '🏊' },
     ],
     tvRecommendation: {
       title: 'Scratch Garden: Fast and Slow / Loud and Quiet',
@@ -1021,10 +1021,10 @@ const BASE_EXPEDITION_DAYS = [
     desc: 'Checker Tobi ve Woozle Goozle merakını İngilizce bilim deneyine çeviriyoruz!',
     grammarFocus: 'Why ...? Because ... / It has got ... / Hot & Cold',
     vocabFocus: [
-      { en: 'Float / Sink', tr: 'Yüzmek / Batmak', de: 'Schwimmen / Sinken', emoji: '⛵' },
-      { en: 'Heavy / Light', tr: 'Ağır / Hafif', de: 'Schwer / Leicht', emoji: '🪨' },
-      { en: 'Why? / Because...', tr: 'Neden? / Çünkü...', de: 'Warum? / Weil...', emoji: '🔬' },
-      { en: 'Sun / Rain / Ice', tr: 'Güneş / Yağmur / Buz', de: 'Sonne / Regen / Eis', emoji: '☀️' },
+      { en: 'Float', tr: 'Yüzmek', de: 'Schwimmen', emoji: '⛵' },
+      { en: 'Heavy', tr: 'Ağır', de: 'Schwer', emoji: '🪨' },
+      { en: 'Because...', tr: 'Çünkü...', de: 'Weil...', emoji: '🔬' },
+      { en: 'Sunny', tr: 'Güneşli', de: 'Sonnig', emoji: '☀️' },
     ],
     tvRecommendation: {
       title: 'SciShow Kids: Sink or Float!',
@@ -1063,10 +1063,10 @@ const BASE_EXPEDITION_DAYS = [
     desc: 'Evin içinde sıcak-soğuk hazine avı ve 11–20 arası sayılarla Pokemon kart matematiği!',
     grammarFocus: 'Where is it? In/On/Under/Behind/Next to + Sayılar 11–20',
     vocabFocus: [
-      { en: 'Under / Behind', tr: 'Altında / Arkasında', de: 'Unter / Hinter', emoji: '🪑' },
-      { en: 'Next to / On', tr: 'Yanında / Üstünde', de: 'Neben / Auf', emoji: '📦' },
-      { en: 'Twelve / Fifteen', tr: 'On iki / On beş', de: 'Zwölf / Fünfzehn', emoji: '🔢' },
-      { en: 'Trade / Cards', tr: 'Takas / Kartlar', de: 'Tauschen / Karten', emoji: '🃏' },
+      { en: 'Under', tr: 'Altında', de: 'Unter', emoji: '🪑' },
+      { en: 'On the box', tr: 'Kutunun üstünde', de: 'Auf der Kiste', emoji: '📦' },
+      { en: 'Twelve', tr: 'On iki', de: 'Zwölf', emoji: '🔢' },
+      { en: 'Cards', tr: 'Kartlar', de: 'Karten', emoji: '🃏' },
     ],
     tvRecommendation: {
       title: 'Scratch Garden: Prepositions (In, On, Under)',
@@ -1105,10 +1105,10 @@ const BASE_EXPEDITION_DAYS = [
     desc: 'Dinleme hafızasını 2–3 cümlelik hikayelere taşıyor, günlük rutinleri ve odaları öğreniyoruz.',
     grammarFocus: 'In the morning I ... / Who / Where / Half past eight',
     vocabFocus: [
-      { en: 'Wake up / Brush teeth', tr: 'Uyanmak / Diş fırçalamak', de: 'Aufwachen / Zähne putzen', emoji: '🪥' },
-      { en: 'Kitchen / Gym', tr: 'Mutfak / Spor salonu', de: 'Küche / Turnhalle', emoji: '🍳' },
-      { en: 'Who / Where', tr: 'Kim / Nerede', de: 'Wer / Wo', emoji: '❓' },
-      { en: 'Half past eight', tr: 'Sekiz buçuk (8:30)', de: 'Halb neun', emoji: '🕣' },
+      { en: 'Brush teeth', tr: 'Diş fırçalamak', de: 'Zähne putzen', emoji: '🪥' },
+      { en: 'Kitchen', tr: 'Mutfak', de: 'Küche', emoji: '🍳' },
+      { en: 'Where?', tr: 'Nerede?', de: 'Wo?', emoji: '❓' },
+      { en: 'Eight o’clock', tr: 'Saat sekiz', de: 'Acht Uhr', emoji: '🕗' },
     ],
     tvRecommendation: {
       title: 'British Council LearnEnglish Kids — Short Stories',

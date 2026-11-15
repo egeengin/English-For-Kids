@@ -494,12 +494,13 @@ export default function StoryAdventure({
         </div>
       </div>
 
-      {/* Chapters Progress Bar with Lego Studs */}
+      {/* Chapters Progress Bar — Clean Icon Pills, Zero Scrollbar */}
       <div className="w-full bg-slate-900 text-white px-3 sm:px-4 py-3 rounded-2xl shadow-lg border-2 border-slate-800 mb-4">
-        <div className="flex items-center justify-between gap-2 overflow-x-auto pb-1 sm:pb-0">
+        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2">
           {story.chapters.map((chap, idx) => {
             const isCurrent = idx === currentChapterIndex;
             const isPast = idx < currentChapterIndex || (idx === currentChapterIndex && isChapterSolved);
+            const chapEmoji = chap.sceneBackdrop?.props?.[0]?.emoji || ['☀️', '🥞', '🚌', '👩‍🏫', '🤝', '🛝', '🎒'][idx] || '⭐';
             return (
               <button
                 key={chap.id}
@@ -507,18 +508,20 @@ export default function StoryAdventure({
                   playTap(isMuted);
                   setCurrentChapterIndex(idx);
                 }}
+                title={chap.title}
                 className={`
-                  flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm sm:text-base font-black transition-all flex-shrink-0
+                  flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm sm:text-base font-black transition-all cursor-pointer
                   ${isCurrent
-                    ? 'bg-yellow-400 text-slate-950 shadow-md scale-105 border-2 border-yellow-500'
+                    ? 'bg-yellow-400 text-slate-950 shadow-md border-2 border-yellow-500'
                     : isPast
                     ? 'bg-emerald-600 text-white border border-emerald-400'
                     : 'bg-slate-800 text-slate-100 hover:bg-slate-700 border border-slate-600'}
                 `}
               >
-                <span>{chap.chapterNumber}.</span>
-                <span>{chap.title}</span>
-                {isPast && <Check className="w-3 h-3 text-emerald-300 ml-0.5" />}
+                <span className="text-lg leading-none">{chapEmoji}</span>
+                <span>{chap.chapterNumber}</span>
+                {isCurrent && <span>• {chap.title}</span>}
+                {isPast && <Check className="w-4 h-4 text-emerald-200" />}
               </button>
             );
           })}

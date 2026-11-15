@@ -512,8 +512,8 @@ export default function StoryAdventure({
                   ${isCurrent
                     ? 'bg-yellow-400 text-slate-950 shadow-md scale-105 border-2 border-yellow-500'
                     : isPast
-                    ? 'bg-emerald-600/60 text-emerald-100 border border-emerald-500'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'}
+                    ? 'bg-emerald-600 text-white border border-emerald-400'
+                    : 'bg-slate-800 text-slate-100 hover:bg-slate-700 border border-slate-600'}
                 `}
               >
                 <span>{chap.chapterNumber}.</span>
@@ -534,37 +534,34 @@ export default function StoryAdventure({
           <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:16px_16px]" />
 
           {/* Scene Header Strip */}
-          <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
+          <div className="flex items-center justify-between gap-2 mb-3 relative z-10 flex-wrap">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="bg-black/35 backdrop-blur-md text-yellow-300 font-mono font-black text-xs px-3 py-1 rounded-full border border-yellow-400/30 flex items-center gap-1.5 shadow-xs">
+              <span className="bg-slate-900/90 text-yellow-300 font-mono font-black text-xs px-3 py-1 rounded-full border border-yellow-400/50 flex items-center gap-1.5 shadow-sm">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{chapter.sceneBackdrop?.timeTag || 'School Day'}</span>
               </span>
-              <span className="bg-white/25 backdrop-blur-md text-white font-display font-black text-xs px-3 py-1 rounded-full border border-white/30 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-yellow-200" />
+              <span className="bg-white text-slate-900 font-display font-black text-xs px-3 py-1 rounded-full border border-white flex items-center gap-1.5 shadow-sm">
+                <MapPin className="w-3.5 h-3.5 text-rose-600" />
                 <span>{chapter.sceneBackdrop?.location || chapter.title}</span>
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-black/25 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-bold text-yellow-300">
+            <div className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-full border border-white/25 text-xs font-bold text-white shadow-sm">
               <span>{chapter.character.avatar}</span>
-              <span className="hidden sm:inline">{chapter.character.role}:</span>
+              <span className="hidden sm:inline text-yellow-300">{chapter.character.role}:</span>
               <span>{chapter.character.name}</span>
               {chapter.character.actionBadge && (
-                <span className="hidden sm:inline opacity-80 font-normal">• {chapter.character.actionBadge}</span>
+                <span className="hidden sm:inline text-slate-300 font-normal">• {chapter.character.actionBadge}</span>
               )}
             </div>
           </div>
 
           {/* Interactive Props Grid */}
           <div className="relative z-10">
-            <div className="flex items-center justify-between text-xs font-bold text-white/90 mb-2 px-1">
-              <span className="flex items-center gap-1.5">
+            <div className="flex items-center justify-between text-xs font-bold mb-2">
+              <span className="inline-flex items-center gap-1.5 bg-slate-900/80 text-white px-3 py-1 rounded-xl shadow-xs">
                 <span>🔍</span>
-                <span>Tap objects in {childName}'s room to explore words:</span>
-              </span>
-              <span className="text-[11px] text-yellow-200 font-medium hidden sm:inline">
-                Interactive Picture Book ✨
+                <span>Tap objects to listen:</span>
               </span>
             </div>
 
@@ -576,22 +573,19 @@ export default function StoryAdventure({
                     key={prop.id}
                     onClick={() => handlePropClick(prop)}
                     className={`
-                      p-2.5 rounded-2xl border-2 transition-all flex items-center gap-2.5 text-left cursor-pointer
+                      p-3 rounded-2xl border-2 transition-all flex items-center gap-2.5 text-left cursor-pointer shadow-md
                       ${isSelected
-                        ? 'bg-white text-slate-900 border-yellow-400 shadow-lg scale-105 ring-2 ring-yellow-300'
-                        : 'bg-black/25 hover:bg-black/40 text-white border-white/25 hover:border-white/50 backdrop-blur-sm active:scale-95'}
+                        ? 'bg-yellow-50 text-slate-950 border-yellow-400 scale-105 ring-2 ring-yellow-300'
+                        : 'bg-white/95 hover:bg-white text-slate-900 border-white active:scale-95'}
                     `}
                   >
-                    <span className="text-2xl flex-shrink-0 animate-bounce">{prop.emoji}</span>
+                    <span className="text-3xl flex-shrink-0">{prop.emoji}</span>
                     <div className="min-w-0 flex-1">
-                      <div className="font-display font-black text-xs truncate">
+                      <div className="font-display font-black text-sm text-slate-900 truncate">
                         {prop.name}
                       </div>
-                      <div className="text-[10px] opacity-80 truncate">
-                        {prop.labelDe} • {prop.labelTr}
-                      </div>
                     </div>
-                    <Volume2 className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-white/70'}`} />
+                    <Volume2 className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-amber-600' : 'text-blue-600'}`} />
                   </button>
                 );
               })}

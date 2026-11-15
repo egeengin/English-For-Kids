@@ -8,12 +8,18 @@ import {
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playSparkle, playTap } from '../utils/soundEffects';
+import {
+  playSparkle,
+  playTap,
+  startKidsSongBeat,
+  stopKidsSongBeat,
+} from '../utils/soundEffects';
 
 export default function DailySingLearn({ dayId, isMuted = false }) {
   const lesson = DAY_LESSONS[dayId];
   const [isSinging, setIsSinging] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState(-1);
+  const [beatStep, setBeatStep] = useState(0);
   const [activeCardIdx, setActiveCardIdx] = useState(-1);
   const [selectedPatternChips, setSelectedPatternChips] = useState({});
   const singSessionRef = useRef(0);
@@ -25,8 +31,10 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
       clearTimeout(stepTimerRef.current);
       stepTimerRef.current = null;
     }
+    stopKidsSongBeat();
     setIsSinging(false);
     setActiveLineIdx(-1);
+    setBeatStep(0);
     stopSpeech();
   };
 
@@ -37,6 +45,7 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
         clearTimeout(stepTimerRef.current);
         stepTimerRef.current = null;
       }
+      stopKidsSongBeat();
       cancelHoverSpeech();
     };
   }, []);
@@ -46,27 +55,28 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
   const playLineSequence = (idx, sessionId) => {
     if (sessionId !== singSessionRef.current) return;
     if (idx >= lesson.chantLines.length) {
+      stopKidsSongBeat();
       setIsSinging(false);
       setActiveLineIdx(-1);
+      setBeatStep(0);
       playSparkle(isMuted);
       return;
     }
 
     setActiveLineIdx(idx);
-    playTap(isMuted);
 
     const line = lesson.chantLines[idx];
     if (isMuted) {
       stepTimerRef.current = setTimeout(() => {
         playLineSequence(idx + 1, sessionId);
-      }, 1500);
+      }, 1800);
       return;
     }
 
-    // Safety timer in case speech callback is interrupted
+    // Safety timer synced to 1-bar / 2-bar musical groove (~3.8s)
     stepTimerRef.current = setTimeout(() => {
       playLineSequence(idx + 1, sessionId);
-    }, 5500);
+    }, 5200);
 
     speakEnglish(line.en, () => {
       if (sessionId !== singSessionRef.current) return;
@@ -75,7 +85,7 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
       }
       stepTimerRef.current = setTimeout(() => {
         playLineSequence(idx + 1, sessionId);
-      }, 260);
+      }, 450);
     });
   };
 
@@ -89,8 +99,11 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
 
     singSessionRef.current += 1;
     const sessionId = singSessionRef.current;
+    const dayNum = parseInt(String(dayId).replace(/\D/g, ''), 10) || 1;
     setIsSinging(true);
-    playSparkle(isMuted);
+    startKidsSongBeat(isMuted, dayNum - 1, (step) => {
+      setBeatStep(step % 4);
+    });
     playLineSequence(0, sessionId);
   };
 
@@ -124,12 +137,24 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
           onClick={handleToggleSingAlong}
           className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-display font-black text-sm shadow-lg transition active:scale-95 cursor-pointer flex-shrink-0 ${
             isSinging
-              ? 'bg-rose-500 hover:bg-rose-600 text-white'
+              ? 'bg-rose-500 hover:bg-rose-600 text-white ring-4 ring-yellow-300/60'
               : 'bg-yellow-400 hover:bg-yellow-300 text-slate-950'
           }`}
         >
           {isSinging ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-          <span>{isSinging ? 'Durdur' : '🎵 Şarkıyı Çal (Sing-Along)'}</span>
+          <span>{isSinging ? 'Durdur' : '🎵 Şarkıyı Çal'}</span>
+          {isSinging && (
+            <span className="inline-flex items-end gap-0.5 h-4 ml-1" aria-hidden="true">
+              {[0, 1, 2].map((bar) => (
+                <span
+                  key={bar}
+                  className={`w-1 rounded-full bg-yellow-300 transition-all duration-150 ${
+                    (beatStep + bar) % 2 === 0 ? 'h-4' : 'h-1.5'
+                  }`}
+                />
+              ))}
+            </span>
+          )}
         </button>
       </div>
 
@@ -154,24 +179,21 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
                 setActiveLineIdx(idx);
                 speakEnglish(line.en, () => setActiveLineIdx(-1));
               }}
-              className={`rounded-2xl p-3 sm:p-3.5 border-2 text-left transition flex items-center gap-3 cursor-pointer ${
+              className={`rounded-2xl p-3.5 sm:p-4 border-2 text-left transition flex items-center gap-3 cursor-pointer ${
                 isActive
-                  ? 'bg-yellow-400 text-slate-950 border-white scale-[1.02] shadow-lg'
+                  ? 'bg-yellow-400 text-slate-950 border-white scale-[1.03] shadow-lg'
                   : 'bg-white/10 hover:bg-white/15 text-white border-white/15'
               }`}
             >
-              <span className={`text-2xl sm:text-3xl flex-shrink-0 ${isActive ? 'animate-bounce' : ''}`}>
+              <span className={`text-3xl sm:text-4xl flex-shrink-0 ${isActive ? 'animate-bounce' : ''}`}>
                 {line.emoji}
               </span>
               <div className="min-w-0 flex-1">
-                <div className="font-display font-black text-sm sm:text-base leading-snug">
+                <div className="font-display font-black text-base sm:text-lg leading-snug">
                   {line.en}
                 </div>
-                <div className={`text-[11px] font-bold mt-0.5 ${isActive ? 'text-slate-800' : 'text-indigo-200'}`}>
-                  {line.tr}
-                </div>
               </div>
-              <Volume2 className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-slate-900' : 'text-yellow-300'}`} />
+              <Volume2 className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-slate-900' : 'text-yellow-300'}`} />
             </button>
           );
         })}
@@ -205,29 +227,21 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
                   setActiveCardIdx(idx);
                   speakEnglish(card.en, () => setActiveCardIdx(-1));
                 }}
-                className={`rounded-2xl p-3.5 bg-white text-slate-900 border-2 text-left transition cursor-pointer shadow-md flex flex-col justify-between gap-2 ${
+                className={`rounded-2xl p-4 bg-white text-slate-900 border-2 text-left transition cursor-pointer shadow-md flex flex-col justify-between gap-2.5 ${
                   isCardActive ? 'border-yellow-400 ring-4 ring-yellow-300/40 -translate-y-0.5' : 'border-white/80'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className={`px-2 py-0.5 rounded-lg font-black text-[10px] uppercase ${card.badgeColor}`}>
+                  <span className={`px-2.5 py-0.5 rounded-lg font-black text-[11px] uppercase ${card.badgeColor}`}>
                     {card.badge}
                   </span>
-                  <span className={`text-2xl sm:text-3xl transition-transform duration-300 ${card.animClass}`}>
+                  <span className={`text-3xl sm:text-4xl transition-transform duration-300 ${card.animClass}`}>
                     {card.emoji}
                   </span>
                 </div>
 
-                <div>
-                  <div className="font-display font-black text-sm sm:text-base text-slate-900 leading-snug">
-                    “{card.en}”
-                  </div>
-                  <div className="text-[11px] font-bold text-slate-600 mt-1">
-                    🇹🇷 {card.tr}
-                  </div>
-                  <div className="text-[11px] font-semibold text-slate-400">
-                    🇩🇪 {card.de}
-                  </div>
+                <div className="font-display font-black text-base sm:text-lg text-slate-900 leading-snug">
+                  {card.en}
                 </div>
               </button>
             );
@@ -277,9 +291,6 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
                         {activeOpt.emoji} {activeOpt.word}
                       </span>
                       <span>{pattern.templateAfter}</span>
-                    </div>
-                    <div className="text-xs font-bold text-indigo-200 mt-1.5">
-                      🇹🇷 {activeOpt.tr} • 🇩🇪 {activeOpt.de}
                     </div>
                   </div>
 

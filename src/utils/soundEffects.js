@@ -271,3 +271,138 @@ export function playSparkle(isMuted = false) { return playStarSparkle(isMuted); 
 export function playSuccess(isMuted = false) { return playSuccessChime(isMuted); }
 export function playWobble(isMuted = false) { return playGentleWobble(isMuted); }
 
+// Cheerful upbeat Web Audio Kids Song Synthesizer (marimba melody + bass + beat)
+let songTimerId = null;
+let songStepIndex = 0;
+
+const MELODY_PATTERNS = [
+  // Catchy major pentatonic kids pop groove (Hz, null = rest)
+  [523.25, null, 659.25, 783.99, 880.0, null, 783.99, 659.25, 587.33, null, 659.25, 783.99, 659.25, null, 523.25, null],
+  [523.25, 587.33, 659.25, null, 783.99, null, 880.0, 783.99, 698.46, null, 659.25, 587.33, 523.25, null, 783.99, null],
+  [659.25, null, 783.99, 880.0, 1046.5, null, 880.0, 783.99, 698.46, 659.25, 587.33, null, 523.25, 659.25, 523.25, null],
+];
+
+const BASS_PATTERN = [
+  130.81, null, null, null, 196.0, null, null, null,
+  174.61, null, null, null, 196.0, null, 130.81, null,
+];
+
+function triggerKick(ctx, now) {
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(135, now);
+  osc.frequency.exponentialRampToValueAtTime(42, now + 0.11);
+  gain.gain.setValueAtTime(0.28, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.14);
+}
+
+function triggerClap(ctx, now) {
+  const bufferSize = Math.floor(ctx.sampleRate * 0.05);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i += 1) {
+    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.setValueAtTime(1800, now);
+  filter.Q.setValueAtTime(1.2, now);
+
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.14, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+  noise.start(now);
+}
+
+function triggerMarimbaNote(ctx, freq, now, duration = 0.22, volume = 0.18) {
+  const osc = ctx.createOscillator();
+  const overtone = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, now);
+
+  overtone.type = 'sine';
+  overtone.frequency.setValueAtTime(freq * 2, now);
+
+  const overtoneGain = ctx.createGain();
+  overtoneGain.gain.setValueAtTime(0.05, now);
+  overtoneGain.gain.exponentialRampToValueAtTime(0.001, now + duration * 0.6);
+
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.linearRampToValueAtTime(volume, now + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+  osc.connect(gain);
+  overtone.connect(overtoneGain);
+  overtoneGain.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(now);
+  overtone.start(now);
+  osc.stop(now + duration + 0.02);
+  overtone.stop(now + duration + 0.02);
+}
+
+export function stopKidsSongBeat() {
+  if (songTimerId) {
+    clearInterval(songTimerId);
+    songTimerId = null;
+  }
+  songStepIndex = 0;
+}
+
+export function startKidsSongBeat(isMuted = false, patternIdx = 0, onBeatStep = null) {
+  stopKidsSongBeat();
+  if (isMuted) return;
+
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const melody = MELODY_PATTERNS[patternIdx % MELODY_PATTERNS.length];
+  const stepMs = 235; // ~128 BPM eighth-note groove
+
+  const tick = () => {
+    const step = songStepIndex % 16;
+    const now = ctx.currentTime;
+
+    // Kick on 0, 4, 8, 12; cheerful clap on 4, 12 (backbeat) & light tick on offbeats
+    if (step % 4 === 0) {
+      triggerKick(ctx, now);
+    }
+    if (step === 4 || step === 12) {
+      triggerClap(ctx, now);
+    }
+
+    const bassFreq = BASS_PATTERN[step];
+    if (bassFreq) {
+      triggerMarimbaNote(ctx, bassFreq, now, 0.32, 0.16);
+    }
+
+    const melodyFreq = melody[step];
+    if (melodyFreq) {
+      triggerMarimbaNote(ctx, melodyFreq, now, 0.2, 0.17);
+    }
+
+    if (onBeatStep) {
+      onBeatStep(songStepIndex);
+    }
+    songStepIndex += 1;
+  };
+
+  tick();
+  songTimerId = setInterval(tick, stepMs);
+}
+

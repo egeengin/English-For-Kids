@@ -778,7 +778,7 @@ export default function StoryAdventure({
                     key={choice.id}
                     onPointerEnter={(e) => {
                       if (!isMuted) {
-                        speakEnglish(choice.text);
+                        speakDialoguePhrase(choice.audioKey, choice.text, 'en');
                       }
                       void e;
                     }}

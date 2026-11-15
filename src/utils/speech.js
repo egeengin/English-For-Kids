@@ -1239,6 +1239,21 @@ async function speakWithGeminiOrFallback(
   const notFileProtocol =
     typeof window === 'undefined' || !window.location || window.location.protocol !== 'file:';
 
+  if (localKey && KNOWN_EN_WORDS.has(localKey)) {
+    playLocalAudioFile(`/audio/${localFolder}/${localKey}`, myToken, onEnd, () => {
+      if (canTryNetwork && notFileProtocol) {
+        playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate).catch(() => {
+          if (myToken === speechSeqToken) {
+            playWebSpeech(clean, lang, myToken, onEnd, webRate);
+          }
+        });
+      } else {
+        playWebSpeech(clean, lang, myToken, onEnd, webRate);
+      }
+    });
+    return;
+  }
+
   if (canTryNetwork && notFileProtocol) {
     try {
       const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
@@ -1255,13 +1270,6 @@ async function speakWithGeminiOrFallback(
     } catch {
       if (myToken !== speechSeqToken) return;
     }
-  }
-
-  if (localKey && KNOWN_EN_WORDS.has(localKey)) {
-    playLocalAudioFile(`/audio/${localFolder}/${localKey}`, myToken, onEnd, () => {
-      playWebSpeech(clean, lang, myToken, onEnd, webRate);
-    });
-    return;
   }
 
   playWebSpeech(clean, lang, myToken, onEnd, webRate);
@@ -1404,13 +1412,11 @@ export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) 
   const speechLang = lang === 'de' ? 'de-DE' : lang === 'tr' ? 'tr-TR' : 'en-US';
   const folder = lang === 'de' ? 'de' : lang === 'tr' ? 'tr' : 'en';
 
-  // Only allow offline static file fallback if spokenText genuinely corresponds to audioKey or KNOWN_EN_WORDS
   const snakeFromText = spokenText.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
   const cleanKey = (audioKey || '').toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
   const safeLocalKey = KNOWN_EN_WORDS.has(snakeFromText)
     ? snakeFromText
-    : (!fallbackText || cleanTextForTTS(expandedKey).toLowerCase() === spokenText.toLowerCase()) &&
-      KNOWN_EN_WORDS.has(cleanKey)
+    : KNOWN_EN_WORDS.has(cleanKey)
     ? cleanKey
     : null;
 

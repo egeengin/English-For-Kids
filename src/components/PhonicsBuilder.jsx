@@ -1,8 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
-import { Volume2, Sparkles, Star, ArrowRight, RefreshCw, CheckCircle, HelpCircle, Trophy } from 'lucide-react';
-import { speakEnglish, speakPhoneme, speakTurkish, speakGerman } from '../utils/speech';
-import { playSnap, playSuccess, playSparkle, playTap, playWobble } from '../utils/soundEffects';
+import {
+  Volume2,
+  Star,
+  ArrowRight,
+  RefreshCw,
+  CheckCircle,
+  HelpCircle,
+  Trophy,
+} from 'lucide-react';
+import {
+  speakEnglish,
+  speakPhoneme,
+  stopSpeech,
+  unlockAudio,
+  triggerHoverSpeech,
+  cancelHoverSpeech,
+} from '../utils/speech';
+import {
+  playSnap,
+  playSuccess,
+  playSparkle,
+  playTap,
+  playWobble,
+} from '../utils/soundEffects';
+
+const PHONICS_COMPLETED_STORAGE_KEY = 'lego_phonics_completed_v1';
 
 const PHONICS_WORDS = [
   {
@@ -10,9 +33,6 @@ const PHONICS_WORDS = [
     word: 'CAT',
     letters: ['C', 'A', 'T'],
     emoji: '🐱',
-    color: 'bg-amber-500',
-    border: 'border-amber-600',
-    studColor: '#f59e0b',
     tr: 'Kedi',
     de: 'Katze',
     phoneticGuide: 'C says /k/, A says /æ/, T says /t/',
@@ -22,9 +42,6 @@ const PHONICS_WORDS = [
     word: 'DOG',
     letters: ['D', 'O', 'G'],
     emoji: '🐶',
-    color: 'bg-blue-600',
-    border: 'border-blue-700',
-    studColor: '#2563eb',
     tr: 'Köpek',
     de: 'Hund',
     phoneticGuide: 'D says /d/, O says /ɒ/, G says /g/',
@@ -34,9 +51,6 @@ const PHONICS_WORDS = [
     word: 'BUS',
     letters: ['B', 'U', 'S'],
     emoji: '🚌',
-    color: 'bg-yellow-500',
-    border: 'border-yellow-600',
-    studColor: '#eab308',
     tr: 'Otobüs',
     de: 'Bus',
     phoneticGuide: 'B says /b/, U says /ʌ/, S says /s/',
@@ -46,9 +60,6 @@ const PHONICS_WORDS = [
     word: 'RED',
     letters: ['R', 'E', 'D'],
     emoji: '🔴',
-    color: 'bg-red-500',
-    border: 'border-red-600',
-    studColor: '#ef4444',
     tr: 'Kırmızı',
     de: 'Rot',
     phoneticGuide: 'R says /r/, E says /e/, D says /d/',
@@ -58,9 +69,6 @@ const PHONICS_WORDS = [
     word: 'SUN',
     letters: ['S', 'U', 'N'],
     emoji: '☀️',
-    color: 'bg-orange-500',
-    border: 'border-orange-600',
-    studColor: '#f97316',
     tr: 'Güneş',
     de: 'Sonne',
     phoneticGuide: 'S says /s/, U says /ʌ/, N says /n/',
@@ -70,9 +78,6 @@ const PHONICS_WORDS = [
     word: 'CAR',
     letters: ['C', 'A', 'R'],
     emoji: '🚗',
-    color: 'bg-emerald-600',
-    border: 'border-emerald-700',
-    studColor: '#10b981',
     tr: 'Araba',
     de: 'Auto',
     phoneticGuide: 'C says /k/, A says /ɑː/, R says /r/',
@@ -82,9 +87,6 @@ const PHONICS_WORDS = [
     word: 'PEN',
     letters: ['P', 'E', 'N'],
     emoji: '🖊️',
-    color: 'bg-purple-600',
-    border: 'border-purple-700',
-    studColor: '#9333ea',
     tr: 'Kalem',
     de: 'Stift',
     phoneticGuide: 'P says /p/, E says /e/, N says /n/',
@@ -94,92 +96,253 @@ const PHONICS_WORDS = [
     word: 'BOX',
     letters: ['B', 'O', 'X'],
     emoji: '📦',
-    color: 'bg-amber-700',
-    border: 'border-amber-800',
-    studColor: '#b45309',
     tr: 'Kutu',
     de: 'Kiste',
     phoneticGuide: 'B says /b/, O says /ɒ/, X says /ks/',
-  }
+  },
+  {
+    id: 'pw-9',
+    word: 'HAT',
+    letters: ['H', 'A', 'T'],
+    emoji: '🧢',
+    tr: 'Şapka',
+    de: 'Hut',
+    phoneticGuide: 'H says /h/, A says /æ/, T says /t/',
+  },
+  {
+    id: 'pw-10',
+    word: 'PIG',
+    letters: ['P', 'I', 'G'],
+    emoji: '🐷',
+    tr: 'Domuzcuk',
+    de: 'Schwein',
+    phoneticGuide: 'P says /p/, I says /ɪ/, G says /g/',
+  },
+  {
+    id: 'pw-11',
+    word: 'MAP',
+    letters: ['M', 'A', 'P'],
+    emoji: '🗺️',
+    tr: 'Harita',
+    de: 'Karte',
+    phoneticGuide: 'M says /m/, A says /æ/, P says /p/',
+  },
+  {
+    id: 'pw-12',
+    word: 'CUP',
+    letters: ['C', 'U', 'P'],
+    emoji: '🥤',
+    tr: 'Bardak',
+    de: 'Becher',
+    phoneticGuide: 'C says /k/, U says /ʌ/, P says /p/',
+  },
 ];
+
+function loadSavedCompletedIds() {
+  if (typeof window === 'undefined' || !window.localStorage) return [];
+  try {
+    const raw = window.localStorage.getItem(PHONICS_COMPLETED_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(parsed)) return [];
+    const validIds = new Set(PHONICS_WORDS.map((w) => w.id));
+    return parsed.filter((id) => validIds.has(id));
+  } catch {
+    return [];
+  }
+}
+
+function saveCompletedIds(ids) {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    window.localStorage.setItem(PHONICS_COMPLETED_STORAGE_KEY, JSON.stringify(ids));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function createShuffledBricks(wordObj) {
+  const letters = [...wordObj.letters];
+  const letterSet = new Set(letters);
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter((ch) => !letterSet.has(ch));
+  const distractor = alphabet[Math.floor(Math.random() * alphabet.length)] || 'Z';
+  const allLetters = [...letters, distractor];
+
+  return allLetters
+    .map((letter, idx) => ({ id: `${wordObj.id}-brick-${idx}-${letter}`, letter }))
+    .sort(() => Math.random() - 0.5);
+}
+
+function findNextUncompletedIndex(completedIds, afterIndex = -1) {
+  const doneSet = new Set(completedIds);
+  for (let offset = 1; offset <= PHONICS_WORDS.length; offset += 1) {
+    const candidate = (afterIndex + offset) % PHONICS_WORDS.length;
+    if (!doneSet.has(PHONICS_WORDS[candidate].id)) {
+      return candidate;
+    }
+  }
+  return -1;
+}
 
 export default function PhonicsBuilder({
   onRewardEarned,
   onNavigateToWorkshop,
   isMuted = false,
   childName = 'Deniz',
-  childAge = 7,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [availableBricks, setAvailableBricks] = useState([]);
-  const [slots, setSlots] = useState([]);
+  const [completedIds, setCompletedIds] = useState(() => loadSavedCompletedIds());
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    const saved = loadSavedCompletedIds();
+    const idx = findNextUncompletedIndex(saved, -1);
+    return idx === -1 ? 0 : idx;
+  });
+  const [allDone, setAllDone] = useState(() => {
+    const saved = loadSavedCompletedIds();
+    return saved.length >= PHONICS_WORDS.length;
+  });
+  const [availableBricks, setAvailableBricks] = useState(() =>
+    createShuffledBricks(PHONICS_WORDS[currentIndex])
+  );
+  const [slots, setSlots] = useState(() =>
+    new Array(PHONICS_WORDS[currentIndex].letters.length).fill(null)
+  );
   const [isSuccess, setIsSuccess] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const [score, setScore] = useState(0);
+
+  const initialBricksRef = useRef(availableBricks);
+  const retryTimerRef = useRef(null);
+  const speakTimerRef = useRef(null);
 
   const currentWord = PHONICS_WORDS[currentIndex];
+  const completedSet = new Set(completedIds);
 
-  // Initialize word tiles shuffled with extra distractor letter
-  useEffect(() => {
-    loadWord(currentIndex);
-  }, [currentIndex]);
-
-  const loadWord = (index) => {
-    const wordObj = PHONICS_WORDS[index];
-    const letters = [...wordObj.letters];
-    
-    // Add 1 playful distractor letter
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const distractor = alphabet[Math.floor(Math.random() * alphabet.length)];
-    const allLetters = [...letters, distractor];
-    
-    // Shuffle
-    const shuffled = allLetters
-      .map((letter, idx) => ({ id: `brick-${idx}-${letter}`, letter }))
-      .sort(() => Math.random() - 0.5);
-
-    setAvailableBricks(shuffled);
-    setSlots(new Array(wordObj.letters.length).fill(null));
-    setIsSuccess(false);
-    setIsChecking(false);
-    setShowHint(false);
-
-    // Speak initial target word softly
-    if (!isMuted) {
-      setTimeout(() => {
-        speakEnglish(wordObj.word.toLowerCase());
-      }, 300);
+  const clearTimers = useCallback(() => {
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = null;
     }
+    if (speakTimerRef.current) {
+      clearTimeout(speakTimerRef.current);
+      speakTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearTimers();
+      cancelHoverSpeech();
+      stopSpeech();
+    };
+  }, [clearTimers]);
+
+  // Speak target word when active word changes
+  useEffect(() => {
+    if (allDone || !currentWord) return undefined;
+    if (speakTimerRef.current) clearTimeout(speakTimerRef.current);
+    if (!isMuted) {
+      speakTimerRef.current = setTimeout(() => {
+        speakEnglish(currentWord.word.toLowerCase());
+      }, 280);
+    }
+    return () => {
+      if (speakTimerRef.current) {
+        clearTimeout(speakTimerRef.current);
+        speakTimerRef.current = null;
+      }
+    };
+  }, [currentIndex, allDone, currentWord, isMuted]);
+
+  const loadWordAtIndex = useCallback(
+    (idx) => {
+      clearTimers();
+      const wordObj = PHONICS_WORDS[idx];
+      const shuffled = createShuffledBricks(wordObj);
+      initialBricksRef.current = shuffled;
+      setCurrentIndex(idx);
+      setAvailableBricks(shuffled);
+      setSlots(new Array(wordObj.letters.length).fill(null));
+      setIsSuccess(false);
+      setIsChecking(false);
+      setShowHint(false);
+      setAllDone(false);
+    },
+    [clearTimers]
+  );
+
+  // Validate complete word using initialBricksRef so mistakes NEVER duplicate bricks
+  const validateWord = (completedSlots) => {
+    setIsChecking(true);
+    const constructed = completedSlots.map((s) => s.letter).join('');
+
+    if (constructed === currentWord.word) {
+      setIsSuccess(true);
+      setIsChecking(false);
+
+      const nextCompleted = completedSet.has(currentWord.id)
+        ? completedIds
+        : [...completedIds, currentWord.id];
+      if (nextCompleted !== completedIds) {
+        setCompletedIds(nextCompleted);
+        saveCompletedIds(nextCompleted);
+      }
+
+      if (!isMuted) {
+        playSuccess();
+        playSparkle();
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+        speakTimerRef.current = setTimeout(() => {
+          speakEnglish(`${currentWord.letters.join('... ')}... ${currentWord.word.toLowerCase()}!`);
+        }, 280);
+      }
+
+      if (onRewardEarned) {
+        onRewardEarned({ bricks: 2, stars: 1 });
+      }
+      return;
+    }
+
+    // Incorrect: return cleanly to the exact original shuffled bricks
+    if (!isMuted) {
+      playWobble();
+      speakEnglish("Good try! Let's listen again.");
+    }
+
+    if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
+    retryTimerRef.current = setTimeout(() => {
+      setSlots(new Array(currentWord.letters.length).fill(null));
+      setAvailableBricks(initialBricksRef.current);
+      setIsChecking(false);
+    }, 1050);
   };
 
-  // Click an available letter brick in tray
   const handleSelectBrick = (brick) => {
     if (isSuccess || isChecking) return;
+
+    cancelHoverSpeech();
+    unlockAudio();
 
     if (!isMuted) {
       playSnap();
       speakPhoneme(brick.letter);
     }
 
-    // Find first empty slot
     const firstEmptyIndex = slots.findIndex((slot) => slot === null);
     if (firstEmptyIndex === -1) return;
 
     const newSlots = [...slots];
     newSlots[firstEmptyIndex] = brick;
     setSlots(newSlots);
-
-    // Remove from available
     setAvailableBricks((prev) => prev.filter((b) => b.id !== brick.id));
 
-    // Check if word is complete
     if (newSlots.every((s) => s !== null)) {
       validateWord(newSlots);
     }
   };
 
-  // Click a placed brick in slot to return to tray
   const handleRemoveFromSlot = (slotIndex) => {
     if (isSuccess || isChecking) return;
     const brick = slots[slotIndex];
@@ -190,67 +353,36 @@ export default function PhonicsBuilder({
     const newSlots = [...slots];
     newSlots[slotIndex] = null;
     setSlots(newSlots);
-
     setAvailableBricks((prev) => [...prev, brick]);
   };
 
-  // Validate complete word
-  const validateWord = (completedSlots) => {
-    setIsChecking(true);
-    const constructed = completedSlots.map((s) => s.letter).join('');
+  const handleNextWord = () => {
+    cancelHoverSpeech();
+    unlockAudio();
+    if (!isMuted) playTap();
 
-    if (constructed === currentWord.word) {
-      // SUCCESS!
-      setIsSuccess(true);
-      setScore((prev) => prev + 1);
-
-      if (!isMuted) {
-        playSuccess();
-        playSparkle();
-        confetti({
-          particleCount: 50,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-
-        // Speak phoneme blend sequence
-        setTimeout(() => {
-          speakEnglish(`${currentWord.letters.join('... ')}... ${currentWord.word.toLowerCase()}!`);
-        }, 300);
-      }
-
-      // Award Lego bricks and stars
-      if (onRewardEarned) {
-        onRewardEarned({ bricks: 2, stars: 1 });
-      }
-    } else {
-      // INCORRECT - Gentle retry
-      if (!isMuted) {
-        playWobble();
-        speakEnglish("Good try! Let's listen again.");
-      }
-
-      setTimeout(() => {
-        // Return all bricks back to pool
-        const allBricks = [...availableBricks, ...completedSlots.filter(Boolean)];
-        setSlots(new Array(currentWord.letters.length).fill(null));
-        setAvailableBricks(allBricks);
-        setIsChecking(false);
-      }, 1200);
+    const nextIdx = findNextUncompletedIndex(completedIds, currentIndex);
+    if (nextIdx === -1) {
+      setAllDone(true);
+      if (!isMuted) playSparkle();
+      confetti({ particleCount: 90, spread: 80, origin: { y: 0.5 } });
+      return;
     }
+    loadWordAtIndex(nextIdx);
   };
 
-  const handleNextWord = () => {
+  const handleResetProgress = () => {
+    cancelHoverSpeech();
+    unlockAudio();
     if (!isMuted) playTap();
-    if (currentIndex < PHONICS_WORDS.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      // Completed all words, loop or celebrate!
-      setCurrentIndex(0);
-    }
+    setCompletedIds([]);
+    saveCompletedIds([]);
+    loadWordAtIndex(0);
   };
 
   const handleHearTargetWord = () => {
+    cancelHoverSpeech();
+    unlockAudio();
     if (!isMuted) {
       playTap();
       speakEnglish(currentWord.word.toLowerCase());
@@ -258,226 +390,306 @@ export default function PhonicsBuilder({
   };
 
   return (
-    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center animate-fade-in">
-      
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
       {/* Phonics Lab Header */}
-      <div className="w-full flex items-center justify-between bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-6">
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center text-2xl shadow-inner border border-amber-600">
             🔤
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-display font-black text-slate-900 tracking-tight">
-              {childName}'s Phonics Sound Lab 🧱
+              {childName}&apos;s Phonics Sound Lab 🧱
             </h1>
             <p className="text-xs sm:text-sm font-semibold text-slate-500">
-              Snap the letter bricks together to build words!
+              Tamamladığın kelimeler kaydedilir, aynı kelime tekrar sorulmaz!
             </p>
           </div>
         </div>
 
-        {/* Word Counter & Stars */}
-        <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
-          <Star className="w-5 h-5 text-amber-500 fill-amber-400" />
-          <span className="font-display font-black text-amber-900 text-sm">
-            {currentIndex + 1} / {PHONICS_WORDS.length}
-          </span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
+            <Star className="w-5 h-5 text-amber-500 fill-amber-400" />
+            <span className="font-display font-black text-amber-900 text-sm">
+              {completedIds.length} / {PHONICS_WORDS.length} Tamamlandı
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleResetProgress}
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition cursor-pointer"
+            title="İlerlemeyi Sıfırla"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Main Baseplate Arena */}
-      <div className="w-full bg-gradient-to-b from-emerald-500 to-emerald-700 rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-emerald-800 text-white relative overflow-hidden">
-        
-        {/* Lego Baseplate Grid Texture Dots */}
-        <div
-          className="absolute inset-0 opacity-15 pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)',
-            backgroundSize: '18px 18px',
-          }}
-        />
-
-        {/* Top Hint / Translation Bar */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-6 bg-emerald-900/40 backdrop-blur-sm px-4 py-2.5 rounded-2xl border border-emerald-400/30">
-          
-          <div className="flex items-center gap-2">
+      {/* Completed Words Memory Strip */}
+      <div className="w-full bg-white rounded-2xl p-3 border-2 border-slate-200 shadow-sm mb-4 flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <span className="text-xs font-black text-slate-500 mr-1">Kelimeler:</span>
+        {PHONICS_WORDS.map((w, idx) => {
+          const isDone = completedSet.has(w.id);
+          const isCurrent = !allDone && idx === currentIndex;
+          return (
             <button
-              onClick={handleHearTargetWord}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 rounded-xl font-bold text-xs shadow-md transition active:scale-95 cursor-pointer"
+              key={w.id}
+              type="button"
+              onClick={() => loadWordAtIndex(idx)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-display font-black border-2 transition cursor-pointer ${
+                isCurrent
+                  ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm scale-105'
+                  : isDone
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                  : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-blue-300'
+              }`}
+              title={isDone ? `${w.word} tamamlandı` : `${w.word} kelimesine geç`}
             >
-              <Volume2 className="w-4 h-4 text-slate-900" />
-              <span>Listen to Word 🔊</span>
+              <span>{w.emoji}</span>
+              <span>{isDone || isCurrent ? w.word : '•••'}</span>
+              {isDone && <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />}
             </button>
+          );
+        })}
+      </div>
 
-            <button
-              onClick={() => setShowHint(!showHint)}
-              className="flex items-center gap-1 px-3 py-1.5 bg-emerald-800/60 hover:bg-emerald-800 text-emerald-100 rounded-xl font-bold text-xs border border-emerald-400/30 transition cursor-pointer"
-            >
-              <HelpCircle className="w-4 h-4 text-yellow-300" />
-              <span>{showHint ? 'Hide Clue' : 'Clue 💡'}</span>
-            </button>
+      {/* All Words Mastered View */}
+      {allDone ? (
+        <div className="w-full bg-gradient-to-br from-emerald-500 to-teal-700 text-white rounded-3xl p-8 shadow-2xl border-4 border-emerald-300 text-center space-y-5">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-yellow-400 text-slate-950 flex items-center justify-center shadow-xl">
+            <Trophy className="w-11 h-11" />
           </div>
-
-          {/* Bilingual Helpers */}
-          <div className="flex items-center gap-3 text-xs font-semibold">
-            <span className="bg-black/30 px-2.5 py-1 rounded-lg">
-              🇩🇪 {currentWord.de}
-            </span>
-            <span className="bg-black/30 px-2.5 py-1 rounded-lg">
-              🇹🇷 {currentWord.tr}
-            </span>
-          </div>
-
-        </div>
-
-        {/* Clue Panel (if opened) */}
-        {showHint && (
-          <div className="relative z-10 mb-6 p-3.5 bg-yellow-100 text-yellow-900 rounded-2xl border border-yellow-300 text-xs sm:text-sm font-semibold flex items-center justify-between animate-fade-in">
-            <span>💡 <strong>Phonics Hint:</strong> {currentWord.phoneticGuide}</span>
-            <span className="text-xl">{currentWord.emoji}</span>
-          </div>
-        )}
-
-        {/* Target Word Illustration & Mystery Slots */}
-        <div className="relative z-10 flex flex-col items-center justify-center my-6">
-          
-          {/* Target Illustration Card */}
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white/90 shadow-xl border-4 border-emerald-300 flex items-center justify-center text-5xl sm:text-6xl mb-6 transform hover:scale-105 transition">
-            {isSuccess ? (
-              <span className="animate-bounce">{currentWord.emoji}</span>
-            ) : (
-              <span className="opacity-80">{currentWord.emoji}</span>
-            )}
-          </div>
-
-          {/* Lego Baseplate Slots (Stud Target Holders) */}
-          <div className="flex items-center justify-center gap-3 sm:gap-5 mb-8">
-            {slots.map((slotBrick, idx) => (
-              <div
-                key={idx}
-                onClick={() => handleRemoveFromSlot(idx)}
-                className={`w-16 h-20 sm:w-20 sm:h-24 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 relative ${
-                  slotBrick
-                    ? 'bg-gradient-to-b from-amber-400 to-amber-500 border-4 border-amber-600 shadow-xl transform -translate-y-1'
-                    : 'bg-emerald-900/60 border-4 border-dashed border-emerald-400/50 hover:border-yellow-400 hover:bg-emerald-900/80 shadow-inner'
-                }`}
-              >
-                {/* 2 Lego Studs on top */}
-                <div className="absolute -top-3 flex gap-2">
-                  <div
-                    className={`w-3.5 h-2 rounded-t-md ${
-                      slotBrick ? 'bg-amber-600' : 'bg-emerald-800'
-                    }`}
-                  />
-                  <div
-                    className={`w-3.5 h-2 rounded-t-md ${
-                      slotBrick ? 'bg-amber-600' : 'bg-emerald-800'
-                    }`}
-                  />
-                </div>
-
-                {slotBrick ? (
-                  <span className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-wider animate-scale-up">
-                    {slotBrick.letter}
-                  </span>
-                ) : (
-                  <span className="text-xl sm:text-2xl font-display font-black text-emerald-400/60">
-                    {idx + 1}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-
-        </div>
-
-        {/* Letter Brick Tray (Loose Bricks) */}
-        <div className="relative z-10 bg-emerald-900/70 backdrop-blur-md rounded-2xl p-4 sm:p-6 border-2 border-emerald-400/40">
-          <p className="text-center text-xs sm:text-sm font-bold text-emerald-200 uppercase tracking-wider mb-4">
-            Tap a brick to hear its sound and snap it into place:
+          <h2 className="font-display font-black text-2xl sm:text-3xl">
+            Harika {childName}! Tüm {PHONICS_WORDS.length} Kelimeyi Tamamladın! 🎉
+          </h2>
+          <p className="text-sm sm:text-base font-bold text-emerald-100 max-w-xl mx-auto">
+            Yaptığın bütün kelimeler hafızada işaretlendi. İstersen baştan tekrar çözebilir veya 3D Lego Atölyesine geçebilirsin!
           </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 min-h-[90px]">
-            {availableBricks.map((brick) => (
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={handleResetProgress}
+              className="px-5 py-3 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-sm shadow-lg cursor-pointer"
+            >
+              🔄 Tüm Kelimeleri Baştan Çöz
+            </button>
+            {onNavigateToWorkshop && (
               <button
-                key={brick.id}
-                onClick={() => handleSelectBrick(brick)}
-                className="group relative w-14 h-18 sm:w-16 sm:h-20 bg-gradient-to-b from-yellow-300 to-amber-400 hover:from-yellow-200 hover:to-amber-300 border-3 border-amber-500 rounded-2xl shadow-lg hover:shadow-2xl flex flex-col items-center justify-center text-slate-950 font-display font-black text-2xl sm:text-3xl transition transform active:scale-90 hover:-translate-y-1 cursor-pointer"
+                type="button"
+                onClick={onNavigateToWorkshop}
+                className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-sm shadow-lg cursor-pointer"
               >
-                {/* Top Stud Bump */}
-                <div className="absolute -top-2 flex gap-1.5">
-                  <div className="w-3 h-1.5 bg-amber-500 rounded-t-sm shadow-sm" />
-                  <div className="w-3 h-1.5 bg-amber-500 rounded-t-sm shadow-sm" />
-                </div>
-
-                <span>{brick.letter}</span>
-
-                {/* Subtitle helper phoneme tag */}
-                <span className="text-[9px] font-bold text-amber-900/80 -mt-1 uppercase">
-                  Sound 🔊
-                </span>
+                🧱 3D Atölyeye Git
               </button>
-            ))}
-
-            {availableBricks.length === 0 && !isSuccess && (
-              <p className="text-xs text-emerald-200 italic">Checking word...</p>
             )}
           </div>
         </div>
+      ) : (
+        /* Main Baseplate Arena */
+        <div className="w-full bg-gradient-to-b from-emerald-500 to-emerald-700 rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-emerald-800 text-white relative overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-15 pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)',
+              backgroundSize: '18px 18px',
+            }}
+          />
 
-        {/* Celebratory Banner (When solved) */}
-        {isSuccess && (
-          <div className="relative z-20 mt-6 p-4 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-slate-950 rounded-2xl border-2 border-yellow-500 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-scale-up">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-slate-900 text-yellow-300 flex items-center justify-center text-2xl shadow-md">
-                🎉
-              </div>
-              <div>
-                <h3 className="font-display font-black text-lg sm:text-xl text-slate-900">
-                  Awesome Job, {childName}!
-                </h3>
-                <p className="text-xs sm:text-sm font-bold text-slate-800">
-                  You blended <strong>{currentWord.word}</strong>! (+2 Bricks 🧱 +1 Star ⭐)
-                </p>
-              </div>
-            </div>
-
+          {/* Top Hint / Translation Bar */}
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-6 bg-emerald-900/40 backdrop-blur-sm px-4 py-2.5 rounded-2xl border border-emerald-400/30">
             <div className="flex items-center gap-2">
               <button
+                type="button"
+                onPointerEnter={(e) =>
+                  triggerHoverSpeech(currentWord.word.toLowerCase(), {
+                    isMuted,
+                    pointerType: e.pointerType,
+                  })
+                }
+                onPointerLeave={cancelHoverSpeech}
                 onClick={handleHearTargetWord}
-                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-yellow-300 rounded-xl text-xs font-bold shadow-md cursor-pointer transition active:scale-95"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 rounded-xl font-bold text-xs shadow-md transition active:scale-95 cursor-pointer"
               >
-                Hear Blend 🔊
+                <Volume2 className="w-4 h-4 text-slate-900" />
+                <span>Kelimeyi Dinle 🔊</span>
               </button>
+
               <button
-                onClick={handleNextWord}
-                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg cursor-pointer transition active:scale-95"
+                type="button"
+                onClick={() => setShowHint((prev) => !prev)}
+                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-800/60 hover:bg-emerald-800 text-emerald-100 rounded-xl font-bold text-xs border border-emerald-400/30 transition cursor-pointer"
               >
-                <span>Next Word</span>
-                <ArrowRight className="w-4 h-4" />
+                <HelpCircle className="w-4 h-4 text-yellow-300" />
+                <span>{showHint ? 'İpucunu Gizle' : 'İpucu 💡'}</span>
               </button>
             </div>
-          </div>
-        )}
 
-      </div>
+            <div className="flex items-center gap-3 text-xs font-semibold">
+              <span className="bg-black/30 px-2.5 py-1 rounded-lg">🇩🇪 {currentWord.de}</span>
+              <span className="bg-black/30 px-2.5 py-1 rounded-lg">🇹🇷 {currentWord.tr}</span>
+            </div>
+          </div>
+
+          {showHint && (
+            <div className="relative z-10 mb-6 p-3.5 bg-yellow-100 text-yellow-900 rounded-2xl border border-yellow-300 text-xs sm:text-sm font-semibold flex items-center justify-between">
+              <span>
+                💡 <strong>Ses İpucu:</strong> {currentWord.phoneticGuide}
+              </span>
+              <span className="text-xl">{currentWord.emoji}</span>
+            </div>
+          )}
+
+          {/* Target Word Illustration & Mystery Slots */}
+          <div className="relative z-10 flex flex-col items-center justify-center my-6">
+            <div
+              onPointerEnter={(e) =>
+                triggerHoverSpeech(currentWord.word.toLowerCase(), {
+                  isMuted,
+                  pointerType: e.pointerType,
+                })
+              }
+              onPointerLeave={cancelHoverSpeech}
+              onClick={handleHearTargetWord}
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white/90 shadow-xl border-4 border-emerald-300 flex items-center justify-center text-5xl sm:text-6xl mb-6 transform hover:scale-105 transition cursor-pointer"
+              title="Dinlemek için üstüne gel veya tıkla"
+            >
+              {isSuccess ? (
+                <span className="animate-bounce">{currentWord.emoji}</span>
+              ) : (
+                <span className="opacity-90">{currentWord.emoji}</span>
+              )}
+            </div>
+
+            {/* Lego Baseplate Slots */}
+            <div className="flex items-center justify-center gap-3 sm:gap-5 mb-8">
+              {slots.map((slotBrick, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => handleRemoveFromSlot(idx)}
+                  className={`w-16 h-20 sm:w-20 sm:h-24 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 relative ${
+                    slotBrick
+                      ? 'bg-gradient-to-b from-amber-400 to-amber-500 border-4 border-amber-600 shadow-xl transform -translate-y-1'
+                      : 'bg-emerald-900/60 border-4 border-dashed border-emerald-400/50 hover:border-yellow-400 hover:bg-emerald-900/80 shadow-inner'
+                  }`}
+                >
+                  <div className="absolute -top-3 flex gap-2">
+                    <div
+                      className={`w-3.5 h-2 rounded-t-md ${
+                        slotBrick ? 'bg-amber-600' : 'bg-emerald-800'
+                      }`}
+                    />
+                    <div
+                      className={`w-3.5 h-2 rounded-t-md ${
+                        slotBrick ? 'bg-amber-600' : 'bg-emerald-800'
+                      }`}
+                    />
+                  </div>
+
+                  {slotBrick ? (
+                    <span className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-wider">
+                      {slotBrick.letter}
+                    </span>
+                  ) : (
+                    <span className="text-xl sm:text-2xl font-display font-black text-emerald-400/60">
+                      {idx + 1}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Letter Brick Tray */}
+          <div className="relative z-10 bg-emerald-900/70 backdrop-blur-md rounded-2xl p-4 sm:p-6 border-2 border-emerald-400/40">
+            <p className="text-center text-xs sm:text-sm font-bold text-emerald-200 uppercase tracking-wider mb-4">
+              Harf tuğlalarına dokunarak kelimeyi oluştur:
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 min-h-[90px]">
+              {availableBricks.map((brick) => (
+                <button
+                  key={brick.id}
+                  type="button"
+                  onClick={() => handleSelectBrick(brick)}
+                  className="group relative w-14 h-18 sm:w-16 sm:h-20 bg-gradient-to-b from-yellow-300 to-amber-400 hover:from-yellow-200 hover:to-amber-300 border-3 border-amber-500 rounded-2xl shadow-lg hover:shadow-2xl flex flex-col items-center justify-center text-slate-950 font-display font-black text-2xl sm:text-3xl transition transform active:scale-90 hover:-translate-y-1 cursor-pointer"
+                >
+                  <div className="absolute -top-2 flex gap-1.5">
+                    <div className="w-3 h-1.5 bg-amber-500 rounded-t-sm shadow-sm" />
+                    <div className="w-3 h-1.5 bg-amber-500 rounded-t-sm shadow-sm" />
+                  </div>
+
+                  <span>{brick.letter}</span>
+
+                  <span className="text-[9px] font-bold text-amber-900/80 -mt-1 uppercase">
+                    Ses 🔊
+                  </span>
+                </button>
+              ))}
+
+              {availableBricks.length === 0 && !isSuccess && (
+                <p className="text-xs text-emerald-200 italic">Kontrol ediliyor...</p>
+              )}
+            </div>
+          </div>
+
+          {/* Celebratory Banner */}
+          {isSuccess && (
+            <div className="relative z-20 mt-6 p-4 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-slate-950 rounded-2xl border-2 border-yellow-500 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-slate-900 text-yellow-300 flex items-center justify-center text-2xl shadow-md">
+                  🎉
+                </div>
+                <div>
+                  <h3 className="font-display font-black text-lg sm:text-xl text-slate-900">
+                    Harikasın, {childName}!
+                  </h3>
+                  <p className="text-xs sm:text-sm font-bold text-slate-800">
+                    <strong>{currentWord.word}</strong> kelimesini kurdun! (+2 Lego Parçası 🧱 +1 Yıldız ⭐)
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleHearTargetWord}
+                  className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-yellow-300 rounded-xl text-xs font-bold shadow-md cursor-pointer transition active:scale-95"
+                >
+                  Tekrar Dinle 🔊
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextWord}
+                  className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg cursor-pointer transition active:scale-95"
+                >
+                  <span>Sonraki Kelime</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Workshop Navigation Banner */}
       <div className="w-full mt-6 flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
         <div className="flex items-center gap-2 text-slate-600 text-xs sm:text-sm font-semibold">
-          <span>🧱 Master Builder Tip:</span>
-          <span className="text-slate-500">Each completed word awards +2 Lego Bricks for your 3D Workshop!</span>
+          <span>🧱 Usta İnşaatçı İpucu:</span>
+          <span className="text-slate-500">
+            Tamamlanan her kelime 3D Atölye için +2 Lego Parçası kazandırır!
+          </span>
         </div>
         {onNavigateToWorkshop && (
           <button
+            type="button"
             onClick={onNavigateToWorkshop}
             className="text-xs font-bold text-blue-600 hover:text-blue-700 underline cursor-pointer"
           >
-            Go to 3D Workshop ➔
+            3D Atölyeye Git ➔
           </button>
         )}
       </div>
-
     </div>
   );
 }

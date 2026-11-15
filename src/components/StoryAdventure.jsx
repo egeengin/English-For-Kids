@@ -433,67 +433,6 @@ export default function StoryAdventure({
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
-      
-      {/* Story Header & Mode Selector */}
-      <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-blue-400">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md border-2 border-blue-700">
-            📖
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
-                {story.title}
-              </h2>
-              <span className="bg-blue-100 text-blue-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-blue-300 uppercase">
-                Story Mode
-              </span>
-            </div>
-            <p className="text-xs font-bold text-slate-500">
-              {story.subtitle}
-            </p>
-          </div>
-        </div>
-
-        {/* Interaction Style Toggle */}
-        <div className="flex items-center bg-slate-100 rounded-xl p-1 border-2 border-slate-200 overflow-x-auto">
-          <button
-            type="button"
-            onClick={() => handleSwitchInteractionMode('choices')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap cursor-pointer ${
-              interactionMode === 'choices'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            2 Big Choices
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSwitchInteractionMode('sentence')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap cursor-pointer ${
-              interactionMode === 'sentence'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            🧱 Sentence Bricks
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSwitchInteractionMode('voice')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-black font-display transition-all whitespace-nowrap flex items-center gap-1 cursor-pointer ${
-              interactionMode === 'voice'
-                ? 'bg-purple-600 text-white shadow-sm'
-                : 'text-purple-700 hover:text-purple-950 bg-purple-50'
-            }`}
-          >
-            <Mic className="w-3.5 h-3.5 text-amber-300" />
-            <span>🎙️ Voice Talk {geminiApiKey ? '✨' : ''}</span>
-          </button>
-        </div>
-      </div>
-
       {/* Chapters Progress Bar — Clean Icon Pills, Zero Scrollbar */}
       <div className="w-full bg-slate-900 text-white px-3 sm:px-4 py-3 rounded-2xl shadow-lg border-2 border-slate-800 mb-4">
         <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2">

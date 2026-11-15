@@ -14,7 +14,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { SCENES_DATA } from '../data/scenesData';
-import { speakEnglish, speakGerman, speakTurkish, stopSpeech } from '../utils/speech';
+import { speakEnglish } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
@@ -376,31 +376,6 @@ export default function SceneExplorer({
                   {activeItem.differenceText}
                 </p>
               </div>
-            </div>
-
-            {/* Right: German & Turkish Audio Badges */}
-            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-              {/* German helper badge */}
-              <button
-                onClick={() => speakGerman(activeItem.translationDe)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 text-xs font-bold transition-all"
-                title="Hear German pronunciation"
-              >
-                <span>🇩🇪</span>
-                <Volume2 className="w-3.5 h-3.5 text-slate-600" />
-                <span>{activeItem.translationDe}</span>
-              </button>
-
-              {/* Turkish helper badge */}
-              <button
-                onClick={() => speakTurkish(activeItem.translationTr)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 text-xs font-bold transition-all"
-                title="Hear Turkish pronunciation"
-              >
-                <span>🇹🇷</span>
-                <Volume2 className="w-3.5 h-3.5 text-slate-600" />
-                <span>{activeItem.translationTr}</span>
-              </button>
             </div>
 
           </div>

@@ -22,7 +22,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { getStoryData } from '../data/storyData';
-import { speakEnglish, speakGerman, speakTurkish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
+import { speakEnglish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
@@ -612,14 +612,9 @@ export default function StoryAdventure({
                       <Volume2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                  <p className="text-xs text-slate-600 font-bold">
+                  <p className="text-sm text-slate-700 font-bold">
                     {activeProp.tagline}
                   </p>
-                  <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 mt-0.5">
-                    <span>🇩🇪 {activeProp.labelDe}</span>
-                    <span>•</span>
-                    <span>🇹🇷 {activeProp.labelTr}</span>
-                  </div>
                 </div>
               </div>
               <button
@@ -672,13 +667,10 @@ export default function StoryAdventure({
 
                 {/* Word Inspector Card (if clicked) */}
                 {inspectedWord && (
-                  <div className="mt-2.5 p-2.5 bg-yellow-50 border-2 border-yellow-300 rounded-xl flex items-center justify-between text-xs animate-scaleUp">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-black text-slate-900 text-sm">"{inspectedWord.word}"</span>
-                      <span className="text-slate-400">•</span>
-                      <span className="text-slate-700 font-semibold">🇩🇪 {inspectedWord.de}</span>
-                      <span className="text-slate-400">•</span>
-                      <span className="text-slate-700 font-semibold">🇹🇷 {inspectedWord.tr}</span>
+                  <div className="mt-2.5 p-2.5 bg-yellow-50 border-2 border-yellow-300 rounded-xl flex items-center justify-between text-sm animate-scaleUp">
+                    <div className="flex items-center gap-2">
+                      <Volume2 className="w-4 h-4 text-amber-600" />
+                      <span className="font-black text-slate-900 text-base">"{inspectedWord.word}"</span>
                     </div>
                     <button
                       onClick={() => setInspectedWord(null)}
@@ -700,30 +692,6 @@ export default function StoryAdventure({
                 <Volume2 className="w-6 h-6" />
               </button>
             </div>
-
-            {/* German & Turkish Bilingual Subtitles & Audio */}
-            <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
-              <button
-                onClick={() => speakGerman(chapter.translationDe)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200 cursor-pointer"
-                title="Listen in German"
-              >
-                <span>🇩🇪</span>
-                <Volume2 className="w-3.5 h-3.5 text-slate-500" />
-                <span>{chapter.translationDe}</span>
-              </button>
-
-              <button
-                onClick={() => speakTurkish(chapter.translationTr)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all border border-slate-200 cursor-pointer"
-                title="Listen in Turkish"
-              >
-                <span>🇹🇷</span>
-                <Volume2 className="w-3.5 h-3.5 text-slate-500" />
-                <span>{chapter.translationTr}</span>
-              </button>
-            </div>
-
           </div>
 
           {/* Child Character Prompt + Voice Action Button */}
@@ -912,16 +880,6 @@ export default function StoryAdventure({
                 </button>
               </div>
 
-              {/* Helper translations in German and Turkish */}
-              <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-500 flex-wrap">
-                <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200">
-                  🇩🇪 {targetChoice?.translationDe}
-                </span>
-                <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200">
-                  🇹🇷 {targetChoice?.translationTr}
-                </span>
-              </div>
-
               {/* Big Interactive Lego Microphone Brick Button */}
               <button
                 onClick={handleStartVoiceListening}
@@ -978,14 +936,9 @@ export default function StoryAdventure({
                   <div className="text-xl">
                     {voiceEvaluation.stars === 3 ? '⭐⭐⭐' : voiceEvaluation.stars === 2 ? '⭐⭐' : '⭐'}
                   </div>
-                  <p className="text-sm font-black font-display">
+                  <p className="text-base font-black font-display">
                     {voiceEvaluation.feedbackEn}
                   </p>
-                  <div className="text-[11px] text-slate-600 flex items-center justify-center gap-2 pt-1 border-t border-slate-200/60">
-                    <span>🇩🇪 {voiceEvaluation.feedbackDe}</span>
-                    <span>•</span>
-                    <span>🇹🇷 {voiceEvaluation.feedbackTr}</span>
-                  </div>
                   {voiceEvaluation.source === 'gemini' && (
                     <div className="inline-flex items-center gap-1 text-[10px] font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full mt-1 border border-purple-200">
                       <Bot className="w-3 h-3 text-purple-600" />
@@ -1036,27 +989,6 @@ export default function StoryAdventure({
                   aria-label="Replay Mom reply"
                 >
                   <Volume2 className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Bilingual translation pills */}
-              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-200/70 text-xs font-bold text-slate-700">
-                <button
-                  onClick={() => speakGerman(activeReply.translationDe)}
-                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-amber-100 border border-amber-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <span>🇩🇪</span>
-                  <Volume2 className="w-3 h-3 text-slate-500" />
-                  <span>{activeReply.translationDe}</span>
-                </button>
-
-                <button
-                  onClick={() => speakTurkish(activeReply.translationTr)}
-                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-amber-100 border border-amber-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <span>🇹🇷</span>
-                  <Volume2 className="w-3 h-3 text-slate-500" />
-                  <span>{activeReply.translationTr}</span>
                 </button>
               </div>
             </div>

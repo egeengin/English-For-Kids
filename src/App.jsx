@@ -431,11 +431,50 @@ export default function App() {
           />
         )}
 
-        {/* Active Listening Balloon Pop */}
-        {currentTab === 'balloons' && (
+        {/* Games Hub Switcher (Balloons / Phonics / 7 Differences) */}
+        {(currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences') && (
+          <div className="w-full max-w-4xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={() => handleTabChange('balloons')}
+              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+                currentTab === 'games' || currentTab === 'balloons'
+                  ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
+              }`}
+            >
+              🎈 Balon Patlat
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('phonics')}
+              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+                currentTab === 'phonics'
+                  ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
+              }`}
+            >
+              🔤 Harf Birleştir
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('differences')}
+              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+                currentTab === 'differences'
+                  ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
+              }`}
+            >
+              🔍 7 Fark Bul
+            </button>
+          </div>
+        )}
+
+        {/* Active Listening Balloon Pop (Default Game) */}
+        {(currentTab === 'games' || currentTab === 'balloons') && (
           <BalloonPopGame
             onRewardEarned={handleRewardEarned}
-            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            onNavigateToWorkshop={() => setCurrentTab('daily')}
             isMuted={state.soundMuted}
           />
         )}
@@ -543,13 +582,15 @@ export default function App() {
         </button>
 
         <button
-          onClick={() => handleTabChange('balloons')}
+          onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'balloons' ? 'text-rose-400 font-black' : 'text-slate-400'
+            currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences'
+              ? 'text-rose-400 font-black'
+              : 'text-slate-400'
           }`}
         >
           <Sparkles className="w-5 h-5" />
-          <span>Balonlar</span>
+          <span>Oyunlar</span>
         </button>
 
         <button

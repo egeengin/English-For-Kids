@@ -5,9 +5,7 @@ import {
   Trophy,
   RotateCcw,
   ChevronRight,
-  HelpCircle,
   Flame,
-  Printer,
   CheckCircle2,
   Sparkles,
   Target,
@@ -28,7 +26,7 @@ export default function LevelDiscoveryGame({
   onSaveDiscoveryResult,
   onClearDiscoveryQuestions,
   onResetDiscovery,
-  onOpenPrintable,
+  onOpenPrintable: _onOpenPrintable,
   onSwitchToDay,
   isMuted = false,
   childName = 'Deniz',
@@ -214,7 +212,7 @@ export default function LevelDiscoveryGame({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-black text-xs">
+            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-black text-xs sm:text-sm">
               Doğru: {currentStageStat.correctCount} / 10
             </span>
 
@@ -222,23 +220,9 @@ export default function LevelDiscoveryGame({
               type="button"
               onClick={() => {
                 playTap(isMuted);
-                if (onOpenPrintable) {
-                  onOpenPrintable({ mode: 'stage', stageId: currentStage.id });
-                }
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs cursor-pointer transition"
-            >
-              <Printer className="w-3.5 h-3.5 text-yellow-300" />
-              <span>Bu Bölümü Kağıt Test Olarak Yazdır</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
                 setViewMode(viewMode === 'report' ? 'play' : 'report');
               }}
-              className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-xs cursor-pointer transition"
+              className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-xs sm:text-sm cursor-pointer transition"
             >
               {viewMode === 'report'
                 ? '🎮 Teste Dön'
@@ -354,32 +338,10 @@ export default function LevelDiscoveryGame({
                   className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-sm sm:text-base shadow-sm cursor-pointer"
                 >
                   <Volume2 className="w-5 h-5" />
-                  <span>Soruyu Dinle</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    playTap(isMuted);
-                    setShowHelper((prev) => !prev);
-                  }}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs cursor-pointer"
-                >
-                  <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
-                  <span>{showHelper ? 'Gizle' : '🇹🇷/🇩🇪 İpucu'}</span>
+                  <span>🔊 Dinle</span>
                 </button>
               </div>
             </div>
-
-            {showHelper && (
-              <div className="pt-2 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
-                <div className="bg-white rounded-xl p-2 border border-slate-200">
-                  <strong>🇹🇷 TR:</strong> {currentQuestion.promptTrHelper}
-                </div>
-                <div className="bg-white rounded-xl p-2 border border-slate-200">
-                  <strong>🇩🇪 DE:</strong> {currentQuestion.promptDeHelper}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* 3 Self-Graded Visual Answer Cards */}
@@ -565,20 +527,6 @@ export default function LevelDiscoveryGame({
               type="button"
               onClick={() => {
                 playTap(isMuted);
-                if (onOpenPrintable) {
-                  onOpenPrintable({ mode: 'stage', stageId: currentStage.id });
-                }
-              }}
-              className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-sm shadow-md cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-yellow-300" />
-              <span>Bu Bölümü Yazdır</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
                 setViewMode('report');
               }}
               className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-sm shadow-md cursor-pointer"
@@ -604,19 +552,6 @@ export default function LevelDiscoveryGame({
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  playTap(isMuted);
-                  if (onOpenPrintable) {
-                    onOpenPrintable({ mode: 'stage', stageId: currentStage.id });
-                  }
-                }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs cursor-pointer"
-              >
-                <Printer className="w-4 h-4 text-yellow-300" />
-                <span>Siyah-Beyaz Test Yazdır</span>
-              </button>
               <button
                 type="button"
                 onClick={handleResetAll}

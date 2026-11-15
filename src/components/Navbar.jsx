@@ -4,10 +4,8 @@ import {
   VolumeX,
   Sparkles,
   ShieldCheck,
-  Search,
   BookOpen,
   Award,
-  Type,
   Calendar,
   Star,
   Radio,
@@ -25,12 +23,10 @@ export default function Navbar({
   childName = 'Deniz',
 }) {
   const tabs = [
-    { id: 'discovery', label: '⭐ 5 Bölümlü Test', icon: Award, activeClass: 'bg-blue-600 text-white border-blue-800' },
-    { id: 'daily', label: '📅 Günlük Plan & Testler', icon: Calendar, activeClass: 'bg-emerald-600 text-white border-emerald-800' },
-    { id: 'story', label: '📖 Sesli Hikaye (Story)', icon: BookOpen, activeClass: 'bg-purple-600 text-white border-purple-800' },
-    { id: 'differences', label: '🔍 7 Fark Bul', icon: Search, activeClass: 'bg-teal-600 text-white border-teal-800' },
-    { id: 'balloons', label: '🎈 Balon Patlat', icon: Sparkles, activeClass: 'bg-rose-500 text-white border-rose-700' },
-    { id: 'phonics', label: '🔤 Harf Birleştir', icon: Type, activeClass: 'bg-amber-500 text-slate-950 border-amber-700' },
+    { id: 'daily', label: '📅 Günlük', icon: Calendar, activeClass: 'bg-emerald-600 text-white border-emerald-800' },
+    { id: 'story', label: '📖 Hikaye', icon: BookOpen, activeClass: 'bg-purple-600 text-white border-purple-800' },
+    { id: 'games', label: '🎮 Oyunlar', icon: Sparkles, activeClass: 'bg-rose-500 text-white border-rose-700' },
+    { id: 'discovery', label: '⭐ Test', icon: Award, activeClass: 'bg-blue-600 text-white border-blue-800' },
   ];
 
   const handleTabClick = (tabId) => {
@@ -117,7 +113,10 @@ export default function Navbar({
         <nav className="flex items-center gap-2 overflow-x-auto pb-0.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
-            const isActive = currentTab === tab.id;
+            const isActive =
+              tab.id === 'games'
+                ? currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences'
+                : currentTab === tab.id;
             return (
               <button
                 key={tab.id}

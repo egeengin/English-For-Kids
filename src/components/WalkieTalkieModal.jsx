@@ -294,32 +294,6 @@ export default function WalkieTalkieModal({
                   }`}
                 >
                   <p className="font-bold text-sm sm:text-lg">{msg.en}</p>
-
-                  {/* Bilingual Helper Subtitles for Leo's replies (clickable for audio) */}
-                  {msg.sender === 'leo' && (msg.de || msg.tr) && (
-                    <div className="mt-2 pt-2 border-t border-amber-500/40 text-xs sm:text-sm text-slate-800 space-y-1">
-                      {msg.de && (
-                        <button
-                          type="button"
-                          onClick={() => !isMuted && speakGerman(msg.de)}
-                          className="w-full text-left flex items-center gap-1.5 hover:bg-amber-200/70 rounded px-1.5 py-1 cursor-pointer transition"
-                        >
-                          <Volume2 className="w-3.5 h-3.5 flex-shrink-0 text-amber-900" />
-                          <span>🇩🇪 {msg.de}</span>
-                        </button>
-                      )}
-                      {msg.tr && (
-                        <button
-                          type="button"
-                          onClick={() => !isMuted && speakTurkish(msg.tr)}
-                          className="w-full text-left flex items-center gap-1.5 hover:bg-amber-200/70 rounded px-1.5 py-1 cursor-pointer transition"
-                        >
-                          <Volume2 className="w-3.5 h-3.5 flex-shrink-0 text-amber-900" />
-                          <span>🇹🇷 {msg.tr}</span>
-                        </button>
-                      )}
-                    </div>
-                  )}
                 </div>
 
                 {/* Audio replay buttons for Leo (Normal & Slow) */}

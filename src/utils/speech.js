@@ -5,14 +5,23 @@
  */
 import { getEffectiveGeminiApiKey } from './gemini.js';
 
-const GEMINI_TTS_MODEL = 'gemini-3.8-flash-tts';
-const GEMINI_TTS_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_TTS_MODEL}:generateContent`;
+const GEMINI_TTS_MODELS = [
+  'gemini-3.8-flash-lite-tts',
+  'gemini-3.1-flash-tts-preview',
+  'gemini-3.8-flash-tts',
+];
+const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const DEFAULT_VOICE_NAME = 'Kore';
 const ALLOWED_VOICES = new Set(['Charon', 'Kore', 'Fenrir', 'Aoede', 'Puck']);
 const MAX_TTS_CACHE_SIZE = 160;
+const MODEL_COOLDOWN_MS = 10 * 60 * 1000;
+const TTS_IDB_NAME = 'lego_gemini_tts_idb_v1';
+const TTS_IDB_STORE = 'wav_cache';
 
 const ttsCache = new Map();
 const inFlightRequests = new Map();
+const modelCooldownUntil = new Map();
+let ttsIdbPromise = null;
 
 let speechSeqToken = 0;
 let activeAudio = null;
@@ -362,8 +371,60 @@ export function audioDataToWavBlob(base64Data, mimeType = '') {
   return new Blob([buffer], { type: 'audio/wav' });
 }
 
+function openTtsIdb() {
+  if (typeof indexedDB === 'undefined') return Promise.resolve(null);
+  if (ttsIdbPromise) return ttsIdbPromise;
+
+  ttsIdbPromise = new Promise((resolve) => {
+    try {
+      const req = indexedDB.open(TTS_IDB_NAME, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(TTS_IDB_STORE)) {
+          db.createObjectStore(TTS_IDB_STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch {
+      resolve(null);
+    }
+  });
+  return ttsIdbPromise;
+}
+
+async function getCachedWavFromIdb(cacheKey) {
+  try {
+    const db = await openTtsIdb();
+    if (!db) return null;
+    return await new Promise((resolve) => {
+      const tx = db.transaction(TTS_IDB_STORE, 'readonly');
+      const req = tx.objectStore(TTS_IDB_STORE).get(cacheKey);
+      req.onsuccess = () => {
+        const buf = req.result;
+        resolve(buf ? new Blob([buf], { type: 'audio/wav' }) : null);
+      };
+      req.onerror = () => resolve(null);
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function saveCachedWavToIdb(cacheKey, wavBlob) {
+  try {
+    const db = await openTtsIdb();
+    if (!db || !wavBlob) return;
+    const arrayBuf = await wavBlob.arrayBuffer();
+    const tx = db.transaction(TTS_IDB_STORE, 'readwrite');
+    tx.objectStore(TTS_IDB_STORE).put(arrayBuf, cacheKey);
+  } catch {
+    // Ignore IDB storage failures
+  }
+}
+
 /**
- * Synthesize natural neural studio speech via Gemini 3.8 Flash TTS with LRU memory caching & deduplication.
+ * Synthesize natural neural studio speech via multi-model Gemini TTS with IDB & LRU caching.
  */
 export async function synthesizeGeminiSpeech(text, voiceName = DEFAULT_VOICE_NAME, timeoutMs = 5500) {
   const clean = cleanTextForTTS(text);
@@ -388,8 +449,14 @@ export async function synthesizeGeminiSpeech(text, voiceName = DEFAULT_VOICE_NAM
   }
 
   const runPromise = (async () => {
+    const idbBlob = await getCachedWavFromIdb(cacheKey);
+    if (idbBlob) {
+      ttsCache.set(cacheKey, idbBlob);
+      return idbBlob;
+    }
+
     if (typeof fetch !== 'function') throw new Error('FETCH_UNAVAILABLE');
-    const url = `${GEMINI_TTS_ENDPOINT}?key=${apiKey}`;
+
     const payload = {
       contents: [{ parts: [{ text: clean }] }],
       generationConfig: {
@@ -402,40 +469,61 @@ export async function synthesizeGeminiSpeech(text, voiceName = DEFAULT_VOICE_NAM
       },
     };
 
-    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    const timerId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+    const now = Date.now();
+    let lastError = new Error('NO_AVAILABLE_TTS_MODEL');
 
-    let res;
-    try {
-      res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller ? controller.signal : undefined,
-      });
-    } finally {
-      if (timerId) clearTimeout(timerId);
+    for (const model of GEMINI_TTS_MODELS) {
+      const cooldownUntil = modelCooldownUntil.get(model) || 0;
+      if (cooldownUntil > now) continue;
+
+      const url = `${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`;
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timerId = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined,
+        });
+        if (timerId) clearTimeout(timerId);
+
+        if (res.status === 429 || res.status === 503) {
+          modelCooldownUntil.set(model, Date.now() + MODEL_COOLDOWN_MS);
+          lastError = new Error(`GEMINI_TTS_HTTP_${res.status}`);
+          continue;
+        }
+
+        if (!res.ok) {
+          lastError = new Error(`GEMINI_TTS_HTTP_${res.status}`);
+          continue;
+        }
+
+        const data = await res.json();
+        const parts = data?.candidates?.[0]?.content?.parts || [];
+        const audioPart = parts.find((p) => p.inlineData && p.inlineData.data);
+        if (!audioPart) {
+          lastError = new Error('NO_AUDIO_DATA');
+          continue;
+        }
+
+        const wavBlob = audioDataToWavBlob(audioPart.inlineData.data, audioPart.inlineData.mimeType);
+
+        if (ttsCache.size >= MAX_TTS_CACHE_SIZE) {
+          const oldestKey = ttsCache.keys().next().value;
+          ttsCache.delete(oldestKey);
+        }
+        ttsCache.set(cacheKey, wavBlob);
+        saveCachedWavToIdb(cacheKey, wavBlob);
+        return wavBlob;
+      } catch (err) {
+        if (timerId) clearTimeout(timerId);
+        lastError = err;
+      }
     }
 
-    if (!res.ok) {
-      throw new Error(`GEMINI_TTS_HTTP_${res.status}`);
-    }
-
-    const data = await res.json();
-    const parts = data?.candidates?.[0]?.content?.parts || [];
-    const audioPart = parts.find((p) => p.inlineData && p.inlineData.data);
-    if (!audioPart) {
-      throw new Error('NO_AUDIO_DATA');
-    }
-
-    const wavBlob = audioDataToWavBlob(audioPart.inlineData.data, audioPart.inlineData.mimeType);
-
-    if (ttsCache.size >= MAX_TTS_CACHE_SIZE) {
-      const oldestKey = ttsCache.keys().next().value;
-      ttsCache.delete(oldestKey);
-    }
-    ttsCache.set(cacheKey, wavBlob);
-    return wavBlob;
+    throw lastError;
   })();
 
   inFlightRequests.set(cacheKey, runPromise);
@@ -489,19 +577,10 @@ export function stopSpeech() {
 }
 
 /**
- * Pre-warm the Gemini TTS cache for upcoming questions, options, or vocabulary words.
+ * Background prefetching is disabled to conserve per-model Gemini TTS daily quota.
  */
-export function prefetchSpeech(texts = [], voiceName = DEFAULT_VOICE_NAME) {
-  if (!Array.isArray(texts) || texts.length === 0) return;
-  if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
-
-  const unique = Array.from(
-    new Set(texts.map((t) => cleanTextForTTS(t)).filter(Boolean))
-  ).slice(0, 6);
-
-  unique.forEach((clean) => {
-    synthesizeGeminiSpeech(clean, voiceName).catch(() => {});
-  });
+export function prefetchSpeech() {
+  // No-op
 }
 
 function playLocalAudioFile(basePath, myToken, onEnd, onError) {
@@ -580,7 +659,49 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError) {
   }
 }
 
-function playWebSpeech(text, lang = 'en-US', myToken, onEnd) {
+const NOVELTY_VOICE_REGEX = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|wobble|fred|good news|jester|organ|superstar|trinoids|whisper|zarvox|ralph|kathy|junior|grandma|grandpa|rocko|reed|sandy|shelley|eddy|flo|espeak|compact)\b/i;
+
+function selectBestWebSpeechVoice(voiceList, lang) {
+  const prefix = String(lang || 'en-US').toLowerCase().slice(0, 2);
+  const matching = (voiceList || []).filter(
+    (v) => v.lang && v.lang.toLowerCase().startsWith(prefix)
+  );
+  if (matching.length === 0) return null;
+
+  const scoreVoice = (v) => {
+    const name = (v.name || '').toLowerCase();
+    const vLang = (v.lang || '').toLowerCase();
+    let score = 0;
+
+    // Ban distorted macOS novelty voices like Albert
+    if (NOVELTY_VOICE_REGEX.test(name)) score -= 1000;
+
+    if (name.includes('google') || name.includes('natural') || name.includes('neural') || name.includes('online')) {
+      score += 100;
+    }
+    if (name.includes('siri') || name.includes('premium') || name.includes('enhanced')) {
+      score += 80;
+    }
+    if (prefix === 'en' && /\b(samantha|ava|allison|alex|karen|daniel|moira|tessa)\b/i.test(name)) {
+      score += 55;
+    }
+    if (prefix === 'de' && /\b(anna|katja|helena|petra|yannick|markus)\b/i.test(name)) {
+      score += 55;
+    }
+    if (prefix === 'tr' && /\b(yelda|cem|emel|filiz)\b/i.test(name)) {
+      score += 55;
+    }
+    if (vLang === lang.toLowerCase()) score += 10;
+    if (!v.localService) score += 15;
+    return score;
+  };
+
+  return matching
+    .slice()
+    .sort((a, b) => scoreVoice(b) - scoreVoice(a))[0];
+}
+
+function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9) {
   if (myToken !== speechSeqToken || typeof window === 'undefined' || !('speechSynthesis' in window)) {
     if (myToken === speechSeqToken && onEnd) onEnd();
     return;
@@ -594,15 +715,15 @@ function playWebSpeech(text, lang = 'en-US', myToken, onEnd) {
     activeUtterance = utterance;
 
     utterance.lang = lang;
-    utterance.rate = 0.88;
-    utterance.pitch = 1.05;
+    utterance.rate = rate;
+    utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
     if (voices.length === 0) {
       voices = window.speechSynthesis.getVoices();
     }
 
-    const preferredVoice = voices.find((v) => v.lang && v.lang.startsWith(lang.slice(0, 2)));
+    const preferredVoice = selectBestWebSpeechVoice(voices, lang);
     if (preferredVoice) {
       utterance.voice = preferredVoice;
     }
@@ -631,7 +752,7 @@ function playWebSpeech(text, lang = 'en-US', myToken, onEnd) {
   }
 }
 
-async function playBlobAudio(wavBlob, myToken, onEnd) {
+async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
   if (
     myToken !== speechSeqToken ||
     typeof Audio === 'undefined' ||
@@ -645,6 +766,7 @@ async function playBlobAudio(wavBlob, myToken, onEnd) {
   activeObjectUrl = objUrl;
   const audio = new Audio(objUrl);
   audio.volume = 1.0;
+  audio.playbackRate = typeof rate === 'number' ? rate : 1.0;
   activeAudio = audio;
 
   return new Promise((resolve, reject) => {
@@ -703,7 +825,7 @@ async function playBlobAudio(wavBlob, myToken, onEnd) {
 
 async function speakWithGeminiOrFallback(
   rawText,
-  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd } = {}
+  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd, rate } = {}
 ) {
   const clean = cleanTextForTTS(rawText);
   if (!clean) {
@@ -713,6 +835,8 @@ async function speakWithGeminiOrFallback(
 
   stopSpeech();
   const myToken = speechSeqToken;
+  const blobRate = typeof rate === 'number' ? rate : 1.0;
+  const webRate = typeof rate === 'number' ? rate : 0.9;
 
   const canTryNetwork =
     typeof navigator === 'undefined' || navigator.onLine !== false;
@@ -723,7 +847,7 @@ async function speakWithGeminiOrFallback(
     try {
       const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
       if (myToken !== speechSeqToken) return;
-      await playBlobAudio(wavBlob, myToken, onEnd);
+      await playBlobAudio(wavBlob, myToken, onEnd, blobRate);
       return;
     } catch {
       if (myToken !== speechSeqToken) return;
@@ -732,18 +856,18 @@ async function speakWithGeminiOrFallback(
 
   if (localKey && KNOWN_EN_WORDS.has(localKey)) {
     playLocalAudioFile(`/audio/${localFolder}/${localKey}`, myToken, onEnd, () => {
-      playWebSpeech(clean, lang, myToken, onEnd);
+      playWebSpeech(clean, lang, myToken, onEnd, webRate);
     });
     return;
   }
 
-  playWebSpeech(clean, lang, myToken, onEnd);
+  playWebSpeech(clean, lang, myToken, onEnd, webRate);
 }
 
 /**
  * Pronounce an English word or sentence (en-US) via Gemini Studio TTS first.
  */
-export function speakEnglish(text, onEnd) {
+export function speakEnglish(text, onEnd, options = {}) {
   const clean = cleanTextForTTS(text);
   if (!clean) {
     if (onEnd) onEnd();
@@ -764,13 +888,14 @@ export function speakEnglish(text, onEnd) {
     localFolder: 'en',
     localKey,
     onEnd,
+    rate: options?.rate,
   });
 }
 
 /**
  * Pronounce Turkish translation (tr-TR) via Gemini Studio TTS first.
  */
-export function speakTurkish(text, onEnd) {
+export function speakTurkish(text, onEnd, options = {}) {
   const clean = cleanTextForTTS(text);
   if (!clean) {
     if (onEnd) onEnd();
@@ -787,13 +912,14 @@ export function speakTurkish(text, onEnd) {
     localFolder: 'tr',
     localKey,
     onEnd,
+    rate: options?.rate,
   });
 }
 
 /**
  * Pronounce German translation (de-DE) via Gemini Studio TTS first.
  */
-export function speakGerman(text, onEnd) {
+export function speakGerman(text, onEnd, options = {}) {
   const clean = cleanTextForTTS(text);
   if (!clean) {
     if (onEnd) onEnd();
@@ -810,6 +936,7 @@ export function speakGerman(text, onEnd) {
     localFolder: 'de',
     localKey,
     onEnd,
+    rate: options?.rate,
   });
 }
 

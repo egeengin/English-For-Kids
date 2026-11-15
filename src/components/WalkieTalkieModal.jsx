@@ -37,9 +37,9 @@ export default function WalkieTalkieModal({
   const [conversation, setConversation] = useState([
     {
       sender: 'leo',
-      en: `Krrch! Over to you, ${childName}! Tap the big button and talk to me!`,
-      de: `Hallo ${childName}! Tippe auf den Knopf und sprich mit mir!`,
-      tr: `Cızzt! Tamam ${childName}! Düğmeye bas ve benimle konuş!`,
+      en: `Hello ${childName}! I am Leo. What is your favorite color?`,
+      de: `Hallo ${childName}! Ich bin Leo. Was ist deine Lieblingsfarbe?`,
+      tr: `Merhaba ${childName}! Ben Leo. En sevdiğin renk ne?`,
     },
   ]);
 
@@ -108,10 +108,7 @@ export default function WalkieTalkieModal({
       ]);
 
       if (!isMuted) {
-        playRadioBeep();
-        setTimeout(() => {
-          speakEnglish(response.replyEn);
-        }, 200);
+        speakEnglish(response.replyEn);
       }
     } catch (err) {
       console.warn('Chat error:', err);
@@ -200,10 +197,9 @@ export default function WalkieTalkieModal({
     }
   };
 
-  const handleSpeakReply = (text) => {
+  const handleSpeakReply = (text, rate = 1.0) => {
     if (!isMuted && text) {
-      playRadioBeep();
-      setTimeout(() => speakEnglish(text), 150);
+      speakEnglish(text, undefined, { rate });
     }
   };
 
@@ -299,24 +295,52 @@ export default function WalkieTalkieModal({
                 >
                   <p className="font-bold text-xs sm:text-sm">{msg.en}</p>
 
-                  {/* Bilingual Helper Subtitles for Leo's replies */}
+                  {/* Bilingual Helper Subtitles for Leo's replies (clickable for audio) */}
                   {msg.sender === 'leo' && (msg.de || msg.tr) && (
-                    <div className="mt-1.5 pt-1.5 border-t border-amber-500/40 text-[10px] text-slate-800 space-y-0.5">
-                      {msg.de && <p>🇩🇪 {msg.de}</p>}
-                      {msg.tr && <p>🇹🇷 {msg.tr}</p>}
+                    <div className="mt-1.5 pt-1.5 border-t border-amber-500/40 text-[10px] text-slate-800 space-y-1">
+                      {msg.de && (
+                        <button
+                          type="button"
+                          onClick={() => !isMuted && speakGerman(msg.de)}
+                          className="w-full text-left flex items-center gap-1 hover:bg-amber-200/70 rounded px-1 py-0.5 cursor-pointer transition"
+                        >
+                          <Volume2 className="w-3 h-3 flex-shrink-0 text-amber-900" />
+                          <span>🇩🇪 {msg.de}</span>
+                        </button>
+                      )}
+                      {msg.tr && (
+                        <button
+                          type="button"
+                          onClick={() => !isMuted && speakTurkish(msg.tr)}
+                          className="w-full text-left flex items-center gap-1 hover:bg-amber-200/70 rounded px-1 py-0.5 cursor-pointer transition"
+                        >
+                          <Volume2 className="w-3 h-3 flex-shrink-0 text-amber-900" />
+                          <span>🇹🇷 {msg.tr}</span>
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>
 
-                {/* Audio replay button for Leo */}
+                {/* Audio replay buttons for Leo (Normal & Slow) */}
                 {msg.sender === 'leo' && (
-                  <button
-                    onClick={() => handleSpeakReply(msg.en)}
-                    className="mt-0.5 flex items-center gap-1 text-[10px] font-bold text-amber-300 hover:text-amber-200 cursor-pointer"
-                  >
-                    <Volume2 className="w-3 h-3" />
-                    <span>Replay Voice 🔊</span>
-                  </button>
+                  <div className="mt-1 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSpeakReply(msg.en, 0.95)}
+                      className="flex items-center gap-1 text-[10px] font-bold text-amber-300 hover:text-amber-200 bg-slate-900/70 px-2 py-0.5 rounded-lg border border-amber-500/30 cursor-pointer"
+                    >
+                      <Volume2 className="w-3 h-3" />
+                      <span>Normal Dinle</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSpeakReply(msg.en, 0.78)}
+                      className="flex items-center gap-1 text-[10px] font-bold text-emerald-300 hover:text-emerald-200 bg-slate-900/70 px-2 py-0.5 rounded-lg border border-emerald-500/30 cursor-pointer"
+                    >
+                      <span>🐢 Yavaş ve Net Dinle</span>
+                    </button>
+                  </div>
                 )}
               </div>
             ))}

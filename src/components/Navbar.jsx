@@ -12,6 +12,7 @@ import {
   Calendar,
   Printer,
   Star,
+  Radio,
 } from 'lucide-react';
 import { playTap } from '../utils/soundEffects';
 
@@ -22,6 +23,7 @@ export default function Navbar({
   isMuted = false,
   onToggleMute,
   onOpenPrintable,
+  onOpenWalkieTalkie,
   childName = 'Deniz',
 }) {
   const tabs = [
@@ -66,6 +68,20 @@ export default function Navbar({
               <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
               <span>{stars}</span>
             </div>
+
+            {onOpenWalkieTalkie && (
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  onOpenWalkieTalkie();
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-xs shadow-sm border border-amber-500 cursor-pointer transition"
+              >
+                <Radio className="w-3.5 h-3.5 text-slate-900" />
+                <span>🎙️ Leo ile Konuş</span>
+              </button>
+            )}
 
             {onOpenPrintable && (
               <button

@@ -323,6 +323,7 @@ export default function App() {
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
         onOpenPrintable={() => handleOpenPrintable()}
+        onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
         childName={childName}
       />
 

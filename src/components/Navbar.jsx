@@ -15,6 +15,8 @@ export default function Navbar({
   childName = 'Deniz',
 }) {
   const tabs = [
+    { id: 'daily', label: 'Günlük Sefer 🚀', icon: Compass, color: 'bg-blue-600 hover:bg-blue-700', border: 'border-blue-800' },
+    { id: 'discovery', label: '5 Bölüm Test ⭐', icon: Award, color: 'bg-amber-500 hover:bg-amber-600', border: 'border-amber-700' },
     { id: 'road', label: 'Map 🗺️', icon: Compass, color: 'bg-emerald-600 hover:bg-emerald-700', border: 'border-emerald-800' },
     { id: 'story', label: 'Story', icon: BookOpen, color: 'bg-purple-600 hover:bg-purple-700', border: 'border-purple-800' },
     { id: 'phonics', label: 'Phonics 🔤', icon: Type, color: 'bg-amber-500 hover:bg-amber-600', border: 'border-amber-700' },
@@ -33,7 +35,7 @@ export default function Navbar({
   return (
     <header
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
-      className="sticky top-0 z-40 w-full bg-slate-900 text-white shadow-xl border-b-4 border-slate-950"
+      className="sticky top-0 z-40 w-full bg-slate-900 text-white shadow-xl border-b-4 border-slate-950 print:hidden"
     >
       {/* Decorative Studs on Top Bar */}
       <div className="w-full h-2.5 bg-red-600 flex justify-around items-center px-2 overflow-hidden">
@@ -48,7 +50,7 @@ export default function Navbar({
       <div className="max-w-6xl mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2">
         {/* Brand / Logo */}
         <div
-          onClick={() => handleTabClick('road')}
+          onClick={() => handleTabClick('daily')}
           className="flex items-center gap-2 cursor-pointer group flex-shrink-0"
         >
           <div className="w-10 h-10 rounded-xl bg-red-600 border-2 border-red-400 shadow-md flex items-center justify-center relative group-hover:rotate-6 transition-transform">

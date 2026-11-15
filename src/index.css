@@ -112,3 +112,17 @@
   background: #cbd5e1;
   border-radius: 9999px;
 }
+
+@media print {
+  header,
+  footer,
+  .print-hidden {
+    display: none !important;
+  }
+
+  body,
+  .lego-baseplate-pattern {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+}

@@ -12,6 +12,16 @@ export default function CertificateModal({
   totalStars = 36,
   isMuted = false,
 }) {
+  // Listen for Escape key to close
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handlePrint = () => {
@@ -29,15 +39,6 @@ export default function CertificateModal({
     day: 'numeric',
     year: 'numeric',
   });
-
-  // Listen for Escape key to close
-  React.useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
 
   return (
     <div

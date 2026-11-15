@@ -13,7 +13,7 @@ import {
   Target,
 } from 'lucide-react';
 import { DISCOVERY_STAGES } from '../data/dailyMissionsData';
-import { speakEnglish, stopSpeech, prefetchSpeech } from '../utils/speech';
+import { speakEnglish, stopSpeech, prefetchSpeech, unlockAudio } from '../utils/speech';
 import { playTap, playSuccess, playFanfare, playWobble } from '../utils/soundEffects';
 
 export default function LevelDiscoveryGame({
@@ -106,6 +106,8 @@ export default function LevelDiscoveryGame({
 
   const handleOptionSelect = (opt) => {
     if (!currentQuestion) return;
+
+    unlockAudio();
 
     if (opt.isCorrect) {
       playSuccess(isMuted);

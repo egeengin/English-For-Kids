@@ -13,7 +13,7 @@ import {
   DAILY_EXPEDITION_DAYS,
   getWorksheetQuestions,
 } from '../data/dailyMissionsData';
-import { speakEnglish, prefetchSpeech } from '../utils/speech';
+import { speakEnglish, prefetchSpeech, unlockAudio } from '../utils/speech';
 import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
 
 export default function DailyMissionHub({
@@ -79,6 +79,7 @@ export default function DailyMissionHub({
   };
 
   const handleDailyQuizClick = (questionId, opt) => {
+    unlockAudio();
     if (opt.isCorrect) {
       playSuccess(isMuted);
     } else {

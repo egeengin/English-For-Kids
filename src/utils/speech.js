@@ -15,6 +15,7 @@ const DEFAULT_VOICE_NAME = 'Kore';
 const ALLOWED_VOICES = new Set(['Charon', 'Kore', 'Fenrir', 'Aoede', 'Puck']);
 const MAX_TTS_CACHE_SIZE = 160;
 const MODEL_COOLDOWN_MS = 10 * 60 * 1000;
+const RPM_COOLDOWN_MS = 20 * 1000;
 const TTS_IDB_NAME = 'lego_gemini_tts_idb_v2';
 const TTS_IDB_STORE = 'wav_cache';
 
@@ -24,11 +25,38 @@ const modelCooldownUntil = new Map();
 let ttsIdbPromise = null;
 
 let speechSeqToken = 0;
+let sharedAudioPlayer = null;
+let sharedAudioUnlocked = false;
+let unlockListenersAttached = false;
+let preloadedStreamAudio = null;
 let activeAudio = null;
 let activeObjectUrl = null;
 let activeUtterance = null;
 let webSpeechTimeout = null;
 let voices = [];
+
+// Minimal 1-sample silent PCM WAV (8kHz, 16-bit mono) to bless sharedAudioPlayer on user gesture
+const SILENT_WAV_BYTES = new Uint8Array([
+  0x52, 0x49, 0x46, 0x46, 38, 0, 0, 0,
+  0x57, 0x41, 0x56, 0x45, 0x66, 0x6d, 0x74, 0x20,
+  16, 0, 0, 0, 1, 0, 1, 0,
+  0x40, 0x1f, 0, 0, 0x80, 0x3e, 0, 0,
+  2, 0, 16, 0, 0x64, 0x61, 0x74, 0x61,
+  2, 0, 0, 0, 0, 0,
+]);
+
+function ensureUnlockedAudioPlayer() {
+  if (typeof Audio === 'undefined') return null;
+  if (!sharedAudioPlayer) {
+    sharedAudioPlayer = new Audio();
+    sharedAudioPlayer.preload = 'auto';
+    sharedAudioPlayer.referrerPolicy = 'no-referrer';
+    if (typeof sharedAudioPlayer.setAttribute === 'function') {
+      sharedAudioPlayer.setAttribute('playsinline', '');
+    }
+  }
+  return sharedAudioPlayer;
+}
 
 // Pre-rendered local English audio dictionary mapping (used strictly for offline fallback)
 const KNOWN_EN_WORDS = new Set([
@@ -283,8 +311,81 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = loadVoices;
 }
 
+function detachUnlockListeners() {
+  if (!unlockListenersAttached || typeof window === 'undefined' || typeof window.removeEventListener !== 'function') {
+    return;
+  }
+  unlockListenersAttached = false;
+  window.removeEventListener('pointerdown', handleGestureUnlock, true);
+  window.removeEventListener('touchstart', handleGestureUnlock, true);
+  window.removeEventListener('keydown', handleGestureUnlock, true);
+}
+
+function handleGestureUnlock() {
+  unlockAudio();
+}
+
+function attachUnlockListeners() {
+  if (
+    unlockListenersAttached ||
+    sharedAudioUnlocked ||
+    typeof window === 'undefined' ||
+    typeof window.addEventListener !== 'function'
+  ) {
+    return;
+  }
+  unlockListenersAttached = true;
+  window.addEventListener('pointerdown', handleGestureUnlock, { capture: true, passive: true });
+  window.addEventListener('touchstart', handleGestureUnlock, { capture: true, passive: true });
+  window.addEventListener('keydown', handleGestureUnlock, { capture: true, passive: true });
+}
+
+attachUnlockListeners();
+
 export function unlockAudio() {
   loadVoices();
+  const player = ensureUnlockedAudioPlayer();
+  if (
+    !sharedAudioUnlocked &&
+    player &&
+    player.paused &&
+    !activeAudio &&
+    typeof Blob !== 'undefined' &&
+    typeof URL !== 'undefined' &&
+    typeof URL.createObjectURL === 'function'
+  ) {
+    try {
+      const silentUrl = URL.createObjectURL(new Blob([SILENT_WAV_BYTES], { type: 'audio/wav' }));
+      const revokeSilent = () => {
+        try {
+          URL.revokeObjectURL(silentUrl);
+        } catch {
+          // ignore
+        }
+      };
+      player.onended = null;
+      player.onerror = null;
+      player.src = silentUrl;
+      const playPromise = player.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise
+          .then(() => {
+            sharedAudioUnlocked = true;
+            detachUnlockListeners();
+            revokeSilent();
+          })
+          .catch(() => {
+            revokeSilent();
+          });
+      } else {
+        sharedAudioUnlocked = true;
+        detachUnlockListeners();
+        revokeSilent();
+      }
+    } catch {
+      // ignore
+    }
+  }
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     try {
       window.speechSynthesis.resume();
@@ -564,7 +665,19 @@ export async function synthesizeGeminiSpeech(text, voiceName = DEFAULT_VOICE_NAM
         if (timerId) clearTimeout(timerId);
 
         if (res.status === 429 || res.status === 503) {
-          modelCooldownUntil.set(model, Date.now() + MODEL_COOLDOWN_MS);
+          let cooldownMs = MODEL_COOLDOWN_MS;
+          if (res.status === 429) {
+            try {
+              const errBody = await res.text();
+              const lower = errBody.toLowerCase();
+              const isDailyExhausted =
+                lower.includes('per day') || lower.includes('perday');
+              cooldownMs = isDailyExhausted ? MODEL_COOLDOWN_MS : RPM_COOLDOWN_MS;
+            } catch {
+              cooldownMs = RPM_COOLDOWN_MS;
+            }
+          }
+          modelCooldownUntil.set(model, Date.now() + cooldownMs);
           lastError = new Error(`GEMINI_TTS_HTTP_${res.status}`);
           continue;
         }
@@ -619,17 +732,43 @@ export function stopSpeech() {
     webSpeechTimeout = null;
   }
 
-  if (activeAudio) {
+  if (preloadedStreamAudio) {
+    try {
+      preloadedStreamAudio.onended = null;
+      preloadedStreamAudio.onerror = null;
+      preloadedStreamAudio.onplaying = null;
+      preloadedStreamAudio.oncanplaythrough = null;
+      preloadedStreamAudio.pause();
+    } catch {
+      // ignore
+    }
+    preloadedStreamAudio = null;
+  }
+
+  if (sharedAudioPlayer) {
+    try {
+      sharedAudioPlayer.onended = null;
+      sharedAudioPlayer.onerror = null;
+      sharedAudioPlayer.onplaying = null;
+      sharedAudioPlayer.oncanplaythrough = null;
+      sharedAudioPlayer.pause();
+    } catch {
+      // ignore
+    }
+  }
+
+  if (activeAudio && activeAudio !== sharedAudioPlayer) {
     try {
       activeAudio.onended = null;
       activeAudio.onerror = null;
+      activeAudio.onplaying = null;
       activeAudio.pause();
       activeAudio.currentTime = 0;
     } catch {
       // ignore
     }
-    activeAudio = null;
   }
+  activeAudio = null;
 
   if (activeObjectUrl && typeof URL !== 'undefined' && typeof URL.revokeObjectURL === 'function') {
     try {
@@ -838,10 +977,171 @@ function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9) {
   }
 }
 
+function getGoogleTtsLangCode(lang) {
+  const normalized = String(lang || 'en-US').trim();
+  const lower = normalized.toLowerCase();
+  if (lower === 'en-us' || lower.startsWith('en')) return 'en-US';
+  if (lower === 'de-de' || lower.startsWith('de')) return 'de';
+  if (lower === 'tr-tr' || lower.startsWith('tr')) return 'tr';
+  return normalized || 'en-US';
+}
+
+function buildGoogleTtsUrl(chunkText, tl) {
+  return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${encodeURIComponent(tl)}&client=tw-ob`;
+}
+
+function chunkTextForTTS(text, maxLen = 180) {
+  const input = String(text || '').trim().replace(/\s+/g, ' ');
+  if (!input) return [];
+  if (input.length <= maxLen) return [input];
+
+  const chunks = [];
+  let remaining = input;
+  while (remaining.length > maxLen) {
+    const slice = remaining.slice(0, maxLen + 1);
+    let splitAt = -1;
+    for (const sep of ['. ', '! ', '? ', '; ', ': ', ', ']) {
+      const idx = slice.lastIndexOf(sep);
+      if (idx >= Math.floor(maxLen * 0.4) && idx + 1 > splitAt) {
+        splitAt = idx + 1;
+      }
+    }
+    if (splitAt <= 0) {
+      const spaceIdx = slice.lastIndexOf(' ');
+      if (spaceIdx > 0) splitAt = spaceIdx;
+    }
+    if (splitAt <= 0) splitAt = maxLen;
+
+    const piece = remaining.slice(0, splitAt).trim();
+    if (piece) chunks.push(piece);
+    remaining = remaining.slice(splitAt).trim();
+  }
+  if (remaining) chunks.push(remaining);
+  return chunks;
+}
+
+async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0) {
+  const player = ensureUnlockedAudioPlayer();
+  if (myToken !== speechSeqToken || !player) {
+    throw new Error('AUDIO_UNAVAILABLE');
+  }
+
+  const tl = getGoogleTtsLangCode(lang);
+  const chunks = chunkTextForTTS(text, 180);
+  if (chunks.length === 0) {
+    if (onEnd) onEnd();
+    return;
+  }
+
+  return new Promise((resolve, reject) => {
+    let settled = false;
+
+    const clearPlayerHandlers = () => {
+      if (myToken !== speechSeqToken) return;
+      player.onended = null;
+      player.onerror = null;
+      player.onplaying = null;
+      player.oncanplaythrough = null;
+      if (activeAudio === player) {
+        activeAudio = null;
+      }
+    };
+
+    const playChunk = (idx) => {
+      if (myToken !== speechSeqToken) return;
+      const chunkUrl = buildGoogleTtsUrl(chunks[idx], tl);
+
+      player.onended = null;
+      player.onerror = null;
+      player.onplaying = null;
+      player.oncanplaythrough = null;
+      player.referrerPolicy = 'no-referrer';
+      player.volume = 1.0;
+      player.playbackRate = typeof rate === 'number' ? rate : 1.0;
+      player.src = chunkUrl;
+      activeAudio = player;
+      activeObjectUrl = null;
+
+      player.onplaying = () => {
+        if (myToken !== speechSeqToken) return;
+        if (!settled) {
+          settled = true;
+          resolve();
+        }
+        if (idx + 1 < chunks.length) {
+          if (preloadedStreamAudio) {
+            try {
+              preloadedStreamAudio.pause();
+            } catch {
+              // ignore
+            }
+          }
+          const preloader = new Audio();
+          preloader.preload = 'auto';
+          preloader.referrerPolicy = 'no-referrer';
+          preloader.src = buildGoogleTtsUrl(chunks[idx + 1], tl);
+          try {
+            preloader.load();
+          } catch {
+            // ignore
+          }
+          preloadedStreamAudio = preloader;
+        }
+      };
+
+      player.onended = () => {
+        if (myToken !== speechSeqToken) return;
+        if (idx + 1 < chunks.length) {
+          if (!settled) {
+            settled = true;
+            resolve();
+          }
+          playChunk(idx + 1);
+          return;
+        }
+        clearPlayerHandlers();
+        if (!settled) {
+          settled = true;
+          resolve();
+        }
+        if (onEnd) onEnd();
+      };
+
+      player.onerror = () => {
+        if (myToken !== speechSeqToken) return;
+        clearPlayerHandlers();
+        if (!settled) {
+          settled = true;
+          reject(new Error('GOOGLE_TTS_STREAM_ERROR'));
+          return;
+        }
+        if (onEnd) onEnd();
+      };
+
+      const p = player.play();
+      if (p !== undefined) {
+        p.catch((err) => {
+          if (myToken !== speechSeqToken) return;
+          clearPlayerHandlers();
+          if (!settled) {
+            settled = true;
+            reject(err);
+            return;
+          }
+          if (onEnd) onEnd();
+        });
+      }
+    };
+
+    playChunk(0);
+  });
+}
+
 async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
+  const audio = ensureUnlockedAudioPlayer();
   if (
     myToken !== speechSeqToken ||
-    typeof Audio === 'undefined' ||
+    !audio ||
     typeof URL === 'undefined' ||
     typeof URL.createObjectURL !== 'function'
   ) {
@@ -850,9 +1150,14 @@ async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
 
   const objUrl = URL.createObjectURL(wavBlob);
   activeObjectUrl = objUrl;
-  const audio = new Audio(objUrl);
+  audio.onended = null;
+  audio.onerror = null;
+  audio.onplaying = null;
+  audio.oncanplaythrough = null;
+  audio.referrerPolicy = 'no-referrer';
   audio.volume = 1.0;
   audio.playbackRate = typeof rate === 'number' ? rate : 1.0;
+  audio.src = objUrl;
   activeAudio = audio;
 
   return new Promise((resolve, reject) => {
@@ -866,8 +1171,12 @@ async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
         }
         activeObjectUrl = null;
       }
-      if (activeAudio === audio) {
-        activeAudio = null;
+      if (myToken === speechSeqToken) {
+        audio.onended = null;
+        audio.onerror = null;
+        if (activeAudio === audio) {
+          activeAudio = null;
+        }
       }
     };
 
@@ -934,6 +1243,13 @@ async function speakWithGeminiOrFallback(
       const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
       if (myToken !== speechSeqToken) return;
       await playBlobAudio(wavBlob, myToken, onEnd, blobRate);
+      return;
+    } catch {
+      if (myToken !== speechSeqToken) return;
+    }
+
+    try {
+      await playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate);
       return;
     } catch {
       if (myToken !== speechSeqToken) return;

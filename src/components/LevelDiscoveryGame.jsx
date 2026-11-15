@@ -13,7 +13,14 @@ import {
   Target,
 } from 'lucide-react';
 import { DISCOVERY_STAGES } from '../data/dailyMissionsData';
-import { speakEnglish, stopSpeech, prefetchSpeech, unlockAudio } from '../utils/speech';
+import {
+  speakEnglish,
+  stopSpeech,
+  prefetchSpeech,
+  unlockAudio,
+  triggerHoverSpeech,
+  cancelHoverSpeech,
+} from '../utils/speech';
 import { playTap, playSuccess, playFanfare, playWobble } from '../utils/soundEffects';
 
 export default function LevelDiscoveryGame({
@@ -107,6 +114,7 @@ export default function LevelDiscoveryGame({
   const handleOptionSelect = (opt) => {
     if (!currentQuestion) return;
 
+    cancelHoverSpeech();
     unlockAudio();
 
     if (opt.isCorrect) {
@@ -306,7 +314,13 @@ export default function LevelDiscoveryGame({
           </div>
 
           {/* Question Prompt */}
-          <div className="bg-slate-50 rounded-2xl p-4 sm:p-6 border-2 border-slate-200 space-y-3">
+          <div
+            onPointerEnter={(e) =>
+              triggerHoverSpeech(currentQuestion.promptEn, { isMuted, pointerType: e.pointerType })
+            }
+            onPointerLeave={cancelHoverSpeech}
+            className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-4 sm:p-6 border-2 border-slate-200 hover:border-blue-300 transition space-y-3"
+          >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-start gap-3 sm:gap-4">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
@@ -380,6 +394,10 @@ export default function LevelDiscoveryGame({
               return (
                 <div
                   key={opt.id}
+                  onPointerEnter={(e) =>
+                    triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
+                  }
+                  onPointerLeave={cancelHoverSpeech}
                   onClick={() => handleOptionSelect(opt)}
                   className={`rounded-3xl p-5 sm:p-7 border-4 transition cursor-pointer flex flex-col justify-between gap-4 min-h-[150px] sm:min-h-[220px] ${cardStyle}`}
                 >

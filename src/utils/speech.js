@@ -1267,6 +1267,27 @@ async function speakWithGeminiOrFallback(
   playWebSpeech(clean, lang, myToken, onEnd, webRate);
 }
 
+let hoverSpeechTimer = null;
+
+export function cancelHoverSpeech() {
+  if (hoverSpeechTimer) {
+    clearTimeout(hoverSpeechTimer);
+    hoverSpeechTimer = null;
+  }
+}
+
+export function triggerHoverSpeech(
+  text,
+  { isMuted = false, pointerType = 'mouse', delayMs = 140 } = {}
+) {
+  cancelHoverSpeech();
+  if (isMuted || pointerType === 'touch' || !text) return;
+  hoverSpeechTimer = setTimeout(() => {
+    hoverSpeechTimer = null;
+    speakEnglish(text);
+  }, delayMs);
+}
+
 /**
  * Pronounce an English word or sentence (en-US) via Gemini Studio TTS first.
  */

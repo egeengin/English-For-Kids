@@ -13,7 +13,13 @@ import {
   DAILY_EXPEDITION_DAYS,
   getWorksheetQuestions,
 } from '../data/dailyMissionsData';
-import { speakEnglish, prefetchSpeech, unlockAudio } from '../utils/speech';
+import {
+  speakEnglish,
+  prefetchSpeech,
+  unlockAudio,
+  triggerHoverSpeech,
+  cancelHoverSpeech,
+} from '../utils/speech';
 import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
 
 export default function DailyMissionHub({
@@ -79,6 +85,7 @@ export default function DailyMissionHub({
   };
 
   const handleDailyQuizClick = (questionId, opt) => {
+    cancelHoverSpeech();
     unlockAudio();
     if (opt.isCorrect) {
       playSuccess(isMuted);
@@ -270,7 +277,13 @@ export default function DailyMissionHub({
                         <button
                           key={phrase}
                           type="button"
+                          onPointerEnter={(e) =>
+                            triggerHoverSpeech(phrase, { isMuted, pointerType: e.pointerType })
+                          }
+                          onPointerLeave={cancelHoverSpeech}
                           onClick={() => {
+                            cancelHoverSpeech();
+                            unlockAudio();
                             speakEnglish(phrase);
                           }}
                           className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-[11px] hover:bg-blue-600 hover:text-white transition cursor-pointer"
@@ -358,7 +371,13 @@ export default function DailyMissionHub({
                 key={q.id}
                 className="rounded-2xl p-4 sm:p-5 border-2 border-slate-200 bg-slate-50 space-y-3"
               >
-                <div className="flex items-start justify-between gap-2">
+                <div
+                  onPointerEnter={(e) =>
+                    triggerHoverSpeech(q.promptEn, { isMuted, pointerType: e.pointerType })
+                  }
+                  onPointerLeave={cancelHoverSpeech}
+                  className="flex items-start justify-between gap-2 rounded-xl p-1 -m-1 hover:bg-blue-50/70 transition"
+                >
                   <div className="text-sm sm:text-lg font-display font-black text-slate-900 leading-snug">
                     <span className="text-blue-700 mr-1">{qIdx + 1}.</span>
                     <span>{q.characterEmoji} {q.promptEn}</span>
@@ -366,6 +385,8 @@ export default function DailyMissionHub({
                   <button
                     type="button"
                     onClick={() => {
+                      cancelHoverSpeech();
+                      unlockAudio();
                       speakEnglish(q.promptEn);
                     }}
                     className="p-2 rounded-xl bg-white border border-slate-300 text-blue-700 flex-shrink-0 cursor-pointer"
@@ -392,6 +413,10 @@ export default function DailyMissionHub({
                       <button
                         key={opt.id}
                         type="button"
+                        onPointerEnter={(e) =>
+                          triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
+                        }
+                        onPointerLeave={cancelHoverSpeech}
                         onClick={() => handleDailyQuizClick(q.id, opt)}
                         className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm sm:text-base font-bold flex items-center justify-between gap-2 transition cursor-pointer ${cls}`}
                       >

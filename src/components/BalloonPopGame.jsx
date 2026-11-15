@@ -1,248 +1,592 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Volume2,
   Sparkles,
   RotateCcw,
-  Trophy,
-  ArrowRight,
   Wrench,
-  HelpCircle,
-  Play,
+  ArrowRight,
+  Repeat,
 } from 'lucide-react';
-import { CURRICULUM_LEVELS } from '../data/curriculum';
-import { speakEnglish, speakGerman, speakTurkish, speakEncouragement } from '../utils/speech';
-import { playSnap, playVictoryFanfare, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+import {
+  speakEnglish,
+  speakGerman,
+  speakTurkish,
+  stopSpeech,
+  unlockAudio,
+  triggerHoverSpeech,
+  cancelHoverSpeech,
+} from '../utils/speech';
+import {
+  playSnap,
+  playVictoryFanfare,
+  playStarSparkle,
+  playGentleWobble,
+  playTap,
+} from '../utils/soundEffects';
 
-// Flattened pool of child-friendly words for Balloon Pop
-const BALLOON_POOL = [
-  { id: 'red', word: 'Red', emoji: '🔴', color: 'bg-red-500 border-red-700', de: 'Rot', tr: 'Kırmızı' },
-  { id: 'blue', word: 'Blue', emoji: '🔵', color: 'bg-blue-500 border-blue-700', de: 'Blau', tr: 'Mavi' },
-  { id: 'yellow', word: 'Yellow', emoji: '🟡', color: 'bg-yellow-400 border-yellow-600', de: 'Gelb', tr: 'Sarı' },
-  { id: 'green', word: 'Green', emoji: '🟢', color: 'bg-green-500 border-green-700', de: 'Grün', tr: 'Yeşil' },
-  { id: 'dog', word: 'Dog', emoji: '🐶', color: 'bg-amber-500 border-amber-700', de: 'Hund', tr: 'Köpek' },
-  { id: 'cat', word: 'Cat', emoji: '🐱', color: 'bg-orange-500 border-orange-700', de: 'Katze', tr: 'Kedi' },
-  { id: 'lion', word: 'Lion', emoji: '🦁', color: 'bg-yellow-500 border-yellow-700', de: 'Löwe', tr: 'Aslan' },
-  { id: 'car', word: 'Car', emoji: '🚗', color: 'bg-red-600 border-red-800', de: 'Auto', tr: 'Araba' },
-  { id: 'airplane', word: 'Airplane', emoji: '✈️', color: 'bg-sky-500 border-sky-700', de: 'Flugzeug', tr: 'Uçak' },
-  { id: 'train', word: 'Train', emoji: '🚂', color: 'bg-purple-500 border-purple-700', de: 'Zug', tr: 'Tren' },
-  { id: 'rocket', word: 'Rocket', emoji: '🚀', color: 'bg-rose-500 border-rose-700', de: 'Rakete', tr: 'Roket' },
-  { id: 'star', word: 'Star', emoji: '⭐', color: 'bg-amber-400 border-amber-600', de: 'Stern', tr: 'Yıldız' },
-  { id: 'backpack', word: 'Backpack', emoji: '🎒', color: 'bg-blue-600 border-blue-800', de: 'Rucksack', tr: 'Sırt Çantası' },
-  { id: 'clock', word: 'Clock', emoji: '⏰', color: 'bg-red-500 border-red-700', de: 'Uhr', tr: 'Saat' },
-  { id: 'apple', word: 'Apple', emoji: '🍎', color: 'bg-emerald-500 border-emerald-700', de: 'Apfel', tr: 'Elma' },
+// Rich comprehension + vocabulary challenges for 7-year-old learners
+const BALLOON_CHALLENGES = [
+  {
+    id: 'cat',
+    word: 'Cat',
+    emoji: '🐱',
+    color: 'bg-orange-500 border-orange-700',
+    de: 'Katze',
+    tr: 'Kedi',
+    questionEn: 'Which cute pet says "Meow, meow"?',
+    repeatPhrase: 'A cat says meow!',
+  },
+  {
+    id: 'dog',
+    word: 'Dog',
+    emoji: '🐶',
+    color: 'bg-amber-500 border-amber-700',
+    de: 'Hund',
+    tr: 'Köpek',
+    questionEn: 'Which friendly animal says "Woof, woof" and loves bones?',
+    repeatPhrase: 'A dog says woof!',
+  },
+  {
+    id: 'lion',
+    word: 'Lion',
+    emoji: '🦁',
+    color: 'bg-yellow-500 border-yellow-700',
+    de: 'Löwe',
+    tr: 'Aslan',
+    questionEn: 'Who is the loud king of the jungle?',
+    repeatPhrase: 'The lion is the king!',
+  },
+  {
+    id: 'seven',
+    word: 'Seven',
+    emoji: '7️⃣',
+    color: 'bg-indigo-500 border-indigo-700',
+    de: 'Sieben',
+    tr: 'Yedi',
+    questionEn: 'Count carefully: five plus two equals what number?',
+    repeatPhrase: 'Five plus two is seven!',
+  },
+  {
+    id: 'airplane',
+    word: 'Airplane',
+    emoji: '✈️',
+    color: 'bg-sky-500 border-sky-700',
+    de: 'Flugzeug',
+    tr: 'Uçak',
+    questionEn: 'Which machine flies high above the clouds?',
+    repeatPhrase: 'An airplane flies in the sky!',
+  },
+  {
+    id: 'rocket',
+    word: 'Rocket',
+    emoji: '🚀',
+    color: 'bg-rose-500 border-rose-700',
+    de: 'Rakete',
+    tr: 'Roket',
+    questionEn: 'Which fast ship blasts off to the moon and stars?',
+    repeatPhrase: 'A rocket goes to space!',
+  },
+  {
+    id: 'train',
+    word: 'Train',
+    emoji: '🚂',
+    color: 'bg-purple-500 border-purple-700',
+    de: 'Zug',
+    tr: 'Tren',
+    questionEn: 'Which long vehicle rides on iron tracks and says "Choo-choo"?',
+    repeatPhrase: 'The train goes on the tracks!',
+  },
+  {
+    id: 'apple',
+    word: 'Apple',
+    emoji: '🍎',
+    color: 'bg-emerald-500 border-emerald-700',
+    de: 'Apfel',
+    tr: 'Elma',
+    questionEn: 'Which sweet crunchy red fruit grows on trees?',
+    repeatPhrase: 'I like red apples!',
+  },
+  {
+    id: 'banana',
+    word: 'Banana',
+    emoji: '🍌',
+    color: 'bg-yellow-400 border-yellow-600',
+    de: 'Banane',
+    tr: 'Muz',
+    questionEn: 'Which long yellow fruit do monkeys love to eat?',
+    repeatPhrase: 'Monkeys love yellow bananas!',
+  },
+  {
+    id: 'backpack',
+    word: 'Backpack',
+    emoji: '🎒',
+    color: 'bg-blue-600 border-blue-800',
+    de: 'Rucksack',
+    tr: 'Sırt Çantası',
+    questionEn: 'What do you wear on your back to carry books to school?',
+    repeatPhrase: 'I carry my backpack to school!',
+  },
+  {
+    id: 'clock',
+    word: 'Clock',
+    emoji: '⏰',
+    color: 'bg-red-500 border-red-700',
+    de: 'Uhr',
+    tr: 'Saat',
+    questionEn: 'What tells you the time when you wake up in the morning?',
+    repeatPhrase: 'The clock tells the time!',
+  },
+  {
+    id: 'star',
+    word: 'Star',
+    emoji: '⭐',
+    color: 'bg-amber-400 border-amber-600',
+    de: 'Stern',
+    tr: 'Yıldız',
+    questionEn: 'Which bright yellow shape shines in the night sky?',
+    repeatPhrase: 'A golden star shines at night!',
+  },
+  {
+    id: 'triangle',
+    word: 'Triangle',
+    emoji: '🔺',
+    color: 'bg-red-600 border-red-800',
+    de: 'Dreieck',
+    tr: 'Üçgen',
+    questionEn: 'Which red shape has exactly three corners and three sides?',
+    repeatPhrase: 'A triangle has three sides!',
+  },
+  {
+    id: 'blue',
+    word: 'Blue',
+    emoji: '🔵',
+    color: 'bg-blue-500 border-blue-700',
+    de: 'Blau',
+    tr: 'Mavi',
+    questionEn: 'What color is the clear daytime sky and the deep ocean?',
+    repeatPhrase: 'The sky is blue!',
+  },
+  {
+    id: 'green',
+    word: 'Green',
+    emoji: '🟢',
+    color: 'bg-green-500 border-green-700',
+    de: 'Grün',
+    tr: 'Yeşil',
+    questionEn: 'What color are fresh leaves on trees and grass in the park?',
+    repeatPhrase: 'The grass is green!',
+  },
+  {
+    id: 'cake',
+    word: 'Cake',
+    emoji: '🎂',
+    color: 'bg-pink-500 border-pink-700',
+    de: 'Kuchen',
+    tr: 'Pasta',
+    questionEn: 'What sweet treat has candles on top for your birthday?',
+    repeatPhrase: 'Happy birthday! Let us eat cake!',
+  },
+  {
+    id: 'bricks',
+    word: 'Bricks',
+    emoji: '🧱',
+    color: 'bg-orange-600 border-orange-800',
+    de: 'Bausteine',
+    tr: 'Lego Parçaları',
+    questionEn: 'What colorful blocks do we snap together to build tall towers?',
+    repeatPhrase: 'I build towers with Lego bricks!',
+  },
+  {
+    id: 'bicycle',
+    word: 'Bicycle',
+    emoji: '🚲',
+    color: 'bg-teal-500 border-teal-700',
+    de: 'Fahrrad',
+    tr: 'Bisiklet',
+    questionEn: 'Which fun ride has two wheels and pedals you push with your feet?',
+    repeatPhrase: 'I can ride my bicycle!',
+  },
 ];
 
-const TOTAL_ROUNDS = 6;
+const INITIAL_ROUNDS = 8;
+
+function shuffleArray(list) {
+  const arr = [...list];
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildRoundOptions(target) {
+  const others = shuffleArray(BALLOON_CHALLENGES.filter((b) => b.id !== target.id));
+  return shuffleArray([target, others[0], others[1]]);
+}
+
+function createInitialDeck() {
+  return shuffleArray(BALLOON_CHALLENGES)
+    .slice(0, INITIAL_ROUNDS)
+    .map((item) => ({ item, isReview: false }));
+}
 
 export default function BalloonPopGame({
   onRewardEarned,
   onNavigateToWorkshop,
   isMuted = false,
 }) {
-  const [currentRound, setCurrentRound] = useState(1);
+  const [deck, setDeck] = useState(() => createInitialDeck());
+  const [roundIdx, setRoundIdx] = useState(0);
   const [score, setScore] = useState(0);
-  const [targetItem, setTargetItem] = useState(null);
-  const [options, setOptions] = useState([]);
-  const [poppedIds, setPoppedIds] = useState(new Set());
+  const [options, setOptions] = useState(() => buildRoundOptions(deck[0].item));
+  const [poppedIds, setPoppedIds] = useState(() => new Set());
+  const [isRoundLocked, setIsRoundLocked] = useState(false);
+  const [echoPhrase, setEchoPhrase] = useState(null);
+  const [wrongCountInRound, setWrongCountInRound] = useState(0);
+  const [missedIdsQueued, setMissedIdsQueued] = useState(() => new Set());
   const [isGameOver, setIsGameOver] = useState(false);
   const [wobbleId, setWobbleId] = useState(null);
 
-  // Setup a new round with 3 balloons (1 target, 2 distractors)
-  const setupRound = (roundNum) => {
-    // Pick target randomly
-    const targetIdx = Math.floor(Math.random() * BALLOON_POOL.length);
-    const target = BALLOON_POOL[targetIdx];
+  const advanceTimerRef = useRef(null);
+  const promptTimerRef = useRef(null);
+  const wobbleTimerRef = useRef(null);
 
-    // Pick 2 distinct distractors
-    const poolWithoutTarget = BALLOON_POOL.filter(b => b.id !== target.id);
-    const shuffledDistractors = [...poolWithoutTarget].sort(() => 0.5 - Math.random());
-    const distractors = shuffledDistractors.slice(0, 2);
+  const currentEntry = deck[roundIdx] || null;
+  const targetItem = currentEntry ? currentEntry.item : null;
+  const totalRounds = deck.length;
 
-    // Shuffle options
-    const roundOptions = [target, ...distractors].sort(() => 0.5 - Math.random());
-
-    setTargetItem(target);
-    setOptions(roundOptions);
-    setPoppedIds(new Set());
-    setWobbleId(null);
-
-    // Speak target prompt
-    if (!isMuted) {
-      setTimeout(() => {
-        speakEnglish(target.id);
-      }, 300);
+  const clearPendingTimers = useCallback(() => {
+    if (advanceTimerRef.current) {
+      clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
     }
-  };
+    if (promptTimerRef.current) {
+      clearTimeout(promptTimerRef.current);
+      promptTimerRef.current = null;
+    }
+    if (wobbleTimerRef.current) {
+      clearTimeout(wobbleTimerRef.current);
+      wobbleTimerRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
-    setupRound(currentRound);
-  }, [currentRound]);
+    return () => {
+      clearPendingTimers();
+      cancelHoverSpeech();
+      stopSpeech();
+    };
+  }, [clearPendingTimers]);
 
-  // Handle clicking a balloon
+  // Speak question cleanly whenever round changes
+  useEffect(() => {
+    if (isGameOver || !targetItem) return undefined;
+    if (promptTimerRef.current) clearTimeout(promptTimerRef.current);
+
+    if (!isMuted) {
+      promptTimerRef.current = setTimeout(() => {
+        speakEnglish(targetItem.questionEn);
+      }, 260);
+    }
+
+    return () => {
+      if (promptTimerRef.current) {
+        clearTimeout(promptTimerRef.current);
+        promptTimerRef.current = null;
+      }
+    };
+  }, [roundIdx, isGameOver, targetItem, isMuted]);
+
+  const finishOrAdvanceRound = useCallback(
+    (nextIndex, activeDeckLength) => {
+      clearPendingTimers();
+      if (nextIndex >= activeDeckLength) {
+        setIsGameOver(true);
+        setEchoPhrase(null);
+        setIsRoundLocked(false);
+        playVictoryFanfare(isMuted);
+        confetti({
+          particleCount: 100,
+          spread: 90,
+          origin: { y: 0.5 },
+        });
+        if (onRewardEarned) {
+          onRewardEarned({ stars: 5, bricks: 3 });
+        }
+        return;
+      }
+
+      const nextEntry = deck[nextIndex];
+      setRoundIdx(nextIndex);
+      setOptions(buildRoundOptions(nextEntry.item));
+      setPoppedIds(new Set());
+      setEchoPhrase(null);
+      setWrongCountInRound(0);
+      setWobbleId(null);
+      setIsRoundLocked(false);
+    },
+    [clearPendingTimers, deck, isMuted, onRewardEarned]
+  );
+
   const handleBalloonClick = (item) => {
+    if (!targetItem || isRoundLocked || poppedIds.has(item.id)) return;
+
+    cancelHoverSpeech();
+    unlockAudio();
     playSnap(isMuted);
 
     if (item.id === targetItem.id) {
-      // Correct balloon!
+      setIsRoundLocked(true);
       playStarSparkle(isMuted);
+
       const newPopped = new Set(poppedIds);
       newPopped.add(item.id);
       setPoppedIds(newPopped);
-      setScore(prev => prev + 1);
+      setScore((prev) => prev + 1);
+      setEchoPhrase(targetItem.repeatPhrase);
 
-      // Reward 1 brick
       if (onRewardEarned) {
         onRewardEarned({ stars: 1, bricks: 1 });
       }
 
-      // Small confetti pop
       confetti({
-        particleCount: 40,
-        spread: 60,
+        particleCount: 45,
+        spread: 65,
         origin: { y: 0.6 },
       });
 
-      // Spoken encouragement
-      if (!isMuted) {
-        setTimeout(() => {
-          speakEncouragement('en');
-        }, 350);
-      }
+      const nextIdx = roundIdx + 1;
+      const currentDeckLen = deck.length;
+      const moveNext = () => finishOrAdvanceRound(nextIdx, currentDeckLen);
 
-      // Advance round after short animation
-      setTimeout(() => {
-        if (currentRound >= TOTAL_ROUNDS) {
-          setIsGameOver(true);
-          playVictoryFanfare(isMuted);
-          confetti({
-            particleCount: 100,
-            spread: 90,
-            origin: { y: 0.5 },
-          });
-          if (onRewardEarned) {
-            onRewardEarned({ stars: 5, bricks: 3 });
+      if (!isMuted) {
+        // Safety fallback so round never stalls if speech fails to fire onEnd
+        advanceTimerRef.current = setTimeout(moveNext, 4800);
+        speakEnglish(`Great job! ${targetItem.repeatPhrase}`, () => {
+          if (advanceTimerRef.current) {
+            clearTimeout(advanceTimerRef.current);
+            advanceTimerRef.current = setTimeout(moveNext, 650);
           }
-        } else {
-          setCurrentRound(prev => prev + 1);
-        }
-      }, 1000);
-
-    } else {
-      // Wrong balloon: gentle bounce without penalty
-      playGentleWobble(isMuted);
-      setWobbleId(item.id);
-      setTimeout(() => setWobbleId(null), 600);
-
-      // Repeat target audio gently
-      if (!isMuted) {
-        speakEnglish(targetItem.id);
+        });
+      } else {
+        advanceTimerRef.current = setTimeout(moveNext, 1300);
       }
+      return;
+    }
+
+    // Wrong balloon: gentle wobble, teach the clicked word, and schedule spaced review
+    playGentleWobble(isMuted);
+    setWobbleId(item.id);
+    if (wobbleTimerRef.current) clearTimeout(wobbleTimerRef.current);
+    wobbleTimerRef.current = setTimeout(() => setWobbleId(null), 550);
+
+    setWrongCountInRound((prev) => prev + 1);
+
+    if (!currentEntry?.isReview && !missedIdsQueued.has(targetItem.id)) {
+      const nextQueued = new Set(missedIdsQueued);
+      nextQueued.add(targetItem.id);
+      setMissedIdsQueued(nextQueued);
+      setDeck((prev) => [...prev, { item: targetItem, isReview: true }]);
+    }
+
+    if (!isMuted) {
+      speakEnglish(`That is ${item.word}! ${targetItem.questionEn}`);
     }
   };
 
   const handleRestartGame = () => {
+    clearPendingTimers();
+    cancelHoverSpeech();
+    unlockAudio();
     playTap(isMuted);
+    const freshDeck = createInitialDeck();
+    setDeck(freshDeck);
+    setRoundIdx(0);
     setScore(0);
-    setCurrentRound(1);
+    setOptions(buildRoundOptions(freshDeck[0].item));
+    setPoppedIds(new Set());
+    setIsRoundLocked(false);
+    setEchoPhrase(null);
+    setWrongCountInRound(0);
+    setMissedIdsQueued(new Set());
+    setWobbleId(null);
     setIsGameOver(false);
   };
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
-      
       {/* Header Bar */}
-      <div className="w-full flex items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 mb-4 bg-white p-3 sm:p-4 rounded-2xl shadow-md border-4 border-rose-400">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl shadow-md border-2 border-rose-600">
             🎈
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 className="font-display font-black text-lg sm:text-xl text-slate-800">
                 Lego Balloon Pop!
               </h2>
               <span className="bg-rose-100 text-rose-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-rose-300 uppercase">
-                Playlearning™
+                Dinle • Bul • Tekrar Et
               </span>
+              {currentEntry?.isReview && !isGameOver && (
+                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 text-[11px] font-black px-2.5 py-0.5 rounded-full border border-amber-400">
+                  <Repeat className="w-3 h-3" />
+                  <span>Tekrar Turu</span>
+                </span>
+              )}
             </div>
             <p className="text-xs font-bold text-slate-500">
-              Listen to the word and pop the right floating Lego balloon!
+              Soruyu dinle, doğru balonu patlat ve cümleyi tekrar et! Üstüne gelince sesli okur.
             </p>
           </div>
         </div>
 
         {/* Score & Round Pill */}
         <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
+            <span>Skor: {score}</span>
+          </div>
           <div className="flex items-center gap-1.5 bg-yellow-400/20 text-yellow-800 border border-yellow-400/50 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
-            <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
-            <span>Round {currentRound} / {TOTAL_ROUNDS}</span>
+            <Sparkles className="w-4 h-4 text-yellow-500" />
+            <span>
+              Tur {Math.min(roundIdx + 1, totalRounds)} / {totalRounds}
+            </span>
           </div>
 
           <button
+            type="button"
             onClick={handleRestartGame}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition-all"
-            title="Restart Balloon Pop"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition-all cursor-pointer"
+            title="Oyunu Yeniden Başlat"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Target Word Speaker Card */}
+      {/* Question Prompt Banner (Hover or Click to Listen) */}
       {targetItem && !isGameOver && (
-        <div className="w-full bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-slate-800 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          
+        <div
+          onPointerEnter={(e) =>
+            triggerHoverSpeech(targetItem.questionEn, {
+              isMuted,
+              pointerType: e.pointerType,
+            })
+          }
+          onPointerLeave={cancelHoverSpeech}
+          className="w-full bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-slate-800 mb-4 flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
           <div className="flex items-center gap-4">
             <button
-              onClick={() => speakEnglish(targetItem.id)}
+              type="button"
+              onClick={() => {
+                cancelHoverSpeech();
+                unlockAudio();
+                speakEnglish(targetItem.questionEn);
+              }}
               className="w-14 h-14 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 flex items-center justify-center shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer"
-              title="Replay word pronunciation"
+              title="Soruyu Dinle"
             >
-              <Volume2 className="w-7 h-7 animate-pulse" />
+              <Volume2 className="w-7 h-7" />
             </button>
 
             <div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
-                Pop the matching balloon:
+              <span className="text-xs font-bold text-yellow-300/90 uppercase tracking-wider block">
+                {currentEntry?.isReview
+                  ? '🔁 Tekrar Zamanı! Doğru balonu bul:'
+                  : '🎯 Soruyu dinle ve doğru balonu patlat:'}
               </span>
-              <span className="font-display font-black text-3xl sm:text-4xl text-yellow-300 tracking-wide">
-                {targetItem.word}
-              </span>
+              <p className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-white leading-snug mt-0.5">
+                {targetItem.questionEn}
+              </p>
             </div>
           </div>
 
-          {/* Bilingual Helpers */}
-          <div className="flex items-center gap-2">
+          {/* Bilingual Helper Pills (appear gently or on tap) */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button
-              onClick={() => speakGerman(targetItem.de)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700"
-              title="Hear in German"
+              type="button"
+              onClick={() => {
+                cancelHoverSpeech();
+                unlockAudio();
+                speakGerman(targetItem.de);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
+              title="Almanca İpucu"
             >
               <span>🇩🇪</span>
-              <span>{targetItem.de}</span>
+              <span>{wrongCountInRound > 0 ? targetItem.de : 'İpucu'}</span>
             </button>
             <button
-              onClick={() => speakTurkish(targetItem.tr)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700"
-              title="Hear in Turkish"
+              type="button"
+              onClick={() => {
+                cancelHoverSpeech();
+                unlockAudio();
+                speakTurkish(targetItem.tr);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
+              title="Türkçe İpucu"
             >
               <span>🇹🇷</span>
-              <span>{targetItem.tr}</span>
+              <span>{wrongCountInRound > 0 ? targetItem.tr : 'İpucu'}</span>
             </button>
           </div>
+        </div>
+      )}
 
+      {/* Repeat-After-Me Echo Banner when Balloon Pops */}
+      {echoPhrase && !isGameOver && (
+        <div className="w-full mb-4 bg-emerald-50 border-4 border-emerald-400 rounded-2xl p-3.5 sm:p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">🗣️</span>
+            <div>
+              <div className="text-xs font-black text-emerald-700 uppercase">
+                Süper! Şimdi sesli tekrar et:
+              </div>
+              <div className="font-display font-black text-lg sm:text-2xl text-emerald-950">
+                “{echoPhrase}”
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                unlockAudio();
+                speakEnglish(echoPhrase);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border-2 border-emerald-300 text-emerald-800 font-black text-xs hover:bg-emerald-100 cursor-pointer"
+            >
+              <Volume2 className="w-4 h-4" />
+              <span>Tekrar Dinle</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => finishOrAdvanceRound(roundIdx + 1, totalRounds)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs shadow-sm cursor-pointer"
+            >
+              <span>Sonraki Balon</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
 
       {/* Balloon Play Sky Area */}
       {!isGameOver && (
-        <div className="w-full min-h-[52vh] sm:min-h-[60vh] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-50 rounded-3xl border-4 border-slate-300 shadow-inner relative overflow-hidden flex items-center justify-around px-4">
-          
+        <div className="w-full flex-1 min-h-[48vh] sm:min-h-[54vh] bg-gradient-to-b from-sky-200 via-sky-100 to-amber-50 rounded-3xl border-4 border-slate-300 shadow-inner relative overflow-hidden flex items-center justify-around px-3 sm:px-8 py-6">
           {/* Subtle clouds in background */}
-          <div className="absolute top-6 left-10 text-4xl opacity-50 select-none">☁️</div>
-          <div className="absolute top-16 right-16 text-5xl opacity-40 select-none">☁️</div>
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 text-3xl opacity-30 select-none">☁️</div>
+          <div className="pointer-events-none absolute top-6 left-10 text-4xl opacity-50 select-none">
+            ☁️
+          </div>
+          <div className="pointer-events-none absolute top-14 right-14 text-5xl opacity-40 select-none">
+            ☁️
+          </div>
+          <div className="pointer-events-none absolute top-3 left-1/2 -translate-x-1/2 text-3xl opacity-30 select-none">
+            ☁️
+          </div>
 
           {/* 3 Floating Balloons */}
           {options.map((balloon, idx) => {
@@ -253,10 +597,12 @@ export default function BalloonPopGame({
               return (
                 <div
                   key={balloon.id}
-                  className="flex flex-col items-center animate-ping"
+                  className="w-32 sm:w-40 flex flex-col items-center justify-center animate-balloon-pop pointer-events-none"
                 >
-                  <span className="text-5xl">💥</span>
-                  <span className="font-display font-black text-xs text-yellow-600">+1 🧱</span>
+                  <span className="text-6xl">💥</span>
+                  <span className="font-display font-black text-sm text-emerald-700 mt-1">
+                    +1 🧱
+                  </span>
                 </div>
               );
             }
@@ -264,84 +610,95 @@ export default function BalloonPopGame({
             return (
               <button
                 key={balloon.id}
+                type="button"
+                onPointerEnter={(e) =>
+                  triggerHoverSpeech(balloon.word, {
+                    isMuted,
+                    pointerType: e.pointerType,
+                  })
+                }
+                onPointerLeave={cancelHoverSpeech}
                 onClick={() => handleBalloonClick(balloon)}
                 className={`
-                  relative flex flex-col items-center justify-center cursor-pointer transition-transform duration-300 active:scale-95
-                  ${isWobbling ? 'animate-wiggle' : 'hover:scale-105'}
+                  relative flex flex-col items-center justify-center cursor-pointer transition-transform duration-200 active:scale-95
+                  ${isWobbling ? 'animate-wobble' : 'animate-balloon-float hover:scale-105'}
                 `}
                 style={{
-                  animation: `float ${2.5 + idx * 0.4}s ease-in-out infinite alternate`,
+                  animationDuration: isWobbling ? undefined : `${2.8 + idx * 0.45}s`,
+                  animationDelay: isWobbling ? undefined : `${idx * 0.35}s`,
                 }}
               >
                 {/* Balloon Top Oval with Lego Border */}
-                <div className={`
-                  w-28 h-36 sm:w-32 sm:h-40 rounded-[50%/60%_60%_40%_40%] shadow-xl border-4
-                  flex flex-col items-center justify-center p-3 relative
-                  ${balloon.color} text-white
-                `}>
+                <div
+                  className={`
+                    w-32 h-40 sm:w-40 sm:h-48 rounded-[50%/60%_60%_40%_40%] shadow-xl border-4
+                    flex flex-col items-center justify-center p-3 relative
+                    ${balloon.color} text-white
+                  `}
+                >
                   {/* Lego Stud on Balloon */}
-                  <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-4 h-2 bg-white/40 rounded-full" />
-                  
+                  <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-5 h-2.5 bg-white/40 rounded-full" />
+
                   {/* Big Emoji */}
-                  <span className="text-4xl sm:text-5xl drop-shadow-md mb-1">
+                  <span className="text-5xl sm:text-6xl drop-shadow-md mb-2">
                     {balloon.emoji}
                   </span>
 
                   {/* Word Label Capsule */}
-                  <div className="bg-white/95 text-slate-900 font-display font-black text-xs sm:text-sm px-2.5 py-0.5 rounded-full shadow-sm">
+                  <div className="bg-white/95 text-slate-900 font-display font-black text-sm sm:text-base px-3 py-0.5 rounded-full shadow-sm">
                     {balloon.word}
                   </div>
                 </div>
 
                 {/* Balloon Knot */}
-                <div className="w-3 h-3 bg-amber-800 rotate-45 -mt-1.5 rounded-xs" />
+                <div className="w-3.5 h-3.5 bg-amber-800 rotate-45 -mt-1.5 rounded-xs" />
 
                 {/* Balloon String */}
-                <div className="w-0.5 h-12 bg-slate-400/80 mt-0.5" />
+                <div className="w-0.5 h-14 bg-slate-400/80 mt-0.5" />
               </button>
             );
           })}
-
         </div>
       )}
 
       {/* Game Over / Victory Screen */}
       {isGameOver && (
-        <div className="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-slate-950 rounded-3xl shadow-xl p-6 mb-4 border-4 border-yellow-500 animate-bounce">
+        <div className="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-slate-950 rounded-3xl shadow-xl p-6 mb-4 border-4 border-yellow-500">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl bg-white text-4xl flex items-center justify-center shadow-md">
                 🏆
               </div>
               <div>
                 <h3 className="font-display font-black text-2xl text-slate-950">
-                  Super Pop Champion!
+                  Süper Balon Şampiyonu!
                 </h3>
-                <p className="text-xs font-bold text-slate-800">
-                  You popped all {TOTAL_ROUNDS} balloons! You earned +5 Stars ⭐ and +3 Lego Bricks 🧱!
+                <p className="text-sm font-bold text-slate-900">
+                  {totalRounds} turun tamamını başarıyla patlattın! +5 Yıldız ⭐ ve +3 Lego Parçası 🧱 kazandın!
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={handleRestartGame}
-                className="px-4 py-2.5 rounded-xl bg-slate-900 text-white font-display font-black text-xs shadow-md hover:bg-slate-800 transition-all cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-slate-900 text-white font-display font-black text-sm shadow-md hover:bg-slate-800 transition-all cursor-pointer"
               >
-                Play Again 🎈
+                Tekrar Oyna 🎈
               </button>
               <button
+                type="button"
                 onClick={onNavigateToWorkshop}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-display font-black text-xs shadow-md hover:bg-blue-700 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-display font-black text-sm shadow-md hover:bg-blue-700 transition-all cursor-pointer"
               >
                 <Wrench className="w-4 h-4" />
-                <span>Build in Workshop</span>
+                <span>Atölyede İnşa Et</span>
               </button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 }

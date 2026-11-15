@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lego-english-v3';
+const CACHE_NAME = 'lego-english-v4';
 
 // Static app shell files to cache on install
 const PRECACHE_ASSETS = [
@@ -28,6 +28,9 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) {
+    return;
+  }
 
   // Audio and media assets: cache-first for smooth, instant offline play
   if (

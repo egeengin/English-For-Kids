@@ -1057,13 +1057,14 @@ async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0) {
       player.oncanplaythrough = null;
       player.referrerPolicy = 'no-referrer';
       player.volume = 1.0;
-      player.playbackRate = typeof rate === 'number' ? rate : 1.0;
       player.src = chunkUrl;
+      player.playbackRate = typeof rate === 'number' ? rate : 1.0;
       activeAudio = player;
       activeObjectUrl = null;
 
       player.onplaying = () => {
         if (myToken !== speechSeqToken) return;
+        player.playbackRate = typeof rate === 'number' ? rate : 1.0;
         if (!settled) {
           settled = true;
           resolve();

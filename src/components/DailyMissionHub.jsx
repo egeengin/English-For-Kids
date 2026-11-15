@@ -476,7 +476,7 @@ export default function DailyMissionHub({
       <DailySingLearn key={activeDay.id} dayId={activeDay.id} isMuted={isMuted} />
 
       {/* Daily Interactive Step-by-Step + Printable Quiz */}
-      <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-md border-2 border-slate-200 space-y-4">
+      <div id="daily-step-quiz" className="bg-white rounded-3xl p-4 sm:p-6 shadow-md border-2 border-slate-200 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h2 className="text-base sm:text-lg font-display font-black text-slate-900">

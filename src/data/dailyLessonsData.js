@@ -7,7 +7,7 @@ export const DAY_LESSONS = {
       videoId: 'YCf-PGu55Nc',
       title: 'Do You Like Broccoli Ice Cream? (Super Simple Songs)',
       start: 10,
-      end: 70,
+      end: 48,
     },
     chantLines: [
       { emoji: '🍎', en: 'Do you like apples? Yes, I do!', tr: 'Elma sever misin? Evet, severim!' },
@@ -78,7 +78,7 @@ export const DAY_LESSONS = {
       videoId: '_Ir0Mc6Qilo',
       title: 'Yes, I Can! Animal Song (Super Simple Songs)',
       start: 8,
-      end: 68,
+      end: 46,
     },
     chantLines: [
       { emoji: '🦘', en: 'I can jump! Jump, jump, jump!', tr: 'Zıplayabilirim! Zıpla, zıpla, zıpla!' },
@@ -149,7 +149,7 @@ export const DAY_LESSONS = {
       videoId: 'T2qXSMENrQA',
       title: 'Action Song (The Singing Walrus)',
       start: 12,
-      end: 72,
+      end: 50,
     },
     chantLines: [
       { emoji: '👏', en: 'Clap your hands, clap, clap, clap!', tr: 'Ellerini çırp, şak şak şak!' },
@@ -220,7 +220,7 @@ export const DAY_LESSONS = {
       videoId: 'MiMALONJUBY',
       title: 'Float or Sink Science Song (The Learning Station)',
       start: 15,
-      end: 75,
+      end: 53,
     },
     chantLines: [
       { emoji: '🧱', en: 'Drop a brick, does it sink or float?', tr: 'Tuğlayı bırak, batar mı yüzer mi?' },
@@ -291,7 +291,7 @@ export const DAY_LESSONS = {
       videoId: 'QYerFOnPxu8',
       title: 'In On Under Song (Busy Beavers)',
       start: 10,
-      end: 70,
+      end: 48,
     },
     chantLines: [
       { emoji: '📦', en: 'In the box, on the chair, under the bed!', tr: 'Kutunun içinde, sandalyenin üstünde, yatağın altında!' },
@@ -362,7 +362,7 @@ export const DAY_LESSONS = {
       videoId: '4XLQpRI_wOQ',
       title: 'This Is The Way (Super Simple Songs)',
       start: 8,
-      end: 68,
+      end: 46,
     },
     chantLines: [
       { emoji: '☀️', en: 'Wake up, brush your teeth, grab your bag!', tr: 'Uyan, dişlerini fırçala, çantanı al!' },
@@ -433,7 +433,7 @@ export const DAY_LESSONS = {
       videoId: 'l4WNrvVjiTw',
       title: "If You're Happy (Super Simple Songs)",
       start: 8,
-      end: 68,
+      end: 46,
     },
     chantLines: [
       { emoji: '🐆', en: 'A cheetah is faster than a turtle!', tr: 'Çita kaplumbağadan daha hızlıdır!' },

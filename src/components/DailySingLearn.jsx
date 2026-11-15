@@ -214,6 +214,23 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
               allowFullScreen
             />
           </div>
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <span className="text-xs font-semibold text-indigo-200">
+              ⏱️ {lesson.youtubeClip.end - lesson.youtubeClip.start} saniyelik kısa kesit
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                playSparkle(isMuted);
+                setShowVideo(false);
+                const el = document.getElementById('daily-step-quiz');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-display font-black text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95"
+            >
+              <span>✅ İzledim, Teste Geç ↓</span>
+            </button>
+          </div>
         </div>
       )}
 

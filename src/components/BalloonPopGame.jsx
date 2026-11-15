@@ -9,8 +9,6 @@ import {
 } from 'lucide-react';
 import {
   speakEnglish,
-  speakGerman,
-  speakTurkish,
   stopSpeech,
   unlockAudio,
   triggerHoverSpeech,
@@ -482,34 +480,6 @@ export default function BalloonPopGame({
           </div>
 
           {/* Bilingual Helper Pills (appear gently or on tap) */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                cancelHoverSpeech();
-                unlockAudio();
-                speakGerman(targetItem.de);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
-              title="Almanca İpucu"
-            >
-              <span>🇩🇪</span>
-              <span>{wrongCountInRound > 0 ? targetItem.de : 'İpucu'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                cancelHoverSpeech();
-                unlockAudio();
-                speakTurkish(targetItem.tr);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
-              title="Türkçe İpucu"
-            >
-              <span>🇹🇷</span>
-              <span>{wrongCountInRound > 0 ? targetItem.tr : 'İpucu'}</span>
-            </button>
-          </div>
         </div>
       )}
 

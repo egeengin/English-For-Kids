@@ -9,7 +9,6 @@ import {
   Award,
   Type,
   Calendar,
-  Printer,
   Star,
   Radio,
 } from 'lucide-react';
@@ -21,7 +20,7 @@ export default function Navbar({
   stars = 0,
   isMuted = false,
   onToggleMute,
-  onOpenPrintable,
+  onOpenPrintable: _onOpenPrintable,
   onOpenWalkieTalkie,
   childName = 'Deniz',
 }) {
@@ -78,20 +77,6 @@ export default function Navbar({
               >
                 <Radio className="w-4 h-4 text-slate-900" />
                 <span>🎙️ Leo ile Konuş</span>
-              </button>
-            )}
-
-            {onOpenPrintable && (
-              <button
-                type="button"
-                onClick={() => {
-                  playTap(isMuted);
-                  onOpenPrintable();
-                }}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs sm:text-sm shadow-sm cursor-pointer transition"
-              >
-                <Printer className="w-4 h-4 text-yellow-300" />
-                <span>Test Yazdır</span>
               </button>
             )}
 

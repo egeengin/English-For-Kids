@@ -2,16 +2,16 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import confetti from 'canvas-confetti';
 import {
   Volume2,
-  Printer,
   CheckCircle2,
   Tv,
   ExternalLink,
   BookOpen,
-  Star,
   RotateCcw,
   ArrowRight,
   ArrowLeft,
   Play,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import {
   DAILY_EXPEDITION_DAYS,
@@ -34,9 +34,9 @@ export default function DailyMissionHub({
   dailyQuizAnswers = {},
   onSaveDailyQuizAnswer,
   onResetDailyQuizQuestions,
-  onOpenDiscoveryGame,
+  onOpenDiscoveryGame: _onOpenDiscoveryGame,
   onOpenStory,
-  onOpenPrintable,
+  onOpenPrintable: _onOpenPrintable,
   selectedDayId,
   onSelectDayId,
   isMuted = false,
@@ -50,6 +50,7 @@ export default function DailyMissionHub({
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(0);
   const [speakingTarget, setSpeakingTarget] = useState(null);
   const [isSlowMode, setIsSlowMode] = useState(false);
+  const [showParentGuide, setShowParentGuide] = useState(false);
   const [todayGoalCount, setTodayGoalCount] = useState(() => {
     try {
       const todayKey = new Date().toISOString().slice(0, 10);
@@ -227,47 +228,12 @@ export default function DailyMissionHub({
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 space-y-5 flex-1">
-      {/* Clean Day Selector & Print Bar */}
+      {/* Clean Day Selector Bar */}
       <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900">
-              🗺️ 14 Bölümlük Öğrenme Yolculuğu
-            </h1>
-            <p className="text-xs text-slate-500 font-semibold">
-              Her gün acele etmeden 10–15 dakika ilerle, istediğin zaman kağıt test yazdır!
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                if (onOpenPrintable) {
-                  onOpenPrintable({ mode: 'day', dayId: activeDay.id });
-                }
-              }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-yellow-300" />
-              <span>{activeDay.shortLabel} Testini Yazdır (10 Soru)</span>
-            </button>
-
-            {onOpenDiscoveryGame && (
-              <button
-                type="button"
-                onClick={() => {
-                  playTap(isMuted);
-                  onOpenDiscoveryGame();
-                }}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-xs cursor-pointer"
-              >
-                <Star className="w-3.5 h-3.5" />
-                <span>50 Soruluk Seviye Testi</span>
-              </button>
-            )}
-          </div>
+          <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900">
+            🗺️ 14 Bölüm
+          </h1>
         </div>
 
         {/* Daily Micro-Goal Bar */}
@@ -406,7 +372,7 @@ export default function DailyMissionHub({
           )}
         </div>
 
-        {/* 4 Key Words */}
+        {/* 4 Key Words — Icon & Audio First */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           {(activeDay.vocabFocus || []).map((v) => (
             <button
@@ -421,100 +387,116 @@ export default function DailyMissionHub({
                 unlockAudio();
                 speakEnglish(v.en);
               }}
-              className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-2xl p-4 sm:p-5 text-left transition cursor-pointer"
+              className="bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-400 rounded-3xl p-4 sm:p-5 text-center transition cursor-pointer flex flex-col items-center justify-center gap-2 active:scale-95"
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-2xl sm:text-4xl leading-none">{v.emoji}</span>
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-4xl sm:text-5xl leading-none">{v.emoji}</span>
                 <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
               </div>
-              <div className="font-display font-black text-base sm:text-xl text-slate-900">{v.en}</div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-500 mt-0.5">
-                🇹🇷 {v.tr} • 🇩🇪 {v.de}
-              </div>
+              <div className="font-display font-black text-lg sm:text-2xl text-slate-900">{v.en}</div>
             </button>
           ))}
         </div>
 
-        {/* 2 Short Home Games + TV Recommendation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {(activeDay.items || []).map((item) => {
-            const isChecked = Boolean(dailyChecklist[item.id]);
-            return (
-              <div
-                key={item.id}
-                className={`rounded-2xl p-3.5 border-2 transition space-y-2 ${
-                  isChecked ? 'bg-emerald-50 border-emerald-300' : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <div className="flex items-start gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => handleToggleItem(item.id)}
-                    className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer ${
-                      isChecked
-                        ? 'bg-emerald-600 border-emerald-700 text-white'
-                        : 'bg-white border-slate-400'
-                    }`}
-                    aria-label={item.title}
-                  >
-                    {isChecked && <CheckCircle2 className="w-4 h-4" />}
-                  </button>
-                  <div className="space-y-1">
-                    <span className="inline-block px-2 py-0.5 rounded bg-slate-900 text-white font-black text-[10px]">
-                      {item.time}
-                    </span>
-                    <h3 className="font-display font-black text-sm text-slate-900">{item.title}</h3>
-                    <p className="text-xs text-slate-700 leading-relaxed">{item.desc}</p>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {(item.phrasesEn || []).map((phrase) => (
-                        <button
-                          key={phrase}
-                          type="button"
-                          onPointerEnter={(e) =>
-                            triggerHoverSpeech(phrase, { isMuted, pointerType: e.pointerType })
-                          }
-                          onPointerLeave={cancelHoverSpeech}
-                          onClick={() => {
-                            cancelHoverSpeech();
-                            unlockAudio();
-                            speakEnglish(phrase);
-                          }}
-                          className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-[11px] hover:bg-blue-600 hover:text-white transition cursor-pointer"
-                        >
-                          <Volume2 className="w-3 h-3" />
-                          <span>{phrase}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Collapsible Parent Guide & TV Suggestion */}
+        <div className="pt-1">
+          <button
+            type="button"
+            onClick={() => {
+              playTap(isMuted);
+              setShowParentGuide((prev) => !prev);
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs transition cursor-pointer"
+          >
+            <span>👨‍👩‍👦 Veli Rehberi & TV</span>
+            {showParentGuide ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
         </div>
 
-        {/* Compact TV Suggestion */}
-        {activeDay.tvRecommendation && (
-          <div className="bg-slate-900 text-white rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <Tv className="w-5 h-5 text-yellow-300 flex-shrink-0" />
-              <div className="text-xs">
-                <span className="font-black text-yellow-300">📺 TV Önerisi ({activeDay.tvRecommendation.duration}): </span>
-                <span className="font-bold">{activeDay.tvRecommendation.title}</span>
-                <span className="text-slate-300"> — {activeDay.tvRecommendation.topicTr}</span>
-              </div>
+        {showParentGuide && (
+          <div className="space-y-3 pt-1">
+            {/* 2 Short Home Games + TV Recommendation */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {(activeDay.items || []).map((item) => {
+                const isChecked = Boolean(dailyChecklist[item.id]);
+                return (
+                  <div
+                    key={item.id}
+                    className={`rounded-2xl p-3.5 border-2 transition space-y-2 ${
+                      isChecked ? 'bg-emerald-50 border-emerald-300' : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleItem(item.id)}
+                        className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer ${
+                          isChecked
+                            ? 'bg-emerald-600 border-emerald-700 text-white'
+                            : 'bg-white border-slate-400'
+                        }`}
+                        aria-label={item.title}
+                      >
+                        {isChecked && <CheckCircle2 className="w-4 h-4" />}
+                      </button>
+                      <div className="space-y-1">
+                        <span className="inline-block px-2 py-0.5 rounded bg-slate-900 text-white font-black text-[10px]">
+                          {item.time}
+                        </span>
+                        <h3 className="font-display font-black text-sm text-slate-900">{item.title}</h3>
+                        <p className="text-xs text-slate-700 leading-relaxed">{item.desc}</p>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {(item.phrasesEn || []).map((phrase) => (
+                            <button
+                              key={phrase}
+                              type="button"
+                              onPointerEnter={(e) =>
+                                triggerHoverSpeech(phrase, { isMuted, pointerType: e.pointerType })
+                              }
+                              onPointerLeave={cancelHoverSpeech}
+                              onClick={() => {
+                                cancelHoverSpeech();
+                                unlockAudio();
+                                speakEnglish(phrase);
+                              }}
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-[11px] hover:bg-blue-600 hover:text-white transition cursor-pointer"
+                            >
+                              <Volume2 className="w-3 h-3" />
+                              <span>{phrase}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <a
-              href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
-                activeDay.tvRecommendation.searchQuery
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs flex-shrink-0"
-            >
-              <span>YouTube’da Aç</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+
+            {/* Compact TV Suggestion */}
+            {activeDay.tvRecommendation && (
+              <div className="bg-slate-900 text-white rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <Tv className="w-5 h-5 text-yellow-300 flex-shrink-0" />
+                  <div className="text-xs">
+                    <span className="font-black text-yellow-300">📺 TV Önerisi ({activeDay.tvRecommendation.duration}): </span>
+                    <span className="font-bold">{activeDay.tvRecommendation.title}</span>
+                    <span className="text-slate-300"> — {activeDay.tvRecommendation.topicTr}</span>
+                  </div>
+                </div>
+                <a
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
+                    activeDay.tvRecommendation.searchQuery
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs flex-shrink-0"
+                >
+                  <span>YouTube’da Aç</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -542,14 +524,14 @@ export default function DailyMissionHub({
                 playTap(isMuted);
                 setIsSlowMode((prev) => !prev);
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-display font-black text-xs border-2 transition cursor-pointer ${
+              className={`flex items-center gap-1 px-3 py-2 rounded-xl font-display font-black text-xs border-2 transition cursor-pointer ${
                 isSlowMode
                   ? 'bg-emerald-500 text-white border-emerald-600 shadow-sm'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
               }`}
-              title="Uzun cümleleri %80 hızda daha yavaş ve net oku"
+              title="Yavaş Mod"
             >
-              <span>🐢 {isSlowMode ? 'Yavaş Mod Açık' : 'Yavaş Mod'}</span>
+              <span>🐢</span>
             </button>
             {dayQuizQuestions[activeQuestionIdx] && (
               <button
@@ -558,29 +540,17 @@ export default function DailyMissionHub({
                 className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs shadow-sm cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Soruyu & Şıkları Sesli Dinle</span>
+                <span>🔊 Dinle</span>
               </button>
             )}
             <button
               type="button"
               onClick={handleResetDayQuiz}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer"
+              className="flex items-center gap-1 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer"
+              title="Testi Sıfırla"
+              aria-label="Testi Sıfırla"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Temizle</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                if (onOpenPrintable) {
-                  onOpenPrintable({ mode: 'day', dayId: activeDay.id });
-                }
-              }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-yellow-300" />
-              <span>Kağıt Test (A4)</span>
             </button>
           </div>
         </div>

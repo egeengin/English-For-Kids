@@ -549,13 +549,8 @@ export default function PhonicsBuilder({
                 className="flex items-center gap-1 px-3 py-1.5 bg-emerald-800/60 hover:bg-emerald-800 text-emerald-100 rounded-xl font-bold text-xs border border-emerald-400/30 transition cursor-pointer"
               >
                 <HelpCircle className="w-4 h-4 text-yellow-300" />
-                <span>{showHint ? 'İpucunu Gizle' : 'İpucu 💡'}</span>
+                <span>{showHint ? 'Gizle' : '💡 İpucu'}</span>
               </button>
-            </div>
-
-            <div className="flex items-center gap-3 text-xs font-semibold">
-              <span className="bg-black/30 px-2.5 py-1 rounded-lg">🇩🇪 {currentWord.de}</span>
-              <span className="bg-black/30 px-2.5 py-1 rounded-lg">🇹🇷 {currentWord.tr}</span>
             </div>
           </div>
 

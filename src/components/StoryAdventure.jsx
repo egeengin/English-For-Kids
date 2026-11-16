@@ -127,6 +127,8 @@ export default function StoryAdventure({
   // 2-Way Conversational Turn-Taking & Interactive Props State
   const [activeReply, setActiveReply] = useState(null);
   const [activeProp, setActiveProp] = useState(null);
+  const [findTarget, setFindTarget] = useState(null);
+  const [findFoundId, setFindFoundId] = useState(null);
 
   // Voice Interaction State
   const [isListening, setIsListening] = useState(false);
@@ -211,6 +213,8 @@ export default function StoryAdventure({
     setInspectedWord(null);
     setActiveReply(null);
     setActiveProp(null);
+    setFindTarget(null);
+    setFindFoundId(null);
 
     if (!isMuted && chapter) {
       const timer = setTimeout(() => {
@@ -226,6 +230,20 @@ export default function StoryAdventure({
     setActiveProp(prop);
     if (!isMuted) {
       speakDialoguePhrase(prop.audioKey, prop.name, 'en');
+    }
+  };
+
+  // Start or advance the simple "Find It!" picture game
+  const pickNextFindTarget = (excludeId = null) => {
+    const spots = chapter?.sceneBackdrop?.hotspots || [];
+    if (spots.length === 0) return;
+    const pool = spots.length > 1 && excludeId ? spots.filter((s) => s.id !== excludeId) : spots;
+    const next = pool[Math.floor(Math.random() * pool.length)];
+    setFindTarget(next);
+    setFindFoundId(null);
+    setActiveProp(null);
+    if (!isMuted && next) {
+      speakEnglish(`Find the ${next.name}!`);
     }
   };
 
@@ -532,6 +550,28 @@ export default function StoryAdventure({
                 <MapPin className="w-4 h-4 text-rose-600" />
                 <span>{chapter.sceneBackdrop?.location || chapter.title}</span>
               </span>
+              {(chapter.sceneBackdrop?.hotspots || []).length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTap(isMuted);
+                    if (findTarget) {
+                      setFindTarget(null);
+                      setFindFoundId(null);
+                    } else {
+                      pickNextFindTarget(null);
+                    }
+                  }}
+                  className={`font-display font-black text-sm sm:text-base px-4 py-1.5 rounded-full border-2 flex items-center gap-1.5 shadow-sm cursor-pointer transition-all ${
+                    findTarget
+                      ? 'bg-emerald-400 text-slate-950 border-white'
+                      : 'bg-yellow-300 hover:bg-yellow-200 text-slate-950 border-white'
+                  }`}
+                >
+                  <span>🎯</span>
+                  <span>{findTarget ? 'Explore Mode' : 'Find It!'}</span>
+                </button>
+              )}
             </div>
 
             <div className="flex items-center gap-2 bg-slate-900/90 px-4 py-1.5 rounded-full border border-white/25 text-sm sm:text-base font-bold text-white shadow-sm">
@@ -544,6 +584,37 @@ export default function StoryAdventure({
             </div>
           </div>
 
+          {/* Simple "Find It!" Prompt Banner when active */}
+          {findTarget && (
+            <div className="relative z-10 mb-3 bg-slate-900/95 text-white px-4 py-2.5 rounded-2xl border-2 border-yellow-300 flex items-center justify-between gap-3 flex-wrap shadow-md">
+              <div className="flex items-center gap-2.5 font-display font-black text-base sm:text-lg">
+                <span className="text-2xl">{findTarget.emoji}</span>
+                <span>Find:</span>
+                <span className="text-yellow-300">{findTarget.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => !isMuted && speakEnglish(`Find the ${findTarget.name}!`)}
+                  className="px-3 py-1.5 rounded-xl bg-yellow-300 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-1 cursor-pointer"
+                >
+                  <Volume2 className="w-4 h-4" />
+                  <span>Hear</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFindTarget(null);
+                    setFindFoundId(null);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs sm:text-sm cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Interactive Scene Picture (if available) or Props Grid */}
           {chapter.sceneBackdrop?.sceneImage ? (
             <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border-4 border-white/90 bg-slate-900">
@@ -555,18 +626,41 @@ export default function StoryAdventure({
               />
               {(chapter.sceneBackdrop.hotspots || []).map((spot) => {
                 const isSelected = activeProp?.id === spot.id;
+                const isFound = findFoundId === spot.id;
                 return (
                   <button
                     key={spot.id}
                     type="button"
                     style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
                     onPointerEnter={() => {
+                      if (findTarget) return;
                       setActiveProp(spot);
                       if (!isMuted) {
                         speakEnglish(spot.speakText || spot.name);
                       }
                     }}
                     onClick={() => {
+                      if (findTarget) {
+                        if (spot.id === findTarget.id) {
+                          playStarSparkle(isMuted);
+                          setFindFoundId(spot.id);
+                          setActiveProp(spot);
+                          if (onRewardEarned) onRewardEarned(2);
+                          if (!isMuted) {
+                            speakEnglish(`Great job! ${spot.name}!`);
+                          }
+                          setTimeout(() => {
+                            pickNextFindTarget(spot.id);
+                          }, 1150);
+                        } else {
+                          playGentleWobble(isMuted);
+                          setActiveProp(spot);
+                          if (!isMuted) {
+                            speakEnglish(`That is ${spot.name}. Find the ${findTarget.name}!`);
+                          }
+                        }
+                        return;
+                      }
                       playSnap(isMuted);
                       setActiveProp(spot);
                       if (!isMuted) {
@@ -574,15 +668,17 @@ export default function StoryAdventure({
                       }
                     }}
                     className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-200 cursor-pointer flex items-center gap-1.5 rounded-full shadow-lg border-2 ${
-                      isSelected
+                      isFound
+                        ? 'z-30 scale-125 bg-emerald-400 text-slate-950 border-white px-3.5 py-1.5 ring-4 ring-emerald-300/80'
+                        : isSelected && !findTarget
                         ? 'z-30 scale-125 bg-yellow-300 text-slate-950 border-white px-3.5 py-1.5 ring-4 ring-yellow-400/60'
                         : 'z-10 bg-white/90 hover:bg-yellow-200 text-slate-900 border-white px-2.5 py-1 hover:scale-115'
                     }`}
                   >
-                    <span className={isSelected ? 'text-2xl leading-none' : 'text-lg sm:text-xl leading-none'}>
+                    <span className={(isSelected && !findTarget) || isFound ? 'text-2xl leading-none' : 'text-lg sm:text-xl leading-none'}>
                       {spot.emoji}
                     </span>
-                    {isSelected && (
+                    {((isSelected && !findTarget) || isFound) && (
                       <>
                         <span className="font-display font-black text-sm sm:text-base whitespace-nowrap">
                           {spot.name}

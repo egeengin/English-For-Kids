@@ -59,7 +59,9 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     listenerRef.current = createSpeechListener({
       lang: 'en-US',
       onInterim: (t) => setHeardText(t),
-      onResult: async (finalText) => {
+      onResult: async ({ transcript, isFinal } = {}) => {
+        if (!isFinal) return;
+        const finalText = transcript || '';
         setIsListening(false);
         setHeardText(finalText);
         const res = await evaluateKidPronunciation({

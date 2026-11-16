@@ -150,46 +150,6 @@ export default function App() {
     });
   };
 
-  // Virtual builder unlocks stage
-  const handleUnlockStage = (modelId, stageNumber, cost) => {
-    setState(prev => {
-      const currentModelStages = prev.unlockedStages[modelId] || [];
-      if (currentModelStages.includes(stageNumber)) return prev;
-
-      return {
-        ...prev,
-        bricks: Math.max(0, prev.bricks - cost),
-        unlockedStages: {
-          ...prev.unlockedStages,
-          [modelId]: [...currentModelStages, stageNumber],
-        },
-      };
-    });
-  };
-
-  // Minifigure accessory unlock
-  const handleUnlockAccessory = (accessoryId, cost) => {
-    setState(prev => {
-      const currentUnlocked = prev.unlockedAccessories || ['cap'];
-      if (currentUnlocked.includes(accessoryId)) return prev;
-
-      return {
-        ...prev,
-        bricks: Math.max(0, prev.bricks - cost),
-        unlockedAccessories: [...currentUnlocked, accessoryId],
-        equippedAccessory: accessoryId,
-      };
-    });
-  };
-
-  // Minifigure accessory equip
-  const handleEquipAccessory = (accessoryId) => {
-    setState(prev => ({
-      ...prev,
-      equippedAccessory: accessoryId,
-    }));
-  };
-
   // Parent adds custom word
   const handleAddCustomWord = (newWordObj) => {
     setState(prev => ({
@@ -237,14 +197,6 @@ export default function App() {
     setState(prev => ({
       ...prev,
       soundMuted: !prev.soundMuted,
-    }));
-  };
-
-  // Lego Town diorama items persistence
-  const handleSaveDioramaItems = (items) => {
-    setState(prev => ({
-      ...prev,
-      dioramaItems: items,
     }));
   };
 
@@ -498,141 +450,173 @@ export default function App() {
           />
         )}
 
-        {/* Games Hub Switcher */}
+        {/* Games Hub Switcher — 6 Clean Kid-Friendly Buttons */}
         {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab) && (
-          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 flex-wrap">
-            <button
-              type="button"
-              onClick={() => handleTabChange('balloons')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'games' || currentTab === 'balloons'
-                  ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
-              }`}
-            >
-              🎈 Balon
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('memory')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'memory'
-                  ? 'bg-indigo-600 text-white border-indigo-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300'
-              }`}
-            >
-              🃏 Hafıza
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('sound_pairs')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'sound_pairs'
-                  ? 'bg-sky-600 text-white border-sky-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-sky-300'
-              }`}
-            >
-              👂 Ses
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('rhymes')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'rhymes'
-                  ? 'bg-purple-600 text-white border-purple-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
-              }`}
-            >
-              🎵 Kafiye
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('questions')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'questions'
-                  ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
-              }`}
-            >
-              ❓ Sorular
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('quick_speak')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'quick_speak'
-                  ? 'bg-violet-600 text-white border-violet-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-violet-300'
-              }`}
-            >
-              🎙️ Konuş
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('smart_review')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'smart_review'
-                  ? 'bg-orange-500 text-white border-orange-700 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-orange-300'
-              }`}
-            >
-              🔁 Tekrar
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('listen_color')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'listen_color'
-                  ? 'bg-pink-600 text-white border-pink-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-pink-300'
-              }`}
-            >
-              🎨 Boya
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('put_it')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'put_it'
-                  ? 'bg-emerald-600 text-white border-emerald-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-300'
-              }`}
-            >
-              📦 Yerleştir
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('phonics')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'phonics'
-                  ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
-              }`}
-            >
-              🔤 Harfler
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('differences')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'differences'
-                  ? 'bg-emerald-600 text-white border-emerald-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-300'
-              }`}
-            >
-              🔍 7 Fark
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTabChange('collection')}
-              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
-                currentTab === 'collection'
-                  ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
-              }`}
-            >
-              🏆 Rozetler
-            </button>
+          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex flex-col items-center gap-2">
+            <div className="flex items-center justify-center gap-2 flex-wrap">
+              <button
+                type="button"
+                onClick={() => handleTabChange('balloons')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  currentTab === 'games' || currentTab === 'balloons'
+                    ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
+                }`}
+              >
+                🎈 Balon
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTabChange('memory')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  currentTab === 'memory' || currentTab === 'rhymes'
+                    ? 'bg-indigo-600 text-white border-indigo-800 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300'
+                }`}
+              >
+                🃏 Hafıza &amp; Kafiye
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTabChange('sound_pairs')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  ['sound_pairs', 'listen_color', 'put_it', 'differences'].includes(currentTab)
+                    ? 'bg-sky-600 text-white border-sky-800 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-sky-300'
+                }`}
+              >
+                👂 Dinle &amp; Yap
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTabChange('questions')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  ['questions', 'quick_speak', 'smart_review'].includes(currentTab)
+                    ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
+                }`}
+              >
+                🎙️ Sor &amp; Konuş
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTabChange('phonics')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  currentTab === 'phonics'
+                    ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
+                }`}
+              >
+                🔤 Harfler
+              </button>
+              <button
+                type="button"
+                onClick={() => handleTabChange('collection')}
+                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                  currentTab === 'collection'
+                    ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
+                }`}
+              >
+                🏆 Rozetler
+              </button>
+            </div>
+
+            {(currentTab === 'memory' || currentTab === 'rhymes') && (
+              <div className="flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('memory')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'memory' ? 'bg-indigo-100 text-indigo-900 border-indigo-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🃏 Hafıza Kartları
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('rhymes')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'rhymes' ? 'bg-purple-100 text-purple-900 border-purple-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🎵 Kafiye Bul
+                </button>
+              </div>
+            )}
+
+            {['sound_pairs', 'listen_color', 'put_it', 'differences'].includes(currentTab) && (
+              <div className="flex items-center justify-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('sound_pairs')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'sound_pairs' ? 'bg-sky-100 text-sky-900 border-sky-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  👂 Ses Dedektifi
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('listen_color')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'listen_color' ? 'bg-pink-100 text-pink-900 border-pink-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🎨 Dinle &amp; Boya
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('put_it')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'put_it' ? 'bg-emerald-100 text-emerald-900 border-emerald-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  📦 Yerleştir
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('differences')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'differences' ? 'bg-teal-100 text-teal-900 border-teal-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🔍 7 Fark Bul
+                </button>
+              </div>
+            )}
+
+            {['questions', 'quick_speak', 'smart_review'].includes(currentTab) && (
+              <div className="flex items-center justify-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('questions')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'questions' ? 'bg-teal-100 text-teal-900 border-teal-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  ❓ Sorular
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('quick_speak')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'quick_speak' ? 'bg-violet-100 text-violet-900 border-violet-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🎙️ Hızlı Konuş
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('smart_review')}
+                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
+                    currentTab === 'smart_review' ? 'bg-orange-100 text-orange-900 border-orange-400' : 'bg-white text-slate-600 border-slate-200'
+                  }`}
+                >
+                  🔁 Bugünün 8 Kelimesi
+                </button>
+              </div>
+            )}
           </div>
         )}
 

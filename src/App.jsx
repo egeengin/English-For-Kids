@@ -404,11 +404,11 @@ export default function App() {
 
         {/* Story Mode Switcher: Interactive Scenes vs Mini Reading Books */}
         {(currentTab === 'story' || currentTab === 'books') && (
-          <div className="w-full max-w-4xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-3">
+          <div className="w-full max-w-4xl mx-auto px-3 pt-2 pb-0 flex items-center justify-center gap-2.5">
             <button
               type="button"
               onClick={() => handleTabChange('story')}
-              className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'story'
                   ? 'bg-purple-600 text-white border-purple-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
@@ -419,7 +419,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => handleTabChange('books')}
-              className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'books'
                   ? 'bg-blue-600 text-white border-blue-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'

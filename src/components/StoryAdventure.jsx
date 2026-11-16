@@ -9,8 +9,6 @@ import {
   Mic,
   AlertCircle,
   Radio,
-  MapPin,
-  Clock,
   MessageCircle,
 } from 'lucide-react';
 import { getStoryWorlds } from '../data/storyData';
@@ -481,41 +479,32 @@ export default function StoryAdventure({
   };
 
   return (
-    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
-      {/* Adventure World / Day Selector */}
-      <div className="w-full flex flex-wrap items-center justify-center gap-2.5 mb-3">
-        {worlds.map((world) => {
-          const isWorldActive = world.id === story.id;
-          return (
-            <button
-              key={world.id}
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                setSelectedWorldId(world.id);
-                setCurrentChapterIndex(0);
-                setIsStoryComplete(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base transition-all cursor-pointer border-2 shadow-sm ${
-                isWorldActive
-                  ? `bg-gradient-to-r ${world.gradient} text-white border-white shadow-md scale-[1.03]`
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50'
-              }`}
-            >
-              <span className="text-xl leading-none">{world.emoji}</span>
-              <span>{world.title}</span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-2 sm:py-3 flex-1 flex flex-col items-center">
+      {/* Compact Single-Row Controls: World Picker + Chapter Pills + Find It */}
+      <div className="w-full flex items-center justify-between gap-2 bg-slate-900 text-white px-3 py-2 rounded-2xl shadow-md border-2 border-slate-800 mb-2.5 flex-wrap">
+        <select
+          aria-label="Hikaye Dünyası Seç"
+          value={story.id}
+          onChange={(e) => {
+            playTap(isMuted);
+            setSelectedWorldId(e.target.value);
+            setCurrentChapterIndex(0);
+            setIsStoryComplete(false);
+          }}
+          className="bg-slate-800 text-white font-display font-black text-sm px-3 py-1.5 rounded-xl border border-slate-600 cursor-pointer"
+        >
+          {worlds.map((w) => (
+            <option key={w.id} value={w.id}>
+              {w.emoji} {w.title}
+            </option>
+          ))}
+        </select>
 
-      {/* Chapters Progress Bar — Clean Icon Pills, Zero Scrollbar */}
-      <div className="w-full bg-slate-900 text-white px-3 sm:px-4 py-3 rounded-2xl shadow-lg border-2 border-slate-800 mb-4">
-        <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
           {story.chapters.map((chap, idx) => {
             const isCurrent = idx === currentChapterIndex;
             const isPast = idx < currentChapterIndex || (idx === currentChapterIndex && isChapterSolved);
-            const chapEmoji = chap.sceneBackdrop?.props?.[0]?.emoji || ['☀️', '🥞', '🚌', '👩‍🏫', '🤝', '🛝', '🎒'][idx] || '⭐';
+            const chapEmoji = chap.sceneBackdrop?.props?.[0]?.emoji || '⭐';
             return (
               <button
                 key={chap.id}
@@ -524,77 +513,52 @@ export default function StoryAdventure({
                   setCurrentChapterIndex(idx);
                 }}
                 title={chap.title}
-                className={`
-                  flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm sm:text-base font-black transition-all cursor-pointer
-                  ${isCurrent
-                    ? 'bg-yellow-400 text-slate-950 shadow-md border-2 border-yellow-500'
+                className={`shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
+                  isCurrent
+                    ? 'bg-yellow-400 text-slate-950 shadow-sm'
                     : isPast
-                    ? 'bg-emerald-600 text-white border border-emerald-400'
-                    : 'bg-slate-800 text-slate-100 hover:bg-slate-700 border border-slate-600'}
-                `}
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                }`}
               >
-                <span className="text-lg leading-none">{chapEmoji}</span>
+                <span>{chapEmoji}</span>
                 <span>{chap.chapterNumber}</span>
-                {isCurrent && <span>• {chap.title}</span>}
-                {isPast && <Check className="w-4 h-4 text-emerald-200" />}
               </button>
             );
           })}
         </div>
+
+        {(chapter.sceneBackdrop?.hotspots || []).length > 1 && (
+          <button
+            type="button"
+            onClick={() => {
+              playTap(isMuted);
+              if (findTarget) {
+                setFindTarget(null);
+                setFindFoundId(null);
+              } else {
+                pickNextFindTarget(null);
+              }
+            }}
+            className={`shrink-0 font-display font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl border flex items-center gap-1.5 cursor-pointer transition-all ${
+              findTarget
+                ? 'bg-emerald-400 text-slate-950 border-white'
+                : 'bg-yellow-300 hover:bg-yellow-200 text-slate-950 border-white'
+            }`}
+          >
+            <span>🎯</span>
+            <span>{findTarget ? 'Explore' : 'Find It!'}</span>
+          </button>
+        )}
       </div>
 
       {/* Main Conversation Stage Card */}
       <div className="w-full bg-white rounded-3xl shadow-xl border-4 border-slate-200 overflow-hidden mb-4">
         
         {/* Illustrated Scene Backdrop & Interactive Props Canvas */}
-        <div className={`w-full bg-gradient-to-r ${chapter.sceneBackdrop?.bgGradient || 'from-blue-500 via-indigo-500 to-purple-500'} p-4 sm:p-5 text-white relative overflow-hidden transition-all duration-300`}>
+        <div className={`w-full bg-gradient-to-r ${chapter.sceneBackdrop?.bgGradient || 'from-blue-500 via-indigo-500 to-purple-500'} p-2.5 sm:p-3 text-white relative overflow-hidden transition-all duration-300`}>
           {/* Subtle stud texture */}
           <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_2px,transparent_2px)] [background-size:16px_16px]" />
-
-          {/* Scene Header Strip */}
-          <div className="flex items-center justify-between gap-2.5 mb-4 relative z-10 flex-wrap">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="bg-slate-900/90 text-yellow-300 font-mono font-black text-sm sm:text-base px-3.5 py-1.5 rounded-full border border-yellow-400/50 flex items-center gap-1.5 shadow-sm">
-                <Clock className="w-4 h-4" />
-                <span>{chapter.sceneBackdrop?.timeTag || 'School Day'}</span>
-              </span>
-              <span className="bg-white text-slate-900 font-display font-black text-sm sm:text-base px-4 py-1.5 rounded-full border border-white flex items-center gap-1.5 shadow-sm">
-                <MapPin className="w-4 h-4 text-rose-600" />
-                <span>{chapter.sceneBackdrop?.location || chapter.title}</span>
-              </span>
-              {(chapter.sceneBackdrop?.hotspots || []).length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    playTap(isMuted);
-                    if (findTarget) {
-                      setFindTarget(null);
-                      setFindFoundId(null);
-                    } else {
-                      pickNextFindTarget(null);
-                    }
-                  }}
-                  className={`font-display font-black text-sm sm:text-base px-4 py-1.5 rounded-full border-2 flex items-center gap-1.5 shadow-sm cursor-pointer transition-all ${
-                    findTarget
-                      ? 'bg-emerald-400 text-slate-950 border-white'
-                      : 'bg-yellow-300 hover:bg-yellow-200 text-slate-950 border-white'
-                  }`}
-                >
-                  <span>🎯</span>
-                  <span>{findTarget ? 'Explore Mode' : 'Find It!'}</span>
-                </button>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 bg-slate-900/90 px-4 py-1.5 rounded-full border border-white/25 text-sm sm:text-base font-bold text-white shadow-sm">
-              <span className="text-lg">{chapter.character.avatar}</span>
-              <span className="hidden sm:inline text-yellow-300">{chapter.character.role}:</span>
-              <span>{chapter.character.name}</span>
-              {chapter.character.actionBadge && (
-                <span className="hidden sm:inline text-slate-300 font-normal">• {chapter.character.actionBadge}</span>
-              )}
-            </div>
-          </div>
 
           {/* Simple "Find It!" Prompt Banner when active */}
           {findTarget && (
@@ -629,7 +593,7 @@ export default function StoryAdventure({
 
           {/* Interactive Scene Picture (if available) or Props Grid */}
           {chapter.sceneBackdrop?.sceneImage ? (
-            <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border-4 border-white/90 bg-slate-900">
+            <div className="relative z-10 w-full max-h-[64vh] aspect-video mx-auto rounded-2xl overflow-hidden shadow-lg border-4 border-white/90 bg-slate-900">
               <img
                 src={`${import.meta.env.BASE_URL}${chapter.sceneBackdrop.sceneImage}`}
                 alt={chapter.title}

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="restWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#ffedd5"/>
+    </linearGradient>
+    <filter id="sh4" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Restaurant Wall & Floor -->
+  <rect width="1600" height="620" fill="url(#restWall)"/>
+  <rect y="620" width="1600" height="280" fill="#fed7aa"/>
+
+  <!-- Big Menu Board on Wall (x:24%, y:22% -> 384, 198) -->
+  <g filter="url(#sh4)">
+    <rect x="200" y="95" width="360" height="210" rx="18" fill="#1e293b" stroke="#f59e0b" stroke-width="8"/>
+    <!-- Icon drawings on menu (no text) -->
+    <circle cx="285" cy="170" r="34" fill="#f59e0b"/>
+    <rect x="255" y="166" width="60" height="14" rx="6" fill="#78350f"/>
+    <rect x="365" y="140" width="44" height="60" rx="8" fill="#ef4444"/>
+    <rect x="445" y="140" width="60" height="50" rx="8" fill="#fde047"/>
+  </g>
+
+  <!-- Friendly Waiter (x:74%, y:42% -> 1184, 378) -->
+  <g filter="url(#sh4)">
+    <rect x="1152" y="510" width="24" height="135" rx="10" fill="#1e293b"/>
+    <rect x="1190" y="510" width="24" height="135" rx="10" fill="#1e293b"/>
+    <rect x="1136" y="370" width="94" height="148" rx="22" fill="#ffffff" stroke="#cbd5e1" stroke-width="4"/>
+    <!-- Bowtie -->
+    <polygon points="1166,388 1183,396 1166,404" fill="#ef4444"/>
+    <polygon points="1200,388 1183,396 1200,404" fill="#ef4444"/>
+    <circle cx="1183" cy="316" r="44" fill="#fed7aa"/>
+    <path d="M1140 308 Q1146 262 1183 262 Q1220 262 1226 308 Z" fill="#451a03"/>
+    <circle cx="1168" cy="316" r="5" fill="#1e293b"/>
+    <circle cx="1198" cy="316" r="5" fill="#1e293b"/>
+    <path d="M1168 334 Q1183 346 1198 334" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+    <!-- Notepad / Menu in hand (x:68%, y:48% -> 1088, 432) -->
+    <rect x="1062" y="400" width="54" height="68" rx="8" fill="#38bdf8" stroke="#0284c7" stroke-width="3"/>
+  </g>
+
+  <!-- Deniz sitting at Table (x:24%, y:48% -> 384, 432) -->
+  <g filter="url(#sh4)">
+    <rect x="336" y="425" width="96" height="125" rx="26" fill="#3b82f6"/>
+    <circle cx="384" cy="374" r="46" fill="#fed7aa"/>
+    <path d="M338 366 Q344 318 384 318 Q424 318 430 366 Q408 344 384 346 Q358 344 338 366 Z" fill="#451a03"/>
+    <circle cx="368" cy="374" r="5" fill="#1e293b"/>
+    <circle cx="400" cy="374" r="5" fill="#1e293b"/>
+    <path d="M368 394 Q384 406 400 394" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Restaurant Table with Delicious Food -->
+  <g filter="url(#sh4)">
+    <rect x="260" y="545" width="720" height="36" rx="16" fill="#b45309"/>
+    <rect x="330" y="581" width="28" height="150" rx="8" fill="#78350f"/>
+    <rect x="880" y="581" width="28" height="150" rx="8" fill="#78350f"/>
+
+    <!-- Cheeseburger (x:34%, y:57% -> 544, 513) -->
+    <g transform="translate(494, 470)">
+      <ellipse cx="50" cy="65" rx="54" ry="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+      <rect x="14" y="48" width="72" height="16" rx="8" fill="#f59e0b"/>
+      <rect x="10" y="34" width="80" height="16" rx="8" fill="#78350f"/>
+      <polygon points="14,34 50,44 86,34" fill="#fde047"/>
+      <rect x="12" y="26" width="76" height="10" rx="5" fill="#22c55e"/>
+      <path d="M12 28 Q50 -4 88 28 Z" fill="#f59e0b"/>
+    </g>
+
+    <!-- French Fries (x:44%, y:56% -> 704, 504) -->
+    <g transform="translate(668, 458)">
+      <rect x="12" y="0" width="10" height="44" rx="4" fill="#fde047"/>
+      <rect x="26" y="-6" width="10" height="50" rx="4" fill="#facc15"/>
+      <rect x="40" y="2" width="10" height="42" rx="4" fill="#fde047"/>
+      <rect x="54" y="-4" width="10" height="48" rx="4" fill="#facc15"/>
+      <polygon points="6,34 68,34 58,82 16,82" fill="#ef4444" stroke="#b91c1c" stroke-width="3"/>
+    </g>
+
+    <!-- Pizza Slice (x:52%, y:57% -> 832, 513) -->
+    <g transform="translate(792, 475)">
+      <polygon points="0,60 80,60 40,0" fill="#fde047" stroke="#f59e0b" stroke-width="5"/>
+      <circle cx="40" cy="36" r="7" fill="#ef4444"/>
+      <circle cx="26" cy="48" r="6" fill="#ef4444"/>
+      <circle cx="52" cy="48" r="6" fill="#ef4444"/>
+    </g>
+
+    <!-- Lemonade / Milkshake (x:26%, y:56% -> 416, 504) -->
+    <g transform="translate(388, 456)">
+      <polygon points="10,22 48,22 42,84 16,84" fill="#fef08a" stroke="#eab308" stroke-width="3"/>
+      <line x1="34" y1="22" x2="46" y2="-4" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+    </g>
+
+    <!-- Ice Cream Sundae (x:59%, y:55% -> 944, 495) -->
+    <g transform="translate(914, 452)">
+      <polygon points="10,50 50,50 40,86 20,86" fill="#38bdf8"/>
+      <circle cx="30" cy="38" r="18" fill="#f472b6"/>
+      <circle cx="30" cy="20" r="14" fill="#ffffff"/>
+      <circle cx="30" cy="6" r="6" fill="#ef4444"/>
+    </g>
+  </g>
+</svg>

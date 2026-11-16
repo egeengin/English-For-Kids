@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="poolSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="poolWater" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="sh3" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Sunny Sky & Pool Deck -->
+  <rect width="1600" height="520" fill="url(#poolSky)"/>
+  <rect y="500" width="1600" height="400" fill="#fef3c7"/>
+
+  <!-- Sun (x:14%, y:15% -> 224, 135) -->
+  <circle cx="224" cy="135" r="56" fill="#fde047"/>
+
+  <!-- Palm Trees (x:86%, y:26%) -->
+  <g filter="url(#sh3)">
+    <path d="M1380 510 Q1405 350 1420 220" fill="none" stroke="#92400e" stroke-width="28" stroke-linecap="round"/>
+    <ellipse cx="1360" cy="215" rx="75" ry="20" transform="rotate(-25 1360 215)" fill="#22c55e"/>
+    <ellipse cx="1475" cy="220" rx="75" ry="20" transform="rotate(22 1475 220)" fill="#16a34a"/>
+    <ellipse cx="1420" cy="180" rx="65" ry="18" transform="rotate(-70 1420 180)" fill="#4ade80"/>
+  </g>
+
+  <!-- Giant Water Slide (left-center, x:32%, y:36% -> 512, 324) -->
+  <g filter="url(#sh3)">
+    <!-- Ladder / Tower -->
+    <rect x="210" y="180" width="90" height="330" rx="12" fill="#f59e0b" stroke="#b45309" stroke-width="5"/>
+    <!-- Curved Slide -->
+    <path d="M275 190 C440 190 480 410 640 535 L580 570 C425 445 385 260 275 260 Z" fill="#ef4444" stroke="#ffffff" stroke-width="8"/>
+    <path d="M280 218 C425 218 465 425 612 548" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+    <!-- Splash! -->
+    <circle cx="625" cy="560" r="22" fill="#e0f2fe"/>
+    <circle cx="655" cy="545" r="16" fill="#ffffff"/>
+    <circle cx="595" cy="542" r="15" fill="#ffffff"/>
+  </g>
+
+  <!-- Big Swimming Pool (center, x:58%, y:68% -> 928, 612) -->
+  <g filter="url(#sh3)">
+    <rect x="440" y="545" width="790" height="270" rx="46" fill="url(#poolWater)" stroke="#ffffff" stroke-width="12"/>
+    <!-- Water Ripples -->
+    <path d="M540 620 Q590 605 640 620" fill="none" stroke="#bae6fd" stroke-width="6" stroke-linecap="round"/>
+    <path d="M960 660 Q1010 645 1060 660" fill="none" stroke="#bae6fd" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Swim Ring (x:47%, y:74% -> 752, 666) -->
+    <circle cx="752" cy="666" r="46" fill="none" stroke="#facc15" stroke-width="24"/>
+    <circle cx="752" cy="666" r="46" fill="none" stroke="#f97316" stroke-width="24" stroke-dasharray="36 36"/>
+
+    <!-- Beach Ball (x:66%, y:76% -> 1056, 684) -->
+    <circle cx="1056" cy="684" r="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <path d="M1056 650 A34 34 0 0 1 1090 684 L1056 684 Z" fill="#ef4444"/>
+    <path d="M1022 684 A34 34 0 0 1 1056 650 L1056 684 Z" fill="#3b82f6"/>
+    <path d="M1056 718 A34 34 0 0 1 1022 684 L1056 684 Z" fill="#facc15"/>
+
+    <!-- Boy / Deniz Swimming with Goggles (x:58%, y:64% -> 928, 576) -->
+    <circle cx="928" cy="596" r="38" fill="#fed7aa"/>
+    <path d="M890 588 Q896 548 928 548 Q960 548 966 588 Z" fill="#451a03"/>
+    <!-- Goggles -->
+    <rect x="898" y="582" width="24" height="16" rx="6" fill="#38bdf8" stroke="#0f172a" stroke-width="3"/>
+    <rect x="934" y="582" width="24" height="16" rx="6" fill="#38bdf8" stroke="#0f172a" stroke-width="3"/>
+    <path d="M914 616 Q928 626 942 616" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Sun Lounger & Towel (bottom-left, x:18%, y:72% -> 288, 648) -->
+  <g filter="url(#sh3)">
+    <rect x="115" y="655" width="260" height="36" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="4"/>
+    <rect x="135" y="638" width="180" height="22" rx="10" fill="#22c55e"/>
+    <!-- Sun Hat (x:14%, y:69% -> 224, 621) -->
+    <ellipse cx="224" cy="628" rx="46" ry="14" fill="#fde047" stroke="#eab308" stroke-width="3"/>
+    <path d="M196 626 Q224 585 252 626 Z" fill="#facc15" stroke="#eab308" stroke-width="3"/>
+    <!-- Flip-flops (x:24%, y:84% -> 384, 756) -->
+    <ellipse cx="360" cy="760" rx="22" ry="12" fill="#f43f5e"/>
+    <ellipse cx="408" cy="764" rx="22" ry="12" fill="#f43f5e"/>
+  </g>
+
+  <!-- Pool Umbrella (right, x:84%, y:56% -> 1344, 504) -->
+  <g filter="url(#sh3)">
+    <line x1="1380" y1="500" x2="1380" y2="755" stroke="#92400e" stroke-width="14" stroke-linecap="round"/>
+    <path d="M1245 505 Q1380 390 1515 505 Z" fill="#f97316" stroke="#ffffff" stroke-width="5"/>
+  </g>
+</svg>

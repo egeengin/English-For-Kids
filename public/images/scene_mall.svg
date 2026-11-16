@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="mallWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ff"/>
+      <stop offset="100%" stop-color="#ede9fe"/>
+    </linearGradient>
+    <filter id="sh7" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="630" fill="url(#mallWall)"/>
+  <rect y="630" width="1600" height="270" fill="#e2e8f0"/>
+
+  <!-- Toy Store Window (left, x:22%, y:34% -> 352, 306) -->
+  <g filter="url(#sh7)">
+    <rect x="80" y="130" width="460" height="430" rx="24" fill="#ffffff" stroke="#a855f7" stroke-width="8"/>
+    <rect x="100" y="150" width="420" height="60" rx="12" fill="#c084fc"/>
+    <rect x="115" y="230" width="390" height="260" rx="16" fill="#fef3c7"/>
+    <!-- Robot Toy (x:14%, y:38% -> 224, 342) -->
+    <rect x="186" y="305" width="76" height="85" rx="14" fill="#38bdf8"/>
+    <circle cx="208" cy="336" r="8" fill="#fde047"/>
+    <circle cx="240" cy="336" r="8" fill="#fde047"/>
+    <!-- Teddy Bear & Gift Box (x:28%, y:38% -> 448, 342) -->
+    <rect x="405" y="330" width="84" height="75" rx="10" fill="#ef4444"/>
+    <rect x="440" y="330" width="14" height="75" fill="#fde047"/>
+    <rect x="405" y="360" width="84" height="14" fill="#fde047"/>
+  </g>
+
+  <!-- Escalator (center, x:50%, y:46% -> 800, 414) -->
+  <g filter="url(#sh7)">
+    <polygon points="620,620 920,240 1000,240 700,620" fill="#64748b"/>
+    <line x1="600" y1="570" x2="900" y2="190" stroke="#1e293b" stroke-width="20" stroke-linecap="round"/>
+  </g>
+
+  <!-- Ice Cream Stand (right, x:82%, y:48% -> 1312, 432) -->
+  <g filter="url(#sh7)">
+    <rect x="1160" y="420" width="320" height="200" rx="22" fill="#f472b6" stroke="#db2777" stroke-width="5"/>
+    <path d="M1140 420 Q1320 330 1500 420 Z" fill="#ffffff" stroke="#db2777" stroke-width="5"/>
+    <!-- Giant Ice Cream Cone (x:82%, y:38% -> 1312, 342) -->
+    <polygon points="1285,360 1345,360 1315,435" fill="#f59e0b"/>
+    <circle cx="1315" cy="338" r="32" fill="#fda4af"/>
+    <circle cx="1315" cy="306" r="26" fill="#fef08a"/>
+  </g>
+
+  <!-- Deniz & Balloons (x:62%, y:62% -> 992, 558) -->
+  <g filter="url(#sh7)">
+    <!-- Balloons (x:58%, y:30% -> 928, 270) -->
+    <line x1="948" y1="490" x2="928" y2="305" stroke="#64748b" stroke-width="4"/>
+    <circle cx="928" cy="270" r="36" fill="#ef4444"/>
+    <circle cx="972" cy="285" r="32" fill="#38bdf8"/>
+    <!-- Boy -->
+    <rect x="965" y="610" width="22" height="86" rx="9" fill="#1d4ed8"/>
+    <rect x="1001" y="610" width="22" height="86" rx="9" fill="#1d4ed8"/>
+    <rect x="953" y="482" width="82" height="134" rx="24" fill="#22c55e"/>
+    <circle cx="994" cy="432" r="44" fill="#fed7aa"/>
+    <path d="M950 424 Q956 378 994 378 Q1032 378 1038 424 Z" fill="#451a03"/>
+    <circle cx="978" cy="432" r="5" fill="#1e293b"/>
+    <circle cx="1010" cy="432" r="5" fill="#1e293b"/>
+    <path d="M980 450 Q994 462 1008 450" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+    <!-- Shopping Bag (x:67%, y:67% -> 1072, 603) -->
+    <rect x="1045" y="575" width="56" height="68" rx="8" fill="#facc15" stroke="#ca8a04" stroke-width="3"/>
+  </g>
+</svg>

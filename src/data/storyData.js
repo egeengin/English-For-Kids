@@ -4,6 +4,8 @@
  * Features rich visual storytelling backdrops, interactive scene props, and responsive 2-way turn-taking dialogue.
  */
 
+import { getExtraStoryWorlds } from './storyWorldsExtra';
+
 export function getStoryData(childName = 'Deniz') {
   const isDeniz = childName.toLowerCase() === 'deniz';
 
@@ -1545,6 +1547,21 @@ export function getStoryData(childName = 'Deniz') {
       },
     ],
   };
+}
+
+export function getStoryWorlds(childName = 'Deniz') {
+  const schoolDay = getStoryData(childName);
+  return [
+    {
+      id: schoolDay.id,
+      title: 'School & Everyday',
+      emoji: '🏫',
+      badge: '13 Daily Scenes',
+      gradient: 'from-blue-600 via-indigo-600 to-purple-600',
+      chapters: schoolDay.chapters,
+    },
+    ...getExtraStoryWorlds(childName),
+  ];
 }
 
 export const STORY_DATA = getStoryData('Deniz');

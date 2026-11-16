@@ -21,7 +21,7 @@ import {
   Clock,
   MessageCircle,
 } from 'lucide-react';
-import { getStoryData } from '../data/storyData';
+import { getStoryWorlds } from '../data/storyData';
 import { speakEnglish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
@@ -72,6 +72,24 @@ export default function StoryAdventure({
   childAge = 7,
   geminiApiKey = '',
 }) {
+  const [selectedWorldId, setSelectedWorldId] = useState(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return 'school_day';
+    try {
+      return window.localStorage.getItem('lego_story_world_v1') || 'school_day';
+    } catch {
+      return 'school_day';
+    }
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+    try {
+      window.localStorage.setItem('lego_story_world_v1', selectedWorldId);
+    } catch {
+      // ignore
+    }
+  }, [selectedWorldId]);
+
   const [currentChapterIndex, setCurrentChapterIndex] = useState(() => {
     if (typeof window === 'undefined' || !window.localStorage) return 0;
     try {
@@ -123,7 +141,8 @@ export default function StoryAdventure({
   const [inspectedWord, setInspectedWord] = useState(null);
   const karaokeTimerRef = useRef(null);
 
-  const story = useMemo(() => getStoryData(childName), [childName]);
+  const worlds = useMemo(() => getStoryWorlds(childName), [childName]);
+  const story = worlds.find((w) => w.id === selectedWorldId) || worlds[0];
   const chapter = story.chapters[currentChapterIndex] || story.chapters[0];
   const totalChapters = story.chapters.length;
 
@@ -199,7 +218,7 @@ export default function StoryAdventure({
       }, 350);
       return () => clearTimeout(timer);
     }
-  }, [currentChapterIndex, isMuted]);
+  }, [currentChapterIndex, selectedWorldId, isMuted]);
 
   // Handle clicking an interactive scene prop
   const handlePropClick = (prop) => {
@@ -433,6 +452,33 @@ export default function StoryAdventure({
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 flex-1 flex flex-col items-center">
+      {/* Adventure World / Day Selector */}
+      <div className="w-full flex flex-wrap items-center justify-center gap-2.5 mb-3">
+        {worlds.map((world) => {
+          const isWorldActive = world.id === story.id;
+          return (
+            <button
+              key={world.id}
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                setSelectedWorldId(world.id);
+                setCurrentChapterIndex(0);
+                setIsStoryComplete(false);
+              }}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base transition-all cursor-pointer border-2 shadow-sm ${
+                isWorldActive
+                  ? `bg-gradient-to-r ${world.gradient} text-white border-white shadow-md scale-[1.03]`
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50'
+              }`}
+            >
+              <span className="text-xl leading-none">{world.emoji}</span>
+              <span>{world.title}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Chapters Progress Bar — Clean Icon Pills, Zero Scrollbar */}
       <div className="w-full bg-slate-900 text-white px-3 sm:px-4 py-3 rounded-2xl shadow-lg border-2 border-slate-800 mb-4">
         <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2">
@@ -674,7 +720,7 @@ export default function StoryAdventure({
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                2 Big Choices
+                {chapter.choices.length} Choices
               </button>
               <button
                 type="button"
@@ -703,7 +749,7 @@ export default function StoryAdventure({
 
           {/* MODE 1: 2 Big Colorful Choices (50/50 Early-Reader Friendly) */}
           {interactionMode === 'choices' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className={`grid grid-cols-1 ${chapter.choices.length >= 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} gap-4`}>
               {chapter.choices.map((choice) => {
                 const isSelected = selectedChoiceId === choice.id;
                 const showSuccess = isSelected && choice.isCorrect;

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="beachSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="sh6" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Sky, Sea, Sand -->
+  <rect width="1600" height="340" fill="url(#beachSky)"/>
+  <rect y="340" width="1600" height="250" fill="url(#seaGrad)"/>
+  <path d="M0 580 Q400 550 800 585 T1600 580 L1600 900 L0 900 Z" fill="#fde68a"/>
+
+  <!-- Sun (x:14%, y:15% -> 224, 135) -->
+  <circle cx="224" cy="135" r="56" fill="#fde047"/>
+
+  <!-- Sailboat on Sea (x:74%, y:34% -> 1184, 306) -->
+  <g filter="url(#sh6)" transform="translate(1110, 215)">
+    <polygon points="10,120 140,120 115,155 35,155" fill="#ef4444"/>
+    <line x1="75" y1="10" x2="75" y2="120" stroke="#78350f" stroke-width="8"/>
+    <polygon points="75,15 135,110 75,110" fill="#ffffff"/>
+    <polygon points="72,30 25,110 72,110" fill="#fef08a"/>
+  </g>
+
+  <!-- Waves & Deniz Swimming (x:34%, y:50% -> 544, 450) -->
+  <g filter="url(#sh6)">
+    <path d="M400 470 Q460 445 520 470 T640 470" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="544" cy="435" r="36" fill="#fed7aa"/>
+    <path d="M508 428 Q514 388 544 388 Q574 388 580 428 Z" fill="#451a03"/>
+    <circle cx="530" cy="436" r="5" fill="#1e293b"/>
+    <circle cx="558" cy="436" r="5" fill="#1e293b"/>
+    <path d="M532 452 Q544 462 556 452" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Beach Umbrella (left, x:18%, y:58% -> 288, 522) -->
+  <g filter="url(#sh6)">
+    <line x1="255" y1="530" x2="255" y2="770" stroke="#92400e" stroke-width="14"/>
+    <path d="M125 535 Q255 420 385 535 Z" fill="#f43f5e" stroke="#ffffff" stroke-width="5"/>
+    <!-- Sunglasses on towel (x:22%, y:80% -> 352, 720) -->
+    <rect x="175" y="715" width="210" height="90" rx="14" fill="#38bdf8"/>
+    <circle cx="330" cy="755" r="14" fill="#1e293b"/>
+    <circle cx="368" cy="755" r="14" fill="#1e293b"/>
+    <line x1="344" y1="752" x2="354" y2="752" stroke="#1e293b" stroke-width="5"/>
+  </g>
+
+  <!-- Sandcastle (center, x:58%, y:74% -> 928, 666) -->
+  <g filter="url(#sh6)" transform="translate(830, 585)">
+    <rect x="20" y="65" width="156" height="90" rx="10" fill="#f59e0b"/>
+    <rect x="15" y="40" width="44" height="115" rx="8" fill="#fbbf24"/>
+    <rect x="137" y="40" width="44" height="115" rx="8" fill="#fbbf24"/>
+    <rect x="70" y="25" width="56" height="130" rx="8" fill="#fcd34d"/>
+    <polygon points="70,25 98,0 126,25" fill="#ef4444"/>
+    <rect x="86" y="105" width="24" height="50" rx="12" fill="#78350f"/>
+  </g>
+
+  <!-- Bucket & Shovel (x:44%, y:79% -> 704, 711) -->
+  <g filter="url(#sh6)" transform="translate(665, 675)">
+    <polygon points="10,20 70,20 60,78 20,78" fill="#3b82f6" stroke="#1d4ed8" stroke-width="3"/>
+    <path d="M12 20 Q40 -8 68 20" fill="none" stroke="#1e293b" stroke-width="5"/>
+    <line x1="78" y1="15" x2="96" y2="76" stroke="#22c55e" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- Starfish (x:74%, y:82% -> 1184, 738) & Crab (x:86%, y:76% -> 1376, 684) -->
+  <g filter="url(#sh6)">
+    <polygon points="1184,705 1196,732 1226,734 1202,752 1210,782 1184,764 1158,782 1166,752 1142,734 1172,732" fill="#fb923c" stroke="#ea580c" stroke-width="3"/>
+    <ellipse cx="1376" cy="692" rx="34" ry="22" fill="#ef4444"/>
+    <circle cx="1364" cy="672" r="6" fill="#1e293b"/>
+    <circle cx="1388" cy="672" r="6" fill="#1e293b"/>
+    <circle cx="1340" cy="672" r="12" fill="#dc2626"/>
+    <circle cx="1412" cy="672" r="12" fill="#dc2626"/>
+  </g>
+
+  <!-- Seashell (x:84%, y:86% -> 1344, 774) -->
+  <path d="M1320 790 Q1344 745 1368 790 Z" fill="#fda4af" stroke="#f43f5e" stroke-width="3"/>
+</svg>

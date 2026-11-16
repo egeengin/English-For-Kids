@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="prepWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <filter id="sh8" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="620" fill="url(#prepWall)"/>
+  <rect y="620" width="1600" height="280" fill="#fde68a"/>
+
+  <!-- Big Sofa (left) -->
+  <g filter="url(#sh8)">
+    <rect x="110" y="450" width="380" height="175" rx="30" fill="#3b82f6" stroke="#1d4ed8" stroke-width="5"/>
+    <rect x="140" y="545" width="320" height="80" rx="16" fill="#60a5fa"/>
+    <!-- Cat ON the sofa (x:20%, y:54% -> 320, 486) -->
+    <g transform="translate(275, 452)">
+      <ellipse cx="45" cy="45" rx="36" ry="22" fill="#fb923c"/>
+      <circle cx="24" cy="30" r="20" fill="#fb923c"/>
+      <polygon points="10,16 18,0 26,14" fill="#ea580c"/>
+      <polygon points="24,14 32,0 40,16" fill="#ea580c"/>
+    </g>
+  </g>
+
+  <!-- Floor Lamp NEXT TO the sofa (x:34%, y:46% -> 544, 414) -->
+  <g filter="url(#sh8)">
+    <rect x="538" y="340" width="12" height="280" fill="#475569"/>
+    <polygon points="504,350 584,350 568,280 520,280" fill="#fde047" stroke="#eab308" stroke-width="4"/>
+    <ellipse cx="544" cy="625" rx="36" ry="12" fill="#334155"/>
+  </g>
+
+  <!-- Wooden Table (center, x:55%, y:56%) -->
+  <g filter="url(#sh8)">
+    <rect x="690" y="510" width="340" height="26" rx="10" fill="#b45309"/>
+    <rect x="720" y="536" width="22" height="150" fill="#78350f"/>
+    <rect x="980" y="536" width="22" height="150" fill="#78350f"/>
+    <!-- Book ON the table (x:52%, y:52% -> 832, 468) -->
+    <rect x="780" y="478" width="90" height="32" rx="6" fill="#ef4444" stroke="#b91c1c" stroke-width="3"/>
+    <!-- Soccer Ball UNDER the table (x:54%, y:71% -> 864, 639) -->
+    <circle cx="864" cy="650" r="36" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
+    <polygon points="864,630 880,642 874,660 854,660 848,642" fill="#1e293b"/>
+  </g>
+
+  <!-- Toy Box with Teddy Bear IN the box (right, x:78%, y:64% -> 1248, 576) -->
+  <g filter="url(#sh8)">
+    <!-- Teddy Bear sticking out IN the box -->
+    <circle cx="1220" cy="520" r="14" fill="#d97706"/>
+    <circle cx="1276" cy="520" r="14" fill="#d97706"/>
+    <circle cx="1248" cy="542" r="34" fill="#f59e0b"/>
+    <circle cx="1236" cy="536" r="4" fill="#1e293b"/>
+    <circle cx="1260" cy="536" r="4" fill="#1e293b"/>
+    <!-- Box -->
+    <rect x="1165" y="565" width="166" height="125" rx="14" fill="#a855f7" stroke="#7e22ce" stroke-width="5"/>
+  </g>
+
+  <!-- Chair & Shoes UNDER the chair (far right, x:90%, y:70%) -->
+  <g filter="url(#sh8)">
+    <rect x="1385" y="455" width="110" height="105" rx="14" fill="#10b981"/>
+    <rect x="1375" y="555" width="130" height="22" rx="8" fill="#059669"/>
+    <line x1="1392" y1="577" x2="1392" y2="685" stroke="#047857" stroke-width="12"/>
+    <line x1="1488" y1="577" x2="1488" y2="685" stroke="#047857" stroke-width="12"/>
+    <!-- Shoes UNDER chair (x:90%, y:74% -> 1440, 666) -->
+    <ellipse cx="1420" cy="672" rx="22" ry="12" fill="#ef4444"/>
+    <ellipse cx="1462" cy="672" rx="22" ry="12" fill="#ef4444"/>
+  </g>
+</svg>

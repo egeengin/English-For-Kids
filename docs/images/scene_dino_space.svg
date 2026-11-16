@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="musWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <filter id="sh11" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="630" fill="url(#musWall)"/>
+  <rect y="630" width="1600" height="270" fill="#334155"/>
+
+  <!-- Stars & Saturn Planet (top-right, x:78%, y:22% -> 1248, 198) -->
+  <circle cx="1050" cy="140" r="5" fill="#fef08a"/>
+  <circle cx="1150" cy="100" r="4" fill="#ffffff"/>
+  <circle cx="1420" cy="150" r="6" fill="#fef08a"/>
+  <g filter="url(#sh11)">
+    <circle cx="1248" cy="198" r="56" fill="#f59e0b"/>
+    <ellipse cx="1248" cy="198" rx="108" ry="22" transform="rotate(-18 1248 198)" fill="none" stroke="#fde047" stroke-width="10"/>
+  </g>
+
+  <!-- Space Rocket (right, x:82%, y:54% -> 1312, 486) -->
+  <g filter="url(#sh11)" transform="translate(1250, 350)">
+    <ellipse cx="62" cy="120" rx="44" ry="110" fill="#f8fafc" stroke="#cbd5e1" stroke-width="4"/>
+    <path d="M26 70 Q62 -10 98 70 Z" fill="#ef4444"/>
+    <circle cx="62" cy="105" r="22" fill="#38bdf8" stroke="#0284c7" stroke-width="4"/>
+    <polygon points="20,180 -10,230 28,215" fill="#ef4444"/>
+    <polygon points="104,180 134,230 96,215" fill="#ef4444"/>
+    <polygon points="44,225 80,225 62,275" fill="#f97316"/>
+  </g>
+
+  <!-- Dinosaur (T-Rex) Exhibit (left, x:28%, y:46% -> 448, 414) -->
+  <g filter="url(#sh11)">
+    <rect x="130" y="610" width="470" height="65" rx="16" fill="#475569"/>
+    <!-- T-Rex green friendly -->
+    <ellipse cx="380" cy="480" rx="115" ry="72" fill="#22c55e"/>
+    <path d="M275 495 L165 535 L285 520 Z" fill="#16a34a"/>
+    <rect x="335" y="535" width="32" height="75" rx="12" fill="#16a34a"/>
+    <rect x="405" y="535" width="32" height="75" rx="12" fill="#16a34a"/>
+    <circle cx="475" cy="365" r="62" fill="#22c55e"/>
+    <rect x="475" y="348" width="84" height="52" rx="22" fill="#22c55e"/>
+    <circle cx="485" cy="346" r="9" fill="#ffffff"/>
+    <circle cx="488" cy="346" r="4" fill="#1e293b"/>
+    <path d="M495 385 Q525 395 548 382" fill="none" stroke="#14532d" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Dinosaur Egg (x:46%, y:64% -> 736, 576) -->
+  <ellipse cx="736" cy="585" rx="34" ry="44" fill="#fef3c7" stroke="#eab308" stroke-width="4"/>
+
+  <!-- Telescope (x:62%, y:58% -> 992, 522) -->
+  <g filter="url(#sh11)">
+    <line x1="992" y1="530" x2="955" y2="670" stroke="#94a3b8" stroke-width="10" stroke-linecap="round"/>
+    <line x1="992" y1="530" x2="1030" y2="670" stroke="#94a3b8" stroke-width="10" stroke-linecap="round"/>
+    <rect x="935" y="485" width="120" height="32" rx="10" transform="rotate(-24 995 501)" fill="#38bdf8" stroke="#0284c7" stroke-width="4"/>
+  </g>
+
+  <!-- Deniz with Astronaut Helmet (x:58%, y:66%) -->
+  <g filter="url(#sh11)">
+    <rect x="822" y="610" width="20" height="72" rx="8" fill="#1d4ed8"/>
+    <rect x="854" y="610" width="20" height="72" rx="8" fill="#1d4ed8"/>
+    <rect x="812" y="510" width="72" height="106" rx="20" fill="#f97316"/>
+    <circle cx="848" cy="466" r="38" fill="#fed7aa"/>
+    <circle cx="848" cy="466" r="48" fill="#bae6fd" opacity="0.35" stroke="#ffffff" stroke-width="4"/>
+    <circle cx="834" cy="466" r="4.5" fill="#1e293b"/>
+    <circle cx="862" cy="466" r="4.5" fill="#1e293b"/>
+    <path d="M836 482 Q848 492 860 482" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

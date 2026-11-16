@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Airport Terminal Wall & Big Glass Window -->
+  <rect width="1600" height="580" fill="#e2e8f0"/>
+  <rect x="70" y="60" width="1460" height="390" rx="24" fill="url(#sky)" stroke="#64748b" stroke-width="10"/>
+  <!-- Clouds (x:18%, y:18%) -->
+  <g fill="#ffffff" opacity="0.92">
+    <ellipse cx="270" cy="160" rx="70" ry="30"/>
+    <ellipse cx="320" cy="150" rx="50" ry="28"/>
+    <ellipse cx="1180" cy="145" rx="75" ry="30"/>
+    <ellipse cx="1235" cy="135" rx="55" ry="25"/>
+  </g>
+  <!-- Sun (x:86%, y:15%) -->
+  <circle cx="1376" cy="135" r="46" fill="#fde047"/>
+
+  <!-- Runway outside -->
+  <rect x="70" y="340" width="1460" height="110" fill="#94a3b8"/>
+  <line x1="90" y1="395" x2="1510" y2="395" stroke="#fde047" stroke-width="6" stroke-dasharray="36 28"/>
+
+  <!-- Airplane on Runway (x:30%, y:30% -> 480, 270) -->
+  <g filter="url(#sh)" transform="translate(310, 210)">
+    <ellipse cx="195" cy="70" rx="165" ry="34" fill="#ffffff" stroke="#cbd5e1" stroke-width="4"/>
+    <polygon points="45,65 15,15 55,15 95,62" fill="#ef4444"/>
+    <polygon points="150,76 235,120 265,120 210,76" fill="#38bdf8"/>
+    <polygon points="155,58 215,28 240,28 195,58" fill="#7dd3fc"/>
+    <path d="M320 48 Q355 55 360 70 L320 70 Z" fill="#1e293b"/>
+    <circle cx="130" cy="64" r="6" fill="#38bdf8"/>
+    <circle cx="155" cy="64" r="6" fill="#38bdf8"/>
+    <circle cx="180" cy="64" r="6" fill="#38bdf8"/>
+    <circle cx="205" cy="64" r="6" fill="#38bdf8"/>
+    <circle cx="230" cy="64" r="6" fill="#38bdf8"/>
+    <circle cx="255" cy="64" r="6" fill="#38bdf8"/>
+  </g>
+
+  <!-- Window Pillars -->
+  <line x1="550" y1="60" x2="550" y2="450" stroke="#64748b" stroke-width="10"/>
+  <line x1="1050" y1="60" x2="1050" y2="450" stroke="#64748b" stroke-width="10"/>
+
+  <!-- Terminal Floor -->
+  <rect y="580" width="1600" height="320" fill="url(#floor)"/>
+
+  <!-- Check-in Counter (left, x:18%, y:62%) -->
+  <g filter="url(#sh)">
+    <rect x="85" y="485" width="320" height="190" rx="18" fill="#0284c7" stroke="#0369a1" stroke-width="5"/>
+    <rect x="75" y="468" width="340" height="24" rx="10" fill="#ffffff"/>
+    <!-- Boarding Pass & Ticket (x:24%, y:51% -> 384, 459) -->
+    <rect x="335" y="438" width="68" height="32" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="3" transform="rotate(-10 369 454)"/>
+    <!-- Passport (x:14%, y:51% -> 224, 459) -->
+    <rect x="195" y="432" width="44" height="56" rx="6" fill="#1e3a8a" stroke="#facc15" stroke-width="3"/>
+    <circle cx="217" cy="458" r="10" fill="none" stroke="#facc15" stroke-width="2.5"/>
+  </g>
+
+  <!-- Airport Seats / Waiting Bench (right, x:82%, y:64%) -->
+  <g filter="url(#sh)">
+    <rect x="1150" y="540" width="340" height="28" rx="12" fill="#334155"/>
+    <rect x="1170" y="475" width="85" height="70" rx="14" fill="#38bdf8"/>
+    <rect x="1275" y="475" width="85" height="70" rx="14" fill="#38bdf8"/>
+    <rect x="1380" y="475" width="85" height="70" rx="14" fill="#38bdf8"/>
+    <line x1="1190" y1="568" x2="1190" y2="645" stroke="#475569" stroke-width="12"/>
+    <line x1="1450" y1="568" x2="1450" y2="645" stroke="#475569" stroke-width="12"/>
+  </g>
+
+  <!-- Pilot / Flight Attendant (x:66%, y:49% -> 1056, 441) -->
+  <g filter="url(#sh)">
+    <rect x="1026" y="520" width="24" height="135" rx="10" fill="#0f172a"/>
+    <rect x="1062" y="520" width="24" height="135" rx="10" fill="#0f172a"/>
+    <rect x="1010" y="385" width="92" height="148" rx="22" fill="#1e293b"/>
+    <polygon points="1042,385 1070,385 1056,435" fill="#ffffff"/>
+    <circle cx="1056" cy="332" r="44" fill="#fed7aa"/>
+    <!-- Pilot Hat -->
+    <rect x="1012" y="285" width="88" height="22" rx="8" fill="#0f172a"/>
+    <rect x="1024" y="302" width="64" height="10" rx="4" fill="#facc15"/>
+    <circle cx="1040" cy="334" r="5" fill="#1e293b"/>
+    <circle cx="1072" cy="334" r="5" fill="#1e293b"/>
+    <path d="M1042 352 Q1056 364 1070 352" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Deniz with Backpack & Suitcase (x:48%, y:56% -> 768, 504) -->
+  <g filter="url(#sh)">
+    <!-- Backpack (x:44%, y:56% -> 704, 504) -->
+    <rect x="698" y="472" width="44" height="72" rx="14" fill="#22c55e" stroke="#15803d" stroke-width="3"/>
+    <!-- Legs & Sneakers -->
+    <rect x="742" y="595" width="22" height="90" rx="9" fill="#1d4ed8"/>
+    <rect x="778" y="595" width="22" height="90" rx="9" fill="#1d4ed8"/>
+    <ellipse cx="751" cy="690" rx="20" ry="10" fill="#ef4444"/>
+    <ellipse cx="791" cy="690" rx="20" ry="10" fill="#ef4444"/>
+    <!-- Shirt -->
+    <rect x="730" y="465" width="82" height="138" rx="24" fill="#f97316"/>
+    <!-- Head -->
+    <circle cx="771" cy="414" r="44" fill="#fed7aa"/>
+    <path d="M728 406 Q734 360 771 360 Q808 360 814 406 Q794 386 771 388 Q746 386 728 406 Z" fill="#451a03"/>
+    <circle cx="756" cy="414" r="5" fill="#1e293b"/>
+    <circle cx="786" cy="414" r="5" fill="#1e293b"/>
+    <path d="M758 432 Q771 444 784 432" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Rolling Suitcase (x:56%, y:67% -> 896, 603) -->
+  <g filter="url(#sh)">
+    <line x1="896" y1="505" x2="896" y2="565" stroke="#475569" stroke-width="8"/>
+    <rect x="876" y="498" width="40" height="14" rx="6" fill="#1e293b"/>
+    <rect x="846" y="555" width="100" height="130" rx="18" fill="#ef4444" stroke="#b91c1c" stroke-width="4"/>
+    <rect x="866" y="582" width="60" height="22" rx="6" fill="#fde047"/>
+    <circle cx="864" cy="696" r="12" fill="#1e293b"/>
+    <circle cx="928" cy="696" r="12" fill="#1e293b"/>
+  </g>
+</svg>

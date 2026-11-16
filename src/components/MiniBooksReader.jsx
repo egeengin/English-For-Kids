@@ -1,0 +1,266 @@
+import React, { useState, useRef, useEffect } from 'react';
+import confetti from 'canvas-confetti';
+import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
+import { speakEnglish } from '../utils/speech';
+import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+
+function getMiniBooks(childName = 'Deniz') {
+  return [
+    {
+      id: 'antalya_book',
+      title: `${childName} Goes to Antalya`,
+      emoji: '✈️',
+      color: 'from-sky-500 to-cyan-500',
+      pages: [
+        { emoji: '🧳', text: `${childName} packs a red suitcase.` },
+        { emoji: '✈️', text: 'The big airplane flies to Antalya.' },
+        { emoji: '🌊', text: `${childName} goes down the fast water slide!` },
+        { emoji: '🍔', text: 'Then we eat a yummy burger and fries.' },
+      ],
+      question: `Where did ${childName} go on the airplane?`,
+      options: [
+        { text: 'Antalya ☀️', isCorrect: true },
+        { text: 'The Moon 🌙', isCorrect: false },
+        { text: 'A Bakery 🧁', isCorrect: false },
+      ],
+    },
+    {
+      id: 'ballorig_book',
+      title: `${childName} at Ballorig`,
+      emoji: '🎂',
+      color: 'from-pink-500 to-fuchsia-500',
+      pages: [
+        { emoji: '🎈', text: `Today is a birthday party at Ballorig!` },
+        { emoji: '🔴', text: `${childName} jumps into the colorful ball pit.` },
+        { emoji: '🤸', text: 'Friends bounce high on the trampoline.' },
+        { emoji: '🎂', text: 'Everyone sings Happy Birthday and eats cake!' },
+      ],
+      question: `What did ${childName} jump into at Ballorig?`,
+      options: [
+        { text: 'The ball pit 🔴', isCorrect: true },
+        { text: 'A snow hill ⛄', isCorrect: false },
+        { text: 'A submarine 🚤', isCorrect: false },
+      ],
+    },
+    {
+      id: 'lost_ball_book',
+      title: 'Where Is the Ball?',
+      emoji: '⚽',
+      color: 'from-emerald-500 to-teal-500',
+      pages: [
+        { emoji: '🐱', text: 'The orange cat sleeps on the blue sofa.' },
+        { emoji: '🧸', text: 'The teddy bear sits in the purple box.' },
+        { emoji: '🐶', text: 'The puppy hides behind the big tree.' },
+        { emoji: '⚽', text: 'Aha! The soccer ball is under the table!' },
+      ],
+      question: 'Where is the soccer ball hiding?',
+      options: [
+        { text: 'Under the table ⬇️', isCorrect: true },
+        { text: 'On the sofa 🛋️', isCorrect: false },
+        { text: 'Behind the tree 🌳', isCorrect: false },
+      ],
+    },
+  ];
+}
+
+export default function MiniBooksReader({ onRewardEarned, isMuted = false, childName = 'Deniz' }) {
+  const books = getMiniBooks(childName);
+  const [bookIdx, setBookIdx] = useState(0);
+  const [pageIdx, setPageIdx] = useState(0); // 0..pages.length (last index = question)
+  const [highlightIdx, setHighlightIdx] = useState(-1);
+  const [quizSolved, setQuizSolved] = useState(false);
+  const timerRef = useRef(null);
+
+  const book = books[bookIdx];
+  const isQuestionPage = pageIdx >= book.pages.length;
+  const currentPage = !isQuestionPage ? book.pages[pageIdx] : null;
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const readLine = (sentence) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (!sentence) return;
+    if (!isMuted) speakEnglish(sentence);
+
+    const words = sentence.split(' ');
+    let idx = 0;
+    setHighlightIdx(0);
+    timerRef.current = setInterval(() => {
+      idx++;
+      if (idx < words.length) {
+        setHighlightIdx(idx);
+      } else {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+        setTimeout(() => setHighlightIdx(-1), 500);
+      }
+    }, 360);
+  };
+
+  const selectBook = (idx) => {
+    playTap(isMuted);
+    if (timerRef.current) clearInterval(timerRef.current);
+    setBookIdx(idx);
+    setPageIdx(0);
+    setHighlightIdx(-1);
+    setQuizSolved(false);
+  };
+
+  const handleAnswer = (opt) => {
+    if (opt.isCorrect) {
+      playStarSparkle(isMuted);
+      setQuizSolved(true);
+      confetti({ particleCount: 60, spread: 60, origin: { y: 0.65 } });
+      if (onRewardEarned) onRewardEarned(4);
+      if (!isMuted) speakEnglish('Great reading! You got it!');
+    } else {
+      playGentleWobble(isMuted);
+      if (!isMuted) speakEnglish('Try again!');
+    }
+  };
+
+  return (
+    <div className="w-full max-w-4xl mx-auto px-3 py-4">
+      {/* Simple Book Picker */}
+      <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+        {books.map((b, idx) => (
+          <button
+            key={b.id}
+            type="button"
+            onClick={() => selectBook(idx)}
+            className={`px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base border-2 flex items-center gap-2 cursor-pointer transition shadow-sm ${
+              idx === bookIdx
+                ? `bg-gradient-to-r ${b.color} text-white border-white shadow-md scale-[1.03]`
+                : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
+            }`}
+          >
+            <span className="text-xl">{b.emoji}</span>
+            <span>{b.title}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Book Page Card */}
+      <div className="bg-white rounded-3xl shadow-xl border-4 border-slate-200 overflow-hidden">
+        <div className={`bg-gradient-to-r ${book.color} px-5 py-3.5 text-white flex items-center justify-between`}>
+          <div className="flex items-center gap-2 font-display font-black text-lg sm:text-xl">
+            <BookOpen className="w-6 h-6" />
+            <span>{book.title}</span>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-slate-900/40 text-xs sm:text-sm font-black">
+            {isQuestionPage ? 'Quiz' : `Page ${pageIdx + 1} / ${book.pages.length}`}
+          </span>
+        </div>
+
+        <div className="p-6 sm:p-10 text-center">
+          {!isQuestionPage && currentPage ? (
+            <>
+              <div className="text-7xl sm:text-8xl mb-5 leading-none">{currentPage.emoji}</div>
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-7">
+                {currentPage.text.split(' ').map((word, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      playSnap(isMuted);
+                      if (!isMuted) speakEnglish(word.replace(/[^a-zA-Z']/g, ''));
+                    }}
+                    className={`font-display font-black text-2xl sm:text-4xl px-2 py-1 rounded-xl transition cursor-pointer ${
+                      highlightIdx === idx
+                        ? 'bg-yellow-300 text-slate-950 scale-110 shadow-sm'
+                        : 'text-slate-900 hover:bg-blue-50'
+                    }`}
+                  >
+                    {word}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                <button
+                  type="button"
+                  disabled={pageIdx === 0}
+                  onClick={() => {
+                    playTap(isMuted);
+                    setHighlightIdx(-1);
+                    setPageIdx((p) => Math.max(0, p - 1));
+                  }}
+                  className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-black flex items-center gap-1 cursor-pointer"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  <span>Geri</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => readLine(currentPage.text)}
+                  className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-lg shadow-md flex items-center gap-2 cursor-pointer"
+                >
+                  <Volume2 className="w-6 h-6" />
+                  <span>Benim İçin Oku</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTap(isMuted);
+                    if (timerRef.current) clearInterval(timerRef.current);
+                    setHighlightIdx(-1);
+                    setPageIdx((p) => p + 1);
+                  }}
+                  className="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-lg shadow-md flex items-center gap-1 cursor-pointer"
+                >
+                  <span>Sonraki</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="max-w-xl mx-auto">
+              <div className="text-5xl mb-3">❓</div>
+              <h3 className="font-display font-black text-2xl sm:text-3xl text-slate-900 mb-5">
+                {book.question}
+              </h3>
+              <button
+                type="button"
+                onClick={() => !isMuted && speakEnglish(book.question)}
+                className="mb-5 px-4 py-2 rounded-xl bg-blue-100 text-blue-900 font-black text-sm inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <Volume2 className="w-4 h-4" />
+                <span>Soruyu Dinle</span>
+              </button>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {book.options.map((opt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleAnswer(opt)}
+                    className={`p-5 rounded-2xl border-3 font-display font-black text-lg cursor-pointer transition shadow-sm ${
+                      quizSolved && opt.isCorrect
+                        ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
+                        : 'bg-slate-50 hover:bg-blue-50 border-slate-200 text-slate-900'
+                    }`}
+                  >
+                    {opt.text}
+                  </button>
+                ))}
+              </div>
+
+              {quizSolved && (
+                <div className="mt-5 inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-5 py-2.5 rounded-2xl font-black">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                  <span>Kitabı tamamladın! (+4 ⭐)</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

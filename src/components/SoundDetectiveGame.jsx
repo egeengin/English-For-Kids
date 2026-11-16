@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
 import { speakEnglish } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
 const SOUND_PAIRS = [
   { a: { word: 'Ship', emoji: '🚢' }, b: { word: 'Sheep', emoji: '🐑' } },
@@ -53,6 +54,7 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
       playStarSparkle(isMuted);
       setStatus('correct');
       setScore((s) => s + 1);
+      recordMasteredWord(target.word, target.emoji);
       if (onRewardEarned) onRewardEarned(2);
       if ((score + 1) % 5 === 0) {
         confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
@@ -61,6 +63,7 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
     } else {
       playGentleWobble(isMuted);
       setStatus('wrong');
+      recordMissedWord(target.word, target.emoji);
       if (!isMuted) {
         speakEnglish(`That is ${pair[side].word}. Find ${target.word}!`);
       }

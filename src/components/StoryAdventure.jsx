@@ -25,6 +25,7 @@ import { getStoryWorlds } from '../data/storyData';
 import { speakEnglish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
+import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 // Lightweight dictionary for word-by-word inspector in karaoke read-along
@@ -645,6 +646,7 @@ export default function StoryAdventure({
                           playStarSparkle(isMuted);
                           setFindFoundId(spot.id);
                           setActiveProp(spot);
+                          recordMasteredWord(findTarget.name, findTarget.emoji);
                           if (onRewardEarned) onRewardEarned(2);
                           if (!isMuted) {
                             speakEnglish(`Great job! ${spot.name}!`);
@@ -655,6 +657,7 @@ export default function StoryAdventure({
                         } else {
                           playGentleWobble(isMuted);
                           setActiveProp(spot);
+                          recordMissedWord(findTarget.name, findTarget.emoji);
                           if (!isMuted) {
                             speakEnglish(`That is ${spot.name}. Find the ${findTarget.name}!`);
                           }

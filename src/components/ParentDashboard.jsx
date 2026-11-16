@@ -28,6 +28,7 @@ import {
 import { speakEnglish, speakTurkish } from '../utils/speech';
 import { playTap, playSuccessChime, playGentleWobble } from '../utils/soundEffects';
 import { testGeminiApiKey } from '../utils/gemini';
+import { getWeeklySummary } from '../utils/reviewTracker';
 
 export default function ParentDashboard({
   streak,
@@ -252,6 +253,52 @@ export default function ParentDashboard({
       {/* Tab 1: Overview & Metrics */}
       {activeTab === 'overview' && (
         <div className="space-y-6 animate-fadeIn">
+          {(() => {
+            const weekly = getWeeklySummary();
+            return (
+              <div className="bg-white border-2 border-emerald-200 rounded-2xl p-4 shadow-xs">
+                <div className="flex items-center justify-between gap-2 flex-wrap mb-3">
+                  <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
+                    📅 Haftalık Kelime Özeti (Son 7 Gün)
+                  </h3>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-black text-xs">
+                    {weekly.practicedCount} kelime çalışıldı
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="bg-emerald-50 rounded-xl p-3 border border-emerald-200">
+                    <div className="font-black text-emerald-900 mb-1.5">✅ Öğrenilen Kelimeler</div>
+                    {weekly.masteredWords.length > 0 ? (
+                      <div className="flex flex-wrap gap-1.5">
+                        {weekly.masteredWords.map((w) => (
+                          <span key={w.word} className="px-2 py-0.5 bg-white rounded-lg border border-emerald-200 font-bold text-slate-800">
+                            {w.emoji} {w.word}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-500 font-bold">Oyunlarda doğru bildikçe burada birikir.</div>
+                    )}
+                  </div>
+                  <div className="bg-amber-50 rounded-xl p-3 border border-amber-200">
+                    <div className="font-black text-amber-900 mb-1.5">🔁 Tekrar Edilecekler</div>
+                    {weekly.trickyWords.length > 0 ? (
+                      <div className="flex flex-wrap gap-1.5">
+                        {weekly.trickyWords.map((w) => (
+                          <span key={w.word} className="px-2 py-0.5 bg-white rounded-lg border border-amber-200 font-bold text-slate-800">
+                            {w.emoji} {w.word}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-500 font-bold">Henüz zorlanılan kelime yok!</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Quick Profile & AI Status Banner */}
           <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-3">

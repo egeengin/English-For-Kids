@@ -14,6 +14,10 @@ import AudioMemoryGame from './components/AudioMemoryGame';
 import SoundDetectiveGame from './components/SoundDetectiveGame';
 import RhymingPairsGame from './components/RhymingPairsGame';
 import StickerCollection from './components/StickerCollection';
+import MiniBooksReader from './components/MiniBooksReader';
+import QuestionQuizGame from './components/QuestionQuizGame';
+import QuickSpeakGame from './components/QuickSpeakGame';
+import SmartReviewGame from './components/SmartReviewGame';
 import LegoDiorama from './components/LegoDiorama';
 import WalkieTalkieModal from './components/WalkieTalkieModal';
 import CertificateModal from './components/CertificateModal';
@@ -423,6 +427,34 @@ export default function App() {
           />
         )}
 
+        {/* Story Mode Switcher: Interactive Scenes vs Mini Reading Books */}
+        {(currentTab === 'story' || currentTab === 'books') && (
+          <div className="w-full max-w-4xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => handleTabChange('story')}
+              className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+                currentTab === 'story'
+                  ? 'bg-purple-600 text-white border-purple-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
+              }`}
+            >
+              🗺️ Hikaye Sahneleri
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('books')}
+              className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+                currentTab === 'books'
+                  ? 'bg-blue-600 text-white border-blue-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
+              }`}
+            >
+              📖 Mini Kitaplar
+            </button>
+          </div>
+        )}
+
         {/* Story Adventure with Voice Talk & Karaoke */}
         {currentTab === 'story' && (
           <StoryAdventure
@@ -435,24 +467,32 @@ export default function App() {
           />
         )}
 
+        {currentTab === 'books' && (
+          <MiniBooksReader
+            onRewardEarned={handleRewardEarned}
+            isMuted={state.soundMuted}
+            childName={childName}
+          />
+        )}
+
         {/* Games Hub Switcher */}
-        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'collection'].includes(currentTab) && (
-          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap">
+        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab) && (
+          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 flex-wrap">
             <button
               type="button"
               onClick={() => handleTabChange('balloons')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'games' || currentTab === 'balloons'
                   ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
               }`}
             >
-              🎈 Balon Patlat
+              🎈 Balon
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('memory')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'memory'
                   ? 'bg-indigo-600 text-white border-indigo-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300'
@@ -463,18 +503,18 @@ export default function App() {
             <button
               type="button"
               onClick={() => handleTabChange('sound_pairs')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'sound_pairs'
                   ? 'bg-sky-600 text-white border-sky-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-sky-300'
               }`}
             >
-              👂 Ses Dedektifi
+              👂 Ses
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('rhymes')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'rhymes'
                   ? 'bg-purple-600 text-white border-purple-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
@@ -484,30 +524,63 @@ export default function App() {
             </button>
             <button
               type="button"
+              onClick={() => handleTabChange('questions')}
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+                currentTab === 'questions'
+                  ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
+              }`}
+            >
+              ❓ Sorular
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('quick_speak')}
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+                currentTab === 'quick_speak'
+                  ? 'bg-violet-600 text-white border-violet-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-violet-300'
+              }`}
+            >
+              🎙️ Konuş
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('smart_review')}
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+                currentTab === 'smart_review'
+                  ? 'bg-orange-500 text-white border-orange-700 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-orange-300'
+              }`}
+            >
+              🔁 Tekrar
+            </button>
+            <button
+              type="button"
               onClick={() => handleTabChange('phonics')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'phonics'
                   ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
               }`}
             >
-              🔤 Harf Birleştir
+              🔤 Harfler
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('differences')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'differences'
-                  ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
+                  ? 'bg-emerald-600 text-white border-emerald-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-300'
               }`}
             >
-              🔍 7 Fark Bul
+              🔍 7 Fark
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('collection')}
-              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'collection'
                   ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
@@ -537,6 +610,18 @@ export default function App() {
 
         {currentTab === 'rhymes' && (
           <RhymingPairsGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'questions' && (
+          <QuestionQuizGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'quick_speak' && (
+          <QuickSpeakGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'smart_review' && (
+          <SmartReviewGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
         )}
 
         {currentTab === 'collection' && (
@@ -638,7 +723,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('story')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'story' ? 'text-purple-400 font-black' : 'text-slate-400'
+            currentTab === 'story' || currentTab === 'books' ? 'text-purple-400 font-black' : 'text-slate-400'
           }`}
         >
           <BookOpen className="w-5 h-5" />
@@ -648,7 +733,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'collection'].includes(currentTab)
+            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab)
               ? 'text-rose-400 font-black'
               : 'text-slate-400'
           }`}

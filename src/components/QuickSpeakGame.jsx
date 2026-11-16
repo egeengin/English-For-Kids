@@ -4,6 +4,7 @@ import { Volume2, Mic, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 import { speakEnglish } from '../utils/speech';
 import { playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
+import { startAudioClipRecorder } from '../utils/audioRecorder';
 
 const SPEAK_PHRASES = [
   { emoji: '🍔', phrase: 'A burger and fries, please!', tr: 'Bir burger ve patates lütfen!' },
@@ -30,7 +31,9 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   const [heardText, setHeardText] = useState('');
   const [passed, setPassed] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
   const listenerRef = useRef(null);
+  const recorderRef = useRef(null);
   const micSupported = isSpeechRecognitionSupported();
 
   const item = SPEAK_PHRASES[idx % SPEAK_PHRASES.length];
@@ -49,12 +52,23 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     if (!isMuted) speakEnglish('Awesome speaking!');
   };
 
-  const startMic = () => {
+  const stopClip = async () => {
+    if (recorderRef.current) {
+      const url = await recorderRef.current.stopAndGetUrl();
+      recorderRef.current = null;
+      if (url) setRecordedAudioUrl(url);
+    }
+  };
+
+  const startMic = async () => {
     if (!micSupported || isListening) return;
     playTap(isMuted);
     setHeardText('');
     setFeedback('');
+    setRecordedAudioUrl(null);
     setIsListening(true);
+
+    recorderRef.current = await startAudioClipRecorder();
 
     listenerRef.current = createSpeechListener({
       lang: 'en-US',
@@ -63,6 +77,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
         if (!isFinal) return;
         const finalText = transcript || '';
         setIsListening(false);
+        await stopClip();
         setHeardText(finalText);
         const res = await evaluateKidPronunciation({
           targetPhrase: item.phrase,
@@ -78,9 +93,13 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
       },
       onError: () => {
         setIsListening(false);
+        stopClip();
         setFeedback('Mikrofon dinlenemedi, "Söyledim ✓" butonunu kullanabilirsin.');
       },
-      onEnd: () => setIsListening(false),
+      onEnd: () => {
+        setIsListening(false);
+        stopClip();
+      },
     });
 
     if (listenerRef.current) listenerRef.current.start();
@@ -93,6 +112,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     setPassed(false);
     setHeardText('');
     setFeedback('');
+    setRecordedAudioUrl(null);
     setIsListening(false);
   };
 
@@ -155,6 +175,20 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               className="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-base shadow-md cursor-pointer"
             >
               Söyledim ✓
+            </button>
+          )}
+
+          {recordedAudioUrl && (
+            <button
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                new Audio(recordedAudioUrl).play().catch(() => {});
+              }}
+              className="px-5 py-3.5 rounded-2xl bg-purple-100 hover:bg-purple-200 text-purple-900 font-display font-black text-base border-2 border-purple-300 flex items-center gap-2 cursor-pointer"
+            >
+              <Volume2 className="w-5 h-5" />
+              <span>Kaydımı Dinle</span>
             </button>
           )}
         </div>

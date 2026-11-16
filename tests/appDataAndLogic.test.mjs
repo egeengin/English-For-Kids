@@ -122,28 +122,34 @@ test('Review Tracker: records missed/mastered words and generates weekly summary
 });
 
 test('Speech Evaluation: accepts exact/keyword matches and rejects unrelated transcripts', async () => {
-  const exact = await evaluateKidPronunciation({
-    targetPhrase: 'A burger and fries, please!',
-    transcript: 'A burger and fries please',
-  });
-  assert.equal(exact.isAccepted, true);
-  assert.ok(exact.stars >= 2);
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => { throw new Error('offline'); };
+  try {
+    const exact = await evaluateKidPronunciation({
+      targetPhrase: 'A burger and fries, please!',
+      transcript: 'A burger and fries please',
+    });
+    assert.equal(exact.isAccepted, true);
+    assert.ok(exact.stars >= 2);
 
-  const partial = await evaluateKidPronunciation({
-    targetPhrase: 'Where is the pool?',
-    transcript: 'where pool',
-  });
-  assert.equal(partial.isAccepted, true);
+    const partial = await evaluateKidPronunciation({
+      targetPhrase: 'Where is the pool?',
+      transcript: 'where is pool',
+    });
+    assert.equal(partial.isAccepted, true);
 
-  const wrong = await evaluateKidPronunciation({
-    targetPhrase: 'Where is the pool?',
-    transcript: 'banana elephant',
-  });
-  assert.equal(wrong.isAccepted, false);
+    const wrong = await evaluateKidPronunciation({
+      targetPhrase: 'Where is the pool?',
+      transcript: 'banana elephant',
+    });
+    assert.equal(wrong.isAccepted, false);
 
-  const empty = await evaluateKidPronunciation({
-    targetPhrase: 'Hello!',
-    transcript: '',
-  });
-  assert.equal(empty.isAccepted, false);
+    const empty = await evaluateKidPronunciation({
+      targetPhrase: 'Hello!',
+      transcript: '',
+    });
+    assert.equal(empty.isAccepted, false);
+  } finally {
+    globalThis.fetch = origFetch;
+  }
 });

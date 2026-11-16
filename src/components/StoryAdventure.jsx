@@ -17,6 +17,7 @@ import { getStoryWorlds } from '../data/storyData';
 import { speakEnglish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
+import { startAudioClipRecorder } from '../utils/audioRecorder';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
@@ -129,7 +130,9 @@ export default function StoryAdventure({
   const [voiceEvaluation, setVoiceEvaluation] = useState(null);
   const [isEvaluatingSpeech, setIsEvaluatingSpeech] = useState(false);
   const [voiceError, setVoiceError] = useState(null);
+  const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
   const speechRecognitionRef = useRef(null);
+  const audioRecorderRef = useRef(null);
 
   // Synchronized Karaoke Read-Along & Word Inspector State
   const [highlightedWordIndex, setHighlightedWordIndex] = useState(null);
@@ -208,6 +211,7 @@ export default function StoryAdventure({
     setActiveProp(null);
     setFindTarget(null);
     setFindFoundId(null);
+    setRecordedAudioUrl(null);
 
     if (!isMuted && chapter) {
       const timer = setTimeout(() => {
@@ -356,10 +360,19 @@ export default function StoryAdventure({
   };
 
   // Interactive Voice recognition and AI pronunciation evaluation
-  const handleStartVoiceListening = () => {
+  const stopVoiceRecording = async () => {
+    if (audioRecorderRef.current) {
+      const url = await audioRecorderRef.current.stopAndGetUrl();
+      audioRecorderRef.current = null;
+      if (url) setRecordedAudioUrl(url);
+    }
+  };
+
+  const handleStartVoiceListening = async () => {
     if (isListening) {
       if (speechRecognitionRef.current) speechRecognitionRef.current.stop();
       setIsListening(false);
+      await stopVoiceRecording();
       return;
     }
 
@@ -367,11 +380,14 @@ export default function StoryAdventure({
     setVoiceError(null);
     setVoiceEvaluation(null);
     setInterimSpeech('');
+    setRecordedAudioUrl(null);
 
     if (!isSpeechRecognitionSupported()) {
       setVoiceError('Speech recognition is not supported in this browser. Please try Chrome or Safari.');
       return;
     }
+
+    audioRecorderRef.current = await startAudioClipRecorder();
 
     const listener = createSpeechListener({
       lang: 'en-US',
@@ -382,6 +398,7 @@ export default function StoryAdventure({
         setInterimSpeech(transcript);
         if (isFinal && transcript) {
           setIsListening(false);
+          await stopVoiceRecording();
           setIsEvaluatingSpeech(true);
 
           const evalResult = await evaluateKidPronunciation({
@@ -432,9 +449,11 @@ export default function StoryAdventure({
       onError: (msg) => {
         setIsListening(false);
         setVoiceError(msg);
+        stopVoiceRecording();
       },
       onEnd: () => {
         setIsListening(false);
+        stopVoiceRecording();
       },
     });
 
@@ -989,16 +1008,33 @@ export default function StoryAdventure({
                 )}
               </button>
 
-              {/* Live Transcript / Speech Indicator */}
-              {interimSpeech && (
+              {/* Live Transcript / Speech Indicator + Playback */}
+              {(interimSpeech || recordedAudioUrl) && (
                 <div className="bg-white border-2 border-purple-300 rounded-2xl p-3.5 text-xs font-bold text-slate-800 shadow-sm max-w-2xl w-full animate-scaleUp">
-                  <div className="text-purple-700 font-black mb-1 flex items-center justify-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                    <span>What we heard from {childName}:</span>
-                  </div>
-                  <span className="text-base font-black font-display italic text-slate-900">
-                    "{interimSpeech}"
-                  </span>
+                  {interimSpeech && (
+                    <>
+                      <div className="text-purple-700 font-black mb-1 flex items-center justify-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                        <span>What we heard from {childName}:</span>
+                      </div>
+                      <span className="text-base font-black font-display italic text-slate-900 block">
+                        &quot;{interimSpeech}&quot;
+                      </span>
+                    </>
+                  )}
+                  {recordedAudioUrl && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playTap(isMuted);
+                        new Audio(recordedAudioUrl).play().catch(() => {});
+                      }}
+                      className="mt-2.5 px-4 py-2 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-900 font-display font-black text-xs sm:text-sm inline-flex items-center gap-1.5 border border-purple-300 cursor-pointer transition"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                      <span>🔊 Kaydımı Dinle</span>
+                    </button>
+                  )}
                 </div>
               )}
 

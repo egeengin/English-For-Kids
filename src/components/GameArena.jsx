@@ -880,7 +880,7 @@ export default function GameArena({
             GREAT JOB, MASTER BUILDER!
           </h2>
           <p className="text-sm sm:text-base text-slate-600 font-bold max-w-md mx-auto mb-6">
-            You completed all challenges in <span className="text-red-600 font-black">{currentLevel.title}</span>! Let's build models in the workshop!
+            You completed all challenges in <span className="text-red-600 font-black">{currentLevel.title}</span>!
           </p>
 
           <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto mb-6">
@@ -890,24 +890,13 @@ export default function GameArena({
               <span className="text-xs font-bold text-slate-500">Stars</span>
             </div>
             <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-3 flex flex-col items-center">
-              <span className="text-2xl mb-1">🧱</span>
+              <span className="text-2xl mb-1">🏆</span>
               <span className="text-xl font-black font-mono text-slate-800">+{currentLevel.bricksReward || 4}</span>
-              <span className="text-xs font-bold text-slate-500">Bricks</span>
+              <span className="text-xs font-bold text-slate-500">Points</span>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button
-              onClick={() => {
-                playTap(isMuted);
-                onNavigateToWorkshop();
-              }}
-              className="w-full sm:w-auto min-h-[56px] px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-display font-black rounded-2xl border-2 border-b-6 border-blue-900 active:border-b-2 active:translate-y-1 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-            >
-              <span>Build in Workshop 🚀</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-
             <button
               onClick={handleRestartLevel}
               className="w-full sm:w-auto min-h-[56px] px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-black rounded-2xl border-2 border-slate-300 transition-all flex items-center justify-center gap-2 cursor-pointer"

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import GameArena from './components/GameArena';
-import LegoWorkshop from './components/LegoWorkshop';
 import ParentDashboard from './components/ParentDashboard';
 import MathGateModal from './components/MathGateModal';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -18,7 +17,6 @@ import MiniBooksReader from './components/MiniBooksReader';
 import QuestionQuizGame from './components/QuestionQuizGame';
 import QuickSpeakGame from './components/QuickSpeakGame';
 import SmartReviewGame from './components/SmartReviewGame';
-import LegoDiorama from './components/LegoDiorama';
 import WalkieTalkieModal from './components/WalkieTalkieModal';
 import CertificateModal from './components/CertificateModal';
 import DailyMissionHub from './components/DailyMissionHub';
@@ -411,7 +409,7 @@ export default function App() {
         {currentTab === 'phonics' && (
           <PhonicsBuilder
             onRewardEarned={handleRewardEarned}
-            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            onNavigateToWorkshop={() => setCurrentTab('collection')}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}
@@ -422,7 +420,7 @@ export default function App() {
         {currentTab === 'differences' && (
           <SceneExplorer
             onRewardEarned={handleRewardEarned}
-            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            onNavigateToWorkshop={() => setCurrentTab('collection')}
             isMuted={state.soundMuted}
           />
         )}
@@ -459,7 +457,7 @@ export default function App() {
         {currentTab === 'story' && (
           <StoryAdventure
             onRewardEarned={handleRewardEarned}
-            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            onNavigateToWorkshop={() => setCurrentTab('collection')}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}
@@ -628,16 +626,6 @@ export default function App() {
           <StickerCollection bricks={state.bricks} isMuted={state.soundMuted} childName={childName} />
         )}
 
-        {/* Guru Feature 5: My Lego Town Sticker Diorama */}
-        {currentTab === 'town' && (
-          <LegoDiorama
-            initialItems={state.dioramaItems || []}
-            onSaveItems={handleSaveDioramaItems}
-            isMuted={state.soundMuted}
-            childName={childName}
-          />
-        )}
-
         {/* Traditional Quiz Arena */}
         {currentTab === 'arena' && (
           <GameArena
@@ -645,29 +633,13 @@ export default function App() {
             customWords={state.customWords || []}
             onRewardEarned={handleRewardEarned}
             onWordResult={handleWordResult}
-            onNavigateToWorkshop={() => setCurrentTab('workshop')}
+            onNavigateToWorkshop={() => setCurrentTab('collection')}
             onQuestionCompleted={handleQuestionCompleted}
             isAdventureStarted={!showWelcome}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}
             geminiApiKey={geminiApiKey}
-          />
-        )}
-
-        {/* 3D Lego Workshop & Dress Up Minifigure Studio */}
-        {currentTab === 'workshop' && (
-          <LegoWorkshop
-            unlockedStages={state.unlockedStages || {}}
-            bricks={state.bricks}
-            onUnlockStage={handleUnlockStage}
-            onNavigateToArena={() => setCurrentTab('discovery')}
-            isMuted={state.soundMuted}
-            unlockedAccessories={state.unlockedAccessories || ['cap']}
-            equippedAccessory={state.equippedAccessory || 'cap'}
-            onUnlockAccessory={handleUnlockAccessory}
-            onEquipAccessory={handleEquipAccessory}
-            childName={childName}
           />
         )}
 

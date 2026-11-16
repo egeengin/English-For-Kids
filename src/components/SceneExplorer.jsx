@@ -393,7 +393,7 @@ export default function SceneExplorer({
                   Awesome! All 7 Differences Found!
                 </h3>
                 <p className="text-xs font-bold text-slate-800">
-                  You earned +5 Stars ⭐ and +3 Lego Bricks 🧱! Build new models in the workshop!
+                  You earned +5 Stars ⭐!
                 </p>
               </div>
             </div>
@@ -405,13 +405,6 @@ export default function SceneExplorer({
               >
                 <span>Next Scene</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={onNavigateToWorkshop}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-display font-black text-sm shadow-md hover:bg-blue-700 transition-all cursor-pointer"
-              >
-                <Wrench className="w-4 h-4" />
-                <span>Build in Workshop</span>
               </button>
             </div>
           </div>

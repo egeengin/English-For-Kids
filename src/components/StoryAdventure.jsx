@@ -5,7 +5,6 @@ import {
   Sparkles,
   ArrowRight,
   RotateCcw,
-  Wrench,
   Check,
   Mic,
   AlertCircle,
@@ -1132,10 +1131,9 @@ export default function StoryAdventure({
               </button>
               <button
                 onClick={onNavigateToWorkshop}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-display font-black text-xs shadow-md hover:bg-blue-700 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-display font-black text-xs shadow-md hover:bg-amber-300 transition-all cursor-pointer"
               >
-                <Wrench className="w-4 h-4" />
-                <span>Build in Workshop</span>
+                <span>🏆 Rozetlerim</span>
               </button>
             </div>
           </div>

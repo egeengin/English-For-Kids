@@ -10,6 +10,10 @@ import SceneExplorer from './components/SceneExplorer';
 import StoryAdventure from './components/StoryAdventure';
 import BalloonPopGame from './components/BalloonPopGame';
 import PhonicsBuilder from './components/PhonicsBuilder';
+import AudioMemoryGame from './components/AudioMemoryGame';
+import SoundDetectiveGame from './components/SoundDetectiveGame';
+import RhymingPairsGame from './components/RhymingPairsGame';
+import StickerCollection from './components/StickerCollection';
 import LegoDiorama from './components/LegoDiorama';
 import WalkieTalkieModal from './components/WalkieTalkieModal';
 import CertificateModal from './components/CertificateModal';
@@ -431,13 +435,13 @@ export default function App() {
           />
         )}
 
-        {/* Games Hub Switcher (Balloons / Phonics / 7 Differences) */}
-        {(currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences') && (
-          <div className="w-full max-w-4xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+        {/* Games Hub Switcher */}
+        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'collection'].includes(currentTab) && (
+          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap">
             <button
               type="button"
               onClick={() => handleTabChange('balloons')}
-              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
                 currentTab === 'games' || currentTab === 'balloons'
                   ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
@@ -447,8 +451,41 @@ export default function App() {
             </button>
             <button
               type="button"
+              onClick={() => handleTabChange('memory')}
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                currentTab === 'memory'
+                  ? 'bg-indigo-600 text-white border-indigo-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300'
+              }`}
+            >
+              🃏 Hafıza
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('sound_pairs')}
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                currentTab === 'sound_pairs'
+                  ? 'bg-sky-600 text-white border-sky-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-sky-300'
+              }`}
+            >
+              👂 Ses Dedektifi
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('rhymes')}
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                currentTab === 'rhymes'
+                  ? 'bg-purple-600 text-white border-purple-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
+              }`}
+            >
+              🎵 Kafiye
+            </button>
+            <button
+              type="button"
               onClick={() => handleTabChange('phonics')}
-              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
                 currentTab === 'phonics'
                   ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
@@ -459,13 +496,24 @@ export default function App() {
             <button
               type="button"
               onClick={() => handleTabChange('differences')}
-              className={`px-4 py-2.5 rounded-2xl border-2 font-display font-black text-sm sm:text-base transition cursor-pointer ${
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
                 currentTab === 'differences'
                   ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
                   : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
               }`}
             >
               🔍 7 Fark Bul
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('collection')}
+              className={`px-3.5 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
+                currentTab === 'collection'
+                  ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
+              }`}
+            >
+              🏆 Rozetler
             </button>
           </div>
         )}
@@ -477,6 +525,22 @@ export default function App() {
             onNavigateToWorkshop={() => setCurrentTab('daily')}
             isMuted={state.soundMuted}
           />
+        )}
+
+        {currentTab === 'memory' && (
+          <AudioMemoryGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'sound_pairs' && (
+          <SoundDetectiveGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'rhymes' && (
+          <RhymingPairsGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'collection' && (
+          <StickerCollection bricks={state.bricks} isMuted={state.soundMuted} childName={childName} />
         )}
 
         {/* Guru Feature 5: My Lego Town Sticker Diorama */}
@@ -584,7 +648,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences'
+            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'collection'].includes(currentTab)
               ? 'text-rose-400 font-black'
               : 'text-slate-400'
           }`}

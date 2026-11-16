@@ -8,6 +8,9 @@ const DEFAULT_FALLBACK_WORDS = [
   { word: 'Umbrella', emoji: '☔', tr: 'Şemsiye', misses: 0, mastered: 0 },
   { word: 'Stethoscope', emoji: '🩺', tr: 'Stetoskop', misses: 0, mastered: 0 },
   { word: 'Under', emoji: '⬇️', tr: 'Altında', misses: 0, mastered: 0 },
+  { word: 'Ferry', emoji: '⛴️', tr: 'Vapur', misses: 0, mastered: 0 },
+  { word: 'Behind', emoji: '🌳', tr: 'Arkasında', misses: 0, mastered: 0 },
+  { word: 'Treasure', emoji: '💰', tr: 'Hazine', misses: 0, mastered: 0 },
 ];
 
 function readMap() {

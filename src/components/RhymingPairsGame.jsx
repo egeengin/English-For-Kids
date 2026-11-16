@@ -23,6 +23,18 @@ const RHYME_SETS = [
     { id: 'bed', left: { word: 'Bed', emoji: '🛏️' }, right: { word: 'Red', emoji: '🔴' } },
     { id: 'mouse', left: { word: 'Mouse', emoji: '🐭' }, right: { word: 'House', emoji: '🏠' } },
   ],
+  [
+    { id: 'bear', left: { word: 'Bear', emoji: '🐻' }, right: { word: 'Pear', emoji: '🍐' } },
+    { id: 'duck', left: { word: 'Duck', emoji: '🦆' }, right: { word: 'Truck', emoji: '🚚' } },
+    { id: 'king', left: { word: 'King', emoji: '🤴' }, right: { word: 'Ring', emoji: '💍' } },
+    { id: 'train', left: { word: 'Train', emoji: '🚂' }, right: { word: 'Rain', emoji: '🌧️' } },
+  ],
+  [
+    { id: 'ship', left: { word: 'Ship', emoji: '🚢' }, right: { word: 'Trip', emoji: '🧳' } },
+    { id: 'fish', left: { word: 'Fish', emoji: '🐟' }, right: { word: 'Dish', emoji: '🍽️' } },
+    { id: 'book', left: { word: 'Book', emoji: '📖' }, right: { word: 'Cook', emoji: '👨‍🍳' } },
+    { id: 'clock', left: { word: 'Clock', emoji: '⏰' }, right: { word: 'Rock', emoji: '🪨' } },
+  ],
 ];
 
 export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {

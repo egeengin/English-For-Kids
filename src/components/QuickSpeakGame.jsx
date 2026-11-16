@@ -12,6 +12,16 @@ const SPEAK_PHRASES = [
   { emoji: '😄', phrase: 'I feel happy today!', tr: 'Bugün mutlu hissediyorum!' },
   { emoji: '🎹', phrase: 'Listen to my song!', tr: 'Şarkımı dinle!' },
   { emoji: '🌙', phrase: 'Good night, sweet dreams!', tr: 'İyi geceler, tatlı rüyalar!' },
+  { emoji: '✈️', phrase: 'Let us fly to Antalya!', tr: 'Hadi Antalyaya uçalım!' },
+  { emoji: '🌊', phrase: 'Let us go on the water slide!', tr: 'Su kaydırağına gidelim!' },
+  { emoji: '💻', phrase: 'What is on the monitor?', tr: 'Monitörde ne var?' },
+  { emoji: '👩‍⚕️', phrase: 'You help people feel better!', tr: 'İnsanların iyileşmesine yardım ediyorsun!' },
+  { emoji: '⚽', phrase: 'The ball is under the table.', tr: 'Top masanın altında.' },
+  { emoji: '🐶', phrase: 'The puppy is behind the tree.', tr: 'Yavru köpek ağacın arkasında.' },
+  { emoji: '🎂', phrase: 'Happy birthday at Ballorig!', tr: 'Ballorigde doğum günün kutlu olsun!' },
+  { emoji: '🍦', phrase: 'I want ice cream, please!', tr: 'Dondurma istiyorum lütfen!' },
+  { emoji: '☔', phrase: 'I have a red umbrella.', tr: 'Kırmızı bir şemsiyem var.' },
+  { emoji: '🦒', phrase: 'The giraffe is very tall!', tr: 'Zürafa çok uzun!' },
 ];
 
 export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {

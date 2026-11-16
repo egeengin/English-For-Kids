@@ -11,7 +11,7 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
   const [step, setStep] = useState(0);
   const [solved, setSolved] = useState(false);
 
-  const reviewList = useMemo(() => getReviewWords(5), [refreshTick]);
+  const reviewList = useMemo(() => getReviewWords(8), [refreshTick]);
   const target = reviewList[step % reviewList.length];
 
   const options = useMemo(() => {
@@ -64,7 +64,7 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
           <div>
             <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 flex items-center gap-2">
               <span>🔁</span>
-              <span>Bugünün 5 Kelimesi</span>
+              <span>Bugünün 8 Kelimesi</span>
             </h2>
             <p className="text-sm font-bold text-slate-500">
               Zorlandığın veya yeni öğrendiğin kelimeleri hızlıca tekrar et!

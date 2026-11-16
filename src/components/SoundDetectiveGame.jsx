@@ -18,6 +18,14 @@ const SOUND_PAIRS = [
   { a: { word: 'Cake', emoji: '🎂' }, b: { word: 'Snake', emoji: '🐍' } },
   { a: { word: 'Bee', emoji: '🐝' }, b: { word: 'Tree', emoji: '🌳' } },
   { a: { word: 'Star', emoji: '⭐' }, b: { word: 'Car', emoji: '🏎️' } },
+  { a: { word: 'Bear', emoji: '🐻' }, b: { word: 'Pear', emoji: '🍐' } },
+  { a: { word: 'Mouse', emoji: '🐭' }, b: { word: 'House', emoji: '🏠' } },
+  { a: { word: 'King', emoji: '🤴' }, b: { word: 'Ring', emoji: '💍' } },
+  { a: { word: 'Clock', emoji: '⏰' }, b: { word: 'Lock', emoji: '🔒' } },
+  { a: { word: 'Train', emoji: '🚂' }, b: { word: 'Rain', emoji: '🌧️' } },
+  { a: { word: 'Duck', emoji: '🦆' }, b: { word: 'Truck', emoji: '🚚' } },
+  { a: { word: 'Moon', emoji: '🌙' }, b: { word: 'Spoon', emoji: '🥄' } },
+  { a: { word: 'Plane', emoji: '✈️' }, b: { word: 'Crane', emoji: '🏗️' } },
 ];
 
 export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) {

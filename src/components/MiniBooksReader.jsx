@@ -60,6 +60,60 @@ function getMiniBooks(childName = 'Deniz') {
         { text: 'Behind the tree 🌳', isCorrect: false },
       ],
     },
+    {
+      id: 'istanbul_book',
+      title: 'Istanbul Ferry Adventure',
+      emoji: '⛴️',
+      color: 'from-blue-600 to-indigo-600',
+      pages: [
+        { emoji: '⛴️', text: `${childName} rides a big white ferry in Istanbul.` },
+        { emoji: '🕊️', text: 'Hungry seagulls fly next to the boat!' },
+        { emoji: '🥯', text: 'We eat warm sesame simit on the deck.' },
+        { emoji: '🌉', text: 'Look at the tall Galata Tower and bridge!' },
+      ],
+      question: 'What flies next to the ferry in Istanbul?',
+      options: [
+        { text: 'Seagulls 🕊️', isCorrect: true },
+        { text: 'Elephants 🐘', isCorrect: false },
+        { text: 'Penguins 🐧', isCorrect: false },
+      ],
+    },
+    {
+      id: 'parents_work_book',
+      title: "Mom and Dad's Work",
+      emoji: '💻',
+      color: 'from-rose-500 to-amber-500',
+      pages: [
+        { emoji: '💻', text: 'Dad writes cool code on his big monitor.' },
+        { emoji: '🤖', text: `${childName} presses keys on the keyboard.` },
+        { emoji: '👩‍⚕️', text: 'Mom wears a white coat at the hospital.' },
+        { emoji: '🩺', text: 'Mom listens to heartbeats with her stethoscope!' },
+      ],
+      question: 'What does Mom use to listen to heartbeats?',
+      options: [
+        { text: 'Stethoscope 🩺', isCorrect: true },
+        { text: 'Keyboard ⌨️', isCorrect: false },
+        { text: 'Bicycle 🚲', isCorrect: false },
+      ],
+    },
+    {
+      id: 'weather_book',
+      title: 'Rain and Snow Fun',
+      emoji: '🌦️',
+      color: 'from-cyan-500 to-sky-600',
+      pages: [
+        { emoji: '☔', text: 'On a rainy day, we hold a red umbrella.' },
+        { emoji: '🌈', text: 'After the rain, a bright rainbow appears!' },
+        { emoji: '⛄', text: 'In winter, we build a snowman with a carrot nose.' },
+        { emoji: '🛷', text: 'Then we sled fast down the snowy hill!' },
+      ],
+      question: 'What appears in the sky after the rain?',
+      options: [
+        { text: 'A rainbow 🌈', isCorrect: true },
+        { text: 'A snowman ⛄', isCorrect: false },
+        { text: 'A submarine 🚤', isCorrect: false },
+      ],
+    },
   ];
 }
 

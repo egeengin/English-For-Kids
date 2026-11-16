@@ -86,6 +86,126 @@ const QUESTION_BANK = [
       { text: 'Printer 🖨️', correct: false },
     ],
   },
+  {
+    emoji: '⛴️',
+    q: 'Which boat crosses the Bosphorus in Istanbul?',
+    word: 'Ferry',
+    options: [
+      { text: 'Ferry boat ⛴️', correct: true },
+      { text: 'Train 🚂', correct: false },
+      { text: 'Sled 🛷', correct: false },
+    ],
+  },
+  {
+    emoji: '🎂',
+    q: 'Where did we celebrate the birthday with a ball pit?',
+    word: 'Ballorig',
+    options: [
+      { text: 'Ballorig Kerkrade 🎂', correct: true },
+      { text: 'Hospital 🏥', correct: false },
+      { text: 'Airport ✈️', correct: false },
+    ],
+  },
+  {
+    emoji: '🦆',
+    q: 'What swims in the pond at Laurensberg Park?',
+    word: 'Duck',
+    options: [
+      { text: 'Yellow duck 🦆', correct: true },
+      { text: 'Keyboard ⌨️', correct: false },
+      { text: 'Rocket 🚀', correct: false },
+    ],
+  },
+  {
+    emoji: '🌳',
+    q: 'Where is the puppy hiding during hide and seek?',
+    word: 'Behind',
+    options: [
+      { text: 'Behind the tree 🌳', correct: true },
+      { text: 'Inside the oven 🔥', correct: false },
+      { text: 'Under the ocean 🌊', correct: false },
+    ],
+  },
+  {
+    emoji: '💻',
+    q: 'What do we type words on at Dad’s desk?',
+    word: 'Keyboard',
+    options: [
+      { text: 'Keyboard ⌨️', correct: true },
+      { text: 'Pillow ☁️', correct: false },
+      { text: 'Umbrella ☔', correct: false },
+    ],
+  },
+  {
+    emoji: '🎹',
+    q: 'Which instrument has black and white keys?',
+    word: 'Piano',
+    options: [
+      { text: 'Piano 🎹', correct: true },
+      { text: 'Drum 🥁', correct: false },
+      { text: 'Whistle 📣', correct: false },
+    ],
+  },
+  {
+    emoji: '🦒',
+    q: 'Which animal is very TALL with a long neck?',
+    word: 'Tall',
+    options: [
+      { text: 'Giraffe 🦒', correct: true },
+      { text: 'Mouse 🐭', correct: false },
+      { text: 'Duck 🦆', correct: false },
+    ],
+  },
+  {
+    emoji: '💰',
+    q: 'What do pirates keep inside the treasure chest?',
+    word: 'Treasure',
+    options: [
+      { text: 'Gold coins 💰', correct: true },
+      { text: 'Wet socks 🧦', correct: false },
+      { text: 'Broccoli 🥦', correct: false },
+    ],
+  },
+  {
+    emoji: '🧁',
+    q: 'Who bakes bread, croissants, and cupcakes?',
+    word: 'Baker',
+    options: [
+      { text: 'Baker 👨‍🍳', correct: true },
+      { text: 'Pilot 👨‍✈️', correct: false },
+      { text: 'Lifeguard 🛟', correct: false },
+    ],
+  },
+  {
+    emoji: '🏖️',
+    q: 'What can we build on the sandy beach?',
+    word: 'Sandcastle',
+    options: [
+      { text: 'Sandcastle 🏰', correct: true },
+      { text: 'Elevator 🛗', correct: false },
+      { text: 'Printer 🖨️', correct: false },
+    ],
+  },
+  {
+    emoji: '🪁',
+    q: 'What flies high in the autumn wind?',
+    word: 'Kite',
+    options: [
+      { text: 'Kite 🪁', correct: true },
+      { text: 'Sofa 🛋️', correct: false },
+      { text: 'Suitcase 🧳', correct: false },
+    ],
+  },
+  {
+    emoji: '🍎',
+    q: 'Where do we push a shopping cart to buy apples and milk?',
+    word: 'Supermarket',
+    options: [
+      { text: 'Supermarket 🛒', correct: true },
+      { text: 'Swimming pool 🏊', correct: false },
+      { text: 'Basketball court 🏀', correct: false },
+    ],
+  },
 ];
 
 export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {

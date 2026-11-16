@@ -62,13 +62,16 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
       onResult: async (finalText) => {
         setIsListening(false);
         setHeardText(finalText);
-        const res = await evaluateKidPronunciation(finalText, item.phrase);
-        if (res?.passed || res?.score >= 55) {
-          setFeedback(res.feedback || 'Harika söyledin!');
+        const res = await evaluateKidPronunciation({
+          targetPhrase: item.phrase,
+          transcript: finalText,
+        });
+        if (res?.isAccepted) {
+          setFeedback(res.feedbackEn || 'Harika söyledin!');
           handleSuccess();
         } else {
           playGentleWobble(isMuted);
-          setFeedback('Biraz daha net söylemeyi dene!');
+          setFeedback(res?.feedbackEn || 'Biraz daha net söylemeyi dene!');
         }
       },
       onError: () => {

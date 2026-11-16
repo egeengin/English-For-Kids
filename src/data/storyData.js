@@ -4,8 +4,8 @@
  * Features rich visual storytelling backdrops, interactive scene props, and responsive 2-way turn-taking dialogue.
  */
 
-import { getExtraStoryWorlds } from './storyWorldsExtra';
-import { getMoreStoryWorlds } from './storyWorldsMore';
+import { getExtraStoryWorlds } from './storyWorldsExtra.js';
+import { getMoreStoryWorlds } from './storyWorldsMore.js';
 
 export function getStoryData(childName = 'Deniz') {
   const isDeniz = childName.toLowerCase() === 'deniz';

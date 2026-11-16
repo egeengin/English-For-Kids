@@ -16,6 +16,7 @@ export default function Navbar({
   currentTab,
   onTabChange,
   stars = 0,
+  dailyGoalCount = 0,
   isMuted = false,
   onToggleMute,
   onOpenPrintable: _onOpenPrintable,
@@ -54,6 +55,17 @@ export default function Navbar({
           </button>
 
           <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center gap-1 rounded-xl px-2.5 py-1 font-black text-xs border ${
+                dailyGoalCount >= 10
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                  : 'bg-sky-50 border-sky-200 text-sky-800'
+              }`}
+              title="Günlük 10 Dakika Hedefi"
+            >
+              <span>🎯 {Math.min(dailyGoalCount, 10)}/10{dailyGoalCount >= 10 ? ' ✓' : ''}</span>
+            </div>
+
             <div
               className="flex items-center gap-1 bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1 text-amber-800 font-black text-xs"
               title="Kazanılan Yıldızlar"
@@ -115,7 +127,7 @@ export default function Navbar({
             const Icon = tab.icon;
             const isActive =
               tab.id === 'games'
-                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab)
+                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab)
                 : tab.id === 'story'
                 ? currentTab === 'story' || currentTab === 'books'
                 : currentTab === tab.id;

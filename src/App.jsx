@@ -17,6 +17,8 @@ import MiniBooksReader from './components/MiniBooksReader';
 import QuestionQuizGame from './components/QuestionQuizGame';
 import QuickSpeakGame from './components/QuickSpeakGame';
 import SmartReviewGame from './components/SmartReviewGame';
+import ListenColorGame from './components/ListenColorGame';
+import PutItThereGame from './components/PutItThereGame';
 import WalkieTalkieModal from './components/WalkieTalkieModal';
 import CertificateModal from './components/CertificateModal';
 import DailyMissionHub from './components/DailyMissionHub';
@@ -33,6 +35,16 @@ export default function App() {
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
+  const [dailyGoalCount, setDailyGoalCount] = useState(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return 0;
+    try {
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const saved = JSON.parse(window.localStorage.getItem('deniz_daily_goal_v1') || '{}');
+      return saved.date === todayKey ? Number(saved.count || 0) : 0;
+    } catch {
+      return 0;
+    }
+  });
   const [showBreakModal, setShowBreakModal] = useState(false);
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
@@ -87,13 +99,25 @@ export default function App() {
   };
 
   // Reward earned from quiz completion or question
-  const handleRewardEarned = ({ stars = 0, bricks = 0 }) => {
+  const handleRewardEarned = (reward = {}) => {
+    const stars = typeof reward === 'number' ? reward : (reward.stars || 0);
+    const bricks = typeof reward === 'number' ? reward : (reward.bricks || 0);
     setState(prev => ({
       ...prev,
       stars: prev.stars + stars,
       bricks: prev.bricks + bricks,
       totalQuestionsAnswered: (prev.totalQuestionsAnswered || 0) + 1,
     }));
+    setDailyGoalCount((prevCount) => {
+      const next = prevCount + 1;
+      try {
+        const todayKey = new Date().toISOString().slice(0, 10);
+        window.localStorage?.setItem('deniz_daily_goal_v1', JSON.stringify({ date: todayKey, count: next }));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
   };
 
   // Track question completion for milestone / screen-time awareness
@@ -365,6 +389,7 @@ export default function App() {
         currentTab={currentTab}
         onTabChange={handleTabChange}
         stars={state.stars}
+        dailyGoalCount={dailyGoalCount}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
         onOpenPrintable={() => handleOpenPrintable()}
@@ -474,7 +499,7 @@ export default function App() {
         )}
 
         {/* Games Hub Switcher */}
-        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab) && (
+        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab) && (
           <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex items-center justify-center gap-2 flex-wrap">
             <button
               type="button"
@@ -555,6 +580,28 @@ export default function App() {
             </button>
             <button
               type="button"
+              onClick={() => handleTabChange('listen_color')}
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+                currentTab === 'listen_color'
+                  ? 'bg-pink-600 text-white border-pink-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-pink-300'
+              }`}
+            >
+              🎨 Boya
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('put_it')}
+              className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+                currentTab === 'put_it'
+                  ? 'bg-emerald-600 text-white border-emerald-800 shadow-sm'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-300'
+              }`}
+            >
+              📦 Yerleştir
+            </button>
+            <button
+              type="button"
               onClick={() => handleTabChange('phonics')}
               className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm transition cursor-pointer ${
                 currentTab === 'phonics'
@@ -620,6 +667,14 @@ export default function App() {
 
         {currentTab === 'smart_review' && (
           <SmartReviewGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'listen_color' && (
+          <ListenColorGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
+        )}
+
+        {currentTab === 'put_it' && (
+          <PutItThereGame onRewardEarned={handleRewardEarned} isMuted={state.soundMuted} />
         )}
 
         {currentTab === 'collection' && (
@@ -705,7 +760,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab)
+            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab)
               ? 'text-rose-400 font-black'
               : 'text-slate-400'
           }`}

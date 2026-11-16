@@ -440,7 +440,7 @@ export default function DailyMissionHub({
                         {isChecked && <CheckCircle2 className="w-4 h-4" />}
                       </button>
                       <div className="space-y-1">
-                        <span className="inline-block px-2 py-0.5 rounded bg-slate-900 text-white font-black text-[10px]">
+                        <span className="inline-block px-2 py-0.5 rounded bg-slate-900 text-white font-black text-xs">
                           {item.time}
                         </span>
                         <h3 className="font-display font-black text-sm text-slate-900">{item.title}</h3>
@@ -459,7 +459,7 @@ export default function DailyMissionHub({
                                 unlockAudio();
                                 speakEnglish(phrase);
                               }}
-                              className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-[11px] hover:bg-blue-600 hover:text-white transition cursor-pointer"
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-blue-800 font-bold text-xs hover:bg-blue-600 hover:text-white transition cursor-pointer"
                             >
                               <Volume2 className="w-3 h-3" />
                               <span>{phrase}</span>

@@ -579,7 +579,7 @@ export default function LevelDiscoveryGame({
                   <div className="text-xs font-black text-emerald-700">
                     {st.correctCount} / 10 Doğru
                   </div>
-                  <div className="text-[11px] text-slate-500 font-semibold">
+                  <div className="text-xs text-slate-500 font-semibold">
                     {st.isCompleted ? '⭐ Tamamlandı' : `${st.answeredCount}/10 çözüldü`}
                   </div>
                 </div>

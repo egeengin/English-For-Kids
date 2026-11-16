@@ -231,9 +231,8 @@ export default function SceneExplorer({
           {/* Lego top header */}
           <div className="w-full bg-slate-200 border-b-2 border-slate-300 px-3 py-1.5 flex items-center justify-between">
             <span className="text-xs font-black font-display text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <span>🖼️</span> Original Lego Scene
+              <span>🖼️</span> Original Scene
             </span>
-            <span className="text-[10px] font-bold text-slate-500">Tap differences to hear words!</span>
           </div>
 
           {/* SVG Scene Graphic */}
@@ -283,7 +282,7 @@ export default function SceneExplorer({
               <span className="text-xs font-black font-display text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
                 <span>🔍</span> Spot The 7 Changes!
               </span>
-              <span className="text-[10px] font-black text-amber-700 bg-amber-200 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-black text-amber-700 bg-amber-200 px-2 py-0.5 rounded-full">
                 {foundCount} / 7 Found
               </span>
             </div>

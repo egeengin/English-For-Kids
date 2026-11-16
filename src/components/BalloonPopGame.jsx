@@ -378,9 +378,6 @@ export default function BalloonPopGame({
               <span>🔁 {reviewIds.size} Tekrar</span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-800 border border-indigo-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
-            <span>📚 {masteredIds.size}/{VOCAB_BANK_500.length}</span>
-          </div>
           <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
             <span>Skor: {score}</span>
           </div>
@@ -406,10 +403,6 @@ export default function BalloonPopGame({
       <div className="w-full flex items-center gap-2 overflow-x-auto pb-2 mb-3">
         {VOCAB_CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat.id;
-          const catCount =
-            cat.id === 'all'
-              ? VOCAB_BANK_500.length
-              : VOCAB_BANK_500.filter((v) => v.category === cat.id).length;
           return (
             <button
               key={cat.id}
@@ -423,9 +416,6 @@ export default function BalloonPopGame({
             >
               <span>{cat.emoji}</span>
               <span>{cat.labelTr}</span>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'}`}>
-                {catCount}
-              </span>
             </button>
           );
         })}

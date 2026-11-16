@@ -115,7 +115,9 @@ export default function Navbar({
             const Icon = tab.icon;
             const isActive =
               tab.id === 'games'
-                ? currentTab === 'games' || currentTab === 'balloons' || currentTab === 'phonics' || currentTab === 'differences'
+                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'collection'].includes(currentTab)
+                : tab.id === 'story'
+                ? currentTab === 'story' || currentTab === 'books'
                 : currentTab === tab.id;
             return (
               <button

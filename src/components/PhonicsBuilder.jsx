@@ -376,9 +376,6 @@ export default function PhonicsBuilder({
             <h1 className="text-xl sm:text-2xl font-display font-black text-slate-900 tracking-tight">
               {childName}&apos;s Harf Birleştirme ({PHONICS_WORDS.length} Kelime)
             </h1>
-            <p className="text-xs sm:text-sm font-semibold text-slate-500">
-              Tamamladığın kelimeler kaydedilir, aynı kelime tekrar sorulmaz!
-            </p>
           </div>
         </div>
 

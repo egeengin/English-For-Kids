@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="aacSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <filter id="shaa" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="580" fill="url(#aacSky)"/>
+  <rect y="580" width="1600" height="320" fill="#cbd5e1"/>
+  <!-- Aachen Cathedral / Rathaus silhouette (left, x:22%, y:36% -> 352, 324) -->
+  <g filter="url(#shaa)">
+    <rect x="140" y="290" width="380" height="290" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="5"/>
+    <polygon points="180,290 230,145 280,290" fill="#475569"/>
+    <polygon points="340,290 410,165 480,290" fill="#64748b"/>
+    <circle cx="330" cy="400" r="36" fill="#38bdf8"/>
+  </g>
+  <!-- Elisenbrunnen Fountain (center, x:54%, y:58% -> 864, 522) -->
+  <g filter="url(#shaa)">
+    <ellipse cx="864" cy="610" rx="150" ry="38" fill="#38bdf8" stroke="#94a3b8" stroke-width="8"/>
+    <rect x="844" y="495" width="40" height="110" rx="10" fill="#cbd5e1"/>
+    <path d="M864 495 Q820 450 795 510" fill="none" stroke="#bae6fd" stroke-width="8" stroke-linecap="round"/>
+    <path d="M864 495 Q908 450 933 510" fill="none" stroke="#bae6fd" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <!-- Aachen Printen Bakery & Cafe Table (right, x:82%, y:62% -> 1312, 558) -->
+  <g filter="url(#shaa)">
+    <rect x="1180" y="550" width="260" height="24" rx="10" fill="#b45309"/>
+    <rect x="1295" y="574" width="28" height="125" fill="#78350f"/>
+    <!-- Printen Cookies & Pretzel (x:82%, y:56%) -->
+    <rect x="1230" y="510" width="70" height="40" rx="8" fill="#92400e"/>
+    <circle cx="1360" cy="525" r="22" fill="none" stroke="#f59e0b" stroke-width="10"/>
+  </g>
+  <!-- Deniz with Camera (x:66%, y:66% -> 1056, 594) -->
+  <g filter="url(#shaa)">
+    <rect x="1030" y="655" width="20" height="72" rx="8" fill="#1d4ed8"/>
+    <rect x="1062" y="655" width="20" height="72" rx="8" fill="#1d4ed8"/>
+    <rect x="1020" y="555" width="72" height="106" rx="20" fill="#ef4444"/>
+    <circle cx="1056" cy="512" r="38" fill="#fed7aa"/>
+    <path d="M1018 504 Q1024 464 1056 464 Q1088 464 1094 504 Z" fill="#451a03"/>
+    <circle cx="1042" cy="512" r="4.5" fill="#1e293b"/>
+    <circle cx="1070" cy="512" r="4.5" fill="#1e293b"/>
+    <path d="M1044 528 Q1056 538 1068 528" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="vetBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <filter id="shv" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="630" fill="url(#vetBg)"/>
+  <rect y="630" width="1600" height="270" fill="#fde68a"/>
+  <!-- Examination Table with Puppy (center, x:48%, y:58%) -->
+  <g filter="url(#shv)">
+    <rect x="520" y="540" width="440" height="28" rx="12" fill="#94a3b8"/>
+    <rect x="570" y="568" width="24" height="145" fill="#64748b"/>
+    <rect x="880" y="568" width="24" height="145" fill="#64748b"/>
+    <!-- Puppy (x:46%, y:52% -> 736, 468) -->
+    <ellipse cx="736" cy="500" rx="52" ry="32" fill="#d97706"/>
+    <circle cx="776" cy="465" r="32" fill="#d97706"/>
+    <ellipse cx="798" cy="465" rx="10" ry="20" fill="#78350f"/>
+    <circle cx="768" cy="460" r="5" fill="#1e293b"/>
+    <circle cx="786" cy="460" r="5" fill="#1e293b"/>
+    <!-- Bandage on paw -->
+    <rect x="705" y="516" width="28" height="14" rx="5" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+  </g>
+  <!-- Vet (x:30%, y:46% -> 480, 414) -->
+  <g filter="url(#shv)">
+    <rect x="432" y="385" width="96" height="155" rx="24" fill="#2dd4bf"/>
+    <circle cx="480" cy="330" r="46" fill="#fed7aa"/>
+    <path d="M434 322 Q440 276 480 276 Q520 276 526 322 Z" fill="#78350f"/>
+    <circle cx="464" cy="330" r="5" fill="#1e293b"/>
+    <circle cx="496" cy="330" r="5" fill="#1e293b"/>
+    <path d="M466 350 Q480 362 494 350" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Kitten on Cushion (left, x:14%, y:70% -> 224, 630) -->
+  <g filter="url(#shv)">
+    <ellipse cx="224" cy="675" rx="75" ry="24" fill="#fb7185"/>
+    <circle cx="224" cy="632" r="30" fill="#94a3b8"/>
+    <polygon points="200,610 212,588 222,608" fill="#64748b"/>
+    <polygon points="226,608 236,588 248,610" fill="#64748b"/>
+  </g>
+  <!-- Bunny in Basket (right, x:82%, y:64% -> 1312, 576) -->
+  <g filter="url(#shv)">
+    <rect x="1245" y="585" width="134" height="82" rx="18" fill="#f59e0b"/>
+    <ellipse cx="1295" cy="535" rx="10" ry="30" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <ellipse cx="1329" cy="535" rx="10" ry="30" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <circle cx="1312" cy="570" r="28" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  </g>
+  <!-- Pet Food Bowl (x:66%, y:78% -> 1056, 702) -->
+  <polygon points="1010,720 1102,720 1090,685 1022,685" fill="#ef4444"/>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="fireSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <filter id="shf" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="620" fill="url(#fireSky)"/>
+  <rect y="620" width="1600" height="280" fill="#cbd5e1"/>
+  <!-- Fire Station Building (left, x:20%, y:42%) -->
+  <g filter="url(#shf)">
+    <rect x="80" y="160" width="420" height="460" rx="18" fill="#ef4444" stroke="#b91c1c" stroke-width="6"/>
+    <rect x="130" y="340" width="320" height="280" rx="14" fill="#334155"/>
+    <circle cx="290" cy="250" r="46" fill="#fde047"/>
+  </g>
+  <!-- Big Red Fire Truck (center-right, x:62%, y:56% -> 992, 504) -->
+  <g filter="url(#shf)" transform="translate(690, 350)">
+    <rect x="40" y="75" width="420" height="195" rx="22" fill="#dc2626" stroke="#991b1b" stroke-width="5"/>
+    <path d="M460 95 L560 95 Q595 95 605 150 L620 270 L460 270 Z" fill="#ef4444" stroke="#991b1b" stroke-width="5"/>
+    <rect x="485" y="120" width="85" height="65" rx="10" fill="#7dd3fc"/>
+    <!-- Siren (x:80%, y:46%) -->
+    <rect x="510" y="68" width="44" height="28" rx="10" fill="#38bdf8"/>
+    <!-- Ladder on top (x:58%, y:40%) -->
+    <rect x="65" y="42" width="360" height="28" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+    <!-- Fire Hose (x:52%, y:58%) -->
+    <circle cx="210" cy="175" r="42" fill="#facc15" stroke="#ca8a04" stroke-width="5"/>
+    <!-- Wheels -->
+    <circle cx="145" cy="275" r="46" fill="#1e293b"/>
+    <circle cx="145" cy="275" r="20" fill="#cbd5e1"/>
+    <circle cx="515" cy="275" r="46" fill="#1e293b"/>
+    <circle cx="515" cy="275" r="20" fill="#cbd5e1"/>
+  </g>
+  <!-- Firefighter (x:38%, y:58% -> 608, 522) -->
+  <g filter="url(#shf)">
+    <rect x="574" y="545" width="24" height="105" rx="10" fill="#1e293b"/>
+    <rect x="610" y="545" width="24" height="105" rx="10" fill="#1e293b"/>
+    <rect x="560" y="420" width="88" height="135" rx="22" fill="#facc15"/>
+    <circle cx="604" cy="368" r="42" fill="#fed7aa"/>
+    <!-- Fire Helmet -->
+    <path d="M556 362 Q604 308 652 362 Z" fill="#ef4444"/>
+    <circle cx="590" cy="368" r="5" fill="#1e293b"/>
+    <circle cx="618" cy="368" r="5" fill="#1e293b"/>
+    <path d="M590 386 Q604 396 618 386" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Dalmatian Dog (x:28%, y:74% -> 448, 666) -->
+  <g filter="url(#shf)">
+    <ellipse cx="448" cy="672" rx="44" ry="26" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <circle cx="484" cy="648" r="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <circle cx="436" cy="668" r="7" fill="#1e293b"/>
+    <circle cx="462" cy="674" r="6" fill="#1e293b"/>
+    <circle cx="492" cy="644" r="4" fill="#1e293b"/>
+  </g>
+</svg>

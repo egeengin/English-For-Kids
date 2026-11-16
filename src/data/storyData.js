@@ -5,6 +5,7 @@
  */
 
 import { getExtraStoryWorlds } from './storyWorldsExtra';
+import { getMoreStoryWorlds } from './storyWorldsMore';
 
 export function getStoryData(childName = 'Deniz') {
   const isDeniz = childName.toLowerCase() === 'deniz';
@@ -1561,6 +1562,7 @@ export function getStoryWorlds(childName = 'Deniz') {
       chapters: schoolDay.chapters,
     },
     ...getExtraStoryWorlds(childName),
+    ...getMoreStoryWorlds(childName),
   ];
 }
 

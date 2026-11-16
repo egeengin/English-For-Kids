@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="oppBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="100%" stop-color="#fef9c3"/>
+    </linearGradient>
+    <filter id="sho" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="630" fill="url(#oppBg)"/>
+  <rect y="630" width="1600" height="270" fill="#fde68a"/>
+  <!-- Big Elephant Toy (left, x:22%, y:52% -> 352, 468) -->
+  <g filter="url(#sho)">
+    <ellipse cx="330" cy="495" rx="145" ry="105" fill="#94a3b8"/>
+    <rect x="230" y="555" width="44" height="95" rx="12" fill="#94a3b8"/>
+    <rect x="380" y="555" width="44" height="95" rx="12" fill="#94a3b8"/>
+    <circle cx="445" cy="435" r="72" fill="#94a3b8"/>
+    <ellipse cx="405" cy="435" rx="42" ry="56" fill="#cbd5e1"/>
+    <path d="M510 455 Q545 495 520 535" fill="none" stroke="#94a3b8" stroke-width="26" stroke-linecap="round"/>
+  </g>
+  <!-- Small Mouse Toy (x:40%, y:68% -> 640, 612) -->
+  <g filter="url(#sho)">
+    <ellipse cx="640" cy="630" rx="28" ry="18" fill="#cbd5e1" stroke="#64748b" stroke-width="3"/>
+    <circle cx="624" cy="610" r="12" fill="#f472b6"/>
+    <circle cx="652" cy="610" r="12" fill="#f472b6"/>
+  </g>
+  <!-- Tall Giraffe (center-right, x:62%, y:40% -> 992, 360) -->
+  <g filter="url(#sho)">
+    <rect x="972" y="210" width="38" height="260" rx="14" fill="#facc15"/>
+    <ellipse cx="955" cy="470" rx="64" ry="38" fill="#facc15"/>
+    <rect x="915" y="490" width="18" height="150" rx="8" fill="#facc15"/>
+    <rect x="985" y="490" width="18" height="150" rx="8" fill="#facc15"/>
+    <ellipse cx="998" cy="200" rx="32" ry="20" fill="#facc15"/>
+  </g>
+  <!-- Short Duck (x:76%, y:67% -> 1216, 603) -->
+  <g filter="url(#sho)">
+    <ellipse cx="1216" cy="625" rx="32" ry="22" fill="#fde047"/>
+    <circle cx="1238" cy="596" r="18" fill="#fde047"/>
+    <polygon points="1254,594 1272,600 1254,606" fill="#f97316"/>
+  </g>
+  <!-- Open Box (x:89%, y:60% -> 1424, 540) -->
+  <g filter="url(#sho)">
+    <rect x="1355" y="545" width="135" height="95" rx="12" fill="#a855f7"/>
+    <polygon points="1355,545 1320,505 1420,505 1422,545" fill="#c084fc"/>
+  </g>
+</svg>

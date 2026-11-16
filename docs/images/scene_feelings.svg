@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="feelBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="100%" stop-color="#fae8ff"/>
+    </linearGradient>
+    <filter id="shfe" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="630" fill="url(#feelBg)"/>
+  <rect y="630" width="1600" height="270" fill="#fde68a"/>
+  <!-- Happy Boy with Gold Star (x:22%, y:50% -> 352, 450) -->
+  <g filter="url(#shfe)">
+    <rect x="305" y="450" width="94" height="145" rx="24" fill="#3b82f6"/>
+    <circle cx="352" cy="390" r="52" fill="#fed7aa"/>
+    <circle cx="334" cy="386" r="6" fill="#1e293b"/>
+    <circle cx="370" cy="386" r="6" fill="#1e293b"/>
+    <path d="M330 408 Q352 430 374 408" fill="none" stroke="#9a3412" stroke-width="5" stroke-linecap="round"/>
+    <!-- Gold Star -->
+    <polygon points="435,360 448,390 480,392 455,412 464,444 435,426 406,444 415,412 390,392 422,390" fill="#facc15"/>
+  </g>
+  <!-- Surprised Cat (x:48%, y:56% -> 768, 504) -->
+  <g filter="url(#shfe)">
+    <circle cx="768" cy="520" r="46" fill="#fb923c"/>
+    <polygon points="732,486 746,450 762,482" fill="#ea580c"/>
+    <polygon points="774,482 790,450 804,486" fill="#ea580c"/>
+    <circle cx="752" cy="512" r="8" fill="#ffffff"/>
+    <circle cx="752" cy="512" r="4" fill="#1e293b"/>
+    <circle cx="784" cy="512" r="8" fill="#ffffff"/>
+    <circle cx="784" cy="512" r="4" fill="#1e293b"/>
+    <circle cx="768" cy="538" r="8" fill="#9a3412"/>
+  </g>
+  <!-- Sleepy Puppy on Cushion (x:76%, y:62% -> 1216, 558) -->
+  <g filter="url(#shfe)">
+    <ellipse cx="1216" cy="610" rx="110" ry="34" fill="#a855f7"/>
+    <ellipse cx="1216" cy="575" rx="64" ry="36" fill="#d97706"/>
+    <circle cx="1175" cy="555" r="32" fill="#d97706"/>
+    <path d="M1160 554 Q1168 560 1176 554" fill="none" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+</svg>

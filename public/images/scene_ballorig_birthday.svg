@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="balWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <filter id="shba" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="630" fill="url(#balWall)"/>
+  <rect y="630" width="1600" height="270" fill="#bae6fd"/>
+  <!-- Party Bunting Flags -->
+  <polygon points="150,70 210,70 180,125" fill="#ef4444"/>
+  <polygon points="240,70 300,70 270,125" fill="#38bdf8"/>
+  <polygon points="330,70 390,70 360,125" fill="#22c55e"/>
+  <polygon points="420,70 480,70 450,125" fill="#a855f7"/>
+  <!-- Giant Indoor Slide & Ball Pit (left, x:24%, y:56% -> 384, 504) -->
+  <g filter="url(#shba)">
+    <path d="M120 260 L200 260 L340 560 L260 560 Z" fill="#ef4444" stroke="#ffffff" stroke-width="6"/>
+    <!-- Ball Pit (x:28%, y:70% -> 448, 630) -->
+    <rect x="210" y="560" width="380" height="130" rx="22" fill="#3b82f6" stroke="#1d4ed8" stroke-width="5"/>
+    <circle cx="260" cy="565" r="22" fill="#ef4444"/>
+    <circle cx="310" cy="560" r="22" fill="#facc15"/>
+    <circle cx="360" cy="565" r="22" fill="#22c55e"/>
+    <circle cx="410" cy="560" r="22" fill="#f472b6"/>
+    <circle cx="460" cy="565" r="22" fill="#a855f7"/>
+    <circle cx="510" cy="560" r="22" fill="#38bdf8"/>
+  </g>
+  <!-- Trampoline (right-back, x:84%, y:62% -> 1344, 558) -->
+  <g filter="url(#shba)">
+    <ellipse cx="1344" cy="610" rx="165" ry="48" fill="#1e293b" stroke="#22c55e" stroke-width="14"/>
+    <line x1="1210" y1="620" x2="1210" y2="700" stroke="#475569" stroke-width="12"/>
+    <line x1="1478" y1="620" x2="1478" y2="700" stroke="#475569" stroke-width="12"/>
+  </g>
+  <!-- Birthday Party Table with Cake & Presents (center, x:62%, y:60%) -->
+  <g filter="url(#shba)">
+    <rect x="730" y="555" width="380" height="32" rx="12" fill="#f472b6"/>
+    <rect x="765" y="587" width="24" height="125" fill="#db2777"/>
+    <rect x="1055" y="587" width="24" height="125" fill="#db2777"/>
+    <!-- Birthday Cake with Candles (x:58%, y:50% -> 928, 450) -->
+    <rect x="860" y="480" width="135" height="75" rx="14" fill="#fef08a" stroke="#f59e0b" stroke-width="4"/>
+    <rect x="888" y="432" width="80" height="48" rx="10" fill="#fbcfe8" stroke="#ec4899" stroke-width="4"/>
+    <line x1="910" y1="402" x2="910" y2="432" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="946" y1="402" x2="946" y2="432" stroke="#22c55e" stroke-width="8"/>
+    <circle cx="910" cy="395" r="8" fill="#f97316"/>
+    <circle cx="946" cy="395" r="8" fill="#f97316"/>
+    <!-- Gift Boxes (x:66%, y:54% -> 1056, 486) -->
+    <rect x="1020" y="492" width="66" height="63" rx="8" fill="#a855f7"/>
+    <rect x="1046" y="492" width="14" height="63" fill="#fde047"/>
+  </g>
+  <!-- Balloons (x:60%, y:24% -> 960, 216) -->
+  <circle cx="910" cy="215" r="36" fill="#ef4444"/>
+  <circle cx="965" cy="195" r="36" fill="#38bdf8"/>
+  <circle cx="1020" cy="220" r="36" fill="#22c55e"/>
+</svg>

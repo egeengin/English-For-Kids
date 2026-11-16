@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="autSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <filter id="sha" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="580" fill="url(#autSky)"/>
+  <rect y="580" width="1600" height="320" fill="#fde68a"/>
+  <!-- Wind Swirls (x:38%, y:26% -> 608, 234) -->
+  <path d="M420 220 Q560 190 660 225 Q720 245 690 270 Q665 288 640 265" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+  <!-- Autumn Tree (x:18%, y:44% -> 288, 396) -->
+  <g filter="url(#sha)">
+    <rect x="240" y="380" width="66" height="220" rx="14" fill="#78350f"/>
+    <circle cx="273" cy="280" r="110" fill="#f97316"/>
+    <circle cx="200" cy="330" r="75" fill="#ef4444"/>
+    <circle cx="345" cy="330" r="75" fill="#f59e0b"/>
+  </g>
+  <!-- Falling Orange Leaves (x:38%, y:68% -> 608, 612) -->
+  <ellipse cx="580" cy="610" rx="20" ry="11" transform="rotate(-25 580 610)" fill="#f97316"/>
+  <ellipse cx="640" cy="640" rx="20" ry="11" transform="rotate(20 640 640)" fill="#ef4444"/>
+  <ellipse cx="520" cy="655" rx="18" ry="10" transform="rotate(10 520 655)" fill="#f59e0b"/>
+  <!-- Flying Kite (x:74%, y:24% -> 1184, 216) -->
+  <g filter="url(#sha)">
+    <polygon points="1184,135 1244,215 1184,295 1124,215" fill="#a855f7" stroke="#ffffff" stroke-width="5"/>
+    <line x1="1184" y1="295" x2="900" y2="540" stroke="#475569" stroke-width="4"/>
+  </g>
+  <!-- Squirrel & Acorn (x:24%, y:74% -> 384, 666) -->
+  <g filter="url(#sha)">
+    <ellipse cx="384" cy="675" rx="22" ry="28" fill="#b45309"/>
+    <circle cx="384" cy="642" r="18" fill="#b45309"/>
+    <ellipse cx="430" cy="692" rx="14" ry="16" fill="#92400e"/>
+  </g>
+  <!-- Deniz in Jacket flying Kite (x:56%, y:62% -> 896, 558) -->
+  <g filter="url(#sha)">
+    <rect x="866" y="635" width="22" height="86" rx="9" fill="#1d4ed8"/>
+    <rect x="902" y="635" width="22" height="86" rx="9" fill="#1d4ed8"/>
+    <rect x="854" y="505" width="84" height="136" rx="24" fill="#10b981"/>
+    <circle cx="896" cy="456" r="44" fill="#fed7aa"/>
+    <path d="M852 448 Q858 402 896 402 Q934 402 940 448 Z" fill="#451a03"/>
+    <circle cx="880" cy="456" r="5" fill="#1e293b"/>
+    <circle cx="912" cy="456" r="5" fill="#1e293b"/>
+    <path d="M882 474 Q896 486 910 474" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

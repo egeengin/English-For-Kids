@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="rainSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <filter id="shr" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="600" fill="url(#rainSky)"/>
+  <rect y="600" width="1600" height="300" fill="#86efac"/>
+  <rect y="650" width="1600" height="250" fill="#94a3b8"/>
+  <!-- Rainbow (x:74%, y:22% -> 1184, 198) -->
+  <path d="M900 450 A300 300 0 0 1 1480 450" fill="none" stroke="#ef4444" stroke-width="18"/>
+  <path d="M918 450 A282 282 0 0 1 1462 450" fill="none" stroke="#facc15" stroke-width="18"/>
+  <path d="M936 450 A264 264 0 0 1 1444 450" fill="none" stroke="#22c55e" stroke-width="18"/>
+  <path d="M954 450 A246 246 0 0 1 1426 450" fill="none" stroke="#38bdf8" stroke-width="18"/>
+  <!-- Grey Cloud & Raindrops (x:24%, y:18% -> 384, 162) -->
+  <g filter="url(#shr)">
+    <ellipse cx="360" cy="155" rx="95" ry="42" fill="#475569"/>
+    <ellipse cx="430" cy="165" rx="75" ry="34" fill="#64748b"/>
+    <ellipse cx="300" cy="170" rx="65" ry="30" fill="#64748b"/>
+    <line x1="310" y1="220" x2="295" y2="265" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+    <line x1="370" y1="225" x2="355" y2="270" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+    <line x1="430" y1="220" x2="415" y2="265" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <!-- Puddle (x:52%, y:82% -> 832, 738) -->
+  <ellipse cx="832" cy="745" rx="190" ry="42" fill="#38bdf8" stroke="#bae6fd" stroke-width="5"/>
+  <!-- Deniz in Yellow Raincoat & Boots holding Umbrella -->
+  <g filter="url(#shr)">
+    <!-- Umbrella (x:50%, y:36% -> 800, 324) -->
+    <line x1="800" y1="330" x2="800" y2="540" stroke="#1e293b" stroke-width="8"/>
+    <path d="M645 340 Q800 205 955 340 Z" fill="#ef4444" stroke="#ffffff" stroke-width="5"/>
+    <!-- Raincoat (x:50%, y:56% -> 800, 504) -->
+    <path d="M745 480 L855 480 L875 635 L725 635 Z" fill="#facc15" stroke="#eab308" stroke-width="4"/>
+    <!-- Rubber Boots (x:50%, y:73% -> 800, 657) -->
+    <rect x="762" y="635" width="28" height="65" rx="8" fill="#ef4444"/>
+    <rect x="810" y="635" width="28" height="65" rx="8" fill="#ef4444"/>
+    <!-- Head -->
+    <circle cx="800" cy="436" r="42" fill="#fed7aa"/>
+    <path d="M758 430 Q764 388 800 388 Q836 388 842 430 Z" fill="#451a03"/>
+    <circle cx="786" cy="436" r="5" fill="#1e293b"/>
+    <circle cx="814" cy="436" r="5" fill="#1e293b"/>
+    <path d="M786 454 Q800 464 814 454" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

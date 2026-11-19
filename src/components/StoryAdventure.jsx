@@ -17,7 +17,6 @@ import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobbl
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
-import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 // Lightweight dictionary for word-by-word inspector in karaoke read-along
 const WORD_TRANSLATIONS = {
@@ -1169,19 +1168,6 @@ export default function StoryAdventure({
               </span>
               <ArrowRight className="w-6 h-6 animate-pulse" />
             </button>
-          )}
-
-          {/* Voice Echo Studio Widget: Child practices speaking response line */}
-          {isChapterSolved && (
-            <div className="mt-4 pt-3 border-t border-slate-200 animate-fadeIn">
-              <VoiceRecorderWidget
-                targetWord={targetPhraseClean}
-                targetAudioKey=""
-                onRewardEarned={onRewardEarned}
-                isMuted={isMuted}
-                childName={childName}
-              />
-            </div>
           )}
 
         </div>

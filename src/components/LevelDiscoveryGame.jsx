@@ -90,8 +90,6 @@ export default function LevelDiscoveryGame({
   });
 
   const currentStageStat = stageStats[activeStageIdx] || stageStats[0];
-  const earnedStarsCount = stageStats.filter((s) => s.isCompleted).length;
-  const totalQuestionsCount = DISCOVERY_STAGES.reduce((acc, s) => acc + s.questions.length, 0);
   const totalAnsweredCount = Object.keys(discoveryResults).length;
 
   const allQuestionsFlat = DISCOVERY_STAGES.flatMap((stage) =>
@@ -243,48 +241,10 @@ export default function LevelDiscoveryGame({
   };
 
   return (
-    <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 sm:py-6 space-y-5 flex-1 flex flex-col">
-      {/* Compact Light Top Card */}
-      <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-slate-200 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xl sm:text-2xl">⭐</span>
-            <div>
-              <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900 leading-tight">
-                5 Bölümlü Seviye Testi ({earnedStarsCount}/5 Yıldız)
-              </h1>
-              <div className="mt-1 inline-flex flex-wrap items-center gap-1.5 text-xs font-black text-slate-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-xl">
-                <span>1. 🔊 Dinle</span>
-                <span className="text-amber-500">→</span>
-                <span>2. 🎙️ Sesli Söyle (+2 ⭐)</span>
-                <span className="text-amber-500">→</span>
-                <span>3. 🏆 Kartları Evrimleştir</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-black text-xs sm:text-sm">
-              Doğru: {currentStageStat.correctCount} / 10
-            </span>
-
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                setViewMode(viewMode === 'report' ? 'play' : 'report');
-              }}
-              className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-xs sm:text-sm cursor-pointer transition"
-            >
-              {viewMode === 'report'
-                ? '🎮 Teste Dön'
-                : `📊 Sonuç Karnesi (${totalAnsweredCount}/${totalQuestionsCount})`}
-            </button>
-          </div>
-        </div>
-
-        {/* 5 Clean Stage Buttons */}
-        <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+    <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-5 space-y-4 flex-1 flex flex-col">
+      {/* Compact Single-Row Stage Bar */}
+      <div className="bg-white rounded-3xl p-2.5 sm:p-3 shadow-sm border-2 border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto flex-1">
           {DISCOVERY_STAGES.map((stage, idx) => {
             const stat = stageStats[idx];
             const isActive = viewMode !== 'report' && activeStageIdx === idx;
@@ -293,35 +253,39 @@ export default function LevelDiscoveryGame({
                 key={stage.id}
                 type="button"
                 onClick={() => handleSelectStage(idx)}
-                className={`rounded-2xl px-3 py-3 border-2 text-left transition cursor-pointer ${
+                className={`rounded-2xl px-3 py-2 border-2 font-display font-black text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-1.5 cursor-pointer ${
                   isActive
-                    ? 'bg-blue-600 text-white border-blue-800 shadow-sm'
+                    ? 'bg-blue-600 text-white border-blue-800 shadow-xs'
                     : stat.isCompleted
                     ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
                     : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-300'
                 }`}
               >
-                <div className="flex items-center justify-between gap-1">
-                  <span className="font-display font-black text-sm sm:text-base">
-                    Bölüm {stage.number}
-                  </span>
-                  <span className="text-xs">
-                    {stat.isCompleted ? '⭐' : stage.number >= 4 ? '👑' : ''}
-                  </span>
-                </div>
-                <div className={`text-xs sm:text-sm font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
-                  {stat.answeredCount}/10 soru
-                </div>
+                <span>Bölüm {stage.number}</span>
+                <span className={`text-[11px] font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
+                  {stat.isCompleted ? '⭐' : `${stat.answeredCount}/10`}
+                </span>
               </button>
             );
           })}
         </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            playTap(isMuted);
+            setViewMode(viewMode === 'report' ? 'play' : 'report');
+          }}
+          className="px-3.5 py-2 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-xs sm:text-sm cursor-pointer transition flex-shrink-0"
+        >
+          {viewMode === 'report' ? '🎮 Teste Dön' : '📊 Karne'}
+        </button>
       </div>
 
       {/* MODE 1: ACTIVE QUESTION */}
       {viewMode === 'play' && (
-        <div className="bg-white rounded-3xl p-4 sm:p-7 lg:p-8 shadow-md border-2 border-slate-200 space-y-6 flex-1 flex flex-col justify-between">
-          {/* Question Number Pills (1..10) + Next Button */}
+        <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-md border-2 border-slate-200 space-y-5 flex-1 flex flex-col justify-between">
+          {/* Question Number Pills (1..10) + Listen / Voice Buttons */}
           <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
             <div className="flex flex-wrap items-center gap-1.5">
               {currentStage.questions.map((q, qIdx) => {
@@ -345,7 +309,7 @@ export default function LevelDiscoveryGame({
                       setActiveQuestionIdx(qIdx);
                       setShowHelper(false);
                     }}
-                    className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl font-black text-sm sm:text-base border-2 transition cursor-pointer ${pillStyle}`}
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl font-black text-sm border-2 transition cursor-pointer ${pillStyle}`}
                   >
                     {qIdx + 1}
                   </button>
@@ -353,89 +317,58 @@ export default function LevelDiscoveryGame({
               })}
             </div>
 
-            <span className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-black ${currentStage.difficultyColor}`}>
-              {currentStage.difficultyLabel}
-            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  stopVoiceAnswer();
+                  speakEnglish(currentQuestion.promptEn);
+                }}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs sm:text-sm shadow-xs cursor-pointer"
+              >
+                <Volume2 className="w-4 h-4" />
+                <span>🔊 Dinle</span>
+              </button>
+              {micSupported && (
+                <button
+                  type="button"
+                  onClick={startVoiceAnswer}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-display font-black text-xs sm:text-sm shadow-xs cursor-pointer transition ${
+                    isListening
+                      ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-300'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white'
+                  }`}
+                >
+                  <Mic className="w-4 h-4" />
+                  <span>{isListening ? 'Dinliyorum...' : '🎙️ Sesli (+2 ⭐)'}</span>
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Question Prompt */}
+          {/* Clean Question Prompt */}
           <div
             onPointerEnter={(e) =>
               triggerHoverSpeech(currentQuestion.promptEn, { isMuted, pointerType: e.pointerType })
             }
             onPointerLeave={cancelHoverSpeech}
-            className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-4 sm:p-6 border-2 border-slate-200 hover:border-blue-300 transition space-y-3"
+            onClick={() => {
+              stopVoiceAnswer();
+              speakEnglish(currentQuestion.promptEn);
+            }}
+            className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-4 sm:p-5 border-2 border-slate-200 hover:border-blue-300 transition flex items-center gap-4 cursor-pointer"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
-                  {currentQuestion.characterEmoji}
-                </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-black text-slate-400 uppercase">
-                    Soru {activeQuestionIdx + 1} / 10 • {currentQuestion.skillLabelTr}
-                  </div>
-                  <p className="text-xl sm:text-2xl lg:text-3xl font-display font-black text-slate-900 leading-snug mt-0.5">
-                    “{currentQuestion.promptEn}”
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex sm:flex-col gap-2 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    stopVoiceAnswer();
-                    speakEnglish(currentQuestion.promptEn);
-                  }}
-                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-sm sm:text-base shadow-sm cursor-pointer"
-                >
-                  <Volume2 className="w-5 h-5" />
-                  <span>🔊 Dinle</span>
-                </button>
-                {micSupported && (
-                  <button
-                    type="button"
-                    onClick={startVoiceAnswer}
-                    className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm shadow-sm cursor-pointer transition ${
-                      isListening
-                        ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-300'
-                        : 'bg-purple-600 hover:bg-purple-700 text-white'
-                    }`}
-                  >
-                    <Mic className="w-4 h-4" />
-                    <span>{isListening ? 'Dinliyorum...' : '🎙️ Sesli Cevapla (+2 ⭐)'}</span>
-                  </button>
-                )}
-              </div>
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
+              {currentQuestion.characterEmoji}
             </div>
-
-            {(isListening || voiceNotice || voiceBonusQuestionId === currentQuestion.id) && (
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                {isListening && (
-                  <span className="px-3 py-1 rounded-xl bg-rose-100 text-rose-900 font-black text-xs animate-pulse">
-                    🎙️ {heardText ? `"${heardText}"` : 'Şimdi İngilizce söyle...'}
-                  </span>
-                )}
-                {!isListening && voiceNotice && (
-                  <span
-                    className={`px-3 py-1 rounded-xl font-black text-xs ${
-                      voiceNotice.type === 'matched'
-                        ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                        : 'bg-amber-100 text-amber-900 border border-amber-300'
-                    }`}
-                  >
-                    {voiceNotice.text}
-                  </span>
-                )}
-              </div>
-            )}
+            <p className="text-xl sm:text-2xl lg:text-3xl font-display font-black text-slate-900 leading-snug">
+              “{currentQuestion.promptEn}”
+            </p>
           </div>
 
-          {/* 3 Self-Graded Visual Answer Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-            {currentQuestion.options.map((opt, optIdx) => {
-              const letter = ['A', 'B', 'C'][optIdx] || '';
+          {/* 3 Clean Visual Answer Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+            {currentQuestion.options.map((opt) => {
               const isChosen = chosenOptionId === opt.id;
               const isAnswered = Boolean(chosenOptionId);
 
@@ -458,32 +391,26 @@ export default function LevelDiscoveryGame({
                   }
                   onPointerLeave={cancelHoverSpeech}
                   onClick={() => handleOptionSelect(opt)}
-                  className={`rounded-3xl p-5 sm:p-7 border-4 transition cursor-pointer flex flex-col justify-between gap-4 min-h-[150px] sm:min-h-[220px] ${cardStyle}`}
+                  className={`rounded-3xl p-4 sm:p-6 border-4 transition cursor-pointer flex flex-col justify-between gap-3 min-h-[140px] sm:min-h-[190px] ${cardStyle}`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 text-white font-display font-black text-sm sm:text-base flex items-center justify-center">
-                        {letter}
-                      </span>
-                      <span className="text-4xl sm:text-6xl leading-none">{opt.emoji}</span>
-                    </div>
-
+                    <span className="text-4xl sm:text-5xl leading-none">{opt.emoji}</span>
                     <button
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         speakEnglish(opt.textEn);
                       }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-slate-300 hover:border-blue-500 text-blue-700 font-black text-xs sm:text-sm shadow-sm cursor-pointer"
-                      title="Şıkkı Dinle"
+                      className="p-2 rounded-xl bg-white border border-slate-200 hover:border-blue-400 text-blue-700 shadow-2xs cursor-pointer"
+                      title="Dinle"
+                      aria-label="Dinle"
                     >
                       <Volume2 className="w-4 h-4" />
-                      <span>Dinle</span>
                     </button>
                   </div>
 
                   <div>
-                    <p className="font-display font-black text-lg sm:text-2xl lg:text-3xl text-slate-900 leading-snug">
+                    <p className="font-display font-black text-lg sm:text-2xl text-slate-900 leading-snug">
                       {opt.textEn}
                     </p>
                     {showHelper && (
@@ -499,11 +426,7 @@ export default function LevelDiscoveryGame({
                           : 'bg-rose-500 text-white'
                       }`}
                     >
-                      {opt.isCorrect
-                        ? isChosen
-                          ? '✅ Harika! Doğru Cevap!'
-                          : '✅ Doğrusu Bu!'
-                        : '❌ Yanlış Şık'}
+                      {opt.isCorrect ? '✅ Doğru!' : '❌ Yanlış'}
                     </div>
                   )}
                 </div>
@@ -511,25 +434,36 @@ export default function LevelDiscoveryGame({
             })}
           </div>
 
-          {/* Direct Next Question Footer */}
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-xs font-bold text-slate-500">
-              {chosenOptionId
-                ? savedAnswer?.isCorrect
-                  ? 'Harika! Devam et.'
-                  : 'Doğrusunu dinle, devam et.'
-                : '🎙️ Söyle veya şıkka dokun!'}
-            </span>
+          {/* Minimalist Footer: Voice Badge + Next Button */}
+          <div className="flex items-center justify-between gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-2 min-h-[32px]">
+              {isListening && (
+                <span className="px-3 py-1 rounded-xl bg-rose-100 text-rose-900 font-black text-xs animate-pulse">
+                  🎙️ {heardText ? `"${heardText}"` : 'Dinliyorum...'}
+                </span>
+              )}
+              {!isListening && (voiceNotice || voiceBonusQuestionId === currentQuestion.id) && (
+                <span
+                  className={`px-3 py-1 rounded-xl font-black text-xs ${
+                    voiceNotice?.type === 'matched' || voiceBonusQuestionId === currentQuestion.id
+                      ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                      : 'bg-amber-100 text-amber-900 border border-amber-300'
+                  }`}
+                >
+                  {voiceNotice?.text || '🎙️ Sesli Cevap: +2 ⭐!'}
+                </span>
+              )}
+            </div>
 
             <button
               type="button"
               onClick={handleNextStep}
-              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-yellow-300 font-display font-black text-base sm:text-lg shadow-md transition active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-yellow-300 font-display font-black text-base shadow-md transition active:scale-95 cursor-pointer flex-shrink-0"
             >
               <span>
                 {activeQuestionIdx < currentStage.questions.length - 1
                   ? 'Sonraki Soru'
-                  : 'Bölümü Tamamla 🏆'}
+                  : 'Tamamla 🏆'}
               </span>
               <ChevronRight className="w-5 h-5" />
             </button>

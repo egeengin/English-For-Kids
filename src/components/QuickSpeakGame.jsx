@@ -189,13 +189,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           </button>
         </div>
 
-        <p className="text-sm font-bold text-slate-500 mb-4">
-          {speakMode === 'memory'
-            ? '1. 🔊 Dinle → 2. Kelimeleri Görmeden Söyle (+5 ⭐)!'
-            : '1. 🔊 Dinle → 2. 🎙️ Mikrofona Söyle → Yıldız Kazan!'}
-        </p>
-
-        <div className="text-6xl mb-3 leading-none">{item.emoji}</div>
+        <div className="text-6xl mb-3 mt-1 leading-none">{item.emoji}</div>
         <div className="font-display font-black text-2xl sm:text-4xl text-slate-900 mb-2">
           {displayedPhrase}
         </div>

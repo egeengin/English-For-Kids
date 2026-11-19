@@ -36,16 +36,6 @@ export default function App() {
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
-  const [dailyGoalCount, setDailyGoalCount] = useState(() => {
-    if (typeof window === 'undefined' || !window.localStorage) return 0;
-    try {
-      const todayKey = new Date().toISOString().slice(0, 10);
-      const saved = JSON.parse(window.localStorage.getItem('deniz_daily_goal_v1') || '{}');
-      return saved.date === todayKey ? Number(saved.count || 0) : 0;
-    } catch {
-      return 0;
-    }
-  });
   const [showBreakModal, setShowBreakModal] = useState(false);
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
@@ -109,16 +99,6 @@ export default function App() {
       bricks: prev.bricks + bricks,
       totalQuestionsAnswered: (prev.totalQuestionsAnswered || 0) + 1,
     }));
-    setDailyGoalCount((prevCount) => {
-      const next = prevCount + 1;
-      try {
-        const todayKey = new Date().toISOString().slice(0, 10);
-        window.localStorage?.setItem('deniz_daily_goal_v1', JSON.stringify({ date: todayKey, count: next }));
-      } catch {
-        // ignore
-      }
-      return next;
-    });
   };
 
   // Track question completion for milestone / screen-time awareness
@@ -356,10 +336,8 @@ export default function App() {
         currentTab={currentTab}
         onTabChange={handleTabChange}
         stars={state.stars}
-        dailyGoalCount={dailyGoalCount}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
-        onOpenPrintable={() => handleOpenPrintable()}
         onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
         childName={childName}
       />
@@ -830,19 +808,6 @@ export default function App() {
         totalStars={state.stars || 36}
         isMuted={state.soundMuted}
       />
-
-      {/* Footer Stud Strip */}
-      <footer className="w-full py-4 text-center text-xs font-bold text-slate-400 border-t border-slate-200 bg-white/60 print:hidden">
-        <div className="flex items-center justify-center gap-1.5 mb-1">
-          <span className="text-sm">🌟</span>
-          <span className="font-display font-black text-slate-700">{childName}’in İngilizce Dünyası</span>
-          <span className="text-slate-300">•</span>
-          <span>Kids English Learning PWA</span>
-        </div>
-        <p className="text-[11px] text-slate-400">
-          Audio-first gamification with trilingual English, German & Turkish learning support.
-        </p>
-      </footer>
 
     </div>
     </Suspense>

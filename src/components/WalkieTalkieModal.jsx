@@ -261,21 +261,14 @@ export default function WalkieTalkieModal({
       
       {/* Walkie-Talkie Device Frame */}
       <div className="relative w-full h-[100dvh] sm:h-[92dvh] sm:max-w-5xl bg-gradient-to-b from-amber-400 via-yellow-400 to-amber-500 rounded-none sm:rounded-3xl p-4 sm:p-6 shadow-2xl border-0 sm:border-4 border-amber-600 flex flex-col justify-between">
-        
-        {/* Rubber Walkie-Talkie Antenna on top */}
-        <div className="hidden sm:block absolute -top-7 left-12 w-4 h-8 bg-slate-800 rounded-t-lg border-2 border-slate-900 shadow-md">
-          <div className="w-2 h-2 rounded-full bg-slate-600 mx-auto mt-1" />
-        </div>
-
         {/* Top Status & Controls Bar */}
         <div className="w-full flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            {/* LED Status Light */}
             <div className={`w-3.5 h-3.5 rounded-full border-2 border-slate-900 ${
               isListening ? 'bg-red-500 animate-ping' : 'bg-emerald-400 shadow-sm'
             }`} />
             <span className="font-display font-black text-slate-900 text-sm sm:text-lg tracking-wide">
-              LEO'S 2-WAY WALKIE-TALKIE 📻
+              LEO WALKIE-TALKIE 📻
             </span>
           </div>
 
@@ -291,9 +284,9 @@ export default function WalkieTalkieModal({
           </button>
         </div>
 
-        {/* Single-Row Roleplay Mission Picker + 3-Step Counter */}
-        <div className="w-full flex items-center justify-between gap-2 bg-amber-500/40 rounded-xl px-2.5 py-1.5 mb-2 border border-amber-600/30 overflow-x-auto">
-          <div className="flex items-center gap-1.5 flex-nowrap">
+        {/* Single-Row Mission & Mic Language Bar */}
+        <div className="w-full flex flex-wrap items-center justify-between gap-2 bg-amber-500/40 rounded-xl px-2.5 py-1.5 mb-2 border border-amber-600/30">
+          <div className="flex items-center gap-1.5 overflow-x-auto">
             {LEO_MISSIONS.map((m) => (
               <button
                 key={m.id}
@@ -308,23 +301,17 @@ export default function WalkieTalkieModal({
                 {m.emoji} {m.labelTr}
               </button>
             ))}
+            <span
+              className={`px-2.5 py-1 rounded-lg text-xs font-black whitespace-nowrap ${
+                missionAwarded
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-white/90 text-slate-900'
+              }`}
+            >
+              {missionAwarded ? '3/3 🏆 +5 ⭐' : `${clampedTurns}/${activeMission.stepsCount} 🎯`}
+            </span>
           </div>
-          <span
-            className={`px-2.5 py-1 rounded-lg text-xs font-black whitespace-nowrap ${
-              missionAwarded
-                ? 'bg-emerald-600 text-white'
-                : 'bg-white/90 text-slate-900'
-            }`}
-          >
-            {missionAwarded ? '3/3 🏆 +5 ⭐' : `${clampedTurns}/${activeMission.stepsCount} 🎯`}
-          </span>
-        </div>
 
-        {/* Language Selection Bar (Deniz speaks German & Turkish) */}
-        <div className="w-full flex items-center justify-between bg-amber-500/40 rounded-xl px-2.5 py-1 mb-2.5 border border-amber-600/30">
-          <span className="text-[10px] font-black text-amber-950 uppercase tracking-wider">
-            Mic Language:
-          </span>
           <div className="flex items-center gap-1">
             {LANGUAGE_OPTIONS.map((lang) => (
               <button
@@ -334,14 +321,15 @@ export default function WalkieTalkieModal({
                   setMicLanguage(lang.code);
                   if (isListening) handleStopListening();
                 }}
-                className={`px-3 py-1 rounded-lg text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                className={`px-2 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
                   micLanguage === lang.code
-                    ? 'bg-slate-900 text-yellow-300 shadow-xs scale-105'
+                    ? 'bg-slate-900 text-yellow-300 shadow-xs'
                     : 'bg-amber-200/60 hover:bg-white text-slate-800'
                 }`}
+                title={lang.label}
               >
                 <span>{lang.flag}</span>
-                <span>{lang.label}</span>
+                <span className="hidden sm:inline">{lang.label}</span>
               </button>
             ))}
           </div>
@@ -432,27 +420,46 @@ export default function WalkieTalkieModal({
 
             <div ref={chatBottomRef} />
           </div>
-
-          {/* AI Connection status banner */}
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
-            <span>Channel 1 • {geminiApiKey ? '✨ Gemini AI' : '🧠 Smart Dialog'}</span>
-            <span>Mic: {LANGUAGE_OPTIONS.find(l => l.code === micLanguage)?.flag} {LANGUAGE_OPTIONS.find(l => l.code === micLanguage)?.label}</span>
-          </div>
         </div>
 
-        {/* Walkie-Talkie Speaker Slits Decoration */}
-        <div className="flex items-center justify-center gap-2 my-2.5 w-full opacity-60">
-          <div className="h-1 flex-1 bg-amber-700 rounded-full" />
-          <div className="h-1 flex-1 bg-amber-700 rounded-full" />
-          <div className="h-1 flex-1 bg-amber-700 rounded-full" />
-          <div className="h-1 flex-1 bg-amber-700 rounded-full" />
+        {/* Compact Hint Chips */}
+        <div className="w-full mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+          {latestLeoHints.map((hint, idx) => (
+            <div
+              key={`${hint}-${idx}`}
+              className="flex items-center justify-between gap-1.5 bg-amber-100 rounded-xl px-2.5 py-1.5 border border-amber-400/60 shadow-2xs"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  if (!isMuted) speakEnglish(hint);
+                }}
+                className="flex-1 text-left flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-900 hover:text-blue-800 cursor-pointer"
+                title="Dinle"
+              >
+                <span className="text-amber-600">💡</span>
+                <span>{hint}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSendMessage(hint)}
+                disabled={isLoading || isListening}
+                className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-yellow-300 font-black text-xs cursor-pointer flex-shrink-0"
+                title="Gönder"
+                aria-label="Send hint"
+              >
+                ➔
+              </button>
+            </div>
+          ))}
         </div>
 
-        {/* TAP-TO-TALK ACTION BUTTON (Supports both Tap to Toggle and Press & Hold) */}
-        <div className="w-full flex flex-col items-center gap-1.5">
+        {/* TAP-TO-TALK ACTION BUTTON */}
+        <div className="w-full mt-2.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <button
             onClick={handleToggleListening}
-            className={`w-full py-4 sm:py-5 px-6 rounded-2xl font-display font-black text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl cursor-pointer select-none transition transform active:scale-95 border-2 ${
+            className={`flex-1 py-3.5 sm:py-4 px-5 rounded-2xl font-display font-black text-base flex items-center justify-center gap-2 shadow-lg cursor-pointer select-none transition transform active:scale-95 border-2 ${
               isListening
                 ? 'bg-red-500 text-white animate-pulse ring-4 ring-red-300 border-red-600'
                 : 'bg-slate-900 hover:bg-slate-800 text-yellow-300 border-slate-950'
@@ -461,85 +468,40 @@ export default function WalkieTalkieModal({
             {isListening ? (
               <>
                 <Mic className="w-5 h-5 animate-bounce text-yellow-300" />
-                <span>LISTENING... TAP TO SEND! 🚀</span>
+                <span>LISTENING... TAP TO SEND 🚀</span>
               </>
             ) : (
               <>
                 <Mic className="w-5 h-5 text-amber-400" />
-                <span>TAP TO TALK TO LEO 🎙️</span>
+                <span>TAP TO TALK 🎙️</span>
               </>
             )}
           </button>
 
-          <p className="text-[11px] font-bold text-amber-950 text-center">
-            {isListening
-              ? '🗣️ Speak now! Tap button when finished or just pause.'
-              : 'Tap button to start talking! Leo replies in cheerful English.'}
-          </p>
-        </div>
-
-        {/* Text Input Pill (Fallback for typing or quiet environments) */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage(textInput);
-          }}
-          className="w-full flex items-center gap-1.5 mt-2 bg-amber-200/90 rounded-xl p-1 border border-amber-500/50"
-        >
-          <input
-            type="text"
-            value={textInput}
-            onChange={(e) => setTextInput(e.target.value)}
-            placeholder={`Or type a message to Leo...`}
-            disabled={isLoading || isListening}
-            className="flex-1 bg-white px-3.5 py-2 text-sm sm:text-base rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
-          />
-          <button
-            type="submit"
-            disabled={!textInput.trim() || isLoading || isListening}
-            className="p-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 text-slate-950 rounded-lg cursor-pointer transition shadow-xs"
-            aria-label="Send text"
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage(textInput);
+            }}
+            className="flex-1 flex items-center gap-1.5 bg-amber-200/90 rounded-2xl p-1.5 border border-amber-500/50"
           >
-            <Send className="w-4 h-4" />
-          </button>
-        </form>
-
-        {/* Visual Hint Chips: Tap to hear, then speak into the mic (or send) */}
-        <div className="w-full mt-2 pt-2 border-t border-amber-600/40">
-          <p className="text-[11px] font-black text-amber-950 mb-1.5">
-            💡 Ne Söyleyebilirim? (Dinle ve mikrofona söyle!)
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            {latestLeoHints.map((hint, idx) => (
-              <div
-                key={`${hint}-${idx}`}
-                className="flex items-center justify-between gap-1.5 bg-amber-100 rounded-xl px-2.5 py-1.5 border border-amber-400/60 shadow-2xs"
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    playTap(isMuted);
-                    if (!isMuted) speakEnglish(hint);
-                  }}
-                  className="flex-1 text-left flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-900 hover:text-blue-800 cursor-pointer"
-                  title="Dinle"
-                >
-                  <Volume2 className="w-4 h-4 text-amber-700 flex-shrink-0" />
-                  <span>{hint}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSendMessage(hint)}
-                  disabled={isLoading || isListening}
-                  className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-yellow-300 font-black text-xs cursor-pointer flex-shrink-0"
-                  title="Gönder"
-                  aria-label="Send hint"
-                >
-                  ➔
-                </button>
-              </div>
-            ))}
-          </div>
+            <input
+              type="text"
+              value={textInput}
+              onChange={(e) => setTextInput(e.target.value)}
+              placeholder="Or type to Leo..."
+              disabled={isLoading || isListening}
+              className="flex-1 bg-white px-3 py-2 text-sm rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            />
+            <button
+              type="submit"
+              disabled={!textInput.trim() || isLoading || isListening}
+              className="p-2.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 text-slate-950 rounded-xl cursor-pointer transition shadow-xs"
+              aria-label="Send text"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </form>
         </div>
 
       </div>

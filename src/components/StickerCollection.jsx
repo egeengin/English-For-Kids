@@ -235,17 +235,12 @@ export default function StickerCollection({
     <div className="w-full max-w-5xl mx-auto px-3 py-4">
       <div className="bg-white rounded-3xl shadow-xl border-4 border-amber-200 p-5 sm:p-7">
         <div className="flex items-center justify-between gap-3 flex-wrap mb-5">
-          <div>
-            <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 flex items-center gap-2">
-              <Award className="w-7 h-7 text-amber-500" />
-              <span>{childName}&apos;s Hero Cards</span>
-            </h2>
-            <p className="text-sm font-bold text-slate-500">
-              İngilizce cümleyi söyle, kartını Lv.3 Efsanevi yap! ({unlockedCount}/{STICKER_BADGES.length} Açık)
-            </p>
-          </div>
+          <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 flex items-center gap-2">
+            <Award className="w-7 h-7 text-amber-500" />
+            <span>{childName}&apos;s Hero Cards ({unlockedCount}/{STICKER_BADGES.length})</span>
+          </h2>
           <span className="px-4 py-1.5 rounded-full bg-amber-100 text-amber-950 font-black text-sm border-2 border-amber-300">
-            🧱 Puanın: {bricks}
+            🧱 {bricks}
           </span>
         </div>
 
@@ -319,49 +314,51 @@ export default function StickerCollection({
                 </div>
 
                 <div className="flex flex-col gap-1.5 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      playSnap(isMuted);
-                      if (!isMuted) speakEnglish(targetLine);
-                    }}
-                    className="w-full py-2 px-3 rounded-xl bg-white hover:bg-blue-50 border-2 border-blue-200 text-blue-800 font-display font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <Volume2 className="w-3.5 h-3.5" />
-                    <span>🔊 Cümleyi Dinle</span>
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playSnap(isMuted);
+                        if (!isMuted) speakEnglish(targetLine);
+                      }}
+                      className="px-3 py-2 rounded-xl bg-white hover:bg-blue-50 border-2 border-blue-200 text-blue-800 font-display font-black text-xs flex items-center justify-center gap-1 cursor-pointer flex-shrink-0"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                      <span>Dinle</span>
+                    </button>
 
-                  {lv < 3 ? (
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handleStartEvolve(badge)}
-                        className={`flex-1 py-2 px-2.5 rounded-xl font-display font-black text-xs flex items-center justify-center gap-1 cursor-pointer shadow-sm ${
-                          isListeningThis
-                            ? 'bg-rose-500 text-white animate-pulse'
-                            : 'bg-purple-600 hover:bg-purple-700 text-white'
-                        }`}
-                      >
-                        <Mic className="w-3.5 h-3.5" />
-                        <span>{isListeningThis ? 'Dinliyorum...' : '🎙️ Söyle & Evrimleştir!'}</span>
-                      </button>
-                      {(!micSupported || status?.type === 'retry' || status?.type === 'fallback') && (
+                    {lv < 3 ? (
+                      <>
                         <button
                           type="button"
-                          onClick={() => completeEvolution(badge, lv, targetLine)}
-                          className="py-2 px-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-xs cursor-pointer"
-                          title="Söyledim ✓"
+                          onClick={() => handleStartEvolve(badge)}
+                          className={`flex-1 py-2 px-2.5 rounded-xl font-display font-black text-xs flex items-center justify-center gap-1 cursor-pointer shadow-xs ${
+                            isListeningThis
+                              ? 'bg-rose-500 text-white animate-pulse'
+                              : 'bg-purple-600 hover:bg-purple-700 text-white'
+                          }`}
                         >
-                          ✓
+                          <Mic className="w-3.5 h-3.5" />
+                          <span>{isListeningThis ? 'Dinliyor...' : 'Evrimleştir'}</span>
                         </button>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="py-1.5 px-2.5 rounded-xl bg-emerald-100 text-emerald-900 font-black text-xs inline-flex items-center justify-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>👑 MAX Efsanevi Kart!</span>
-                    </div>
-                  )}
+                        {(!micSupported || status?.type === 'retry' || status?.type === 'fallback') && (
+                          <button
+                            type="button"
+                            onClick={() => completeEvolution(badge, lv, targetLine)}
+                            className="py-2 px-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-xs cursor-pointer"
+                            title="Söyledim ✓"
+                          >
+                            ✓
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <div className="flex-1 py-2 px-2.5 rounded-xl bg-emerald-100 text-emerald-900 font-black text-xs inline-flex items-center justify-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>👑 MAX</span>
+                      </div>
+                    )}
+                  </div>
 
                   {status?.text && (
                     <div

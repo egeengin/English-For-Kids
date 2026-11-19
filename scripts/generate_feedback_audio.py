@@ -26,14 +26,18 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(DOCS_DIR, exist_ok=True)
 
 CURRICULUM = {
-    "colors_shapes": ["Red", "Blue", "Yellow", "Green", "Orange", "Circle", "Square", "Triangle", "Star"],
-    "animals": ["Dog", "Cat", "Lion", "Elephant", "Monkey", "Frog", "Bird", "Fish"],
-    "vehicles": ["Car", "Airplane", "Train", "Rocket", "Boat", "Helicopter", "Bicycle", "Truck"]
+    "colors_shapes": ["Red", "Blue", "Yellow", "Green", "Purple", "Pink", "Brown", "Black", "Circle", "Square", "Triangle", "Star"],
+    "animals": ["Dog", "Cat", "Lion", "Tiger", "Bear", "Fox", "Frog", "Fish", "Bird", "Duck", "Owl", "Monkey"],
+    "vehicles": ["Car", "Bus", "Train", "Bike", "Scooter", "Truck", "Boat", "Ship", "Rocket", "Airplane", "Helicopter", "Submarine"],
+    "food": ["Apple", "Banana", "Grape", "Pear", "Peach", "Melon", "Lemon", "Bread", "Milk", "Cheese", "Pizza", "Cookie"],
+    "school_toys": ["Book", "Pen", "Pencil", "Backpack", "Clock", "Puzzle", "Toy", "Game", "Door", "Chair", "Table", "Bed"],
+    "actions": ["Run", "Walk", "Jump", "Swim", "Fly", "Dance", "Sing", "Smile", "Sleep", "Play", "Read", "Draw"],
+    "nature": ["Sun", "Moon", "Sky", "Cloud", "Rain", "Snow", "Rainbow", "Tree", "Flower", "Forest", "Sea", "Park"]
 }
 
-ALL_25_WORDS = []
+ALL_CURRICULUM_WORDS = []
 for group in CURRICULUM.values():
-    ALL_25_WORDS.extend(group)
+    ALL_CURRICULUM_WORDS.extend(group)
 
 def text_to_slug(text):
     s = str(text or "").lower().strip()
@@ -80,16 +84,17 @@ def build_feedback_targets():
     add("Look at the picture. Find")
     add("Which one is right?")
 
-    # 2. Per-word feedback for all 25 curriculum words
-    for w in ALL_25_WORDS:
+    # 2. Per-word feedback for all 84 curriculum words
+    for w in ALL_CURRICULUM_WORDS:
         add(f"Not this one. I am asking for {w}.")
         add(f"Good try! Find {w}.")
         add(f"That is {w}.")
         add(f"Find {w}.")
         add(f"I am asking for {w}.")
 
-    # 3. All pairs within each curriculum level for 'That is X. I am asking for Y.'
-    for group_name, words in CURRICULUM.items():
+    # 3. Level 1-3 pairwise feedback (already cached on disk)
+    for group_name in ["colors_shapes", "animals", "vehicles"]:
+        words = CURRICULUM[group_name]
         for item in words:
             for target in words:
                 if item != target:

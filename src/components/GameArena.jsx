@@ -38,6 +38,12 @@ import {
   MicOff,
   Bot,
   Radio,
+  Apple,
+  BookOpen,
+  Sun,
+  Flame,
+  Heart,
+  Music,
 } from 'lucide-react';
 import { speakEnglish, speakTurkish, speakGerman, speakEncouragement, stopSpeech } from '../utils/speech';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
@@ -73,11 +79,38 @@ const ICON_MAP = {
   Feather,
   Crown,
   Box,
+  Apple,
+  BookOpen,
+  Sparkles,
+  Sun,
+  Flame,
+  Heart,
+  Music,
+};
+
+const LEVEL_EMOJIS = {
+  1: '🎨',
+  2: '🦁',
+  3: '🚀',
+  4: '🍎',
+  5: '📚',
+  6: '⚡',
+  7: '🌈',
 };
 
 function getCardStyle(item) {
   const hex = item.colorHex || '#E52521';
-  const isLight = hex === '#FFD700' || hex === '#EAB308' || hex === '#FACC15' || item.word === 'Yellow' || item.word === 'Star' || item.word === 'Truck';
+  const isLight =
+    hex === '#FFD700' ||
+    hex === '#EAB308' ||
+    hex === '#FACC15' ||
+    item.word === 'Yellow' ||
+    item.word === 'Star' ||
+    item.word === 'Truck' ||
+    item.word === 'Sun' ||
+    item.word === 'Banana' ||
+    item.word === 'Lemon' ||
+    item.word === 'Cheese';
 
   let borderColor = '#991B1B';
   if (hex === '#0055BF' || hex === '#2563EB') borderColor = '#002D62';
@@ -101,6 +134,10 @@ function getCardStyle(item) {
   };
 }
 
+const shuffle = (array) => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
 export default function GameArena({
   curriculumLevels,
   customWords,
@@ -114,8 +151,13 @@ export default function GameArena({
   childAge = 7,
   geminiApiKey = '',
 }) {
-  const [selectedLevelId, setSelectedLevelId] = useState(curriculumLevels[0].id);
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selectedLevelId, setSelectedLevelId] = useState(curriculumLevels[0]?.id || 'level-1');
+
+  // Spaced Repetition Active Queue:
+  // questionQueue holds items remaining to be mastered in this session
+  const [questionQueue, setQuestionQueue] = useState([]);
+  const [masteredIds, setMasteredIds] = useState(() => new Set());
+  const [reviewIds, setReviewIds] = useState(() => new Set());
   const [targetItem, setTargetItem] = useState(null);
   const [options, setOptions] = useState([]);
   const [selectedOptionId, setSelectedOptionId] = useState(null);
@@ -125,6 +167,7 @@ export default function GameArena({
   const [levelCompleted, setLevelCompleted] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [encouragementText, setEncouragementText] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Voice Interaction State
   const [isListeningVoice, setIsListeningVoice] = useState(false);
@@ -137,15 +180,16 @@ export default function GameArena({
   const [helperLanguage, setHelperLanguage] = useState(() => {
     return localStorage.getItem('lego_helper_lang') || 'both';
   });
-  // cardCountMode: 2 (Junior) | 4 (Master)
+  // cardCountMode: 2 (Junior) | 4 (Master) | 6 (Superstar)
   const [cardCountMode, setCardCountMode] = useState(() => {
-    return parseInt(localStorage.getItem('lego_card_mode') || '2', 10);
+    const saved = parseInt(localStorage.getItem('lego_card_mode') || '4', 10);
+    return [2, 4, 6].includes(saved) ? saved : 4;
   });
 
   const hoverDebounceRef = useRef(null);
   const repeatTimerRef = useRef(null);
 
-  // Reset voice on question change
+  // Reset voice on target item change
   useEffect(() => {
     setIsListeningVoice(false);
     setVoiceTranscript('');
@@ -153,7 +197,7 @@ export default function GameArena({
     if (voiceRecognitionRef.current) {
       voiceRecognitionRef.current.abort();
     }
-  }, [questionIndex]);
+  }, [targetItem?.id]);
 
   // Save helper preferences
   const handleSetHelperLanguage = (lang) => {
@@ -162,15 +206,9 @@ export default function GameArena({
     localStorage.setItem('lego_helper_lang', lang);
   };
 
-  const handleToggleCardMode = (mode) => {
-    playTap(isMuted);
-    setCardCountMode(mode);
-    localStorage.setItem('lego_card_mode', mode.toString());
-  };
-
-  const currentLevel = curriculumLevels.find(l => l.id === selectedLevelId) || {
+  const currentLevel = curriculumLevels.find((l) => l.id === selectedLevelId) || {
     id: 'custom',
-    number: 4,
+    number: 8,
     title: 'Custom Words',
     titleTr: 'Özel Kelimeler',
     titleDe: 'Eigene Wörter',
@@ -184,10 +222,6 @@ export default function GameArena({
   };
 
   const pool = currentLevel.items || [];
-
-  const shuffle = (array) => {
-    return [...array].sort(() => Math.random() - 0.5);
-  };
 
   const launchConfetti = useCallback(() => {
     confetti({
@@ -207,55 +241,67 @@ export default function GameArena({
     repeatTimerRef.current = setInterval(() => {
       setIsSpeaking(true);
       speakEnglish(word, () => setIsSpeaking(false));
-    }, 7000);
+    }, 7500);
   }, []);
 
-  const setupQuestion = useCallback((index, currentPool, countMode) => {
-    if (!currentPool || currentPool.length === 0) return;
-    if (index >= currentPool.length) {
-      if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
-      setLevelCompleted(true);
-      playFanfare(isMuted);
-      launchConfetti();
-      onRewardEarned({
-        stars: currentLevel.bricksReward || 3,
-        bricks: currentLevel.bricksReward || 4,
-      });
-      return;
+  // Sets up options for a specific target item
+  const setupQuestionForTarget = useCallback(
+    (target, currentPool, countMode) => {
+      if (!target || !currentPool || currentPool.length === 0) return;
+
+      setTargetItem(target);
+      setSelectedOptionId(null);
+      setIsCorrect(null);
+      setWobbleOptionId(null);
+      setRevealedCardHints({});
+      setEncouragementText(null);
+
+      // Pick distractors according to Junior (2 cards), Master (4 cards), or Superstar (6 cards)
+      const otherItems = currentPool.filter((item) => item.id !== target.id);
+      const distractorCount = countMode === 2 ? 1 : countMode === 4 ? 3 : 5;
+      const actualCount = Math.min(distractorCount, otherItems.length);
+      const distractors = shuffle(otherItems).slice(0, actualCount);
+      const questionChoices = shuffle([target, ...distractors]);
+      setOptions(questionChoices);
+
+      if (isAdventureStarted) {
+        setIsSpeaking(true);
+        speakEnglish(target.word, () => setIsSpeaking(false));
+        resetRepeatTimer(target.word);
+      }
+    },
+    [isAdventureStarted, resetRepeatTimer]
+  );
+
+  const handleToggleCardMode = (mode) => {
+    playTap(isMuted);
+    setCardCountMode(mode);
+    localStorage.setItem('lego_card_mode', mode.toString());
+    if (targetItem && pool.length > 0) {
+      setupQuestionForTarget(targetItem, pool, mode);
     }
+  };
 
-    const current = currentPool[index];
-    setTargetItem(current);
-    setSelectedOptionId(null);
-    setIsCorrect(null);
-    setWobbleOptionId(null);
-    setRevealedCardHints({});
-    setEncouragementText(null);
-
-    // Pick distractors according to Junior (2 cards) or Master (4 cards)
-    const otherItems = currentPool.filter(item => item.id !== current.id);
-    const distractorCount = (countMode === 2) ? 1 : 3;
-    const distractors = shuffle(otherItems).slice(0, distractorCount);
-    const questionChoices = shuffle([current, ...distractors]);
-    setOptions(questionChoices);
-
-    if (isAdventureStarted) {
-      setIsSpeaking(true);
-      speakEnglish(current.word, () => setIsSpeaking(false));
-      resetRepeatTimer(current.word);
-    }
-  }, [currentLevel, isMuted, launchConfetti, onRewardEarned, isAdventureStarted, resetRepeatTimer]);
-
+  // Initialize or re-initialize level spaced repetition queue
   useEffect(() => {
-    setQuestionIndex(0);
     setLevelCompleted(false);
+    setIsTransitioning(false);
+    setMasteredIds(new Set());
+    setReviewIds(new Set());
+
     if (pool.length > 0) {
-      setupQuestion(0, pool, cardCountMode);
+      const initialQueue = shuffle(pool);
+      setQuestionQueue(initialQueue);
+      setupQuestionForTarget(initialQueue[0], pool, cardCountMode);
+    } else {
+      setQuestionQueue([]);
+      setTargetItem(null);
     }
+
     return () => {
       if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
     };
-  }, [selectedLevelId, pool.length, cardCountMode]);
+  }, [selectedLevelId, pool.length]);
 
   useEffect(() => {
     if (isAdventureStarted && targetItem && !levelCompleted && isCorrect === null) {
@@ -281,28 +327,27 @@ export default function GameArena({
     } else if (helperLanguage === 'tr') {
       speakTurkish(item.translation);
     } else {
-      // Both: speak German first, then Turkish
       speakGerman(item.translationDe || item.translation, () => {
         setTimeout(() => speakTurkish(item.translation), 200);
       });
     }
   };
 
-  // While staying/hovering over each card, play its English word without waiting for click!
+  // Hover over card speaks English word
   const handleCardHover = (item) => {
-    if (isCorrect === true) return;
+    if (isCorrect === true || isTransitioning) return;
     if (hoverDebounceRef.current) clearTimeout(hoverDebounceRef.current);
 
     hoverDebounceRef.current = setTimeout(() => {
       speakEnglish(item.word);
-    }, 100);
+    }, 120);
   };
 
-  // While staying/hovering over the 🎧 headphone icon, play helper language without click!
+  // Hover over headphone icon speaks helper language
   const handleHintHover = (e, item) => {
     e.stopPropagation();
     if (hoverDebounceRef.current) clearTimeout(hoverDebounceRef.current);
-    setRevealedCardHints(prev => ({ ...prev, [item.id]: true }));
+    setRevealedCardHints((prev) => ({ ...prev, [item.id]: true }));
     playHelperAudio(item);
   };
 
@@ -310,7 +355,7 @@ export default function GameArena({
   const handleCardHintClick = (e, item) => {
     e.stopPropagation();
     playTap(isMuted);
-    setRevealedCardHints(prev => ({ ...prev, [item.id]: true }));
+    setRevealedCardHints((prev) => ({ ...prev, [item.id]: true }));
     playHelperAudio(item);
 
     onWordResult({
@@ -319,9 +364,9 @@ export default function GameArena({
     });
   };
 
-  // Answer card click
+  // Answer card selection with Spaced Repetition queue
   const handleSelectOption = (item) => {
-    if (isCorrect === true || !targetItem) return;
+    if (isCorrect === true || isTransitioning || !targetItem) return;
 
     if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
     setSelectedOptionId(item.id);
@@ -329,6 +374,7 @@ export default function GameArena({
     if (item.id === targetItem.id) {
       // Correct!
       setIsCorrect(true);
+      setIsTransitioning(true);
       setEncouragementText(null);
       speakEnglish(item.word);
       playLegoSnap(isMuted);
@@ -336,9 +382,11 @@ export default function GameArena({
       playStarSparkle(isMuted);
 
       const hadHint = revealedCardHints[item.id];
+      const wasInReview = reviewIds.has(targetItem.id);
+
       onWordResult({
         wordId: targetItem.id,
-        isMastered: !hadHint && !wobbleOptionId,
+        isMastered: !hadHint && !wasInReview && !wobbleOptionId,
       });
 
       onRewardEarned({ stars: 1, bricks: 1 });
@@ -348,24 +396,44 @@ export default function GameArena({
       }
 
       confetti({
-        particleCount: 35,
-        spread: 55,
+        particleCount: 40,
+        spread: 60,
         origin: { y: 0.7 },
         colors: ['#22c55e', '#FFD700', '#3b82f6'],
       });
 
+      // Add to mastered IDs
+      const nextMastered = new Set(masteredIds);
+      nextMastered.add(targetItem.id);
+      setMasteredIds(nextMastered);
+
       setTimeout(() => {
-        const nextIdx = questionIndex + 1;
-        setQuestionIndex(nextIdx);
-        setupQuestion(nextIdx, pool, cardCountMode);
-      }, 1400);
+        setIsTransitioning(false);
+        // Remove correctly answered item from queue (never repeat!)
+        const nextQueue = questionQueue.slice(1);
+        if (nextQueue.length === 0) {
+          // Level Completed: All items in this level are mastered!
+          if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
+          setLevelCompleted(true);
+          playFanfare(isMuted);
+          launchConfetti();
+          onRewardEarned({
+            stars: currentLevel.bricksReward || 3,
+            bricks: currentLevel.bricksReward || 4,
+          });
+        } else {
+          setQuestionQueue(nextQueue);
+          setupQuestionForTarget(nextQueue[0], pool, cardCountMode);
+        }
+      }, 1250);
     } else {
-      // Gentle error handling
+      // Incorrect answer: Spaced Repetition Re-queue
       setIsCorrect(false);
+      setIsTransitioning(true);
       setWobbleOptionId(item.id);
       playGentleWobble(isMuted);
 
-      // Friendly spoken encouragement in English or German
+      // Friendly spoken feedback:
       const prompts = [
         `That is ${item.word}. I am asking for ${targetItem.word}.`,
         `Not this one. I am asking for ${targetItem.word}.`,
@@ -380,10 +448,34 @@ export default function GameArena({
         isMastered: false,
       });
 
+      // Mark this word as needing review
+      setReviewIds((prev) => new Set([...prev, targetItem.id]));
+
+      // Spaced repetition insertion:
+      // Re-insert this target item 2 questions later so Deniz can try again!
       setTimeout(() => {
+        setIsTransitioning(false);
         setWobbleOptionId(null);
-        if (targetItem) resetRepeatTimer(targetItem.word);
-      }, 500);
+        setSelectedOptionId(null);
+        setIsCorrect(null);
+        setEncouragementText(null);
+
+        const remaining = questionQueue.slice(1);
+        let nextQueue;
+        if (remaining.length === 0) {
+          nextQueue = [targetItem];
+        } else {
+          // Re-insert 2 questions later (or at the end if fewer than 2 questions remain)
+          const insertIdx = Math.min(2, remaining.length);
+          nextQueue = [
+            ...remaining.slice(0, insertIdx),
+            targetItem,
+            ...remaining.slice(insertIdx),
+          ];
+        }
+        setQuestionQueue(nextQueue);
+        setupQuestionForTarget(nextQueue[0], pool, cardCountMode);
+      }, 1600);
     }
   };
 
@@ -395,13 +487,16 @@ export default function GameArena({
       return;
     }
 
-    if (!targetItem || isCorrect === true) return;
+    if (!targetItem || isCorrect === true || isTransitioning) return;
     playTap(isMuted);
     setVoiceTranscript('');
     setVoiceFeedback(null);
 
     if (!isSpeechRecognitionSupported()) {
-      setVoiceFeedback({ text: 'Speech recognition is not supported in this browser. Try Chrome or Safari!', isError: true });
+      setVoiceFeedback({
+        text: 'Speech recognition is not supported in this browser. Try Chrome or Safari!',
+        isError: true,
+      });
       return;
     }
 
@@ -427,8 +522,8 @@ export default function GameArena({
             setVoiceFeedback({ text: `Heard "${transcript}": Perfect! 🌟`, isSuccess: true, source: evalResult.source });
             handleSelectOption(targetItem);
           } else {
-            // Check if spoken word matched one of the other options
-            const matchedOption = options.find(opt => {
+            // Check if spoken word matched one of the distractor options
+            const matchedOption = options.find((opt) => {
               const optLower = opt.word.toLowerCase();
               return transcript.toLowerCase().includes(optLower);
             });
@@ -460,33 +555,44 @@ export default function GameArena({
 
   const handleRestartLevel = () => {
     playTap(isMuted);
-    setQuestionIndex(0);
     setLevelCompleted(false);
-    setupQuestion(0, pool, cardCountMode);
+    setIsTransitioning(false);
+    setMasteredIds(new Set());
+    setReviewIds(new Set());
+    if (pool.length > 0) {
+      const initialQueue = shuffle(pool);
+      setQuestionQueue(initialQueue);
+      setupQuestionForTarget(initialQueue[0], pool, cardCountMode);
+    }
   };
+
+  const currentLevelIdx = curriculumLevels.findIndex((l) => l.id === selectedLevelId);
+  const nextLevel = curriculumLevels[currentLevelIdx + 1];
 
   const renderIcon = (iconName, className = 'w-12 h-12') => {
     const IconComponent = ICON_MAP[iconName] || ICON_MAP.Box;
     return <IconComponent className={className} />;
   };
 
+  const isReviewQuestion = targetItem && reviewIds.has(targetItem.id);
+
   return (
     <div className="w-full max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-6">
-      
-      {/* Early-Reader Control Bar: Language Helper & Junior Mode Toggle */}
+      {/* Early-Reader Control Bar: Language Helper & Difficulty Mode Toggle */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3 bg-white/90 backdrop-blur-md rounded-2xl border-3 border-slate-800 p-2 sm:p-3 shadow-md">
-        
         {/* Helper Language Switcher (German 🇩🇪 / Turkish 🇹🇷 / Both 🌟) */}
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] font-black uppercase text-slate-500 flex items-center gap-1">
             <Globe className="w-3.5 h-3.5 text-blue-600" />
-            <span>Hint Language:</span>
+            <span>Hint:</span>
           </span>
           <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-300">
             <button
               onClick={() => handleSetHelperLanguage('both')}
               className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
-                helperLanguage === 'both' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                helperLanguage === 'both'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Both German and Turkish hints"
             >
@@ -495,29 +601,31 @@ export default function GameArena({
             <button
               onClick={() => handleSetHelperLanguage('de')}
               className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
-                helperLanguage === 'de' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                helperLanguage === 'de'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
-              title="German hints (Anna)"
+              title="German hints"
             >
               🇩🇪 Deutsch
             </button>
             <button
               onClick={() => handleSetHelperLanguage('tr')}
               className={`px-2 py-1 rounded-lg text-xs font-black transition-all ${
-                helperLanguage === 'tr' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                helperLanguage === 'tr'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
-              title="Turkish hints (Yelda)"
+              title="Turkish hints"
             >
               🇹🇷 Türkçe
             </button>
           </div>
         </div>
 
-        {/* Choice Density Mode (Junior 2 Cards vs Master 4 Cards) */}
+        {/* Choice Density Mode (Junior 2 Cards vs Master 4 Cards vs Superstar 6 Cards) */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-black uppercase text-slate-500">
-            Difficulty:
-          </span>
+          <span className="text-[11px] font-black uppercase text-slate-500">Cards:</span>
           <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-300">
             <button
               onClick={() => handleToggleCardMode(2)}
@@ -526,7 +634,7 @@ export default function GameArena({
               }`}
               title="Junior 2-card mode for early readers"
             >
-              <span>👶 2 Cards (Easy)</span>
+              <span>👶 2</span>
             </button>
             <button
               onClick={() => handleToggleCardMode(4)}
@@ -535,17 +643,26 @@ export default function GameArena({
               }`}
               title="Master 4-card mode"
             >
-              <span>🧱 4 Cards</span>
+              <span>🧱 4</span>
+            </button>
+            <button
+              onClick={() => handleToggleCardMode(6)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all flex items-center gap-1 ${
+                cardCountMode === 6 ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Superstar 6-card mode"
+            >
+              <span>🌟 6</span>
             </button>
           </div>
         </div>
-
       </div>
 
-      {/* Level Selector Badges */}
-      <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 overflow-x-auto pb-2 scrollbar-none">
+      {/* Level Selector Badges for all 7 levels */}
+      <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 mb-4 sm:mb-6 overflow-x-auto pb-2 scrollbar-none">
         {curriculumLevels.map((lvl) => {
           const isCurrent = lvl.id === selectedLevelId;
+          const emoji = LEVEL_EMOJIS[lvl.number] || '⭐';
           return (
             <button
               key={lvl.id}
@@ -554,35 +671,39 @@ export default function GameArena({
                 setSelectedLevelId(lvl.id);
               }}
               className={`
-                min-h-[48px] flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm
+                min-h-[44px] flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl font-display font-black text-xs sm:text-sm
                 transition-all duration-100 whitespace-nowrap cursor-pointer shadow-sm
-                ${isCurrent
-                  ? `bg-gradient-to-r ${lvl.themeColor} text-white border-2 border-b-4 ${lvl.borderColor} scale-105 shadow-md`
-                  : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'}
+                ${
+                  isCurrent
+                    ? `bg-gradient-to-r ${lvl.themeColor} text-white border-2 border-b-4 ${lvl.borderColor} scale-105 shadow-md`
+                    : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'
+                }
               `}
             >
-              <span className="text-base">{lvl.number === 1 ? '🎨' : lvl.number === 2 ? '🦁' : '🚀'}</span>
+              <span className="text-base">{emoji}</span>
               <span>{lvl.title}</span>
             </button>
           );
         })}
 
-        {customWords.length > 0 && (
+        {customWords && customWords.length > 0 && (
           <button
             onClick={() => {
               playTap(isMuted);
               setSelectedLevelId('custom');
             }}
             className={`
-              min-h-[48px] flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm
+              min-h-[44px] flex items-center gap-2 px-3.5 py-2 rounded-2xl font-display font-black text-xs sm:text-sm
               transition-all duration-100 whitespace-nowrap cursor-pointer shadow-sm
-              ${selectedLevelId === 'custom'
-                ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-2 border-b-4 border-purple-700 scale-105 shadow-md'
-                : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'}
+              ${
+                selectedLevelId === 'custom'
+                  ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-2 border-b-4 border-purple-700 scale-105 shadow-md'
+                  : 'bg-white text-slate-800 hover:bg-slate-100 border-2 border-slate-300'
+              }
             `}
           >
             <span>⭐</span>
-            <span>Custom Words ({customWords.length})</span>
+            <span>Custom ({customWords.length})</span>
           </button>
         )}
       </div>
@@ -590,37 +711,61 @@ export default function GameArena({
       {/* Main Game Screen */}
       {!levelCompleted && targetItem ? (
         <div className="bg-white rounded-3xl border-4 sm:border-6 border-slate-900 shadow-2xl p-4 sm:p-7 relative overflow-hidden">
-          
-          {/* Header Progress & Level Tag */}
+          {/* Header Progress & Mastery Tracker */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-2">
-              <span className="px-3.5 py-1.5 bg-yellow-400 text-slate-950 border-2 border-yellow-600 rounded-xl font-display font-black text-xs sm:text-sm shadow-xs">
-                LEVEL {currentLevel.number || 1}
+              <span className="px-3.5 py-1.5 bg-yellow-400 text-slate-950 border-2 border-yellow-600 rounded-xl font-display font-black text-xs sm:text-sm shadow-xs flex items-center gap-1.5">
+                <span>{LEVEL_EMOJIS[currentLevel.number] || '⭐'}</span>
+                <span>LEVEL {currentLevel.number || 1}</span>
               </span>
               <span className="text-xs sm:text-sm font-bold text-slate-600">
-                Question {questionIndex + 1} of {pool.length}
+                Mastered: <span className="text-emerald-700 font-black">{masteredIds.size}</span> / {pool.length}
               </span>
+              {isReviewQuestion && (
+                <span className="px-2.5 py-0.5 bg-rose-100 text-rose-800 border border-rose-300 rounded-full font-black text-[11px] animate-pulse flex items-center gap-1">
+                  <span>🔄 Spaced Review</span>
+                </span>
+              )}
             </div>
 
-            {/* Visual Progress Bar */}
-            <div className="flex-1 max-w-[140px] sm:max-w-[200px] h-3.5 bg-slate-200 rounded-full overflow-hidden border border-slate-400">
-              <div
-                className="h-full bg-emerald-500 transition-all duration-300 rounded-full"
-                style={{ width: `${((questionIndex + 1) / pool.length) * 100}%` }}
-              />
+            {/* Visual Progress Bar (Mastered / Total) */}
+            <div className="flex items-center gap-2">
+              <div className="w-24 sm:w-36 h-3.5 bg-slate-200 rounded-full overflow-hidden border border-slate-400">
+                <div
+                  className="h-full bg-emerald-500 transition-all duration-300 rounded-full"
+                  style={{ width: `${Math.min(100, (masteredIds.size / (pool.length || 1)) * 100)}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono font-bold text-slate-500">
+                {Math.round((masteredIds.size / (pool.length || 1)) * 100)}%
+              </span>
             </div>
           </div>
 
-          {/* Persistent Audio Hero Prompt Card with Early-Reader Visual Clue */}
+          {/* Educational Hero Prompt Card with Phonics, Clue & Spoken Audio */}
           <div className="bg-gradient-to-b from-amber-100 to-amber-50 rounded-3xl p-4 sm:p-6 border-3 border-amber-400 shadow-inner mb-6 text-center flex flex-col items-center relative">
-            
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 bg-amber-200/80 text-amber-950 rounded-full font-bold text-xs uppercase tracking-wider">
+            {/* Multi-Dimensional Learning Header */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
+              <span className="px-3 py-1 bg-amber-200/90 text-amber-950 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-1 shadow-2xs">
                 🎧 Listen & Find the Picture
               </span>
-              {cardCountMode === 2 && (
-                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-black text-[10px] border border-emerald-300">
-                  👶 Junior Mode (2 Cards)
+
+              {/* Phonics Initial Letter & Sound Badge */}
+              {targetItem.phonicsLetter && (
+                <span className="px-2.5 py-1 bg-purple-100 text-purple-900 border border-purple-300 rounded-full font-black text-xs flex items-center gap-1 shadow-2xs">
+                  <span className="text-sm font-mono font-black text-purple-700">
+                    🔤 Starts with {targetItem.phonicsLetter}
+                  </span>
+                  {targetItem.phonicsSound && (
+                    <span className="text-purple-600 font-mono">[{targetItem.phonicsSound}]</span>
+                  )}
+                </span>
+              )}
+
+              {/* Spaced Review Tag */}
+              {isReviewQuestion && (
+                <span className="px-2.5 py-1 bg-amber-200 text-amber-950 border border-amber-400 rounded-full font-black text-xs flex items-center gap-1 shadow-2xs">
+                  <span>💪 You got this, Deniz!</span>
                 </span>
               )}
             </div>
@@ -640,8 +785,12 @@ export default function GameArena({
               <div className="absolute -top-2.5 left-8 w-4 h-4 rounded-full bg-red-400 border border-red-700 shadow-sm" />
               <div className="absolute -top-2.5 right-8 w-4 h-4 rounded-full bg-red-400 border border-red-700 shadow-sm" />
 
-              <Volume2 className={`w-8 h-8 sm:w-10 sm:h-10 text-yellow-300 ${isSpeaking ? 'animate-bounce' : 'group-hover:scale-110'}`} />
-              
+              <Volume2
+                className={`w-8 h-8 sm:w-10 sm:h-10 text-yellow-300 ${
+                  isSpeaking ? 'animate-bounce' : 'group-hover:scale-110'
+                }`}
+              />
+
               {/* Syllable-formatted English Word */}
               <div className="flex flex-col items-start text-left">
                 <span className="tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] leading-tight">
@@ -654,11 +803,19 @@ export default function GameArena({
                 )}
               </div>
 
-              {/* Emoji Anchor Anchor for Visual Reinforcement */}
-              {targetItem.emoji && (
-                <span className="text-2xl sm:text-3xl ml-1">{targetItem.emoji}</span>
-              )}
+              {/* Emoji Anchor for Visual Reinforcement */}
+              {targetItem.emoji && <span className="text-2xl sm:text-3xl ml-1">{targetItem.emoji}</span>}
             </button>
+
+            {/* Educational Clue / Real-World Trait Tag */}
+            {targetItem.clue && (
+              <div className="mt-2 px-3.5 py-1.5 bg-white/95 border border-amber-300 rounded-2xl max-w-md shadow-2xs">
+                <p className="text-xs sm:text-sm font-bold text-slate-700 italic">
+                  💡 Clue:{' '}
+                  <span className="font-semibold text-slate-900 not-italic">"{targetItem.clue}"</span>
+                </p>
+              </div>
+            )}
 
             {/* Bilingual Meaning Helper Bar (DE / TR) */}
             <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
@@ -692,14 +849,16 @@ export default function GameArena({
               <button
                 type="button"
                 onClick={handleStartVoiceAnswer}
-                disabled={isCorrect === true}
+                disabled={isCorrect === true || isTransitioning}
                 className={`
                   w-full py-2.5 px-4 rounded-2xl font-display font-black text-xs sm:text-sm
                   transition-all duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer select-none
                   border-2 border-b-4 active:border-b-2 active:translate-y-1
-                  ${isListeningVoice
-                    ? 'bg-rose-500 hover:bg-rose-600 text-white border-rose-800 animate-pulse ring-4 ring-rose-300'
-                    : 'bg-purple-600 hover:bg-purple-700 text-white border-purple-900'}
+                  ${
+                    isListeningVoice
+                      ? 'bg-rose-500 hover:bg-rose-600 text-white border-rose-800 animate-pulse ring-4 ring-rose-300'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white border-purple-900'
+                  }
                 `}
                 title="Speak the English word into your microphone"
               >
@@ -723,11 +882,13 @@ export default function GameArena({
               )}
 
               {voiceFeedback && (
-                <div className={`text-[11px] font-black px-3 py-1 rounded-xl border animate-scaleUp flex items-center gap-1 ${
-                  voiceFeedback.isSuccess
-                    ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-                    : 'bg-amber-100 text-amber-900 border-amber-300'
-                }`}>
+                <div
+                  className={`text-[11px] font-black px-3 py-1 rounded-xl border animate-scaleUp flex items-center gap-1 ${
+                    voiceFeedback.isSuccess
+                      ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                      : 'bg-amber-100 text-amber-900 border-amber-300'
+                  }`}
+                >
                   {voiceFeedback.source === 'gemini' && <Bot className="w-3.5 h-3.5 text-purple-600" />}
                   <span>{voiceFeedback.text}</span>
                 </div>
@@ -742,8 +903,16 @@ export default function GameArena({
             )}
           </div>
 
-          {/* High-Contrast, Chunky Early-Reader Answer Cards Grid */}
-          <div className={`grid gap-4 sm:gap-6 ${cardCountMode === 2 ? 'grid-cols-2 max-w-2xl mx-auto' : 'grid-cols-2'}`}>
+          {/* High-Contrast, Chunky Early-Reader Answer Cards Grid (Supports 2, 4, or 6 cards) */}
+          <div
+            className={`grid gap-3.5 sm:gap-5 ${
+              cardCountMode === 2
+                ? 'grid-cols-2 max-w-2xl mx-auto'
+                : cardCountMode === 4
+                  ? 'grid-cols-2 max-w-3xl mx-auto'
+                  : 'grid-cols-2 sm:grid-cols-3 max-w-4xl mx-auto'
+            }`}
+          >
             {options.map((item) => {
               const isSelected = selectedOptionId === item.id;
               const isWobbling = wobbleOptionId === item.id;
@@ -762,27 +931,33 @@ export default function GameArena({
                     borderColor: cardStyle.borderColor,
                   }}
                   className={`
-                    group relative rounded-3xl p-4 sm:p-6
+                    group relative rounded-3xl p-3 sm:p-5
                     flex flex-col items-center justify-center text-center
                     border-4 border-b-8 cursor-pointer select-none
                     transition-all duration-150 shadow-lg
-                    ${cardCountMode === 2 ? 'min-h-[190px] sm:min-h-[220px]' : 'min-h-[160px] sm:min-h-[190px]'}
+                    ${
+                      cardCountMode === 6
+                        ? 'min-h-[155px] sm:min-h-[180px]'
+                        : cardCountMode === 4
+                          ? 'min-h-[170px] sm:min-h-[195px]'
+                          : 'min-h-[195px] sm:min-h-[225px]'
+                    }
                     ${isSelected ? 'scale-102 border-b-4 translate-y-1' : 'hover:-translate-y-1 hover:shadow-2xl'}
                     ${isThisCorrect ? 'ring-6 ring-emerald-400 brightness-110 animate-brick-snap' : ''}
                     ${isWobbling ? 'animate-wobble ring-4 ring-rose-400' : ''}
                   `}
                 >
                   {/* Real 3D Top Studs matching card color */}
-                  <div className="absolute -top-3 left-0 right-0 flex justify-center gap-4 pointer-events-none">
+                  <div className="absolute -top-3 left-0 right-0 flex justify-center gap-3 sm:gap-4 pointer-events-none">
                     <div
-                      className="w-5 h-3.5 rounded-t-lg border-2 border-b-0 shadow-sm"
+                      className="w-4 sm:w-5 h-3 sm:h-3.5 rounded-t-lg border-2 border-b-0 shadow-sm"
                       style={{
                         backgroundColor: cardStyle.bgColor,
                         borderColor: cardStyle.borderColor,
                       }}
                     />
                     <div
-                      className="w-5 h-3.5 rounded-t-lg border-2 border-b-0 shadow-sm"
+                      className="w-4 sm:w-5 h-3 sm:h-3.5 rounded-t-lg border-2 border-b-0 shadow-sm"
                       style={{
                         backgroundColor: cardStyle.bgColor,
                         borderColor: cardStyle.borderColor,
@@ -790,14 +965,24 @@ export default function GameArena({
                     />
                   </div>
 
-                  {/* Dedicated Child-Friendly Hint / Kulaklık Button (Hover or Tap speaks DE/TR) */}
+                  {/* Phonics Initial Letter Badge on Card */}
+                  {item.phonicsLetter && (
+                    <div
+                      className="absolute top-2.5 left-2.5 min-w-[28px] h-7 px-1.5 rounded-xl bg-black/45 text-yellow-300 font-mono font-black text-xs border border-white/30 flex items-center justify-center shadow-xs"
+                      title={`Starts with letter ${item.phonicsLetter}`}
+                    >
+                      {item.phonicsLetter}
+                    </div>
+                  )}
+
+                  {/* Dedicated Child-Friendly Hint / Kulaklık Button */}
                   <button
                     type="button"
                     onClick={(e) => handleCardHintClick(e, item)}
                     onMouseEnter={(e) => handleHintHover(e, item)}
                     onPointerEnter={(e) => handleHintHover(e, item)}
                     className="
-                      absolute top-2.5 right-2.5 min-w-[48px] min-h-[48px] p-2 rounded-2xl
+                      absolute top-2.5 right-2.5 min-w-[42px] min-h-[42px] p-2 rounded-2xl
                       bg-slate-950/85 hover:bg-slate-950 text-yellow-300
                       border-2 border-yellow-400/80 shadow-md
                       flex items-center justify-center transition-transform active:scale-95 cursor-pointer z-10
@@ -805,20 +990,35 @@ export default function GameArena({
                     title="İpucu / Hilfe (Deutsch & Türkçe)"
                     aria-label="Hint in German or Turkish"
                   >
-                    <Headphones className="w-5 h-5 text-yellow-300" />
+                    <Headphones className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" />
                   </button>
 
                   {/* Solid White Icon Capsule - Large Picture for Early Readers */}
-                  <div className={`
+                  <div
+                    className={`
                     rounded-2xl bg-white border-2 border-white/90 shadow-md group-hover:scale-105 transition-transform flex items-center justify-center relative
-                    ${cardCountMode === 2 ? 'w-20 h-20 sm:w-24 sm:h-24 my-2' : 'w-16 h-16 sm:w-20 sm:h-20 my-1.5'}
-                  `}>
+                    ${
+                      cardCountMode === 6
+                        ? 'w-14 h-14 sm:w-16 sm:h-16 my-1'
+                        : cardCountMode === 4
+                          ? 'w-16 h-16 sm:w-20 sm:h-20 my-1.5'
+                          : 'w-20 h-20 sm:w-24 sm:h-24 my-2'
+                    }
+                  `}
+                  >
                     <div style={{ color: cardStyle.bgColor }}>
-                      {renderIcon(item.icon, cardCountMode === 2 ? 'w-12 h-12 sm:w-16 sm:h-16' : 'w-10 h-10 sm:w-14 sm:h-14')}
+                      {renderIcon(
+                        item.icon,
+                        cardCountMode === 6
+                          ? 'w-8 h-8 sm:w-10 sm:h-10'
+                          : cardCountMode === 4
+                            ? 'w-10 h-10 sm:w-14 sm:h-14'
+                            : 'w-12 h-12 sm:w-16 sm:h-16'
+                      )}
                     </div>
                     {/* Visual Emoji Badge Anchor */}
                     {item.emoji && (
-                      <span className="absolute -bottom-2 -right-2 text-xl sm:text-2xl drop-shadow-sm">
+                      <span className="absolute -bottom-2 -right-2 text-lg sm:text-2xl drop-shadow-sm">
                         {item.emoji}
                       </span>
                     )}
@@ -828,7 +1028,11 @@ export default function GameArena({
                   <span
                     style={{ textShadow: cardStyle.textShadow }}
                     className={`font-display font-black tracking-wide leading-tight mt-1 ${
-                      cardCountMode === 2 ? 'text-2xl sm:text-4xl' : 'text-xl sm:text-3xl'
+                      cardCountMode === 6
+                        ? 'text-lg sm:text-2xl'
+                        : cardCountMode === 4
+                          ? 'text-xl sm:text-3xl'
+                          : 'text-2xl sm:text-4xl'
                     } ${cardStyle.textColor}`}
                   >
                     {item.word}
@@ -836,14 +1040,14 @@ export default function GameArena({
 
                   {/* Early-Reader Syllables Breakdown */}
                   {item.syllables && item.syllables !== item.word && (
-                    <span className="text-[11px] font-mono tracking-wider font-bold opacity-90 text-white/90 bg-black/25 px-2 py-0.5 rounded-md mt-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-mono tracking-wider font-bold opacity-90 text-white/90 bg-black/25 px-2 py-0.5 rounded-md mt-0.5">
                       {item.syllables}
                     </span>
                   )}
 
                   {/* Bilingual Translation Chip (Revealed on hover or tap) */}
                   {isHintRevealed && (
-                    <div className="mt-2 px-3 py-1 rounded-xl bg-slate-950 text-yellow-300 text-xs sm:text-sm font-black border border-yellow-400 shadow-md animate-fadeIn flex items-center gap-1.5">
+                    <div className="mt-2 px-2.5 py-1 rounded-xl bg-slate-950 text-yellow-300 text-xs sm:text-sm font-black border border-yellow-400 shadow-md animate-fadeIn flex items-center gap-1.5">
                       {helperLanguage === 'de' && <span>🇩🇪 {item.translationDe || item.translation}</span>}
                       {helperLanguage === 'tr' && <span>🇹🇷 {item.translation}</span>}
                       {helperLanguage === 'both' && (
@@ -862,10 +1066,9 @@ export default function GameArena({
           {isCorrect === true && (
             <div className="mt-5 p-3.5 bg-emerald-100 border-3 border-emerald-500 rounded-2xl text-emerald-900 font-display font-black text-center text-sm sm:text-base flex items-center justify-center gap-2 animate-bounce shadow-sm">
               <CheckCircle className="w-6 h-6 text-emerald-600" />
-              <span>SUPER! You earned +1 Star ⭐ and +1 Lego Brick 🧱</span>
+              <span>SUPER! You mastered this word! +1 Star ⭐ and +1 Brick 🧱</span>
             </div>
           )}
-
         </div>
       ) : levelCompleted ? (
         /* Victory Screen */
@@ -881,10 +1084,10 @@ export default function GameArena({
           </span>
 
           <h2 className="text-2xl sm:text-4xl font-black font-display text-slate-900 mt-2 mb-1">
-            GREAT JOB, MASTER BUILDER!
+            GREAT JOB, {childName.toUpperCase()}!
           </h2>
           <p className="text-sm sm:text-base text-slate-600 font-bold max-w-md mx-auto mb-6">
-            You completed all challenges in <span className="text-red-600 font-black">{currentLevel.title}</span>!
+            You mastered all {pool.length} words in <span className="text-red-600 font-black">{currentLevel.title}</span>!
           </p>
 
           <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto mb-6">
@@ -908,6 +1111,19 @@ export default function GameArena({
               <RotateCcw className="w-4 h-4" />
               <span>Play Again</span>
             </button>
+
+            {nextLevel && (
+              <button
+                onClick={() => {
+                  playTap(isMuted);
+                  setSelectedLevelId(nextLevel.id);
+                }}
+                className="w-full sm:w-auto min-h-[56px] px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black rounded-2xl border-2 border-b-4 border-emerald-700 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                <span>Next Level: {nextLevel.title}</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
       ) : (
@@ -917,7 +1133,6 @@ export default function GameArena({
           </p>
         </div>
       )}
-
     </div>
   );
 }

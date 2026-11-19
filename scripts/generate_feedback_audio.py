@@ -40,6 +40,8 @@ CURRICULUM = {
     "feelings": ["Happy", "Sad", "Angry", "Scared", "Tired", "Hungry", "Big", "Small", "Fast", "Slow", "Hot", "Cold"],
     "space_ocean": ["Planet", "Astronaut", "Galaxy", "Comet", "Telescope", "Alien", "Whale", "Dolphin", "Shark", "Octopus", "Crab", "Turtle"],
     "time_seasons": ["Morning", "Night", "Today", "Tomorrow", "Spring", "Summer", "Autumn", "Winter", "Monday", "Friday", "Birthday", "Party"],
+    "deniz_favorites": ["Spaghetti", "Pudding", "Cake", "Swimming", "Basketball", "Piano", "Lego", "School", "Aachen", "Hotel", "Turkey", "Show"],
+    "stem_math": ["Engineer", "Scientist", "Hospital", "Plus", "Minus", "Equal", "Solve", "Signal", "Medal", "Question", "Answer", "Genius"],
 }
 
 ALL_CURRICULUM_WORDS = []

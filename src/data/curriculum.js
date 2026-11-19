@@ -1,9 +1,10 @@
 /**
  * Curriculum definitions for Lego English Adventure.
- * Tailored for early readers (7-year-old children learning reading in German and Turkish).
- * Features syllable breakdowns, visual emoji anchors, phonics initial sound hints,
- * educational trait clues, and bilingual DE/TR helpers.
- * 14 rich levels with 12 items each (168 distinct items with zero cross-level duplicates).
+ * Personalized for Deniz (7 years old, Aachen, GGS Laurensberg 1b).
+ * Featuring family (Mom Melis, Dad Ege, Grandmas Nevin & Serpil, Grandpa Ahmet),
+ * friends (Ojas, Elias, Julius, Vukasin, Liam), teachers (Frau Schwarz, Jeremias),
+ * favorite foods (Spaghetti Bolognese, pudding), hobbies (Lego Master, Silver Medal swimming, basketball, piano).
+ * 16 rich levels with 12 items each (192 distinct items with zero cross-level duplicates).
  */
 
 export const CURRICULUM_LEVELS = [
@@ -40,7 +41,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Like a shiny red race car! 🏎️",
         "hintSentenceTr": "Kırmızı bir yarış arabası gibi!",
-        "hintSentenceDe": "Wie ein rotes Rennauto!"
+        "hintSentenceDe": "Wie ein rotes Rennauto!",
+        "dadPrompt": "Dad, what is something super cool about Red? 💡"
       },
       {
         "id": "c2",
@@ -62,7 +64,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Like the deep blue sea! 🌊",
         "hintSentenceTr": "Derin mavi deniz gibi!",
-        "hintSentenceDe": "Wie das blaue Meer!"
+        "hintSentenceDe": "Wie das blaue Meer!",
+        "dadPrompt": "Dad, what is something super cool about Blue? 💡"
       },
       {
         "id": "c3",
@@ -84,7 +87,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde047",
         "hintSentence": "Like warm sunshine! ☀️",
         "hintSentenceTr": "Sıcak sarı güneş gibi!",
-        "hintSentenceDe": "Wie die gelbe Sonne!"
+        "hintSentenceDe": "Wie die gelbe Sonne!",
+        "dadPrompt": "Dad, what is something super cool about Yellow? 💡"
       },
       {
         "id": "c4",
@@ -106,7 +110,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Like the green Lego grass baseplate! 🌱",
         "hintSentenceTr": "Yeşil Lego zemin plakası gibi!",
-        "hintSentenceDe": "Wie die grüne Lego-Bauplatte!"
+        "hintSentenceDe": "Wie die grüne Lego-Bauplatte!",
+        "dadPrompt": "Dad, what is something super cool about Green? 💡"
       },
       {
         "id": "c5",
@@ -128,7 +133,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#a855f7",
         "hintSentence": "Like sweet purple grapes! 🍇",
         "hintSentenceTr": "Tatlı mor üzümler gibi!",
-        "hintSentenceDe": "Wie süße lila Weintrauben!"
+        "hintSentenceDe": "Wie süße lila Weintrauben!",
+        "dadPrompt": "Dad, what is something super cool about Purple? 💡"
       },
       {
         "id": "c6",
@@ -150,7 +156,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Like a lovely pink flamingo! 🦩",
         "hintSentenceTr": "Sevimli pembe bir flamingo gibi!",
-        "hintSentenceDe": "Wie ein hübscher rosa Flamingo!"
+        "hintSentenceDe": "Wie ein hübscher rosa Flamingo!",
+        "dadPrompt": "Dad, what is something super cool about Pink? 💡"
       },
       {
         "id": "c7",
@@ -172,7 +179,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#92400e",
         "hintSentence": "Like warm chocolate cake! 🍫",
         "hintSentenceTr": "Sıcak çikolatalı pasta gibi!",
-        "hintSentenceDe": "Wie warmer Schokoladenkuchen!"
+        "hintSentenceDe": "Wie warmer Schokoladenkuchen!",
+        "dadPrompt": "Dad, what is something super cool about Brown? 💡"
       },
       {
         "id": "c8",
@@ -194,7 +202,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#334155",
         "hintSentence": "Like the deep night sky! 🌌",
         "hintSentenceTr": "Derin gece gökyüzü gibi!",
-        "hintSentenceDe": "Wie der tiefe Nachthimmel!"
+        "hintSentenceDe": "Wie der tiefe Nachthimmel!",
+        "dadPrompt": "Dad, what is something super cool about Black? 💡"
       },
       {
         "id": "c9",
@@ -216,7 +225,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Round and smooth like a basketball! 🏀",
         "hintSentenceTr": "Basketbol topu gibi yuvarlak!",
-        "hintSentenceDe": "Rund und glatt wie ein Basketball!"
+        "hintSentenceDe": "Rund und glatt wie ein Basketball!",
+        "dadPrompt": "Dad, what is something super cool about Circle? 💡"
       },
       {
         "id": "c10",
@@ -238,7 +248,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#60a5fa",
         "hintSentence": "Four equal sides like a 2x2 brick! 🧱",
         "hintSentenceTr": "Dört eşit kenarlı 2x2 tuğla gibi!",
-        "hintSentenceDe": "Vier gleiche Seiten wie ein 2x2 Stein!"
+        "hintSentenceDe": "Vier gleiche Seiten wie ein 2x2 Stein!",
+        "dadPrompt": "Dad, what is something super cool about Square? 💡"
       },
       {
         "id": "c11",
@@ -260,7 +271,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f87171",
         "hintSentence": "Three corners like a slice of pizza! 🍕",
         "hintSentenceTr": "Pizza dilimi gibi üç köşeli!",
-        "hintSentenceDe": "Drei Ecken wie ein Stück Pizza!"
+        "hintSentenceDe": "Drei Ecken wie ein Stück Pizza!",
+        "dadPrompt": "Dad, what is something super cool about Triangle? 💡"
       },
       {
         "id": "c12",
@@ -282,7 +294,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde047",
         "hintSentence": "Shining bright with five points! ✨",
         "hintSentenceTr": "Beş köşesiyle parıldayan yıldız!",
-        "hintSentenceDe": "Leuchtet hell mit fünf Zacken!"
+        "hintSentenceDe": "Leuchtet hell mit fünf Zacken!",
+        "dadPrompt": "Dad, what is something super cool about Star? 💡"
       }
     ]
   },
@@ -319,7 +332,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f59e0b",
         "hintSentence": "Barks happily and wags its tail! 🐶",
         "hintSentenceTr": "Mutlu havlar ve kuyruk sallar!",
-        "hintSentenceDe": "Bellt fröhlich und wedelt mit dem Schwanz!"
+        "hintSentenceDe": "Bellt fröhlich und wedelt mit dem Schwanz!",
+        "dadPrompt": "Dad, what is something super cool about Dog? 💡"
       },
       {
         "id": "a2",
@@ -341,7 +355,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Loves warm milk and sweet naps! 🐱",
         "hintSentenceTr": "Sıcak sütü ve şekerlemeyi sever!",
-        "hintSentenceDe": "Liebt warme Milch und ein Schläfchen!"
+        "hintSentenceDe": "Liebt warme Milch und ein Schläfchen!",
+        "dadPrompt": "Dad, what is something super cool about Cat? 💡"
       },
       {
         "id": "a3",
@@ -363,7 +378,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#eab308",
         "hintSentence": "The brave king with a golden mane! 🦁",
         "hintSentenceTr": "Altın yelesiyle cesur orman kralı!",
-        "hintSentenceDe": "Der mutige König mit der goldenen Mähne!"
+        "hintSentenceDe": "Der mutige König mit der goldenen Mähne!",
+        "dadPrompt": "Dad, what is something super cool about Lion? 💡"
       },
       {
         "id": "a4",
@@ -385,7 +401,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f97316",
         "hintSentence": "Fast and striped in the jungle! 🐯",
         "hintSentenceTr": "Ormanda hızlı ve çizgili!",
-        "hintSentenceDe": "Schnell und gestreift im Dschungel!"
+        "hintSentenceDe": "Schnell und gestreift im Dschungel!",
+        "dadPrompt": "Dad, what is something super cool about Tiger? 💡"
       },
       {
         "id": "a5",
@@ -407,7 +424,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#b45309",
         "hintSentence": "Big cuddly bear loves sweet honey! 🍯",
         "hintSentenceTr": "Büyük sevimli ayı tatlı balı sever!",
-        "hintSentenceDe": "Der große Kuschelbär liebt süßen Honig!"
+        "hintSentenceDe": "Der große Kuschelbär liebt süßen Honig!",
+        "dadPrompt": "Dad, what is something super cool about Bear? 💡"
       },
       {
         "id": "a6",
@@ -429,7 +447,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ea580c",
         "hintSentence": "Clever red fox with a bushy tail! 🦊",
         "hintSentenceTr": "Kabarık kuyruklu zeki kızıl tilki!",
-        "hintSentenceDe": "Schlauer roter Fuchs mit buschigem Schwanz!"
+        "hintSentenceDe": "Schlauer roter Fuchs mit buschigem Schwanz!",
+        "dadPrompt": "Dad, what is something super cool about Fox? 💡"
       },
       {
         "id": "a7",
@@ -451,7 +470,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#22c55e",
         "hintSentence": "Hops from lily pad to lily pad! 🐸",
         "hintSentenceTr": "Nilüfer yaprağından yaprağa zıplar!",
-        "hintSentenceDe": "Hüpft von Seerosenblatt zu Seerosenblatt!"
+        "hintSentenceDe": "Hüpft von Seerosenblatt zu Seerosenblatt!",
+        "dadPrompt": "Dad, what is something super cool about Frog? 💡"
       },
       {
         "id": "a8",
@@ -473,7 +493,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Glides smoothly through deep water! 🐟",
         "hintSentenceTr": "Derin sularda süzülerek yüzer!",
-        "hintSentenceDe": "Gleitet sanft durch das tiefe Wasser!"
+        "hintSentenceDe": "Gleitet sanft durch das tiefe Wasser!",
+        "dadPrompt": "Dad, what is something super cool about Fish? 💡"
       },
       {
         "id": "a9",
@@ -495,7 +516,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#2dd4bf",
         "hintSentence": "Spreads its wings and chirps up high! 🐦",
         "hintSentenceTr": "Kanatlarını açar ve yükseklerde öter!",
-        "hintSentenceDe": "Breitet die Flügel aus und zwitschert hoch oben!"
+        "hintSentenceDe": "Breitet die Flügel aus und zwitschert hoch oben!",
+        "dadPrompt": "Dad, what is something super cool about Bird? 💡"
       },
       {
         "id": "a10",
@@ -517,7 +539,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Swims in the pond and quacks out loud! 🦆",
         "hintSentenceTr": "Gölette yüzer ve neşeyle vakvaklar!",
-        "hintSentenceDe": "Schwimmt im Teich und quakt fröhlich!"
+        "hintSentenceDe": "Schwimmt im Teich und quakt fröhlich!",
+        "dadPrompt": "Dad, what is something super cool about Duck? 💡"
       },
       {
         "id": "a11",
@@ -539,7 +562,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Wise bird that watches in the night! 🦉",
         "hintSentenceTr": "Gece nöbet tutan bilge kuş!",
-        "hintSentenceDe": "Kluger Vogel, der nachts wacht!"
+        "hintSentenceDe": "Kluger Vogel, der nachts wacht!",
+        "dadPrompt": "Dad, what is something super cool about Owl? 💡"
       },
       {
         "id": "a12",
@@ -561,7 +585,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#d97706",
         "hintSentence": "Swings from branch to branch with a smile! 🐵",
         "hintSentenceTr": "Daldan dala gülümseyerek sallanır!",
-        "hintSentenceDe": "Schwingt mit einem Lächeln von Ast zu Ast!"
+        "hintSentenceDe": "Schwingt mit einem Lächeln von Ast zu Ast!",
+        "dadPrompt": "Dad, what is something super cool about Monkey? 💡"
       }
     ]
   },
@@ -598,7 +623,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f87171",
         "hintSentence": "Beep beep! Drives fast down the road! 🚗",
         "hintSentenceTr": "Düt düt! Yolda hızla gider!",
-        "hintSentenceDe": "Tuut tuut! Fährt schnell auf der Straße!"
+        "hintSentenceDe": "Tuut tuut! Fährt schnell auf der Straße!",
+        "dadPrompt": "Dad, what is something super cool about Car? 💡"
       },
       {
         "id": "v2",
@@ -620,7 +646,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde047",
         "hintSentence": "Hop on board the big school bus! 🚌",
         "hintSentenceTr": "Büyük okul otobüsüne bin!",
-        "hintSentenceDe": "Steig in den großen Schulbus ein!"
+        "hintSentenceDe": "Steig in den großen Schulbus ein!",
+        "dadPrompt": "Dad, what is something super cool about Bus? 💡"
       },
       {
         "id": "v3",
@@ -642,7 +669,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Choo-choo! Rides along the iron rails! 🚂",
         "hintSentenceTr": "Çuf çuf! Demir raylar üzerinde ilerler!",
-        "hintSentenceDe": "Tschu-tschu! Fährt auf den Schienen!"
+        "hintSentenceDe": "Tschu-tschu! Fährt auf den Schienen!",
+        "dadPrompt": "Dad, what is something super cool about Train? 💡"
       },
       {
         "id": "v4",
@@ -664,7 +692,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Pedal fast through the sunny park! 🚲",
         "hintSentenceTr": "Güneşli parkta hızlı pedal çevir!",
-        "hintSentenceDe": "Tritt fest in die Pedale im Park!"
+        "hintSentenceDe": "Tritt fest in die Pedale im Park!",
+        "dadPrompt": "Dad, what is something super cool about Bike? 💡"
       },
       {
         "id": "v5",
@@ -686,7 +715,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Kick with one foot and glide away! 🛴",
         "hintSentenceTr": "Bir ayağınla it ve hızla kay!",
-        "hintSentenceDe": "Mit einem Fuß anschieben und losrollen!"
+        "hintSentenceDe": "Mit einem Fuß anschieben und losrollen!",
+        "dadPrompt": "Dad, what is something super cool about Scooter? 💡"
       },
       {
         "id": "v6",
@@ -708,7 +738,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Carries heavy loads of Lego bricks! 🚛",
         "hintSentenceTr": "Ağır Lego tuğlalarını taşır!",
-        "hintSentenceDe": "Transportiert schwere Lego-Steine!"
+        "hintSentenceDe": "Transportiert schwere Lego-Steine!",
+        "dadPrompt": "Dad, what is something super cool about Truck? 💡"
       },
       {
         "id": "v7",
@@ -730,7 +761,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Sails smoothly on blue water! ⛵",
         "hintSentenceTr": "Mavi sularda neşeyle yüzer!",
-        "hintSentenceDe": "Segelt sanft auf dem blauen Wasser!"
+        "hintSentenceDe": "Segelt sanft auf dem blauen Wasser!",
+        "dadPrompt": "Dad, what is something super cool about Boat? 💡"
       },
       {
         "id": "v8",
@@ -752,7 +784,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#0284c7",
         "hintSentence": "A giant ship across open oceans! 🚢",
         "hintSentenceTr": "Açık denizlerde yüzen devasa gemi!",
-        "hintSentenceDe": "Ein riesiges Schiff auf den Ozeanen!"
+        "hintSentenceDe": "Ein riesiges Schiff auf den Ozeanen!",
+        "dadPrompt": "Dad, what is something super cool about Ship? 💡"
       },
       {
         "id": "v9",
@@ -774,7 +807,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ef4444",
         "hintSentence": "3, 2, 1 blast off to outer space! 🚀",
         "hintSentenceTr": "3, 2, 1 uzaya doğru fırlat!",
-        "hintSentenceDe": "3, 2, 1 Start in den Weltraum!"
+        "hintSentenceDe": "3, 2, 1 Start in den Weltraum!",
+        "dadPrompt": "Dad, what is something super cool about Rocket? 💡"
       },
       {
         "id": "v10",
@@ -796,7 +830,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#22d3ee",
         "hintSentence": "Soars high above white fluffy clouds! ✈️",
         "hintSentenceTr": "Beyaz bulutların üstünde uçar!",
-        "hintSentenceDe": "Fliegt hoch über den weißen Wolken!"
+        "hintSentenceDe": "Fliegt hoch über den weißen Wolken!",
+        "dadPrompt": "Dad, what is something super cool about Airplane? 💡"
       },
       {
         "id": "v11",
@@ -818,7 +853,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f59e0b",
         "hintSentence": "Spinning rotor blades hover in the air! 🚁",
         "hintSentenceTr": "Dönen pervaneleriyle havada süzülür!",
-        "hintSentenceDe": "Drehende Rotorblätter schweben in der Luft!"
+        "hintSentenceDe": "Drehende Rotorblätter schweben in der Luft!",
+        "dadPrompt": "Dad, what is something super cool about Helicopter? 💡"
       },
       {
         "id": "v12",
@@ -840,7 +876,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#64748b",
         "hintSentence": "Dives deep under the blue waves! 🤿",
         "hintSentenceTr": "Mavi dalgaların derinliklerine dalar!",
-        "hintSentenceDe": "Taucht tief unter die blauen Wellen!"
+        "hintSentenceDe": "Taucht tief unter die blauen Wellen!",
+        "dadPrompt": "Dad, what is something super cool about Submarine? 💡"
       }
     ]
   },
@@ -877,7 +914,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f87171",
         "hintSentence": "Crispy sweet red apple for snack! 🍎",
         "hintSentenceTr": "Ara öğün için tatlı kırmızı elma!",
-        "hintSentenceDe": "Knackiger süßer roter Apfel!"
+        "hintSentenceDe": "Knackiger süßer roter Apfel!",
+        "dadPrompt": "Dad, what is something super cool about Apple? 💡"
       },
       {
         "id": "f2",
@@ -899,7 +937,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde047",
         "hintSentence": "Peel the yellow banana and take a bite! 🍌",
         "hintSentenceTr": "Sarı muzu soy ve bir ısırık al!",
-        "hintSentenceDe": "Schäle die gelbe Banane und beiß hinein!"
+        "hintSentenceDe": "Schäle die gelbe Banane und beiß hinein!",
+        "dadPrompt": "Dad, what is something super cool about Banana? 💡"
       },
       {
         "id": "f3",
@@ -921,7 +960,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#a855f7",
         "hintSentence": "A juicy bunch of purple grapes! 🍇",
         "hintSentenceTr": "Sulu bir salkım mor üzüm!",
-        "hintSentenceDe": "Eine saftige Traube lila Beeren!"
+        "hintSentenceDe": "Eine saftige Traube lila Beeren!",
+        "dadPrompt": "Dad, what is something super cool about Grape? 💡"
       },
       {
         "id": "f4",
@@ -943,7 +983,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#a3e635",
         "hintSentence": "Sweet green pear straight from tree! 🍐",
         "hintSentenceTr": "Ağaçtan taze tatlı yeşil armut!",
-        "hintSentenceDe": "Süße grüne Birne direkt vom Baum!"
+        "hintSentenceDe": "Süße grüne Birne direkt vom Baum!",
+        "dadPrompt": "Dad, what is something super cool about Pear? 💡"
       },
       {
         "id": "f5",
@@ -965,7 +1006,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fdba74",
         "hintSentence": "Soft peach with sweet juice! 🍑",
         "hintSentenceTr": "Sulu ve tatlı yumuşak şeftali!",
-        "hintSentenceDe": "Weicher Pfirsich mit süßem Saft!"
+        "hintSentenceDe": "Weicher Pfirsich mit süßem Saft!",
+        "dadPrompt": "Dad, what is something super cool about Peach? 💡"
       },
       {
         "id": "f6",
@@ -987,7 +1029,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Cool juicy melon on a hot summer day! 🍈",
         "hintSentenceTr": "Sıcak yaz gününde buz gibi kavun!",
-        "hintSentenceDe": "Kühle saftige Melone an heißen Tagen!"
+        "hintSentenceDe": "Kühle saftige Melone an heißen Tagen!",
+        "dadPrompt": "Dad, what is something super cool about Melon? 💡"
       },
       {
         "id": "f7",
@@ -1009,7 +1052,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fef08a",
         "hintSentence": "Sour yellow lemon makes you blink! 🍋",
         "hintSentenceTr": "Ekşi sarı limon göz kırptırır!",
-        "hintSentenceDe": "Die saure gelbe Zitrone ist spritzig!"
+        "hintSentenceDe": "Die saure gelbe Zitrone ist spritzig!",
+        "dadPrompt": "Dad, what is something super cool about Lemon? 💡"
       },
       {
         "id": "f8",
@@ -1031,7 +1075,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f59e0b",
         "hintSentence": "Warm freshly baked bread smells amazing! 🍞",
         "hintSentenceTr": "Fırından yeni çıkmış sıcak ekmek mis gibi kokar!",
-        "hintSentenceDe": "Warmes frisches Brot duftet herrlich!"
+        "hintSentenceDe": "Warmes frisches Brot duftet herrlich!",
+        "dadPrompt": "Dad, what is something super cool about Bread? 💡"
       },
       {
         "id": "f9",
@@ -1053,7 +1098,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#bae6fd",
         "hintSentence": "A cold glass of milk makes bones strong! 🥛",
         "hintSentenceTr": "Bir bardak soğuk süt kemikleri güçlendirir!",
-        "hintSentenceDe": "Ein Glas kühle Milch stärkt die Knochen!"
+        "hintSentenceDe": "Ein Glas kühle Milch stärkt die Knochen!",
+        "dadPrompt": "Dad, what is something super cool about Milk? 💡"
       },
       {
         "id": "f10",
@@ -1075,7 +1121,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde68a",
         "hintSentence": "Delicious cheese on fresh bread! 🧀",
         "hintSentenceTr": "Taze ekmek üzerinde leziz peynir!",
-        "hintSentenceDe": "Leckerer Käse auf frischem Brot!"
+        "hintSentenceDe": "Leckerer Käse auf frischem Brot!",
+        "dadPrompt": "Dad, what is something super cool about Cheese? 💡"
       },
       {
         "id": "f11",
@@ -1097,7 +1144,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f87171",
         "hintSentence": "Hot slice of pizza with melted cheese! 🍕",
         "hintSentenceTr": "Eriyen peynirli sıcacık pizza dilimi!",
-        "hintSentenceDe": "Heißes Stück Pizza mit geschmolzenem Käse!"
+        "hintSentenceDe": "Heißes Stück Pizza mit geschmolzenem Käse!",
+        "dadPrompt": "Dad, can we make Pizza together tonight? 🍝"
       },
       {
         "id": "f12",
@@ -1119,7 +1167,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#d97706",
         "hintSentence": "Crunchy sweet cookie with chocolate chips! 🍪",
         "hintSentenceTr": "Çikolata parçacıklı çıtır kurabiye!",
-        "hintSentenceDe": "Knuspriger Keks mit Schokostückchen!"
+        "hintSentenceDe": "Knuspriger Keks mit Schokostückchen!",
+        "dadPrompt": "Dad, what is something super cool about Cookie? 💡"
       }
     ]
   },
@@ -1156,7 +1205,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#818cf8",
         "hintSentence": "Open the book to read an adventure! 📚",
         "hintSentenceTr": "Harika bir macera okumak için kitabı aç!",
-        "hintSentenceDe": "Schlage das Buch auf für ein Abenteuer!"
+        "hintSentenceDe": "Schlage das Buch auf für ein Abenteuer!",
+        "dadPrompt": "Dad, what is something super cool about Book? 💡"
       },
       {
         "id": "s2",
@@ -1178,7 +1228,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#60a5fa",
         "hintSentence": "Write your story with blue ink! 🖊️",
         "hintSentenceTr": "Mavi mürekkeple hikayeni yaz!",
-        "hintSentenceDe": "Schreibe deine Geschichte mit Tinte!"
+        "hintSentenceDe": "Schreibe deine Geschichte mit Tinte!",
+        "dadPrompt": "Dad, what is something super cool about Pen? 💡"
       },
       {
         "id": "s3",
@@ -1200,7 +1251,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde68a",
         "hintSentence": "Sharpen your yellow pencil for school! ✏️",
         "hintSentenceTr": "Okul için sarı kalemini aç!",
-        "hintSentenceDe": "Spitze deinen Bleistift für die Schule!"
+        "hintSentenceDe": "Spitze deinen Bleistift für die Schule!",
+        "dadPrompt": "Dad, what is something super cool about Pencil? 💡"
       },
       {
         "id": "s4",
@@ -1222,7 +1274,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Zip up your backpack and head to class! 🎒",
         "hintSentenceTr": "Çantanın fermuarını çek ve sınıfa git!",
-        "hintSentenceDe": "Pack den Rucksack für die Schule!"
+        "hintSentenceDe": "Pack den Rucksack für die Schule!",
+        "dadPrompt": "Dad, what is something super cool about Backpack? 💡"
       },
       {
         "id": "s5",
@@ -1244,7 +1297,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb7185",
         "hintSentence": "Tick-tock says the clock on the wall! ⏰",
         "hintSentenceTr": "Duvardaki saat tik-tak eder!",
-        "hintSentenceDe": "Tick-tack macht die Uhr an der Wand!"
+        "hintSentenceDe": "Tick-tack macht die Uhr an der Wand!",
+        "dadPrompt": "Dad, what is something super cool about Clock? 💡"
       },
       {
         "id": "s6",
@@ -1266,7 +1320,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Fit the jigsaw puzzle pieces together! 🧩",
         "hintSentenceTr": "Yapboz parçalarını birbirine uydur!",
-        "hintSentenceDe": "Füge die Puzzleteile zusammen!"
+        "hintSentenceDe": "Füge die Puzzleteile zusammen!",
+        "dadPrompt": "Dad, what is something super cool about Puzzle? 💡"
       },
       {
         "id": "s7",
@@ -1288,7 +1343,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f59e0b",
         "hintSentence": "Share your favorite toy with your friend! 🧸",
         "hintSentenceTr": "En sevdiğin oyuncağı arkadaşınla paylaş!",
-        "hintSentenceDe": "Teile dein Spielzeug mit Freunden!"
+        "hintSentenceDe": "Teile dein Spielzeug mit Freunden!",
+        "dadPrompt": "Dad, what is something super cool about Toy? 💡"
       },
       {
         "id": "s8",
@@ -1310,7 +1366,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Play a super fun game together! 🎮",
         "hintSentenceTr": "Birlikte çok eğlenceli bir oyun oynayın!",
-        "hintSentenceDe": "Spiele ein tolles Spiel zusammen!"
+        "hintSentenceDe": "Spiele ein tolles Spiel zusammen!",
+        "dadPrompt": "Dad, what is something super cool about Game? 💡"
       },
       {
         "id": "s9",
@@ -1332,7 +1389,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#b45309",
         "hintSentence": "Knock on the door before you come in! 🚪",
         "hintSentenceTr": "İçeri girmeden önce kapıyı çal!",
-        "hintSentenceDe": "Klopfe an die Tür, bevor du reingehst!"
+        "hintSentenceDe": "Klopfe an die Tür, bevor du reingehst!",
+        "dadPrompt": "Dad, what is something super cool about Door? 💡"
       },
       {
         "id": "s10",
@@ -1354,7 +1412,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#2dd4bf",
         "hintSentence": "Pull up a chair and sit by the table! 🪑",
         "hintSentenceTr": "Sandalyeni çek ve masaya otur!",
-        "hintSentenceDe": "Setz dich auf den Stuhl am Tisch!"
+        "hintSentenceDe": "Setz dich auf den Stuhl am Tisch!",
+        "dadPrompt": "Dad, what is something super cool about Chair? 💡"
       },
       {
         "id": "s11",
@@ -1376,7 +1435,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#d97706",
         "hintSentence": "Build your Lego castle on the table! 🪵",
         "hintSentenceTr": "Lego kaleni masanın üzerinde yap!",
-        "hintSentenceDe": "Baue deine Burg auf dem Tisch!"
+        "hintSentenceDe": "Baue deine Burg auf dem Tisch!",
+        "dadPrompt": "Dad, what is something super cool about Table? 💡"
       },
       {
         "id": "s12",
@@ -1398,7 +1458,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Good night! Time to sleep in cozy bed! 🛏️",
         "hintSentenceTr": "İyi geceler! Rahat yatakta uyuma vakti!",
-        "hintSentenceDe": "Gute Nacht! Zeit fürs gemütliche Bett!"
+        "hintSentenceDe": "Gute Nacht! Zeit fürs gemütliche Bett!",
+        "dadPrompt": "Dad, what is something super cool about Bed? 💡"
       }
     ]
   },
@@ -1435,7 +1496,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb7185",
         "hintSentence": "Run fast on the playground court! 🏃",
         "hintSentenceTr": "Oyun alanında hızlıca koş!",
-        "hintSentenceDe": "Renne schnell über den Spielplatz!"
+        "hintSentenceDe": "Renne schnell über den Spielplatz!",
+        "dadPrompt": "Dad, watch how fast I can run! 🏊"
       },
       {
         "id": "ac2",
@@ -1457,7 +1519,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Walk gently step by step! 🚶",
         "hintSentenceTr": "Adım adım sakince yürü!",
-        "hintSentenceDe": "Gehe Schritt für Schritt durch den Park!"
+        "hintSentenceDe": "Gehe Schritt für Schritt durch den Park!",
+        "dadPrompt": "Dad, watch how fast I can walk! 🏊"
       },
       {
         "id": "ac3",
@@ -1479,7 +1542,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde68a",
         "hintSentence": "Jump high up into the air! 🦘",
         "hintSentenceTr": "Havaya doğru yükseğe zıpla!",
-        "hintSentenceDe": "Springe hoch in die Luft!"
+        "hintSentenceDe": "Springe hoch in die Luft!",
+        "dadPrompt": "Dad, watch how fast I can jump! 🏊"
       },
       {
         "id": "ac4",
@@ -1501,7 +1565,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Swim like a little goldfish in the pool! 🏊",
         "hintSentenceTr": "Havuzda küçük bir japon balığı gibi yüz!",
-        "hintSentenceDe": "Schwimme wie ein Fisch im Pool!"
+        "hintSentenceDe": "Schwimme wie ein Fisch im Pool!",
+        "dadPrompt": "Dad, watch how fast I can swim! 🏊"
       },
       {
         "id": "ac5",
@@ -1523,7 +1588,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#2dd4bf",
         "hintSentence": "Fly high above the mountains! 🦅",
         "hintSentenceTr": "Dağların üzerinde yükseğe uç!",
-        "hintSentenceDe": "Fliege hoch über den Bergen!"
+        "hintSentenceDe": "Fliege hoch über den Bergen!",
+        "dadPrompt": "Dad, watch how fast I can fly! 🏊"
       },
       {
         "id": "ac6",
@@ -1545,7 +1611,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Dance along with catchy music! 💃",
         "hintSentenceTr": "Müzikle birlikte neşeyle dans et!",
-        "hintSentenceDe": "Tanze zur fröhlichen Musik!"
+        "hintSentenceDe": "Tanze zur fröhlichen Musik!",
+        "dadPrompt": "Dad, watch how fast I can dance! 🏊"
       },
       {
         "id": "ac7",
@@ -1567,7 +1634,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Sing your favorite English song! 🎤",
         "hintSentenceTr": "En sevdiğin İngilizce şarkıyı söyle!",
-        "hintSentenceDe": "Singe dein englisches Lieblingslied!"
+        "hintSentenceDe": "Singe dein englisches Lieblingslied!",
+        "dadPrompt": "Dad, watch how fast I can sing! 🏊"
       },
       {
         "id": "ac8",
@@ -1589,7 +1657,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde047",
         "hintSentence": "Give a big sunny smile! 😊",
         "hintSentenceTr": "Kocaman güneş gibi gülümse!",
-        "hintSentenceDe": "Schenke ein großes sonniges Lächeln!"
+        "hintSentenceDe": "Schenke ein großes sonniges Lächeln!",
+        "dadPrompt": "Dad, watch how fast I can smile! 🏊"
       },
       {
         "id": "ac9",
@@ -1611,7 +1680,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Sleep soundly and dream sweet dreams! 😴",
         "hintSentenceTr": "Mışıl mışıl uyu ve güzel rüyalar gör!",
-        "hintSentenceDe": "Schlafe gut und träum was Schönes!"
+        "hintSentenceDe": "Schlafe gut und träum was Schönes!",
+        "dadPrompt": "Dad, watch how fast I can sleep! 🏊"
       },
       {
         "id": "ac10",
@@ -1633,7 +1703,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Let us play basketball together! ⚽",
         "hintSentenceTr": "Hadi birlikte basketbol oynayalım!",
-        "hintSentenceDe": "Lass uns zusammen Basketball spielen!"
+        "hintSentenceDe": "Lass uns zusammen Basketball spielen!",
+        "dadPrompt": "Dad, watch how fast I can play! 🏊"
       },
       {
         "id": "ac11",
@@ -1655,7 +1726,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#60a5fa",
         "hintSentence": "Read cool books every single day! 📖",
         "hintSentenceTr": "Her gün harika kitaplar oku!",
-        "hintSentenceDe": "Lies jeden Tag spannende Bücher!"
+        "hintSentenceDe": "Lies jeden Tag spannende Bücher!",
+        "dadPrompt": "Dad, watch how fast I can read! 🏊"
       },
       {
         "id": "ac12",
@@ -1677,7 +1749,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#e879f9",
         "hintSentence": "Draw a colorful spaceship rocket! 🎨",
         "hintSentenceTr": "Renkli bir uzay roketi çiz!",
-        "hintSentenceDe": "Zeichne eine bunte Weltraumrakete!"
+        "hintSentenceDe": "Zeichne eine bunte Weltraumrakete!",
+        "dadPrompt": "Dad, watch how fast I can draw! 🏊"
       }
     ]
   },
@@ -1714,7 +1787,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fde68a",
         "hintSentence": "The sun shines bright and warms us up! ☀️",
         "hintSentenceTr": "Güneş parlak parlar ve bizi ısıtır!",
-        "hintSentenceDe": "Die Sonne scheint hell und wärmt uns!"
+        "hintSentenceDe": "Die Sonne scheint hell und wärmt uns!",
+        "dadPrompt": "Dad, what is something super cool about Sun? 💡"
       },
       {
         "id": "n2",
@@ -1736,7 +1810,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#7dd3fc",
         "hintSentence": "The glowing moon smiles in the dark! 🌙",
         "hintSentenceTr": "Parlayan hilal ay karanlıkta gülümser!",
-        "hintSentenceDe": "Der leuchtende Mond lächelt in der Nacht!"
+        "hintSentenceDe": "Der leuchtende Mond lächelt in der Nacht!",
+        "dadPrompt": "Dad, what is something super cool about Moon? 💡"
       },
       {
         "id": "n3",
@@ -1758,7 +1833,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Look up at the clear blue sky! 🌌",
         "hintSentenceTr": "Yukarıdaki berrak mavi gökyüzüne bak!",
-        "hintSentenceDe": "Schau in den klaren blauen Himmel!"
+        "hintSentenceDe": "Schau in den klaren blauen Himmel!",
+        "dadPrompt": "Dad, what is something super cool about Sky? 💡"
       },
       {
         "id": "n4",
@@ -1780,7 +1856,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#cbd5e1",
         "hintSentence": "White fluffy cloud floats in breeze! ☁️",
         "hintSentenceTr": "Rüzgarda süzülen pofuduk beyaz bulut!",
-        "hintSentenceDe": "Weiße flauschige Wolke schwebt im Wind!"
+        "hintSentenceDe": "Weiße flauschige Wolke schwebt im Wind!",
+        "dadPrompt": "Dad, what is something super cool about Cloud? 💡"
       },
       {
         "id": "n5",
@@ -1802,7 +1879,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Pitter-patter falls the cool rain! 🌧️",
         "hintSentenceTr": "Şıpır şıpır serin yağmur yağıyor!",
-        "hintSentenceDe": "Plitsch-platsch fällt der Regen!"
+        "hintSentenceDe": "Plitsch-platsch fällt der Regen!",
+        "dadPrompt": "Dad, what is something super cool about Rain? 💡"
       },
       {
         "id": "n6",
@@ -1824,7 +1902,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#a5f3fc",
         "hintSentence": "Catch a cold snowflake on your tongue! ❄️",
         "hintSentenceTr": "Dilinle soğuk bir kar tanesi yakala!",
-        "hintSentenceDe": "Fange eine Schneeflocke mit der Zunge!"
+        "hintSentenceDe": "Fange eine Schneeflocke mit der Zunge!",
+        "dadPrompt": "Dad, what is something super cool about Snow? 💡"
       },
       {
         "id": "n7",
@@ -1846,7 +1925,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "A colorful rainbow after the rain! 🌈",
         "hintSentenceTr": "Yağmurdan sonra rengarenk gökkuşağı!",
-        "hintSentenceDe": "Ein bunter Regenbogen nach dem Regen!"
+        "hintSentenceDe": "Ein bunter Regenbogen nach dem Regen!",
+        "dadPrompt": "Dad, what is something super cool about Rainbow? 💡"
       },
       {
         "id": "n8",
@@ -1868,7 +1948,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#22c55e",
         "hintSentence": "A tall green tree gives cool shade! 🌳",
         "hintSentenceTr": "Uzun yeşil ağaç serin gölge verir!",
-        "hintSentenceDe": "Ein hoher grüner Baum spendet Schatten!"
+        "hintSentenceDe": "Ein hoher grüner Baum spendet Schatten!",
+        "dadPrompt": "Dad, what is something super cool about Tree? 💡"
       },
       {
         "id": "n9",
@@ -1890,7 +1971,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Sweet-smelling flower blooms in garden! 🌸",
         "hintSentenceTr": "Bahçede mis kokulu çiçek açar!",
-        "hintSentenceDe": "Duftende Blume blüht im Garten!"
+        "hintSentenceDe": "Duftende Blume blüht im Garten!",
+        "dadPrompt": "Dad, what is something super cool about Flower? 💡"
       },
       {
         "id": "n10",
@@ -1912,7 +1994,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#10b981",
         "hintSentence": "Walk peacefully through the green forest! 🌲",
         "hintSentenceTr": "Yeşil ormanda huzurla yürü!",
-        "hintSentenceDe": "Spaziere friedlich durch den grünen Wald!"
+        "hintSentenceDe": "Spaziere friedlich durch den grünen Wald!",
+        "dadPrompt": "Dad, what is something super cool about Forest? 💡"
       },
       {
         "id": "n11",
@@ -1934,7 +2017,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Watch the blue waves roll into the sea! 🌊",
         "hintSentenceTr": "Mavi dalgaların denize akışını izle!",
-        "hintSentenceDe": "Sieh die blauen Wellen im Meer rollen!"
+        "hintSentenceDe": "Sieh die blauen Wellen im Meer rollen!",
+        "dadPrompt": "Dad, what is something super cool about Sea? 💡"
       },
       {
         "id": "n12",
@@ -1956,7 +2040,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Run and swing at the sunny park! 🛝",
         "hintSentenceTr": "Güneşli parkta koş ve salıncakta sallan!",
-        "hintSentenceDe": "Laufe und schaukle im sonnigen Park!"
+        "hintSentenceDe": "Laufe und schaukle im sonnigen Park!",
+        "dadPrompt": "Dad, what is something super cool about Park? 💡"
       }
     ]
   },
@@ -1993,7 +2078,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "First number when counting 1️⃣ 1️⃣",
         "hintSentenceTr": "Bir! 1️⃣",
-        "hintSentenceDe": "Eins! 1️⃣"
+        "hintSentenceDe": "Eins! 1️⃣",
+        "dadPrompt": "Dad, what is something super cool about One? 💡"
       },
       {
         "id": "num2",
@@ -2015,7 +2101,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Like a pair of eyes 👀 2️⃣",
         "hintSentenceTr": "İki! 2️⃣",
-        "hintSentenceDe": "Zwei! 2️⃣"
+        "hintSentenceDe": "Zwei! 2️⃣",
+        "dadPrompt": "Dad, what is something super cool about Two? 💡"
       },
       {
         "id": "num3",
@@ -2037,7 +2124,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Sides on a triangle 🔺 3️⃣",
         "hintSentenceTr": "Üç! 3️⃣",
-        "hintSentenceDe": "Drei! 3️⃣"
+        "hintSentenceDe": "Drei! 3️⃣",
+        "dadPrompt": "Dad, what is something super cool about Three? 💡"
       },
       {
         "id": "num4",
@@ -2059,7 +2147,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Wheels on a family car 🚗 4️⃣",
         "hintSentenceTr": "Dört! 4️⃣",
-        "hintSentenceDe": "Vier! 4️⃣"
+        "hintSentenceDe": "Vier! 4️⃣",
+        "dadPrompt": "Dad, what is something super cool about Four? 💡"
       },
       {
         "id": "num5",
@@ -2081,7 +2170,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Fingers on one hand 🖐️ 5️⃣",
         "hintSentenceTr": "Beş! 5️⃣",
-        "hintSentenceDe": "Fünf! 5️⃣"
+        "hintSentenceDe": "Fünf! 5️⃣",
+        "dadPrompt": "Dad, what is something super cool about Five? 💡"
       },
       {
         "id": "num6",
@@ -2103,7 +2193,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Legs on a little ant 🐜 6️⃣",
         "hintSentenceTr": "Altı! 6️⃣",
-        "hintSentenceDe": "Sechs! 6️⃣"
+        "hintSentenceDe": "Sechs! 6️⃣",
+        "dadPrompt": "Dad, what is something super cool about Six? 💡"
       },
       {
         "id": "num7",
@@ -2125,7 +2216,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Days in one full week 📅 7️⃣",
         "hintSentenceTr": "Yedi! 7️⃣",
-        "hintSentenceDe": "Sieben! 7️⃣"
+        "hintSentenceDe": "Sieben! 7️⃣",
+        "dadPrompt": "Dad, what is something super cool about Seven? 💡"
       },
       {
         "id": "num8",
@@ -2147,7 +2239,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Arms on an octopus 🐙 8️⃣",
         "hintSentenceTr": "Sekiz! 8️⃣",
-        "hintSentenceDe": "Acht! 8️⃣"
+        "hintSentenceDe": "Acht! 8️⃣",
+        "dadPrompt": "Dad, what is something super cool about Eight? 💡"
       },
       {
         "id": "num9",
@@ -2169,7 +2262,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "One less than ten ✨ 9️⃣",
         "hintSentenceTr": "Dokuz! 9️⃣",
-        "hintSentenceDe": "Neun! 9️⃣"
+        "hintSentenceDe": "Neun! 9️⃣",
+        "dadPrompt": "Dad, what is something super cool about Nine? 💡"
       },
       {
         "id": "num10",
@@ -2191,7 +2285,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "All fingers on two hands 🙌 🔟",
         "hintSentenceTr": "On! 🔟",
-        "hintSentenceDe": "Zehn! 🔟"
+        "hintSentenceDe": "Zehn! 🔟",
+        "dadPrompt": "Dad, what is something super cool about Ten? 💡"
       },
       {
         "id": "num11",
@@ -2213,7 +2308,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "One more than ten 🌟 🕚",
         "hintSentenceTr": "On bir! 🕚",
-        "hintSentenceDe": "Elf! 🕚"
+        "hintSentenceDe": "Elf! 🕚",
+        "dadPrompt": "Dad, what is something super cool about Eleven? 💡"
       },
       {
         "id": "num12",
@@ -2235,7 +2331,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Hours on a clock face 🕛 🕛",
         "hintSentenceTr": "On iki! 🕛",
-        "hintSentenceDe": "Zwölf! 🕛"
+        "hintSentenceDe": "Zwölf! 🕛",
+        "dadPrompt": "Dad, what is something super cool about Twelve? 💡"
       }
     ]
   },
@@ -2272,7 +2369,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Where you wear a hat 🧢 🗣️",
         "hintSentenceTr": "Baş / Kafa! 🗣️",
-        "hintSentenceDe": "Kopf! 🗣️"
+        "hintSentenceDe": "Kopf! 🗣️",
+        "dadPrompt": "Dad, what is something super cool about Head? 💡"
       },
       {
         "id": "b2",
@@ -2294,7 +2392,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Grows on top of your head 💇 💇",
         "hintSentenceTr": "Saç! 💇",
-        "hintSentenceDe": "Haare! 💇"
+        "hintSentenceDe": "Haare! 💇",
+        "dadPrompt": "Dad, what is something super cool about Hair? 💡"
       },
       {
         "id": "b3",
@@ -2316,7 +2415,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Helps you see colors 👁️ 👁️",
         "hintSentenceTr": "Göz! 👁️",
-        "hintSentenceDe": "Auge! 👁️"
+        "hintSentenceDe": "Auge! 👁️",
+        "dadPrompt": "Dad, what is something super cool about Eye? 💡"
       },
       {
         "id": "b4",
@@ -2338,7 +2438,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Helps you hear music 👂 👂",
         "hintSentenceTr": "Kulak! 👂",
-        "hintSentenceDe": "Ohr! 👂"
+        "hintSentenceDe": "Ohr! 👂",
+        "dadPrompt": "Dad, what is something super cool about Ear? 💡"
       },
       {
         "id": "b5",
@@ -2360,7 +2461,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Helps you smell flowers 👃 👃",
         "hintSentenceTr": "Burun! 👃",
-        "hintSentenceDe": "Nase! 👃"
+        "hintSentenceDe": "Nase! 👃",
+        "dadPrompt": "Dad, what is something super cool about Nose? 💡"
       },
       {
         "id": "b6",
@@ -2382,7 +2484,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Used to speak and smile 👄 👄",
         "hintSentenceTr": "Ağız! 👄",
-        "hintSentenceDe": "Mund! 👄"
+        "hintSentenceDe": "Mund! 👄",
+        "dadPrompt": "Dad, what is something super cool about Mouth? 💡"
       },
       {
         "id": "b7",
@@ -2404,7 +2507,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Used to wave hello 👋 ✋",
         "hintSentenceTr": "El! ✋",
-        "hintSentenceDe": "Hand! ✋"
+        "hintSentenceDe": "Hand! ✋",
+        "dadPrompt": "Dad, what is something super cool about Hand? 💡"
       },
       {
         "id": "b8",
@@ -2426,7 +2530,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Connects shoulder and hand 💪 💪",
         "hintSentenceTr": "Kol! 💪",
-        "hintSentenceDe": "Arm! 💪"
+        "hintSentenceDe": "Arm! 💪",
+        "dadPrompt": "Dad, what is something super cool about Arm? 💡"
       },
       {
         "id": "b9",
@@ -2448,7 +2553,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Helps you run and jump 🦵 🦵",
         "hintSentenceTr": "Bacak! 🦵",
-        "hintSentenceDe": "Bein! 🦵"
+        "hintSentenceDe": "Bein! 🦵",
+        "dadPrompt": "Dad, what is something super cool about Leg? 💡"
       },
       {
         "id": "b10",
@@ -2470,7 +2576,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Goes inside your shoe 🦶 🦶",
         "hintSentenceTr": "Ayak! 🦶",
-        "hintSentenceDe": "Fuß! 🦶"
+        "hintSentenceDe": "Fuß! 🦶",
+        "dadPrompt": "Dad, what is something super cool about Foot? 💡"
       },
       {
         "id": "b11",
@@ -2492,7 +2599,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Five on every hand ☝️ ☝️",
         "hintSentenceTr": "Parmak! ☝️",
-        "hintSentenceDe": "Finger! ☝️"
+        "hintSentenceDe": "Finger! ☝️",
+        "dadPrompt": "Dad, what is something super cool about Finger? 💡"
       },
       {
         "id": "b12",
@@ -2514,7 +2622,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Brush it to stay shiny 🦷 🦷",
         "hintSentenceTr": "Diş! 🦷",
-        "hintSentenceDe": "Zahn! 🦷"
+        "hintSentenceDe": "Zahn! 🦷",
+        "dadPrompt": "Dad, what is something super cool about Tooth? 💡"
       }
     ]
   },
@@ -2551,7 +2660,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Worn on your upper body 👕 👕",
         "hintSentenceTr": "Gömlek / Tişört! 👕",
-        "hintSentenceDe": "Hemd! 👕"
+        "hintSentenceDe": "Hemd! 👕",
+        "dadPrompt": "Dad, what is something super cool about Shirt? 💡"
       },
       {
         "id": "cl2",
@@ -2573,7 +2683,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Covers both of your legs 👖 👖",
         "hintSentenceTr": "Pantolon! 👖",
-        "hintSentenceDe": "Hose! 👖"
+        "hintSentenceDe": "Hose! 👖",
+        "dadPrompt": "Dad, what is something super cool about Pants? 💡"
       },
       {
         "id": "cl3",
@@ -2595,7 +2706,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "One-piece party outfit 👗 👗",
         "hintSentenceTr": "Elbise! 👗",
-        "hintSentenceDe": "Kleid! 👗"
+        "hintSentenceDe": "Kleid! 👗",
+        "dadPrompt": "Dad, what is something super cool about Dress? 💡"
       },
       {
         "id": "cl4",
@@ -2617,7 +2729,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Shades your head from sun 👒 👒",
         "hintSentenceTr": "Şapka! 👒",
-        "hintSentenceDe": "Hut! 👒"
+        "hintSentenceDe": "Hut! 👒",
+        "dadPrompt": "Dad, what is something super cool about Hat? 💡"
       },
       {
         "id": "cl5",
@@ -2639,7 +2752,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Protects your feet outside 👟 👟",
         "hintSentenceTr": "Ayakkabı! 👟",
-        "hintSentenceDe": "Schuh! 👟"
+        "hintSentenceDe": "Schuh! 👟",
+        "dadPrompt": "Dad, what is something super cool about Shoe? 💡"
       },
       {
         "id": "cl6",
@@ -2661,7 +2775,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Keeps toes warm inside shoes 🧦 🧦",
         "hintSentenceTr": "Çorap! 🧦",
-        "hintSentenceDe": "Socke! 🧦"
+        "hintSentenceDe": "Socke! 🧦",
+        "dadPrompt": "Dad, what is something super cool about Sock? 💡"
       },
       {
         "id": "cl7",
@@ -2683,7 +2798,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Heavy layer for cold days 🧥 🧥",
         "hintSentenceTr": "Mont / Kaban! 🧥",
-        "hintSentenceDe": "Mantel! 🧥"
+        "hintSentenceDe": "Mantel! 🧥",
+        "dadPrompt": "Dad, what is something super cool about Coat? 💡"
       },
       {
         "id": "cl8",
@@ -2705,7 +2821,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Zipped top for cool breezes 🧥 🦺",
         "hintSentenceTr": "Ceket! 🦺",
-        "hintSentenceDe": "Jacke! 🦺"
+        "hintSentenceDe": "Jacke! 🦺",
+        "dadPrompt": "Dad, what is something super cool about Jacket? 💡"
       },
       {
         "id": "cl9",
@@ -2727,7 +2844,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Helps eyes see super sharp 👓 👓",
         "hintSentenceTr": "Gözlük! 👓",
-        "hintSentenceDe": "Brille! 👓"
+        "hintSentenceDe": "Brille! 👓",
+        "dadPrompt": "Dad, what is something super cool about Glasses? 💡"
       },
       {
         "id": "cl10",
@@ -2749,7 +2867,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Wraps warmly around your neck 🧣 🧣",
         "hintSentenceTr": "Atkı! 🧣",
-        "hintSentenceDe": "Schal! 🧣"
+        "hintSentenceDe": "Schal! 🧣",
+        "dadPrompt": "Dad, what is something super cool about Scarf? 💡"
       },
       {
         "id": "cl11",
@@ -2771,7 +2890,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Keeps hands warm in snow 🧤 🧤",
         "hintSentenceTr": "Eldiven! 🧤",
-        "hintSentenceDe": "Handschuh! 🧤"
+        "hintSentenceDe": "Handschuh! 🧤",
+        "dadPrompt": "Dad, what is something super cool about Glove? 💡"
       },
       {
         "id": "cl12",
@@ -2793,7 +2913,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Holds your pants in place 〰️ 🪢",
         "hintSentenceTr": "Kemer! 🪢",
-        "hintSentenceDe": "Gürtel! 🪢"
+        "hintSentenceDe": "Gürtel! 🪢",
+        "dadPrompt": "Dad, what is something super cool about Belt? 💡"
       }
     ]
   },
@@ -2813,14 +2934,14 @@ export const CURRICULUM_LEVELS = [
       {
         "id": "fm1",
         "word": "Mom",
-        "translation": "Anne",
+        "translation": "Anne (Melis)",
         "translationDe": "Mama",
         "phonetic": "Mom",
         "phoneticDe": "Mom",
         "syllables": "MOM",
         "phonicsLetter": "M",
         "phonicsSound": "/m/",
-        "clue": "Loves and cares for you at home 👩",
+        "clue": "Mom Melis is an anesthesia doctor at SAH Eschweiler! 👩‍⚕️",
         "emoji": "👩",
         "category": "Family",
         "icon": "Heart",
@@ -2830,19 +2951,20 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Loves and cares for you at home 👩 👩",
         "hintSentenceTr": "Anne! 👩",
-        "hintSentenceDe": "Mama! 👩"
+        "hintSentenceDe": "Mama! 👩",
+        "dadPrompt": "Mom Melis, how did you help patients today? 🩺"
       },
       {
         "id": "fm2",
         "word": "Dad",
-        "translation": "Baba",
+        "translation": "Baba (Ege)",
         "translationDe": "Papa",
         "phonetic": "Dad",
         "phoneticDe": "Dad",
         "syllables": "DAD",
         "phonicsLetter": "D",
         "phonicsSound": "/d/",
-        "clue": "Plays and builds with you 👨",
+        "clue": "Dad Ege is a 5G engineer with a doctorate PhD! 👨‍🔬",
         "emoji": "👨",
         "category": "Family",
         "icon": "Shield",
@@ -2852,7 +2974,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Plays and builds with you 👨 👨",
         "hintSentenceTr": "Baba! 👨",
-        "hintSentenceDe": "Papa! 👨"
+        "hintSentenceDe": "Papa! 👨",
+        "dadPrompt": "Dad Ege, tell me how 5G satellites send signals from space! 🛰️"
       },
       {
         "id": "fm3",
@@ -2874,7 +2997,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Tiny newest family member 👶 👶",
         "hintSentenceTr": "Bebek! 👶",
-        "hintSentenceDe": "Baby! 👶"
+        "hintSentenceDe": "Baby! 👶",
+        "dadPrompt": "Dad, what is something super cool about Baby? 💡"
       },
       {
         "id": "fm4",
@@ -2896,7 +3020,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "A girl sibling in your family 👧 👧",
         "hintSentenceTr": "Kız Kardeş! 👧",
-        "hintSentenceDe": "Schwester! 👧"
+        "hintSentenceDe": "Schwester! 👧",
+        "dadPrompt": "Dad, what is something super cool about Sister? 💡"
       },
       {
         "id": "fm5",
@@ -2918,19 +3043,20 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "A boy sibling in your family 👦 👦",
         "hintSentenceTr": "Erkek Kardeş! 👦",
-        "hintSentenceDe": "Bruder! 👦"
+        "hintSentenceDe": "Bruder! 👦",
+        "dadPrompt": "Dad, what is something super cool about Brother? 💡"
       },
       {
         "id": "fm6",
         "word": "Grandma",
-        "translation": "Büyükanne",
+        "translation": "Büyükanne (Nevin & Serpil)",
         "translationDe": "Oma",
         "phonetic": "Grandma",
         "phoneticDe": "Grandma",
         "syllables": "GRAND • MA",
         "phonicsLetter": "G",
         "phonicsSound": "/g/",
-        "clue": "Tells warm stories and bakes 👵",
+        "clue": "Grandma Nevin and Grandma Serpil give the sweetest hugs! 👵",
         "emoji": "👵",
         "category": "Family",
         "icon": "Heart",
@@ -2940,19 +3066,20 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Tells warm stories and bakes 👵 👵",
         "hintSentenceTr": "Büyükanne! 👵",
-        "hintSentenceDe": "Oma! 👵"
+        "hintSentenceDe": "Oma! 👵",
+        "dadPrompt": "Dad, when can we visit Grandma Nevin and Grandma Serpil? 🏡"
       },
       {
         "id": "fm7",
         "word": "Grandpa",
-        "translation": "Büyükbaba",
+        "translation": "Dede (Ahmet)",
         "translationDe": "Opa",
         "phonetic": "Grandpa",
         "phoneticDe": "Grandpa",
         "syllables": "GRAND • PA",
         "phonicsLetter": "G",
         "phonicsSound": "/g/",
-        "clue": "Wise and kind older hero 👴",
+        "clue": "Grandpa Ahmet is full of fun stories and smiles! 👴",
         "emoji": "👴",
         "category": "Family",
         "icon": "Crown",
@@ -2962,19 +3089,20 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Wise and kind older hero 👴 👴",
         "hintSentenceTr": "Büyükbaba! 👴",
-        "hintSentenceDe": "Opa! 👴"
+        "hintSentenceDe": "Opa! 👴",
+        "dadPrompt": "Dad, what was Grandpa Ahmet's coolest adventure? 📖"
       },
       {
         "id": "fm8",
         "word": "Friend",
-        "translation": "Arkadaş",
+        "translation": "Arkadaş (Ojas, Elias, Julius, Vukasin, Liam)",
         "translationDe": "Freund",
         "phonetic": "Friend",
         "phoneticDe": "Friend",
         "syllables": "FRIEND",
         "phonicsLetter": "F",
         "phonicsSound": "/f/",
-        "clue": "Shares games and laughs with you 🤝",
+        "clue": "Best buddies Ojas, Elias, Julius, Vukasin, and Liam! 🤝",
         "emoji": "🤝",
         "category": "Family",
         "icon": "Smile",
@@ -2984,19 +3112,20 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Shares games and laughs with you 🤝 🤝",
         "hintSentenceTr": "Arkadaş! 🤝",
-        "hintSentenceDe": "Freund! 🤝"
+        "hintSentenceDe": "Freund! 🤝",
+        "dadPrompt": "Dad, can Ojas, Elias, Julius, Vukasin, and Liam come over to build Lego? 🧱"
       },
       {
         "id": "fm9",
         "word": "Teacher",
-        "translation": "Öğretmen",
+        "translation": "Öğretmen (Frau Schwarz)",
         "translationDe": "Lehrer",
         "phonetic": "Teacher",
         "phoneticDe": "Teacher",
         "syllables": "TEACH • ER",
         "phonicsLetter": "T",
         "phonicsSound": "/t/",
-        "clue": "Helps you learn at school 👩‍🏫",
+        "clue": "Teacher Frau Schwarz teaches class 1b at GGS Laurensberg! 👩‍🏫",
         "emoji": "👩‍🏫",
         "category": "Family",
         "icon": "BookOpen",
@@ -3006,7 +3135,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Helps you learn at school 👩‍🏫 👩‍🏫",
         "hintSentenceTr": "Öğretmen! 👩‍🏫",
-        "hintSentenceDe": "Lehrer! 👩‍🏫"
+        "hintSentenceDe": "Lehrer! 👩‍🏫",
+        "dadPrompt": "Dad, guess what Frau Schwarz taught us today at GGS Laurensberg! 🎒"
       },
       {
         "id": "fm10",
@@ -3028,7 +3158,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Helps you feel healthy again 🩺 🧑‍⚕️",
         "hintSentenceTr": "Doktor! 🧑‍⚕️",
-        "hintSentenceDe": "Arzt! 🧑‍⚕️"
+        "hintSentenceDe": "Arzt! 🧑‍⚕️",
+        "dadPrompt": "Dad, what is something super cool about Doctor? 💡"
       },
       {
         "id": "fm11",
@@ -3050,7 +3181,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "A young male child 👦 🧒",
         "hintSentenceTr": "Erkek Çocuk! 🧒",
-        "hintSentenceDe": "Junge! 🧒"
+        "hintSentenceDe": "Junge! 🧒",
+        "dadPrompt": "Dad, what is something super cool about Boy? 💡"
       },
       {
         "id": "fm12",
@@ -3072,7 +3204,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "A young female child 👧 👧",
         "hintSentenceTr": "Kız Çocuk! 👧",
-        "hintSentenceDe": "Mädchen! 👧"
+        "hintSentenceDe": "Mädchen! 👧",
+        "dadPrompt": "Dad, what is something super cool about Girl? 💡"
       }
     ]
   },
@@ -3109,7 +3242,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Smiling bright with joy 😄 😄",
         "hintSentenceTr": "Mutlu! 😄",
-        "hintSentenceDe": "Glücklich! 😄"
+        "hintSentenceDe": "Glücklich! 😄",
+        "dadPrompt": "Dad, what is something super cool about Happy? 💡"
       },
       {
         "id": "fl2",
@@ -3131,7 +3265,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Feeling down with a frown 😢 😢",
         "hintSentenceTr": "Üzgün! 😢",
-        "hintSentenceDe": "Traurig! 😢"
+        "hintSentenceDe": "Traurig! 😢",
+        "dadPrompt": "Dad, what is something super cool about Sad? 💡"
       },
       {
         "id": "fl3",
@@ -3153,7 +3288,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "When something feels unfair 😠 😠",
         "hintSentenceTr": "Kızgın! 😠",
-        "hintSentenceDe": "Wütend! 😠"
+        "hintSentenceDe": "Wütend! 😠",
+        "dadPrompt": "Dad, what is something super cool about Angry? 💡"
       },
       {
         "id": "fl4",
@@ -3175,7 +3311,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Spooked by a loud thunder 😨 😨",
         "hintSentenceTr": "Korkmuş! 😨",
-        "hintSentenceDe": "Ängstlich! 😨"
+        "hintSentenceDe": "Ängstlich! 😨",
+        "dadPrompt": "Dad, what is something super cool about Scared? 💡"
       },
       {
         "id": "fl5",
@@ -3197,7 +3334,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Ready for bed and sleep 🥱 🥱",
         "hintSentenceTr": "Yorgun! 🥱",
-        "hintSentenceDe": "Müde! 🥱"
+        "hintSentenceDe": "Müde! 🥱",
+        "dadPrompt": "Dad, what is something super cool about Tired? 💡"
       },
       {
         "id": "fl6",
@@ -3219,7 +3357,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Tummy is ready for lunch 😋 😋",
         "hintSentenceTr": "Aç! 😋",
-        "hintSentenceDe": "Hungrig! 😋"
+        "hintSentenceDe": "Hungrig! 😋",
+        "dadPrompt": "Dad, what is something super cool about Hungry? 💡"
       },
       {
         "id": "fl7",
@@ -3241,7 +3380,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Huge like a giant elephant 🐘 🐘",
         "hintSentenceTr": "Büyük! 🐘",
-        "hintSentenceDe": "Groß! 🐘"
+        "hintSentenceDe": "Groß! 🐘",
+        "dadPrompt": "Dad, what is something super cool about Big? 💡"
       },
       {
         "id": "fl8",
@@ -3263,7 +3403,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Tiny like a little ladybug 🐞 🐞",
         "hintSentenceTr": "Küçük! 🐞",
-        "hintSentenceDe": "Klein! 🐞"
+        "hintSentenceDe": "Klein! 🐞",
+        "dadPrompt": "Dad, what is something super cool about Small? 💡"
       },
       {
         "id": "fl9",
@@ -3285,7 +3426,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Zooms quick like a cheetah ⚡ 🐆",
         "hintSentenceTr": "Hızlı! 🐆",
-        "hintSentenceDe": "Schnell! 🐆"
+        "hintSentenceDe": "Schnell! 🐆",
+        "dadPrompt": "Dad, what is something super cool about Fast? 💡"
       },
       {
         "id": "fl10",
@@ -3307,7 +3449,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Takes its time like a snail 🐌 🐌",
         "hintSentenceTr": "Yavaş! 🐌",
-        "hintSentenceDe": "Langsam! 🐌"
+        "hintSentenceDe": "Langsam! 🐌",
+        "dadPrompt": "Dad, what is something super cool about Slow? 💡"
       },
       {
         "id": "fl11",
@@ -3329,7 +3472,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Warm like summer soup 🔥 🔥",
         "hintSentenceTr": "Sıcak! 🔥",
-        "hintSentenceDe": "Heiß! 🔥"
+        "hintSentenceDe": "Heiß! 🔥",
+        "dadPrompt": "Dad, what is something super cool about Hot? 💡"
       },
       {
         "id": "fl12",
@@ -3351,7 +3495,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Chilly like ice cream 🧊 🧊",
         "hintSentenceTr": "Soğuk! 🧊",
-        "hintSentenceDe": "Kalt! 🧊"
+        "hintSentenceDe": "Kalt! 🧊",
+        "dadPrompt": "Dad, what is something super cool about Cold? 💡"
       }
     ]
   },
@@ -3388,7 +3533,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Round world orbiting a star 🪐 🪐",
         "hintSentenceTr": "Gezegen! 🪐",
-        "hintSentenceDe": "Planet! 🪐"
+        "hintSentenceDe": "Planet! 🪐",
+        "dadPrompt": "Dad, what is something super cool about Planet? 💡"
       },
       {
         "id": "so2",
@@ -3410,7 +3556,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Explorer who flies to space 🧑‍🚀 🧑‍🚀",
         "hintSentenceTr": "Astronot! 🧑‍🚀",
-        "hintSentenceDe": "Astronaut! 🧑‍🚀"
+        "hintSentenceDe": "Astronaut! 🧑‍🚀",
+        "dadPrompt": "Dad, what is something super cool about Astronaut? 💡"
       },
       {
         "id": "so3",
@@ -3432,7 +3579,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Billions of stars spinning 🌌 🌌",
         "hintSentenceTr": "Galaksi! 🌌",
-        "hintSentenceDe": "Galaxie! 🌌"
+        "hintSentenceDe": "Galaxie! 🌌",
+        "dadPrompt": "Dad, what is something super cool about Galaxy? 💡"
       },
       {
         "id": "so4",
@@ -3454,7 +3602,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "Icy space rock with a bright tail ☄️ ☄️",
         "hintSentenceTr": "Kuyruklu Yıldız! ☄️",
-        "hintSentenceDe": "Komet! ☄️"
+        "hintSentenceDe": "Komet! ☄️",
+        "dadPrompt": "Dad, what is something super cool about Comet? 💡"
       },
       {
         "id": "so5",
@@ -3476,7 +3625,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Looks far into the night sky 🔭 🔭",
         "hintSentenceTr": "Teleskop! 🔭",
-        "hintSentenceDe": "Teleskop! 🔭"
+        "hintSentenceDe": "Teleskop! 🔭",
+        "dadPrompt": "Dad, what is something super cool about Telescope? 💡"
       },
       {
         "id": "so6",
@@ -3498,7 +3648,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Friendly visitor from another star 👽 👽",
         "hintSentenceTr": "Uzaylı! 👽",
-        "hintSentenceDe": "Alien! 👽"
+        "hintSentenceDe": "Alien! 👽",
+        "dadPrompt": "Dad, what is something super cool about Alien? 💡"
       },
       {
         "id": "so7",
@@ -3520,7 +3671,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Biggest gentle giant in the sea 🐋 🐋",
         "hintSentenceTr": "Balina! 🐋",
-        "hintSentenceDe": "Wal! 🐋"
+        "hintSentenceDe": "Wal! 🐋",
+        "dadPrompt": "Dad, what is something super cool about Whale? 💡"
       },
       {
         "id": "so8",
@@ -3542,7 +3694,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Smart swimmer that leaps high 🐬 🐬",
         "hintSentenceTr": "Yunus! 🐬",
-        "hintSentenceDe": "Delfin! 🐬"
+        "hintSentenceDe": "Delfin! 🐬",
+        "dadPrompt": "Dad, what is something super cool about Dolphin? 💡"
       },
       {
         "id": "so9",
@@ -3564,7 +3717,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "Fast ocean hunter with fins 🦈 🦈",
         "hintSentenceTr": "Köpekbalığı! 🦈",
-        "hintSentenceDe": "Hai! 🦈"
+        "hintSentenceDe": "Hai! 🦈",
+        "dadPrompt": "Dad, what is something super cool about Shark? 💡"
       },
       {
         "id": "so10",
@@ -3586,7 +3740,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Clever sea animal with 8 arms 🐙 🐙",
         "hintSentenceTr": "Ahtapot! 🐙",
-        "hintSentenceDe": "Oktopus! 🐙"
+        "hintSentenceDe": "Oktopus! 🐙",
+        "dadPrompt": "Dad, what is something super cool about Octopus? 💡"
       },
       {
         "id": "so11",
@@ -3608,7 +3763,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Walks sideways on sandy beaches 🦀 🦀",
         "hintSentenceTr": "Yengeç! 🦀",
-        "hintSentenceDe": "Krabbe! 🦀"
+        "hintSentenceDe": "Krabbe! 🦀",
+        "dadPrompt": "Dad, what is something super cool about Crab? 💡"
       },
       {
         "id": "so12",
@@ -3630,7 +3786,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Carries a strong shell home 🐢 🐢",
         "hintSentenceTr": "Kaplumbağa! 🐢",
-        "hintSentenceDe": "Schildkröte! 🐢"
+        "hintSentenceDe": "Schildkröte! 🐢",
+        "dadPrompt": "Dad, what is something super cool about Turtle? 💡"
       }
     ]
   },
@@ -3667,7 +3824,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "When the sun rises for breakfast 🌅 🌅",
         "hintSentenceTr": "Sabah! 🌅",
-        "hintSentenceDe": "Morgen! 🌅"
+        "hintSentenceDe": "Morgen! 🌅",
+        "dadPrompt": "Dad, what is something super cool about Morning? 💡"
       },
       {
         "id": "tm2",
@@ -3689,7 +3847,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Dark sky full of stars 🌃 🌃",
         "hintSentenceTr": "Gece! 🌃",
-        "hintSentenceDe": "Nacht! 🌃"
+        "hintSentenceDe": "Nacht! 🌃",
+        "dadPrompt": "Dad, what is something super cool about Night? 💡"
       },
       {
         "id": "tm3",
@@ -3711,7 +3870,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#34d399",
         "hintSentence": "Right now on this very day 📅 📅",
         "hintSentenceTr": "Bugün! 📅",
-        "hintSentenceDe": "Heute! 📅"
+        "hintSentenceDe": "Heute! 📅",
+        "dadPrompt": "Dad, what is something super cool about Today? 💡"
       },
       {
         "id": "tm4",
@@ -3733,7 +3893,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fb923c",
         "hintSentence": "The day that comes next ⏭️ 🗓️",
         "hintSentenceTr": "Yarın! 🗓️",
-        "hintSentenceDe": "Morgen! 🗓️"
+        "hintSentenceDe": "Morgen! 🗓️",
+        "dadPrompt": "Dad, what is something super cool about Tomorrow? 💡"
       },
       {
         "id": "tm5",
@@ -3755,7 +3916,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#c084fc",
         "hintSentence": "Season when fresh flowers bloom 🌸 🌸",
         "hintSentenceTr": "İlkbahar! 🌸",
-        "hintSentenceDe": "Frühling! 🌸"
+        "hintSentenceDe": "Frühling! 🌸",
+        "dadPrompt": "Dad, what is something super cool about Spring? 💡"
       },
       {
         "id": "tm6",
@@ -3777,7 +3939,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#38bdf8",
         "hintSentence": "Warmest sunny beach season ☀️ 🏖️",
         "hintSentenceTr": "Yaz! 🏖️",
-        "hintSentenceDe": "Sommer! 🏖️"
+        "hintSentenceDe": "Sommer! 🏖️",
+        "dadPrompt": "Dad, what is something super cool about Summer? 💡"
       },
       {
         "id": "tm7",
@@ -3799,7 +3962,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#fbbf24",
         "hintSentence": "Orange leaves falling from trees 🍂 🍂",
         "hintSentenceTr": "Sonbahar! 🍂",
-        "hintSentenceDe": "Herbst! 🍂"
+        "hintSentenceDe": "Herbst! 🍂",
+        "dadPrompt": "Dad, what is something super cool about Autumn? 💡"
       },
       {
         "id": "tm8",
@@ -3821,7 +3985,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#f472b6",
         "hintSentence": "Cold season for building snowmen ❄️ ⛄",
         "hintSentenceTr": "Kış! ⛄",
-        "hintSentenceDe": "Winter! ⛄"
+        "hintSentenceDe": "Winter! ⛄",
+        "dadPrompt": "Dad, what is something super cool about Winter? 💡"
       },
       {
         "id": "tm9",
@@ -3843,7 +4008,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#4ade80",
         "hintSentence": "First school day of the week 🎒 📚",
         "hintSentenceTr": "Pazartesi! 📚",
-        "hintSentenceDe": "Montag! 📚"
+        "hintSentenceDe": "Montag! 📚",
+        "dadPrompt": "Dad, what is something super cool about Monday? 💡"
       },
       {
         "id": "tm10",
@@ -3865,7 +4031,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#94a3b8",
         "hintSentence": "Last school day before weekend 🎉 🎈",
         "hintSentenceTr": "Cuma! 🎈",
-        "hintSentenceDe": "Freitag! 🎈"
+        "hintSentenceDe": "Freitag! 🎈",
+        "dadPrompt": "Dad, what is something super cool about Friday? 💡"
       },
       {
         "id": "tm11",
@@ -3887,7 +4054,8 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#ff5c59",
         "hintSentence": "Special day with cake and candles 🎂 🎂",
         "hintSentenceTr": "Doğum Günü! 🎂",
-        "hintSentenceDe": "Geburtstag! 🎂"
+        "hintSentenceDe": "Geburtstag! 🎂",
+        "dadPrompt": "Dad, what is something super cool about Birthday? 💡"
       },
       {
         "id": "tm12",
@@ -3909,7 +4077,590 @@ export const CURRICULUM_LEVELS = [
         "studColor": "#3b82f6",
         "hintSentence": "Fun celebration with balloons 🥳 🥳",
         "hintSentenceTr": "Parti! 🥳",
-        "hintSentenceDe": "Party! 🥳"
+        "hintSentenceDe": "Party! 🥳",
+        "dadPrompt": "Dad, what is something super cool about Party? 💡"
+      }
+    ]
+  },
+  {
+    "id": "level-15",
+    "number": 15,
+    "title": "Deniz’s World & Favorites",
+    "titleTr": "Deniz’in Dünyası ve Favorileri",
+    "titleDe": "Deniz’ Welt & Favoriten",
+    "description": "Spaghetti Bolognese, GGS Laurensberg, Aachen, Lego sets, and weekend hobbies!",
+    "themeColor": "from-amber-500 via-red-500 to-pink-500",
+    "borderColor": "border-red-600",
+    "icon": "Heart",
+    "badge": "🌟 Deniz VIP",
+    "bricksReward": 6,
+    "items": [
+      {
+        "id": "dz1",
+        "word": "Spaghetti",
+        "translation": "Spagetti Bolognese",
+        "translationDe": "Spaghetti",
+        "phonetic": "Spaghetti",
+        "phoneticDe": "Spaghetti",
+        "syllables": "SPA • GHET • TI",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Deniz's absolute #1 favorite food! 🍝",
+        "emoji": "🍝",
+        "category": "Favorites",
+        "icon": "Apple",
+        "colorHex": "#E52521",
+        "bgClass": "bg-red-500 hover:bg-red-600 text-white",
+        "borderClass": "border-red-700",
+        "studColor": "#ff5c59",
+        "hintSentence": "Deniz's absolute #1 favorite food! 🍝 🍝",
+        "hintSentenceTr": "Spagetti Bolognese! 🍝",
+        "hintSentenceDe": "Spaghetti! 🍝",
+        "dadPrompt": "Dad, can you make delicious Spaghetti Bolognese tonight? 🍝"
+      },
+      {
+        "id": "dz2",
+        "word": "Pudding",
+        "translation": "Muhallebi / Puding",
+        "translationDe": "Pudding",
+        "phonetic": "Pudding",
+        "phoneticDe": "Pudding",
+        "syllables": "PUD • DING",
+        "phonicsLetter": "P",
+        "phonicsSound": "/p/",
+        "clue": "Sweet pudding Deniz bakes with Mom & Dad 🍮",
+        "emoji": "🍮",
+        "category": "Favorites",
+        "icon": "Star",
+        "colorHex": "#0055BF",
+        "bgClass": "bg-blue-600 hover:bg-blue-700 text-white",
+        "borderClass": "border-blue-800",
+        "studColor": "#3b82f6",
+        "hintSentence": "Sweet pudding Deniz bakes with Mom & Dad 🍮 🍮",
+        "hintSentenceTr": "Muhallebi / Puding! 🍮",
+        "hintSentenceDe": "Pudding! 🍮",
+        "dadPrompt": "Dad, can we bake sweet pudding together after dinner? 🍮"
+      },
+      {
+        "id": "dz3",
+        "word": "Cake",
+        "translation": "Pasta / Kek",
+        "translationDe": "Kuchen",
+        "phonetic": "Cake",
+        "phoneticDe": "Cake",
+        "syllables": "CAKE",
+        "phonicsLetter": "C",
+        "phonicsSound": "/k/",
+        "clue": "Baking tasty chocolate cake together at home 🎂",
+        "emoji": "🎂",
+        "category": "Favorites",
+        "icon": "Sparkles",
+        "colorHex": "#237841",
+        "bgClass": "bg-emerald-600 hover:bg-emerald-700 text-white",
+        "borderClass": "border-emerald-800",
+        "studColor": "#34d399",
+        "hintSentence": "Baking tasty chocolate cake together at home 🎂 🎂",
+        "hintSentenceTr": "Pasta / Kek! 🎂",
+        "hintSentenceDe": "Kuchen! 🎂",
+        "dadPrompt": "Dad, can we bake a huge cake for our family this weekend? 🎂"
+      },
+      {
+        "id": "dz4",
+        "word": "Swimming",
+        "translation": "Yüzme Kursu",
+        "translationDe": "Schwimmen",
+        "phonetic": "Swimming",
+        "phoneticDe": "Swimming",
+        "syllables": "SWIM • MING",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Sunday swim practice aiming for the Silver Medal! 🥈",
+        "emoji": "🏊",
+        "category": "Sports",
+        "icon": "Shield",
+        "colorHex": "#EA580C",
+        "bgClass": "bg-orange-600 hover:bg-orange-700 text-white",
+        "borderClass": "border-orange-800",
+        "studColor": "#fb923c",
+        "hintSentence": "Sunday swim practice aiming for the Silver Medal! 🥈 🏊",
+        "hintSentenceTr": "Yüzme Kursu! 🏊",
+        "hintSentenceDe": "Schwimmen! 🏊",
+        "dadPrompt": "Dad, will you time my speed for the Silver Medal on Sunday? ⏱️"
+      },
+      {
+        "id": "dz5",
+        "word": "Basketball",
+        "translation": "Basketbol",
+        "translationDe": "Basketball",
+        "phonetic": "Basketball",
+        "phoneticDe": "Basketball",
+        "syllables": "BAS • KET • BALL",
+        "phonicsLetter": "B",
+        "phonicsSound": "/b/",
+        "clue": "Shooting hoops at Wednesday basketball course! 🏀",
+        "emoji": "🏀",
+        "category": "Sports",
+        "icon": "Circle",
+        "colorHex": "#9333EA",
+        "bgClass": "bg-purple-600 hover:bg-purple-700 text-white",
+        "borderClass": "border-purple-800",
+        "studColor": "#c084fc",
+        "hintSentence": "Shooting hoops at Wednesday basketball course! 🏀 🏀",
+        "hintSentenceTr": "Basketbol! 🏀",
+        "hintSentenceDe": "Basketball! 🏀",
+        "dadPrompt": "Dad, want to shoot three-point baskets with me after Wednesday practice? 🏀"
+      },
+      {
+        "id": "dz6",
+        "word": "Piano",
+        "translation": "Piyano",
+        "translationDe": "Klavier",
+        "phonetic": "Piano",
+        "phoneticDe": "Piano",
+        "syllables": "PI • AN • O",
+        "phonicsLetter": "P",
+        "phonicsSound": "/p/",
+        "clue": "Monday piano melodies with teacher Jeremias 🎹",
+        "emoji": "🎹",
+        "category": "Music",
+        "icon": "Music",
+        "colorHex": "#0284C7",
+        "bgClass": "bg-sky-600 hover:bg-sky-700 text-white",
+        "borderClass": "border-sky-800",
+        "studColor": "#38bdf8",
+        "hintSentence": "Monday piano melodies with teacher Jeremias 🎹 🎹",
+        "hintSentenceTr": "Piyano! 🎹",
+        "hintSentenceDe": "Klavier! 🎹",
+        "dadPrompt": "Dad, want to hear the new song I practiced with Jeremias? 🎹"
+      },
+      {
+        "id": "dz7",
+        "word": "Lego",
+        "translation": "Lego Setleri",
+        "translationDe": "Lego",
+        "phonetic": "Lego",
+        "phoneticDe": "Lego",
+        "syllables": "LE • GO",
+        "phonicsLetter": "L",
+        "phonicsSound": "/l/",
+        "clue": "Master builder Deniz finishing giant sets 🧱",
+        "emoji": "🧱",
+        "category": "Hobbies",
+        "icon": "Box",
+        "colorHex": "#D97706",
+        "bgClass": "bg-amber-600 hover:bg-amber-700 text-white",
+        "borderClass": "border-amber-800",
+        "studColor": "#fbbf24",
+        "hintSentence": "Master builder Deniz finishing giant sets 🧱 🧱",
+        "hintSentenceTr": "Lego Setleri! 🧱",
+        "hintSentenceDe": "Lego! 🧱",
+        "dadPrompt": "Dad, which giant Lego set should we build together this weekend? 🧱"
+      },
+      {
+        "id": "dz8",
+        "word": "School",
+        "translation": "Okul (GGS Laurensberg)",
+        "translationDe": "Schule",
+        "phonetic": "School",
+        "phoneticDe": "School",
+        "syllables": "SCHOOL",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Class 1b at GGS Laurensberg with Frau Schwarz 🏫",
+        "emoji": "🏫",
+        "category": "Places",
+        "icon": "BookOpen",
+        "colorHex": "#EC4899",
+        "bgClass": "bg-pink-500 hover:bg-pink-600 text-white",
+        "borderClass": "border-pink-700",
+        "studColor": "#f472b6",
+        "hintSentence": "Class 1b at GGS Laurensberg with Frau Schwarz 🏫 🏫",
+        "hintSentenceTr": "Okul (GGS Laurensberg)! 🏫",
+        "hintSentenceDe": "Schule! 🏫",
+        "dadPrompt": "Dad, guess what cool things we discovered today at GGS Laurensberg! 🎒"
+      },
+      {
+        "id": "dz9",
+        "word": "Aachen",
+        "translation": "Aachen Şehri",
+        "translationDe": "Aachen",
+        "phonetic": "Aachen",
+        "phoneticDe": "Aachen",
+        "syllables": "AA • CHEN",
+        "phonicsLetter": "A",
+        "phonicsSound": "/ɑː/",
+        "clue": "Deniz’s hometown at Schlossparkstr. 🏰",
+        "emoji": "🏰",
+        "category": "Places",
+        "icon": "Sun",
+        "colorHex": "#16A34A",
+        "bgClass": "bg-green-600 hover:bg-green-700 text-white",
+        "borderClass": "border-green-800",
+        "studColor": "#4ade80",
+        "hintSentence": "Deniz’s hometown at Schlossparkstr. 🏰 🏰",
+        "hintSentenceTr": "Aachen Şehri! 🏰",
+        "hintSentenceDe": "Aachen! 🏰",
+        "dadPrompt": "Dad, can we ride our bikes through Schlosspark today? 🚲"
+      },
+      {
+        "id": "dz10",
+        "word": "Hotel",
+        "translation": "Otel Tatili",
+        "translationDe": "Hotel",
+        "phonetic": "Hotel",
+        "phoneticDe": "Hotel",
+        "syllables": "HO • TEL",
+        "phonicsLetter": "H",
+        "phonicsSound": "/h/",
+        "clue": "Holiday luxury at Nirvana Cosmopolitan hotel 🏨",
+        "emoji": "🏨",
+        "category": "Travel",
+        "icon": "Star",
+        "colorHex": "#475569",
+        "bgClass": "bg-slate-600 hover:bg-slate-700 text-white",
+        "borderClass": "border-slate-800",
+        "studColor": "#94a3b8",
+        "hintSentence": "Holiday luxury at Nirvana Cosmopolitan hotel 🏨 🏨",
+        "hintSentenceTr": "Otel Tatili! 🏨",
+        "hintSentenceDe": "Hotel! 🏨",
+        "dadPrompt": "Dad, when are we going back to Nirvana Cosmopolitan hotel? 🏖️"
+      },
+      {
+        "id": "dz11",
+        "word": "Turkey",
+        "translation": "Türkiye Tatili",
+        "translationDe": "Türkei",
+        "phonetic": "Turkey",
+        "phoneticDe": "Turkey",
+        "syllables": "TUR • KEY",
+        "phonicsLetter": "T",
+        "phonicsSound": "/t/",
+        "clue": "Sunny holidays visiting family and beach fun 🇹🇷",
+        "emoji": "🇹🇷",
+        "category": "Travel",
+        "icon": "Heart",
+        "colorHex": "#E52521",
+        "bgClass": "bg-red-500 hover:bg-red-600 text-white",
+        "borderClass": "border-red-700",
+        "studColor": "#ff5c59",
+        "hintSentence": "Sunny holidays visiting family and beach fun 🇹🇷 🇹🇷",
+        "hintSentenceTr": "Türkiye Tatili! 🇹🇷",
+        "hintSentenceDe": "Türkei! 🇹🇷",
+        "dadPrompt": "Dad, what is your favorite seaside beach in Turkey? 🌊"
+      },
+      {
+        "id": "dz12",
+        "word": "Show",
+        "translation": "TV Programı",
+        "translationDe": "Sendung",
+        "phonetic": "Show",
+        "phoneticDe": "Show",
+        "syllables": "SHOW",
+        "phonicsLetter": "S",
+        "phonicsSound": "/ʃ/",
+        "clue": "Watching Checker Tobi and Woozle Goozle on TV 📺",
+        "emoji": "📺",
+        "category": "Media",
+        "icon": "Sparkles",
+        "colorHex": "#0055BF",
+        "bgClass": "bg-blue-600 hover:bg-blue-700 text-white",
+        "borderClass": "border-blue-800",
+        "studColor": "#3b82f6",
+        "hintSentence": "Watching Checker Tobi and Woozle Goozle on TV 📺 📺",
+        "hintSentenceTr": "TV Programı! 📺",
+        "hintSentenceDe": "Sendung! 📺",
+        "dadPrompt": "Dad, have you ever seen how funny Checker Tobi and Woozle Goozle are? 📺"
+      }
+    ]
+  },
+  {
+    "id": "level-16",
+    "number": 16,
+    "title": "Learn with Dad & Math Wizard",
+    "titleTr": "Babamla Öğreniyorum & Matematik Sihirbazı",
+    "titleDe": "Mit Papa lernen & Mathe-Zauberer",
+    "description": "5G engineering, science questions, double-digit math, and Silver Medals!",
+    "themeColor": "from-blue-600 via-indigo-600 to-purple-600",
+    "borderColor": "border-blue-700",
+    "icon": "Zap",
+    "badge": "🧠 Genius Math Wizard",
+    "bricksReward": 6,
+    "items": [
+      {
+        "id": "sc1",
+        "word": "Engineer",
+        "translation": "Mühendis (Baba Ege)",
+        "translationDe": "Ingenieur",
+        "phonetic": "Engineer",
+        "phoneticDe": "Engineer",
+        "syllables": "EN • GI • NEER",
+        "phonicsLetter": "E",
+        "phonicsSound": "/e/",
+        "clue": "Like Dad Ege designing fast 5G satellites 🛰️",
+        "emoji": "🛰️",
+        "category": "STEM",
+        "icon": "Rocket",
+        "colorHex": "#E52521",
+        "bgClass": "bg-red-500 hover:bg-red-600 text-white",
+        "borderClass": "border-red-700",
+        "studColor": "#ff5c59",
+        "hintSentence": "Like Dad Ege designing fast 5G satellites 🛰️ 🛰️",
+        "hintSentenceTr": "Mühendis (Baba Ege)! 🛰️",
+        "hintSentenceDe": "Ingenieur! 🛰️",
+        "dadPrompt": "Dad Ege, how do your 5G satellites send signals from space? 📡"
+      },
+      {
+        "id": "sc2",
+        "word": "Scientist",
+        "translation": "Bilim İnsanı / Doktor",
+        "translationDe": "Wissenschaftler",
+        "phonetic": "Scientist",
+        "phoneticDe": "Scientist",
+        "syllables": "SCI • EN • TIST",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Mom Melis caring for people & Dad Ege’s PhD 👨‍🔬",
+        "emoji": "👨‍🔬",
+        "category": "STEM",
+        "icon": "Sparkles",
+        "colorHex": "#0055BF",
+        "bgClass": "bg-blue-600 hover:bg-blue-700 text-white",
+        "borderClass": "border-blue-800",
+        "studColor": "#3b82f6",
+        "hintSentence": "Mom Melis caring for people & Dad Ege’s PhD 👨‍🔬 👨‍🔬",
+        "hintSentenceTr": "Bilim İnsanı / Doktor! 👨‍🔬",
+        "hintSentenceDe": "Wissenschaftler! 👨‍🔬",
+        "dadPrompt": "Dad, what was your favorite part of finishing your PhD doctorate? 🎓"
+      },
+      {
+        "id": "sc3",
+        "word": "Hospital",
+        "translation": "Hastane (SAH Eschweiler)",
+        "translationDe": "Krankenhaus",
+        "phonetic": "Hospital",
+        "phoneticDe": "Hospital",
+        "syllables": "HOS • PI • TAL",
+        "phonicsLetter": "H",
+        "phonicsSound": "/h/",
+        "clue": "Where Mom Melis helps patients stay safe and heal 🏥",
+        "emoji": "🏥",
+        "category": "Places",
+        "icon": "Shield",
+        "colorHex": "#237841",
+        "bgClass": "bg-emerald-600 hover:bg-emerald-700 text-white",
+        "borderClass": "border-emerald-800",
+        "studColor": "#34d399",
+        "hintSentence": "Where Mom Melis helps patients stay safe and heal 🏥 🏥",
+        "hintSentenceTr": "Hastane (SAH Eschweiler)! 🏥",
+        "hintSentenceDe": "Krankenhaus! 🏥",
+        "dadPrompt": "Mom Melis, what is the most exciting medical machine at SAH Eschweiler? 🩺"
+      },
+      {
+        "id": "sc4",
+        "word": "Plus",
+        "translation": "Artı / Toplama",
+        "translationDe": "Plus",
+        "phonetic": "Plus",
+        "phoneticDe": "Plus",
+        "syllables": "PLUS",
+        "phonicsLetter": "P",
+        "phonicsSound": "/p/",
+        "clue": "Adding two-digit numbers like a math wizard ➕",
+        "emoji": "➕",
+        "category": "Math",
+        "icon": "Star",
+        "colorHex": "#EA580C",
+        "bgClass": "bg-orange-600 hover:bg-orange-700 text-white",
+        "borderClass": "border-orange-800",
+        "studColor": "#fb923c",
+        "hintSentence": "Adding two-digit numbers like a math wizard ➕ ➕",
+        "hintSentenceTr": "Artı / Toplama! ➕",
+        "hintSentenceDe": "Plus! ➕",
+        "dadPrompt": "Dad, give me two big two-digit numbers to add in my head right now! 🧮"
+      },
+      {
+        "id": "sc5",
+        "word": "Minus",
+        "translation": "Eksi / Çıkarma",
+        "translationDe": "Minus",
+        "phonetic": "Minus",
+        "phoneticDe": "Minus",
+        "syllables": "MI • NUS",
+        "phonicsLetter": "M",
+        "phonicsSound": "/m/",
+        "clue": "Taking away numbers in clever math puzzles ➖",
+        "emoji": "➖",
+        "category": "Math",
+        "icon": "Box",
+        "colorHex": "#9333EA",
+        "bgClass": "bg-purple-600 hover:bg-purple-700 text-white",
+        "borderClass": "border-purple-800",
+        "studColor": "#c084fc",
+        "hintSentence": "Taking away numbers in clever math puzzles ➖ ➖",
+        "hintSentenceTr": "Eksi / Çıkarma! ➖",
+        "hintSentenceDe": "Minus! ➖",
+        "dadPrompt": "Dad, test me with a tricky subtraction challenge! 💡"
+      },
+      {
+        "id": "sc6",
+        "word": "Equal",
+        "translation": "Eşittir",
+        "translationDe": "Gleich",
+        "phonetic": "Equal",
+        "phoneticDe": "Equal",
+        "syllables": "E • QUAL",
+        "phonicsLetter": "E",
+        "phonicsSound": "/iː/",
+        "clue": "When both sides of math balance perfectly 🟰",
+        "emoji": "🟰",
+        "category": "Math",
+        "icon": "Square",
+        "colorHex": "#0284C7",
+        "bgClass": "bg-sky-600 hover:bg-sky-700 text-white",
+        "borderClass": "border-sky-800",
+        "studColor": "#38bdf8",
+        "hintSentence": "When both sides of math balance perfectly 🟰 🟰",
+        "hintSentenceTr": "Eşittir! 🟰",
+        "hintSentenceDe": "Gleich! 🟰",
+        "dadPrompt": "Dad, how do balance scales show that two things are equal? ⚖️"
+      },
+      {
+        "id": "sc7",
+        "word": "Solve",
+        "translation": "Çözmek",
+        "translationDe": "Lösen",
+        "phonetic": "Solve",
+        "phoneticDe": "Solve",
+        "syllables": "SOLVE",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Cracking math puzzles and building challenges 💡",
+        "emoji": "💡",
+        "category": "Mind",
+        "icon": "Zap",
+        "colorHex": "#D97706",
+        "bgClass": "bg-amber-600 hover:bg-amber-700 text-white",
+        "borderClass": "border-amber-800",
+        "studColor": "#fbbf24",
+        "hintSentence": "Cracking math puzzles and building challenges 💡 💡",
+        "hintSentenceTr": "Çözmek! 💡",
+        "hintSentenceDe": "Lösen! 💡",
+        "dadPrompt": "Dad, can you give me a super hard riddle to solve? 🧩"
+      },
+      {
+        "id": "sc8",
+        "word": "Signal",
+        "translation": "5G Sinyali",
+        "translationDe": "Signal",
+        "phonetic": "Signal",
+        "phoneticDe": "Signal",
+        "syllables": "SIG • NAL",
+        "phonicsLetter": "S",
+        "phonicsSound": "/s/",
+        "clue": "Invisible waves connecting phones across the world 📶",
+        "emoji": "📶",
+        "category": "Tech",
+        "icon": "Zap",
+        "colorHex": "#EC4899",
+        "bgClass": "bg-pink-500 hover:bg-pink-600 text-white",
+        "borderClass": "border-pink-700",
+        "studColor": "#f472b6",
+        "hintSentence": "Invisible waves connecting phones across the world 📶 📶",
+        "hintSentenceTr": "5G Sinyali! 📶",
+        "hintSentenceDe": "Signal! 📶",
+        "dadPrompt": "Dad, how fast do 5G waves travel between phones and antennas? ⚡"
+      },
+      {
+        "id": "sc9",
+        "word": "Medal",
+        "translation": "Gümüş Madalya",
+        "translationDe": "Medaille",
+        "phonetic": "Medal",
+        "phoneticDe": "Medal",
+        "syllables": "MED • AL",
+        "phonicsLetter": "M",
+        "phonicsSound": "/m/",
+        "clue": "Deniz’s shiny Silver swimming medal goal! 🥈",
+        "emoji": "🥈",
+        "category": "Sports",
+        "icon": "Crown",
+        "colorHex": "#16A34A",
+        "bgClass": "bg-green-600 hover:bg-green-700 text-white",
+        "borderClass": "border-green-800",
+        "studColor": "#4ade80",
+        "hintSentence": "Deniz’s shiny Silver swimming medal goal! 🥈 🥈",
+        "hintSentenceTr": "Gümüş Madalya! 🥈",
+        "hintSentenceDe": "Medaille! 🥈",
+        "dadPrompt": "Dad, watch my swimming flip turn on Sunday for the Silver Medal! 🏊"
+      },
+      {
+        "id": "sc10",
+        "word": "Question",
+        "translation": "Soru Sormak",
+        "translationDe": "Frage",
+        "phonetic": "Question",
+        "phoneticDe": "Question",
+        "syllables": "QUES • TION",
+        "phonicsLetter": "Q",
+        "phonicsSound": "/k/",
+        "clue": "Asking Dad Ege and Mom Melis cool facts ❓",
+        "emoji": "❓",
+        "category": "Mind",
+        "icon": "BookOpen",
+        "colorHex": "#475569",
+        "bgClass": "bg-slate-600 hover:bg-slate-700 text-white",
+        "borderClass": "border-slate-800",
+        "studColor": "#94a3b8",
+        "hintSentence": "Asking Dad Ege and Mom Melis cool facts ❓ ❓",
+        "hintSentenceTr": "Soru Sormak! ❓",
+        "hintSentenceDe": "Frage! ❓",
+        "dadPrompt": "Dad, what is something super cool about the universe I don't know yet? 🌌"
+      },
+      {
+        "id": "sc11",
+        "word": "Answer",
+        "translation": "Cevap",
+        "translationDe": "Antwort",
+        "phonetic": "Answer",
+        "phoneticDe": "Answer",
+        "syllables": "AN • SWER",
+        "phonicsLetter": "A",
+        "phonicsSound": "/ɑː/",
+        "clue": "Finding the true solution and winning gold stars ⭐",
+        "emoji": "⭐",
+        "category": "Mind",
+        "icon": "Star",
+        "colorHex": "#E52521",
+        "bgClass": "bg-red-500 hover:bg-red-600 text-white",
+        "borderClass": "border-red-700",
+        "studColor": "#ff5c59",
+        "hintSentence": "Finding the true solution and winning gold stars ⭐ ⭐",
+        "hintSentenceTr": "Cevap! ⭐",
+        "hintSentenceDe": "Antwort! ⭐",
+        "dadPrompt": "Dad, did I get the right answer on this tricky question? 🎯"
+      },
+      {
+        "id": "sc12",
+        "word": "Genius",
+        "translation": "Dahi / Akıllı",
+        "translationDe": "Genie",
+        "phonetic": "Genius",
+        "phoneticDe": "Genius",
+        "syllables": "GE • NIUS",
+        "phonicsLetter": "G",
+        "phonicsSound": "/dʒ/",
+        "clue": "Super smart Lego master builder Deniz 🌟",
+        "emoji": "🌟",
+        "category": "Mind",
+        "icon": "Crown",
+        "colorHex": "#0055BF",
+        "bgClass": "bg-blue-600 hover:bg-blue-700 text-white",
+        "borderClass": "border-blue-800",
+        "studColor": "#3b82f6",
+        "hintSentence": "Super smart Lego master builder Deniz 🌟 🌟",
+        "hintSentenceTr": "Dahi / Akıllı! 🌟",
+        "hintSentenceDe": "Genie! 🌟",
+        "dadPrompt": "Dad, are engineers and doctors real-life superheroes? 🦸"
       }
     ]
   }

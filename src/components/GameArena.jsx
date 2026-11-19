@@ -103,6 +103,8 @@ const LEVEL_EMOJIS = {
   12: '😊',
   13: '🌌',
   14: '⏰',
+  15: '🌟',
+  16: '🧮',
 };
 
 function getCardStyle(item) {
@@ -824,6 +826,37 @@ export default function GameArena({
               </div>
             )}
 
+            {/* Ask Dad Ege & Mom Melis Curiosity Box */}
+            {targetItem.dadPrompt && (
+              <div className="mt-2.5 w-full max-w-md bg-gradient-to-r from-blue-50 via-indigo-50 to-sky-50 border-2 border-blue-300 rounded-2xl p-2.5 sm:p-3 shadow-xs text-left flex items-start gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs text-lg">
+                  👨‍🔬
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <span className="text-[10px] font-black uppercase text-blue-900 tracking-wider">
+                      Ask Dad Ege / Babana Sor:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => speakEnglish(targetItem.dadPrompt)}
+                      className="px-2 py-0.5 bg-white border border-blue-200 text-blue-700 hover:text-blue-900 rounded-md text-[10px] font-bold flex items-center gap-1 hover:bg-blue-100 transition-colors shadow-2xs"
+                      title="Hear the curiosity question"
+                    >
+                      <Volume2 className="w-3 h-3 text-blue-600" />
+                      <span>Hear 🔊</span>
+                    </button>
+                  </div>
+                  <p className="text-xs sm:text-sm font-black text-slate-800 leading-snug">
+                    "{targetItem.dadPrompt}"
+                  </p>
+                  <span className="text-[10px] font-bold text-indigo-600 block mt-0.5">
+                    👉 Go ask Dad Ege or Mom Melis this cool question!
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Bilingual Meaning Helper Bar (DE / TR) */}
             <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
               {(helperLanguage === 'both' || helperLanguage === 'de') && targetItem.translationDe && (
@@ -1094,7 +1127,7 @@ export default function GameArena({
             GREAT JOB, {childName.toUpperCase()}!
           </h2>
           <p className="text-sm sm:text-base text-slate-600 font-bold max-w-md mx-auto mb-6">
-            You mastered all {pool.length} words in <span className="text-red-600 font-black">{currentLevel.title}</span>!
+            You mastered all {pool.length} words in <span className="text-red-600 font-black">{currentLevel.title}</span>! Dad Ege & Mom Melis are super proud of you! 🎉
           </p>
 
           <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto mb-6">

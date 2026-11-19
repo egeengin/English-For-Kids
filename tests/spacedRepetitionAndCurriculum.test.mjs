@@ -4,8 +4,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { CURRICULUM_LEVELS } from '../src/data/curriculum.js';
 
-test('Curriculum levels: 7 distinct levels, 12 items each, zero duplicates', () => {
-  assert.equal(CURRICULUM_LEVELS.length, 7, 'Should have exactly 7 levels');
+test('Curriculum levels: 14 distinct levels, 12 items each, zero duplicates', () => {
+  assert.equal(CURRICULUM_LEVELS.length, 14, 'Should have exactly 14 levels');
 
   const allWords = [];
   const allIds = new Set();
@@ -42,7 +42,7 @@ test('Curriculum levels: 7 distinct levels, 12 items each, zero duplicates', () 
     levelWordSets.push(thisLevelWords);
   }
 
-  assert.equal(allWords.length, 84, 'Curriculum must contain 84 total unique words');
+  assert.equal(allWords.length, 168, 'Curriculum must contain 168 total unique words');
 
   // Verify pairwise that no two levels share any words
   for (let a = 0; a < levelWordSets.length; a++) {
@@ -134,7 +134,7 @@ test('Spaced Repetition Queue simulation: correct removes, wrong re-inserts 2 qu
   // Cat was asked, failed, returned after 2 questions (dog, lion), then mastered!
 });
 
-test('All 84 curriculum words exist in public audio manifest and have audio files', () => {
+test('All 168 curriculum words exist in public audio manifest and have audio files', () => {
   const manifestPath = path.resolve('public/audio/manifest.json');
   assert.ok(existsSync(manifestPath), 'Manifest file must exist');
 

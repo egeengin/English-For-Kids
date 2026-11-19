@@ -32,7 +32,14 @@ CURRICULUM = {
     "food": ["Apple", "Banana", "Grape", "Pear", "Peach", "Melon", "Lemon", "Bread", "Milk", "Cheese", "Pizza", "Cookie"],
     "school_toys": ["Book", "Pen", "Pencil", "Backpack", "Clock", "Puzzle", "Toy", "Game", "Door", "Chair", "Table", "Bed"],
     "actions": ["Run", "Walk", "Jump", "Swim", "Fly", "Dance", "Sing", "Smile", "Sleep", "Play", "Read", "Draw"],
-    "nature": ["Sun", "Moon", "Sky", "Cloud", "Rain", "Snow", "Rainbow", "Tree", "Flower", "Forest", "Sea", "Park"]
+    "nature": ["Sun", "Moon", "Sky", "Cloud", "Rain", "Snow", "Rainbow", "Tree", "Flower", "Forest", "Sea", "Park"],
+    "numbers": ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"],
+    "body": ["Head", "Hair", "Eye", "Ear", "Nose", "Mouth", "Hand", "Arm", "Leg", "Foot", "Finger", "Tooth"],
+    "clothes": ["Shirt", "Pants", "Dress", "Hat", "Shoe", "Sock", "Coat", "Jacket", "Glasses", "Scarf", "Glove", "Belt"],
+    "family": ["Mom", "Dad", "Baby", "Sister", "Brother", "Grandma", "Grandpa", "Friend", "Teacher", "Doctor", "Boy", "Girl"],
+    "feelings": ["Happy", "Sad", "Angry", "Scared", "Tired", "Hungry", "Big", "Small", "Fast", "Slow", "Hot", "Cold"],
+    "space_ocean": ["Planet", "Astronaut", "Galaxy", "Comet", "Telescope", "Alien", "Whale", "Dolphin", "Shark", "Octopus", "Crab", "Turtle"],
+    "time_seasons": ["Morning", "Night", "Today", "Tomorrow", "Spring", "Summer", "Autumn", "Winter", "Monday", "Friday", "Birthday", "Party"],
 }
 
 ALL_CURRICULUM_WORDS = []
@@ -84,8 +91,9 @@ def build_feedback_targets():
     add("Look at the picture. Find")
     add("Which one is right?")
 
-    # 2. Per-word feedback for all 84 curriculum words
+    # 2. Per-word feedback for all 168 curriculum words
     for w in ALL_CURRICULUM_WORDS:
+        add(w)
         add(f"Not this one. I am asking for {w}.")
         add(f"Good try! Find {w}.")
         add(f"That is {w}.")

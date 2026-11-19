@@ -96,6 +96,13 @@ const LEVEL_EMOJIS = {
   5: '📚',
   6: '⚡',
   7: '🌈',
+  8: '🔢',
+  9: '🧠',
+  10: '👕',
+  11: '👨‍👩‍👧',
+  12: '😊',
+  13: '🌌',
+  14: '⏰',
 };
 
 function getCardStyle(item) {
@@ -747,7 +754,7 @@ export default function GameArena({
             {/* Multi-Dimensional Learning Header */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
               <span className="px-3 py-1 bg-amber-200/90 text-amber-950 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-1 shadow-2xs">
-                🎧 Listen & Find the Picture
+                🎧 Listen & Find, {childName}!
               </span>
 
               {/* Phonics Initial Letter & Sound Badge */}
@@ -811,7 +818,7 @@ export default function GameArena({
             {targetItem.clue && (
               <div className="mt-2 px-3.5 py-1.5 bg-white/95 border border-amber-300 rounded-2xl max-w-md shadow-2xs">
                 <p className="text-xs sm:text-sm font-bold text-slate-700 italic">
-                  💡 Clue:{' '}
+                  💡 {childName}&apos;s Clue:{' '}
                   <span className="font-semibold text-slate-900 not-italic">"{targetItem.clue}"</span>
                 </p>
               </div>
@@ -1066,7 +1073,7 @@ export default function GameArena({
           {isCorrect === true && (
             <div className="mt-5 p-3.5 bg-emerald-100 border-3 border-emerald-500 rounded-2xl text-emerald-900 font-display font-black text-center text-sm sm:text-base flex items-center justify-center gap-2 animate-bounce shadow-sm">
               <CheckCircle className="w-6 h-6 text-emerald-600" />
-              <span>SUPER! You mastered this word! +1 Star ⭐ and +1 Brick 🧱</span>
+              <span>SUPER, {childName.toUpperCase()}! You mastered this word! +1 Star ⭐ and +1 Brick 🧱</span>
             </div>
           )}
         </div>

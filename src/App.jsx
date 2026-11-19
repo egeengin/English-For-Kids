@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import GameArena from './components/GameArena';
-import ParentDashboard from './components/ParentDashboard';
-import MathGateModal from './components/MathGateModal';
-import WelcomeScreen from './components/WelcomeScreen';
-import BreakModal from './components/BreakModal';
-import SceneExplorer from './components/SceneExplorer';
-import StoryAdventure from './components/StoryAdventure';
-import BalloonPopGame from './components/BalloonPopGame';
-import PhonicsBuilder from './components/PhonicsBuilder';
-import AudioMemoryGame from './components/AudioMemoryGame';
-import SoundDetectiveGame from './components/SoundDetectiveGame';
-import RhymingPairsGame from './components/RhymingPairsGame';
-import StickerCollection from './components/StickerCollection';
-import MiniBooksReader from './components/MiniBooksReader';
-import QuestionQuizGame from './components/QuestionQuizGame';
-import QuickSpeakGame from './components/QuickSpeakGame';
-import SmartReviewGame from './components/SmartReviewGame';
-import ListenColorGame from './components/ListenColorGame';
-import PutItThereGame from './components/PutItThereGame';
-import WalkieTalkieModal from './components/WalkieTalkieModal';
-import CertificateModal from './components/CertificateModal';
-import DailyMissionHub from './components/DailyMissionHub';
-import LevelDiscoveryGame from './components/LevelDiscoveryGame';
-import PrintableMissionSheetModal from './components/PrintableMissionSheetModal';
+const GameArena = lazy(() => import('./components/GameArena'));
+const ParentDashboard = lazy(() => import('./components/ParentDashboard'));
+const MathGateModal = lazy(() => import('./components/MathGateModal'));
+const WelcomeScreen = lazy(() => import('./components/WelcomeScreen'));
+const BreakModal = lazy(() => import('./components/BreakModal'));
+const SceneExplorer = lazy(() => import('./components/SceneExplorer'));
+const StoryAdventure = lazy(() => import('./components/StoryAdventure'));
+const BalloonPopGame = lazy(() => import('./components/BalloonPopGame'));
+const PhonicsBuilder = lazy(() => import('./components/PhonicsBuilder'));
+const AudioMemoryGame = lazy(() => import('./components/AudioMemoryGame'));
+const SoundDetectiveGame = lazy(() => import('./components/SoundDetectiveGame'));
+const RhymingPairsGame = lazy(() => import('./components/RhymingPairsGame'));
+const StickerCollection = lazy(() => import('./components/StickerCollection'));
+const MiniBooksReader = lazy(() => import('./components/MiniBooksReader'));
+const QuestionQuizGame = lazy(() => import('./components/QuestionQuizGame'));
+const QuickSpeakGame = lazy(() => import('./components/QuickSpeakGame'));
+const SmartReviewGame = lazy(() => import('./components/SmartReviewGame'));
+const ListenColorGame = lazy(() => import('./components/ListenColorGame'));
+const PutItThereGame = lazy(() => import('./components/PutItThereGame'));
+const WalkieTalkieModal = lazy(() => import('./components/WalkieTalkieModal'));
+const CertificateModal = lazy(() => import('./components/CertificateModal'));
+const DailyMissionHub = lazy(() => import('./components/DailyMissionHub'));
+const LevelDiscoveryGame = lazy(() => import('./components/LevelDiscoveryGame'));
+const PrintableMissionSheetModal = lazy(() => import('./components/PrintableMissionSheetModal'));
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
+import { saveGeminiApiKey } from './utils/gemini';
 import { Sparkles, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
 
 export default function App() {
@@ -177,18 +178,31 @@ export default function App() {
       masteredWords: [],
       practicingWords: [],
       unlockedStages: { rocket: [1], racecar: [], castle: [] },
+      cardLevels: {},
       totalQuestionsAnswered: 0,
     }));
     setSessionQuestionsCount(0);
   };
 
+  // Evolve collectible hero card level (Lv.1 -> Lv.2 -> Lv.3)
+  const handleEvolveCard = (badgeId, nextLevel) => {
+    setState(prev => ({
+      ...prev,
+      cardLevels: {
+        ...(prev.cardLevels || {}),
+        [badgeId]: nextLevel,
+      },
+    }));
+  };
+
   // Parent updates child profile or Gemini API settings
   const handleUpdateProfile = ({ childName, childAge, geminiApiKey }) => {
+    saveGeminiApiKey(geminiApiKey);
     setState(prev => ({
       ...prev,
       childName: (childName && childName.trim()) || 'Deniz',
       childAge: Number(childAge) || 7,
-      geminiApiKey: typeof geminiApiKey === 'string' ? geminiApiKey.trim() : prev.geminiApiKey || '',
+      geminiApiKey: typeof geminiApiKey === 'string' ? geminiApiKey.trim() : '',
     }));
   };
 
@@ -317,6 +331,7 @@ export default function App() {
   const geminiApiKey = state.geminiApiKey || '';
 
   return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-100 font-display font-black text-slate-700">Loading your Lego adventure…</div>}>
     <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 lego-baseplate-pattern pb-32 sm:pb-8 print:bg-white print:pb-0">
       
       {/* Welcome & Audio Unlock Overlay on First Load */}
@@ -359,6 +374,7 @@ export default function App() {
             dailyQuizAnswers={state.dailyQuizAnswers || {}}
             onSaveDailyQuizAnswer={handleSaveDailyQuizAnswer}
             onResetDailyQuizQuestions={handleResetDailyQuizQuestions}
+            onRewardEarned={handleRewardEarned}
             onOpenDiscoveryGame={() => setCurrentTab('discovery')}
             onOpenStory={() => setCurrentTab('story')}
             onOpenPrintable={handleOpenPrintable}
@@ -375,6 +391,7 @@ export default function App() {
             onSaveDiscoveryResult={handleSaveDiscoveryResult}
             onClearDiscoveryQuestions={handleClearDiscoveryQuestions}
             onResetDiscovery={handleResetDiscovery}
+            onRewardEarned={handleRewardEarned}
             onOpenPrintable={handleOpenPrintable}
             onSwitchToDay={handleSwitchToDay}
             isMuted={state.soundMuted}
@@ -662,7 +679,16 @@ export default function App() {
         )}
 
         {currentTab === 'collection' && (
-          <StickerCollection bricks={state.bricks} isMuted={state.soundMuted} childName={childName} />
+          <StickerCollection
+            bricks={state.bricks}
+            cardLevels={state.cardLevels || {}}
+            onEvolveCard={handleEvolveCard}
+            onRewardEarned={handleRewardEarned}
+            isMuted={state.soundMuted}
+            childName={childName}
+            childAge={childAge}
+            geminiApiKey={geminiApiKey}
+          />
         )}
 
         {/* Traditional Quiz Arena */}
@@ -786,6 +812,7 @@ export default function App() {
       <WalkieTalkieModal
         isOpen={isWalkieTalkieOpen}
         onClose={() => setIsWalkieTalkieOpen(false)}
+        onRewardEarned={handleRewardEarned}
         childName={childName}
         childAge={childAge}
         geminiApiKey={geminiApiKey}
@@ -818,5 +845,6 @@ export default function App() {
       </footer>
 
     </div>
+    </Suspense>
   );
 }

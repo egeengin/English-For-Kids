@@ -4,6 +4,7 @@
  * Fallback: Pre-rendered local audio (/audio/{en,de,tr}/) -> Browser Web Speech Synthesis.
  */
 import { getEffectiveGeminiApiKey } from './gemini.js';
+import { getAzureSpeechAsset } from './azureSpeechManifest.js';
 
 const GEMINI_TTS_MODELS = [
   'gemini-2.5-flash-preview-tts',
@@ -11,7 +12,8 @@ const GEMINI_TTS_MODELS = [
   'gemini-3.8-flash-lite-tts',
 ];
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-const DEFAULT_VOICE_NAME = 'Kore';
+// Puck has a lighter, more youthful tone that fits child-facing replies.
+const DEFAULT_VOICE_NAME = 'Puck';
 const ALLOWED_VOICES = new Set(['Charon', 'Kore', 'Fenrir', 'Aoede', 'Puck']);
 const MAX_TTS_CACHE_SIZE = 160;
 const MODEL_COOLDOWN_MS = 10 * 60 * 1000;
@@ -722,6 +724,43 @@ export async function synthesizeGeminiSpeech(text, voiceName = DEFAULT_VOICE_NAM
 }
 
 /**
+ * Generate and persist a batch of speech clips ahead of time.
+ * Existing memory/IndexedDB entries are reused by synthesizeGeminiSpeech.
+ */
+export async function precacheSpeechLibrary(texts = [], { onProgress, voiceName = DEFAULT_VOICE_NAME } = {}) {
+  const uniqueTexts = Array.from(new Set(
+    (Array.isArray(texts) ? texts : [])
+      .map((text) => cleanTextForTTS(text))
+      .filter(Boolean)
+  ));
+  const results = { total: uniqueTexts.length, completed: 0, failed: [], stoppedReason: null };
+
+  for (const text of uniqueTexts) {
+    try {
+      await synthesizeGeminiSpeech(text, voiceName);
+    } catch (error) {
+      const message = error?.message || 'TTS_FAILED';
+      results.failed.push({ text, error: message });
+      if (message === 'GEMINI_TTS_HTTP_429') {
+        results.stoppedReason = 'GEMINI_TTS_QUOTA_EXHAUSTED';
+        results.completed += 1;
+        if (onProgress) onProgress({ ...results, currentText: text });
+        break;
+      }
+    }
+    results.completed += 1;
+    if (onProgress) {
+      onProgress({
+        ...results,
+        currentText: text,
+      });
+    }
+  }
+
+  return results;
+}
+
+/**
  * Stop any active audio or speech synthesis and invalidate in-flight TTS requests.
  */
 export function stopSpeech() {
@@ -796,7 +835,7 @@ export function prefetchSpeech() {
   // No-op
 }
 
-function playLocalAudioFile(basePath, myToken, onEnd, onError) {
+function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   if (myToken !== speechSeqToken || typeof Audio === 'undefined') {
     if (onError) onError();
     return;
@@ -817,6 +856,13 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError) {
   activeAudio = audio;
 
   let finished = false;
+  let started = false;
+  const notifyStart = () => {
+    if (!started) {
+      started = true;
+      if (onStart) onStart();
+    }
+  };
 
   const handleEnd = () => {
     if (!finished) {
@@ -848,15 +894,18 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError) {
         }
       };
 
+      fallbackAudio.onplaying = notifyStart;
       const p = fallbackAudio.play();
       if (p !== undefined) {
-        p.catch(() => {
+        p.then(notifyStart).catch(() => {
           if (!finished) {
             finished = true;
             if (activeAudio === fallbackAudio) activeAudio = null;
             if (myToken === speechSeqToken && onError) onError();
           }
         });
+      } else {
+        notifyStart();
       }
     } catch {
       if (myToken === speechSeqToken && onError) onError();
@@ -865,10 +914,13 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError) {
 
   audio.onended = handleEnd;
   audio.onerror = tryWavFallback;
+  audio.onplaying = notifyStart;
 
   const promise = audio.play();
   if (promise !== undefined) {
-    promise.catch(tryWavFallback);
+    promise.then(notifyStart).catch(tryWavFallback);
+  } else {
+    notifyStart();
   }
 }
 
@@ -914,7 +966,7 @@ function selectBestWebSpeechVoice(voiceList, lang) {
     .sort((a, b) => scoreVoice(b) - scoreVoice(a))[0];
 }
 
-function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9) {
+function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9, onStart) {
   if (myToken !== speechSeqToken || typeof window === 'undefined' || !('speechSynthesis' in window)) {
     if (myToken === speechSeqToken && onEnd) onEnd();
     return;
@@ -962,6 +1014,7 @@ function playWebSpeech(text, lang = 'en-US', myToken, onEnd, rate = 0.9) {
         utterance.onerror = finish;
 
         window.speechSynthesis.speak(utterance);
+        if (onStart) onStart();
 
         webSpeechTimeout = setTimeout(() => {
           if (activeUtterance === utterance) {
@@ -1020,7 +1073,7 @@ function chunkTextForTTS(text, maxLen = 180) {
   return chunks;
 }
 
-async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0) {
+async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0, onStart) {
   const player = ensureUnlockedAudioPlayer();
   if (myToken !== speechSeqToken || !player) {
     throw new Error('AUDIO_UNAVAILABLE');
@@ -1064,6 +1117,7 @@ async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0) {
 
       player.onplaying = () => {
         if (myToken !== speechSeqToken) return;
+        if (onStart && idx === 0) onStart();
         player.playbackRate = typeof rate === 'number' ? rate : 1.0;
         if (!settled) {
           settled = true;
@@ -1138,7 +1192,7 @@ async function playGoogleNaturalStream(text, lang, myToken, onEnd, rate = 1.0) {
   });
 }
 
-async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
+async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0, onStart) {
   const audio = ensureUnlockedAudioPlayer();
   if (
     myToken !== speechSeqToken ||
@@ -1190,6 +1244,10 @@ async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
       if (myToken === speechSeqToken && onEnd) onEnd();
     };
 
+    audio.onplaying = () => {
+      if (myToken === speechSeqToken && onStart) onStart();
+    };
+
     audio.onerror = () => {
       cleanupUrl();
       if (!settled) {
@@ -1221,7 +1279,7 @@ async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0) {
 
 async function speakWithGeminiOrFallback(
   rawText,
-  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd, rate } = {}
+  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd, onStart, rate } = {}
 ) {
   const clean = cleanTextForTTS(rawText);
   if (!clean) {
@@ -1231,6 +1289,9 @@ async function speakWithGeminiOrFallback(
 
   stopSpeech();
   const myToken = speechSeqToken;
+  // Unlock the shared audio element after stopping the previous request.
+  // This is important for the first click in Safari/Chrome autoplay policies.
+  unlockAudio();
   const blobRate = typeof rate === 'number' ? rate : 1.0;
   const webRate = typeof rate === 'number' ? rate : 0.9;
 
@@ -1239,42 +1300,57 @@ async function speakWithGeminiOrFallback(
   const notFileProtocol =
     typeof window === 'undefined' || !window.location || window.location.protocol !== 'file:';
 
-  if (canTryNetwork && notFileProtocol) {
-    try {
-      const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
-      if (myToken !== speechSeqToken) return;
-      await playBlobAudio(wavBlob, myToken, onEnd, blobRate);
-      return;
-    } catch {
-      if (myToken !== speechSeqToken) return;
-    }
+  const generatedAsset = await getAzureSpeechAsset(clean, lang);
+  if (generatedAsset) {
+    playLocalAudioFile(generatedAsset, myToken, onEnd, () => {
+      if (canTryNetwork && notFileProtocol) {
+        playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate, onStart).catch(() => {
+          playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
+        });
+      } else {
+        playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
+      }
+    }, onStart);
+    return;
   }
 
   if (localKey && KNOWN_EN_WORDS.has(localKey)) {
     playLocalAudioFile(`/audio/${localFolder}/${localKey}`, myToken, onEnd, () => {
       if (canTryNetwork && notFileProtocol) {
-        playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate).catch(() => {
+        playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate, onStart).catch(() => {
           if (myToken === speechSeqToken) {
-            playWebSpeech(clean, lang, myToken, onEnd, webRate);
+            playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
           }
         });
       } else {
-        playWebSpeech(clean, lang, myToken, onEnd, webRate);
+        playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
       }
-    });
+    }, onStart);
     return;
   }
 
+  // Use a generated Gemini clip only when no bundled recording exists.
   if (canTryNetwork && notFileProtocol) {
     try {
-      await playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate);
+      const wavBlob = await synthesizeGeminiSpeech(clean, voiceName);
+      if (myToken !== speechSeqToken) return;
+      await playBlobAudio(wavBlob, myToken, onEnd, blobRate, onStart);
       return;
     } catch {
       if (myToken !== speechSeqToken) return;
     }
   }
 
-  playWebSpeech(clean, lang, myToken, onEnd, webRate);
+  if (canTryNetwork && notFileProtocol) {
+    try {
+      await playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate, onStart);
+      return;
+    } catch {
+      if (myToken !== speechSeqToken) return;
+    }
+  }
+
+  playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
 }
 
 let hoverSpeechTimer = null;
@@ -1322,6 +1398,7 @@ export function speakEnglish(text, onEnd, options = {}) {
     localFolder: 'en',
     localKey,
     onEnd,
+    onStart: options?.onStart,
     rate: options?.rate,
   });
 }
@@ -1403,7 +1480,7 @@ export function speakEncouragement(language = 'en', onEnd) {
  * Universal dialogue / scene audio player.
  * Always speaks the exact on-screen fallbackText via Gemini TTS first so no mismatched short key clip plays.
  */
-export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) {
+export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd, options = {}) {
   const expandedKey = (audioKey || '').replace(/_/g, ' ').trim();
   const spokenText = cleanTextForTTS(fallbackText || expandedKey);
   if (!spokenText) {
@@ -1430,6 +1507,7 @@ export function speakDialoguePhrase(audioKey, fallbackText, lang = 'en', onEnd) 
     localFolder: folder,
     localKey: safeLocalKey,
     onEnd,
+    onStart: options?.onStart,
   });
 }
 

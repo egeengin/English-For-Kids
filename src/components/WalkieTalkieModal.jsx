@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Radio, Mic, MicOff, Volume2, X, Sparkles, Send, MessageSquare, Bot, AlertCircle } from 'lucide-react';
-import { chatWithLeoGemini } from '../utils/gemini';
+import confetti from 'canvas-confetti';
+import { Mic, Volume2, X, Send, Bot, AlertCircle } from 'lucide-react';
+import { chatWithLeoGemini, LEO_MISSIONS } from '../utils/gemini';
 import { createSpeechListener, isSpeechRecognitionSupported } from '../utils/speechRecognition';
-import { speakEnglish, speakGerman, speakTurkish } from '../utils/speech';
-import { playSnap, playSparkle, playTap, playSuccess, playRadioBeep } from '../utils/soundEffects';
-
-const QUICK_PROMPTS = [
-  'Hi Leo! 👋',
-  'What is your favorite color? 🎨',
-  'I like fast race cars! 🏎️',
-  'Can we build a rocket? 🚀',
-  'I am hungry! 🍕',
-  'Dogs or cats? 🐶',
-];
+import { speakEnglish } from '../utils/speech';
+import { playSnap, playTap, playSuccess, playRadioBeep } from '../utils/soundEffects';
 
 const LANGUAGE_OPTIONS = [
   { code: 'en-US', label: 'English', flag: '🇬🇧' },
@@ -23,23 +15,31 @@ const LANGUAGE_OPTIONS = [
 export default function WalkieTalkieModal({
   isOpen,
   onClose,
+  onRewardEarned,
   childName = 'Deniz',
   childAge = 7,
   geminiApiKey = '',
   isMuted = false,
 }) {
+  const [activeMissionId, setActiveMissionId] = useState('free');
+  const [missionTurnCount, setMissionTurnCount] = useState(0);
+  const [missionAwarded, setMissionAwarded] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [speechText, setSpeechText] = useState('');
   const [micLanguage, setMicLanguage] = useState('en-US');
   const [textInput, setTextInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [micError, setMicError] = useState('');
-  const [conversation, setConversation] = useState([
+
+  const activeMission = LEO_MISSIONS.find((m) => m.id === activeMissionId) || LEO_MISSIONS[0];
+
+  const [conversation, setConversation] = useState(() => [
     {
       sender: 'leo',
-      en: `Hello ${childName}! I am Leo. What is your favorite color?`,
-      de: `Hallo ${childName}! Ich bin Leo. Was ist deine Lieblingsfarbe?`,
-      tr: `Merhaba ${childName}! Ben Leo. En sevdiğin renk ne?`,
+      en: LEO_MISSIONS[0].starterEn(childName),
+      de: LEO_MISSIONS[0].starterDe(childName),
+      tr: LEO_MISSIONS[0].starterTr(childName),
+      hints: LEO_MISSIONS[0].starterHints,
     },
   ]);
 
@@ -70,12 +70,44 @@ export default function WalkieTalkieModal({
 
   if (!isOpen) return null;
 
+  const handleSelectMission = (mission) => {
+    playTap(isMuted);
+    if (speechListenerRef.current) {
+      speechListenerRef.current.abort();
+    }
+    setIsListening(false);
+    setSpeechText('');
+    latestSpeechTextRef.current = '';
+    setMicError('');
+    setActiveMissionId(mission.id);
+    setMissionTurnCount(0);
+    setMissionAwarded(false);
+
+    const starterEn = mission.starterEn(childName);
+    setConversation([
+      {
+        sender: 'leo',
+        en: starterEn,
+        de: mission.starterDe(childName),
+        tr: mission.starterTr(childName),
+        hints: mission.starterHints,
+      },
+    ]);
+    if (!isMuted) {
+      speakEnglish(starterEn);
+    }
+  };
+
   // Send message to Leo (Gemini or local dialog)
   const handleSendMessage = async (textToSend) => {
     const message = (textToSend || latestSpeechTextRef.current || textInput || '').trim();
     if (!message) return;
 
     if (!isMuted) playSnap();
+
+    const stepIndex = missionTurnCount;
+    const nextTurns = missionTurnCount + 1;
+    setMissionTurnCount(nextTurns);
 
     // Reset inputs & errors
     setConversation((prev) => [
@@ -94,6 +126,8 @@ export default function WalkieTalkieModal({
         message,
         childName,
         childAge,
+        missionId: activeMissionId,
+        stepIndex,
       });
 
       setConversation((prev) => [
@@ -103,9 +137,23 @@ export default function WalkieTalkieModal({
           en: response.replyEn,
           de: response.replyDe,
           tr: response.replyTr,
+          hints: response.hints || activeMission.starterHints,
           source: response.source,
         },
       ]);
+
+      if (nextTurns >= activeMission.stepsCount && !missionAwarded) {
+        setMissionAwarded(true);
+        playSuccess(isMuted);
+        try {
+          confetti({ particleCount: 70, spread: 70, origin: { y: 0.65 } });
+        } catch {
+          // ignore
+        }
+        if (onRewardEarned) {
+          onRewardEarned({ stars: 5, bricks: 1 });
+        }
+      }
 
       if (!isMuted) {
         speakEnglish(response.replyEn);
@@ -203,6 +251,11 @@ export default function WalkieTalkieModal({
     }
   };
 
+  const latestLeoHints =
+    [...conversation].reverse().find((m) => m.sender === 'leo' && Array.isArray(m.hints) && m.hints.length > 0)?.hints ||
+    activeMission.starterHints;
+  const clampedTurns = Math.min(missionTurnCount, activeMission.stepsCount);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
       
@@ -236,6 +289,35 @@ export default function WalkieTalkieModal({
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Single-Row Roleplay Mission Picker + 3-Step Counter */}
+        <div className="w-full flex items-center justify-between gap-2 bg-amber-500/40 rounded-xl px-2.5 py-1.5 mb-2 border border-amber-600/30 overflow-x-auto">
+          <div className="flex items-center gap-1.5 flex-nowrap">
+            {LEO_MISSIONS.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => handleSelectMission(m)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-display font-black whitespace-nowrap transition cursor-pointer ${
+                  activeMissionId === m.id
+                    ? 'bg-slate-900 text-yellow-300 shadow-xs'
+                    : 'bg-amber-100/80 hover:bg-white text-slate-900'
+                }`}
+              >
+                {m.emoji} {m.labelTr}
+              </button>
+            ))}
+          </div>
+          <span
+            className={`px-2.5 py-1 rounded-lg text-xs font-black whitespace-nowrap ${
+              missionAwarded
+                ? 'bg-emerald-600 text-white'
+                : 'bg-white/90 text-slate-900'
+            }`}
+          >
+            {missionAwarded ? '3/3 🏆 +5 ⭐' : `${clampedTurns}/${activeMission.stepsCount} 🎯`}
+          </span>
         </div>
 
         {/* Language Selection Bar (Deniz speaks German & Turkish) */}
@@ -422,21 +504,40 @@ export default function WalkieTalkieModal({
           </button>
         </form>
 
-        {/* Quick Conversation Starter Chips */}
+        {/* Visual Hint Chips: Tap to hear, then speak into the mic (or send) */}
         <div className="w-full mt-2 pt-2 border-t border-amber-600/40">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-amber-950 mb-1">
-            Quick Questions:
+          <p className="text-[11px] font-black text-amber-950 mb-1.5">
+            💡 Ne Söyleyebilirim? (Dinle ve mikrofona söyle!)
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {QUICK_PROMPTS.map((prompt, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSendMessage(prompt)}
-                disabled={isLoading || isListening}
-                className="px-3 py-1.5 bg-amber-100 hover:bg-white text-slate-900 rounded-lg text-xs sm:text-sm font-bold shadow-2xs border border-amber-400/50 transition cursor-pointer"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            {latestLeoHints.map((hint, idx) => (
+              <div
+                key={`${hint}-${idx}`}
+                className="flex items-center justify-between gap-1.5 bg-amber-100 rounded-xl px-2.5 py-1.5 border border-amber-400/60 shadow-2xs"
               >
-                {prompt}
-              </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTap(isMuted);
+                    if (!isMuted) speakEnglish(hint);
+                  }}
+                  className="flex-1 text-left flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-900 hover:text-blue-800 cursor-pointer"
+                  title="Dinle"
+                >
+                  <Volume2 className="w-4 h-4 text-amber-700 flex-shrink-0" />
+                  <span>{hint}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSendMessage(hint)}
+                  disabled={isLoading || isListening}
+                  className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-yellow-300 font-black text-xs cursor-pointer flex-shrink-0"
+                  title="Gönder"
+                  aria-label="Send hint"
+                >
+                  ➔
+                </button>
+              </div>
             ))}
           </div>
         </div>

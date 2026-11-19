@@ -1,10 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Volume2, Mic, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
+import { Volume2, Mic, CheckCircle2, ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { speakEnglish } from '../utils/speech';
 import { playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
+import { recordMasteredWord, recordMissedWord } from '../utils/reviewTracker';
+
+const GLUE_WORDS = new Set(['a', 'an', 'the', 'is', 'are', 'i', 'my', 'and', 'in', 'on', 'to', 'us', 'at', 'please']);
+
+function maskPhraseForMemory(phrase = '') {
+  return phrase
+    .split(' ')
+    .map((token) => {
+      const match = token.match(/^([^\p{L}\p{N}]*)([\p{L}\p{N}'’]+)([^\p{L}\p{N}]*)$/u);
+      if (!match) return token;
+      const [, prefix, core, suffix] = match;
+      if (GLUE_WORDS.has(core.toLowerCase())) return token;
+      return `${prefix}______${suffix}`;
+    })
+    .join(' ');
+}
 
 const SPEAK_PHRASES = [
   { emoji: '🍔', phrase: 'A burger and fries, please!', tr: 'Bir burger ve patates lütfen!' },
@@ -27,6 +43,8 @@ const SPEAK_PHRASES = [
 
 export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   const [idx, setIdx] = useState(0);
+  const [speakMode, setSpeakMode] = useState('echo'); // 'echo' | 'memory'
+  const [showHint, setShowHint] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [heardText, setHeardText] = useState('');
   const [passed, setPassed] = useState(false);
@@ -37,6 +55,11 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   const micSupported = isSpeechRecognitionSupported();
 
   const item = SPEAK_PHRASES[idx % SPEAK_PHRASES.length];
+  const rewardStars = speakMode === 'memory' ? 5 : 3;
+  const displayedPhrase =
+    speakMode === 'memory' && !showHint && !passed
+      ? maskPhraseForMemory(item.phrase)
+      : item.phrase;
 
   useEffect(() => {
     return () => {
@@ -47,8 +70,9 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   const handleSuccess = () => {
     playStarSparkle(isMuted);
     setPassed(true);
+    recordMasteredWord(item.phrase, item.emoji, item.tr);
     confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
-    if (onRewardEarned) onRewardEarned(3);
+    if (onRewardEarned) onRewardEarned(rewardStars);
     if (!isMuted) speakEnglish('Awesome speaking!');
   };
 
@@ -88,6 +112,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           handleSuccess();
         } else {
           playGentleWobble(isMuted);
+          recordMissedWord(item.phrase, item.emoji, item.tr);
           setFeedback(res?.feedbackEn || 'Biraz daha net söylemeyi dene!');
         }
       },
@@ -110,6 +135,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     if (listenerRef.current) listenerRef.current.abort();
     setIdx((i) => i + 1);
     setPassed(false);
+    setShowHint(false);
     setHeardText('');
     setFeedback('');
     setRecordedAudioUrl(null);
@@ -129,15 +155,67 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           </span>
         </div>
 
+        {/* Simple 2-Mode Toggle */}
+        <div className="inline-flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 mb-4 flex-wrap justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              playTap(isMuted);
+              setSpeakMode('echo');
+              setShowHint(false);
+            }}
+            className={`px-3.5 py-2 rounded-xl font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+              speakMode === 'echo'
+                ? 'bg-violet-600 text-white shadow-sm'
+                : 'text-slate-700 hover:bg-white'
+            }`}
+          >
+            👀 Okuyarak Söyle (+3 ⭐)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              playTap(isMuted);
+              setSpeakMode('memory');
+              setShowHint(false);
+            }}
+            className={`px-3.5 py-2 rounded-xl font-display font-black text-xs sm:text-sm transition cursor-pointer ${
+              speakMode === 'memory'
+                ? 'bg-amber-400 text-slate-950 shadow-sm'
+                : 'text-slate-700 hover:bg-white'
+            }`}
+          >
+            🧠 Hafızadan Söyle (+5 ⭐)
+          </button>
+        </div>
+
         <p className="text-sm font-bold text-slate-500 mb-4">
-          1. Dinle → 2. Mikrofona Söyle → Yıldız Kazan!
+          {speakMode === 'memory'
+            ? '1. 🔊 Dinle → 2. Kelimeleri Görmeden Söyle (+5 ⭐)!'
+            : '1. 🔊 Dinle → 2. 🎙️ Mikrofona Söyle → Yıldız Kazan!'}
         </p>
 
         <div className="text-6xl mb-3 leading-none">{item.emoji}</div>
         <div className="font-display font-black text-2xl sm:text-4xl text-slate-900 mb-2">
-          {item.phrase}
+          {displayedPhrase}
         </div>
-        <div className="text-sm font-bold text-slate-400 mb-6">{item.tr}</div>
+        <div className="text-sm font-bold text-slate-400 mb-4">{item.tr}</div>
+
+        {speakMode === 'memory' && !passed && (
+          <div className="mb-5">
+            <button
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                setShowHint((prev) => !prev);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-black text-xs border border-amber-300 cursor-pointer"
+            >
+              {showHint ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              <span>{showHint ? 'Kelimeleri Gizle' : '💡 İpucu Göster'}</span>
+            </button>
+          </div>
+        )}
 
         <div className="flex items-center justify-center gap-3 flex-wrap">
           <button
@@ -206,7 +284,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           <div className="mt-5 flex items-center justify-center gap-3 flex-wrap">
             <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-900 px-4 py-2 rounded-xl font-black">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              <span>Harika söyledin! (+3 ⭐)</span>
+              <span>Harika söyledin! (+{rewardStars} ⭐)</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </span>
             <button

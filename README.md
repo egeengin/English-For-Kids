@@ -96,6 +96,51 @@ npm run build
 ```
 Builds to both `dist/` and `docs/` for seamless deployment.
 
+### Gemini API key privacy
+
+Gemini AI features require a parent-provided key. The key is stored separately from learning
+progress in that browser's local storage and sent directly to Google's Gemini API when used.
+The production client does not bundle a shared API key. Browser storage protects the key from
+other profiles in the app, but it is not a secure vault against browser extensions or malware;
+for stronger protection, use a server-side proxy with rate limiting.
+
+### Azure Speech batch audio
+
+For reliable playback, Azure-generated WAV files can be prepared ahead of time. Keep credentials
+outside the repository and run the generator from a shell where these variables are set:
+
+```bash
+export AZURE_SPEECH_KEY='your-resource-key'
+export AZURE_SPEECH_REGION='westeurope'
+npm run audio:azure:en
+npm run audio:azure:tr
+npm run audio:azure:de
+```
+
+The generator writes `public/audio/azure/manifest.json` and WAV files under the matching language
+directory. The app checks this manifest before Gemini, Google streaming, or browser speech. The
+generated directory is ignored by Git because the library is large; copy it to the deployment
+artifact when publishing a build.
+
+### ElevenLabs batch audio (optional, inactive)
+
+The ElevenLabs generator is kept as an optional future alternative. It is not used by the app
+currently; Gemini remains the active generated-speech provider. If you switch later, set the API
+key and voice IDs outside the repository:
+
+```bash
+export ELEVENLABS_API_KEY='your-api-key'
+export ELEVENLABS_VOICE_ID_EN='your-voice-id'
+export ELEVENLABS_VOICE_ID_TR='your-voice-id'
+export ELEVENLABS_VOICE_ID_DE='your-voice-id'
+npm run audio:elevenlabs:en
+npm run audio:elevenlabs:tr
+npm run audio:elevenlabs:de
+```
+
+Use `ELEVENLABS_MAX_CHARS` to cap a run within a free monthly allocation.
+
+
 ---
 
 ## 📄 License

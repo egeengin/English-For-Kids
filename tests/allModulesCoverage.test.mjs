@@ -19,6 +19,8 @@ import * as soundEffects from '../src/utils/soundEffects.js';
 import * as gemini from '../src/utils/gemini.js';
 import * as speech from '../src/utils/speech.js';
 import * as speechRec from '../src/utils/speechRecognition.js';
+import * as reviewTracker from '../src/utils/reviewTracker.js';
+import { saveGeminiApiKey } from '../src/utils/gemini.js';
 
 function setupBrowserMocks() {
   const store = {};
@@ -132,6 +134,10 @@ test('Storage utils: loadSavedState and saveState handle defaults, valid JSON, a
   assert.equal(reloaded.stars, 42);
   assert.notEqual(reloaded.lastTab, 'workshop');
 
+  saveGeminiApiKey('valid-test-key-1234567890');
+  saveState({ ...reloaded, geminiApiKey: 'valid-test-key-1234567890' });
+  assert.equal(JSON.parse(store[Object.keys(store).find((key) => key.includes('state'))]).geminiApiKey, undefined);
+
   store[Object.keys(store)[0]] = '{bad-json';
   const recovered = loadSavedState();
   assert.equal(recovered.stars, INITIAL_STATE.stars);
@@ -162,7 +168,8 @@ test('Sound effects: all sound helpers run cleanly muted and unmuted', () => {
 
 test('Gemini utils: offline responses, API key test, speech eval, and chat with mocked fetch', async () => {
   setupBrowserMocks();
-  const key = gemini.getEffectiveGeminiApiKey('test-key-123');
+  assert.equal(gemini.getEffectiveGeminiApiKey(), '');
+  const key = gemini.getEffectiveGeminiApiKey('valid-test-key-123456789');
   assert.ok(typeof key === 'string' && key.length > 5);
 
   for (const prompt of ['hello', 'my name', 'pizza food', 'dino', 'blue color', 'basketball', 'random xyz']) {
@@ -187,7 +194,7 @@ test('Gemini utils: offline responses, API key test, speech eval, and chat with 
     const evalRes = await gemini.evaluateChildSpeechWithGemini({
       targetPhrase: 'Hello',
       transcript: 'Hello',
-      apiKey: 'valid-key',
+      apiKey: 'valid-key-1234567890',
     });
     assert.equal(evalRes.isAccepted, true);
 
@@ -197,7 +204,7 @@ test('Gemini utils: offline responses, API key test, speech eval, and chat with 
         candidates: [{ content: { parts: [{ text: '{"replyEn":"Hi Deniz!","replyTr":"Merhaba!","replyDe":"Hallo!"}' }] } }],
       }),
     });
-    const chatRes = await gemini.chatWithLeoGemini({ message: 'Hi Leo', apiKey: 'valid-key' });
+    const chatRes = await gemini.chatWithLeoGemini({ message: 'Hi Leo', apiKey: 'valid-key-1234567890' });
     assert.equal(chatRes.replyEn, 'Hi Deniz!');
 
     globalThis.fetch = async () => ({ ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }) });
@@ -241,4 +248,95 @@ test('Speech & SpeechRecognition utils: TTS formatting, WAV header, hover, and l
   assert.equal(heard, 'hello world');
   listener.stop();
   listener.abort();
+});
+
+test('Voice-to-Answer matching: matchSpokenOption matches clear answers and rejects unrelated/ambiguous text', () => {
+  const options = [
+    { id: 'a', textEn: 'Two red bricks', isCorrect: false },
+    { id: 'b', textEn: 'Three yellow bricks', isCorrect: true },
+    { id: 'c', textEn: 'Four green bricks', isCorrect: false },
+  ];
+
+  const exact = speechRec.matchSpokenOption('three yellow bricks', options);
+  assert.equal(exact?.id, 'b');
+
+  const partial = speechRec.matchSpokenOption('yelov bricks', options);
+  assert.equal(partial?.id, 'b');
+
+  const unrelated = speechRec.matchSpokenOption('elephant banana spaceship', options);
+  assert.equal(unrelated, null);
+
+  const ambiguous = speechRec.matchSpokenOption('bricks', options);
+  assert.equal(ambiguous, null);
+
+  const customGetter = speechRec.matchSpokenOption(
+    'apple please',
+    [{ label: 'Can I have an apple, please?' }, { label: 'Blue shoe' }],
+    (o) => o.label
+  );
+  assert.equal(customGetter?.label, 'Can I have an apple, please?');
+});
+
+test('Leo Missions & Hints: LEO_MISSIONS, offline mission steps, and Gemini fallback hints', async () => {
+  setupBrowserMocks();
+  assert.ok(Array.isArray(gemini.LEO_MISSIONS) && gemini.LEO_MISSIONS.length >= 4);
+  for (const m of gemini.LEO_MISSIONS) {
+    assert.ok(m.id && m.emoji && m.labelTr && m.stepsCount === 3);
+    assert.ok(typeof m.starterEn === 'function' && m.starterEn('Deniz').includes('Deniz'));
+    assert.ok(Array.isArray(m.starterHints) && m.starterHints.length === 2);
+  }
+
+  const pizzaStep0 = gemini.getOfflineLeoResponse('Hello Chef!', 'Deniz', 'pizza', 0);
+  assert.ok(pizzaStep0.replyEn.includes('pizza'));
+  assert.ok(Array.isArray(pizzaStep0.hints) && pizzaStep0.hints.length === 2);
+
+  const freeReply = gemini.getOfflineLeoResponse('I like blue', 'Deniz', 'free', 0);
+  assert.ok(freeReply.replyEn && Array.isArray(freeReply.hints) && freeReply.hints.length === 2);
+
+  const origFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => ({
+      ok: true,
+      json: async () => ({
+        candidates: [{
+          content: {
+            parts: [{
+              text: '{"replyEn":"Cheese pizza coming up!","replyDe":"Käsepizza kommt!","replyTr":"Peynirli pizza geliyor!","hints":["Thank you! 🍕","Water, please! 💧"]}',
+            }],
+          },
+        }],
+      }),
+    });
+    const aiMissionRes = await gemini.chatWithLeoGemini({
+      apiKey: 'valid-key-1234567890',
+      message: 'Cheese pizza please',
+      childName: 'Deniz',
+      missionId: 'pizza',
+      stepIndex: 1,
+    });
+    assert.equal(aiMissionRes.replyEn, 'Cheese pizza coming up!');
+    assert.deepEqual(aiMissionRes.hints, ['Thank you! 🍕', 'Water, please! 💧']);
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('Review Tracker: phrase & word tracking with spaced-repetition priority sorting', () => {
+  setupBrowserMocks();
+  reviewTracker.recordMissedWord('Three yellow bricks', '🟡', '3 sarı parça', { phraseEn: 'Three yellow bricks' });
+  reviewTracker.recordMissedWord('A burger and fries, please!', '🍔', 'Bir burger lütfen');
+  reviewTracker.recordMissedWord('A burger and fries, please!', '🍔', 'Bir burger lütfen');
+  reviewTracker.recordMasteredWord('It is sunny!', '☀️', 'Hava güneşli!');
+
+  const review = reviewTracker.getReviewWords(5);
+  assert.equal(review.length, 5);
+  assert.equal(review[0].word, 'A burger and fries, please!');
+  assert.equal(review[0].misses, 2);
+  assert.equal(review[1].word, 'Three yellow bricks');
+  assert.equal(review[1].phraseEn, 'Three yellow bricks');
+
+  const summary = reviewTracker.getWeeklySummary();
+  assert.equal(summary.practicedCount, 3);
+  assert.ok(summary.masteredWords.some((w) => w.word === 'It is sunny!'));
+  assert.ok(summary.trickyWords.some((w) => w.word === 'A burger and fries, please!'));
 });

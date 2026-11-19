@@ -85,7 +85,11 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
           </button>
         </div>
 
-        <div className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-3">
+        <div
+          className={`font-display font-black text-slate-900 mb-3 ${
+            target.word.length > 22 ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'
+          }`}
+        >
           {target.word}
         </div>
         {target.tr && <div className="text-sm font-bold text-slate-400 mb-4">{target.tr}</div>}
@@ -115,7 +119,13 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
               }`}
             >
               <span className="text-5xl leading-none">{opt.emoji}</span>
-              <span className="font-display font-black text-xl text-slate-900">{opt.word}</span>
+              <span
+                className={`font-display font-black text-slate-900 ${
+                  opt.word.length > 18 ? 'text-sm sm:text-base' : 'text-xl'
+                }`}
+              >
+                {opt.word}
+              </span>
             </button>
           ))}
         </div>

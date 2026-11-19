@@ -243,7 +243,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
     } else {
       playGentleWobble(isMuted);
       recordMissedWord(item.word, item.emoji);
-      if (!isMuted) speakEnglish('Oops! Listen to the question again!');
+      if (!isMuted) speakEnglish(`That is ${opt.text}. I am asking: ${item.q}`);
     }
   };
 

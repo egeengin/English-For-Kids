@@ -366,10 +366,14 @@ export default function GameArena({
       playGentleWobble(isMuted);
 
       // Friendly spoken encouragement in English or German
-      const prompts = ['Try again! 🧱', 'Almost there!', 'You can do it!', 'Good try! ⭐'];
+      const prompts = [
+        `That is ${item.word}. I am asking for ${targetItem.word}.`,
+        `Not this one. I am asking for ${targetItem.word}.`,
+        `Good try! Find ${targetItem.word}.`,
+      ];
       const chosen = prompts[Math.floor(Math.random() * prompts.length)];
       setEncouragementText(chosen);
-      speakEncouragement(helperLanguage === 'de' ? 'de' : 'en');
+      if (!isMuted) speakEnglish(chosen);
 
       onWordResult({
         wordId: targetItem.id,

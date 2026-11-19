@@ -12,6 +12,7 @@ import {
   Play,
   ChevronDown,
   ChevronUp,
+  Mic,
 } from 'lucide-react';
 import {
   DAILY_EXPEDITION_DAYS,
@@ -26,6 +27,8 @@ import {
   cancelHoverSpeech,
 } from '../utils/speech';
 import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
+import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
+import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 import DailySingLearn from './DailySingLearn';
 
 export default function DailyMissionHub({
@@ -34,6 +37,7 @@ export default function DailyMissionHub({
   dailyQuizAnswers = {},
   onSaveDailyQuizAnswer,
   onResetDailyQuizQuestions,
+  onRewardEarned,
   onOpenDiscoveryGame: _onOpenDiscoveryGame,
   onOpenStory,
   onOpenPrintable: _onOpenPrintable,
@@ -62,6 +66,7 @@ export default function DailyMissionHub({
   });
   const quizSpeechSessionRef = useRef(0);
   const quizSpeechTimerRef = useRef(null);
+  const voiceBonusIdsRef = useRef(new Set());
 
   const stopQuizSpeech = useCallback(() => {
     quizSpeechSessionRef.current += 1;
@@ -186,15 +191,26 @@ export default function DailyMissionHub({
     }
   };
 
-  const handleDailyQuizClick = (questionId, opt) => {
+  const handleDailyQuizClick = useCallback((questionId, opt, viaVoice = false) => {
     cancelHoverSpeech();
     stopQuizSpeech();
     unlockAudio();
+    const targetQ = dayQuizQuestions.find((item) => item.id === questionId);
+    const correctOpt = targetQ?.options?.find((o) => o.isCorrect) || opt;
     if (opt.isCorrect) {
       playSuccess(isMuted);
       confetti({ particleCount: 45, spread: 65, origin: { y: 0.65 } });
+      recordMasteredWord(correctOpt.textEn, correctOpt.emoji, correctOpt.labelTr || '');
+      if (viaVoice && !voiceBonusIdsRef.current.has(questionId)) {
+        voiceBonusIdsRef.current.add(questionId);
+        if (onRewardEarned) {
+          onRewardEarned({ stars: 2, bricks: 1 });
+        }
+        confetti({ particleCount: 65, spread: 75, origin: { y: 0.6 } });
+      }
     } else {
       playWobble(isMuted);
+      recordMissedWord(correctOpt.textEn, correctOpt.emoji, correctOpt.labelTr || '');
     }
     if (!isMuted) {
       setTimeout(() => speakEnglish(opt.textEn, undefined, { rate: isSlowMode ? 0.8 : 1.0 }), 280);
@@ -215,7 +231,29 @@ export default function DailyMissionHub({
     if (onSaveDailyQuizAnswer) {
       onSaveDailyQuizAnswer(questionId, opt.id);
     }
-  };
+  }, [dailyQuizAnswers, dayQuizQuestions, isMuted, isSlowMode, onRewardEarned, onSaveDailyQuizAnswer, stopQuizSpeech, todayGoalCount]);
+
+  const safeQuestionIdx = Math.min(activeQuestionIdx, Math.max(0, dayQuizQuestions.length - 1));
+  const activeDailyQuestion = dayQuizQuestions[safeQuestionIdx] || null;
+
+  const {
+    isListening: isQuizListening,
+    heardText: quizHeardText,
+    voiceNotice: quizVoiceNotice,
+    micSupported: quizMicSupported,
+    startVoiceAnswer: startQuizVoiceAnswer,
+    stopVoiceAnswer: stopQuizVoiceAnswer,
+  } = useVoiceQuizAnswer({
+    options: activeDailyQuestion?.options || [],
+    questionKey: activeDailyQuestion?.id || '',
+    isMuted,
+    onBeforeListen: stopQuizSpeech,
+    onMatchedOption: (matchedOpt) => {
+      if (activeDailyQuestion) {
+        handleDailyQuizClick(activeDailyQuestion.id, matchedOpt, true);
+      }
+    },
+  });
 
   const handleResetDayQuiz = () => {
     playTap(isMuted);
@@ -234,6 +272,13 @@ export default function DailyMissionHub({
           <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900">
             🗺️ 14 Bölüm
           </h1>
+          <div className="inline-flex flex-wrap items-center gap-1.5 text-xs font-black text-slate-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-xl">
+            <span>1. 🔊 Dinle</span>
+            <span className="text-amber-500">→</span>
+            <span>2. 🎙️ Sesli Söyle (+2 ⭐)</span>
+            <span className="text-amber-500">→</span>
+            <span>3. 🏆 Kartları Evrimleştir</span>
+          </div>
         </div>
 
         {/* Daily Micro-Goal Bar */}
@@ -596,19 +641,59 @@ export default function DailyMissionHub({
 
           return (
             <div className="rounded-3xl p-5 sm:p-7 border-4 border-blue-200 bg-gradient-to-br from-slate-50 to-blue-50/40 space-y-5 shadow-inner">
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
                 <span className="px-3 py-1 rounded-full bg-blue-600 text-white font-display font-black text-xs">
                   Soru {safeIdx + 1} / {dayQuizQuestions.length}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => playQuestionAndOptions(q)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-blue-300 text-blue-700 font-display font-black text-xs hover:bg-blue-50 cursor-pointer"
-                >
-                  <Volume2 className="w-4 h-4" />
-                  <span>Tekrar Dinle</span>
-                </button>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      stopQuizVoiceAnswer();
+                      playQuestionAndOptions(q);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border-2 border-blue-300 text-blue-700 font-display font-black text-xs hover:bg-blue-50 cursor-pointer"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    <span>Tekrar Dinle</span>
+                  </button>
+                  {quizMicSupported && (
+                    <button
+                      type="button"
+                      onClick={startQuizVoiceAnswer}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs shadow-sm cursor-pointer transition ${
+                        isQuizListening
+                          ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-300'
+                          : 'bg-purple-600 hover:bg-purple-700 text-white'
+                      }`}
+                    >
+                      <Mic className="w-4 h-4" />
+                      <span>{isQuizListening ? 'Dinliyorum...' : '🎙️ Sesli Cevapla (+2 ⭐)'}</span>
+                    </button>
+                  )}
+                </div>
               </div>
+
+              {(isQuizListening || quizVoiceNotice) && (
+                <div className="flex flex-wrap items-center gap-2">
+                  {isQuizListening && (
+                    <span className="px-3 py-1 rounded-xl bg-rose-100 text-rose-900 font-black text-xs animate-pulse">
+                      🎙️ {quizHeardText ? `"${quizHeardText}"` : 'Şimdi İngilizce söyle...'}
+                    </span>
+                  )}
+                  {!isQuizListening && quizVoiceNotice && (
+                    <span
+                      className={`px-3 py-1 rounded-xl font-black text-xs ${
+                        quizVoiceNotice.type === 'matched'
+                          ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          : 'bg-amber-100 text-amber-900 border border-amber-300'
+                      }`}
+                    >
+                      {quizVoiceNotice.text}
+                    </span>
+                  )}
+                </div>
+              )}
 
               <div
                 onPointerEnter={(e) =>

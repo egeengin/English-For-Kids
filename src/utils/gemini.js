@@ -6,20 +6,11 @@
 
 const GEMINI_TEXT_MODELS = ['gemini-3.6-flash', 'gemini-flash-lite-latest'];
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-
-// Built-in base64-encoded default key for seamless out-of-the-box & GitHub Pages operation
-const DEFAULT_GEMINI_KEY = (() => {
-  try {
-    return typeof atob === 'function'
-      ? atob('QVEuQWI4Uk42Sy1GcW9FMUVXQmRCcVpDckVlM0lmNmJ5Wk5pdGE1R1BHWHhqRkdHM0p5NHc=')
-      : '';
-  } catch {
-    return '';
-  }
-})();
+const GEMINI_KEY_STORAGE = 'lego_english_adventure_gemini_key_v1';
 
 /**
- * Resolve the effective Gemini API key from explicit arg, localStorage, globalThis, or built-in default.
+ * Resolve the effective Gemini API key from explicit arg, localStorage, or a local development global.
+ * API keys are never bundled into the client.
  * @param {string} [explicitKey]
  * @returns {string}
  */
@@ -30,16 +21,26 @@ export function getEffectiveGeminiApiKey(explicitKey = '') {
 
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
+      const savedKey = window.localStorage.getItem(GEMINI_KEY_STORAGE);
+      if (savedKey && savedKey.trim().length >= 20) {
+        return savedKey.trim();
+      }
+
+      // Migrate keys saved by older versions out of the general app state.
       const savedRaw = window.localStorage.getItem('lego_english_adventure_state_v1');
       if (savedRaw) {
         const parsed = JSON.parse(savedRaw);
         if (parsed?.geminiApiKey && String(parsed.geminiApiKey).trim().length >= 20) {
-          return String(parsed.geminiApiKey).trim();
+          const legacyKey = String(parsed.geminiApiKey).trim();
+          window.localStorage.setItem(GEMINI_KEY_STORAGE, legacyKey);
+          return legacyKey;
         }
       }
       const directKey = window.localStorage.getItem('gemini_api_key');
       if (directKey && directKey.trim().length >= 20) {
-        return directKey.trim();
+        const legacyKey = directKey.trim();
+        window.localStorage.setItem(GEMINI_KEY_STORAGE, legacyKey);
+        return legacyKey;
       }
     }
   } catch {
@@ -50,7 +51,26 @@ export function getEffectiveGeminiApiKey(explicitKey = '') {
     return globalThis.GEMINI_LOCAL_KEY.trim();
   }
 
-  return DEFAULT_GEMINI_KEY;
+  return '';
+}
+
+export function saveGeminiApiKey(apiKey = '') {
+  if (typeof window === 'undefined' || !window.localStorage) return false;
+  const cleanKey = typeof apiKey === 'string' ? apiKey.trim() : '';
+  if (!cleanKey) {
+    window.localStorage.removeItem(GEMINI_KEY_STORAGE);
+    return true;
+  }
+  if (cleanKey.length < 20) {
+    return false;
+  }
+  window.localStorage.setItem(GEMINI_KEY_STORAGE, cleanKey);
+  return true;
+}
+
+export function clearGeminiApiKey() {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  window.localStorage.removeItem(GEMINI_KEY_STORAGE);
 }
 
 /**
@@ -233,17 +253,191 @@ Respond strictly in valid JSON format:
   }
 }
 
+export const LEO_MISSIONS = [
+  {
+    id: 'free',
+    emoji: '💬',
+    labelTr: 'Serbest',
+    titleTr: 'Serbest Sohbet',
+    stepsCount: 3,
+    starterEn: (name) => `Hello ${name}! I am Leo. What is your favorite color?`,
+    starterDe: (name) => `Hallo ${name}! Ich bin Leo. Was ist deine Lieblingsfarbe?`,
+    starterTr: (name) => `Merhaba ${name}! Ben Leo. En sevdiğin renk ne?`,
+    starterHints: ['My favorite color is red! 🔴', 'I like blue! 🔵'],
+    stepPrompts: [
+      {
+        en: 'Cool! What animal do you like?',
+        de: 'Cool! Welches Tier magst du?',
+        tr: 'Harika! Hangi hayvanı seversin?',
+        hints: ['I like dogs! 🐶', 'I like dolphins! 🐬'],
+      },
+      {
+        en: 'Awesome! Are you hungry? Pizza or apple?',
+        de: 'Super! Hast du Hunger? Pizza oder Apfel?',
+        tr: 'Süper! Aç mısın? Pizza mı elma mı?',
+        hints: ['Pizza, please! 🍕', 'An apple, please! 🍎'],
+      },
+      {
+        en: 'Yum! You spoke great English today! High five!',
+        de: 'Lecker! Du hast heute toll Englisch gesprochen! High five!',
+        tr: 'Nefis! Bugün harika İngilizce konuştun! Çak bir beşlik!',
+        hints: ['Thank you Leo! 🙌', 'Let us play again! 🎮'],
+      },
+    ],
+  },
+  {
+    id: 'pizza',
+    emoji: '🍕',
+    labelTr: 'Pizza',
+    titleTr: 'Pizza Siparişi',
+    stepsCount: 3,
+    starterEn: (name) => `Welcome ${name}! I am the Pizza Chef! Say hello and order!`,
+    starterDe: (name) => `Willkommen ${name}! Ich bin der Pizza-Koch! Sag Hallo und bestelle!`,
+    starterTr: (name) => `Hoş geldin ${name}! Ben Pizza Şefiyim! Selam ver ve sipariş et!`,
+    starterHints: ['Hello Chef! 👋', 'I want a pizza, please! 🍕'],
+    stepPrompts: [
+      {
+        en: 'Hello! Cheese pizza or salami pizza?',
+        de: 'Hallo! Käsepizza oder Salamipizza?',
+        tr: 'Merhaba! Peynirli pizza mı salamlı pizza mı?',
+        hints: ['Cheese pizza, please! 🧀', 'Salami pizza, please! 🍕'],
+      },
+      {
+        en: 'Great choice! Do you want apple juice or water?',
+        de: 'Tolle Wahl! Möchtest du Apfelsaft oder Wasser?',
+        tr: 'Harika seçim! Elma suyu mu su mu istersin?',
+        hints: ['Apple juice, please! 🧃', 'Water, please! 💧'],
+      },
+      {
+        en: 'Here you go! Hot pizza and a cold drink!',
+        de: 'Bitte schön! Heiße Pizza und ein kaltes Getränk!',
+        tr: 'Buyur! Sıcak pizza ve soğuk içeceğin!',
+        hints: ['Thank you very much! 😋', 'It is yummy! 🍕'],
+      },
+    ],
+  },
+  {
+    id: 'basketball',
+    emoji: '🏀',
+    labelTr: 'Basket',
+    titleTr: 'Kayıp Basket Topu',
+    stepsCount: 3,
+    starterEn: (name) => `Oh no ${name}! I lost my orange basketball! Where is it?`,
+    starterDe: (name) => `Oh nein ${name}! Mein Basketball ist weg! Wo ist er?`,
+    starterTr: (name) => `Eyvah ${name}! Turuncu basketbol topumu kaybettim! Nerede?`,
+    starterHints: ['Where is the ball? 🏀', 'Let us look for it! 👀'],
+    stepPrompts: [
+      {
+        en: 'Is it under the bed or behind the door?',
+        de: 'Ist er unter dem Bett oder hinter der Tür?',
+        tr: 'Yatağın altında mı yoksa kapının arkasında mı?',
+        hints: ['Look under the bed! 🛏️', 'Look behind the door! 🚪'],
+      },
+      {
+        en: 'Aha! I found the ball! Can you pass or shoot?',
+        de: 'Aha! Gefunden! Kannst du passen oder werfen?',
+        tr: 'Aha! Topu buldum! Pas atabilir misin yoksa şut mu?',
+        hints: ['Pass the ball, please! 🏀', 'I can shoot! 🎯'],
+      },
+      {
+        en: 'Swish! Three points! Great teamwork!',
+        de: 'Treffer! Drei Punkte! Tolles Teamwork!',
+        tr: 'Süper basket! Üç sayı! Harika takım oyunu!',
+        hints: ['Let us play! 🎉', 'I am happy! 😄'],
+      },
+    ],
+  },
+  {
+    id: 'pokemon',
+    emoji: '⚡',
+    labelTr: 'Pokemon',
+    titleTr: 'Kart Savaşı',
+    stepsCount: 3,
+    starterEn: (name) => `Hey ${name}! Which card do you pick: Pikachu or Fire Dragon?`,
+    starterDe: (name) => `Hey ${name}! Welche Karte wählst du: Pikachu oder Feuerdrache?`,
+    starterTr: (name) => `Hey ${name}! Hangi kartı seçiyorsun: Pikachu mu Ateş Ejderhası mı?`,
+    starterHints: ['I pick Pikachu! ⚡', 'I pick Fire Dragon! 🐉'],
+    stepPrompts: [
+      {
+        en: 'Cool card! What can it do? Fly or jump?',
+        de: 'Coole Karte! Was kann sie? Fliegen oder springen?',
+        tr: 'Havalı kart! Ne yapabilir? Uçabilir mi zıplayabilir mi?',
+        hints: ['It can fly fast! 🪽', 'It can jump high! ⚡'],
+      },
+      {
+        en: 'Wow, super power! What color is your card?',
+        de: 'Wow, Superkraft! Welche Farbe hat deine Karte?',
+        tr: 'Vay, süper güç! Kartın ne renk?',
+        hints: ['It is bright yellow! 💛', 'It is red and orange! ❤️'],
+      },
+      {
+        en: 'You win the card battle! Shiny champion!',
+        de: 'Du gewinnst den Kampf! Glänzender Champion!',
+        tr: 'Kart savaşını kazandın! Parlak şampiyon!',
+        hints: ['I am the champion! 🏆', 'Thank you Leo! ⚡'],
+      },
+    ],
+  },
+  {
+    id: 'rocket',
+    emoji: '🚀',
+    labelTr: 'Roket',
+    titleTr: 'Uzay Roketi',
+    stepsCount: 3,
+    starterEn: (name) => `Ready for space ${name}? Let us build a rocket! What color?`,
+    starterDe: (name) => `Bereit für das All ${name}? Bauen wir eine Rakete! Welche Farbe?`,
+    starterTr: (name) => `Uzaya hazır mısın ${name}? Hadi roket yapalım! Hangi renk?`,
+    starterHints: ['A red rocket, please! 🚀', 'Blue and yellow! 💙'],
+    stepPrompts: [
+      {
+        en: 'Awesome rocket! Now count down: three, two, one!',
+        de: 'Tolle Rakete! Zähle runter: drei, zwei, eins!',
+        tr: 'Harika roket! Şimdi geri say: three, two, one!',
+        hints: ['Three, two, one! 🔢', 'Blast off! 🚀'],
+      },
+      {
+        en: 'Whoosh! Look out the window! What do you see?',
+        de: 'Wusch! Schau aus dem Fenster! Was siehst du?',
+        tr: 'Vuuuş! Pencereden bak! Ne görüyorsun?',
+        hints: ['I see bright stars! ⭐', 'I see the big moon! 🌙'],
+      },
+      {
+        en: 'We landed on Mars! Great space mission!',
+        de: 'Wir sind auf dem Mars gelandet! Tolle Mission!',
+        tr: 'Mars’a indik! Harika uzay görevi!',
+        hints: ['That was awesome! 🪐', 'Fly back home! 🌍'],
+      },
+    ],
+  },
+];
+
 /**
  * Smart offline dialog response generator for Leo the Lego Builder
  */
-export function getOfflineLeoResponse(message, childName = 'Deniz') {
+export function getOfflineLeoResponse(message, childName = 'Deniz', missionId = 'free', stepIndex = 0) {
   const text = (message || '').toLowerCase().trim();
+  const mission = LEO_MISSIONS.find((m) => m.id === missionId);
+
+  if (mission && mission.id !== 'free') {
+    const safeStep = Math.min(Math.max(0, Number(stepIndex) || 0), mission.stepPrompts.length - 1);
+    const stepData = mission.stepPrompts[safeStep];
+    if (stepData) {
+      return {
+        replyEn: stepData.en,
+        replyDe: stepData.de,
+        replyTr: stepData.tr,
+        hints: stepData.hints,
+        source: 'offline',
+      };
+    }
+  }
 
   if (!text) {
     return {
       replyEn: `Hi ${childName}! Press the button to talk to me!`,
       replyDe: `Hallo ${childName}! Drücke den Knopf, um mit mir zu sprechen!`,
       replyTr: `Merhaba ${childName}! Benimle konuşmak için düğmeye bas!`,
+      hints: ['Hello Leo! 👋', 'My favorite color is blue! 🔵'],
       source: 'offline',
     };
   }
@@ -253,6 +447,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `Hello ${childName}! Are you ready to build something cool?`,
       replyDe: `Hallo ${childName}! Bist du bereit, etwas Cooles zu bauen?`,
       replyTr: `Merhaba ${childName}! Havalı bir şey inşa etmeye hazır mısın?`,
+      hints: ['Yes, let us build a rocket! 🚀', 'I like race cars! 🏎️'],
       source: 'offline',
     };
   }
@@ -262,6 +457,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `My favorite color is bright red! What is your favorite color?`,
       replyDe: `Meine Lieblingsfarbe ist leuchtendes Rot! Was ist deine?`,
       replyTr: `Benim en sevdiğim renk parlak kırmızı! Seninki ne?`,
+      hints: ['I like blue! 🔵', 'My favorite color is yellow! 💛'],
       source: 'offline',
     };
   }
@@ -271,6 +467,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `I am Leo the Lego Builder! And you are ${childName}!`,
       replyDe: `Ich bin Leo der Lego-Baumeister! Und du bist ${childName}!`,
       replyTr: `Ben Lego Ustası Leo! Sen de ${childName}'sin!`,
+      hints: ['Nice to meet you Leo! 🤝', 'How are you today? 😄'],
       source: 'offline',
     };
   }
@@ -280,6 +477,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `I am super happy and clicking with bricks! How are you?`,
       replyDe: `Mir geht es super und ich baue gerne! Wie geht es dir?`,
       replyTr: `Bugün çok mutluyum ve tuğlalarla oynuyorum! Sen nasılsın?`,
+      hints: ['I am very happy! 😄', 'I am great, thank you! ⭐'],
       source: 'offline',
     };
   }
@@ -289,6 +487,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `Vroom! Race cars are super fast! Let's build one!`,
       replyDe: `Brumm! Rennautos sind super schnell! Lass uns eins bauen!`,
       replyTr: `Vınn! Yarış arabaları çok hızlı! Hadi bir tane yapalım!`,
+      hints: ['My car is red! 🏎️', 'It is super fast! ⚡'],
       source: 'offline',
     };
   }
@@ -298,6 +497,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `3, 2, 1... Blast off! Let's fly our rocket to Mars!`,
       replyDe: `3, 2, 1... Abflug! Lass uns zum Mars fliegen!`,
       replyTr: `3, 2, 1... Fırlatma! Roketimizle Mars'a uçalım!`,
+      hints: ['I see bright stars! ⭐', 'Blast off to Mars! 🚀'],
       source: 'offline',
     };
   }
@@ -307,6 +507,7 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `I love animals! Dogs say Woof and cats say Meow!`,
       replyDe: `Ich liebe Tiere! Hunde sagen Wuff und Katzen Miau!`,
       replyTr: `Hayvanları çok severim! Köpekler havlar, kediler miyavlar!`,
+      hints: ['I like puppies! 🐶', 'Can we play basketball? 🏀'],
       source: 'offline',
     };
   }
@@ -316,15 +517,18 @@ export function getOfflineLeoResponse(message, childName = 'Deniz') {
       replyEn: `Yum! Pizza is my favorite snack! Do you want a slice?`,
       replyDe: `Lecker! Pizza ist mein Lieblingssnack! Willst du ein Stück?`,
       replyTr: `Nefis! Pizza benim en sevdiğim atıştırmalık! Bir dilim ister misin?`,
+      hints: ['Yes, please! 🍕', 'I want apple juice too! 🧃'],
       source: 'offline',
     };
   }
 
   // Default encouraging response
+  const freeStep = LEO_MISSIONS[0].stepPrompts[Math.min(Math.max(0, Number(stepIndex) || 0), 2)];
   return {
-    replyEn: `That sounds awesome, ${childName}! You speak English so well!`,
-    replyDe: `Das klingt toll, ${childName}! Du sprichst so gut Englisch!`,
-    replyTr: `Kulağa harika geliyor, ${childName}! Çok güzel İngilizce konuşuyorsun!`,
+    replyEn: `That sounds awesome, ${childName}! ${freeStep.en}`,
+    replyDe: `Das klingt toll, ${childName}! ${freeStep.de}`,
+    replyTr: `Kulağa harika geliyor, ${childName}! ${freeStep.tr}`,
+    hints: freeStep.hints,
     source: 'offline',
   };
 }
@@ -337,27 +541,34 @@ export async function chatWithLeoGemini({
   message,
   childName = 'Deniz',
   childAge = 7,
+  missionId = 'free',
+  stepIndex = 0,
 }) {
+  const offlineFallback = getOfflineLeoResponse(message, childName, missionId, stepIndex);
   const effectiveKey = getEffectiveGeminiApiKey(apiKey);
   if (!effectiveKey || effectiveKey.length < 10) {
-    return getOfflineLeoResponse(message, childName);
+    return offlineFallback;
   }
 
+  const activeMission = LEO_MISSIONS.find((m) => m.id === missionId) || LEO_MISSIONS[0];
   const systemPrompt = `You are Leo, a playful, warm Lego builder friend talking with a ${childAge}-year-old beginner English learner named ${childName}.
 The child speaks German and Turkish at home and knows only very basic English.
+Active Roleplay Mission: "${activeMission.titleTr}" (step ${Number(stepIndex) + 1} of ${activeMission.stepsCount}).
 The child said to you: "${message}".
 
 Rules:
-1. Reply in ONE ultra-clear, simple beginner English sentence of 5 to 8 basic words (everyday words like colors, animals, Lego, cars, rockets, basketball, pizza).
+1. Reply in ONE ultra-clear, simple beginner English sentence of 5 to 8 basic words (everyday words like colors, animals, Lego, cars, rockets, basketball, pizza) and end with an easy question or playful prompt matching the mission.
 2. NEVER use walkie-talkie static words or radio jargon like "Krrch", "Over", "Roger", "Copy", or complex idioms.
 3. If the child spoke in German or Turkish, understand them warmly and answer in simple, easy English.
 4. Provide natural, child-friendly German (replyDe) and Turkish (replyTr) translations of your exact sentence.
+5. Also provide "hints": an array of exactly 2 super-short, simple English reply choices with 1 emoji each (3-6 words) that ${childName} can say next.
 
 Respond strictly in valid JSON format:
 {
   "replyEn": string,
   "replyDe": string,
-  "replyTr": string
+  "replyTr": string,
+  "hints": [string, string]
 }`;
 
   try {
@@ -375,21 +586,26 @@ Respond strictly in valid JSON format:
     );
 
     if (!response.ok) {
-      return getOfflineLeoResponse(message, childName);
+      return offlineFallback;
     }
 
     const data = await response.json();
     const parsed = extractGeminiJson(data);
-    if (!parsed) return getOfflineLeoResponse(message, childName);
+    if (!parsed) return offlineFallback;
+    const hints =
+      Array.isArray(parsed.hints) && parsed.hints.length >= 2
+        ? parsed.hints.slice(0, 2).map((h) => String(h))
+        : offlineFallback.hints;
     return {
-      replyEn: parsed.replyEn || `Awesome, ${childName}! Let's build!`,
-      replyDe: parsed.replyDe || 'Toll gemacht!',
-      replyTr: parsed.replyTr || 'Harika!',
+      replyEn: parsed.replyEn || offlineFallback.replyEn,
+      replyDe: parsed.replyDe || offlineFallback.replyDe,
+      replyTr: parsed.replyTr || offlineFallback.replyTr,
+      hints,
       source: 'gemini',
     };
   } catch (err) {
     console.warn('Gemini chat failed, falling back to local dialog engine:', err);
-    return getOfflineLeoResponse(message, childName);
+    return offlineFallback;
   }
 }
 

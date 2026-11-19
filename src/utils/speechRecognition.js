@@ -368,3 +368,88 @@ export async function evaluateKidPronunciation({
     source: 'local',
   };
 }
+
+/**
+ * Match a child's spoken transcript against a list of quiz options.
+ * Returns the best-matching option if similarity/token overlap >= 0.45, or null.
+ */
+export function matchSpokenOption(
+  transcript,
+  options = [],
+  getTextFn = (opt) => opt?.textEn || opt?.text || opt?.word || String(opt || '')
+) {
+  const normTranscript = normalizeText(transcript);
+  if (!normTranscript || !Array.isArray(options) || options.length === 0) {
+    return null;
+  }
+
+  const spokenTokens = normTranscript
+    .split(' ')
+    .filter(Boolean)
+    .map((t) => PHONETIC_MAP[t] || t);
+  const mappedTranscript = spokenTokens.join(' ');
+
+  let bestMatch = null;
+  let bestScore = 0;
+  let bestRawSim = 0;
+  let hasAmbiguousTie = false;
+
+  for (const option of options) {
+    const rawOptionText = getTextFn(option);
+    const normOption = normalizeText(rawOptionText);
+    if (!normOption) continue;
+
+    const optionTokens = normOption
+      .split(' ')
+      .filter(Boolean)
+      .map((t) => PHONETIC_MAP[t] || t);
+    const mappedOption = optionTokens.join(' ');
+
+    let inclusionScore = 0;
+    if (mappedTranscript === mappedOption) {
+      inclusionScore = 1.0;
+    } else if (
+      mappedTranscript.length >= 3 &&
+      mappedOption.length >= 3 &&
+      (mappedTranscript.includes(mappedOption) || mappedOption.includes(mappedTranscript))
+    ) {
+      const minLen = Math.min(mappedTranscript.length, mappedOption.length);
+      const maxLen = Math.max(mappedTranscript.length, mappedOption.length);
+      inclusionScore = Math.max(0.7, minLen / maxLen);
+    }
+
+    let matchedOptTokens = 0;
+    for (const optTok of optionTokens) {
+      const hit = spokenTokens.some(
+        (spTok) => spTok === optTok || calculateSimilarity(spTok, optTok) >= 0.75
+      );
+      if (hit) matchedOptTokens += 1;
+    }
+    const tokenOverlap = optionTokens.length > 0 ? matchedOptTokens / optionTokens.length : 0;
+
+    const rawSim = calculateSimilarity(mappedTranscript, mappedOption);
+    const score = Math.max(inclusionScore, tokenOverlap, rawSim);
+
+    if (score > bestScore + 0.01) {
+      bestScore = score;
+      bestRawSim = rawSim;
+      bestMatch = option;
+      hasAmbiguousTie = false;
+    } else if (Math.abs(score - bestScore) <= 0.01 && score >= 0.45) {
+      if (rawSim > bestRawSim + 0.02) {
+        bestScore = score;
+        bestRawSim = rawSim;
+        bestMatch = option;
+        hasAmbiguousTie = false;
+      } else if (Math.abs(rawSim - bestRawSim) <= 0.02) {
+        hasAmbiguousTie = true;
+      }
+    }
+  }
+
+  if (bestScore >= 0.45 && !hasAmbiguousTie) {
+    return bestMatch;
+  }
+
+  return null;
+}

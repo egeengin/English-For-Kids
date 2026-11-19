@@ -34,6 +34,7 @@ export const INITIAL_STATE = {
   dailyChecklist: {},
   dailyQuizAnswers: {},
   discoveryResults: {},
+  cardLevels: {},
   dioramaItems: [
     { id: 'd-1', word: 'Red Brick', emoji: '🧱', x: 20, y: 65, size: 64 },
     { id: 'd-2', word: 'School Bus', emoji: '🚌', x: 50, y: 55, size: 80 },
@@ -83,6 +84,7 @@ export function loadSavedState() {
       dailyChecklist: parsed.dailyChecklist || {},
       dailyQuizAnswers: parsed.dailyQuizAnswers || {},
       discoveryResults: parsed.discoveryResults || {},
+      cardLevels: parsed.cardLevels || {},
       streak,
       lastActiveDate: today,
     };
@@ -98,7 +100,8 @@ export function loadSavedState() {
 export function saveState(state) {
   if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const { geminiApiKey: _geminiApiKey, ...persistedState } = state;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedState));
   } catch (err) {
     console.error('Failed to save state to localStorage:', err);
   }

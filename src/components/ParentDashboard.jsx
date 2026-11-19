@@ -25,7 +25,11 @@ import {
   ExternalLink,
   Sliders,
 } from 'lucide-react';
-import { speakEnglish, speakTurkish } from '../utils/speech';
+import { speakEnglish, speakTurkish, precacheSpeechLibrary } from '../utils/speech';
+import { getStoryWorlds } from '../data/storyData';
+import { DAILY_EXPEDITION_DAYS, DISCOVERY_STAGES } from '../data/dailyMissionsData';
+import { EXTRA_LEVELS } from '../data/extraLevelsData';
+import { SCENES_DATA } from '../data/scenesData';
 import { playTap, playSuccessChime, playGentleWobble } from '../utils/soundEffects';
 import { testGeminiApiKey } from '../utils/gemini';
 import { getWeeklySummary } from '../utils/reviewTracker';
@@ -58,6 +62,7 @@ export default function ParentDashboard({
   const [apiTestResult, setApiTestResult] = useState(null);
   const [profileSaved, setProfileSaved] = useState(false);
   const [geminiSaved, setGeminiSaved] = useState(false);
+  const [precacheStatus, setPrecacheStatus] = useState(null);
 
   // New word form state
   const [newWord, setNewWord] = useState('');
@@ -126,6 +131,10 @@ export default function ParentDashboard({
 
   const handleSaveGemini = (e) => {
     e.preventDefault();
+    if (apiKeyInput.trim() && apiKeyInput.trim().length < 20) {
+      setApiTestResult({ success: false, message: 'Please enter a complete Gemini API key or leave it blank.' });
+      return;
+    }
     if (onUpdateProfile) {
       onUpdateProfile({
         childName: profileName.trim() || 'Deniz',
@@ -149,6 +158,53 @@ export default function ParentDashboard({
     } else {
       playGentleWobble(isMuted);
     }
+  };
+
+  const collectSpeechTexts = (value, key = '') => {
+    if (typeof value === 'string') {
+      const ignoredKeys = ['id', 'audioKey', 'sceneImage', 'image', 'emoji', 'color', 'themeColor'];
+      if (!ignoredKeys.includes(key) && value.trim().length > 1) return [value];
+      return [];
+    }
+    if (Array.isArray(value)) {
+      return value.flatMap((item) => collectSpeechTexts(item, key));
+    }
+    if (value && typeof value === 'object') {
+      return Object.entries(value).flatMap(([childKey, childValue]) =>
+        collectSpeechTexts(childValue, childKey)
+      );
+    }
+    return [];
+  };
+
+  const handlePrecacheSpeech = async () => {
+    setPrecacheStatus({ completed: 0, total: 0, failed: 0, running: true });
+    const library = [
+      ...collectSpeechTexts(curriculumLevels),
+      ...collectSpeechTexts(customWords),
+      ...collectSpeechTexts(getStoryWorlds(childName)),
+      ...collectSpeechTexts(DAILY_EXPEDITION_DAYS),
+      ...collectSpeechTexts(DISCOVERY_STAGES),
+      ...collectSpeechTexts(EXTRA_LEVELS),
+      ...collectSpeechTexts(SCENES_DATA),
+    ];
+    const result = await precacheSpeechLibrary(library, {
+      onProgress: (progress) => {
+        setPrecacheStatus({
+          completed: progress.completed,
+          total: progress.total,
+          failed: progress.failed.length,
+          running: true,
+        });
+      },
+    });
+    setPrecacheStatus({
+      completed: result.completed,
+      total: result.total,
+      failed: result.failed.length,
+      stoppedReason: result.stoppedReason,
+      running: false,
+    });
   };
 
   const handleTestAudio = (lang, text) => {
@@ -315,7 +371,7 @@ export default function ParentDashboard({
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 font-bold mt-0.5">
-                  AI Voice Listener: {apiKeyInput ? '✨ Gemini AI Connected' : '🧠 Built-in Phonetics Engine Active'}
+                  AI Voice Listener: {apiKeyInput ? '✨ Gemini AI Connected' : '🔑 Gemini API key required for AI feedback'}
                 </p>
               </div>
             </div>
@@ -587,7 +643,7 @@ export default function ParentDashboard({
                 <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${
                   apiKeyInput ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-slate-100 text-slate-600 border-slate-300'
                 }`}>
-                  {apiKeyInput ? 'Key Configured' : 'Local Fallback Active'}
+                  {apiKeyInput ? 'Key Configured' : 'Offline Fallback Active'}
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-bold">
@@ -636,7 +692,7 @@ export default function ParentDashboard({
               </div>
 
               <span className="text-[11px] text-slate-400 font-bold mt-1.5 block">
-                Saved securely in your browser's private storage. Never shared or uploaded.
+                Stored in this browser only. The key is sent to Google Gemini when you test or use the AI coach.
               </span>
             </div>
 
@@ -668,6 +724,32 @@ export default function ParentDashboard({
                 <Check className="w-4 h-4" />
                 <span>Save Gemini Key</span>
               </button>
+            </div>
+
+            <div className="p-3 bg-blue-50 border-2 border-blue-200 rounded-xl space-y-2">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div>
+                  <p className="text-xs font-black text-blue-900">Prepare all lesson voices</p>
+                  <p className="text-[11px] text-blue-800">
+                    Generate story and vocabulary clips once and save them in this browser's audio database.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handlePrecacheSpeech}
+                  disabled={precacheStatus?.running || !apiKeyInput.trim()}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-display font-black text-xs rounded-xl border-2 border-blue-800 shadow-sm cursor-pointer"
+                >
+                  {precacheStatus?.running ? 'Preparing voices...' : 'Prepare all voices'}
+                </button>
+              </div>
+              {precacheStatus && (
+                <div className="text-[11px] font-bold text-blue-900">
+                  {precacheStatus.running
+                    ? `${precacheStatus.completed} / ${precacheStatus.total} prepared`
+                    : `${precacheStatus.completed} clips processed${precacheStatus.failed ? `, ${precacheStatus.failed} failed` : ''}${precacheStatus.stoppedReason === 'GEMINI_TTS_QUOTA_EXHAUSTED' ? '. Gemini TTS quota exhausted; try again after quota resets.' : '.'}`}
+                </div>
+              )}
             </div>
 
             {apiTestResult && (
@@ -702,7 +784,7 @@ export default function ParentDashboard({
                   <span className="text-slate-800">2. Dual-Layer AI Evaluation:</span> If {childName} says "Gud morning" or speaks with Turkish/German intonation, Gemini recognizes the attempt, awards Lego bricks, and praises him!
                 </li>
                 <li>
-                  <span className="text-slate-800">3. Safe Offline Guarantee:</span> If no Gemini key is provided, the app automatically runs our built-in phonetic analyzer, ensuring the game is always 100% playable anywhere!
+                  <span className="text-slate-800">3. Safe Offline Fallback:</span> If no Gemini key is provided, the app automatically runs our built-in phonetic analyzer, so the game remains playable without AI.
                 </li>
               </ul>
             </div>

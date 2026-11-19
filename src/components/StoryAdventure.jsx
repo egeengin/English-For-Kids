@@ -128,6 +128,7 @@ export default function StoryAdventure({
   const [voiceEvaluation, setVoiceEvaluation] = useState(null);
   const [isEvaluatingSpeech, setIsEvaluatingSpeech] = useState(false);
   const [voiceError, setVoiceError] = useState(null);
+  const [voiceBonusClaimed, setVoiceBonusClaimed] = useState(false);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
   const speechRecognitionRef = useRef(null);
   const audioRecorderRef = useRef(null);
@@ -156,24 +157,34 @@ export default function StoryAdventure({
     setInspectedWord(null);
 
     const words = (chapterObj.characterLine || '').split(' ');
-    speakDialoguePhrase(chapterObj.audioKey, chapterObj.characterLine, 'en');
-
+    let hasStarted = false;
     let currentWord = 0;
-    setHighlightedWordIndex(0);
-    // Approximate Samantha's 400ms per word pace for natural cadence
-    const estimatedTotalMs = Math.max(2000, words.length * 400);
-    const intervalMs = Math.floor(estimatedTotalMs / Math.max(1, words.length));
 
-    karaokeTimerRef.current = setInterval(() => {
-      currentWord++;
-      if (currentWord < words.length) {
-        setHighlightedWordIndex(currentWord);
-      } else {
+    const startKaraoke = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      setHighlightedWordIndex(0);
+      // Start the visual timeline only when the audio player actually begins.
+      const intervalMs = Math.max(260, Math.min(520, 60000 / 145));
+      karaokeTimerRef.current = setInterval(() => {
+        currentWord++;
+        if (currentWord < words.length) {
+          setHighlightedWordIndex(currentWord);
+        }
+      }, intervalMs);
+    };
+
+    const finishKaraoke = () => {
+      if (karaokeTimerRef.current) {
         clearInterval(karaokeTimerRef.current);
         karaokeTimerRef.current = null;
-        setTimeout(() => setHighlightedWordIndex(null), 600);
       }
-    }, intervalMs);
+      setHighlightedWordIndex(null);
+    };
+
+    speakDialoguePhrase(chapterObj.audioKey, chapterObj.characterLine, 'en', finishKaraoke, {
+      onStart: startKaraoke,
+    });
   };
 
   // Clean up speech recognition & karaoke timers on unmount
@@ -209,6 +220,10 @@ export default function StoryAdventure({
     setActiveProp(null);
     setFindTarget(null);
     setFindFoundId(null);
+    setVoiceEvaluation(null);
+    setInterimSpeech('');
+    setVoiceError(null);
+    setVoiceBonusClaimed(false);
     setRecordedAudioUrl(null);
 
     if (!isMuted && chapter) {
@@ -254,6 +269,7 @@ export default function StoryAdventure({
     if (choice.isCorrect) {
       setIsChapterSolved(true);
       setFeedbackMessage(choice.feedback);
+      recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
       playStarSparkle(isMuted);
 
       // Trigger Mom / Character reply back
@@ -290,7 +306,12 @@ export default function StoryAdventure({
         }
       }
     } else {
-      setFeedbackMessage(choice.feedback);
+      const selectedText = choice.text || 'that answer';
+      recordMissedWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
+      setFeedbackMessage(`That is ${selectedText}. I am asking: "${chapter.characterLine}"`);
+      if (!isMuted) {
+        speakEnglish(`That is ${selectedText}. I am asking: ${chapter.characterLine}`);
+      }
     }
   };
 
@@ -310,7 +331,8 @@ export default function StoryAdventure({
     const isPrefixValid = updated.every((w, idx) => w === targetWords[idx]);
 
     if (!isPrefixValid) {
-      setFeedbackMessage('Oops! That word does not fit here. Try again!');
+      setFeedbackMessage(`That word does not fit. I am asking for: "${targetWords.join(' ')}"`);
+      if (!isMuted) speakEnglish(`That word does not fit. I am asking for ${targetWords.join(' ')}`);
       setTimeout(() => {
         setBuiltSentenceWords([]);
       }, 900);
@@ -321,6 +343,7 @@ export default function StoryAdventure({
     if (updated.length === targetWords.length) {
       setIsChapterSolved(true);
       setFeedbackMessage('Fantastic sentence building! You snapped the bricks together!');
+      recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
       playStarSparkle(isMuted);
 
       const correctChoice = chapter.choices.find(c => c.isCorrect);
@@ -411,8 +434,10 @@ export default function StoryAdventure({
           setVoiceEvaluation(evalResult);
 
           if (evalResult.isAccepted) {
+            const wasAlreadySolved = isChapterSolved;
             setIsChapterSolved(true);
             setFeedbackMessage(evalResult.feedbackEn);
+            recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
             playSnap(isMuted);
             playVictoryFanfare(isMuted);
 
@@ -431,14 +456,19 @@ export default function StoryAdventure({
               spread: 70,
               origin: { y: 0.6 },
             });
-            if (onRewardEarned) {
-              onRewardEarned({ stars: evalResult.stars || 3, bricks: 1 });
+            if (!voiceBonusClaimed && onRewardEarned) {
+              setVoiceBonusClaimed(true);
+              onRewardEarned({
+                stars: wasAlreadySolved ? 2 : (evalResult.stars || 3),
+                bricks: 1,
+              });
             }
 
             if (currentChapterIndex === totalChapters - 1) {
               setIsStoryComplete(true);
             }
           } else {
+            recordMissedWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
             setFeedbackMessage(evalResult.feedbackEn);
             playGentleWobble(isMuted);
           }
@@ -1069,6 +1099,60 @@ export default function StoryAdventure({
                 <span className="text-base">{isChapterSolved ? '🎉' : '💡'}</span>
                 <span>{feedbackMessage}</span>
               </div>
+            </div>
+          )}
+
+          {/* 1-Tap Voice Bonus Prompt right after solving in Choices / Sentence mode */}
+          {isChapterSolved && interactionMode !== 'voice' && (
+            <div className="mt-4 p-4 bg-purple-50 border-2 border-purple-300 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 text-left">
+                <button
+                  type="button"
+                  onClick={() => !isMuted && speakEnglish(targetPhraseClean)}
+                  className="p-2.5 rounded-xl bg-white border border-purple-200 text-purple-700 hover:bg-purple-100 cursor-pointer flex-shrink-0"
+                  title="Dinle"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+                <div>
+                  <div className="text-xs font-black text-purple-900">
+                    {voiceBonusClaimed ? '🎉 Sesli Bonus Kazanıldı! (+2 ⭐)' : '🎙️ Şimdi Sesli Söyle (+2 ⭐ Bonus)'}
+                  </div>
+                  <div className="font-display font-black text-sm sm:text-base text-slate-900">
+                    “{targetPhraseClean}”
+                  </div>
+                  {interimSpeech && (
+                    <div className="text-xs font-bold text-purple-700 mt-0.5">
+                      Duyulan: “{interimSpeech}”
+                    </div>
+                  )}
+                  {voiceError && (
+                    <div className="text-xs font-bold text-rose-700 mt-0.5">{voiceError}</div>
+                  )}
+                </div>
+              </div>
+
+              {!voiceBonusClaimed && isSpeechRecognitionSupported() && (
+                <button
+                  type="button"
+                  onClick={handleStartVoiceListening}
+                  disabled={isEvaluatingSpeech}
+                  className={`px-4 py-2.5 rounded-xl font-display font-black text-xs sm:text-sm flex items-center gap-2 shadow-sm cursor-pointer flex-shrink-0 ${
+                    isListening
+                      ? 'bg-rose-500 text-white animate-pulse'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white'
+                  }`}
+                >
+                  <Mic className="w-4 h-4" />
+                  <span>
+                    {isListening
+                      ? 'Dinliyorum...'
+                      : isEvaluatingSpeech
+                      ? 'Kontrol...'
+                      : '🎙️ Söyle (+2 ⭐)'}
+                  </span>
+                </button>
+              )}
             </div>
           )}
 

@@ -124,6 +124,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const [quizSolved, setQuizSolved] = useState(false);
   const timerRef = useRef(null);
+  const readingSessionRef = useRef(0);
 
   const book = books[bookIdx];
   const isQuestionPage = pageIdx >= book.pages.length;
@@ -136,27 +137,49 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   }, []);
 
   const readLine = (sentence) => {
+    const readingSession = ++readingSessionRef.current;
     if (timerRef.current) clearInterval(timerRef.current);
     if (!sentence) return;
-    if (!isMuted) speakEnglish(sentence);
 
     const words = sentence.split(' ');
+    let hasStarted = false;
     let idx = 0;
-    setHighlightIdx(0);
-    timerRef.current = setInterval(() => {
-      idx++;
-      if (idx < words.length) {
-        setHighlightIdx(idx);
-      } else {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-        setTimeout(() => setHighlightIdx(-1), 500);
-      }
-    }, 360);
+    const startHighlight = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      setHighlightIdx(0);
+      timerRef.current = setInterval(() => {
+        idx++;
+        if (idx < words.length) setHighlightIdx(idx);
+      }, 360);
+    };
+    const finishReading = () => {
+      if (readingSession !== readingSessionRef.current) return;
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = null;
+      setHighlightIdx(-1);
+      setPageIdx((current) => Math.min(book.pages.length, current + 1));
+    };
+
+    if (isMuted) {
+      startHighlight();
+      const duration = Math.max(1800, words.length * 360);
+      timerRef.current = setTimeout(finishReading, duration);
+      return;
+    }
+
+    speakEnglish(sentence, finishReading, { onStart: startHighlight });
   };
+
+  useEffect(() => {
+    if (isQuestionPage || !currentPage) return undefined;
+    const timer = setTimeout(() => readLine(currentPage.text), 350);
+    return () => clearTimeout(timer);
+  }, [bookIdx, pageIdx, isQuestionPage, currentPage?.text, isMuted]);
 
   const selectBook = (idx) => {
     playTap(isMuted);
+    readingSessionRef.current += 1;
     if (timerRef.current) clearInterval(timerRef.current);
     setBookIdx(idx);
     setPageIdx(0);
@@ -173,7 +196,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       if (!isMuted) speakEnglish('Great reading! You got it!');
     } else {
       playGentleWobble(isMuted);
-      if (!isMuted) speakEnglish('Try again!');
+      if (!isMuted) speakEnglish(`That is ${opt.text.replace(/[^\p{L}\p{N}\s]/gu, '').trim()}. I am asking: ${book.question}`);
     }
   };
 
@@ -240,6 +263,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                   disabled={pageIdx === 0}
                   onClick={() => {
                     playTap(isMuted);
+                    readingSessionRef.current += 1;
                     setHighlightIdx(-1);
                     setPageIdx((p) => Math.max(0, p - 1));
                   }}
@@ -262,9 +286,10 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                   type="button"
                   onClick={() => {
                     playTap(isMuted);
+                    readingSessionRef.current += 1;
                     if (timerRef.current) clearInterval(timerRef.current);
                     setHighlightIdx(-1);
-                    setPageIdx((p) => p + 1);
+                    setPageIdx((p) => Math.min(book.pages.length, p + 1));
                   }}
                   className="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-lg shadow-md flex items-center gap-1 cursor-pointer"
                 >

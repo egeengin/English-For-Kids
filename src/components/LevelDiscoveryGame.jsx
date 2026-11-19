@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Volume2,
@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Sparkles,
   Target,
+  Mic,
 } from 'lucide-react';
 import { DISCOVERY_STAGES } from '../data/dailyMissionsData';
 import {
@@ -20,12 +21,15 @@ import {
   cancelHoverSpeech,
 } from '../utils/speech';
 import { playTap, playSuccess, playFanfare, playWobble } from '../utils/soundEffects';
+import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
+import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 
 export default function LevelDiscoveryGame({
   discoveryResults = {},
   onSaveDiscoveryResult,
   onClearDiscoveryQuestions,
   onResetDiscovery,
+  onRewardEarned,
   onOpenPrintable: _onOpenPrintable,
   onSwitchToDay,
   isMuted = false,
@@ -44,6 +48,8 @@ export default function LevelDiscoveryGame({
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(() => findResumePosition().qIdx);
   const [showHelper, setShowHelper] = useState(false);
   const [viewMode, setViewMode] = useState('play'); // 'play' | 'stage-complete' | 'report'
+  const [voiceBonusQuestionId, setVoiceBonusQuestionId] = useState(null);
+  const voiceBonusIdsRef = useRef(new Set());
 
   const currentStage = DISCOVERY_STAGES[activeStageIdx] || DISCOVERY_STAGES[0];
   const currentQuestion = currentStage.questions[activeQuestionIdx] || currentStage.questions[0];
@@ -118,7 +124,7 @@ export default function LevelDiscoveryGame({
     setViewMode('play');
   };
 
-  const handleOptionSelect = (opt) => {
+  const handleOptionSelect = useCallback((opt, viaVoice = false) => {
     if (!currentQuestion) return;
 
     cancelHoverSpeech();
@@ -130,9 +136,36 @@ export default function LevelDiscoveryGame({
       playWobble(isMuted);
     }
 
-    if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn), 380);
+    const correctOpt = currentQuestion.options.find((o) => o.isCorrect) || opt;
+    if (opt.isCorrect) {
+      recordMasteredWord(correctOpt.textEn, correctOpt.emoji, correctOpt.labelTr || '');
+    } else {
+      recordMissedWord(correctOpt.textEn, correctOpt.emoji, correctOpt.labelTr || '');
     }
+
+    if (viaVoice && opt.isCorrect && !voiceBonusIdsRef.current.has(currentQuestion.id)) {
+      voiceBonusIdsRef.current.add(currentQuestion.id);
+      setVoiceBonusQuestionId(currentQuestion.id);
+      if (onRewardEarned) {
+        onRewardEarned({ stars: 2, bricks: 1 });
+      }
+      try {
+        confetti({ particleCount: 55, spread: 65, origin: { y: 0.65 } });
+      } catch {
+        // Ignore in headless environments
+      }
+    }
+
+    if (!isMuted) {
+      setTimeout(() => {
+        if (opt.isCorrect) {
+          speakEnglish(opt.textEn);
+        } else {
+          speakEnglish(`That is ${opt.textEn}. I am asking: ${currentQuestion.promptEn}`);
+        }
+      }, 380);
+    }
+    if (!opt.isCorrect) setShowHelper(true);
 
     onSaveDiscoveryResult(currentQuestion.id, {
       status: opt.isCorrect ? 'mastered' : 'learning',
@@ -144,7 +177,22 @@ export default function LevelDiscoveryGame({
       selectedOptionId: opt.id,
       recordedAt: new Date().toISOString(),
     });
-  };
+  }, [currentQuestion, currentStage, isMuted, onRewardEarned, onSaveDiscoveryResult]);
+
+  const {
+    isListening,
+    heardText,
+    voiceNotice,
+    micSupported,
+    startVoiceAnswer,
+    stopVoiceAnswer,
+  } = useVoiceQuizAnswer({
+    options: currentQuestion?.options || [],
+    questionKey: currentQuestion?.id || '',
+    isMuted,
+    onBeforeListen: stopSpeech,
+    onMatchedOption: (matchedOpt) => handleOptionSelect(matchedOpt, true),
+  });
 
   const handleNextStep = () => {
     playTap(isMuted);
@@ -205,9 +253,13 @@ export default function LevelDiscoveryGame({
               <h1 className="text-lg sm:text-2xl font-display font-black text-slate-900 leading-tight">
                 5 Bölümlü Seviye Testi ({earnedStarsCount}/5 Yıldız)
               </h1>
-              <p className="text-xs text-slate-500 font-semibold">
-                Her bölümde 10 soru • 3 Bölüm = Şampiyon! • 4–5 = Zor Boss
-              </p>
+              <div className="mt-1 inline-flex flex-wrap items-center gap-1.5 text-xs font-black text-slate-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-xl">
+                <span>1. 🔊 Dinle</span>
+                <span className="text-amber-500">→</span>
+                <span>2. 🎙️ Sesli Söyle (+2 ⭐)</span>
+                <span className="text-amber-500">→</span>
+                <span>3. 🏆 Kartları Evrimleştir</span>
+              </div>
             </div>
           </div>
 
@@ -333,6 +385,7 @@ export default function LevelDiscoveryGame({
                 <button
                   type="button"
                   onClick={() => {
+                    stopVoiceAnswer();
                     speakEnglish(currentQuestion.promptEn);
                   }}
                   className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-sm sm:text-base shadow-sm cursor-pointer"
@@ -340,8 +393,43 @@ export default function LevelDiscoveryGame({
                   <Volume2 className="w-5 h-5" />
                   <span>🔊 Dinle</span>
                 </button>
+                {micSupported && (
+                  <button
+                    type="button"
+                    onClick={startVoiceAnswer}
+                    className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm shadow-sm cursor-pointer transition ${
+                      isListening
+                        ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-300'
+                        : 'bg-purple-600 hover:bg-purple-700 text-white'
+                    }`}
+                  >
+                    <Mic className="w-4 h-4" />
+                    <span>{isListening ? 'Dinliyorum...' : '🎙️ Sesli Cevapla (+2 ⭐)'}</span>
+                  </button>
+                )}
               </div>
             </div>
+
+            {(isListening || voiceNotice || voiceBonusQuestionId === currentQuestion.id) && (
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                {isListening && (
+                  <span className="px-3 py-1 rounded-xl bg-rose-100 text-rose-900 font-black text-xs animate-pulse">
+                    🎙️ {heardText ? `"${heardText}"` : 'Şimdi İngilizce söyle...'}
+                  </span>
+                )}
+                {!isListening && voiceNotice && (
+                  <span
+                    className={`px-3 py-1 rounded-xl font-black text-xs ${
+                      voiceNotice.type === 'matched'
+                        ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                        : 'bg-amber-100 text-amber-900 border border-amber-300'
+                    }`}
+                  >
+                    {voiceNotice.text}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* 3 Self-Graded Visual Answer Cards */}
@@ -428,9 +516,9 @@ export default function LevelDiscoveryGame({
             <span className="text-xs font-bold text-slate-500">
               {chosenOptionId
                 ? savedAnswer?.isCorrect
-                  ? 'Harika gidiyorsun! Sonraki soruya geçebilirsin.'
-                  : 'Yeşil kutudaki doğru cevabı dinleyip sonraki soruya geçebilirsin.'
-                : 'Bir şıkka tıkla! Bilmiyorsan tahmin edebilirsin.'}
+                  ? 'Harika! Devam et.'
+                  : 'Doğrusunu dinle, devam et.'
+                : '🎙️ Söyle veya şıkka dokun!'}
             </span>
 
             <button

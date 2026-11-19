@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "test": "node --test tests/*.test.mjs",
     "preview": "vite preview",
+    "audio:neural": "python3 scripts/generate_neural_audio.py",
     "audio:gemini": "node scripts/generate_gemini_audio.mjs",
     "audio:generate": "node scripts/generate_all_audio.mjs",
     "audio:azure:en": "node scripts/generate_azure_audio.mjs en",

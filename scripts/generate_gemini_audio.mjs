@@ -2,17 +2,20 @@
 
 /**
  * Gemini Studio Neural AI Audio Generator for English Learning
- * Uses Google Gemini 2.5/3.8 Flash Neural TTS (Puck / Aoede voice)
+ * Uses Google Gemini 3.8 Flash Neural TTS (Puck voice)
  * to generate ultra-realistic, expressive, human-like English audio clips.
  */
 
 import { createHash } from 'node:crypto';
+import dns from 'node:dns';
 import { execFile } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import process from 'node:process';
+
+dns.setDefaultResultOrder('ipv4first');
 
 import { CURRICULUM_LEVELS } from '../src/data/curriculum.js';
 import { DAILY_EXPEDITION_DAYS, DISCOVERY_STAGES } from '../src/data/dailyMissionsData.js';
@@ -25,10 +28,14 @@ import { audioDataToWavBlob } from '../src/utils/speech.js';
 
 const execFileAsync = promisify(execFile);
 
+// Effective Gemini API Key loaded from environment or CLI argument
+const DEFAULT_KEY = process.env.GEMINI_API_KEY || '';
+
 const GEMINI_MODELS = [
-  'gemini-2.5-flash-preview-tts',
-  'gemini-3.8-flash-tts',
+  'gemini-3.1-flash-tts-preview',
   'gemini-3.8-flash-lite-tts',
+  'gemini-3.8-flash-tts',
+  'gemini-2.5-flash-preview-tts',
 ];
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 
@@ -39,10 +46,9 @@ const OUTPUT_ROOT = 'public/audio/gemini/en';
 const MANIFEST_PATH = 'public/audio/manifest.json';
 const AZURE_COMPAT_MANIFEST_PATH = 'public/audio/azure/manifest.json';
 
-// Parse API key from env or command line argument: --key=AIza...
 function getApiKey() {
   const argKey = process.argv.find((a) => a.startsWith('--key='))?.split('=')[1];
-  return (argKey || process.env.GEMINI_API_KEY || '').trim();
+  return (argKey || process.env.GEMINI_API_KEY || DEFAULT_KEY).trim();
 }
 
 function cleanText(text) {
@@ -172,8 +178,9 @@ function collectEnglishTexts() {
 }
 
 async function synthesizeGemini(apiKey, text, voice) {
+  const promptText = `Say: ${text}`;
   const payload = {
-    contents: [{ parts: [{ text }] }],
+    contents: [{ parts: [{ text: promptText }] }],
     generationConfig: {
       responseModalities: ['AUDIO'],
       speechConfig: {
@@ -196,7 +203,6 @@ async function synthesizeGemini(apiKey, text, voice) {
 
       if (response.status === 429) {
         lastErr = new Error('RATE_LIMITED_429');
-        await new Promise((r) => setTimeout(r, 4000));
         continue;
       }
 
@@ -229,16 +235,13 @@ async function main() {
   const apiKey = getApiKey();
   if (!apiKey) {
     console.error('❌ Error: GEMINI_API_KEY is required.');
-    console.error('Usage:');
-    console.error('  GEMINI_API_KEY="your-key" node scripts/generate_gemini_audio.mjs');
-    console.error('  or: node scripts/generate_gemini_audio.mjs --key="your-key"');
     process.exit(1);
   }
 
   console.log(`🎙️ Gemini Neural Audio Generator (Voice: ${VOICE_NAME})`);
   console.log('--- Collecting English speech texts ---');
   const texts = collectEnglishTexts();
-  console.log(`Found ${texts.length} unique English texts to synthesize.`);
+  console.log(`Found ${texts.length} unique English texts.`);
 
   await mkdir(OUTPUT_ROOT, { recursive: true });
   await mkdir(path.dirname(AZURE_COMPAT_MANIFEST_PATH), { recursive: true });
@@ -261,6 +264,7 @@ async function main() {
     const lowerKey = `en:${text.toLowerCase()}`;
     const assetPath = `audio/gemini/en/${hash}`;
 
+    // Always ensure manifest maps to this Gemini clip
     manifest[manifestKey] = assetPath;
     manifest[lowerKey] = assetPath;
 
@@ -274,38 +278,48 @@ async function main() {
   let completed = 0;
   for (let i = 0; i < tasks.length; i += 1) {
     const task = tasks[i];
-    try {
-      const wavBuffer = await synthesizeGemini(apiKey, task.text, VOICE_NAME);
-      await writeFile(task.wavPath, wavBuffer);
+    let attempts = 0;
+    let success = false;
 
-      // Convert to AAC m4a for ultra-compact, high-speed playback
+    while (attempts < 3 && !success) {
+      attempts += 1;
       try {
-        await execFileAsync('afconvert', [
-          '-f', 'm4af',
-          '-d', 'aac',
-          task.wavPath,
-          task.m4aPath,
-        ]);
-      } catch {
-        // If afconvert fails, wav is already available
-      }
+        const wavBuffer = await synthesizeGemini(apiKey, task.text, VOICE_NAME);
+        await writeFile(task.wavPath, wavBuffer);
 
-      completed += 1;
-      if (completed % 10 === 0 || completed === tasks.length) {
-        console.log(`Progress: ${completed}/${tasks.length} (${task.text})`);
-        // Save manifest incrementally
-        const json = `${JSON.stringify(manifest, null, 2)}\n`;
-        await writeFile(MANIFEST_PATH, json);
-        await writeFile(AZURE_COMPAT_MANIFEST_PATH, json);
-      }
+        // Convert to AAC m4a for ultra-compact, high-speed playback
+        try {
+          await execFileAsync('afconvert', [
+            '-f', 'm4af',
+            '-d', 'aac',
+            task.wavPath,
+            task.m4aPath,
+          ]);
+        } catch {
+          // If afconvert fails, wav is already available
+        }
 
-      // Small delay to prevent hitting 429 quota limits
-      await new Promise((r) => setTimeout(r, 650));
-    } catch (err) {
-      console.error(`Failed on "${task.text}":`, err.message);
-      if (err.message.includes('429') || err.message.includes('RESOURCE_EXHAUSTED')) {
-        console.log('Cooldown for 15s due to quota limits...');
-        await new Promise((r) => setTimeout(r, 15000));
+        success = true;
+        completed += 1;
+        console.log(`[${completed}/${tasks.length}] Gemini synthesized: "${task.text}"`);
+
+        if (completed % 10 === 0 || completed === tasks.length) {
+          // Save manifest incrementally
+          const json = `${JSON.stringify(manifest, null, 2)}\n`;
+          await writeFile(MANIFEST_PATH, json);
+          await writeFile(AZURE_COMPAT_MANIFEST_PATH, json);
+        }
+
+        // Small delay between calls to respect rate limits
+        await new Promise((r) => setTimeout(r, 650));
+      } catch (err) {
+        console.warn(`Attempt ${attempts} failed for "${task.text}":`, err.message);
+        if (err.message.includes('429') || err.message.includes('RATE_LIMITED')) {
+          console.log('Cooldown for 10s due to rate limit...');
+          await new Promise((r) => setTimeout(r, 10000));
+        } else {
+          await new Promise((r) => setTimeout(r, 2000));
+        }
       }
     }
   }

@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "test": "node --test tests/*.test.mjs",
     "preview": "vite preview",
+    "audio:generate": "node scripts/generate_all_audio.mjs",
     "audio:azure:en": "node scripts/generate_azure_audio.mjs en",
     "audio:azure:tr": "node scripts/generate_azure_audio.mjs tr",
     "audio:azure:de": "node scripts/generate_azure_audio.mjs de",

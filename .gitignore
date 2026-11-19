@@ -23,5 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 scratch/
-public/audio/azure/
-public/audio/elevenlabs/

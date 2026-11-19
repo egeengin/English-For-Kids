@@ -925,6 +925,115 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   }
 }
 
+function playSequentialAudioFiles(assetList, myToken, onEnd, onError, onStart) {
+  if (!assetList || assetList.length === 0) {
+    if (onEnd) onEnd();
+    return;
+  }
+  if (assetList.length === 1) {
+    playLocalAudioFile(assetList[0], myToken, onEnd, onError, onStart);
+    return;
+  }
+
+  let currentIndex = 0;
+  const playNext = () => {
+    if (myToken !== speechSeqToken) return;
+    if (currentIndex >= assetList.length) {
+      if (onEnd) onEnd();
+      return;
+    }
+    const currentAsset = assetList[currentIndex];
+    const isFirst = currentIndex === 0;
+    currentIndex += 1;
+
+    playLocalAudioFile(
+      currentAsset,
+      myToken,
+      () => {
+        if (myToken !== speechSeqToken) return;
+        if (currentIndex < assetList.length) {
+          setTimeout(playNext, 120);
+        } else {
+          if (onEnd) onEnd();
+        }
+      },
+      onError,
+      isFirst ? onStart : undefined
+    );
+  };
+
+  playNext();
+}
+
+export async function resolveSequentialAssets(cleanText, lang = 'en-US') {
+  if (!cleanText) return null;
+
+  // 1. Direct match in manifest
+  const direct = await getAzureSpeechAsset(cleanText, lang);
+  if (direct) return [direct];
+
+  // 2. Try splitting by sentences (. ! ? ;)
+  const sentences = cleanText
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (sentences.length > 1) {
+    const list = [];
+    let allFound = true;
+    for (const s of sentences) {
+      const sub = await resolveSequentialAssets(s, lang);
+      if (sub && sub.length > 0) {
+        list.push(...sub);
+      } else {
+        allFound = false;
+        break;
+      }
+    }
+    if (allFound && list.length > 0) return list;
+  }
+
+  // 3. Carrier & template patterns (e.g., "Not this one. I am asking for X", "That is X", "Find X")
+  const patterns = [
+    /^(Not this one\.?\s+I am asking for)\s+(.+)$/i,
+    /^(That is)\s+(.+?)(?:\s+I am asking for\s+(.+))?$/i,
+    /^(Good try!?\s+Find)\s+(.+)$/i,
+    /^(Find the)\s+(.+)$/i,
+    /^(Find)\s+(.+)$/i,
+    /^(I am asking for)\s+(.+)$/i,
+    /^(I am asking:?)\s+(.+)$/i,
+    /^(Try again!?)\s+(.+)$/i,
+    /^(Not there!?)\s+(.+)$/i,
+    /^(That word does not fit\.?\s+I am asking for)\s+(.+)$/i,
+  ];
+
+  for (const pat of patterns) {
+    const m = cleanText.match(pat);
+    if (m) {
+      if (m[3]) {
+        // "That is X. I am asking for Y."
+        const thatIsAsset = await getAzureSpeechAsset('That is', lang);
+        const itemAsset = await getAzureSpeechAsset(m[2].trim().replace(/[.!?]+$/, ''), lang);
+        const askingAsset = await getAzureSpeechAsset('I am asking for', lang);
+        const targetAsset = await getAzureSpeechAsset(m[3].trim().replace(/[.!?]+$/, ''), lang);
+        if (thatIsAsset && itemAsset && askingAsset && targetAsset) {
+          return [thatIsAsset, itemAsset, askingAsset, targetAsset];
+        }
+      } else {
+        const prefix = m[1].trim();
+        const rest = m[2].trim().replace(/[.!?]+$/, '');
+        const prefixAsset = await getAzureSpeechAsset(prefix, lang);
+        const restAsset = await getAzureSpeechAsset(rest, lang);
+        if (prefixAsset && restAsset) {
+          return [prefixAsset, restAsset];
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 const NOVELTY_VOICE_REGEX = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|wobble|fred|good news|jester|organ|superstar|trinoids|whisper|zarvox|ralph|kathy|junior|grandma|grandpa|rocko|reed|sandy|shelley|eddy|flo|espeak|compact)\b/i;
 
 function selectBestWebSpeechVoice(voiceList, lang) {
@@ -1301,17 +1410,23 @@ async function speakWithGeminiOrFallback(
   const notFileProtocol =
     typeof window === 'undefined' || !window.location || window.location.protocol !== 'file:';
 
-  const generatedAsset = await getAzureSpeechAsset(clean, lang);
-  if (generatedAsset) {
-    playLocalAudioFile(generatedAsset, myToken, onEnd, () => {
-      if (canTryNetwork && notFileProtocol) {
-        playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate, onStart).catch(() => {
+  const sequentialAssets = await resolveSequentialAssets(clean, lang);
+  if (sequentialAssets && sequentialAssets.length > 0) {
+    playSequentialAudioFiles(
+      sequentialAssets,
+      myToken,
+      onEnd,
+      () => {
+        if (canTryNetwork && notFileProtocol) {
+          playGoogleNaturalStream(clean, lang, myToken, onEnd, blobRate, onStart).catch(() => {
+            playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
+          });
+        } else {
           playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
-        });
-      } else {
-        playWebSpeech(clean, lang, myToken, onEnd, webRate, onStart);
-      }
-    }, onStart);
+        }
+      },
+      onStart
+    );
     return;
   }
 

@@ -206,6 +206,126 @@ const QUESTION_BANK = [
       { text: 'Basketball court 🏀', correct: false },
     ],
   },
+  {
+    emoji: '🍝',
+    q: "What is Deniz's absolute favorite food in the whole world?",
+    word: 'Spaghetti',
+    options: [
+      { text: 'Spaghetti Bolognese 🍝', correct: true },
+      { text: 'Broccoli soup 🥦', correct: false },
+      { text: 'Plain bread 🍞', correct: false },
+    ],
+  },
+  {
+    emoji: '🥈',
+    q: 'What shiny swimming medal is Deniz working hard to earn?',
+    word: 'Medal',
+    options: [
+      { text: 'Silver Medal (Silberabzeichen) 🥈', correct: true },
+      { text: 'Paper Badge 📄', correct: false },
+      { text: 'Wooden Coin 🪵', correct: false },
+    ],
+  },
+  {
+    emoji: '🎹',
+    q: 'On which day does Deniz play piano with teacher Jeremias?',
+    word: 'Piano',
+    options: [
+      { text: 'Monday 🎹', correct: true },
+      { text: 'Sunday midnight 🌙', correct: false },
+      { text: 'Never ❌', correct: false },
+    ],
+  },
+  {
+    emoji: '🏀',
+    q: 'On which day does Deniz practice basketball?',
+    word: 'Basketball',
+    options: [
+      { text: 'Wednesday 🏀', correct: true },
+      { text: 'Sunday 💤', correct: false },
+      { text: 'Only in winter ❄️', correct: false },
+    ],
+  },
+  {
+    emoji: '🏥',
+    q: 'Where does Mom Melis work as an anesthesiology doctor?',
+    word: 'Hospital',
+    options: [
+      { text: 'SAH Eschweiler Hospital 🏥', correct: true },
+      { text: 'At a bakery 🥖', correct: false },
+      { text: 'On a pirate ship 🏴‍☠️', correct: false },
+    ],
+  },
+  {
+    emoji: '📡',
+    q: 'What does Dad Dr. Ege design as an engineer?',
+    word: 'Engineer',
+    options: [
+      { text: '5G signals & networks 📡', correct: true },
+      { text: 'Teddy bears 🧸', correct: false },
+      { text: 'Skateboards 🛹', correct: false },
+    ],
+  },
+  {
+    emoji: '🏫',
+    q: 'Which school and class does Deniz attend in Aachen?',
+    word: 'School',
+    options: [
+      { text: 'GGS Laurensberg - Class 1b 🏫', correct: true },
+      { text: 'Art University 🎨', correct: false },
+      { text: 'Space Station 🚀', correct: false },
+    ],
+  },
+  {
+    emoji: '👩‍🏫',
+    q: 'Who is Deniz’s wonderful teacher at GGS Laurensberg?',
+    word: 'Teacher',
+    options: [
+      { text: 'Frau Schwarz 👩‍🏫', correct: true },
+      { text: 'Captain Hook 🏴‍☠️', correct: false },
+      { text: 'Pikachu ⚡', correct: false },
+    ],
+  },
+  {
+    emoji: '👦',
+    q: 'Who are Deniz’s school friends in Class 1b?',
+    word: 'Friends',
+    options: [
+      { text: 'Ojas, Elias, Julius, Vukasin & Liam 👦', correct: true },
+      { text: 'Only robots 🤖', correct: false },
+      { text: 'Aliens from Mars 👽', correct: false },
+    ],
+  },
+  {
+    emoji: '🏨',
+    q: 'Which hotel in Turkey does Deniz love staying at for holidays?',
+    word: 'Hotel',
+    options: [
+      { text: 'Nirvana Cosmopolitan 🏨', correct: true },
+      { text: 'A small tent ⛺', correct: false },
+      { text: 'A wooden shed 🪵', correct: false },
+    ],
+  },
+  {
+    emoji: '📺',
+    q: 'Which curious science TV shows does Deniz love watching?',
+    word: 'Show',
+    options: [
+      { text: 'Checker Tobi & Woozle Goozle 📺', correct: true },
+      { text: 'The silent news 📰', correct: false },
+      { text: 'Weather only 🌧️', correct: false },
+    ],
+  },
+  {
+    emoji: '🍮',
+    q: 'What sweet treats do Deniz, Mom Melis, and Dad Ege bake together?',
+    word: 'Cake',
+    options: [
+      { text: 'Fluffy cake and pudding 🍮', correct: true },
+      { text: 'Salty lemons 🍋', correct: false },
+      { text: 'Spicy chili 🌶️', correct: false },
+    ],
+  },
 ];
 
 export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {

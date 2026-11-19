@@ -6,13 +6,13 @@
 export const SCENES_DATA = [
   {
     id: 'classroom',
-    title: 'The Lego Classroom',
-    subtitle: 'Der Lego-Klassenraum • Lego Sınıfı',
+    title: 'GGS Laurensberg Class 1b',
+    subtitle: 'Frau Schwarz’s Classroom • Aachen 🇩🇪',
     icon: '🏫',
     badgeColor: 'bg-amber-500',
     borderColor: 'border-amber-600',
     accentColor: 'text-amber-600',
-    description: 'Find 7 differences inside the colorful Lego school!',
+    description: 'Find 7 differences inside Deniz’s colorful classroom with Frau Schwarz and friends!',
     differences: [
       {
         id: 'clock',
@@ -130,13 +130,13 @@ export const SCENES_DATA = [
   },
   {
     id: 'playground',
-    title: 'The Lego Playground',
-    subtitle: 'Der Lego-Spielplatz • Lego Oyun Parkı',
+    title: 'Laurensberg Park & Playground',
+    subtitle: 'Der Laurensberger Park • Laurensberg Parkı',
     icon: '🛝',
     badgeColor: 'bg-emerald-500',
     borderColor: 'border-emerald-600',
     accentColor: 'text-emerald-600',
-    description: 'Find 7 differences in the sunny park with slides and balls!',
+    description: 'Find 7 differences in sunny Laurensberg Park where Deniz plays with friends!',
     differences: [
       {
         id: 'slide',
@@ -254,13 +254,13 @@ export const SCENES_DATA = [
   },
   {
     id: 'city',
-    title: 'The Lego City Street',
-    subtitle: 'Die Lego-Stadtstraße • Lego Şehir Caddesi',
+    title: 'Aachen City & Streets',
+    subtitle: 'Aachen Stadtstraße • Aachen Caddesi',
     icon: '🚌',
     badgeColor: 'bg-blue-600',
     borderColor: 'border-blue-700',
     accentColor: 'text-blue-600',
-    description: 'Find 7 differences on the busy Lego road with vehicles!',
+    description: 'Find 7 differences around Aachen city, near Schlossparkstrasse and the cathedral!',
     differences: [
       {
         id: 'school_bus',

@@ -18,8 +18,8 @@ export default function MathGateModal({ isOpen, onClose, onSuccess, isMuted }) {
   }, [isOpen]);
 
   const generateQuestion = () => {
-    const a = Math.floor(Math.random() * 8) + 6; // 6 to 13
-    const b = Math.floor(Math.random() * 8) + 4; // 4 to 11
+    const a = Math.floor(Math.random() * 30) + 15; // 15 to 44
+    const b = Math.floor(Math.random() * 25) + 12; // 12 to 36
     setNum1(a);
     setNum2(b);
     setAnswer('');
@@ -83,10 +83,10 @@ export default function MathGateModal({ isOpen, onClose, onSuccess, isMuted }) {
             <Lock className="w-7 h-7" />
           </div>
           <h3 className="text-xl font-bold font-display text-slate-800">
-            Grown-ups Only 👨‍👩‍👧‍👦
+            Parents Only: Mom Melis & Dad Ege 👨‍👩‍👦
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            Solve this math puzzle to unlock the Parent Dashboard:
+            Solve this two-digit math puzzle to unlock the Parent Dashboard:
           </p>
         </div>
 

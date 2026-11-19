@@ -4727,6 +4727,11 @@ export const getMinifigureAccessories = (childName = 'Deniz') => [
   { id: 'cape', name: 'Superhero Cape', emoji: '🦸', icon: '🦸', cost: 3, description: `Super ${childName} saves the day!`, nameDe: 'Superhelden-Umhang', nameTr: 'Süper Kahraman Pelerini' },
   { id: 'sunglasses', name: 'Cool Sunglasses', emoji: '😎', icon: '🕶️', cost: 2, description: 'The coolest kid in class!', nameDe: 'Coole Sonnenbrille', nameTr: 'Havalı Güneş Gözlüğü' },
   { id: 'cap', name: 'Baseball Cap', emoji: '🧢', icon: '🧢', cost: 1, description: 'Ready for playground sports!', nameDe: 'Baseballkappe', nameTr: 'Beyzbol Şapkası' },
+  { id: 'silver_medal', name: 'Silver Swimming Medal', emoji: '🥈', icon: '🥈', cost: 3, description: `${childName}’s hard-earned Silberabzeichen swimming medal!`, nameDe: 'Silbernes Schwimmabzeichen', nameTr: 'Gümüş Yüzme Madalyası' },
+  { id: 'basketball_jersey', name: 'Basketball Jersey', emoji: '🏀', icon: '🏀', cost: 2, description: 'Ready for Wednesday basketball practice with the team!', nameDe: 'Basketballtrikot', nameTr: 'Basketbol Forması' },
+  { id: 'piano_bowtie', name: 'Concert Bowtie', emoji: '🎹', icon: '🎀', cost: 2, description: 'Dressed up for Monday piano class with Jeremias!', nameDe: 'Konzert-Fliege', nameTr: 'Konser Papyonu' },
+  { id: 'baker_hat', name: 'Master Baker Hat', emoji: '👨‍🍳', icon: '👨‍🍳', cost: 2, description: 'Baking delicious cake and pudding with Mom Melis & Dad Ege!', nameDe: 'Bäckermütze', nameTr: 'Usta Aşçı Şapkası' },
+  { id: 'checker_glasses', name: 'Checker Science Goggles', emoji: '🔬', icon: '🥽', cost: 3, description: 'Curious science questions like Checker Tobi & Woozle Goozle!', nameDe: 'Forscherbrille', nameTr: 'Checker Bilim Gözlüğü' },
 ];
 
 export const LEO_ACCESSORIES = getMinifigureAccessories('Deniz');

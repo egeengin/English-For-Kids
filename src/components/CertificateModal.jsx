@@ -105,7 +105,7 @@ export default function CertificateModal({
             <div className="text-center space-y-2 mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 border border-amber-300 rounded-full text-amber-800 text-xs font-black uppercase tracking-widest">
                 <Sparkles className="w-4 h-4 text-amber-600" />
-                <span>İngilizce Dünyası Akademisi</span>
+                <span>GGS Laurensberg • Class 1b • Aachen</span>
                 <Sparkles className="w-4 h-4 text-amber-600" />
               </div>
 
@@ -113,7 +113,7 @@ export default function CertificateModal({
                 CERTIFICATE OF ACHIEVEMENT
               </h1>
               <p className="text-sm sm:text-base font-semibold text-slate-500">
-                Official Early Reader English Fluency & Master Builder Honor
+                Official Early Reader, Lego Master Builder & Silver Swimmer Honor 🌟
               </p>
             </div>
 
@@ -123,34 +123,43 @@ export default function CertificateModal({
                 This prestigious award is proudly presented to:
               </p>
               <h2 className="text-3xl sm:text-5xl font-display font-black text-amber-600 tracking-wide uppercase">
-                {childName} (Age {childAge})
+                {childName} (Class 1b, Age {childAge})
               </h2>
+              <p className="text-xs text-amber-800 font-bold mt-1">
+                Teacher: Frau Schwarz • Schlossparkstr. 34, 52072 Aachen
+              </p>
             </div>
 
             {/* Description Paragraph */}
             <p className="text-center text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed mb-8">
-              For showing extraordinary curiosity, practicing spoken English with bravery and enthusiasm,
-              and mastering vocabulary while building bilingual superpowers in English, German (🇩🇪), and Turkish (🇹🇷)!
+              For showing extraordinary curiosity, mastering English words, building awesome Lego worlds,
+              excelling in two-digit math, and practicing with bravery in piano, basketball, and swimming!
             </p>
 
             {/* Badges / Stats Row */}
-            <div className="grid grid-cols-3 gap-3 max-w-lg mx-auto mb-8 text-center">
+            <div className="grid grid-cols-4 gap-2 sm:gap-3 max-w-xl mx-auto mb-8 text-center">
               <div className="p-3 bg-red-50 border-2 border-red-200 rounded-xl">
                 <span className="text-2xl">🧱</span>
                 <p className="text-lg font-black text-red-600">{totalBricks}</p>
-                <p className="text-[11px] font-bold text-slate-500 uppercase">Lego Bricks</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase">Lego Bricks</p>
               </div>
 
               <div className="p-3 bg-amber-50 border-2 border-amber-200 rounded-xl">
                 <span className="text-2xl">⭐</span>
                 <p className="text-lg font-black text-amber-600">{totalStars}</p>
-                <p className="text-[11px] font-bold text-slate-500 uppercase">Stars Earned</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase">Stars</p>
               </div>
 
               <div className="p-3 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
                 <span className="text-2xl">🗣️</span>
                 <p className="text-lg font-black text-emerald-600">{masteredWordsCount}</p>
-                <p className="text-[11px] font-bold text-slate-500 uppercase">Words Mastered</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase">Words</p>
+              </div>
+
+              <div className="p-3 bg-cyan-50 border-2 border-cyan-200 rounded-xl">
+                <span className="text-2xl">🥈</span>
+                <p className="text-lg font-black text-cyan-700">Silver</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase">Swimmer</p>
               </div>
             </div>
 
@@ -161,7 +170,7 @@ export default function CertificateModal({
                 <p className="font-semibold text-xs text-slate-800 pb-1 border-b border-slate-300">
                   {formattedDate}
                 </p>
-                <p className="text-[10px] uppercase font-bold text-slate-400 mt-1">Date Awarded</p>
+                <p className="text-[10px] uppercase font-bold text-slate-400 mt-1">Aachen, Germany</p>
               </div>
 
               {/* Golden Seal */}
@@ -169,15 +178,15 @@ export default function CertificateModal({
                 <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 border-4 border-amber-600 shadow-md flex items-center justify-center text-white">
                   <ShieldCheck className="w-8 h-8 text-amber-900" />
                 </div>
-                <p className="text-[10px] font-black text-amber-800 uppercase mt-1">Master Builder Seal</p>
+                <p className="text-[10px] font-black text-amber-800 uppercase mt-1">Lego Master Seal</p>
               </div>
 
               {/* Signature */}
               <div className="text-center w-1/3">
-                <p className="font-display font-black text-sm text-slate-800 pb-1 border-b border-slate-300 italic">
-                  Leo the Builder 🧱 & Coach Samantha
+                <p className="font-display font-black text-xs sm:text-sm text-slate-800 pb-1 border-b border-slate-300 italic">
+                  Leo 🧱 & Parents Melis & Dr. Ege
                 </p>
-                <p className="text-[10px] uppercase font-bold text-slate-400 mt-1">Academy Instructors</p>
+                <p className="text-[10px] uppercase font-bold text-slate-400 mt-1">Family & Academy</p>
               </div>
             </div>
 

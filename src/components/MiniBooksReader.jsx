@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 
 function getMiniBooks(childName = 'Deniz') {
@@ -248,6 +248,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   const [bookIdx, setBookIdx] = useState(0);
   const [pageIdx, setPageIdx] = useState(0); // 0..pages.length (last index = question)
   const [highlightIdx, setHighlightIdx] = useState(-1);
+  const [isReading, setIsReading] = useState(false);
   const [quizSolved, setQuizSolved] = useState(false);
   const timerRef = useRef(null);
   const readingSessionRef = useRef(0);
@@ -258,6 +259,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
 
   useEffect(() => {
     return () => {
+      stopSpeech();
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
@@ -267,6 +269,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     if (timerRef.current) clearInterval(timerRef.current);
     if (!sentence) return;
 
+    setIsReading(true);
     const words = sentence.split(' ');
     let hasStarted = false;
     let idx = 0;
@@ -284,7 +287,8 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = null;
       setHighlightIdx(-1);
-      setPageIdx((current) => Math.min(book.pages.length, current + 1));
+      setIsReading(false);
+      // Wait on page so the child hears the full story; continue with button!
     };
 
     if (isMuted) {
@@ -300,16 +304,41 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   useEffect(() => {
     if (isQuestionPage || !currentPage) return undefined;
     const timer = setTimeout(() => readLine(currentPage.text), 350);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      stopSpeech();
+    };
   }, [bookIdx, pageIdx, isQuestionPage, currentPage?.text, isMuted]);
+
+  const handlePrevPage = () => {
+    playTap(isMuted);
+    stopSpeech();
+    readingSessionRef.current += 1;
+    if (timerRef.current) clearInterval(timerRef.current);
+    setHighlightIdx(-1);
+    setIsReading(false);
+    setPageIdx((p) => Math.max(0, p - 1));
+  };
+
+  const handleNextPage = () => {
+    playTap(isMuted);
+    stopSpeech();
+    readingSessionRef.current += 1;
+    if (timerRef.current) clearInterval(timerRef.current);
+    setHighlightIdx(-1);
+    setIsReading(false);
+    setPageIdx((p) => Math.min(book.pages.length, p + 1));
+  };
 
   const selectBook = (idx) => {
     playTap(isMuted);
+    stopSpeech();
     readingSessionRef.current += 1;
     if (timerRef.current) clearInterval(timerRef.current);
     setBookIdx(idx);
     setPageIdx(0);
     setHighlightIdx(-1);
+    setIsReading(false);
     setQuizSolved(false);
   };
 
@@ -387,13 +416,8 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                 <button
                   type="button"
                   disabled={pageIdx === 0}
-                  onClick={() => {
-                    playTap(isMuted);
-                    readingSessionRef.current += 1;
-                    setHighlightIdx(-1);
-                    setPageIdx((p) => Math.max(0, p - 1));
-                  }}
-                  className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-black flex items-center gap-1 cursor-pointer"
+                  onClick={handlePrevPage}
+                  className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-black flex items-center gap-1 cursor-pointer transition transform active:scale-95"
                 >
                   <ArrowLeft className="w-5 h-5" />
                   <span>Geri</span>
@@ -402,24 +426,22 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                 <button
                   type="button"
                   onClick={() => readLine(currentPage.text)}
-                  className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-lg shadow-md flex items-center gap-2 cursor-pointer"
+                  className={`px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-lg shadow-md flex items-center gap-2 cursor-pointer transition transform active:scale-95 ${
+                    isReading ? 'ring-4 ring-blue-300' : ''
+                  }`}
                 >
-                  <Volume2 className="w-6 h-6" />
+                  <Volume2 className={`w-6 h-6 ${isReading ? 'animate-bounce' : ''}`} />
                   <span>Benim İçin Oku</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => {
-                    playTap(isMuted);
-                    readingSessionRef.current += 1;
-                    if (timerRef.current) clearInterval(timerRef.current);
-                    setHighlightIdx(-1);
-                    setPageIdx((p) => Math.min(book.pages.length, p + 1));
-                  }}
-                  className="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-lg shadow-md flex items-center gap-1 cursor-pointer"
+                  onClick={handleNextPage}
+                  className={`px-6 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-lg shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer transition transform active:scale-95 ${
+                    !isReading ? 'ring-4 ring-emerald-300 scale-105' : ''
+                  }`}
                 >
-                  <span>Sonraki</span>
+                  <span>{pageIdx === book.pages.length - 1 ? 'Soruya Geç' : 'Sonraki'}</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -433,7 +455,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
               <button
                 type="button"
                 onClick={() => !isMuted && speakEnglish(book.question)}
-                className="mb-5 px-4 py-2 rounded-xl bg-blue-100 text-blue-900 font-black text-sm inline-flex items-center gap-1.5 cursor-pointer"
+                className="mb-5 px-4 py-2 rounded-xl bg-blue-100 text-blue-900 font-black text-sm inline-flex items-center gap-1.5 cursor-pointer hover:bg-blue-200 transition"
               >
                 <Volume2 className="w-4 h-4" />
                 <span>Soruyu Dinle</span>
@@ -457,9 +479,29 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
               </div>
 
               {quizSolved && (
-                <div className="mt-5 inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-5 py-2.5 rounded-2xl font-black">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                  <span>Kitabı tamamladın! (+4 ⭐)</span>
+                <div className="mt-6 flex flex-col items-center gap-3">
+                  <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-5 py-2.5 rounded-2xl font-black">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <span>Kitabı tamamladın! (+4 ⭐)</span>
+                  </div>
+                  {bookIdx < books.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => selectBook(bookIdx + 1)}
+                      className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-display font-black text-lg shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>Sonraki Kitap ({books[bookIdx + 1].title}) 📚</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => selectBook(0)}
+                      className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-display font-black text-lg shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>İlk Kitaba Dön 🌟</span>
+                    </button>
+                  )}
                 </div>
               )}
             </div>

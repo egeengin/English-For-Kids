@@ -131,6 +131,32 @@ const common = [
 ];
 for (const c of common) add(c);
 
+// 11. Mini Books
+import { readFileSync } from 'node:fs';
+try {
+  const mbCode = readFileSync('src/components/MiniBooksReader.jsx', 'utf8');
+  const startIdx = mbCode.indexOf('function getMiniBooks');
+  const endIdx = mbCode.indexOf('export default function MiniBooksReader');
+  if (startIdx !== -1 && endIdx !== -1) {
+    const fnCode = mbCode.slice(startIdx, endIdx);
+    const getMiniBooksFn = new Function(fnCode + "; return getMiniBooks('Deniz');")();
+    for (const b of getMiniBooksFn || []) {
+      for (const p of b.pages || []) add(p.text);
+      add(b.question);
+      for (const opt of b.options || []) {
+        add(opt.text);
+        const cleanOpt = opt.text.replace(/[^\p{L}\p{N}\s]/gu, '').trim();
+        if (cleanOpt) {
+          add(cleanOpt);
+          add(`That is ${cleanOpt}. I am asking: ${b.question}`);
+        }
+      }
+    }
+  }
+} catch {
+  // ignore
+}
+
 const all = [...en].map((t) => ({ text: t, hash: hashClip(t) }));
 console.log('Total unique English speech texts:', all.length);
 await writeFile('scripts/speech_targets.json', `${JSON.stringify(all, null, 2)}\n`);

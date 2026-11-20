@@ -340,3 +340,47 @@ test('Review Tracker: phrase & word tracking with spaced-repetition priority sor
   assert.ok(summary.masteredWords.some((w) => w.word === 'It is sunny!'));
   assert.ok(summary.trickyWords.some((w) => w.word === 'A burger and fries, please!'));
 });
+
+test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do not auto-advance', async () => {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+
+  const readerCode = fs.readFileSync('src/components/MiniBooksReader.jsx', 'utf8');
+  assert.ok(readerCode.includes('nirvana_hotel_book'), 'Holiday at Nirvana book must exist');
+  assert.ok(readerCode.includes('Holiday at Nirvana Cosmopolitan'), 'Holiday at Nirvana title must exist');
+
+  // Verify finishReading does NOT auto-advance page
+  const finishReadingMatch = readerCode.match(/const finishReading = \(\) => {([\s\S]*?)};/);
+  assert.ok(finishReadingMatch, 'finishReading must be defined');
+  assert.ok(
+    !finishReadingMatch[1].includes('setPageIdx'),
+    'finishReading must not automatically turn pages; users must continue via the button'
+  );
+
+  // Verify navigation button handler exists
+  assert.ok(readerCode.includes('handleNextPage'), 'handleNextPage must exist for button-driven progression');
+
+  // Parse getMiniBooks
+  const startIdx = readerCode.indexOf('function getMiniBooks');
+  const endIdx = readerCode.indexOf('export default function MiniBooksReader');
+  const fnCode = readerCode.slice(startIdx, endIdx);
+  const getMiniBooksFn = new Function(fnCode + "; return getMiniBooks('Deniz');")();
+  assert.equal(getMiniBooksFn.length, 13, 'There should be 13 mini-books');
+
+  const nirvanaBook = getMiniBooksFn.find((b) => b.id === 'nirvana_hotel_book');
+  assert.ok(nirvanaBook, 'Nirvana book must exist in getMiniBooks');
+  assert.equal(nirvanaBook.pages.length, 4, 'Nirvana book must have 4 pages');
+
+  const manifest = JSON.parse(fs.readFileSync('public/audio/manifest.json', 'utf8'));
+
+  // Verify Nirvana pages exist in manifest and on disk
+  for (const page of nirvanaBook.pages) {
+    const key = `en:${page.text}`;
+    const asset = manifest[key] || manifest[key.toLowerCase()];
+    assert.ok(asset, `Manifest must contain Nirvana page: "${page.text}"`);
+    const filePath = path.join('public', `${asset}.m4a`);
+    assert.ok(fs.existsSync(filePath), `Audio file must exist on disk: ${filePath}`);
+    const stat = fs.statSync(filePath);
+    assert.ok(stat.size > 1000, `Audio file must be non-empty (>1KB): ${filePath}`);
+  }
+});

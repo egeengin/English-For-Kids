@@ -32,20 +32,44 @@
     "hash": "759f926dd58ffb9d"
   },
   {
-    "text": "Orange",
-    "hash": "df1620066a7d376e"
+    "text": "Purple",
+    "hash": "b844e272461125df"
   },
   {
-    "text": "Like a juicy sweet orange!",
-    "hash": "8df101ae48528b2d"
+    "text": "Like sweet purple grapes!",
+    "hash": "770b0c3bb30ed487"
+  },
+  {
+    "text": "Pink",
+    "hash": "870d0bba74d9b701"
+  },
+  {
+    "text": "Like a lovely pink flamingo!",
+    "hash": "4c0a03ae6f266ce8"
+  },
+  {
+    "text": "Brown",
+    "hash": "68e1d71a7e8ef9f2"
+  },
+  {
+    "text": "Like warm chocolate cake!",
+    "hash": "ae467ec83740b8f6"
+  },
+  {
+    "text": "Black",
+    "hash": "ebffc4c998df66af"
+  },
+  {
+    "text": "Like the deep night sky!",
+    "hash": "e4567e632b96b5ef"
   },
   {
     "text": "Circle",
     "hash": "75a61c0d3ebcccc3"
   },
   {
-    "text": "Round and round like a wheel!",
-    "hash": "6c3d78e40e51cc6f"
+    "text": "Round and smooth like a basketball!",
+    "hash": "2a1ade469acec479"
   },
   {
     "text": "Square",
@@ -60,136 +84,152 @@
     "hash": "cf8005a95e74f482"
   },
   {
-    "text": "Three corners like a Lego roof slope!",
-    "hash": "5b57b96a0c5574d9"
+    "text": "Three corners like a slice of pizza!",
+    "hash": "57277d5c2690b460"
   },
   {
     "text": "Star",
     "hash": "e6d2c326b4a33775"
   },
   {
-    "text": "Twinkling in the night sky!",
-    "hash": "0df855d0acb2b2ce"
+    "text": "Shining bright with five points!",
+    "hash": "830e603b5699cbac"
   },
   {
     "text": "Dog",
     "hash": "5a402ff4936141de"
   },
   {
-    "text": "Woof woof! Loves to play fetch!",
-    "hash": "005edafa50266b4e"
+    "text": "Barks happily and wags its tail!",
+    "hash": "7a2d138b3de9bf52"
   },
   {
     "text": "Cat",
     "hash": "4b4fca3ee1c2a234"
   },
   {
-    "text": "Meow! Loves milk and warm naps!",
-    "hash": "136296ae70b462ca"
+    "text": "Loves warm milk and sweet naps!",
+    "hash": "e2b6d86305a71bf8"
   },
   {
     "text": "Lion",
     "hash": "550b1665bcaa8d8f"
   },
   {
-    "text": "The king of the jungle with a big roar!",
-    "hash": "6e51a37abc088d90"
+    "text": "The brave king with a golden mane!",
+    "hash": "a4ae74b895f4a20e"
   },
   {
-    "text": "Elephant",
-    "hash": "af8425a0bfe483f8"
+    "text": "Tiger",
+    "hash": "1f6abfb9aa51255c"
   },
   {
-    "text": "Has a long trunk and big ears!",
-    "hash": "d52056e25f9f43bf"
+    "text": "Fast and striped in the jungle!",
+    "hash": "a6becef141b49feb"
   },
   {
-    "text": "Monkey",
-    "hash": "faf9974f5bcc34c2"
+    "text": "Bear",
+    "hash": "d5b8253595cf2b61"
   },
   {
-    "text": "Swings through trees and eats bananas!",
-    "hash": "f764beb5fe249305"
+    "text": "Big cuddly bear loves sweet honey!",
+    "hash": "8181a2e386409a49"
+  },
+  {
+    "text": "Fox",
+    "hash": "570493b192bd0a49"
+  },
+  {
+    "text": "Clever red fox with a bushy tail!",
+    "hash": "939ac99d42cd8d2e"
   },
   {
     "text": "Frog",
     "hash": "c7f1bb42ee10f279"
   },
   {
-    "text": "Ribbit ribbit! Jumps from lily pad to pad!",
-    "hash": "76a378a0e79b727f"
-  },
-  {
-    "text": "Bird",
-    "hash": "f37386db954fa440"
-  },
-  {
-    "text": "Flaps its wings and flies high in the sky!",
-    "hash": "5ea991992d5def3d"
+    "text": "Hops from lily pad to lily pad!",
+    "hash": "5794cccaef856383"
   },
   {
     "text": "Fish",
     "hash": "da53e093bd7681e4"
   },
   {
-    "text": "Swims in the clear blue water!",
-    "hash": "8890a0a435760caf"
+    "text": "Glides smoothly through deep water!",
+    "hash": "b56f1d973139bdc9"
+  },
+  {
+    "text": "Bird",
+    "hash": "f37386db954fa440"
+  },
+  {
+    "text": "Spreads its wings and chirps up high!",
+    "hash": "74a4474b38ae403c"
+  },
+  {
+    "text": "Duck",
+    "hash": "832c30239eba54e7"
+  },
+  {
+    "text": "Swims in the pond and quacks out loud!",
+    "hash": "467d232e8d934486"
+  },
+  {
+    "text": "Owl",
+    "hash": "4cfb288d59acc81a"
+  },
+  {
+    "text": "Wise bird that watches in the night!",
+    "hash": "05173e86e6301abf"
+  },
+  {
+    "text": "Monkey",
+    "hash": "faf9974f5bcc34c2"
+  },
+  {
+    "text": "Swings from branch to branch with a smile!",
+    "hash": "92ec78d118c36583"
   },
   {
     "text": "Car",
     "hash": "2851ebde9c2f6d12"
   },
   {
-    "text": "Beep beep! Vroom on four wheels!",
-    "hash": "7e077cf298e3ee7e"
+    "text": "Beep beep! Drives fast down the road!",
+    "hash": "8ba7686a99b3f438"
   },
   {
-    "text": "Airplane",
-    "hash": "a6d09926b3bec07b"
+    "text": "Bus",
+    "hash": "d113ae6b0d18495e"
   },
   {
-    "text": "Zooms above the white fluffy clouds!",
-    "hash": "05a1984139b9cf65"
+    "text": "Hop on board the big school bus!",
+    "hash": "f932e0b86cae5344"
   },
   {
     "text": "Train",
     "hash": "594aab33d7a12594"
   },
   {
-    "text": "Choo-choo along the shiny tracks!",
-    "hash": "480a214bdf027281"
+    "text": "Choo-choo! Rides along the iron rails!",
+    "hash": "79b080a3e80f55cf"
   },
   {
-    "text": "Rocket",
-    "hash": "bb74636b78bdaa56"
+    "text": "Bike",
+    "hash": "72a11be04f1f60c0"
   },
   {
-    "text": "3, 2, 1, Blast off into outer space!",
-    "hash": "7248cb5cb0419f48"
+    "text": "Pedal fast through the sunny park!",
+    "hash": "b582920abd972e79"
   },
   {
-    "text": "Boat",
-    "hash": "fa63528c72022324"
+    "text": "Scooter",
+    "hash": "80e4cf8f6f6eef7e"
   },
   {
-    "text": "Floats on water and explores islands!",
-    "hash": "91caa84369ae32a4"
-  },
-  {
-    "text": "Helicopter",
-    "hash": "d1aacf3210ae745f"
-  },
-  {
-    "text": "Spinning propeller blades lift it straight up!",
-    "hash": "9904c87dcd6342a5"
-  },
-  {
-    "text": "Bicycle",
-    "hash": "ad4d6003570def41"
-  },
-  {
-    "text": "Push the pedals and ring the bell!",
-    "hash": "68b1481d1d60a306"
+    "text": "Kick with one foot and glide away!",
+    "hash": "7fad7a61bbc561f3"
   },
   {
     "text": "Truck",
@@ -200,28 +240,1304 @@
     "hash": "562b60183ed675c2"
   },
   {
-    "text": "Tiger",
-    "hash": "1f6abfb9aa51255c"
+    "text": "Boat",
+    "hash": "fa63528c72022324"
   },
   {
-    "text": "Bear",
-    "hash": "d5b8253595cf2b61"
+    "text": "Sails smoothly on blue water!",
+    "hash": "9a624aca5cbed257"
+  },
+  {
+    "text": "Ship",
+    "hash": "71553e86bf62583f"
+  },
+  {
+    "text": "A giant ship across open oceans!",
+    "hash": "b209c760215a7506"
+  },
+  {
+    "text": "Rocket",
+    "hash": "bb74636b78bdaa56"
+  },
+  {
+    "text": "3, 2, 1 blast off to outer space!",
+    "hash": "533f8907917d16f1"
+  },
+  {
+    "text": "Airplane",
+    "hash": "a6d09926b3bec07b"
+  },
+  {
+    "text": "Soars high above white fluffy clouds!",
+    "hash": "4c2314bb91b00bd8"
+  },
+  {
+    "text": "Helicopter",
+    "hash": "d1aacf3210ae745f"
+  },
+  {
+    "text": "Spinning rotor blades hover in the air!",
+    "hash": "7b3ab74690cb8220"
+  },
+  {
+    "text": "Submarine",
+    "hash": "7f7bd95c912b370d"
+  },
+  {
+    "text": "Dives deep under the blue waves!",
+    "hash": "10ee92a96e7545f1"
+  },
+  {
+    "text": "Apple",
+    "hash": "22def5db2209fc13"
+  },
+  {
+    "text": "Crispy sweet red apple for snack!",
+    "hash": "9f06c079919aed4f"
+  },
+  {
+    "text": "Banana",
+    "hash": "9f93798d9354825c"
+  },
+  {
+    "text": "Peel the yellow banana and take a bite!",
+    "hash": "fcdc13f0ea15b1a7"
+  },
+  {
+    "text": "Grape",
+    "hash": "7984d8c276108232"
+  },
+  {
+    "text": "A juicy bunch of purple grapes!",
+    "hash": "6309b27d0666d932"
+  },
+  {
+    "text": "Pear",
+    "hash": "c8d260cdf3a147ce"
+  },
+  {
+    "text": "Sweet green pear straight from tree!",
+    "hash": "94d9a34eeb166693"
+  },
+  {
+    "text": "Peach",
+    "hash": "aa5b4509db93da28"
+  },
+  {
+    "text": "Soft peach with sweet juice!",
+    "hash": "aaaf09cf6e409e5c"
+  },
+  {
+    "text": "Melon",
+    "hash": "81642750ffa20207"
+  },
+  {
+    "text": "Cool juicy melon on a hot summer day!",
+    "hash": "a6f313d484e2c7c7"
+  },
+  {
+    "text": "Lemon",
+    "hash": "d30d4366b2f3045c"
+  },
+  {
+    "text": "Sour yellow lemon makes you blink!",
+    "hash": "474dd98116257d66"
+  },
+  {
+    "text": "Bread",
+    "hash": "40a9586bf3b26e5a"
+  },
+  {
+    "text": "Warm freshly baked bread smells amazing!",
+    "hash": "4a7ffdef719d6339"
+  },
+  {
+    "text": "Milk",
+    "hash": "d26807d79f7084a6"
+  },
+  {
+    "text": "A cold glass of milk makes bones strong!",
+    "hash": "b3ea6dade0492583"
+  },
+  {
+    "text": "Cheese",
+    "hash": "754c6eee2783a8fd"
+  },
+  {
+    "text": "Delicious cheese on fresh bread!",
+    "hash": "c268133be755f49f"
+  },
+  {
+    "text": "Pizza",
+    "hash": "939fccb1a71a20f7"
+  },
+  {
+    "text": "Hot slice of pizza with melted cheese!",
+    "hash": "8a29deae47fe32b5"
+  },
+  {
+    "text": "Cookie",
+    "hash": "14cb4db33a1f7e5d"
+  },
+  {
+    "text": "Crunchy sweet cookie with chocolate chips!",
+    "hash": "0728dcde1f8a31c8"
+  },
+  {
+    "text": "Book",
+    "hash": "91fab58ce4a0d4e9"
+  },
+  {
+    "text": "Open the book to read an adventure!",
+    "hash": "4a50819de5d9da2d"
+  },
+  {
+    "text": "Pen",
+    "hash": "79ba445c175666c4"
+  },
+  {
+    "text": "Write your story with blue ink!",
+    "hash": "4eaf72257375d54b"
+  },
+  {
+    "text": "Pencil",
+    "hash": "6dfbd9ec3073d803"
+  },
+  {
+    "text": "Sharpen your yellow pencil for school!",
+    "hash": "2b8dcb51b2b4c985"
+  },
+  {
+    "text": "Backpack",
+    "hash": "4f07d54ca6ea7397"
+  },
+  {
+    "text": "Zip up your backpack and head to class!",
+    "hash": "5f1cd0fc79bbda82"
+  },
+  {
+    "text": "Clock",
+    "hash": "e975fd274e883b0f"
+  },
+  {
+    "text": "Tick-tock says the clock on the wall!",
+    "hash": "0fd8604c9dad7b7c"
+  },
+  {
+    "text": "Puzzle",
+    "hash": "eb5cc48ffe00235b"
+  },
+  {
+    "text": "Fit the jigsaw puzzle pieces together!",
+    "hash": "524210bba7ae3f8a"
+  },
+  {
+    "text": "Toy",
+    "hash": "9c9fb37fc20c0397"
+  },
+  {
+    "text": "Share your favorite toy with your friend!",
+    "hash": "d548d544e2833b0a"
+  },
+  {
+    "text": "Game",
+    "hash": "e521e813c2270680"
+  },
+  {
+    "text": "Play a super fun game together!",
+    "hash": "65f0fd82912564ea"
+  },
+  {
+    "text": "Door",
+    "hash": "5c2ac3ad2d0b11da"
+  },
+  {
+    "text": "Knock on the door before you come in!",
+    "hash": "35be2fe78872237d"
+  },
+  {
+    "text": "Chair",
+    "hash": "a685547d59a01352"
+  },
+  {
+    "text": "Pull up a chair and sit by the table!",
+    "hash": "aa2ba5fb1b92fff1"
+  },
+  {
+    "text": "Table",
+    "hash": "9f2db4f24b974fc3"
+  },
+  {
+    "text": "Build your Lego castle on the table!",
+    "hash": "0118e29d79618d12"
+  },
+  {
+    "text": "Bed",
+    "hash": "4a2ab870357cd955"
+  },
+  {
+    "text": "Good night! Time to sleep in cozy bed!",
+    "hash": "2b6519e7f84b46c9"
+  },
+  {
+    "text": "Run",
+    "hash": "d767cb981ff0ba6b"
+  },
+  {
+    "text": "Run fast on the playground court!",
+    "hash": "35cf19bc001fe21e"
+  },
+  {
+    "text": "Walk",
+    "hash": "9c199ff3bf481e35"
+  },
+  {
+    "text": "Walk gently step by step!",
+    "hash": "6ca7c799171c3633"
+  },
+  {
+    "text": "Jump",
+    "hash": "e862d4057bbf298b"
+  },
+  {
+    "text": "Jump high up into the air!",
+    "hash": "16124c527f459ad5"
+  },
+  {
+    "text": "Swim",
+    "hash": "30b9b53a25bd09f2"
+  },
+  {
+    "text": "Swim like a little goldfish in the pool!",
+    "hash": "9cfdd39461bf5a33"
+  },
+  {
+    "text": "Fly",
+    "hash": "309e84e5d52e682b"
+  },
+  {
+    "text": "Fly high above the mountains!",
+    "hash": "4836cc03d1dd37a7"
+  },
+  {
+    "text": "Dance",
+    "hash": "7cd6305b7445c185"
+  },
+  {
+    "text": "Dance along with catchy music!",
+    "hash": "37600febcd4ccbf5"
+  },
+  {
+    "text": "Sing",
+    "hash": "49b8ece40c777c6f"
+  },
+  {
+    "text": "Sing your favorite English song!",
+    "hash": "2d9785b4bf02d929"
+  },
+  {
+    "text": "Smile",
+    "hash": "71c1335a9f321c2d"
+  },
+  {
+    "text": "Give a big sunny smile!",
+    "hash": "b7c0bdbec0b56105"
+  },
+  {
+    "text": "Sleep",
+    "hash": "5ee6a0c029ef336f"
+  },
+  {
+    "text": "Sleep soundly and dream sweet dreams!",
+    "hash": "ee6d8eb0f2d03592"
+  },
+  {
+    "text": "Play",
+    "hash": "06b2061d4d618c8e"
+  },
+  {
+    "text": "Let us play basketball together!",
+    "hash": "620256d5d1e307f8"
+  },
+  {
+    "text": "Read",
+    "hash": "e15514906f5bec0d"
+  },
+  {
+    "text": "Read cool books every single day!",
+    "hash": "0ff9f518259e43d8"
+  },
+  {
+    "text": "Draw",
+    "hash": "3f009ac2dfb632dc"
+  },
+  {
+    "text": "Draw a colorful spaceship rocket!",
+    "hash": "1c042a064aff3bc1"
+  },
+  {
+    "text": "Sun",
+    "hash": "014855610fce9a6d"
+  },
+  {
+    "text": "The sun shines bright and warms us up!",
+    "hash": "2babf49224b2d644"
+  },
+  {
+    "text": "Moon",
+    "hash": "ec0e467b96bde686"
+  },
+  {
+    "text": "The glowing moon smiles in the dark!",
+    "hash": "ded96445b3368f42"
+  },
+  {
+    "text": "Sky",
+    "hash": "481095f41076be86"
+  },
+  {
+    "text": "Look up at the clear blue sky!",
+    "hash": "c4c2f831fd87513b"
+  },
+  {
+    "text": "Cloud",
+    "hash": "8fa5a228872c9f63"
+  },
+  {
+    "text": "White fluffy cloud floats in breeze!",
+    "hash": "f9e8c4d9cb032867"
+  },
+  {
+    "text": "Rain",
+    "hash": "b99dba699b5e0d25"
+  },
+  {
+    "text": "Pitter-patter falls the cool rain!",
+    "hash": "19ffc6b9436ca52b"
+  },
+  {
+    "text": "Snow",
+    "hash": "f7b425b6a8907de7"
+  },
+  {
+    "text": "Catch a cold snowflake on your tongue!",
+    "hash": "721bc5aec8a70321"
+  },
+  {
+    "text": "Rainbow",
+    "hash": "4fc83cc89fd439a1"
+  },
+  {
+    "text": "A colorful rainbow after the rain!",
+    "hash": "b6b91644efeb2a2c"
+  },
+  {
+    "text": "Tree",
+    "hash": "e58a77ed0d204664"
+  },
+  {
+    "text": "A tall green tree gives cool shade!",
+    "hash": "a2ec4e08de3343cb"
+  },
+  {
+    "text": "Flower",
+    "hash": "5a8602c38445e539"
+  },
+  {
+    "text": "Sweet-smelling flower blooms in garden!",
+    "hash": "90c09e24062fd2d4"
+  },
+  {
+    "text": "Forest",
+    "hash": "bf5ea0fb26987e8b"
+  },
+  {
+    "text": "Walk peacefully through the green forest!",
+    "hash": "13f68996a164ac2b"
+  },
+  {
+    "text": "Sea",
+    "hash": "b7eb1998cfb4e2a3"
+  },
+  {
+    "text": "Watch the blue waves roll into the sea!",
+    "hash": "d0df83829d440b80"
+  },
+  {
+    "text": "Park",
+    "hash": "e71d658fb9c6450a"
+  },
+  {
+    "text": "Run and swing at the sunny park!",
+    "hash": "9e6e47ddd6643148"
+  },
+  {
+    "text": "One",
+    "hash": "3f623ce1a77e676d"
+  },
+  {
+    "text": "First number when counting 1 1",
+    "hash": "d34164a5fc36e8c9"
+  },
+  {
+    "text": "Two",
+    "hash": "7e4abaa9d7ba5d3d"
+  },
+  {
+    "text": "Like a pair of eyes 2",
+    "hash": "8e5d1e048a256ab4"
+  },
+  {
+    "text": "Three",
+    "hash": "6d937e72e040de66"
+  },
+  {
+    "text": "Sides on a triangle 3",
+    "hash": "e8f4445978fcb799"
+  },
+  {
+    "text": "Four",
+    "hash": "788ea6977811f5cc"
+  },
+  {
+    "text": "Wheels on a family car 4",
+    "hash": "dd03136fa0ba2763"
+  },
+  {
+    "text": "Five",
+    "hash": "3b14685d1cf07671"
+  },
+  {
+    "text": "Fingers on one hand 5",
+    "hash": "cd195b72af728324"
+  },
+  {
+    "text": "Six",
+    "hash": "f1096a36adbd9d7e"
+  },
+  {
+    "text": "Legs on a little ant 6",
+    "hash": "04a7a20d40170f24"
+  },
+  {
+    "text": "Seven",
+    "hash": "c41f04d74545bd86"
+  },
+  {
+    "text": "Days in one full week 7",
+    "hash": "80e089d071d6b70c"
+  },
+  {
+    "text": "Eight",
+    "hash": "322157f549227a8e"
+  },
+  {
+    "text": "Arms on an octopus 8",
+    "hash": "f3f763c84801b306"
+  },
+  {
+    "text": "Nine",
+    "hash": "7a18ed7a3524f3ba"
+  },
+  {
+    "text": "One less than ten 9",
+    "hash": "83e96791408df827"
+  },
+  {
+    "text": "Ten",
+    "hash": "16e2259025be6d2b"
+  },
+  {
+    "text": "All fingers on two hands",
+    "hash": "5d651e257fa922b9"
+  },
+  {
+    "text": "Eleven",
+    "hash": "58e1cf17cc9cf66f"
+  },
+  {
+    "text": "One more than ten",
+    "hash": "dddf1fc83fd71700"
+  },
+  {
+    "text": "Twelve",
+    "hash": "7655b2f5db498f37"
+  },
+  {
+    "text": "Hours on a clock face",
+    "hash": "49360ffe6e13b39e"
+  },
+  {
+    "text": "Head",
+    "hash": "c8acd44e4d725da5"
+  },
+  {
+    "text": "Where you wear a hat",
+    "hash": "2a9aa213f49ac17c"
+  },
+  {
+    "text": "Hair",
+    "hash": "75972836ca615be4"
+  },
+  {
+    "text": "Grows on top of your head",
+    "hash": "0acc2c37ddca8116"
+  },
+  {
+    "text": "Eye",
+    "hash": "3436212b15ea4131"
+  },
+  {
+    "text": "Helps you see colors",
+    "hash": "38dc89e1bef1c59c"
+  },
+  {
+    "text": "Ear",
+    "hash": "e158547fadec6234"
+  },
+  {
+    "text": "Helps you hear music",
+    "hash": "3a4979cecc641edc"
+  },
+  {
+    "text": "Nose",
+    "hash": "dca21f410322f3fa"
+  },
+  {
+    "text": "Helps you smell flowers",
+    "hash": "99487d9cb47ddcf5"
+  },
+  {
+    "text": "Mouth",
+    "hash": "2ee7b4d86fab5781"
+  },
+  {
+    "text": "Used to speak and smile",
+    "hash": "dd1420d76f2fb4e6"
+  },
+  {
+    "text": "Hand",
+    "hash": "a53bc16ef840a207"
+  },
+  {
+    "text": "Used to wave hello",
+    "hash": "5b229771921e76fb"
+  },
+  {
+    "text": "Arm",
+    "hash": "19a9712c315e6ac2"
+  },
+  {
+    "text": "Connects shoulder and hand",
+    "hash": "835cde57b18ee829"
+  },
+  {
+    "text": "Leg",
+    "hash": "5e3542603b093602"
+  },
+  {
+    "text": "Helps you run and jump",
+    "hash": "6e39d8b57b9f0e78"
+  },
+  {
+    "text": "Foot",
+    "hash": "d52816cb9f1ca5cf"
+  },
+  {
+    "text": "Goes inside your shoe",
+    "hash": "81b1019d54f5af35"
+  },
+  {
+    "text": "Finger",
+    "hash": "fd22453f67018005"
+  },
+  {
+    "text": "Five on every hand",
+    "hash": "28772fb304c96535"
+  },
+  {
+    "text": "Tooth",
+    "hash": "5ebb8d9f416bf4d4"
+  },
+  {
+    "text": "Brush it to stay shiny",
+    "hash": "664140523edff987"
+  },
+  {
+    "text": "Shirt",
+    "hash": "498b3ebaf14fed1f"
+  },
+  {
+    "text": "Worn on your upper body",
+    "hash": "8bf977f428a816d6"
+  },
+  {
+    "text": "Pants",
+    "hash": "d42f4e29debacd0a"
+  },
+  {
+    "text": "Covers both of your legs",
+    "hash": "cdc1b2a0b73199dc"
+  },
+  {
+    "text": "Dress",
+    "hash": "455c884feeafa4d5"
+  },
+  {
+    "text": "One-piece party outfit",
+    "hash": "e2649d961617ef1b"
+  },
+  {
+    "text": "Hat",
+    "hash": "f44618feceee455b"
+  },
+  {
+    "text": "Shades your head from sun",
+    "hash": "cbc08dd5a11353f1"
+  },
+  {
+    "text": "Shoe",
+    "hash": "fd1b70514d489706"
+  },
+  {
+    "text": "Protects your feet outside",
+    "hash": "17d3c8039a8d40cd"
+  },
+  {
+    "text": "Sock",
+    "hash": "c52f3c2a67d74b3b"
+  },
+  {
+    "text": "Keeps toes warm inside shoes",
+    "hash": "3a4c3d2dc8fd0c62"
+  },
+  {
+    "text": "Coat",
+    "hash": "0e0c94c654c63ce6"
+  },
+  {
+    "text": "Heavy layer for cold days",
+    "hash": "d7e4e1e3eefe7d3f"
+  },
+  {
+    "text": "Jacket",
+    "hash": "a56624bc9ff186ce"
+  },
+  {
+    "text": "Zipped top for cool breezes",
+    "hash": "7debbafed6cb0efc"
+  },
+  {
+    "text": "Glasses",
+    "hash": "cdc4ba58b48a3c84"
+  },
+  {
+    "text": "Helps eyes see super sharp",
+    "hash": "31034957df99fac8"
+  },
+  {
+    "text": "Scarf",
+    "hash": "1b82439f8cacd8d3"
+  },
+  {
+    "text": "Wraps warmly around your neck",
+    "hash": "ff6b27c5d3796075"
+  },
+  {
+    "text": "Glove",
+    "hash": "a1e9002b41ed8999"
+  },
+  {
+    "text": "Keeps hands warm in snow",
+    "hash": "2857e605bbf37e9e"
+  },
+  {
+    "text": "Belt",
+    "hash": "ea05e42254817b24"
+  },
+  {
+    "text": "Holds your pants in place",
+    "hash": "e008c926b0d023c2"
+  },
+  {
+    "text": "Mom",
+    "hash": "06f951dc45f779f4"
+  },
+  {
+    "text": "Loves and cares for you at home",
+    "hash": "728986bcba046d9c"
+  },
+  {
+    "text": "Dad",
+    "hash": "875697bf90b8967b"
+  },
+  {
+    "text": "Plays and builds with you",
+    "hash": "5a0ad30c2957ec13"
+  },
+  {
+    "text": "Baby",
+    "hash": "9dab3cf599f16e7c"
+  },
+  {
+    "text": "Tiny newest family member",
+    "hash": "0def3ad5585d6d85"
+  },
+  {
+    "text": "Sister",
+    "hash": "fc6bb17f309995a6"
+  },
+  {
+    "text": "A girl sibling in your family",
+    "hash": "7fd9cd088bcceabf"
+  },
+  {
+    "text": "Brother",
+    "hash": "d93c704eeebbab7e"
+  },
+  {
+    "text": "A boy sibling in your family",
+    "hash": "6bfd01b93770d0ab"
+  },
+  {
+    "text": "Grandma",
+    "hash": "44e98a5e6ec8c009"
+  },
+  {
+    "text": "Tells warm stories and bakes",
+    "hash": "d8fceb29e114f480"
+  },
+  {
+    "text": "Grandpa",
+    "hash": "ea5185c80791775b"
+  },
+  {
+    "text": "Wise and kind older hero",
+    "hash": "063f6a57eb81ad7d"
+  },
+  {
+    "text": "Friend",
+    "hash": "ff8c360788aa1ed2"
+  },
+  {
+    "text": "Shares games and laughs with you",
+    "hash": "9ebf9c21912705fc"
+  },
+  {
+    "text": "Teacher",
+    "hash": "26a4aaadae33f834"
+  },
+  {
+    "text": "Helps you learn at school",
+    "hash": "aee206686b5e5963"
+  },
+  {
+    "text": "Doctor",
+    "hash": "02b0f64723ab6345"
+  },
+  {
+    "text": "Helps you feel healthy again",
+    "hash": "fd92df19ceabbcd8"
+  },
+  {
+    "text": "Boy",
+    "hash": "bd95183e10620655"
+  },
+  {
+    "text": "A young male child",
+    "hash": "58293137707fe7c7"
+  },
+  {
+    "text": "Girl",
+    "hash": "7fac7aca383e27ee"
+  },
+  {
+    "text": "A young female child",
+    "hash": "f144b4aed5d0162e"
+  },
+  {
+    "text": "Happy",
+    "hash": "78a80aed16d2a673"
+  },
+  {
+    "text": "Smiling bright with joy",
+    "hash": "0e4c879a28c7b6f5"
+  },
+  {
+    "text": "Sad",
+    "hash": "4b541e836e40fa1f"
+  },
+  {
+    "text": "Feeling down with a frown",
+    "hash": "b9631f251691fe80"
+  },
+  {
+    "text": "Angry",
+    "hash": "0939a3c3480ec9b6"
+  },
+  {
+    "text": "When something feels unfair",
+    "hash": "b49f5d906c3a96a5"
+  },
+  {
+    "text": "Scared",
+    "hash": "31c3b65614983dee"
+  },
+  {
+    "text": "Spooked by a loud thunder",
+    "hash": "ddf727763fd27f55"
+  },
+  {
+    "text": "Tired",
+    "hash": "39837607e9b3d612"
+  },
+  {
+    "text": "Ready for bed and sleep",
+    "hash": "5470b74052fc6390"
+  },
+  {
+    "text": "Hungry",
+    "hash": "acc8d7f4cbe7769e"
+  },
+  {
+    "text": "Tummy is ready for lunch",
+    "hash": "91c53a14cff35e1b"
+  },
+  {
+    "text": "Big",
+    "hash": "f596e8cd24610e69"
+  },
+  {
+    "text": "Huge like a giant elephant",
+    "hash": "759bb46b6ad4905f"
+  },
+  {
+    "text": "Small",
+    "hash": "5f214b2fabbcb6e7"
+  },
+  {
+    "text": "Tiny like a little ladybug",
+    "hash": "5b8cc95d44ad89aa"
+  },
+  {
+    "text": "Fast",
+    "hash": "693a7c908bca230b"
+  },
+  {
+    "text": "Zooms quick like a cheetah",
+    "hash": "b02c78847d498704"
+  },
+  {
+    "text": "Slow",
+    "hash": "f16fd7766eea4e8a"
+  },
+  {
+    "text": "Takes its time like a snail",
+    "hash": "65c8747bffad4a3a"
+  },
+  {
+    "text": "Hot",
+    "hash": "22b271d6e870659d"
+  },
+  {
+    "text": "Warm like summer soup",
+    "hash": "7dbd9775baaa6543"
+  },
+  {
+    "text": "Cold",
+    "hash": "bf8e505eb7b5be65"
+  },
+  {
+    "text": "Chilly like ice cream",
+    "hash": "b66a0bd5d83a6a88"
+  },
+  {
+    "text": "Planet",
+    "hash": "fbbf2bcf343aa08b"
+  },
+  {
+    "text": "Round world orbiting a star",
+    "hash": "5fb7dbf166f7668f"
+  },
+  {
+    "text": "Astronaut",
+    "hash": "70b0a78cbcff1e41"
+  },
+  {
+    "text": "Explorer who flies to space",
+    "hash": "37805dc961b1b86c"
+  },
+  {
+    "text": "Galaxy",
+    "hash": "6ac0a722a6b3b7f4"
+  },
+  {
+    "text": "Billions of stars spinning",
+    "hash": "06b0748a113348d0"
+  },
+  {
+    "text": "Comet",
+    "hash": "87d0562f36d49050"
+  },
+  {
+    "text": "Icy space rock with a bright tail",
+    "hash": "5e09f81c2673fd05"
+  },
+  {
+    "text": "Telescope",
+    "hash": "be60b2d5dbf8346f"
+  },
+  {
+    "text": "Looks far into the night sky",
+    "hash": "44e3adcf08525af1"
+  },
+  {
+    "text": "Alien",
+    "hash": "e229af24fc817131"
+  },
+  {
+    "text": "Friendly visitor from another star",
+    "hash": "4c36ad585c14cffb"
+  },
+  {
+    "text": "Whale",
+    "hash": "d4aee4aff2cf8452"
+  },
+  {
+    "text": "Biggest gentle giant in the sea",
+    "hash": "aa7fff15b80f6022"
+  },
+  {
+    "text": "Dolphin",
+    "hash": "20b21f6dddaf480d"
+  },
+  {
+    "text": "Smart swimmer that leaps high",
+    "hash": "da0561406ea494f3"
+  },
+  {
+    "text": "Shark",
+    "hash": "2c41c2c77c4645cd"
+  },
+  {
+    "text": "Fast ocean hunter with fins",
+    "hash": "7a1bacfeacc323ac"
+  },
+  {
+    "text": "Octopus",
+    "hash": "f31eceea7cd60b11"
+  },
+  {
+    "text": "Clever sea animal with 8 arms",
+    "hash": "94a9d7ef595847e5"
+  },
+  {
+    "text": "Crab",
+    "hash": "3e7a61958e3bb0c0"
+  },
+  {
+    "text": "Walks sideways on sandy beaches",
+    "hash": "743828f73a022e8c"
+  },
+  {
+    "text": "Turtle",
+    "hash": "2ce3bcffeb803516"
+  },
+  {
+    "text": "Carries a strong shell home",
+    "hash": "162aa208d8ef86e0"
+  },
+  {
+    "text": "Morning",
+    "hash": "7311f73a4b503317"
+  },
+  {
+    "text": "When the sun rises for breakfast",
+    "hash": "c408524678c07e6f"
+  },
+  {
+    "text": "Night",
+    "hash": "a9883e75bd120d8d"
+  },
+  {
+    "text": "Dark sky full of stars",
+    "hash": "d60b735d9fa0c5ca"
+  },
+  {
+    "text": "Today",
+    "hash": "fabcc049a1b1b542"
+  },
+  {
+    "text": "Right now on this very day",
+    "hash": "4d01e6881babd184"
+  },
+  {
+    "text": "Tomorrow",
+    "hash": "a66c0f6e4517428d"
+  },
+  {
+    "text": "The day that comes next",
+    "hash": "cc4cbed61158b29c"
+  },
+  {
+    "text": "Spring",
+    "hash": "fc9373820a8a962a"
+  },
+  {
+    "text": "Season when fresh flowers bloom",
+    "hash": "24cf63cc51443bae"
+  },
+  {
+    "text": "Summer",
+    "hash": "493ae5c6687f044c"
+  },
+  {
+    "text": "Warmest sunny beach season",
+    "hash": "4d638d8bf065ca36"
+  },
+  {
+    "text": "Autumn",
+    "hash": "a1f51cf219504188"
+  },
+  {
+    "text": "Orange leaves falling from trees",
+    "hash": "aeb0ad07af75ac50"
+  },
+  {
+    "text": "Winter",
+    "hash": "17ee69fd7e2f7486"
+  },
+  {
+    "text": "Cold season for building snowmen",
+    "hash": "d853ee86e92bfaa3"
+  },
+  {
+    "text": "Monday",
+    "hash": "e4ef4c2bf0bdfe4b"
+  },
+  {
+    "text": "First school day of the week",
+    "hash": "80cce92df113519d"
+  },
+  {
+    "text": "Friday",
+    "hash": "96f5e567a885e129"
+  },
+  {
+    "text": "Last school day before weekend",
+    "hash": "a6a2cc439a91b64d"
+  },
+  {
+    "text": "Birthday",
+    "hash": "3c2f421bd3497289"
+  },
+  {
+    "text": "Special day with cake and candles",
+    "hash": "30c864cc9d5b4aa9"
+  },
+  {
+    "text": "Party",
+    "hash": "ccbcee8d3ff0acce"
+  },
+  {
+    "text": "Fun celebration with balloons",
+    "hash": "30926ae628a84735"
+  },
+  {
+    "text": "Spaghetti",
+    "hash": "ad4b711c8a6220fb"
+  },
+  {
+    "text": "Deniz's absolute 1 favorite food!",
+    "hash": "3c99a0a2ce63e924"
+  },
+  {
+    "text": "Pudding",
+    "hash": "00943b8071a6cefa"
+  },
+  {
+    "text": "Sweet pudding Deniz bakes with Mom Dad",
+    "hash": "d718d448a4ca7408"
+  },
+  {
+    "text": "Cake",
+    "hash": "2760f05ff7defcba"
+  },
+  {
+    "text": "Baking tasty chocolate cake together at home",
+    "hash": "16cd7745dcbb1d2f"
+  },
+  {
+    "text": "Swimming",
+    "hash": "8d0c2b815fb020b7"
+  },
+  {
+    "text": "Sunday swim practice aiming for the Silver Medal!",
+    "hash": "523454a3cde5800f"
+  },
+  {
+    "text": "Basketball",
+    "hash": "97496e2d15908b24"
+  },
+  {
+    "text": "Shooting hoops at Wednesday basketball course!",
+    "hash": "34d654b15e583ee7"
+  },
+  {
+    "text": "Piano",
+    "hash": "a9721c944e39f6fe"
+  },
+  {
+    "text": "Monday piano melodies with teacher Jeremias",
+    "hash": "7787bedff9809bc4"
+  },
+  {
+    "text": "Lego",
+    "hash": "d2462837f73c218b"
+  },
+  {
+    "text": "Master builder Deniz finishing giant sets",
+    "hash": "83561a4b9133f939"
+  },
+  {
+    "text": "School",
+    "hash": "4a02ad8d4bacf385"
+  },
+  {
+    "text": "Class 1b at GGS Laurensberg with Frau Schwarz",
+    "hash": "871e84d225c4fb2e"
+  },
+  {
+    "text": "Aachen",
+    "hash": "fbbd78e1dc0595ec"
+  },
+  {
+    "text": "Deniz’s hometown at Schlossparkstr.",
+    "hash": "41487524d3e20987"
+  },
+  {
+    "text": "Hotel",
+    "hash": "eebf2a65a12c5ed6"
+  },
+  {
+    "text": "Holiday luxury at Nirvana Cosmopolitan hotel",
+    "hash": "586dbedd06d9eedf"
+  },
+  {
+    "text": "Turkey",
+    "hash": "a3ba08960d20820f"
+  },
+  {
+    "text": "Sunny holidays visiting family and beach fun",
+    "hash": "91bb3633cd09b630"
+  },
+  {
+    "text": "Show",
+    "hash": "6061d5db14103787"
+  },
+  {
+    "text": "Watching Checker Tobi and Woozle Goozle on TV",
+    "hash": "2f2b0663c743c1da"
+  },
+  {
+    "text": "Engineer",
+    "hash": "03bfcc7ebe2d2d10"
+  },
+  {
+    "text": "Like Dad Ege designing fast 5G satellites",
+    "hash": "2fe2432f0a306dc9"
+  },
+  {
+    "text": "Scientist",
+    "hash": "7a044ef35e3a2cab"
+  },
+  {
+    "text": "Mom Melis caring for people Dad Ege’s PhD",
+    "hash": "b3ff174b21ae7f27"
+  },
+  {
+    "text": "Hospital",
+    "hash": "5a442956e58edd91"
+  },
+  {
+    "text": "Where Mom Melis helps patients stay safe and heal",
+    "hash": "05ecc718fcc5fead"
+  },
+  {
+    "text": "Plus",
+    "hash": "5dc162a292e90d38"
+  },
+  {
+    "text": "Adding two-digit numbers like a math wizard",
+    "hash": "c0fd4ffa8a54dd22"
+  },
+  {
+    "text": "Minus",
+    "hash": "356e762aded6c069"
+  },
+  {
+    "text": "Taking away numbers in clever math puzzles",
+    "hash": "e482fba2173f118c"
+  },
+  {
+    "text": "Equal",
+    "hash": "2951fa4b0d7ae79f"
+  },
+  {
+    "text": "When both sides of math balance perfectly",
+    "hash": "6483eaea7038e1e4"
+  },
+  {
+    "text": "Solve",
+    "hash": "0861e0c8f6350a7f"
+  },
+  {
+    "text": "Cracking math puzzles and building challenges",
+    "hash": "ce00f1431fa7e682"
+  },
+  {
+    "text": "Signal",
+    "hash": "75aca0785542ebd9"
+  },
+  {
+    "text": "Invisible waves connecting phones across the world",
+    "hash": "243c0283b19d370d"
+  },
+  {
+    "text": "Medal",
+    "hash": "576d98bbc19767f6"
+  },
+  {
+    "text": "Deniz’s shiny Silver swimming medal goal!",
+    "hash": "7500ac63c669e353"
+  },
+  {
+    "text": "Question",
+    "hash": "54590a4da3255fe7"
+  },
+  {
+    "text": "Asking Dad Ege and Mom Melis cool facts",
+    "hash": "d11cc19b00eb40f7"
+  },
+  {
+    "text": "Answer",
+    "hash": "c51eca67892bb38d"
+  },
+  {
+    "text": "Finding the true solution and winning gold stars",
+    "hash": "ee7e09ceee32ae7c"
+  },
+  {
+    "text": "Genius",
+    "hash": "2296b1ab2701d1b2"
+  },
+  {
+    "text": "Super smart Lego master builder Deniz",
+    "hash": "23d250f210e8cd26"
   },
   {
     "text": "Wolf",
     "hash": "acd77d45c3b58bbf"
-  },
-  {
-    "text": "Fox",
-    "hash": "570493b192bd0a49"
-  },
-  {
-    "text": "Duck",
-    "hash": "832c30239eba54e7"
-  },
-  {
-    "text": "Owl",
-    "hash": "4cfb288d59acc81a"
   },
   {
     "text": "Eagle",
@@ -268,24 +1584,8 @@
     "hash": "a22357082153e4ce"
   },
   {
-    "text": "Whale",
-    "hash": "d4aee4aff2cf8452"
-  },
-  {
-    "text": "Shark",
-    "hash": "2c41c2c77c4645cd"
-  },
-  {
-    "text": "Dolphin",
-    "hash": "20b21f6dddaf480d"
-  },
-  {
     "text": "Seal",
     "hash": "1dd11a9042116261"
-  },
-  {
-    "text": "Crab",
-    "hash": "3e7a61958e3bb0c0"
   },
   {
     "text": "Bee",
@@ -308,10 +1608,6 @@
     "hash": "4516a55862fe89f0"
   },
   {
-    "text": "Turtle",
-    "hash": "2ce3bcffeb803516"
-  },
-  {
     "text": "Lizard",
     "hash": "dfa77e0881122155"
   },
@@ -326,6 +1622,10 @@
   {
     "text": "Giraffe",
     "hash": "b8ca48c6122aad6d"
+  },
+  {
+    "text": "Elephant",
+    "hash": "af8425a0bfe483f8"
   },
   {
     "text": "Rhino",
@@ -360,10 +1660,6 @@
     "hash": "8fc3e7faf662890f"
   },
   {
-    "text": "Turkey",
-    "hash": "a3ba08960d20820f"
-  },
-  {
     "text": "Parrot",
     "hash": "c4f2db4f184984bb"
   },
@@ -376,36 +1672,12 @@
     "hash": "8cdc465d10f4a7b2"
   },
   {
-    "text": "Apple",
-    "hash": "22def5db2209fc13"
-  },
-  {
-    "text": "Banana",
-    "hash": "9f93798d9354825c"
-  },
-  {
-    "text": "Grape",
-    "hash": "7984d8c276108232"
-  },
-  {
-    "text": "Pear",
-    "hash": "c8d260cdf3a147ce"
-  },
-  {
-    "text": "Peach",
-    "hash": "aa5b4509db93da28"
+    "text": "Orange",
+    "hash": "df1620066a7d376e"
   },
   {
     "text": "Cherry",
     "hash": "dbc2a3259ed64300"
-  },
-  {
-    "text": "Melon",
-    "hash": "81642750ffa20207"
-  },
-  {
-    "text": "Lemon",
-    "hash": "d30d4366b2f3045c"
   },
   {
     "text": "Mango",
@@ -456,10 +1728,6 @@
     "hash": "e40d426e05732538"
   },
   {
-    "text": "Bread",
-    "hash": "40a9586bf3b26e5a"
-  },
-  {
     "text": "Toast",
     "hash": "99dab5b5ccd5d0ed"
   },
@@ -468,28 +1736,12 @@
     "hash": "aa66ee1be9e5b267"
   },
   {
-    "text": "Cheese",
-    "hash": "754c6eee2783a8fd"
-  },
-  {
-    "text": "Milk",
-    "hash": "d26807d79f7084a6"
-  },
-  {
     "text": "Egg",
     "hash": "f6aca9ddd8c70ab2"
   },
   {
     "text": "Honey",
     "hash": "4821a3a788122d2e"
-  },
-  {
-    "text": "Cake",
-    "hash": "2760f05ff7defcba"
-  },
-  {
-    "text": "Cookie",
-    "hash": "14cb4db33a1f7e5d"
   },
   {
     "text": "Pie",
@@ -518,10 +1770,6 @@
   {
     "text": "Salad",
     "hash": "25512c86050b34f5"
-  },
-  {
-    "text": "Pizza",
-    "hash": "939fccb1a71a20f7"
   },
   {
     "text": "Pasta",
@@ -580,30 +1828,6 @@
     "hash": "4d56677c4c4e5b4d"
   },
   {
-    "text": "Sun",
-    "hash": "014855610fce9a6d"
-  },
-  {
-    "text": "Moon",
-    "hash": "ec0e467b96bde686"
-  },
-  {
-    "text": "Sky",
-    "hash": "481095f41076be86"
-  },
-  {
-    "text": "Cloud",
-    "hash": "8fa5a228872c9f63"
-  },
-  {
-    "text": "Rain",
-    "hash": "b99dba699b5e0d25"
-  },
-  {
-    "text": "Snow",
-    "hash": "f7b425b6a8907de7"
-  },
-  {
     "text": "Wind",
     "hash": "09e29447d545cff0"
   },
@@ -616,10 +1840,6 @@
     "hash": "ccf83178a48a9801"
   },
   {
-    "text": "Rainbow",
-    "hash": "4fc83cc89fd439a1"
-  },
-  {
     "text": "Fog",
     "hash": "1899cdfc78615800"
   },
@@ -630,10 +1850,6 @@
   {
     "text": "Fire",
     "hash": "8cadf1736576dea0"
-  },
-  {
-    "text": "Sea",
-    "hash": "b7eb1998cfb4e2a3"
   },
   {
     "text": "Ocean",
@@ -684,16 +1900,8 @@
     "hash": "2889e2033e40a905"
   },
   {
-    "text": "Forest",
-    "hash": "bf5ea0fb26987e8b"
-  },
-  {
     "text": "Jungle",
     "hash": "3b6c7cea106e98d1"
-  },
-  {
-    "text": "Tree",
-    "hash": "e58a77ed0d204664"
   },
   {
     "text": "Leaf",
@@ -706,10 +1914,6 @@
   {
     "text": "Root",
     "hash": "d3e7f348a7b00019"
-  },
-  {
-    "text": "Flower",
-    "hash": "5a8602c38445e539"
   },
   {
     "text": "Rose",
@@ -756,22 +1960,6 @@
     "hash": "33766f1c9929464f"
   },
   {
-    "text": "Spring",
-    "hash": "fc9373820a8a962a"
-  },
-  {
-    "text": "Summer",
-    "hash": "493ae5c6687f044c"
-  },
-  {
-    "text": "Autumn",
-    "hash": "a1f51cf219504188"
-  },
-  {
-    "text": "Winter",
-    "hash": "17ee69fd7e2f7486"
-  },
-  {
     "text": "Garden",
     "hash": "537e5e2e4170c8ad"
   },
@@ -796,10 +1984,6 @@
     "hash": "4808e421fc85ed3b"
   },
   {
-    "text": "Door",
-    "hash": "5c2ac3ad2d0b11da"
-  },
-  {
     "text": "Window",
     "hash": "b6ffe22c35e94a36"
   },
@@ -820,24 +2004,12 @@
     "hash": "5d0fd48adf0cca4b"
   },
   {
-    "text": "Bed",
-    "hash": "4a2ab870357cd955"
-  },
-  {
     "text": "Pillow",
     "hash": "e30ba9aea122ce0e"
   },
   {
     "text": "Blanket",
     "hash": "d7213c9c11d69719"
-  },
-  {
-    "text": "Chair",
-    "hash": "a685547d59a01352"
-  },
-  {
-    "text": "Table",
-    "hash": "9f2db4f24b974fc3"
   },
   {
     "text": "Desk",
@@ -850,10 +2022,6 @@
   {
     "text": "Lamp",
     "hash": "8ff431d82cedf7ac"
-  },
-  {
-    "text": "Clock",
-    "hash": "e975fd274e883b0f"
   },
   {
     "text": "Mirror",
@@ -876,28 +2044,12 @@
     "hash": "e2fd4685c1b5052d"
   },
   {
-    "text": "Backpack",
-    "hash": "4f07d54ca6ea7397"
-  },
-  {
-    "text": "Book",
-    "hash": "91fab58ce4a0d4e9"
-  },
-  {
     "text": "Notebook",
     "hash": "ebcedb2f21b88400"
   },
   {
     "text": "Paper",
     "hash": "b288323acce8db26"
-  },
-  {
-    "text": "Pen",
-    "hash": "79ba445c175666c4"
-  },
-  {
-    "text": "Pencil",
-    "hash": "6dfbd9ec3073d803"
   },
   {
     "text": "Eraser",
@@ -936,24 +2088,12 @@
     "hash": "cdaf5daa58cf0a15"
   },
   {
-    "text": "School",
-    "hash": "4a02ad8d4bacf385"
-  },
-  {
     "text": "Class",
     "hash": "92a277b415fcfe73"
   },
   {
-    "text": "Teacher",
-    "hash": "26a4aaadae33f834"
-  },
-  {
     "text": "Student",
     "hash": "7dbd38a05bc3ee1b"
-  },
-  {
-    "text": "Friend",
-    "hash": "ff8c360788aa1ed2"
   },
   {
     "text": "Bell",
@@ -990,22 +2130,6 @@
   {
     "text": "Fork",
     "hash": "8b9ee6fda0164d21"
-  },
-  {
-    "text": "Purple",
-    "hash": "b844e272461125df"
-  },
-  {
-    "text": "Pink",
-    "hash": "870d0bba74d9b701"
-  },
-  {
-    "text": "Brown",
-    "hash": "68e1d71a7e8ef9f2"
-  },
-  {
-    "text": "Black",
-    "hash": "ebffc4c998df66af"
   },
   {
     "text": "White",
@@ -1054,54 +2178,6 @@
   {
     "text": "Zero",
     "hash": "89bc4d4013696ff8"
-  },
-  {
-    "text": "One",
-    "hash": "3f623ce1a77e676d"
-  },
-  {
-    "text": "Two",
-    "hash": "7e4abaa9d7ba5d3d"
-  },
-  {
-    "text": "Three",
-    "hash": "6d937e72e040de66"
-  },
-  {
-    "text": "Four",
-    "hash": "788ea6977811f5cc"
-  },
-  {
-    "text": "Five",
-    "hash": "3b14685d1cf07671"
-  },
-  {
-    "text": "Six",
-    "hash": "f1096a36adbd9d7e"
-  },
-  {
-    "text": "Seven",
-    "hash": "c41f04d74545bd86"
-  },
-  {
-    "text": "Eight",
-    "hash": "322157f549227a8e"
-  },
-  {
-    "text": "Nine",
-    "hash": "7a18ed7a3524f3ba"
-  },
-  {
-    "text": "Ten",
-    "hash": "16e2259025be6d2b"
-  },
-  {
-    "text": "Eleven",
-    "hash": "58e1cf17cc9cf66f"
-  },
-  {
-    "text": "Twelve",
-    "hash": "7655b2f5db498f37"
   },
   {
     "text": "Thirteen",
@@ -1172,20 +2248,12 @@
     "hash": "34fcdff2de1b9c4c"
   },
   {
-    "text": "Bus",
-    "hash": "d113ae6b0d18495e"
-  },
-  {
     "text": "Tram",
     "hash": "1298d255063a7ca6"
   },
   {
-    "text": "Bike",
-    "hash": "72a11be04f1f60c0"
-  },
-  {
-    "text": "Scooter",
-    "hash": "80e4cf8f6f6eef7e"
+    "text": "Bicycle",
+    "hash": "ad4d6003570def41"
   },
   {
     "text": "Van",
@@ -1198,10 +2266,6 @@
   {
     "text": "Jeep",
     "hash": "b9190d31fb394985"
-  },
-  {
-    "text": "Ship",
-    "hash": "71553e86bf62583f"
   },
   {
     "text": "Yacht",
@@ -1228,10 +2292,6 @@
     "hash": "d5d5d3feb35d2982"
   },
   {
-    "text": "Planet",
-    "hash": "fbbf2bcf343aa08b"
-  },
-  {
     "text": "Mars",
     "hash": "731b939420179e2a"
   },
@@ -1248,20 +2308,8 @@
     "hash": "e9735c6f3d4288cf"
   },
   {
-    "text": "Comet",
-    "hash": "87d0562f36d49050"
-  },
-  {
-    "text": "Galaxy",
-    "hash": "6ac0a722a6b3b7f4"
-  },
-  {
     "text": "Orbit",
     "hash": "69fbdcd140e97af2"
-  },
-  {
-    "text": "Astronaut",
-    "hash": "70b0a78cbcff1e41"
   },
   {
     "text": "Helmet",
@@ -1328,10 +2376,6 @@
     "hash": "aa71448db2ffb4ce"
   },
   {
-    "text": "Signal",
-    "hash": "75aca0785542ebd9"
-  },
-  {
     "text": "Compass",
     "hash": "65092d89ef030ac6"
   },
@@ -1348,18 +2392,6 @@
     "hash": "fc5335ed7f28d894"
   },
   {
-    "text": "Run",
-    "hash": "d767cb981ff0ba6b"
-  },
-  {
-    "text": "Walk",
-    "hash": "9c199ff3bf481e35"
-  },
-  {
-    "text": "Jump",
-    "hash": "e862d4057bbf298b"
-  },
-  {
     "text": "Hop",
     "hash": "0fe0e174139221b0"
   },
@@ -1368,32 +2400,12 @@
     "hash": "348d03751406de15"
   },
   {
-    "text": "Swim",
-    "hash": "30b9b53a25bd09f2"
-  },
-  {
     "text": "Dive",
     "hash": "1b6e15018ece6a8f"
   },
   {
-    "text": "Fly",
-    "hash": "309e84e5d52e682b"
-  },
-  {
-    "text": "Dance",
-    "hash": "7cd6305b7445c185"
-  },
-  {
-    "text": "Sing",
-    "hash": "49b8ece40c777c6f"
-  },
-  {
     "text": "Clap",
     "hash": "53fe977a0725623d"
-  },
-  {
-    "text": "Smile",
-    "hash": "71c1335a9f321c2d"
   },
   {
     "text": "Laugh",
@@ -1402,10 +2414,6 @@
   {
     "text": "Cry",
     "hash": "a29644f596667e23"
-  },
-  {
-    "text": "Sleep",
-    "hash": "5ee6a0c029ef336f"
   },
   {
     "text": "Wake",
@@ -1432,16 +2440,8 @@
     "hash": "68069b37d7d03e13"
   },
   {
-    "text": "Read",
-    "hash": "e15514906f5bec0d"
-  },
-  {
     "text": "Write",
     "hash": "57a609e8acf65495"
-  },
-  {
-    "text": "Draw",
-    "hash": "3f009ac2dfb632dc"
   },
   {
     "text": "Paint",
@@ -1450,10 +2450,6 @@
   {
     "text": "Count",
     "hash": "b2c9affa1bb0483c"
-  },
-  {
-    "text": "Play",
-    "hash": "06b2061d4d618c8e"
   },
   {
     "text": "Kick",
@@ -1552,40 +2548,16 @@
     "hash": "118f7987d557e823"
   },
   {
-    "text": "Hat",
-    "hash": "f44618feceee455b"
-  },
-  {
     "text": "Cap",
     "hash": "4f3a91ab0e868e5d"
-  },
-  {
-    "text": "Coat",
-    "hash": "0e0c94c654c63ce6"
-  },
-  {
-    "text": "Jacket",
-    "hash": "a56624bc9ff186ce"
-  },
-  {
-    "text": "Shirt",
-    "hash": "498b3ebaf14fed1f"
   },
   {
     "text": "Sweater",
     "hash": "a8d9903d460e3ff9"
   },
   {
-    "text": "Dress",
-    "hash": "455c884feeafa4d5"
-  },
-  {
     "text": "Skirt",
     "hash": "4e86c3119da8264a"
-  },
-  {
-    "text": "Pants",
-    "hash": "d42f4e29debacd0a"
   },
   {
     "text": "Jeans",
@@ -1612,18 +2584,6 @@
     "hash": "462a25302cfd85c2"
   },
   {
-    "text": "Scarf",
-    "hash": "1b82439f8cacd8d3"
-  },
-  {
-    "text": "Belt",
-    "hash": "ea05e42254817b24"
-  },
-  {
-    "text": "Glasses",
-    "hash": "cdc4ba58b48a3c84"
-  },
-  {
     "text": "Watch",
     "hash": "ede63ec3a3269fff"
   },
@@ -1644,36 +2604,8 @@
     "hash": "638ce71a4e21fa23"
   },
   {
-    "text": "Head",
-    "hash": "c8acd44e4d725da5"
-  },
-  {
-    "text": "Hair",
-    "hash": "75972836ca615be4"
-  },
-  {
     "text": "Face",
     "hash": "94b7a1a6a175f6a5"
-  },
-  {
-    "text": "Eye",
-    "hash": "3436212b15ea4131"
-  },
-  {
-    "text": "Ear",
-    "hash": "e158547fadec6234"
-  },
-  {
-    "text": "Nose",
-    "hash": "dca21f410322f3fa"
-  },
-  {
-    "text": "Mouth",
-    "hash": "2ee7b4d86fab5781"
-  },
-  {
-    "text": "Tooth",
-    "hash": "5ebb8d9f416bf4d4"
   },
   {
     "text": "Tongue",
@@ -1688,36 +2620,16 @@
     "hash": "2dc95693105f0f12"
   },
   {
-    "text": "Arm",
-    "hash": "19a9712c315e6ac2"
-  },
-  {
     "text": "Elbow",
     "hash": "095ca8ed4d7ec3c1"
-  },
-  {
-    "text": "Hand",
-    "hash": "a53bc16ef840a207"
-  },
-  {
-    "text": "Finger",
-    "hash": "fd22453f67018005"
   },
   {
     "text": "Thumb",
     "hash": "979dbe9f6ecb2958"
   },
   {
-    "text": "Leg",
-    "hash": "5e3542603b093602"
-  },
-  {
     "text": "Knee",
     "hash": "0a9f9234396976f5"
-  },
-  {
-    "text": "Foot",
-    "hash": "d52816cb9f1ca5cf"
   },
   {
     "text": "Toe",
@@ -1760,14 +2672,6 @@
     "hash": "8677c70804bf5778"
   },
   {
-    "text": "Big",
-    "hash": "f596e8cd24610e69"
-  },
-  {
-    "text": "Small",
-    "hash": "5f214b2fabbcb6e7"
-  },
-  {
     "text": "Tall",
     "hash": "e95cb86fb06148c1"
   },
@@ -1782,22 +2686,6 @@
   {
     "text": "Wide",
     "hash": "42515c08539fb465"
-  },
-  {
-    "text": "Fast",
-    "hash": "693a7c908bca230b"
-  },
-  {
-    "text": "Slow",
-    "hash": "f16fd7766eea4e8a"
-  },
-  {
-    "text": "Hot",
-    "hash": "22b271d6e870659d"
-  },
-  {
-    "text": "Cold",
-    "hash": "bf8e505eb7b5be65"
   },
   {
     "text": "Warm",
@@ -1844,36 +2732,12 @@
     "hash": "e0e068a457dafd95"
   },
   {
-    "text": "Happy",
-    "hash": "78a80aed16d2a673"
-  },
-  {
-    "text": "Sad",
-    "hash": "4b541e836e40fa1f"
-  },
-  {
-    "text": "Angry",
-    "hash": "0939a3c3480ec9b6"
-  },
-  {
-    "text": "Scared",
-    "hash": "31c3b65614983dee"
-  },
-  {
     "text": "Proud",
     "hash": "c86db5ddb60cffc3"
   },
   {
     "text": "Shy",
     "hash": "503c4c746b6cc1fa"
-  },
-  {
-    "text": "Tired",
-    "hash": "39837607e9b3d612"
-  },
-  {
-    "text": "Hungry",
-    "hash": "acc8d7f4cbe7769e"
   },
   {
     "text": "Thirsty",
@@ -1968,10 +2832,6 @@
     "hash": "cce14dac299d4f0e"
   },
   {
-    "text": "Park",
-    "hash": "e71d658fb9c6450a"
-  },
-  {
     "text": "Zoo",
     "hash": "858fe61bbbebe2de"
   },
@@ -2006,10 +2866,6 @@
   {
     "text": "Theater",
     "hash": "58eb248d6c454cd9"
-  },
-  {
-    "text": "Hospital",
-    "hash": "5a442956e58edd91"
   },
   {
     "text": "Bank",
@@ -2052,10 +2908,6 @@
     "hash": "8c5cdf1d8c1d40ca"
   },
   {
-    "text": "Piano",
-    "hash": "a9721c944e39f6fe"
-  },
-  {
     "text": "Guitar",
     "hash": "bcccbb37be859141"
   },
@@ -2088,10 +2940,6 @@
     "hash": "2b0618f4f9d2b913"
   },
   {
-    "text": "Toy",
-    "hash": "9c9fb37fc20c0397"
-  },
-  {
     "text": "Doll",
     "hash": "5056811d518f2005"
   },
@@ -2102,10 +2950,6 @@
   {
     "text": "Kite",
     "hash": "ec122cd537eb41a0"
-  },
-  {
-    "text": "Puzzle",
-    "hash": "eb5cc48ffe00235b"
   },
   {
     "text": "Robot",
@@ -2132,10 +2976,6 @@
     "hash": "e06595356cfb81ce"
   },
   {
-    "text": "Game",
-    "hash": "e521e813c2270680"
-  },
-  {
     "text": "Card",
     "hash": "0a986f9837ba698d"
   },
@@ -2146,10 +2986,6 @@
   {
     "text": "Prize",
     "hash": "6350c657e5a6a09b"
-  },
-  {
-    "text": "Medal",
-    "hash": "576d98bbc19767f6"
   },
   {
     "text": "Trophy",
@@ -2192,10 +3028,6 @@
     "hash": "497b7d05689566e9"
   },
   {
-    "text": "Hotel",
-    "hash": "eebf2a65a12c5ed6"
-  },
-  {
     "text": "Pool",
     "hash": "fe4a4b365088a260"
   },
@@ -2210,10 +3042,6 @@
   {
     "text": "Carousel",
     "hash": "9a4a1e7ab5ceb3f4"
-  },
-  {
-    "text": "Doctor",
-    "hash": "02b0f64723ab6345"
   },
   {
     "text": "Bandage",
@@ -2260,16 +3088,8 @@
     "hash": "b26a6b13c3e3882b"
   },
   {
-    "text": "Octopus",
-    "hash": "f31eceea7cd60b11"
-  },
-  {
     "text": "Treasure",
     "hash": "aebe33983c0c7fed"
-  },
-  {
-    "text": "Submarine",
-    "hash": "7f7bd95c912b370d"
   },
   {
     "text": "Do you like apples? Yes, I do!",
@@ -3556,10 +4376,6 @@
     "hash": "59d77fb93a440c6c"
   },
   {
-    "text": "Tomorrow",
-    "hash": "a66c0f6e4517428d"
-  },
-  {
     "text": "Next week",
     "hash": "9064fb7f65afa371"
   },
@@ -4540,28 +5356,28 @@
     "hash": "bdae8004c06c1c51"
   },
   {
-    "text": "Good morning, Deniz! How are you today?",
-    "hash": "735bbeaf73e7c378"
+    "text": "Good morning, Deniz! Welcome to Class 1b! How are you today?",
+    "hash": "45bd45463939f0d9"
   },
   {
     "text": "I am happy!",
     "hash": "a678d4537833ba94"
   },
   {
-    "text": "I love that bright smile, Deniz! Welcome to our classroom!",
-    "hash": "b729b722837c9f47"
+    "text": "I love that bright smile, Deniz! Welcome to Class 1b!",
+    "hash": "7a76316c8b94937c"
   },
   {
-    "text": "Hello! Welcome to school! What is your name?",
-    "hash": "12b3faa5a0a85601"
+    "text": "Hello Deniz! Elias, Julius, Vukasin, and Liam are here! Let us build!",
+    "hash": "a9283b420a9e42da"
   },
   {
-    "text": "My name is Deniz!",
-    "hash": "66d24b34161173f4"
+    "text": "My name is Deniz! Let us build!",
+    "hash": "bc1d64ffffa36d04"
   },
   {
-    "text": "Nice to meet you, Deniz! Do you want to build this castle together?",
-    "hash": "06f1a634dfc32f4d"
+    "text": "Awesome, Deniz! Elias and Julius have the Lego bricks!",
+    "hash": "95a155a68104be26"
   },
   {
     "text": "Goodbye!",
@@ -4608,48 +5424,48 @@
     "hash": "712ce56cbd34714c"
   },
   {
-    "text": "What a lovely living room, Deniz! Shall we play a song on the piano?",
-    "hash": "ffac29b518835c34"
+    "text": "Welcome to Monday piano lesson, Deniz! Shall we play a cheerful song on the keys?",
+    "hash": "069fea01a5db2c0b"
   },
   {
     "text": "Listen to my song!",
     "hash": "87d80e03488579c7"
   },
   {
-    "text": "Do, re, mi! That sounds amazing!",
-    "hash": "4605bd501d8af07b"
+    "text": "Do, re, mi! That melody sounds wonderful, Deniz!",
+    "hash": "50c68438848d7359"
   },
   {
     "text": "Stop the bus!",
     "hash": "e4e06c4845ca2571"
   },
   {
-    "text": "Welcome to my desk, Deniz! Look at all the tech tools here!",
-    "hash": "c36eb37c483a9300"
+    "text": "Welcome to my desk, Deniz! Look at my 5G signals and satellite screens!",
+    "hash": "722dc5dc63905623"
   },
   {
-    "text": "What is on the monitor?",
-    "hash": "2e506fc83cdc6c3b"
+    "text": "How does 5G send signals?",
+    "hash": "3a42f91e734c1366"
   },
   {
-    "text": "I am building a cool game for you! Want to press a key on the keyboard?",
-    "hash": "1f40acdb7a7eecb1"
+    "text": "5G waves travel fast like light to connect phones and satellites! Want to press a key?",
+    "hash": "9b1e6e2b2e8d3a8a"
   },
   {
     "text": "Where is my pillow?",
     "hash": "706c5bf8bc1711b4"
   },
   {
-    "text": "Hi Deniz! Welcome to the hospital! Look at my stethoscope!",
-    "hash": "cc7fae04490f58a5"
+    "text": "Hi Deniz! Welcome to SAH Eschweiler Hospital! Look at my stethoscope!",
+    "hash": "61b02d4f9ed356bb"
   },
   {
-    "text": "You help people feel better!",
-    "hash": "8a28c18b01e31775"
+    "text": "You help people feel safe and sleep well!",
+    "hash": "7e7652684dc897dd"
   },
   {
-    "text": "Thank you, sweetheart! Would you like to listen to your heartbeat?",
-    "hash": "7a25190a21ce396e"
+    "text": "Thank you, sweetheart! That is what anesthesiology doctors do! Want to hear your heartbeat?",
+    "hash": "f0d161e556c1f88e"
   },
   {
     "text": "Let's eat pancakes!",
@@ -5480,7 +6296,587 @@
     "hash": "cf2685d50a259e35"
   },
   {
+    "text": "My name is Deniz!",
+    "hash": "66d24b34161173f4"
+  },
+  {
+    "text": "Good morning, Deniz! How are you today?",
+    "hash": "735bbeaf73e7c378"
+  },
+  {
     "text": "Goodbye Deniz!",
     "hash": "c6c9e67dbae4a501"
+  },
+  {
+    "text": "Deniz packs a red suitcase.",
+    "hash": "cdd51877e750c922"
+  },
+  {
+    "text": "The big airplane flies to Antalya.",
+    "hash": "a18c1dafe02701ad"
+  },
+  {
+    "text": "Deniz goes down the fast water slide!",
+    "hash": "73813272877e76c3"
+  },
+  {
+    "text": "Then we eat a yummy burger and fries.",
+    "hash": "75953096b80f0429"
+  },
+  {
+    "text": "Where did Deniz go on the airplane?",
+    "hash": "18b3f4b34a2b3fa5"
+  },
+  {
+    "text": "Antalya",
+    "hash": "1774bcf6cbc1d6b9"
+  },
+  {
+    "text": "That is Antalya. I am asking: Where did Deniz go on the airplane?",
+    "hash": "af429b461fc10750"
+  },
+  {
+    "text": "The Moon",
+    "hash": "dc610762736bf43b"
+  },
+  {
+    "text": "That is The Moon. I am asking: Where did Deniz go on the airplane?",
+    "hash": "14461cc6407c008b"
+  },
+  {
+    "text": "A Bakery",
+    "hash": "6eb29ea8f3a56c7f"
+  },
+  {
+    "text": "That is A Bakery. I am asking: Where did Deniz go on the airplane?",
+    "hash": "daa013bf90d68293"
+  },
+  {
+    "text": "Today is a birthday party at Ballorig!",
+    "hash": "6e7e57dc949ae11a"
+  },
+  {
+    "text": "Deniz jumps into the colorful ball pit.",
+    "hash": "0e9fb7b3ef581709"
+  },
+  {
+    "text": "Friends bounce high on the trampoline.",
+    "hash": "131c289e6154399a"
+  },
+  {
+    "text": "Everyone sings Happy Birthday and eats cake!",
+    "hash": "a97d4d78e8d0bea3"
+  },
+  {
+    "text": "What did Deniz jump into at Ballorig?",
+    "hash": "6525cc3852fed2a7"
+  },
+  {
+    "text": "The ball pit",
+    "hash": "d27f1f5cf40be344"
+  },
+  {
+    "text": "That is The ball pit. I am asking: What did Deniz jump into at Ballorig?",
+    "hash": "a3e3416e8e34670e"
+  },
+  {
+    "text": "A snow hill",
+    "hash": "8a0ca154892e2b9a"
+  },
+  {
+    "text": "That is A snow hill. I am asking: What did Deniz jump into at Ballorig?",
+    "hash": "3b522989bf65e30c"
+  },
+  {
+    "text": "A submarine",
+    "hash": "e5915745ef18b53c"
+  },
+  {
+    "text": "That is A submarine. I am asking: What did Deniz jump into at Ballorig?",
+    "hash": "f36474d73e1460c5"
+  },
+  {
+    "text": "The orange cat sleeps on the blue sofa.",
+    "hash": "0923e0deb5f7ba10"
+  },
+  {
+    "text": "The teddy bear sits in the purple box.",
+    "hash": "d33462e939c0f7a6"
+  },
+  {
+    "text": "The puppy hides behind the big tree.",
+    "hash": "b184ce04afde548c"
+  },
+  {
+    "text": "Aha! The soccer ball is under the table!",
+    "hash": "cbab64bd2852f272"
+  },
+  {
+    "text": "Where is the soccer ball hiding?",
+    "hash": "8aaf94ba6c298416"
+  },
+  {
+    "text": "Under the table",
+    "hash": "f16f6121f05619e8"
+  },
+  {
+    "text": "That is Under the table. I am asking: Where is the soccer ball hiding?",
+    "hash": "60648f02a87011de"
+  },
+  {
+    "text": "On the sofa",
+    "hash": "d133e16eb75c4c4a"
+  },
+  {
+    "text": "That is On the sofa. I am asking: Where is the soccer ball hiding?",
+    "hash": "704ed0f743c356cd"
+  },
+  {
+    "text": "Behind the tree",
+    "hash": "398595515795fca0"
+  },
+  {
+    "text": "That is Behind the tree. I am asking: Where is the soccer ball hiding?",
+    "hash": "a3a125f7a6d75fd6"
+  },
+  {
+    "text": "Deniz rides a big white ferry in Istanbul.",
+    "hash": "ebc94be4bd7d3ab0"
+  },
+  {
+    "text": "Hungry seagulls fly next to the boat!",
+    "hash": "3d4d329fd2882b72"
+  },
+  {
+    "text": "We eat warm sesame simit on the deck.",
+    "hash": "d68a9e08d02c33e4"
+  },
+  {
+    "text": "Look at the tall Galata Tower and bridge!",
+    "hash": "7153f4ba5e04df1b"
+  },
+  {
+    "text": "What flies next to the ferry in Istanbul?",
+    "hash": "cc9c9d2482414f57"
+  },
+  {
+    "text": "Seagulls",
+    "hash": "dd2cc04f77711d30"
+  },
+  {
+    "text": "That is Seagulls. I am asking: What flies next to the ferry in Istanbul?",
+    "hash": "792e59adb71b8628"
+  },
+  {
+    "text": "Elephants",
+    "hash": "8e941c999a5ce3f0"
+  },
+  {
+    "text": "That is Elephants. I am asking: What flies next to the ferry in Istanbul?",
+    "hash": "2e01da7f99aa4f80"
+  },
+  {
+    "text": "Penguins",
+    "hash": "e5207ed9b11711ca"
+  },
+  {
+    "text": "That is Penguins. I am asking: What flies next to the ferry in Istanbul?",
+    "hash": "140d2ceb74f3c2be"
+  },
+  {
+    "text": "Dad Dr. Ege is a 5G engineer building satellite networks.",
+    "hash": "fd0caa096f60b09c"
+  },
+  {
+    "text": "Deniz presses keys on Dad's big tech monitors.",
+    "hash": "26ec3fe0fedbdf95"
+  },
+  {
+    "text": "Mom Melis is an anesthesia resident at SAH Eschweiler.",
+    "hash": "db8114a9c9b7e1dd"
+  },
+  {
+    "text": "Mom helps patients stay calm and sleep safely during surgery!",
+    "hash": "f181d823b0857bd9"
+  },
+  {
+    "text": "Where does Mom Melis care for her patients?",
+    "hash": "c629d22721733493"
+  },
+  {
+    "text": "SAH Eschweiler Hospital",
+    "hash": "c5c23f1050591610"
+  },
+  {
+    "text": "That is SAH Eschweiler Hospital. I am asking: Where does Mom Melis care for her patients?",
+    "hash": "3943e53eb8ef590e"
+  },
+  {
+    "text": "A Toy Store",
+    "hash": "bf69af1b616f6687"
+  },
+  {
+    "text": "That is A Toy Store. I am asking: Where does Mom Melis care for her patients?",
+    "hash": "40b5ad88404e0a96"
+  },
+  {
+    "text": "A Fire Station",
+    "hash": "0846d6758645da6d"
+  },
+  {
+    "text": "That is A Fire Station. I am asking: Where does Mom Melis care for her patients?",
+    "hash": "4361e881d1f01ead"
+  },
+  {
+    "text": "Every Sunday, Deniz practices at the swimming pool.",
+    "hash": "fece64e2da355c66"
+  },
+  {
+    "text": "Deniz wears cool goggles and swims fast laps!",
+    "hash": "5cc8a239bdb1cd45"
+  },
+  {
+    "text": "He dives deep down to pick up diving rings.",
+    "hash": "582757830a32ba8b"
+  },
+  {
+    "text": "He is working hard to earn the shiny Silver Medal!",
+    "hash": "2064f9a532dc6b5b"
+  },
+  {
+    "text": "What medal is Deniz working hard to earn?",
+    "hash": "05e1e8902bffa579"
+  },
+  {
+    "text": "Silver Medal",
+    "hash": "c2826c8aa9ffb081"
+  },
+  {
+    "text": "That is Silver Medal. I am asking: What medal is Deniz working hard to earn?",
+    "hash": "638e6363e8e07831"
+  },
+  {
+    "text": "Paper Hat",
+    "hash": "b5eb89ac7ede581e"
+  },
+  {
+    "text": "That is Paper Hat. I am asking: What medal is Deniz working hard to earn?",
+    "hash": "af69e29b5785270d"
+  },
+  {
+    "text": "Wooden Stick",
+    "hash": "ba02bb1631a6fb3c"
+  },
+  {
+    "text": "That is Wooden Stick. I am asking: What medal is Deniz working hard to earn?",
+    "hash": "d25a6077f3721116"
+  },
+  {
+    "text": "Deniz has built huge Lego sets with thousands of bricks!",
+    "hash": "0dc57f54d0aa60a5"
+  },
+  {
+    "text": "He snaps bricks together to create grand castles and towers.",
+    "hash": "24c5acbad661ff85"
+  },
+  {
+    "text": "He designs speedy rockets and futuristic spaceships.",
+    "hash": "fdaa69cc72d8bc89"
+  },
+  {
+    "text": "Everyone says: Deniz is a real Lego Master Builder!",
+    "hash": "878f100faac61755"
+  },
+  {
+    "text": "What does Deniz build with thousands of bricks?",
+    "hash": "406e0484d2666bd7"
+  },
+  {
+    "text": "Castles, towers and rockets",
+    "hash": "783f1e58ba7afcff"
+  },
+  {
+    "text": "Castles towers and rockets",
+    "hash": "09d3db315ecad4be"
+  },
+  {
+    "text": "That is Castles towers and rockets. I am asking: What does Deniz build with thousands of bricks?",
+    "hash": "e5b6c3bb3deba9be"
+  },
+  {
+    "text": "Mud puddles",
+    "hash": "20b1fb66e6c18ed4"
+  },
+  {
+    "text": "That is Mud puddles. I am asking: What does Deniz build with thousands of bricks?",
+    "hash": "0448c06cf66e310a"
+  },
+  {
+    "text": "Ice cream cones",
+    "hash": "761fd4bc7535437d"
+  },
+  {
+    "text": "That is Ice cream cones. I am asking: What does Deniz build with thousands of bricks?",
+    "hash": "650cd9de3fee2828"
+  },
+  {
+    "text": "Deniz, Mom Melis, and Dad Ege bake treats in the kitchen.",
+    "hash": "48e789a02f4707e9"
+  },
+  {
+    "text": "Together, they stir sweet batter to bake a fluffy cake.",
+    "hash": "5274bae56a97764e"
+  },
+  {
+    "text": "Then they cook warm, chocolatey pudding on the stove!",
+    "hash": "ebe22988a6b884e5"
+  },
+  {
+    "text": "Yum! Baking together at Schlossparkstrasse is so sweet!",
+    "hash": "0e94f4608ce952df"
+  },
+  {
+    "text": "What do Deniz and his parents bake together?",
+    "hash": "6fee51c88a3528fc"
+  },
+  {
+    "text": "Fluffy cake and pudding",
+    "hash": "a674c7f86c40a8e0"
+  },
+  {
+    "text": "That is Fluffy cake and pudding. I am asking: What do Deniz and his parents bake together?",
+    "hash": "92ade3fa9668b64a"
+  },
+  {
+    "text": "Salty soup",
+    "hash": "6cec5156b5993874"
+  },
+  {
+    "text": "That is Salty soup. I am asking: What do Deniz and his parents bake together?",
+    "hash": "089d68ebc41432ca"
+  },
+  {
+    "text": "Green broccoli",
+    "hash": "8da21c241f7a4472"
+  },
+  {
+    "text": "That is Green broccoli. I am asking: What do Deniz and his parents bake together?",
+    "hash": "4c50f3f020951e97"
+  },
+  {
+    "text": "Every Monday, Deniz has piano class with teacher Jeremias.",
+    "hash": "a7959bd3efd9137c"
+  },
+  {
+    "text": "He places his fingers on the black and white keys.",
+    "hash": "32c27789b7f590f8"
+  },
+  {
+    "text": "He plays cheerful notes: Do, Re, Mi, Fa, Sol!",
+    "hash": "75f1b67c34444378"
+  },
+  {
+    "text": "Jeremias smiles and claps for the beautiful melody!",
+    "hash": "2a463af4360db574"
+  },
+  {
+    "text": "Who teaches Deniz piano every Monday?",
+    "hash": "41e5ef92d14ac316"
+  },
+  {
+    "text": "Teacher Jeremias",
+    "hash": "1a35d9307638e563"
+  },
+  {
+    "text": "That is Teacher Jeremias. I am asking: Who teaches Deniz piano every Monday?",
+    "hash": "82d3f5d9b5123177"
+  },
+  {
+    "text": "A Pirate",
+    "hash": "a2b7cb91a80bda46"
+  },
+  {
+    "text": "That is A Pirate. I am asking: Who teaches Deniz piano every Monday?",
+    "hash": "ac6683039cd87b10"
+  },
+  {
+    "text": "A Robot",
+    "hash": "7a1873e453124bc5"
+  },
+  {
+    "text": "That is A Robot. I am asking: Who teaches Deniz piano every Monday?",
+    "hash": "7483baeae0ed161f"
+  },
+  {
+    "text": "Deniz loves flying to Turkey for holiday trips!",
+    "hash": "ac3a98854334dca1"
+  },
+  {
+    "text": "He loves staying at the big Nirvana Cosmopolitan hotel.",
+    "hash": "007a314d23461f96"
+  },
+  {
+    "text": "He zooms down giant water slides in the aquapark!",
+    "hash": "aecd5194e37dd879"
+  },
+  {
+    "text": "At dinner, he enjoys delicious spaghetti bolognese!",
+    "hash": "9fa2f05cd9f1e07a"
+  },
+  {
+    "text": "Which hotel does Deniz love staying at in Turkey?",
+    "hash": "18c50ed95b9e3bb3"
+  },
+  {
+    "text": "Nirvana Cosmopolitan",
+    "hash": "fe7079056d316051"
+  },
+  {
+    "text": "That is Nirvana Cosmopolitan. I am asking: Which hotel does Deniz love staying at in Turkey?",
+    "hash": "76319ebba427ef03"
+  },
+  {
+    "text": "An Igloo",
+    "hash": "4f597e0700e8b1ed"
+  },
+  {
+    "text": "That is An Igloo. I am asking: Which hotel does Deniz love staying at in Turkey?",
+    "hash": "f4662ee3c99b4fd6"
+  },
+  {
+    "text": "A Treehouse",
+    "hash": "40e7af0ca381f3a3"
+  },
+  {
+    "text": "That is A Treehouse. I am asking: Which hotel does Deniz love staying at in Turkey?",
+    "hash": "b0c58ef5ad930d01"
+  },
+  {
+    "text": "Deniz loves watching Checker Tobi and Woozle Goozle on TV!",
+    "hash": "e4745cc8edb45a65"
+  },
+  {
+    "text": "They ask exciting science questions about how things work.",
+    "hash": "5b485e2c603bf32a"
+  },
+  {
+    "text": "Woozle tests wild inventions with funny explosions!",
+    "hash": "c09301b27693742a"
+  },
+  {
+    "text": "Deniz learns amazing facts about science and nature!",
+    "hash": "fab25c835cda3772"
+  },
+  {
+    "text": "What shows does Deniz love watching on TV?",
+    "hash": "2f89aa50c49ffec5"
+  },
+  {
+    "text": "Checker Tobi Woozle Goozle",
+    "hash": "a2d10063b7c5532e"
+  },
+  {
+    "text": "That is Checker Tobi Woozle Goozle. I am asking: What shows does Deniz love watching on TV?",
+    "hash": "531c771fde753419"
+  },
+  {
+    "text": "Cooking alone",
+    "hash": "d92d7abae535d53b"
+  },
+  {
+    "text": "That is Cooking alone. I am asking: What shows does Deniz love watching on TV?",
+    "hash": "ca8d4c83d8fedfea"
+  },
+  {
+    "text": "Silent movies",
+    "hash": "c81aec41d414cdcb"
+  },
+  {
+    "text": "That is Silent movies. I am asking: What shows does Deniz love watching on TV?",
+    "hash": "453b924aaac3cb77"
+  },
+  {
+    "text": "Deniz goes to GGS Laurensberg school in class 1b.",
+    "hash": "e8fe9d1dc5c9bb0b"
+  },
+  {
+    "text": "His kind teacher Frau Schwarz teaches reading, writing, and math.",
+    "hash": "22f1756befbe8ad8"
+  },
+  {
+    "text": "Deniz solves two-digit addition math challenges!",
+    "hash": "db202d5fd88d18b9"
+  },
+  {
+    "text": "At recess, he plays with friends Ojas, Elias, Julius, Vukasin, and Liam!",
+    "hash": "cb9501c6c7347eaa"
+  },
+  {
+    "text": "What class is Deniz in at GGS Laurensberg?",
+    "hash": "bfb624dc2edf58b7"
+  },
+  {
+    "text": "Class 1b with Frau Schwarz",
+    "hash": "fad06c4e8f5cb2e5"
+  },
+  {
+    "text": "That is Class 1b with Frau Schwarz. I am asking: What class is Deniz in at GGS Laurensberg?",
+    "hash": "358fdc37d9db6ea7"
+  },
+  {
+    "text": "Kindergarten",
+    "hash": "90b30fe720989a8b"
+  },
+  {
+    "text": "That is Kindergarten. I am asking: What class is Deniz in at GGS Laurensberg?",
+    "hash": "2f5f45c90e769ec1"
+  },
+  {
+    "text": "High School",
+    "hash": "0e7e8202c2efa403"
+  },
+  {
+    "text": "That is High School. I am asking: What class is Deniz in at GGS Laurensberg?",
+    "hash": "7272d3756569dabb"
+  },
+  {
+    "text": "On a rainy day, we hold a red umbrella.",
+    "hash": "7fc8f6cdc86146ca"
+  },
+  {
+    "text": "After the rain, a bright rainbow appears!",
+    "hash": "52d345615381ec77"
+  },
+  {
+    "text": "In winter, we build a snowman with a carrot nose.",
+    "hash": "fbfe1925123dcc40"
+  },
+  {
+    "text": "Then we sled fast down the snowy hill!",
+    "hash": "3ae43afdede7e226"
+  },
+  {
+    "text": "What appears in the sky after the rain?",
+    "hash": "3589857b8f30479d"
+  },
+  {
+    "text": "A rainbow",
+    "hash": "13c99b34d6b4bdb1"
+  },
+  {
+    "text": "That is A rainbow. I am asking: What appears in the sky after the rain?",
+    "hash": "85da816da7846e9c"
+  },
+  {
+    "text": "A snowman",
+    "hash": "fde48f945fbde2d1"
+  },
+  {
+    "text": "That is A snowman. I am asking: What appears in the sky after the rain?",
+    "hash": "570b001c577af507"
+  },
+  {
+    "text": "That is A submarine. I am asking: What appears in the sky after the rain?",
+    "hash": "7cd378ed74f5d4c4"
   }
 ]

@@ -24,10 +24,27 @@ const CertificateModal = lazy(() => import('./components/CertificateModal'));
 const DailyMissionHub = lazy(() => import('./components/DailyMissionHub'));
 const LevelDiscoveryGame = lazy(() => import('./components/LevelDiscoveryGame'));
 const PrintableMissionSheetModal = lazy(() => import('./components/PrintableMissionSheetModal'));
+const DailyRecallModal = lazy(() => import('./components/DailyRecallModal'));
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
 import { saveGeminiApiKey } from './utils/gemini';
+import {
+  logDailyActivity,
+  getDailyMemorySummary,
+  shouldShowDailyRecall,
+  markDailyRecallSeen,
+} from './utils/dailyMemory';
 import { Sparkles, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
+
+const findCurriculumWord = (wordId) => {
+  for (const level of CURRICULUM_LEVELS) {
+    const found = level.items?.find(
+      (i) => i.id === wordId || i.word.toLowerCase() === String(wordId).toLowerCase()
+    );
+    if (found) return found;
+  }
+  return null;
+};
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
@@ -35,6 +52,7 @@ export default function App() {
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [isDailyRecallOpen, setIsDailyRecallOpen] = useState(false);
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
   const [showBreakModal, setShowBreakModal] = useState(false);
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
@@ -61,6 +79,13 @@ export default function App() {
       }));
     }, 60000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Daily Memory Recall on First Entry of the Day
+  useEffect(() => {
+    if (shouldShowDailyRecall()) {
+      setIsDailyRecallOpen(true);
+    }
   }, []);
 
   // Handle Tab Switch (guards parent dashboard with math challenge)
@@ -93,6 +118,13 @@ export default function App() {
   const handleRewardEarned = (reward = {}) => {
     const stars = typeof reward === 'number' ? reward : (reward.stars || 0);
     const bricks = typeof reward === 'number' ? reward : (reward.bricks || 0);
+    const bookTitle = typeof reward === 'object' ? reward.bookTitle : null;
+    const missionTitle = typeof reward === 'object' ? reward.missionTitle : null;
+    const gameName = typeof reward === 'object' ? reward.gameName : null;
+    const word = typeof reward === 'object' ? reward.word : null;
+
+    logDailyActivity({ stars, bricks, bookTitle, missionTitle, gameName, word });
+
     setState(prev => ({
       ...prev,
       stars: prev.stars + stars,
@@ -103,6 +135,7 @@ export default function App() {
 
   // Track question completion for milestone / screen-time awareness
   const handleQuestionCompleted = () => {
+    logDailyActivity({ questionAnswered: true });
     const newCount = sessionQuestionsCount + 1;
     setSessionQuestionsCount(newCount);
     if (newCount % 10 === 0) {
@@ -112,6 +145,13 @@ export default function App() {
 
   // Word result telemetry from quiz
   const handleWordResult = ({ wordId, isMastered }) => {
+    const found = findCurriculumWord(wordId);
+    const wordObj = found
+      ? { word: found.word, emoji: found.emoji, tr: found.translation }
+      : { word: String(wordId), emoji: '⭐', tr: '' };
+
+    logDailyActivity({ word: wordObj, questionAnswered: true });
+
     setState(prev => {
       const mastered = new Set(prev.masteredWords || []);
       const practicing = new Set(prev.practicingWords || []);
@@ -199,6 +239,9 @@ export default function App() {
     setState(prev => {
       const current = prev.dailyChecklist || {};
       const nextVal = !current[itemId];
+      if (nextVal) {
+        logDailyActivity({ stars: 1, missionTitle: `Görev: ${itemId}` });
+      }
       return {
         ...prev,
         stars: nextVal ? prev.stars + 1 : Math.max(0, prev.stars - 1),
@@ -331,14 +374,37 @@ export default function App() {
         milestoneCount={sessionQuestionsCount}
       />
 
+      {/* Daily Recall & Memory Welcome Modal */}
+      <DailyRecallModal
+        isOpen={isDailyRecallOpen}
+        onClose={() => {
+          markDailyRecallSeen();
+          setIsDailyRecallOpen(false);
+        }}
+        summary={getDailyMemorySummary({
+          childName,
+          streak: state.streak || 1,
+          fallbackMasteredWords: state.masteredWords || [],
+        })}
+        childName={childName}
+        isMuted={state.soundMuted}
+        onNavigateTab={(tabId) => {
+          markDailyRecallSeen();
+          setIsDailyRecallOpen(false);
+          handleTabChange(tabId);
+        }}
+      />
+
       {/* Lego Header & Navigation */}
       <Navbar
         currentTab={currentTab}
         onTabChange={handleTabChange}
         stars={state.stars}
+        streak={state.streak || 1}
         isMuted={state.soundMuted}
         onToggleMute={handleToggleMute}
         onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
+        onOpenDailyRecall={() => setIsDailyRecallOpen(true)}
         childName={childName}
       />
 
@@ -355,6 +421,7 @@ export default function App() {
             onRewardEarned={handleRewardEarned}
             onOpenDiscoveryGame={() => setCurrentTab('discovery')}
             onOpenStory={() => setCurrentTab('story')}
+            onOpenDailyRecall={() => setIsDailyRecallOpen(true)}
             onOpenPrintable={handleOpenPrintable}
             selectedDayId={selectedDayId}
             onSelectDayId={handleSelectDayId}

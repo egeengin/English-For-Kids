@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 
 import {
   CURRICULUM_LEVELS,
@@ -20,6 +21,7 @@ import * as gemini from '../src/utils/gemini.js';
 import * as speech from '../src/utils/speech.js';
 import * as speechRec from '../src/utils/speechRecognition.js';
 import * as reviewTracker from '../src/utils/reviewTracker.js';
+import * as dailyMemory from '../src/utils/dailyMemory.js';
 import { saveGeminiApiKey } from '../src/utils/gemini.js';
 
 function setupBrowserMocks() {
@@ -411,4 +413,80 @@ test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do
     dailySingCode.includes('const [showExamples, setShowExamples] = useState(true);'),
     'DailySingLearn must have showExamples initialized to true so examples are open by default'
   );
+});
+
+test('Daily Activity Memory & Recall on daily entry', () => {
+  setupBrowserMocks();
+
+  const todayKey = dailyMemory.getTodayKey();
+  assert.match(todayKey, /^\d{4}-\d{2}-\d{2}$/, 'Today key must be ISO YYYY-MM-DD');
+
+  // Should show daily recall on first visit of the day
+  assert.equal(dailyMemory.shouldShowDailyRecall(), true, 'Should show recall before marked seen');
+
+  // Log activity
+  dailyMemory.logDailyActivity({
+    stars: 8,
+    bricks: 4,
+    bookTitle: 'Holiday at Nirvana Cosmopolitan',
+    word: { word: 'Swimming Pool', emoji: '🏊‍♂️', tr: 'Yüzme Havuzu' },
+    missionTitle: 'Day 1 Şarkı',
+    questionAnswered: true,
+  });
+
+  const logs = dailyMemory.readDailyLogs();
+  assert.ok(logs[todayKey], 'Today log must exist');
+  assert.equal(logs[todayKey].stars, 8);
+  assert.equal(logs[todayKey].bricks, 4);
+  assert.equal(logs[todayKey].questionsCount, 1);
+  assert.ok(logs[todayKey].booksRead.includes('Holiday at Nirvana Cosmopolitan'));
+  assert.equal(logs[todayKey].words[0].word, 'Swimming Pool');
+
+  // Mark as seen for today
+  dailyMemory.markDailyRecallSeen();
+  assert.equal(dailyMemory.shouldShowDailyRecall(), false, 'Should not show recall after marked seen');
+
+  // Summary generation
+  const summary = dailyMemory.getDailyMemorySummary({
+    childName: 'Deniz',
+    streak: 3,
+  });
+  assert.ok(summary.spokenGreetingEn.includes('Deniz'), 'Spoken greeting must include child name');
+  assert.ok(summary.spokenGreetingEn.includes('3-day streak') || summary.spokenGreetingEn.includes('streak'), 'Spoken greeting must mention streak');
+
+  // Verify previous day recap
+  const pastLogs = dailyMemory.readDailyLogs();
+  pastLogs['2026-11-19'] = {
+    date: '2026-11-19',
+    stars: 12,
+    bricks: 6,
+    questionsCount: 5,
+    words: [{ word: 'Hotel', emoji: '🏨', tr: 'Otel' }],
+    booksRead: ['Holiday at Nirvana Cosmopolitan'],
+    missions: ['Day 1 Quiz'],
+    games: ['Mini Books'],
+    lastTimestamp: Date.now() - 86400000,
+  };
+  dailyMemory.writeDailyLogs(pastLogs);
+
+  const pastSummary = dailyMemory.getDailyMemorySummary({
+    childName: 'Deniz',
+    streak: 4,
+  });
+  assert.equal(pastSummary.hasPreviousActivity, true, 'Must identify previous day activity');
+  assert.equal(pastSummary.recapStats.stars, 12, 'Must recall previous stars');
+  assert.ok(pastSummary.summarySentenceTr.includes('Holiday at Nirvana Cosmopolitan'), 'Turkish summary must mention past book');
+  assert.ok(pastSummary.spokenGreetingEn.includes('Holiday at Nirvana Cosmopolitan'), 'Spoken greeting must mention past book');
+
+  // Verify DailyRecallModal component file exists and includes key sections
+  const modalCode = fs.readFileSync('src/components/DailyRecallModal.jsx', 'utf8');
+  assert.ok(modalCode.includes('Leo\'nun Günlük Notu') || modalCode.includes('Leo'), 'DailyRecallModal must show Leo note');
+  assert.ok(modalCode.includes('spokenGreetingEn'), 'DailyRecallModal must play spoken greeting');
+  assert.ok(modalCode.includes('recapStats'), 'DailyRecallModal must handle recap stats');
+
+  // Verify App.jsx wires DailyRecallModal and Navbar memory button
+  const appCode = fs.readFileSync('src/App.jsx', 'utf8');
+  assert.ok(appCode.includes('DailyRecallModal'), 'App.jsx must import and use DailyRecallModal');
+  assert.ok(appCode.includes('isDailyRecallOpen'), 'App.jsx must manage isDailyRecallOpen state');
+  assert.ok(appCode.includes('onOpenDailyRecall'), 'App.jsx must pass onOpenDailyRecall to Navbar');
 });

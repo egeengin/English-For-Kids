@@ -9,6 +9,7 @@ import {
   Calendar,
   Star,
   Radio,
+  Flame,
 } from 'lucide-react';
 import { playTap } from '../utils/soundEffects';
 
@@ -16,9 +17,11 @@ export default function Navbar({
   currentTab,
   onTabChange,
   stars = 0,
+  streak = 1,
   isMuted = false,
   onToggleMute,
   onOpenWalkieTalkie,
+  onOpenDailyRecall,
   childName = 'Deniz',
 }) {
   const tabs = [
@@ -79,7 +82,7 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Right: Stars, Leo, Mute, Parent */}
+        {/* Right: Stars, Streak Memory, Leo, Mute, Parent */}
         <div className="order-2 md:order-3 flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <div
             className="flex items-center gap-1 bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-amber-800 font-black text-xs"
@@ -88,6 +91,21 @@ export default function Navbar({
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
             <span>{stars}</span>
           </div>
+
+          {onOpenDailyRecall && (
+            <button
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                onOpenDailyRecall();
+              }}
+              className="flex items-center gap-1 bg-orange-50 hover:bg-orange-100 border border-orange-300 rounded-xl px-2 sm:px-2.5 py-1.5 text-orange-800 font-black text-xs cursor-pointer transition shadow-xs"
+              title="Günlük Hafıza: Neler yaptık, neler öğrendik?"
+            >
+              <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />
+              <span>{streak}g</span>
+            </button>
+          )}
 
           {onOpenWalkieTalkie && (
             <button

@@ -35,6 +35,7 @@ export default function DailyMissionHub({
   onRewardEarned,
   onOpenDiscoveryGame: _onOpenDiscoveryGame,
   onOpenStory,
+  onOpenDailyRecall,
   onOpenPrintable: _onOpenPrintable,
   selectedDayId,
   onSelectDayId,
@@ -279,19 +280,35 @@ export default function DailyMissionHub({
             {activeDay.shortLabel}: {activeDay.title}
           </h2>
 
-          {onOpenStory && (
-            <button
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                onOpenStory();
-              }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-display font-black text-xs sm:text-sm shadow-xs flex-shrink-0 cursor-pointer"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>📖 Hikaye</span>
-            </button>
-          )}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {onOpenDailyRecall && (
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  onOpenDailyRecall();
+                }}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-display font-black text-xs sm:text-sm shadow-xs cursor-pointer transition"
+                title="Dün neler yaptık? Günlük hafıza özeti"
+              >
+                <span>🧠 Neler Yaptık?</span>
+              </button>
+            )}
+
+            {onOpenStory && (
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  onOpenStory();
+                }}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-display font-black text-xs sm:text-sm shadow-xs flex-shrink-0 cursor-pointer"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>📖 Hikaye</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* 4 Key Words */}

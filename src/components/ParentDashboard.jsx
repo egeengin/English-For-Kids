@@ -33,6 +33,7 @@ import { SCENES_DATA } from '../data/scenesData';
 import { playTap, playSuccessChime, playGentleWobble } from '../utils/soundEffects';
 import { testGeminiApiKey } from '../utils/gemini';
 import { getWeeklySummary } from '../utils/reviewTracker';
+import { readDailyLogs } from '../utils/dailyMemory';
 
 export default function ParentDashboard({
   streak,
@@ -309,6 +310,60 @@ export default function ParentDashboard({
       {/* Tab 1: Overview & Metrics */}
       {activeTab === 'overview' && (
         <div className="space-y-6 animate-fadeIn">
+          {(() => {
+            const logs = readDailyLogs();
+            const entries = Object.entries(logs).sort().reverse().slice(0, 5);
+            if (entries.length === 0) return null;
+
+            return (
+              <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-xs space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
+                    🧠 Günlük Çalışma Hafızası (Son Günler)
+                  </h3>
+                  <span className="text-xs text-slate-400 font-bold">
+                    {entries.length} kayıt
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  {entries.map(([date, log]) => (
+                    <div
+                      key={date}
+                      className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+                    >
+                      <div className="space-y-1">
+                        <div className="font-black text-slate-900 flex items-center gap-2">
+                          <span>📅 {date}</span>
+                          {log.booksRead && log.booksRead.length > 0 && (
+                            <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold">
+                              📖 {log.booksRead[0]}
+                            </span>
+                          )}
+                        </div>
+                        {log.words && log.words.length > 0 && (
+                          <div className="flex flex-wrap gap-1 text-[11px] text-slate-600">
+                            <span>Kelimeler:</span>
+                            {log.words.slice(0, 6).map((w, idx) => (
+                              <span key={idx} className="font-bold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                                {typeof w === 'string' ? w : `${w.emoji || ''} ${w.word}`}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-3 font-bold text-slate-600 flex-shrink-0">
+                        <span className="text-amber-600">⭐ +{log.stars || 0}</span>
+                        <span className="text-blue-600">🧱 +{log.bricks || 0}</span>
+                        <span className="text-emerald-600">🎯 {log.questionsCount || 0} soru</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
           {(() => {
             const weekly = getWeeklySummary();
             return (

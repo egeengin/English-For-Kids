@@ -359,7 +359,9 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       playStarSparkle(isMuted);
       setQuizSolved(true);
       confetti({ particleCount: 60, spread: 60, origin: { y: 0.65 } });
-      if (onRewardEarned) onRewardEarned(4);
+      if (onRewardEarned) {
+        onRewardEarned({ stars: 4, bricks: 1, bookTitle: activeBook?.title || 'Mini Book' });
+      }
       if (!isMuted) speakEnglish('Great reading! You got it!');
     } else {
       stopSpeech();

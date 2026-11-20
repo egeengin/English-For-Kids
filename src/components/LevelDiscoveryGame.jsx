@@ -20,7 +20,7 @@ import {
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playTap, playSuccess, playFanfare, playWobble } from '../utils/soundEffects';
+import { playTap, playSuccess, playFanfare, playWobble, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 
@@ -131,7 +131,7 @@ export default function LevelDiscoveryGame({
     if (opt.isCorrect) {
       playSuccess(isMuted);
     } else {
-      playWobble(isMuted);
+      playDiDit(isMuted);
     }
 
     const correctOpt = currentQuestion.options.find((o) => o.isCorrect) || opt;
@@ -154,14 +154,10 @@ export default function LevelDiscoveryGame({
       }
     }
 
-    if (!isMuted) {
+    if (!isMuted && opt.isCorrect) {
       setTimeout(() => {
-        if (opt.isCorrect) {
-          speakEnglish(opt.textEn);
-        } else {
-          speakEnglish(`That is ${opt.textEn}. I am asking: ${currentQuestion.promptEn}`);
-        }
-      }, 380);
+        speakEnglish(opt.textEn);
+      }, 300);
     }
     if (!opt.isCorrect) setShowHelper(true);
 
@@ -489,19 +485,16 @@ export default function LevelDiscoveryGame({
                   Tebrikler Şampiyon {childName}! ⭐⭐⭐
                 </h2>
                 <p className="text-sm sm:text-base text-slate-700 font-semibold leading-relaxed">
-                  3 Yıldızla Şampiyonluk hedefini tamamladın! Ama{' '}
-                  <strong className="text-purple-700">Bölüm 4 (Checker Tobi Bilim)</strong> ve{' '}
-                  <strong className="text-rose-600">Bölüm 5 (Efsanevi Boss)</strong> aşırı zor. Onları
-                  da denemek ister misin?
+                  3 Yıldızla Şampiyonluk hedefini tamamladın! Önünde uzay, dinozorlar ve efsanevi bosslarla dolu yeni bölümler seni bekliyor!
                 </p>
               </>
-            ) : currentStage.number === 5 ? (
+            ) : currentStage.number === DISCOVERY_STAGES.length ? (
               <>
                 <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
-                  Efsanevi Final Tamamlandı! ⭐⭐⭐⭐⭐
+                  Efsanevi Büyük Final Tamamlandı! 👑🏆
                 </h2>
                 <p className="text-sm text-slate-600 font-semibold">
-                  50 soruluk tüm macerayı bitirdin! Şimdi sonuç karnenden neleri öğreneceğimize bakabilirsin.
+                  {DISCOVERY_STAGES.length * 10} soruluk tüm bölümleri başarıyla bitirdin! Artık gerçek bir İngilizce Grandmaster şampiyonusun.
                 </p>
               </>
             ) : (

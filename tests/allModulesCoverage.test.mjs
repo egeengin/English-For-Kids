@@ -109,7 +109,17 @@ test('Data modules: curriculum, dailyMissionsData, extraLevelsData, scenesData',
   assert.ok(getMinifigureAccessories('Deniz').length >= 1);
   assert.ok(LEO_ACCESSORIES.length >= 1);
 
-  assert.ok(DISCOVERY_STAGES.length >= 5);
+  assert.equal(DISCOVERY_STAGES.length, 10, 'Must have 10 discovery stages');
+  for (let sIdx = 0; sIdx < DISCOVERY_STAGES.length; sIdx++) {
+    const stg = DISCOVERY_STAGES[sIdx];
+    assert.equal(stg.number, sIdx + 1, `Stage index ${sIdx} must have number ${sIdx + 1}`);
+    assert.equal(stg.questions.length, 10, `Stage ${stg.id} must have 10 questions`);
+    for (const q of stg.questions) {
+      assert.ok(q.id && q.promptEn && q.options && q.options.length === 3);
+      const corrects = q.options.filter((o) => o.isCorrect);
+      assert.equal(corrects.length, 1, `Question ${q.id} must have exactly one correct option`);
+    }
+  }
   assert.ok(EXTRA_LEVELS.length >= 5);
   assert.ok(DAILY_EXPEDITION_DAYS.length >= 10);
 

@@ -404,4 +404,11 @@ test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do
   assert.ok(quizGameCode.includes('playDiDit'), 'QuestionQuizGame must use playDiDit on wrong answer');
   assert.ok(!quizGameCode.includes('I am asking:'), 'QuestionQuizGame must not speak long "I am asking" on wrong answer');
   assert.ok(quizGameCode.includes('wrongOptions.has'), 'QuestionQuizGame must track wrongOptions to direct to others');
+
+  // Verify daily study examples are open by default
+  const dailySingCode = fs.readFileSync('src/components/DailySingLearn.jsx', 'utf8');
+  assert.ok(
+    dailySingCode.includes('const [showExamples, setShowExamples] = useState(true);'),
+    'DailySingLearn must have showExamples initialized to true so examples are open by default'
+  );
 });

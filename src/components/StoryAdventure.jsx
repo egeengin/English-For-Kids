@@ -12,8 +12,8 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { getStoryWorlds } from '../data/storyData';
-import { speakEnglish, speakDialoguePhrase, prefetchSpeech } from '../utils/speech';
-import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
+import { speakEnglish, speakDialoguePhrase, prefetchSpeech, stopSpeech } from '../utils/speech';
+import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble, playDiDit } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
@@ -305,12 +305,10 @@ export default function StoryAdventure({
         }
       }
     } else {
-      const selectedText = choice.text || 'that answer';
+      stopSpeech();
+      playDiDit(isMuted);
       recordMissedWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
-      setFeedbackMessage(`That is ${selectedText}. I am asking: "${chapter.characterLine}"`);
-      if (!isMuted) {
-        speakEnglish(`That is ${selectedText}. I am asking: ${chapter.characterLine}`);
-      }
+      setFeedbackMessage('Good try! Try another option!');
     }
   };
 

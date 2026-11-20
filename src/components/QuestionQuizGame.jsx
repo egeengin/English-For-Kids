@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
-import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
+import { playStarSparkle, playGentleWobble, playTap, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
 function cleanOptionForSpeech(text) {
@@ -341,6 +341,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
   const [qIdx, setQIdx] = useState(0);
   const [solved, setSolved] = useState(false);
   const [score, setScore] = useState(0);
+  const [wrongOptions, setWrongOptions] = useState(new Set());
 
   const item = QUESTION_BANK[qIdx % QUESTION_BANK.length];
 
@@ -349,6 +350,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
   }, [isMuted, item]);
 
   useEffect(() => {
+    setWrongOptions(new Set());
     const t = setTimeout(speakQ, 300);
     return () => clearTimeout(t);
   }, [qIdx, speakQ]);
@@ -368,11 +370,13 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
       setTimeout(() => {
         setQIdx((i) => i + 1);
         setSolved(false);
+        setWrongOptions(new Set());
       }, 1050);
     } else {
-      playGentleWobble(isMuted);
+      stopSpeech();
+      playDiDit(isMuted);
       recordMissedWord(item.word, item.emoji);
-      if (!isMuted) speakEnglish(`That is ${opt.text}. I am asking: ${item.q}`);
+      setWrongOptions((prev) => new Set([...prev, opt.text]));
     }
   };
 
@@ -409,11 +413,14 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {item.options.map((opt, idx) => {
             const cleanText = cleanOptionForSpeech(opt.text);
+            const isWrong = wrongOptions.has(opt.text);
             return (
               <button
                 key={idx}
                 type="button"
+                disabled={isWrong || solved}
                 onPointerEnter={(e) => {
+                  if (isWrong || solved) return;
                   triggerHoverSpeech(cleanText, {
                     isMuted,
                     pointerType: e.pointerType,
@@ -422,6 +429,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                 }}
                 onPointerLeave={cancelHoverSpeech}
                 onFocus={() => {
+                  if (isWrong || solved) return;
                   triggerHoverSpeech(cleanText, {
                     isMuted,
                     delayMs: 110,
@@ -429,30 +437,38 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                 }}
                 onBlur={cancelHoverSpeech}
                 onClick={() => {
+                  if (isWrong || solved) return;
                   cancelHoverSpeech();
                   handleChoice(opt);
                 }}
-                className={`p-5 sm:p-6 rounded-2xl border-3 font-display font-black text-lg sm:text-xl cursor-pointer transition shadow-sm flex items-center justify-between gap-2 text-left group ${
+                className={`p-5 sm:p-6 rounded-2xl border-3 font-display font-black text-lg sm:text-xl transition shadow-sm flex items-center justify-between gap-2 text-left group ${
                   solved && opt.correct
                     ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
-                    : 'bg-slate-50 hover:bg-teal-50 border-slate-200 hover:border-teal-400 text-slate-900'
+                    : isWrong
+                    ? 'bg-slate-100 border-slate-300 text-slate-400 opacity-50 line-through cursor-not-allowed scale-95'
+                    : 'bg-slate-50 hover:bg-teal-50 border-slate-200 hover:border-teal-400 text-slate-900 cursor-pointer hover:scale-[1.02]'
                 }`}
               >
-                <span>{opt.text}</span>
-                <span
-                  role="button"
-                  tabIndex={-1}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    cancelHoverSpeech();
-                    playTap(isMuted);
-                    if (!isMuted) speakEnglish(cleanText);
-                  }}
-                  title="Seçeneği dinle"
-                  className="w-8 h-8 rounded-xl bg-teal-100 group-hover:bg-teal-200 text-teal-800 flex items-center justify-center flex-shrink-0 transition active:scale-90"
-                >
-                  <Volume2 className="w-4 h-4" />
+                <span className="flex items-center gap-2">
+                  {isWrong && <span className="text-rose-500 no-underline font-bold text-sm">❌</span>}
+                  <span>{opt.text}</span>
                 </span>
+                {!isWrong && !solved && (
+                  <span
+                    role="button"
+                    tabIndex={-1}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      cancelHoverSpeech();
+                      playTap(isMuted);
+                      if (!isMuted) speakEnglish(cleanText);
+                    }}
+                    title="Seçeneği dinle"
+                    className="w-8 h-8 rounded-xl bg-teal-100 group-hover:bg-teal-200 text-teal-800 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </span>
+                )}
               </button>
             );
           })}

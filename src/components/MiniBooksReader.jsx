@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
-import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+import { playSnap, playStarSparkle, playGentleWobble, playTap, playDiDit } from '../utils/soundEffects';
 
 function cleanOptionForSpeech(text) {
   return String(text || '')
@@ -259,6 +259,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const [isReading, setIsReading] = useState(false);
   const [quizSolved, setQuizSolved] = useState(false);
+  const [wrongOptions, setWrongOptions] = useState(new Set());
   const timerRef = useRef(null);
   const readingSessionRef = useRef(0);
 
@@ -349,9 +350,11 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     setHighlightIdx(-1);
     setIsReading(false);
     setQuizSolved(false);
+    setWrongOptions(new Set());
   };
 
   const handleAnswer = (opt) => {
+    cancelHoverSpeech();
     if (opt.isCorrect) {
       playStarSparkle(isMuted);
       setQuizSolved(true);
@@ -359,8 +362,9 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       if (onRewardEarned) onRewardEarned(4);
       if (!isMuted) speakEnglish('Great reading! You got it!');
     } else {
-      playGentleWobble(isMuted);
-      if (!isMuted) speakEnglish(`That is ${opt.text.replace(/[^\p{L}\p{N}\s]/gu, '').trim()}. I am asking: ${book.question}`);
+      stopSpeech();
+      playDiDit(isMuted);
+      setWrongOptions((prev) => new Set([...prev, opt.text]));
     }
   };
 
@@ -473,11 +477,14 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {book.options.map((opt, idx) => {
                   const cleanText = cleanOptionForSpeech(opt.text);
+                  const isWrong = wrongOptions.has(opt.text);
                   return (
                     <button
                       key={idx}
                       type="button"
+                      disabled={isWrong || quizSolved}
                       onPointerEnter={(e) => {
+                        if (isWrong || quizSolved) return;
                         triggerHoverSpeech(cleanText, {
                           isMuted,
                           pointerType: e.pointerType,
@@ -486,6 +493,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                       }}
                       onPointerLeave={cancelHoverSpeech}
                       onFocus={() => {
+                        if (isWrong || quizSolved) return;
                         triggerHoverSpeech(cleanText, {
                           isMuted,
                           delayMs: 110,
@@ -493,30 +501,38 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                       }}
                       onBlur={cancelHoverSpeech}
                       onClick={() => {
+                        if (isWrong || quizSolved) return;
                         cancelHoverSpeech();
                         handleAnswer(opt);
                       }}
-                      className={`p-5 rounded-2xl border-3 font-display font-black text-lg cursor-pointer transition shadow-sm flex items-center justify-between gap-2 text-left group ${
+                      className={`p-5 rounded-2xl border-3 font-display font-black text-lg transition shadow-sm flex items-center justify-between gap-2 text-left group ${
                         quizSolved && opt.isCorrect
                           ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
-                          : 'bg-slate-50 hover:bg-blue-50 border-slate-200 text-slate-900 hover:border-blue-300'
+                          : isWrong
+                          ? 'bg-slate-100 border-slate-300 text-slate-400 opacity-50 line-through cursor-not-allowed scale-95'
+                          : 'bg-slate-50 hover:bg-blue-50 border-slate-200 text-slate-900 hover:border-blue-300 cursor-pointer hover:scale-[1.02]'
                       }`}
                     >
-                      <span>{opt.text}</span>
-                      <span
-                        role="button"
-                        tabIndex={-1}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          cancelHoverSpeech();
-                          playTap(isMuted);
-                          if (!isMuted) speakEnglish(cleanText);
-                        }}
-                        title="Seçeneği dinle"
-                        className="w-8 h-8 rounded-xl bg-blue-100 group-hover:bg-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0 transition active:scale-90"
-                      >
-                        <Volume2 className="w-4 h-4" />
+                      <span className="flex items-center gap-2">
+                        {isWrong && <span className="text-rose-500 no-underline font-bold text-sm">❌</span>}
+                        <span>{opt.text}</span>
                       </span>
+                      {!isWrong && !quizSolved && (
+                        <span
+                          role="button"
+                          tabIndex={-1}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            cancelHoverSpeech();
+                            playTap(isMuted);
+                            if (!isMuted) speakEnglish(cleanText);
+                          }}
+                          title="Seçeneği dinle"
+                          className="w-8 h-8 rounded-xl bg-blue-100 group-hover:bg-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </span>
+                      )}
                     </button>
                   );
                 })}

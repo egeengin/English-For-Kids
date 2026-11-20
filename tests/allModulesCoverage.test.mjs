@@ -395,4 +395,13 @@ test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do
     quizGameCode.includes('triggerHoverSpeech') && quizGameCode.includes('onPointerEnter'),
     'QuestionQuizGame must sound the answer selections on stay/hover'
   );
+
+  // Verify wrong answer uses playDiDit and directs to other options without long speech
+  assert.ok(readerCode.includes('playDiDit'), 'MiniBooksReader must use playDiDit on wrong answer');
+  assert.ok(!readerCode.includes('I am asking:'), 'MiniBooksReader must not speak long "I am asking" on wrong answer');
+  assert.ok(readerCode.includes('wrongOptions.has'), 'MiniBooksReader must track wrongOptions to direct to others');
+
+  assert.ok(quizGameCode.includes('playDiDit'), 'QuestionQuizGame must use playDiDit on wrong answer');
+  assert.ok(!quizGameCode.includes('I am asking:'), 'QuestionQuizGame must not speak long "I am asking" on wrong answer');
+  assert.ok(quizGameCode.includes('wrongOptions.has'), 'QuestionQuizGame must track wrongOptions to direct to others');
 });

@@ -21,7 +21,7 @@ import {
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playTap, playSuccess, playWobble } from '../utils/soundEffects';
+import { playTap, playSuccess, playWobble, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 import DailySingLearn from './DailySingLearn';
@@ -50,6 +50,7 @@ export default function DailyMissionHub({
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(0);
   const [speakingTarget, setSpeakingTarget] = useState(null);
   const [isSlowMode, setIsSlowMode] = useState(false);
+  const [wrongOptionIds, setWrongOptionIds] = useState(new Set());
   const quizSpeechSessionRef = useRef(0);
   const quizSpeechTimerRef = useRef(null);
   const voiceBonusIdsRef = useRef(new Set());
@@ -107,7 +108,7 @@ export default function DailyMissionHub({
     return q.options.some((o) => o.id === chosenId && o.isCorrect);
   }).length;
 
-  const playQuestionAndOptions = useCallback(
+  const playQuestionPrompt = useCallback(
     (question) => {
       if (!question || isMuted) return;
       cancelHoverSpeech();
@@ -115,42 +116,16 @@ export default function DailyMissionHub({
       stopQuizSpeech();
 
       const sessionId = quizSpeechSessionRef.current;
-      const steps = [
-        { target: 'prompt', text: question.promptEn },
-        ...question.options.map((opt, idx) => ({
-          target: idx,
-          text: `${['A', 'B', 'C'][idx]}: ${opt.textEn}`,
-        })),
-      ];
+      setSpeakingTarget('prompt');
 
-      const runStep = (stepIdx) => {
-        if (sessionId !== quizSpeechSessionRef.current) return;
-        if (stepIdx >= steps.length) {
+      speakEnglish(
+        question.promptEn,
+        () => {
+          if (sessionId !== quizSpeechSessionRef.current) return;
           setSpeakingTarget(null);
-          return;
-        }
-        const step = steps[stepIdx];
-        setSpeakingTarget(step.target);
-        quizSpeechTimerRef.current = setTimeout(() => {
-          runStep(stepIdx + 1);
-        }, 4500);
-
-        speakEnglish(
-          step.text,
-          () => {
-            if (sessionId !== quizSpeechSessionRef.current) return;
-            if (quizSpeechTimerRef.current) {
-              clearTimeout(quizSpeechTimerRef.current);
-            }
-            quizSpeechTimerRef.current = setTimeout(() => {
-              runStep(stepIdx + 1);
-            }, 260);
-          },
-          { rate: isSlowMode ? 0.8 : 1.0 }
-        );
-      };
-
-      runStep(0);
+        },
+        { rate: isSlowMode ? 0.8 : 1.0 }
+      );
     },
     [isMuted, isSlowMode, stopQuizSpeech]
   );
@@ -158,9 +133,10 @@ export default function DailyMissionHub({
   const handleSelectQuestion = (idx, autoRead = true) => {
     const safeIdx = Math.max(0, Math.min(idx, dayQuizQuestions.length - 1));
     setActiveQuestionIdx(safeIdx);
+    setWrongOptionIds(new Set());
     const targetQ = dayQuizQuestions[safeIdx];
     if (autoRead && targetQ) {
-      playQuestionAndOptions(targetQ);
+      playQuestionPrompt(targetQ);
     } else {
       stopQuizSpeech();
     }
@@ -183,15 +159,16 @@ export default function DailyMissionHub({
         }
         confetti({ particleCount: 65, spread: 75, origin: { y: 0.6 } });
       }
+      if (!isMuted) {
+        setTimeout(() => speakEnglish(opt.textEn, undefined, { rate: isSlowMode ? 0.8 : 1.0 }), 280);
+      }
+      if (onSaveDailyQuizAnswer) {
+        onSaveDailyQuizAnswer(questionId, opt.id);
+      }
     } else {
-      playWobble(isMuted);
+      playDiDit(isMuted);
       recordMissedWord(correctOpt.textEn, correctOpt.emoji, correctOpt.labelTr || '');
-    }
-    if (!isMuted) {
-      setTimeout(() => speakEnglish(opt.textEn, undefined, { rate: isSlowMode ? 0.8 : 1.0 }), 280);
-    }
-    if (onSaveDailyQuizAnswer) {
-      onSaveDailyQuizAnswer(questionId, opt.id);
+      setWrongOptionIds((prev) => new Set([...prev, opt.id]));
     }
   }, [dayQuizQuestions, isMuted, isSlowMode, onRewardEarned, onSaveDailyQuizAnswer, stopQuizSpeech]);
 
@@ -466,7 +443,7 @@ export default function DailyMissionHub({
                 onPointerLeave={cancelHoverSpeech}
                 onClick={() => {
                   stopQuizVoiceAnswer();
-                  playQuestionAndOptions(q);
+                  playQuestionPrompt(q);
                 }}
                 className={`rounded-2xl p-4 bg-slate-50 border-2 transition flex items-center gap-4 cursor-pointer ${
                   isPromptSpeaking
@@ -483,36 +460,59 @@ export default function DailyMissionHub({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {q.options.map((opt, optIdx) => {
                   const isChosen = chosenId === opt.id;
-                  const isOptSpeaking = speakingTarget === optIdx;
+                  const isWrong = wrongOptionIds.has(opt.id);
                   let cls =
                     'bg-white border-slate-200 hover:border-blue-400 text-slate-800 hover:-translate-y-0.5';
-                  if (chosenId) {
-                    if (opt.isCorrect) {
-                      cls = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-black shadow-sm';
-                    } else if (isChosen) {
-                      cls = 'bg-rose-50 border-rose-400 text-rose-900';
-                    }
+                  if (chosenId && opt.isCorrect) {
+                    cls = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-black shadow-sm';
+                  } else if (isWrong) {
+                    cls = 'bg-rose-50 border-rose-300 text-rose-800 opacity-40 line-through pointer-events-none';
+                  } else if (chosenId && isChosen) {
+                    cls = 'bg-rose-50 border-rose-400 text-rose-900';
                   }
 
                   return (
                     <button
                       key={opt.id}
                       type="button"
+                      disabled={isWrong}
                       onPointerEnter={(e) =>
                         triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
                       }
+                      onFocus={() =>
+                        triggerHoverSpeech(opt.textEn, { isMuted })
+                      }
                       onPointerLeave={cancelHoverSpeech}
                       onClick={() => handleDailyQuizClick(q.id, opt)}
-                      className={`w-full text-left px-4 py-4 rounded-2xl border-2 text-base sm:text-lg font-display font-bold flex items-center justify-between gap-2 transition cursor-pointer shadow-xs ${cls} ${
-                        isOptSpeaking ? 'ring-4 ring-yellow-400 border-yellow-500 scale-[1.02]' : ''
-                      }`}
+                      className={`w-full text-left px-4 py-4 rounded-2xl border-2 text-base sm:text-lg font-display font-bold flex items-center justify-between gap-2 transition cursor-pointer shadow-xs ${cls}`}
                     >
-                      <span className="flex items-center gap-2.5">
-                        <span className="text-2xl sm:text-3xl">{opt.emoji}</span>
-                        <span>{opt.textEn}</span>
+                      <span className="flex items-center gap-2.5 min-w-0">
+                        <span className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-300 text-slate-700 text-xs font-black flex items-center justify-center flex-shrink-0">
+                          {['A', 'B', 'C'][optIdx]}
+                        </span>
+                        <span className="text-2xl sm:text-3xl flex-shrink-0">{opt.emoji}</span>
+                        <span className="truncate">{opt.textEn}</span>
                       </span>
-                      {chosenId && opt.isCorrect && <span className="text-xl">✅</span>}
-                      {chosenId && isChosen && !opt.isCorrect && <span className="text-xl">❌</span>}
+
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            cancelHoverSpeech();
+                            unlockAudio();
+                            speakEnglish(opt.textEn);
+                          }}
+                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+                          title="Seçeneği dinle"
+                          aria-label="Seçeneği dinle"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                        {chosenId && opt.isCorrect && <span className="text-xl">✅</span>}
+                        {isWrong && <span className="text-xl">❌</span>}
+                      </div>
                     </button>
                   );
                 })}

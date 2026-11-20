@@ -47,6 +47,7 @@ export default function LevelDiscoveryGame({
   const [activeStageIdx, setActiveStageIdx] = useState(() => findResumePosition().sIdx);
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(() => findResumePosition().qIdx);
   const [showHelper, setShowHelper] = useState(false);
+  const [wrongOptionIds, setWrongOptionIds] = useState(new Set());
   const [viewMode, setViewMode] = useState('play'); // 'play' | 'stage-complete' | 'report'
   const [voiceBonusQuestionId, setVoiceBonusQuestionId] = useState(null);
   const voiceBonusIdsRef = useRef(new Set());
@@ -118,6 +119,7 @@ export default function LevelDiscoveryGame({
     playTap(isMuted);
     setActiveStageIdx(idx);
     setActiveQuestionIdx(0);
+    setWrongOptionIds(new Set());
     setShowHelper(false);
     setViewMode('play');
   };
@@ -132,6 +134,7 @@ export default function LevelDiscoveryGame({
       playSuccess(isMuted);
     } else {
       playDiDit(isMuted);
+      setWrongOptionIds((prev) => new Set([...prev, opt.id]));
     }
 
     const correctOpt = currentQuestion.options.find((o) => o.isCorrect) || opt;
@@ -364,9 +367,10 @@ export default function LevelDiscoveryGame({
 
           {/* 3 Clean Visual Answer Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
-            {currentQuestion.options.map((opt) => {
+            {currentQuestion.options.map((opt, optIdx) => {
               const isChosen = chosenOptionId === opt.id;
               const isAnswered = Boolean(chosenOptionId);
+              const isWrong = wrongOptionIds.has(opt.id);
 
               let cardStyle = 'border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40';
               if (isAnswered) {
@@ -377,6 +381,8 @@ export default function LevelDiscoveryGame({
                 } else {
                   cardStyle = 'border-slate-200 bg-slate-50 opacity-70';
                 }
+              } else if (isWrong) {
+                cardStyle = 'border-rose-300 bg-rose-50/60 opacity-40 line-through pointer-events-none';
               }
 
               return (
@@ -385,16 +391,27 @@ export default function LevelDiscoveryGame({
                   onPointerEnter={(e) =>
                     triggerHoverSpeech(opt.textEn, { isMuted, pointerType: e.pointerType })
                   }
+                  onFocus={() =>
+                    triggerHoverSpeech(opt.textEn, { isMuted })
+                  }
                   onPointerLeave={cancelHoverSpeech}
                   onClick={() => handleOptionSelect(opt)}
                   className={`rounded-3xl p-4 sm:p-6 border-4 transition cursor-pointer flex flex-col justify-between gap-3 min-h-[140px] sm:min-h-[190px] ${cardStyle}`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-4xl sm:text-5xl leading-none">{opt.emoji}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="w-7 h-7 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 font-display font-black text-xs flex items-center justify-center">
+                        {['A', 'B', 'C'][optIdx]}
+                      </span>
+                      <span className="text-3xl sm:text-4xl leading-none">{opt.emoji}</span>
+                    </div>
                     <button
                       type="button"
+                      tabIndex={-1}
                       onClick={(e) => {
                         e.stopPropagation();
+                        cancelHoverSpeech();
+                        unlockAudio();
                         speakEnglish(opt.textEn);
                       }}
                       className="p-2 rounded-xl bg-white border border-slate-200 hover:border-blue-400 text-blue-700 shadow-2xs cursor-pointer"

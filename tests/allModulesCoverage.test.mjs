@@ -499,4 +499,33 @@ test('Daily Activity Memory & Recall on daily entry', () => {
   assert.ok(appCode.includes('DailyRecallModal'), 'App.jsx must import and use DailyRecallModal');
   assert.ok(appCode.includes('isDailyRecallOpen'), 'App.jsx must manage isDailyRecallOpen state');
   assert.ok(appCode.includes('onOpenDailyRecall'), 'App.jsx must pass onOpenDailyRecall to Navbar');
+
+  // Verify questions under sections do not automatically read A, B, C and instead read on hover
+  const dailyHubCode = fs.readFileSync('src/components/DailyMissionHub.jsx', 'utf8');
+  assert.ok(
+    !dailyHubCode.includes("text: `${['A', 'B', 'C'][idx]}"),
+    'DailyMissionHub must not automatically recite A, B, C options sequentially'
+  );
+  assert.ok(
+    dailyHubCode.includes('playQuestionPrompt'),
+    'DailyMissionHub must use playQuestionPrompt for prompt only'
+  );
+  assert.ok(
+    dailyHubCode.includes('triggerHoverSpeech') && dailyHubCode.includes('onPointerEnter'),
+    'DailyMissionHub must voice choices on hover/pointer enter'
+  );
+  assert.ok(
+    dailyHubCode.includes('playDiDit'),
+    'DailyMissionHub must use playDiDit on wrong answer'
+  );
+
+  const levelDiscoveryCode = fs.readFileSync('src/components/LevelDiscoveryGame.jsx', 'utf8');
+  assert.ok(
+    levelDiscoveryCode.includes('triggerHoverSpeech') && levelDiscoveryCode.includes('onPointerEnter'),
+    'LevelDiscoveryGame must voice choices on hover/pointer enter'
+  );
+  assert.ok(
+    levelDiscoveryCode.includes('playDiDit'),
+    'LevelDiscoveryGame must use playDiDit on wrong answer'
+  );
 });

@@ -383,4 +383,16 @@ test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do
     const stat = fs.statSync(filePath);
     assert.ok(stat.size > 1000, `Audio file must be non-empty (>1KB): ${filePath}`);
   }
+
+  // Verify option hover sound is configured for selections
+  assert.ok(
+    readerCode.includes('triggerHoverSpeech') && readerCode.includes('onPointerEnter'),
+    'MiniBooksReader must sound the answer selections on stay/hover'
+  );
+
+  const quizGameCode = fs.readFileSync('src/components/QuestionQuizGame.jsx', 'utf8');
+  assert.ok(
+    quizGameCode.includes('triggerHoverSpeech') && quizGameCode.includes('onPointerEnter'),
+    'QuestionQuizGame must sound the answer selections on stay/hover'
+  );
 });

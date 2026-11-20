@@ -1,8 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
-import { speakEnglish, stopSpeech } from '../utils/speech';
+import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+
+function cleanOptionForSpeech(text) {
+  return String(text || '')
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+    .replace(/[0-9]+[^\p{L}\p{N}\s]/gu, '')
+    .replace(/[^\p{L}\p{N}\s.,'’"-]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 function getMiniBooks(childName = 'Deniz') {
   return [
@@ -462,20 +471,55 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {book.options.map((opt, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleAnswer(opt)}
-                    className={`p-5 rounded-2xl border-3 font-display font-black text-lg cursor-pointer transition shadow-sm ${
-                      quizSolved && opt.isCorrect
-                        ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
-                        : 'bg-slate-50 hover:bg-blue-50 border-slate-200 text-slate-900'
-                    }`}
-                  >
-                    {opt.text}
-                  </button>
-                ))}
+                {book.options.map((opt, idx) => {
+                  const cleanText = cleanOptionForSpeech(opt.text);
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onPointerEnter={(e) => {
+                        triggerHoverSpeech(cleanText, {
+                          isMuted,
+                          pointerType: e.pointerType,
+                          delayMs: 110,
+                        });
+                      }}
+                      onPointerLeave={cancelHoverSpeech}
+                      onFocus={() => {
+                        triggerHoverSpeech(cleanText, {
+                          isMuted,
+                          delayMs: 110,
+                        });
+                      }}
+                      onBlur={cancelHoverSpeech}
+                      onClick={() => {
+                        cancelHoverSpeech();
+                        handleAnswer(opt);
+                      }}
+                      className={`p-5 rounded-2xl border-3 font-display font-black text-lg cursor-pointer transition shadow-sm flex items-center justify-between gap-2 text-left group ${
+                        quizSolved && opt.isCorrect
+                          ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
+                          : 'bg-slate-50 hover:bg-blue-50 border-slate-200 text-slate-900 hover:border-blue-300'
+                      }`}
+                    >
+                      <span>{opt.text}</span>
+                      <span
+                        role="button"
+                        tabIndex={-1}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          cancelHoverSpeech();
+                          playTap(isMuted);
+                          if (!isMuted) speakEnglish(cleanText);
+                        }}
+                        title="Seçeneği dinle"
+                        className="w-8 h-8 rounded-xl bg-blue-100 group-hover:bg-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0 transition active:scale-90"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
 
               {quizSolved && (

@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
+
+function cleanOptionForSpeech(text) {
+  return String(text || '')
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+    .replace(/[0-9]+[^\p{L}\p{N}\s]/gu, '')
+    .replace(/[^\p{L}\p{N}\s.,'’"-]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 const QUESTION_BANK = [
   {
@@ -398,20 +407,55 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
         </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          {item.options.map((opt, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => handleChoice(opt)}
-              className={`p-5 sm:p-6 rounded-2xl border-3 font-display font-black text-lg sm:text-xl cursor-pointer transition shadow-sm ${
-                solved && opt.correct
-                  ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
-                  : 'bg-slate-50 hover:bg-teal-50 border-slate-200 hover:border-teal-400 text-slate-900'
-              }`}
-            >
-              {opt.text}
-            </button>
-          ))}
+          {item.options.map((opt, idx) => {
+            const cleanText = cleanOptionForSpeech(opt.text);
+            return (
+              <button
+                key={idx}
+                type="button"
+                onPointerEnter={(e) => {
+                  triggerHoverSpeech(cleanText, {
+                    isMuted,
+                    pointerType: e.pointerType,
+                    delayMs: 110,
+                  });
+                }}
+                onPointerLeave={cancelHoverSpeech}
+                onFocus={() => {
+                  triggerHoverSpeech(cleanText, {
+                    isMuted,
+                    delayMs: 110,
+                  });
+                }}
+                onBlur={cancelHoverSpeech}
+                onClick={() => {
+                  cancelHoverSpeech();
+                  handleChoice(opt);
+                }}
+                className={`p-5 sm:p-6 rounded-2xl border-3 font-display font-black text-lg sm:text-xl cursor-pointer transition shadow-sm flex items-center justify-between gap-2 text-left group ${
+                  solved && opt.correct
+                    ? 'bg-emerald-100 border-emerald-500 text-emerald-900 scale-105'
+                    : 'bg-slate-50 hover:bg-teal-50 border-slate-200 hover:border-teal-400 text-slate-900'
+                }`}
+              >
+                <span>{opt.text}</span>
+                <span
+                  role="button"
+                  tabIndex={-1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    cancelHoverSpeech();
+                    playTap(isMuted);
+                    if (!isMuted) speakEnglish(cleanText);
+                  }}
+                  title="Seçeneği dinle"
+                  className="w-8 h-8 rounded-xl bg-teal-100 group-hover:bg-teal-200 text-teal-800 flex items-center justify-center flex-shrink-0 transition active:scale-90"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {solved && (

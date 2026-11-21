@@ -665,6 +665,49 @@ export default function ParentDashboard({
               </div>
             </div>
 
+            {/* Deniz's Profile & Schedule at a Glance */}
+            {profileName.toLowerCase() === 'deniz' && (
+              <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl space-y-2">
+                <span className="text-xs font-black uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
+                  <span>🌟</span>
+                  <span>Deniz’s Routine & Family World (Aachen):</span>
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-amber-950 font-bold">
+                  <div className="p-2 bg-white/80 rounded-xl border border-amber-200">
+                    <span className="text-amber-800 font-black">📅 Weekly Sports & Music:</span>
+                    <ul className="text-[11px] list-disc list-inside mt-1 text-slate-700">
+                      <li>Mon: Piano with Jeremias 🎹</li>
+                      <li>Wed: Basketball practice 🏀</li>
+                      <li>Sun: Swimming (Silver Medal) 🏊</li>
+                    </ul>
+                  </div>
+                  <div className="p-2 bg-white/80 rounded-xl border border-amber-200">
+                    <span className="text-amber-800 font-black">🏫 School & Friends:</span>
+                    <ul className="text-[11px] list-disc list-inside mt-1 text-slate-700">
+                      <li>GGS Laurensberg Class 1b (Frau Schwarz)</li>
+                      <li>Friends: Ojas, Elias, Julius, Vukasin, Liam</li>
+                    </ul>
+                  </div>
+                  <div className="p-2 bg-white/80 rounded-xl border border-amber-200">
+                    <span className="text-amber-800 font-black">👨‍👩‍👦 Family & Home:</span>
+                    <ul className="text-[11px] list-disc list-inside mt-1 text-slate-700">
+                      <li>Mom Melis (Anesthesia, SAH Eschweiler)</li>
+                      <li>Dad Dr. Ege (5G Engineer, E-Space)</li>
+                      <li>Schlossparkstr. 34, 52072 Aachen</li>
+                    </ul>
+                  </div>
+                  <div className="p-2 bg-white/80 rounded-xl border border-amber-200">
+                    <span className="text-amber-800 font-black">🍝 Favorites:</span>
+                    <ul className="text-[11px] list-disc list-inside mt-1 text-slate-700">
+                      <li>Food: Spaghetti Bolognese & Cake 🎂</li>
+                      <li>Hotel: Nirvana Cosmopolitan 🏨</li>
+                      <li>TV: Checker Tobi & Woozle Goozle 📺</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {profileSaved && (
               <div className="p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-xl flex items-center gap-2 animate-scaleUp">
                 <Check className="w-4 h-4 text-emerald-700" />

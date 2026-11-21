@@ -8,11 +8,9 @@ import {
   ArrowRight,
   RotateCcw,
   CheckCircle,
-  HelpCircle,
   Palette,
   Cat,
   Rocket,
-  PlusCircle,
   Star,
   Circle,
   Square,
@@ -32,10 +30,8 @@ import {
   Feather,
   Crown,
   Box,
-  Sliders,
   Globe,
   Mic,
-  MicOff,
   Bot,
   Radio,
   Apple,
@@ -45,7 +41,7 @@ import {
   Heart,
   Music,
 } from 'lucide-react';
-import { speakEnglish, speakTurkish, speakGerman, speakEncouragement, stopSpeech } from '../utils/speech';
+import { speakEnglish, speakTurkish, speakGerman } from '../utils/speech';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import {
   playLegoSnap,
@@ -152,7 +148,7 @@ export default function GameArena({
   customWords,
   onRewardEarned,
   onWordResult,
-  onNavigateToWorkshop,
+  onNavigateToWorkshop: _onNavigateToWorkshop,
   onQuestionCompleted,
   isAdventureStarted = true,
   isMuted,
@@ -198,11 +194,8 @@ export default function GameArena({
   const hoverDebounceRef = useRef(null);
   const repeatTimerRef = useRef(null);
 
-  // Reset voice on target item change
+  // Abort voice recognition on target item change
   useEffect(() => {
-    setIsListeningVoice(false);
-    setVoiceTranscript('');
-    setVoiceFeedback(null);
     if (voiceRecognitionRef.current) {
       voiceRecognitionRef.current.abort();
     }
@@ -264,6 +257,9 @@ export default function GameArena({
       setWobbleOptionId(null);
       setRevealedCardHints({});
       setEncouragementText(null);
+      setIsListeningVoice(false);
+      setVoiceTranscript('');
+      setVoiceFeedback(null);
 
       // Pick distractors according to Junior (2 cards), Master (4 cards), or Superstar (6 cards)
       const otherItems = currentPool.filter((item) => item.id !== target.id);
@@ -293,31 +289,39 @@ export default function GameArena({
 
   // Initialize or re-initialize level spaced repetition queue
   useEffect(() => {
-    setLevelCompleted(false);
-    setIsTransitioning(false);
-    setMasteredIds(new Set());
-    setReviewIds(new Set());
+    queueMicrotask(() => {
+      setLevelCompleted(false);
+      setIsTransitioning(false);
+      setMasteredIds(new Set());
+      setReviewIds(new Set());
 
-    if (pool.length > 0) {
-      const initialQueue = shuffle(pool);
-      setQuestionQueue(initialQueue);
-      setupQuestionForTarget(initialQueue[0], pool, cardCountMode);
-    } else {
-      setQuestionQueue([]);
-      setTargetItem(null);
-    }
+      if (pool.length > 0) {
+        const initialQueue = shuffle(pool);
+        setQuestionQueue(initialQueue);
+        setupQuestionForTarget(initialQueue[0], pool, cardCountMode);
+      } else {
+        setQuestionQueue([]);
+        setTargetItem(null);
+      }
+    });
 
     return () => {
       if (repeatTimerRef.current) clearInterval(repeatTimerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLevelId, pool.length]);
 
   useEffect(() => {
     if (isAdventureStarted && targetItem && !levelCompleted && isCorrect === null) {
-      setIsSpeaking(true);
-      speakEnglish(targetItem.word, () => setIsSpeaking(false));
-      resetRepeatTimer(targetItem.word);
+      const t = setTimeout(() => {
+        setIsSpeaking(true);
+        speakEnglish(targetItem.word, () => setIsSpeaking(false));
+        resetRepeatTimer(targetItem.word);
+      }, 0);
+      return () => clearTimeout(t);
     }
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdventureStarted]);
 
   // Replay English voice

@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Lock, X, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
 import { playGentleWobble, playSuccessChime, playTap } from '../utils/soundEffects';
 
-export default function MathGateModal({ isOpen, onClose, onSuccess, isMuted }) {
-  const [num1, setNum1] = useState(7);
-  const [num2, setNum2] = useState(5);
+function createRandomMathPair() {
+  return {
+    a: Math.floor(Math.random() * 30) + 15, // 15 to 44
+    b: Math.floor(Math.random() * 25) + 12, // 12 to 36
+  };
+}
+
+function MathGateModalContent({ onClose, onSuccess, isMuted }) {
+  const [nums, setNums] = useState(createRandomMathPair);
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState(false);
 
-  // Generate random math problem when opening
-  useEffect(() => {
-    if (isOpen) {
-      generateQuestion();
-      setAnswer('');
-      setError(false);
-    }
-  }, [isOpen]);
+  const num1 = nums.a;
+  const num2 = nums.b;
 
   const generateQuestion = () => {
-    const a = Math.floor(Math.random() * 30) + 15; // 15 to 44
-    const b = Math.floor(Math.random() * 25) + 12; // 12 to 36
-    setNum1(a);
-    setNum2(b);
+    setNums(createRandomMathPair());
     setAnswer('');
     setError(false);
   };
-
-  if (!isOpen) return null;
 
   const expectedAnswer = num1 + num2;
 
@@ -169,4 +164,9 @@ export default function MathGateModal({ isOpen, onClose, onSuccess, isMuted }) {
       </div>
     </div>
   );
+}
+
+export default function MathGateModal({ isOpen, onClose, onSuccess, isMuted }) {
+  if (!isOpen) return null;
+  return <MathGateModalContent onClose={onClose} onSuccess={onSuccess} isMuted={isMuted} />;
 }

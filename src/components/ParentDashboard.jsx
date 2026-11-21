@@ -33,7 +33,7 @@ import { readDailyLogs } from '../utils/dailyMemory';
 
 export default function ParentDashboard({
   streak,
-  playtimeMinutes,
+  playtimeMinutes: _playtimeMinutes,
   totalQuestionsAnswered,
   masteredWords,
   practicingWords,

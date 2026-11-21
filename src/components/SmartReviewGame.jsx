@@ -6,26 +6,41 @@ import { getReviewWords, recordMasteredWord, recordMissedWord } from '../utils/r
 import { speakEnglish } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 
+function buildReviewOptions(target, roundSeed = 0) {
+  if (!target) return [];
+  const pool = VOCAB_BANK_500.filter(
+    (w) => w.word.toLowerCase() !== target.word.toLowerCase()
+  );
+  if (pool.length === 0) return [{ word: target.word, emoji: target.emoji, isCorrect: true }];
+
+  let hash = roundSeed;
+  for (let i = 0; i < target.word.length; i++) {
+    hash = (hash * 31 + target.word.charCodeAt(i)) | 0;
+  }
+  const idx1 = Math.abs(hash) % pool.length;
+  const idx2 = (idx1 + 1 + (Math.abs(hash >> 4) % Math.max(1, pool.length - 1))) % pool.length;
+
+  const distractors = [pool[idx1], pool[idx2]]
+    .filter(Boolean)
+    .map((w) => ({ word: w.word, emoji: w.emoji, isCorrect: false }));
+
+  const arr = [{ word: target.word, emoji: target.emoji, isCorrect: true }, ...distractors];
+  const shift = Math.abs(hash) % arr.length;
+  return shift === 0 ? arr : arr.slice(shift).concat(arr.slice(0, shift));
+}
+
 export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
-  const [refreshTick, setRefreshTick] = useState(0);
+  const [reviewList, setReviewList] = useState(() => getReviewWords(8));
+  const [roundSeed, setRoundSeed] = useState(0);
   const [step, setStep] = useState(0);
   const [solved, setSolved] = useState(false);
 
-  const reviewList = useMemo(() => getReviewWords(8), [refreshTick]);
   const target = reviewList[step % reviewList.length];
 
-  const options = useMemo(() => {
-    if (!target) return [];
-    const distractors = VOCAB_BANK_500.filter(
-      (w) => w.word.toLowerCase() !== target.word.toLowerCase()
-    )
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 2)
-      .map((w) => ({ word: w.word, emoji: w.emoji, isCorrect: false }));
-    return [{ word: target.word, emoji: target.emoji, isCorrect: true }, ...distractors].sort(
-      () => Math.random() - 0.5
-    );
-  }, [target, step, refreshTick]);
+  const options = useMemo(
+    () => buildReviewOptions(target, roundSeed + step),
+    [target, roundSeed, step]
+  );
 
   const handlePick = (opt) => {
     if (solved) return;
@@ -43,9 +58,10 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
           setStep((s) => s + 1);
           setSolved(false);
         } else {
+          setReviewList(getReviewWords(8));
+          setRoundSeed((r) => r + 1);
           setStep(0);
           setSolved(false);
-          setRefreshTick((t) => t + 1);
         }
       }, 950);
     } else {
@@ -74,9 +90,10 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
             type="button"
             onClick={() => {
               playTap(isMuted);
+              setReviewList(getReviewWords(8));
+              setRoundSeed((r) => r + 1);
               setStep(0);
               setSolved(false);
-              setRefreshTick((t) => t + 1);
             }}
             className="px-3.5 py-2 rounded-xl bg-orange-100 hover:bg-orange-200 text-orange-950 font-black text-xs sm:text-sm flex items-center gap-1 cursor-pointer"
           >

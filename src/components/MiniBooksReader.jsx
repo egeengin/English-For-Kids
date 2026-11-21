@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
@@ -282,7 +282,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     };
   }, []);
 
-  const readLine = (sentence) => {
+  const readLine = useCallback((sentence) => {
     const readingSession = ++readingSessionRef.current;
     if (timerRef.current) clearInterval(timerRef.current);
     if (!sentence) return;
@@ -317,7 +317,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     }
 
     speakEnglish(sentence, finishReading, { onStart: startHighlight });
-  };
+  }, [isMuted]);
 
   useEffect(() => {
     if (isQuestionPage || !currentPage) return undefined;
@@ -326,7 +326,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       clearTimeout(timer);
       stopSpeech();
     };
-  }, [bookIdx, pageIdx, isQuestionPage, currentPage?.text, isMuted]);
+  }, [bookIdx, pageIdx, isQuestionPage, currentPage, readLine]);
 
   const handlePrevPage = () => {
     playTap(isMuted);

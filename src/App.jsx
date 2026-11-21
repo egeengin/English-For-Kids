@@ -52,7 +52,7 @@ export default function App() {
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
-  const [isDailyRecallOpen, setIsDailyRecallOpen] = useState(false);
+  const [isDailyRecallOpen, setIsDailyRecallOpen] = useState(() => shouldShowDailyRecall());
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
   const [showBreakModal, setShowBreakModal] = useState(false);
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
@@ -79,13 +79,6 @@ export default function App() {
       }));
     }, 60000);
     return () => clearInterval(timer);
-  }, []);
-
-  // Daily Memory Recall on First Entry of the Day
-  useEffect(() => {
-    if (shouldShowDailyRecall()) {
-      setIsDailyRecallOpen(true);
-    }
   }, []);
 
   // Handle Tab Switch (guards parent dashboard with math challenge)

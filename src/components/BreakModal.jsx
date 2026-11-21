@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Sparkles, Trophy, Coffee, ArrowRight, Heart, Smile } from 'lucide-react';
+import { Trophy, ArrowRight } from 'lucide-react';
 import { playFanfare, playTap } from '../utils/soundEffects';
 
-export default function BreakModal({
-  isOpen,
-  onContinue,
-  isMuted,
-  milestoneCount = 10,
-}) {
+function BreakModalContent({ onContinue, isMuted, milestoneCount }) {
   const [restSeconds, setRestSeconds] = useState(15);
 
   useEffect(() => {
-    if (isOpen) {
-      playFanfare(isMuted);
-      confetti({
-        particleCount: 100,
-        spread: 80,
-        origin: { y: 0.5 },
-        colors: ['#FFD700', '#E52521', '#0055BF', '#237841'],
-      });
-      setRestSeconds(15);
-    }
-  }, [isOpen, isMuted]);
+    playFanfare(isMuted);
+    confetti({
+      particleCount: 100,
+      spread: 80,
+      origin: { y: 0.5 },
+      colors: ['#FFD700', '#E52521', '#0055BF', '#237841'],
+    });
+  }, [isMuted]);
 
   useEffect(() => {
-    if (!isOpen) return;
     if (restSeconds <= 0) return;
     const interval = setInterval(() => {
       setRestSeconds(prev => Math.max(0, prev - 1));
     }, 1000);
     return () => clearInterval(interval);
-  }, [isOpen, restSeconds]);
-
-  if (!isOpen) return null;
+  }, [restSeconds]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md animate-fadeIn">
@@ -99,5 +88,21 @@ export default function BreakModal({
 
       </div>
     </div>
+  );
+}
+
+export default function BreakModal({
+  isOpen,
+  onContinue,
+  isMuted,
+  milestoneCount = 10,
+}) {
+  if (!isOpen) return null;
+  return (
+    <BreakModalContent
+      onContinue={onContinue}
+      isMuted={isMuted}
+      milestoneCount={milestoneCount}
+    />
   );
 }

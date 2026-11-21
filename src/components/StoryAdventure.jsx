@@ -208,8 +208,7 @@ export default function StoryAdventure({
     ]);
   }, [chapter, isMuted]);
 
-  // Speak character line with karaoke when chapter loads
-  useEffect(() => {
+  const resetChapterState = () => {
     setSelectedChoiceId(null);
     setBuiltSentenceWords([]);
     setIsChapterSolved(false);
@@ -224,13 +223,18 @@ export default function StoryAdventure({
     setVoiceError(null);
     setVoiceBonusClaimed(false);
     setRecordedAudioUrl(null);
+  };
 
+  // Speak character line with karaoke when chapter loads
+  useEffect(() => {
     if (!isMuted && chapter) {
       const timer = setTimeout(() => {
         playKaraokeDialogue(chapter);
       }, 350);
       return () => clearTimeout(timer);
     }
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChapterIndex, selectedWorldId, isMuted]);
 
   // Handle clicking an interactive scene prop
@@ -492,6 +496,7 @@ export default function StoryAdventure({
   const handleNextChapter = () => {
     playTap(isMuted);
     if (currentChapterIndex < totalChapters - 1) {
+      resetChapterState();
       setCurrentChapterIndex(currentChapterIndex + 1);
     } else {
       setIsStoryComplete(true);
@@ -501,6 +506,7 @@ export default function StoryAdventure({
   // Restart story from beginning
   const handleRestartStory = () => {
     playTap(isMuted);
+    resetChapterState();
     setCurrentChapterIndex(0);
     setIsStoryComplete(false);
   };
@@ -514,6 +520,7 @@ export default function StoryAdventure({
           value={story.id}
           onChange={(e) => {
             playTap(isMuted);
+            resetChapterState();
             setSelectedWorldId(e.target.value);
             setCurrentChapterIndex(0);
             setIsStoryComplete(false);
@@ -537,6 +544,7 @@ export default function StoryAdventure({
                 key={chap.id}
                 onClick={() => {
                   playTap(isMuted);
+                  resetChapterState();
                   setCurrentChapterIndex(idx);
                 }}
                 title={chap.title}

@@ -91,7 +91,7 @@ const PHONETIC_MAP = {
 export function normalizeText(text = '') {
   return text
     .toLowerCase()
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?!'"🧱⭐🎈🎉]/g, '')
+    .replace(/[.,/#!$%^&*;:{}=\-_`~()?!'"🧱⭐🎈🎉]/gu, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -153,7 +153,7 @@ export function createSpeechListener({
   onStart,
 }) {
   if (!isSpeechRecognitionSupported()) {
-    onError && onError('Speech recognition is not supported in this browser. Please try Chrome or Safari.');
+    onError?.('Speech recognition is not supported in this browser. Please try Chrome or Safari.');
     return null;
   }
 
@@ -171,7 +171,7 @@ export function createSpeechListener({
   recognition.onstart = () => {
     hasEmittedFinal = false;
     lastRecognizedText = '';
-    onStart && onStart();
+    onStart?.();
   };
 
   recognition.onresult = (event) => {
@@ -194,14 +194,14 @@ export function createSpeechListener({
 
     if (finalTranscript) {
       hasEmittedFinal = true;
-      onFinal && onFinal(finalTranscript.trim());
-      onResult && onResult({
+      onFinal?.(finalTranscript.trim());
+      onResult?.({
         transcript: finalTranscript.trim(),
         isFinal: true,
       });
     } else if (interimTranscript) {
-      onInterim && onInterim(interimTranscript.trim());
-      onResult && onResult({
+      onInterim?.(interimTranscript.trim());
+      onResult?.({
         transcript: interimTranscript.trim(),
         isFinal: false,
       });
@@ -216,20 +216,20 @@ export function createSpeechListener({
     } else if (event.error === 'no-speech') {
       msg = 'No speech detected. Speak clearly into the microphone!';
     }
-    onError && onError(msg, event.error);
+    onError?.(msg, event.error);
   };
 
   recognition.onend = () => {
     // If recognition stopped without an explicit isFinal, recover last recognized text
     if (!hasEmittedFinal && lastRecognizedText) {
       hasEmittedFinal = true;
-      onFinal && onFinal(lastRecognizedText);
-      onResult && onResult({
+      onFinal?.(lastRecognizedText);
+      onResult?.({
         transcript: lastRecognizedText,
         isFinal: true,
       });
     }
-    onEnd && onEnd();
+    onEnd?.();
   };
 
   return {
@@ -250,7 +250,7 @@ export function createSpeechListener({
     abort: () => {
       try {
         recognition.abort();
-      } catch (err) {}
+      } catch {}
     }
   };
 }

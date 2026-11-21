@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Sparkles,
@@ -7,11 +7,6 @@ import {
   HelpCircle,
   RotateCcw,
   ArrowRight,
-  Trophy,
-  Layers,
-  ChevronRight,
-  Eye,
-  Wrench,
 } from 'lucide-react';
 import { SCENES_DATA } from '../data/scenesData';
 import { speakEnglish } from '../utils/speech';
@@ -20,7 +15,7 @@ import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 export default function SceneExplorer({
   onRewardEarned,
-  onNavigateToWorkshop,
+  onNavigateToWorkshop: _onNavigateToWorkshop,
   isMuted = false,
 }) {
   const [selectedSceneIndex, setSelectedSceneIndex] = useState(0);
@@ -34,13 +29,13 @@ export default function SceneExplorer({
   const totalDifferences = currentScene.differences.length;
   const foundCount = foundDiffIds.size;
 
-  // Reset found state when changing scene
-  useEffect(() => {
+  const selectScene = (idx) => {
+    setSelectedSceneIndex(idx);
     setFoundDiffIds(new Set());
     setActiveItem(null);
     setIsCompleted(false);
     setShowHint(false);
-  }, [selectedSceneIndex]);
+  };
 
   // Handle clicking a difference hotspot
   const handleSpotClick = (diff) => {
@@ -86,7 +81,7 @@ export default function SceneExplorer({
   const handleNextScene = () => {
     playTap(isMuted);
     const nextIndex = (selectedSceneIndex + 1) % SCENES_DATA.length;
-    setSelectedSceneIndex(nextIndex);
+    selectScene(nextIndex);
   };
 
   // Reset current scene
@@ -121,7 +116,7 @@ export default function SceneExplorer({
                 key={scene.id}
                 onClick={() => {
                   playTap(isMuted);
-                  setSelectedSceneIndex(idx);
+                  selectScene(idx);
                 }}
                 className={`
                   flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all whitespace-nowrap

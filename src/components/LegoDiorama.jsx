@@ -1,8 +1,21 @@
 import React, { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { Camera, Trash2, Plus, Volume2, Sparkles, RefreshCw, Layers, Check, Download } from 'lucide-react';
+import { Camera, Trash2, Plus, Volume2, Sparkles, RefreshCw } from 'lucide-react';
 import { speakEnglish } from '../utils/speech';
 import { playSnap, playSparkle, playTap, playSuccess } from '../utils/soundEffects';
+
+function createStickerItem(sticker) {
+  return {
+    id: `item-${Date.now()}-${Math.random()}`,
+    word: sticker.word,
+    emoji: sticker.emoji,
+    de: sticker.de,
+    tr: sticker.tr,
+    x: 35 + Math.random() * 30,
+    y: 40 + Math.random() * 30,
+    scale: 1,
+  };
+}
 
 const SCENES = [
   {
@@ -75,16 +88,7 @@ export default function LegoDiorama({
       speakEnglish(sticker.word);
     }
 
-    const newItem = {
-      id: `item-${Date.now()}-${Math.random()}`,
-      word: sticker.word,
-      emoji: sticker.emoji,
-      de: sticker.de,
-      tr: sticker.tr,
-      x: 35 + Math.random() * 30,
-      y: 40 + Math.random() * 30,
-      scale: 1,
-    };
+    const newItem = createStickerItem(sticker);
 
     const updated = [...items, newItem];
     setItems(updated);

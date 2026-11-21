@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Mic, Square, Play, RotateCcw, Volume2, Sparkles, Check } from 'lucide-react';
+import { Mic, Square, Play, Volume2, Check } from 'lucide-react';
 import { playSnap, playStarSparkle, playTap } from '../utils/soundEffects';
 import { speakEnglish } from '../utils/speech';
 
@@ -61,7 +61,7 @@ export default function VoiceRecorderWidget({
           return prev - 1;
         });
       }, 700);
-    } catch (err) {
+    } catch {
       setMicError('Please allow microphone access to practice speaking!');
     }
   };
@@ -108,7 +108,7 @@ export default function VoiceRecorderWidget({
           mediaRecorder.stop();
         }
       }, 2800);
-    } catch (e) {
+    } catch {
       setIsRecording(false);
       setMicError('Could not start recording.');
     }

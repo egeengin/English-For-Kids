@@ -52,7 +52,7 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
 
   const nextRound = () => {
     setRoundIdx((i) => i + 1);
-    setTargetSide(Math.random() < 0.5 ? 'a' : 'b');
+    setTargetSide(() => (Date.now() % 2 === 0 ? 'a' : 'b'));
     setStatus(null);
   };
 

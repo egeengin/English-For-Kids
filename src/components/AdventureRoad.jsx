@@ -1,8 +1,8 @@
 import React from 'react';
-import { Star, Lock, CheckCircle2, Play, Sparkles, Award, Gift, ArrowRight, Compass } from 'lucide-react';
+import { Star, Lock, CheckCircle2, Award, Gift, ArrowRight } from 'lucide-react';
 import { playSnap, playTap, playSparkle } from '../utils/soundEffects';
 
-export const ADVENTURE_STAGES = [
+const ADVENTURE_STAGES = [
   {
     id: 'stage-1',
     number: 1,
@@ -94,7 +94,7 @@ export default function AdventureRoad({
   onOpenCertificate,
   roadProgress = {},
   childName = 'Deniz',
-  childAge = 7,
+  childAge: _childAge = 7,
   isMuted = false,
 }) {
   const handleStageClick = (stage, isUnlocked) => {

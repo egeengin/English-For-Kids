@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import {
   Sparkles,
   Volume2,
-  BookOpen,
   Star,
   CheckCircle2,
-  Rocket,
   Flame,
   X,
   Play,

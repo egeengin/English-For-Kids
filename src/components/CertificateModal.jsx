@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Printer, X, Sparkles, Star, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Award, Printer, X, Sparkles, ShieldCheck } from 'lucide-react';
 import { playSparkle, playTap } from '../utils/soundEffects';
 
 export default function CertificateModal({

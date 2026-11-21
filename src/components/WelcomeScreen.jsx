@@ -1,5 +1,5 @@
 import React from 'react';
-import { Volume2, Sparkles, Play, Rocket, Star, Heart } from 'lucide-react';
+import { Volume2, Play, Rocket, Star } from 'lucide-react';
 import { unlockAudio } from '../utils/speech';
 import { initAudioContext, playLegoSnap, playSuccessChime } from '../utils/soundEffects';
 

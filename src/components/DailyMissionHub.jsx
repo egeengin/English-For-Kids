@@ -21,7 +21,7 @@ import {
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playTap, playSuccess, playWobble, playDiDit } from '../utils/soundEffects';
+import { playTap, playSuccess, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 import DailySingLearn from './DailySingLearn';

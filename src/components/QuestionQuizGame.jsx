@@ -358,7 +358,6 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
   }, [isMuted, item]);
 
   useEffect(() => {
-    setWrongOptions(new Set());
     const t = setTimeout(speakQ, 300);
     return () => clearTimeout(t);
   }, [qIdx, speakQ]);

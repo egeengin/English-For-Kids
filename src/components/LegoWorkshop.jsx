@@ -1,22 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import {
-  Rocket,
-  Car,
-  Castle,
   Lock,
-  CheckCircle2,
   Sparkles,
   ArrowRight,
   Hammer,
   Trophy,
-  Layers,
   Flame,
   Gauge,
-  Flag,
-  RotateCcw,
 } from 'lucide-react';
-import LegoBrick from './LegoBrick';
 import { LEGO_BUILD_MODELS, getMinifigureAccessories } from '../data/curriculum';
 import {
   playLegoSnap,

@@ -413,7 +413,6 @@ export function cleanTextForTTS(rawText) {
   return withSpaces
     .replace(/[^\p{L}\p{N}\s.,!?'’":;-]/gu, ' ')
     .replace(/\s+/g, ' ')
-    .replace(/!+\s+(?=[\p{L}\p{N}])/gu, ', ')
     .trim()
     .slice(0, 1800);
 }

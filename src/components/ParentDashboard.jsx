@@ -7,14 +7,11 @@ import {
   Trash2,
   Volume2,
   Flame,
-  Clock,
   CheckCircle2,
   AlertCircle,
   HelpCircle,
   Sparkles,
   RefreshCw,
-  Tag,
-  Smile,
   LogOut,
   User,
   Key,
@@ -23,7 +20,6 @@ import {
   Check,
   Bot,
   ExternalLink,
-  Sliders,
 } from 'lucide-react';
 import { speakEnglish, speakTurkish, precacheSpeechLibrary } from '../utils/speech';
 import { getStoryWorlds } from '../data/storyData';
@@ -606,7 +602,7 @@ export default function ParentDashboard({
                     setProfileName(newName.trim());
                   }
                 }}
-                className="px-3 py-2 bg-dashed border-2 border-slate-300 hover:border-blue-400 text-slate-600 rounded-xl font-bold text-xs flex items-center gap-1 transition cursor-pointer"
+                className="px-3 py-2 border-dashed border-2 border-slate-300 hover:border-blue-400 text-slate-600 rounded-xl font-bold text-xs flex items-center gap-1 transition cursor-pointer"
                 title="Add a new child or student profile"
               >
                 <PlusCircle className="w-3.5 h-3.5 text-blue-600" />
@@ -691,9 +687,9 @@ export default function ParentDashboard({
                   <div className="p-2 bg-white/80 rounded-xl border border-amber-200">
                     <span className="text-amber-800 font-black">👨‍👩‍👦 Family & Home:</span>
                     <ul className="text-[11px] list-disc list-inside mt-1 text-slate-700">
-                      <li>Mom Melis (Anesthesia, SAH Eschweiler)</li>
-                      <li>Dad Dr. Ege (5G Engineer, E-Space)</li>
-                      <li>Schlossparkstr. 34, 52072 Aachen</li>
+                      <li>Mom Melis (Anesthesia Doctor)</li>
+                      <li>Dad Dr. Ege (5G Engineer)</li>
+                      <li>Aachen, Germany</li>
                     </ul>
                   </div>
                   <div className="p-2 bg-white/80 rounded-xl border border-amber-200">

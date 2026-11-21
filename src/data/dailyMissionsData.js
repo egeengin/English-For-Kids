@@ -1760,6 +1760,25 @@ export const DISCOVERY_STAGES = [
   },
 ];
 
+// Balance option slot positions across A, B, and C for stages where Option A was over-represented
+DISCOVERY_STAGES.forEach((stage) => {
+  const questions = stage.questions || [];
+  const aCorrectCount = questions.filter((q) => q.options?.[0]?.isCorrect).length;
+  if (aCorrectCount > 5) {
+    questions.forEach((q, qIdx) => {
+      if (!Array.isArray(q.options) || q.options.length < 2) return;
+      const shift = (qIdx + (stage.number || 0)) % q.options.length;
+      if (shift > 0) {
+        const rotated = q.options.slice(shift).concat(q.options.slice(0, shift));
+        q.options = rotated.map((opt, idx) => ({
+          ...opt,
+          id: ['a', 'b', 'c'][idx] || String(idx),
+        }));
+      }
+    });
+  }
+});
+
 
 const BASE_EXPEDITION_DAYS = [
   {

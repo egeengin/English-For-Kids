@@ -20,7 +20,7 @@ import {
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playTap, playSuccess, playFanfare, playWobble, playDiDit } from '../utils/soundEffects';
+import { playTap, playSuccess, playFanfare, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 

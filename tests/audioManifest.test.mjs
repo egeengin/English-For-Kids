@@ -9,10 +9,7 @@ import {
   normalizeSpeechLanguage,
   resetManifestCacheForTesting,
 } from '../src/utils/azureSpeechManifest.js';
-import { resolveSequentialAssets } from '../src/utils/speech.js';
-import { CURRICULUM_LEVELS } from '../src/data/curriculum.js';
-import { EXTRA_LEVELS } from '../src/data/extraLevelsData.js';
-import { VOCAB_BANK_500 } from '../src/data/vocabularyBank500.js';
+import { resolveSequentialAssets, cleanTextForTTS } from '../src/utils/speech.js';
 
 test('Azure Speech / Audio Manifest keys and normalization', () => {
   assert.equal(normalizeSpeechLanguage('en-US'), 'en');
@@ -78,7 +75,7 @@ test('getAzureSpeechAsset resolves assets via mocked fetch', async () => {
   };
 
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async (url) => {
+  globalThis.fetch = async () => {
     return {
       ok: true,
       json: async () => sampleManifest,
@@ -104,6 +101,7 @@ test('resolveSequentialAssets resolves direct, compound, and carrier phrases', a
   resetManifestCacheForTesting();
   const sampleManifest = {
     'en:not this one. i am asking for dog.': 'audio/gemini/en/not_this_one_i_am_asking_for_dog',
+    'en:good morning, deniz! time for school!': 'audio/gemini/en/good_morning_deniz_time_for_school',
     'en:that is': 'audio/gemini/en/that_is',
     'en:i am asking for': 'audio/gemini/en/i_am_asking_for',
     'en:dog': 'audio/gemini/en/dog',
@@ -121,7 +119,13 @@ test('resolveSequentialAssets resolves direct, compound, and carrier phrases', a
     const direct = await resolveSequentialAssets('Not this one. I am asking for Dog.', 'en');
     assert.deepEqual(direct, ['audio/gemini/en/not_this_one_i_am_asking_for_dog']);
 
-    // 2. Carrier decomposed match: "That is Cat. I am asking for Dog."
+    // 2. Exclamation-separated phrase preserved by cleanTextForTTS
+    const cleanedExclamation = cleanTextForTTS('Good morning, Deniz! Time for school!');
+    assert.equal(cleanedExclamation, 'Good morning, Deniz! Time for school!');
+    const exclResolved = await resolveSequentialAssets(cleanedExclamation, 'en');
+    assert.deepEqual(exclResolved, ['audio/gemini/en/good_morning_deniz_time_for_school']);
+
+    // 3. Carrier decomposed match: "That is Cat. I am asking for Dog."
     const decomposed = await resolveSequentialAssets('That is Cat. I am asking for Dog.', 'en');
     assert.ok(decomposed && decomposed.length >= 2, 'Should decompose into sequential parts');
     assert.ok(decomposed.includes('audio/gemini/en/dog'));

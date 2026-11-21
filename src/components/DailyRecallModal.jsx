@@ -9,9 +9,7 @@ import {
   Flame,
   X,
   Play,
-  RotateCcw,
   Calendar,
-  Layers,
 } from 'lucide-react';
 import { speakEnglish, unlockAudio, stopSpeech } from '../utils/speech';
 import { playLegoSnap, playSuccessChime, playTap } from '../utils/soundEffects';

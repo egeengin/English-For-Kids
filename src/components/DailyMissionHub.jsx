@@ -369,7 +369,7 @@ export default function DailyMissionHub({
                 type="button"
                 onClick={() => {
                   stopQuizVoiceAnswer();
-                  playQuestionAndOptions(activeDailyQuestion);
+                  playQuestionPrompt(activeDailyQuestion);
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs shadow-xs cursor-pointer"
               >

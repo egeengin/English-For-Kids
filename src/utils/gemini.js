@@ -508,9 +508,9 @@ export const LEO_MISSIONS = [
     labelTr: 'Checker Bilim',
     titleTr: 'Checker & Woozle',
     stepsCount: 3,
-    starterEn: (name) => `Checker Deniz is on air! Woozle Goozle has a wild invention! What question should we solve?`,
-    starterDe: (name) => `Checker Deniz ist auf Sendung! Woozle Goozle hat eine wilde Erfindung! Welche Frage lösen wir?`,
-    starterTr: (name) => `Checker Deniz yayında! Woozle Goozle çılgın bir icat yaptı! Hangi bilim sorusunu çözelim?`,
+    starterEn: (name) => `Checker ${name} is on air! Woozle Goozle has a wild invention! What question should we solve?`,
+    starterDe: (name) => `Checker ${name} ist auf Sendung! Woozle Goozle hat eine wilde Erfindung! Welche Frage lösen wir?`,
+    starterTr: (name) => `Checker ${name} yayında! Woozle Goozle çılgın bir icat yaptı! Hangi bilim sorusunu çözelim?`,
     starterHints: ['Why do rockets fly to space? 🚀', 'How do 5G phone signals travel? 📡'],
     stepPrompts: [
       {
@@ -738,8 +738,8 @@ export async function chatWithLeoGemini({
 
   const activeMission = LEO_MISSIONS.find((m) => m.id === missionId) || LEO_MISSIONS[0];
   const systemPrompt = `You are Leo, a playful, warm Lego builder friend talking with a ${childAge}-year-old beginner English learner named ${childName}.
-The child speaks German and Turkish at home in Aachen (near Schlosspark), attends class 1b at GGS Laurensberg with teacher Frau Schwarz, loves building giant Lego sets, plays piano on Mondays with teacher Jeremias, plays basketball on Wednesdays, and is practicing to win his Silver swimming medal on Sundays!
-His mom is Melis (anesthesiologist at SAH Eschweiler), his dad is Ege (5G engineer with a doctorate PhD), and his grandmas are Nevin and Serpil, and grandpa is Ahmet. His absolute favorite food is Spaghetti Bolognese, he loves baking sweet pudding & cake with his parents, watching Checker Tobi and Woozle Goozle, and holidaying at Nirvana Cosmopolitan hotel in Turkey with best buddies Ojas, Elias, Julius, Vukasin, and Liam!
+The child speaks German and Turkish at home in Aachen, attends class 1b at primary school, loves building giant Lego sets, plays piano on Mondays, plays basketball on Wednesdays, and is practicing to win a Silver swimming medal on Sundays!
+His mom is a doctor (anesthesiologist), his dad is a 5G engineer with a doctorate PhD, and his favorite food is Spaghetti Bolognese. He loves baking sweet pudding & cake with his parents, watching Checker Tobi and Woozle Goozle, and holidaying in Turkey with his friends!
 Active Roleplay Mission: "${activeMission.titleTr}" (step ${Number(stepIndex) + 1} of ${activeMission.stepsCount}).
 The child said to you: "${message}".
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
-import { playSnap, playStarSparkle, playGentleWobble, playTap, playDiDit } from '../utils/soundEffects';
+import { playSnap, playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
 
 function cleanOptionForSpeech(text) {
   return String(text || '')
@@ -14,7 +14,7 @@ function cleanOptionForSpeech(text) {
 }
 
 function getMiniBooks(childName = 'Deniz') {
-  return [
+  const rawBooks = [
     {
       id: 'antalya_book',
       title: `${childName} Goes to Antalya`,
@@ -250,6 +250,14 @@ function getMiniBooks(childName = 'Deniz') {
       ],
     },
   ];
+
+  return rawBooks.map((b, bIdx) => {
+    const shift = bIdx % b.options.length;
+    const rotatedOptions = shift === 0
+      ? b.options
+      : b.options.slice(shift).concat(b.options.slice(0, shift));
+    return { ...b, options: rotatedOptions };
+  });
 }
 
 export default function MiniBooksReader({ onRewardEarned, isMuted = false, childName = 'Deniz' }) {
@@ -360,7 +368,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       setQuizSolved(true);
       confetti({ particleCount: 60, spread: 60, origin: { y: 0.65 } });
       if (onRewardEarned) {
-        onRewardEarned({ stars: 4, bricks: 1, bookTitle: activeBook?.title || 'Mini Book' });
+        onRewardEarned({ stars: 4, bricks: 1, bookTitle: book?.title || 'Mini Book' });
       }
       if (!isMuted) speakEnglish('Great reading! You got it!');
     } else {

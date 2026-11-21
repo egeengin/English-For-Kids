@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 const GameArena = lazy(() => import('./components/GameArena'));
 const ParentDashboard = lazy(() => import('./components/ParentDashboard'));
@@ -48,7 +48,7 @@ const findCurriculumWord = (wordId) => {
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState(() => loadSavedState().lastTab || 'discovery');
+  const [currentTab, setCurrentTab] = useState(() => state.lastTab || 'discovery');
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -58,7 +58,7 @@ export default function App() {
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [isPrintableOpen, setIsPrintableOpen] = useState(false);
-  const [selectedDayId, setSelectedDayId] = useState(() => loadSavedState().selectedDayId || 'day-1');
+  const [selectedDayId, setSelectedDayId] = useState(() => state.selectedDayId || 'day-1');
   const [printConfig, setPrintConfig] = useState({
     mode: 'stage',
     stageId: 'stage-1',
@@ -115,7 +115,7 @@ export default function App() {
   };
 
   // Reward earned from quiz completion or question
-  const handleRewardEarned = (reward = {}) => {
+  const handleRewardEarned = useCallback((reward = {}) => {
     const stars = typeof reward === 'number' ? reward : (reward.stars || 0);
     const bricks = typeof reward === 'number' ? reward : (reward.bricks || 0);
     const bookTitle = typeof reward === 'object' ? reward.bookTitle : null;
@@ -131,20 +131,22 @@ export default function App() {
       bricks: prev.bricks + bricks,
       totalQuestionsAnswered: (prev.totalQuestionsAnswered || 0) + 1,
     }));
-  };
+  }, []);
 
   // Track question completion for milestone / screen-time awareness
-  const handleQuestionCompleted = () => {
+  const handleQuestionCompleted = useCallback(() => {
     logDailyActivity({ questionAnswered: true });
-    const newCount = sessionQuestionsCount + 1;
-    setSessionQuestionsCount(newCount);
-    if (newCount % 10 === 0) {
-      setShowBreakModal(true);
-    }
-  };
+    setSessionQuestionsCount((prev) => {
+      const newCount = prev + 1;
+      if (newCount % 10 === 0) {
+        setShowBreakModal(true);
+      }
+      return newCount;
+    });
+  }, []);
 
   // Word result telemetry from quiz
-  const handleWordResult = ({ wordId, isMastered }) => {
+  const handleWordResult = useCallback(({ wordId, isMastered }) => {
     const found = findCurriculumWord(wordId);
     const wordObj = found
       ? { word: found.word, emoji: found.emoji, tr: found.translation }
@@ -169,7 +171,7 @@ export default function App() {
         practicingWords: Array.from(practicing),
       };
     });
-  };
+  }, []);
 
   // Parent adds custom word
   const handleAddCustomWord = (newWordObj) => {
@@ -766,7 +768,7 @@ export default function App() {
             onAddCustomWord={handleAddCustomWord}
             onDeleteCustomWord={handleDeleteCustomWord}
             onResetProgress={handleResetProgress}
-            onCloseDashboard={() => setCurrentTab('road')}
+            onCloseDashboard={() => setCurrentTab('discovery')}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}

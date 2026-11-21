@@ -60,9 +60,21 @@ export async function getAzureSpeechAsset(text, lang = 'en') {
 
   if (!manifest._lowerMap) {
     manifest._lowerMap = new Map();
+    manifest._lowerNoPunctMap = new Map();
     for (const k of Object.keys(manifest)) {
-      if (k !== '_lowerMap') manifest._lowerMap.set(k.toLowerCase(), manifest[k]);
+      if (k !== '_lowerMap' && k !== '_lowerNoPunctMap') {
+        const lower = k.toLowerCase();
+        manifest._lowerMap.set(lower, manifest[k]);
+        const noPunct = lower.replace(/[.,!?:;]+$/g, '');
+        if (!manifest._lowerNoPunctMap.has(noPunct)) {
+          manifest._lowerNoPunctMap.set(noPunct, manifest[k]);
+        }
+      }
     }
   }
-  return manifest._lowerMap.get(lowerKey) || null;
+  const exactLower = manifest._lowerMap.get(lowerKey);
+  if (exactLower) return exactLower;
+
+  const noPunctKey = lowerKey.replace(/[.,!?:;]+$/g, '');
+  return manifest._lowerNoPunctMap?.get(noPunctKey) || null;
 }

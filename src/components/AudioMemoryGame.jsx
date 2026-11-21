@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, RotateCcw, Sparkles } from 'lucide-react';
 import { VOCAB_BANK_500 } from '../data/vocabularyBank500';
@@ -22,8 +22,10 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
   const [matchedIds, setMatchedIds] = useState([]);
   const [isLocked, setIsLocked] = useState(false);
   const [moves, setMoves] = useState(0);
+  const hasRewardedRef = useRef(false);
 
   const startNewGame = useCallback((count = pairCount) => {
+    hasRewardedRef.current = false;
     playTap(isMuted);
     setCards(buildMemoryDeck(count));
     setFlippedUids([]);
@@ -33,7 +35,8 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
   }, [isMuted, pairCount]);
 
   useEffect(() => {
-    if (matchedIds.length === pairCount && pairCount > 0) {
+    if (matchedIds.length === pairCount && pairCount > 0 && !hasRewardedRef.current) {
+      hasRewardedRef.current = true;
       playVictoryFanfare(isMuted);
       confetti({ particleCount: 70, spread: 65, origin: { y: 0.65 } });
       if (onRewardEarned) onRewardEarned(5);

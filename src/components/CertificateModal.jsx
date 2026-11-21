@@ -126,7 +126,7 @@ export default function CertificateModal({
                 {childName} (Class 1b, Age {childAge})
               </h2>
               <p className="text-xs text-amber-800 font-bold mt-1">
-                Teacher: Frau Schwarz • Schlossparkstr. 34, 52072 Aachen
+                Teacher: Frau Schwarz • Aachen, Germany
               </p>
             </div>
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
-import { playStarSparkle, playGentleWobble, playTap, playDiDit } from '../utils/soundEffects';
+import { playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
 function cleanOptionForSpeech(text) {
@@ -345,6 +345,14 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
 
   const item = QUESTION_BANK[qIdx % QUESTION_BANK.length];
 
+  const shuffledOptions = useMemo(() => {
+    if (!item?.options) return [];
+    const shift = qIdx % item.options.length;
+    return shift === 0
+      ? item.options
+      : item.options.slice(shift).concat(item.options.slice(0, shift));
+  }, [item, qIdx]);
+
   const speakQ = useCallback(() => {
     if (!isMuted && item) speakEnglish(item.q);
   }, [isMuted, item]);
@@ -411,7 +419,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
         </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          {item.options.map((opt, idx) => {
+          {shuffledOptions.map((opt, idx) => {
             const cleanText = cleanOptionForSpeech(opt.text);
             const isWrong = wrongOptions.has(opt.text);
             return (

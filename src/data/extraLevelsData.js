@@ -4,12 +4,20 @@
  */
 
 function makeQ(id, emoji, promptEn, options) {
+  let hash = 0;
+  const str = String(id || '');
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) | 0;
+  }
+  const shift = options.length > 0 ? Math.abs(hash) % options.length : 0;
+  const rotated = shift === 0 ? options : options.slice(shift).concat(options.slice(0, shift));
+
   return {
     id,
     characterEmoji: emoji,
     promptEn,
-    options: options.map(([optId, textEn, optEmoji, isCorrect]) => ({
-      id: optId,
+    options: rotated.map(([, textEn, optEmoji, isCorrect], idx) => ({
+      id: ['a', 'b', 'c'][idx] || String(idx),
       textEn,
       emoji: optEmoji,
       isCorrect: Boolean(isCorrect),

@@ -38,10 +38,9 @@ async def synthesize_item(sem, item, progress):
     text = item["text"]
     slug = item["slug"]
     m4a_path = os.path.join(OUTPUT_DIR, f"{slug}.m4a")
-    wav_path = os.path.join(OUTPUT_DIR, f"{slug}.wav")
     tmp_mp3 = os.path.join(OUTPUT_DIR, f"{slug}.tmp.mp3")
 
-    if os.path.exists(m4a_path) and os.path.exists(wav_path):
+    if os.path.exists(m4a_path) and os.path.getsize(m4a_path) > 500:
         progress["skipped"] += 1
         return
 
@@ -54,14 +53,6 @@ async def synthesize_item(sem, item, progress):
                 # Convert to .m4a
                 subprocess.run(
                     ["afconvert", "-f", "m4af", "-d", "aac", tmp_mp3, m4a_path],
-                    check=True,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                )
-
-                # Convert to .wav
-                subprocess.run(
-                    ["afconvert", "-f", "WAVE", "-d", "LEI16", tmp_mp3, wav_path],
                     check=True,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
@@ -104,16 +95,26 @@ async def main():
             manifest = {}
 
     slug_map = {}
+    for k, v in manifest.items():
+        s = v.split("/")[-1]
+        slug_map[s] = k.split(":", 1)[-1].lower()
+
     items = []
     for t in targets:
         text = t["text"]
-        base = text_to_slug(text)
-        slug = base
-        counter = 2
-        while slug in slug_map and slug_map[slug] != text.lower():
-            slug = f"{base}_{counter}"
-            counter += 1
-        slug_map[slug] = text.lower()
+        existing = manifest.get(f"en:{text}") or manifest.get(f"en:{text.lower()}")
+        if existing and os.path.exists(os.path.join("public", f"{existing}.m4a")):
+            slug = existing.split("/")[-1]
+        else:
+            base = text_to_slug(text)
+            slug = base
+            counter = 2
+            while (slug in slug_map and slug_map[slug] != text.lower()) or (
+                os.path.exists(os.path.join(OUTPUT_DIR, f"{slug}.m4a")) and slug_map.get(slug) != text.lower()
+            ):
+                slug = f"{base}_{counter}"
+                counter += 1
+            slug_map[slug] = text.lower()
         items.append({"text": text, "slug": slug})
 
         # Build manifest mappings
@@ -122,7 +123,7 @@ async def main():
 
     needed = [it for it in items if not (
         os.path.exists(os.path.join(OUTPUT_DIR, f"{it['slug']}.m4a")) and
-        os.path.exists(os.path.join(OUTPUT_DIR, f"{it['slug']}.wav"))
+        os.path.getsize(os.path.join(OUTPUT_DIR, f"{it['slug']}.m4a")) > 500
     )]
 
     print(f"Neural Audio Synthesis: {len(needed)} clips needed ({len(items) - len(needed)} already exist).")

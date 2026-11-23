@@ -1003,6 +1003,8 @@ export async function resolveSequentialAssets(cleanText, lang = 'en-US') {
     /^(I am asking:?)\s+(.+)$/i,
     /^(Try again!?)\s+(.+)$/i,
     /^(Not there!?)\s+(.+)$/i,
+    /^(Great job!?)\s+(.+)$/i,
+    /^(Awesome!?)\s+(.+)$/i,
     /^(That word does not fit\.?\s+I am asking for)\s+(.+)$/i,
   ];
 

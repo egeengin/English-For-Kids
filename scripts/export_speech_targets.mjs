@@ -37,6 +37,7 @@ for (const lvl of CURRICULUM_LEVELS || []) {
   for (const it of lvl.items || []) {
     add(it.word);
     add(it.hintSentence);
+    add(it.dadPrompt);
   }
 }
 
@@ -70,6 +71,7 @@ for (const day of DAILY_EXPEDITION_DAYS || []) {
   }
 }
 for (const stg of DISCOVERY_STAGES || []) {
+  add(stg.introSpeechEn);
   for (const q of stg.questions || []) {
     add(q.promptEn);
     for (const opt of q.options || []) add(opt.textEn);
@@ -78,9 +80,10 @@ for (const stg of DISCOVERY_STAGES || []) {
 
 // 6. Scenes
 for (const sc of Object.values(SCENES_DATA || {})) {
-  for (const it of sc.items || []) {
-    add(it.name);
-    add(it.hint);
+  for (const d of sc.differences || []) {
+    add(d.audioKey || d.targetWord);
+    add(d.targetWord);
+    add(d.sentence);
   }
 }
 
@@ -90,10 +93,19 @@ for (const w of getStoryWorlds('Deniz') || []) {
     add(ch.characterLine);
     for (const c of ch.choices || []) {
       add(c.text);
-      if (c.characterReply) add(c.characterReply.text);
+      if (c.reply) add(c.reply.text);
     }
-    for (const p of ch.props || []) add(p.name);
-    for (const sp of ch.spotDifferences || []) add(sp.speakText || sp.name);
+    for (const p of ch.sceneBackdrop?.props || []) {
+      add(p.name);
+      add(`Find the ${p.name}!`);
+      add(`Great job! ${p.name}!`);
+    }
+    if (ch.sentenceBuilder?.words) {
+      add(ch.sentenceBuilder.words.join(' '));
+      for (const word of ch.sentenceBuilder.words) {
+        add(word.replace(/[^a-zA-Z]/g, ''));
+      }
+    }
   }
 }
 
@@ -124,12 +136,34 @@ const common = [
   'My name is Leo!', "Yes, let's play!", 'See you tomorrow!',
   'Goodbye!', 'Welcome to school!', 'Teacher', 'Friend', 'School',
   'Hello Deniz!', 'My name is Deniz!',
+  'Awesome speaking!', 'Almost there, try again!', 'Great!',
   'Good morning, Deniz! Time for school!',
   'Good morning, Deniz! How are you today?',
   'Good morning, sunshine! Breakfast is ready on the table!',
   'Goodbye Deniz!'
 ];
 for (const c of common) add(c);
+
+// 10b. QuestionQuizGame
+try {
+  const qqCode = readFileSync('src/components/QuestionQuizGame.jsx', 'utf8');
+  const startIdx = qqCode.indexOf('const QUESTION_BANK = [');
+  const endIdx = qqCode.indexOf('export default function QuestionQuizGame');
+  if (startIdx !== -1 && endIdx !== -1) {
+    const bankCode = qqCode.slice(startIdx, endIdx).replace('const QUESTION_BANK =', 'return');
+    const bank = new Function(bankCode)();
+    for (const item of bank || []) {
+      add(item.q);
+      add(item.word);
+      for (const opt of item.options || []) {
+        const cleanOpt = String(opt.text || '').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
+        add(cleanOpt);
+      }
+    }
+  }
+} catch {
+  // ignore
+}
 
 // 11. Mini Books
 import { readFileSync } from 'node:fs';

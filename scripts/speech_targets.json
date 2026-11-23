@@ -3860,20 +3860,20 @@
     "hash": "aebe33983c0c7fed"
   },
   {
-    "text": "Do you like apples? Yes, I do!",
-    "hash": "d57fd6021793620a"
+    "text": "I like red apples! Yummy!",
+    "hash": "1bc760934478bda2"
   },
   {
-    "text": "Do you like broccoli? No, I don’t!",
-    "hash": "b54f3ecb5f988073"
+    "text": "I don’t like broccoli! Oh no!",
+    "hash": "5389fb5609e34cd8"
+  },
+  {
+    "text": "I am hungry! Let us eat!",
+    "hash": "3013bab6179711d4"
   },
   {
     "text": "Can I have water, please? Thank you!",
     "hash": "42b8794827fedc43"
-  },
-  {
-    "text": "Yummy, yummy, good for you!",
-    "hash": "f2acc9813371473a"
   },
   {
     "text": "I like red apples!",
@@ -3888,48 +3888,112 @@
     "hash": "daa33b0c3ef0bf06"
   },
   {
-    "text": "I can jump! Jump, jump, jump!",
-    "hash": "17bb87df6372dee7"
+    "text": "I like spaghetti bolognese!",
+    "hash": "16d60860573665f4"
   },
   {
-    "text": "I can play piano, fast and slow!",
-    "hash": "f932c3689b5a8690"
+    "text": "I like chocolate pudding!",
+    "hash": "1ec371fa5efe20c0"
   },
   {
-    "text": "Can you fly? No, I can’t!",
-    "hash": "60297a563a72e9c8"
+    "text": "I like apples!",
+    "hash": "70e53b4d1a984370"
   },
   {
-    "text": "Loud and quiet, here we go!",
-    "hash": "80e280330fc1556a"
+    "text": "I like pizza!",
+    "hash": "e7072d648b060ad5"
   },
   {
-    "text": "I can play basketball!",
-    "hash": "a6671fb1cb63e211"
+    "text": "I like bananas!",
+    "hash": "4b69d89a2572a504"
+  },
+  {
+    "text": "I like ice cream!",
+    "hash": "1a887d94136ac8ce"
+  },
+  {
+    "text": "Can I have water, please?",
+    "hash": "8e574b7710b8a414"
+  },
+  {
+    "text": "Can I have an apple, please?",
+    "hash": "97b98da0d69bbcef"
+  },
+  {
+    "text": "Can I have milk, please?",
+    "hash": "65214e2650e72107"
+  },
+  {
+    "text": "Can I have a brick, please?",
+    "hash": "a9571df9306d4a8c"
+  },
+  {
+    "text": "I can jump and I can swim!",
+    "hash": "287319ecd80dfc35"
   },
   {
     "text": "I can’t fly like a bird!",
     "hash": "82d087d648244d24"
   },
   {
+    "text": "I can run fast and walk slow!",
+    "hash": "e3286f57d450eff5"
+  },
+  {
+    "text": "Play piano loud and quiet!",
+    "hash": "3905e19e869e7bea"
+  },
+  {
+    "text": "I can play basketball!",
+    "hash": "a6671fb1cb63e211"
+  },
+  {
     "text": "Fast like a cheetah, slow like a turtle!",
     "hash": "a55ca94a0c92cd44"
   },
   {
-    "text": "Clap your hands, clap, clap, clap!",
-    "hash": "27c682a3b5a73887"
+    "text": "I can jump!",
+    "hash": "7a8c5a022c11bafb"
+  },
+  {
+    "text": "I can play piano!",
+    "hash": "512c35e2edebee79"
+  },
+  {
+    "text": "I can swim fast!",
+    "hash": "6df864b22264f57f"
+  },
+  {
+    "text": "Can you run fast?",
+    "hash": "fcf46fedc6ac2d22"
+  },
+  {
+    "text": "Can you fly?",
+    "hash": "2ee16eb64441cfce"
+  },
+  {
+    "text": "Can you sing a song?",
+    "hash": "5d199dc604902a30"
+  },
+  {
+    "text": "Can you spin around?",
+    "hash": "1fa851957d99f1f8"
   },
   {
     "text": "What are you doing? I am jumping!",
     "hash": "a4a762791dcfd515"
   },
   {
-    "text": "Touch your nose and freeze like ice!",
-    "hash": "5f84f5d33a786f15"
+    "text": "Clap your hands, clap, clap, clap!",
+    "hash": "27c682a3b5a73887"
   },
   {
-    "text": "Dad says spin! That was nice!",
-    "hash": "6180e177b27ca3e7"
+    "text": "Touch your nose! One, two, three!",
+    "hash": "797193ae426a51ea"
+  },
+  {
+    "text": "Now freeze! Don’t move!",
+    "hash": "2f7ff1a2a2d40adc"
   },
   {
     "text": "I am running fast!",
@@ -3942,6 +4006,38 @@
   {
     "text": "Freeze! Don’t move!",
     "hash": "c03db6927f236271"
+  },
+  {
+    "text": "I am jumping!",
+    "hash": "089630aa6352fffe"
+  },
+  {
+    "text": "I am running!",
+    "hash": "965c26c7b2c76626"
+  },
+  {
+    "text": "I am clapping!",
+    "hash": "f16837d3f40e7e0f"
+  },
+  {
+    "text": "I am dancing!",
+    "hash": "9adacbe8a7e8a27c"
+  },
+  {
+    "text": "Touch your nose!",
+    "hash": "887fdef355058fb4"
+  },
+  {
+    "text": "Touch your ears!",
+    "hash": "aca0a6c1211ff20e"
+  },
+  {
+    "text": "Touch your head!",
+    "hash": "974c6d463d0c69b6"
+  },
+  {
+    "text": "Touch your toes!",
+    "hash": "c733438b7a565aef"
   },
   {
     "text": "Drop a brick, does it sink or float?",
@@ -3972,6 +4068,38 @@
     "hash": "40ce2a3466f8496c"
   },
   {
+    "text": "Because it is heavy!",
+    "hash": "f3580a6f5908de4b"
+  },
+  {
+    "text": "Because it is light!",
+    "hash": "143b94df15604d7e"
+  },
+  {
+    "text": "Because it is big!",
+    "hash": "f06980dc6f1b9f6e"
+  },
+  {
+    "text": "Because it is small!",
+    "hash": "be26bbbbe91a5326"
+  },
+  {
+    "text": "The duck floats in water!",
+    "hash": "a341af02e36a2ae4"
+  },
+  {
+    "text": "The rock sinks in water!",
+    "hash": "fbf6404ac213943c"
+  },
+  {
+    "text": "The boat floats in water!",
+    "hash": "185946e406c4021d"
+  },
+  {
+    "text": "The coin sinks in water!",
+    "hash": "957c5977568e0334"
+  },
+  {
     "text": "In the box, on the chair, under the bed!",
     "hash": "d61035df3ebb9b34"
   },
@@ -4000,20 +4128,48 @@
     "hash": "011f4afabea667c3"
   },
   {
+    "text": "Pikachu is on the box!",
+    "hash": "942664aee7df38a6"
+  },
+  {
+    "text": "Pikachu is under the box!",
+    "hash": "89e62856fba9f387"
+  },
+  {
+    "text": "Pikachu is next to the box!",
+    "hash": "4cf159d628c48e18"
+  },
+  {
+    "text": "I have ten Pokemon cards!",
+    "hash": "6d7887c0da43a3ca"
+  },
+  {
+    "text": "I have twelve Pokemon cards!",
+    "hash": "6b5ad9d73fe84c4d"
+  },
+  {
+    "text": "I have fifteen Pokemon cards!",
+    "hash": "3d927450e7781033"
+  },
+  {
+    "text": "I have twenty Pokemon cards!",
+    "hash": "cd640e3accc4df47"
+  },
+  {
     "text": "Wake up, brush your teeth, grab your bag!",
     "hash": "d3807674faa525d6"
   },
   {
-    "text": "What time is it? Seven o’clock!",
-    "hash": "3ff0e3a5de344ec4"
+    "text": "What time is it? Eight o’clock!",
+    "hash": "2fa4bac4867b9fae"
   },
   {
-    "text": "Who is at school? My teacher and friend!",
-    "hash": "0326107f96dafc15"
+    "text": "Breakfast is in the kitchen!",
+    "hash": "92dba557bc9cf702"
   },
   {
-    "text": "Where is my pencil? In my backpack!",
-    "hash": "0939d613c2c66932"
+    "text": "Where is my pencil? In my bag!",
+    "hash": "fa595bef4efd7412"
   },
   {
     "text": "It is seven o’clock!",
@@ -4028,20 +4184,48 @@
     "hash": "98d637b03ea9e70b"
   },
   {
+    "text": "It is eight o’clock!",
+    "hash": "fb670bd4339b9e2f"
+  },
+  {
+    "text": "It is nine o’clock!",
+    "hash": "d5c09f54f328f0e1"
+  },
+  {
+    "text": "It is ten o’clock!",
+    "hash": "fa71b68e7c217f44"
+  },
+  {
+    "text": "In the morning, I wake up!",
+    "hash": "37edbfc20537d568"
+  },
+  {
+    "text": "In the morning, I brush my teeth!",
+    "hash": "48201a1184a28f41"
+  },
+  {
+    "text": "In the morning, I eat breakfast!",
+    "hash": "4039279645ecf2ba"
+  },
+  {
+    "text": "In the morning, I go to school!",
+    "hash": "02af0ea6addd4111"
+  },
+  {
+    "text": "A lion is stronger than a cat!",
+    "hash": "31e956142f3a3147"
+  },
+  {
     "text": "A cheetah is faster than a turtle!",
     "hash": "81d0b73ea3adc6c1"
   },
   {
+    "text": "The blue whale is the biggest!",
+    "hash": "1910ca8067edfc03"
+  },
+  {
     "text": "Yesterday I played and had fun!",
     "hash": "acfdaf5efcb598c8"
-  },
-  {
-    "text": "Bigger, smaller, fast and strong!",
-    "hash": "ad51340c3f54bab8"
-  },
-  {
-    "text": "I am a superstar! Sing this song!",
-    "hash": "2f4a7d9b29cc8bf0"
   },
   {
     "text": "An elephant is bigger than a mouse!",
@@ -4054,6 +4238,34 @@
   {
     "text": "My name is Deniz. I am seven. I love Lego!",
     "hash": "a0f685306bf52844"
+  },
+  {
+    "text": "A lion is bigger than a cat!",
+    "hash": "5a35b9a769614ebc"
+  },
+  {
+    "text": "A lion is faster than a cat!",
+    "hash": "076d1bd94fd87ef4"
+  },
+  {
+    "text": "A lion is louder than a cat!",
+    "hash": "12e0e2c2c2be7d41"
+  },
+  {
+    "text": "Yesterday, I played basketball!",
+    "hash": "5c43ce6c4743022e"
+  },
+  {
+    "text": "Yesterday, I played piano!",
+    "hash": "929d681460a56db8"
+  },
+  {
+    "text": "Yesterday, I built a castle!",
+    "hash": "cf09a4a639bd2c5c"
+  },
+  {
+    "text": "Yesterday, I read a story!",
+    "hash": "40bcc3a827d88081"
   },
   {
     "text": "I have got a red bike!",
@@ -4078,6 +4290,34 @@
   {
     "text": "My backpack is blue!",
     "hash": "cd2295a2beda9cbf"
+  },
+  {
+    "text": "I have got a big Lego box!",
+    "hash": "ac5698f94993309c"
+  },
+  {
+    "text": "I have got an orange basketball!",
+    "hash": "4a36dff2b827aef4"
+  },
+  {
+    "text": "I have got a cool piano!",
+    "hash": "3288387f114b5787"
+  },
+  {
+    "text": "This is my new book!",
+    "hash": "131afc26ed425291"
+  },
+  {
+    "text": "This is my Pikachu card!",
+    "hash": "d6646f5112e9d35c"
+  },
+  {
+    "text": "This is my happy bear!",
+    "hash": "8be96d18676cd08e"
+  },
+  {
+    "text": "This is my fast rocket!",
+    "hash": "c1e7c0869cc470a0"
   },
   {
     "text": "Ready, steady, go! Let’s play together!",
@@ -4108,6 +4348,38 @@
     "hash": "4599f631a36c0264"
   },
   {
+    "text": "Let’s build a tower together!",
+    "hash": "8770340b8a996b7e"
+  },
+  {
+    "text": "Let’s play basketball together!",
+    "hash": "14ddd14b0093a352"
+  },
+  {
+    "text": "Let’s trade cards together!",
+    "hash": "0e6de125cb23d884"
+  },
+  {
+    "text": "Let’s read a story together!",
+    "hash": "2bde8e7450e6c9e3"
+  },
+  {
+    "text": "It is your turn!",
+    "hash": "483c2491a679ec4a"
+  },
+  {
+    "text": "Wait for me!",
+    "hash": "1f0259690b436852"
+  },
+  {
+    "text": "That is a good idea!",
+    "hash": "4a5e71269c0305e1"
+  },
+  {
+    "text": "What does this mean?",
+    "hash": "8ef998d38f29067d"
+  },
+  {
     "text": "There is one big rocket on the desk!",
     "hash": "58a35dea5f7fd2d6"
   },
@@ -4134,6 +4406,38 @@
   {
     "text": "How many apples are there?",
     "hash": "46098650a775dfd9"
+  },
+  {
+    "text": "There is a clever fox here!",
+    "hash": "ff0b579ac890e18e"
+  },
+  {
+    "text": "There is a space rocket here!",
+    "hash": "1cb1789e03ecf199"
+  },
+  {
+    "text": "There is a green turtle here!",
+    "hash": "73a1028e3741966a"
+  },
+  {
+    "text": "There is a magic castle here!",
+    "hash": "e8a58cafa0a62967"
+  },
+  {
+    "text": "There are ten Lego bricks in my room!",
+    "hash": "eb6e08eabe1312cf"
+  },
+  {
+    "text": "There are five fun books in my room!",
+    "hash": "6d2ccc8c080ef446"
+  },
+  {
+    "text": "There are twenty cards in my room!",
+    "hash": "dc0e875230d2032d"
+  },
+  {
+    "text": "There are four balloons in my room!",
+    "hash": "8f9fc71f6f7575dd"
   },
   {
     "text": "Who is behind the door? It is Dad!",
@@ -4164,6 +4468,22 @@
     "hash": "fd571e1cff4cdd1c"
   },
   {
+    "text": "Where is my bike?",
+    "hash": "77e1b1da1303a34d"
+  },
+  {
+    "text": "Who is your friend?",
+    "hash": "36f22c11ba336132"
+  },
+  {
+    "text": "Whose book is this?",
+    "hash": "70bf730653b85589"
+  },
+  {
+    "text": "When is basketball?",
+    "hash": "2d8871d757a6a3af"
+  },
+  {
     "text": "The cheetah is the fastest animal!",
     "hash": "42c581e932197e8f"
   },
@@ -4190,6 +4510,22 @@
   {
     "text": "The giraffe is the tallest!",
     "hash": "1a316881603bd72a"
+  },
+  {
+    "text": "It is the fastest in the world!",
+    "hash": "8a5175b93f83f625"
+  },
+  {
+    "text": "It is the biggest in the world!",
+    "hash": "3b1e9c06f74d39f6"
+  },
+  {
+    "text": "It is the tallest in the world!",
+    "hash": "fb5814704d2922b0"
+  },
+  {
+    "text": "It is the smartest in the world!",
+    "hash": "476eefae11c5d50e"
   },
   {
     "text": "Yesterday, I played basketball with friends!",
@@ -4220,6 +4556,18 @@
     "hash": "2dc772ea1a74637c"
   },
   {
+    "text": "Yesterday, I went to the park!",
+    "hash": "72f43b2cfa50f0d3"
+  },
+  {
+    "text": "Yesterday, I saw a cool owl!",
+    "hash": "5a5023ed4d5237fd"
+  },
+  {
+    "text": "Yesterday, I ate sweet berries!",
+    "hash": "071716f04655820b"
+  },
+  {
     "text": "Tomorrow, I am going to build a spaceship!",
     "hash": "f7a7a9c404d849f5"
   },
@@ -4248,6 +4596,22 @@
     "hash": "ab20fa520d743865"
   },
   {
+    "text": "Tomorrow, I am going to build a huge tower!",
+    "hash": "66bcfa87bcf67fee"
+  },
+  {
+    "text": "Tomorrow, I am going to play a new song!",
+    "hash": "d3900dbb9d3ec141"
+  },
+  {
+    "text": "Tomorrow, I am going to do a science test!",
+    "hash": "814fc1d4d74fac4b"
+  },
+  {
+    "text": "Tomorrow, I am going to ride my bike!",
+    "hash": "cdd771c11ec62c0a"
+  },
+  {
     "text": "Spaghetti bolognese is my favorite food!",
     "hash": "ad61e9701a85c0bf"
   },
@@ -4270,6 +4634,34 @@
   {
     "text": "I live in Aachen with Mom Melis and Dad Ege!",
     "hash": "3ea8e0f77d508aad"
+  },
+  {
+    "text": "My favorite food is fluffy homemade cake!",
+    "hash": "20a2d7a62c57e9aa"
+  },
+  {
+    "text": "My favorite food is chocolate pudding!",
+    "hash": "ba76c240cf856317"
+  },
+  {
+    "text": "My favorite food is warm pizza!",
+    "hash": "c1cf2969ec2e8b6d"
+  },
+  {
+    "text": "We love staying at Nirvana Cosmopolitan!",
+    "hash": "a98c57dbe46b7799"
+  },
+  {
+    "text": "We love swimming for the Silver Medal!",
+    "hash": "7d0e36e7575277af"
+  },
+  {
+    "text": "We love playing piano with Jeremias!",
+    "hash": "62a6b33017048534"
+  },
+  {
+    "text": "We love building giant Lego sets!",
+    "hash": "f902d58b91d6c100"
   },
   {
     "text": "Dad Dr. Ege sends 5G signals into space!",
@@ -4300,56 +4692,236 @@
     "hash": "2614e82f9e04cd74"
   },
   {
-    "text": "You want to say you own a red bicycle. Which sentence is right?",
-    "hash": "2ec1e645c51ac4a3"
+    "text": "Twenty-four plus eighteen equals forty-two!",
+    "hash": "a42ed277b258058f"
   },
   {
-    "text": "Yesterday bike blue!",
-    "hash": "f41c6b475ba6d413"
+    "text": "Fifty plus fifty equals one hundred!",
+    "hash": "722c64c1d391eb75"
+  },
+  {
+    "text": "Dad Dr. Ege is a brilliant 5G engineer!",
+    "hash": "7cae31cfb2f6bf96"
+  },
+  {
+    "text": "Dad Dr. Ege is a brilliant satellite scientist!",
+    "hash": "13a7fbac830f352b"
+  },
+  {
+    "text": "Dad Dr. Ege is a brilliant tech inventor!",
+    "hash": "76d4edf42c79f45e"
+  },
+  {
+    "text": "Dad Dr. Ege is a brilliant computer wizard!",
+    "hash": "754909faf8e8583d"
+  },
+  {
+    "text": "I like",
+    "hash": "aa7c783af2fd029a"
+  },
+  {
+    "text": "I don’t like",
+    "hash": "3a77602df71538bd"
+  },
+  {
+    "text": "I don’t like broccoli!",
+    "hash": "881e04b7fd68896f"
+  },
+  {
+    "text": "I am hungry!",
+    "hash": "9836ca65d78bfc24"
+  },
+  {
+    "text": "Can I have...?",
+    "hash": "8ebeb055967cb295"
+  },
+  {
+    "text": "I red apples! Yummy!",
+    "hash": "a4319624736af011"
+  },
+  {
+    "text": "I am a red apple.",
+    "hash": "340640807eba750d"
+  },
+  {
+    "text": "I don’t like apples!",
+    "hash": "c2fdfae70d05afc2"
+  },
+  {
+    "text": "Yuck! How do you say you do NOT like broccoli?",
+    "hash": "4af5cee4f93d40b8"
+  },
+  {
+    "text": "I like broccoli!",
+    "hash": "b59bfe2b98ce2640"
+  },
+  {
+    "text": "Broccoli is blue.",
+    "hash": "8655698f94bc9eaa"
+  },
+  {
+    "text": "Your tummy says grumble! How do you say \"Açım!\"?",
+    "hash": "f48d21334880ecb4"
+  },
+  {
+    "text": "I am a pizza!",
+    "hash": "65db0751217e1588"
+  },
+  {
+    "text": "Good night!",
+    "hash": "7c66af721436bd9f"
+  },
+  {
+    "text": "You want water politely. What do you ask?",
+    "hash": "c315b7bdd85532c5"
+  },
+  {
+    "text": "Water is a bike.",
+    "hash": "d41fd8895cfda3c6"
+  },
+  {
+    "text": "I don’t like water!",
+    "hash": "74504bbe298d4912"
+  },
+  {
+    "text": "Spaghetti is your favorite! What do you say?",
+    "hash": "2c1fdae86a3bd29e"
+  },
+  {
+    "text": "I like spaghetti!",
+    "hash": "14c50f80316d2a46"
+  },
+  {
+    "text": "I don’t like spaghetti!",
+    "hash": "7b3e36d641f266f6"
+  },
+  {
+    "text": "Goodbye spaghetti!",
+    "hash": "04a7948f5fc7e6d6"
+  },
+  {
+    "text": "Someone gives you an apple. What is the magic word?",
+    "hash": "96e473a5644168d8"
+  },
+  {
+    "text": "No, broccoli!",
+    "hash": "989220434be37edf"
+  },
+  {
+    "text": "Thank you!",
+    "hash": "52fd2f74df20f4cf"
+  },
+  {
+    "text": "Complete: \" I have milk, please?\"",
+    "hash": "d4209dc9b6ce2875"
+  },
+  {
+    "text": "Milk is hungry!",
+    "hash": "f28cb0395ffd569c"
+  },
+  {
+    "text": "I don’t like milk?",
+    "hash": "f57a6715110f7a6a"
+  },
+  {
+    "text": "Do you like bananas? Yes!",
+    "hash": "321df4b497ac5653"
+  },
+  {
+    "text": "Yes, I like bananas!",
+    "hash": "14360ceabfdd0da9"
+  },
+  {
+    "text": "No, I don’t like bananas.",
+    "hash": "89ce56bad92d6c07"
+  },
+  {
+    "text": "I am a banana.",
+    "hash": "b3604ce3b2665c1f"
+  },
+  {
+    "text": "Sour lemon! Which one means \"Limonu sevmem\"?",
+    "hash": "4f18aea999ccd17e"
+  },
+  {
+    "text": "I like lemon!",
+    "hash": "a6e8955bf3ee3e18"
+  },
+  {
+    "text": "Can I have lemon?",
+    "hash": "256a5e8b31c9b607"
+  },
+  {
+    "text": "I don’t like lemon!",
+    "hash": "1988936cfb30c5de"
+  },
+  {
+    "text": "Complete: \"I am ! Can I have cake, please?\"",
+    "hash": "7bf40baf6dfe2dd5"
+  },
+  {
+    "text": "I don’t like cake!",
+    "hash": "7fdf659d816d1de0"
+  },
+  {
+    "text": "I am sleepy!",
+    "hash": "ec711b79a4bab044"
+  },
+  {
+    "text": "I have got",
+    "hash": "5c2b9f270ab69d4a"
+  },
+  {
+    "text": "My Your",
+    "hash": "90ff5acd6960a916"
+  },
+  {
+    "text": "This is my book. That is your bag!",
+    "hash": "cdb648ba5306596a"
+  },
+  {
+    "text": "This is",
+    "hash": "86a9d54359ffab1d"
+  },
+  {
+    "text": "That is",
+    "hash": "247aaf09665d0c0b"
+  },
+  {
+    "text": "I a red bike!",
+    "hash": "e5c47c32f91f9419"
+  },
+  {
+    "text": "I don’t like bike!",
+    "hash": "46835894599f1657"
   },
   {
     "text": "I am a red bike!",
     "hash": "1c60d2ef4a03976f"
   },
   {
-    "text": "You are holding a blue Lego brick in your hand. What do you say?",
-    "hash": "f8bf1c4626cfc1df"
+    "text": "The blue brick is in your hand yakın :",
+    "hash": "2325b5a7f8cb0b32"
   },
   {
-    "text": "This is my blue brick!",
-    "hash": "dbbda91c93166f9d"
+    "text": "That is a moon!",
+    "hash": "975bfd8b76b8540d"
   },
   {
-    "text": "Those are green apples!",
-    "hash": "82ad6158a9167b49"
-  },
-  {
-    "text": "He has got five cats!",
-    "hash": "0a264cf74275c8e0"
-  },
-  {
-    "text": "Point to your friend’s backpack across the room:",
-    "hash": "ef2a624548022e6b"
+    "text": "Point to your friend’s backpack far away uzak :",
+    "hash": "bf589b299b6ea311"
   },
   {
     "text": "This is my banana!",
     "hash": "648afc72b5feecd5"
   },
   {
-    "text": "I can swim fast!",
-    "hash": "6df864b22264f57f"
+    "text": "Can I have water?",
+    "hash": "d9d96adb5069799b"
   },
   {
-    "text": "That is your backpack!",
-    "hash": "5645334234cd9bf6"
-  },
-  {
-    "text": "Mom asks: \"Have you got a Pikachu card?\" You say YES:",
-    "hash": "0601a0c4255d520c"
-  },
-  {
-    "text": "Thank you, please!",
-    "hash": "8811760a97163243"
+    "text": "Have you got a cool book? Yes!",
+    "hash": "609a127000b913d0"
   },
   {
     "text": "Yes, I have!",
@@ -4360,100 +4932,188 @@
     "hash": "9d86a7a68675c582"
   },
   {
-    "text": "Your brother owns an orange basketball. Complete: \"He an orange ball.\"",
-    "hash": "ad92740d1e40328e"
-  },
-  {
-    "text": "has got",
-    "hash": "890c8670c2e225d4"
-  },
-  {
-    "text": "am",
-    "hash": "aa6fda029ea1a7e3"
-  },
-  {
-    "text": "under",
-    "hash": "009f2b4e5093c977"
-  },
-  {
-    "text": "Which word means \"Benim\" belonging to me ?",
-    "hash": "ae47e1bf61f714b7"
-  },
-  {
-    "text": "Your",
-    "hash": "93570ff95fdf4eda"
+    "text": "Which word means \"Benim\"?",
+    "hash": "5b36c95924d87a44"
   },
   {
     "text": "My",
     "hash": "942b1df430b088f8"
   },
   {
-    "text": "Look far up in the sky at a rocket! What do you say?",
-    "hash": "ae23935b82394a7b"
+    "text": "Your",
+    "hash": "93570ff95fdf4eda"
   },
   {
-    "text": "I am hungry!",
-    "hash": "9836ca65d78bfc24"
+    "text": "That",
+    "hash": "06ae39e4b84c8cc4"
   },
   {
-    "text": "That is a fast rocket!",
-    "hash": "930529d3527b0467"
+    "text": "Which word means \"Senin\"?",
+    "hash": "57f62413cce80076"
+  },
+  {
+    "text": "This",
+    "hash": "840116f883f671ad"
+  },
+  {
+    "text": "Point to a rocket far in the sky uzak :",
+    "hash": "02c689640af74fb8"
+  },
+  {
+    "text": "That is a rocket!",
+    "hash": "30857294104c9cb6"
   },
   {
     "text": "This is my shoe!",
     "hash": "91d331854dc25b2e"
   },
   {
-    "text": "Complete: \"I have a cool piano at home.\"",
-    "hash": "0fed9dc38619d76c"
+    "text": "Tekrar: How do you say \"Elmaları severim\"?",
+    "hash": "4a25ceac9d12390f"
   },
   {
-    "text": "got",
-    "hash": "cd3ce5617df63845"
+    "text": "That is your apple!",
+    "hash": "70965e653fe9feb3"
   },
   {
-    "text": "fly",
-    "hash": "acaebad78b491b9f"
+    "text": "Tekrar: How do you say \"Brokoliyi sevmem\"?",
+    "hash": "590f20874c35a6e7"
   },
   {
-    "text": "cold",
-    "hash": "b497d5a9a52e8336"
+    "text": "I have got broccoli!",
+    "hash": "aa00b4782c20046e"
   },
   {
-    "text": "Point to TWO shoes right next to you:",
-    "hash": "88c71b4d0897fdc3"
+    "text": "Tekrar: How do you politely ask for water?",
+    "hash": "b27638c349ddb881"
   },
   {
-    "text": "This is one hat!",
-    "hash": "f82c0c8c130a149f"
+    "text": "This is my bike!",
+    "hash": "8d39a62338a0b35a"
   },
   {
-    "text": "That is a moon!",
-    "hash": "975bfd8b76b8540d"
+    "text": "I can",
+    "hash": "694aa9288d4c60be"
   },
   {
-    "text": "These are my shoes!",
-    "hash": "225a8ed2d2a5dd32"
+    "text": "I can’t",
+    "hash": "f95a3b241bc4cade"
   },
   {
-    "text": "Which sentence uses YOUR correctly?",
-    "hash": "73e97bfaf7fbbc41"
+    "text": "Fast Slow",
+    "hash": "cd813fd22d7d097d"
   },
   {
-    "text": "I like youring pizza!",
-    "hash": "eafe19799305b76a"
+    "text": "Loud Quiet",
+    "hash": "8f882ed474a6aff4"
   },
   {
-    "text": "Your drawing is awesome!",
-    "hash": "3ef2dd7302de1a92"
+    "text": "You know how to swim! What do you say?",
+    "hash": "30fafc6bc2155e2f"
   },
   {
-    "text": "Your am seven years old!",
-    "hash": "f514d9281a04c51d"
+    "text": "I can swim!",
+    "hash": "900eea969f89b0af"
   },
   {
-    "text": "You finished rolling the dice. Now it is your friend’s turn!",
-    "hash": "604dc8bf5151f870"
+    "text": "I can’t swim!",
+    "hash": "74113f949fd40f2d"
+  },
+  {
+    "text": "Humans do not have wings. Complete: \"I fly!\"",
+    "hash": "bf3cc4a31ae2135e"
+  },
+  {
+    "text": "I can fly!",
+    "hash": "5a03de7fecbf38ab"
+  },
+  {
+    "text": "I like fly!",
+    "hash": "0f61c6da177658dd"
+  },
+  {
+    "text": "I can’t fly!",
+    "hash": "ee853f7a3cb61439"
+  },
+  {
+    "text": "How does a cheetah run?",
+    "hash": "1fc78092da722d11"
+  },
+  {
+    "text": "Quiet!",
+    "hash": "73b362c3e2968deb"
+  },
+  {
+    "text": "Fast!",
+    "hash": "32cfc92e58ead035"
+  },
+  {
+    "text": "Slow!",
+    "hash": "e8ea6911ffe2ef06"
+  },
+  {
+    "text": "How does a turtle walk?",
+    "hash": "e8e42f52b84fa376"
+  },
+  {
+    "text": "Loud!",
+    "hash": "e945115a5aafa2ef"
+  },
+  {
+    "text": "Baby is sleeping! Play the piano...",
+    "hash": "69c0fe63b574ab1f"
+  },
+  {
+    "text": "You can play basketball! Which sentence is right?",
+    "hash": "529bba9ec4142be7"
+  },
+  {
+    "text": "Can I have basketball?",
+    "hash": "92a1c4b9a10f911e"
+  },
+  {
+    "text": "I can’t play basketball!",
+    "hash": "1b1f09125dea9d98"
+  },
+  {
+    "text": "A lion roars very... Yüksek sesle",
+    "hash": "cef3b0e0814b96b7"
+  },
+  {
+    "text": "I can’t apples!",
+    "hash": "94768c11bd9e9446"
+  },
+  {
+    "text": "Tekrar: How do you say \"Benim kırmızı bisikletim var\"?",
+    "hash": "b1c08b18b6b2e3db"
+  },
+  {
+    "text": "That is your bike.",
+    "hash": "a5a2512b30e17510"
+  },
+  {
+    "text": "Play loud!",
+    "hash": "672f8cb7594ad453"
+  },
+  {
+    "text": "My turn Your turn",
+    "hash": "b6d16a06058ea059"
+  },
+  {
+    "text": "Let’s play!",
+    "hash": "fa593be1deb86a60"
+  },
+  {
+    "text": "Ready, steady, go! Let’s play!",
+    "hash": "176d3ae6b27e444a"
+  },
+  {
+    "text": "Good game!",
+    "hash": "7138cb9b5dc5d163"
+  },
+  {
+    "text": "Now it is your friend’s turn! What do you say?",
+    "hash": "84970b4df8ba73a1"
   },
   {
     "text": "I am sleeping now!",
@@ -4464,152 +5124,208 @@
     "hash": "4063e68b69c369e2"
   },
   {
-    "text": "It is your turn!",
-    "hash": "483c2491a679ec4a"
+    "text": "Your friends run ahead. How do you say \"Beni bekle!\"?",
+    "hash": "8b033f695bb8c112"
   },
   {
-    "text": "Your friends are running ahead and you want them to stop for you:",
-    "hash": "ca653c390433599a"
+    "text": "I have got apples!",
+    "hash": "d3bd10de27ceff09"
   },
   {
-    "text": "I have got three apples!",
-    "hash": "82378b1030e05dfe"
+    "text": "You want to play a game together! What do you say?",
+    "hash": "65111dbe2ba61a39"
   },
   {
-    "text": "Good night everyone!",
-    "hash": "dba173d45ece507a"
+    "text": "I don’t like it!",
+    "hash": "945834b171fb20d5"
   },
   {
-    "text": "You want to invite your friend to build Lego together:",
-    "hash": "560bef8e2aa841b8"
+    "text": "How do you start a fun race?",
+    "hash": "35ca54c0ff8880a6"
   },
   {
-    "text": "Let’s build together!",
-    "hash": "13f66701505ae098"
-  },
-  {
-    "text": "It is raining outside!",
-    "hash": "d11e9287c13005dd"
-  },
-  {
-    "text": "The whale is blue!",
-    "hash": "28bd185eaeb40ab1"
-  },
-  {
-    "text": "How do you start a fun race with your friends?",
-    "hash": "8d971e026b520de8"
-  },
-  {
-    "text": "Yesterday I ate cake!",
-    "hash": "e3e10bf3e7a21a13"
-  },
-  {
-    "text": "Whose hat is this?",
-    "hash": "9c52f883c96a5bbe"
+    "text": "It is slow!",
+    "hash": "aaf3b88de4ea9c13"
   },
   {
     "text": "Ready, steady, go!",
     "hash": "30e360ffcce30dd7"
   },
   {
-    "text": "You hear a new English word and want to know what it is:",
-    "hash": "64e75585017c7dee"
+    "text": "Now it is YOUR turn to roll the dice! What do you say?",
+    "hash": "f957564b6fba6942"
   },
   {
-    "text": "It is eight o’clock!",
-    "hash": "fb670bd4339b9e2f"
+    "text": "Quiet, please!",
+    "hash": "9f693b1b2a2818ee"
   },
   {
-    "text": "What does that mean?",
-    "hash": "5b17323f12ad3fd3"
+    "text": "The game ends! How do you say \"İyi oyundu!\"?",
+    "hash": "2b2c324d555c8976"
   },
   {
-    "text": "I am the biggest!",
-    "hash": "839d1ffd3f946b88"
+    "text": "That is a bus!",
+    "hash": "5b09d99c897fc2c9"
   },
   {
-    "text": "The basketball match ends. What is polite to say?",
-    "hash": "2ddce021b3214dfa"
+    "text": "Invite your friend to build Lego together:",
+    "hash": "10ab89e2ea7fbdba"
   },
   {
-    "text": "Good game! High five!",
-    "hash": "1000900bc1807a22"
+    "text": "Play quiet!",
+    "hash": "8863779b6afea901"
   },
   {
-    "text": "Touch your nose!",
-    "hash": "887fdef355058fb4"
+    "text": "This is broccoli!",
+    "hash": "23a372379fc51d2c"
   },
   {
-    "text": "Sink in the water!",
-    "hash": "c32e203e2ae98694"
+    "text": "Let’s play together!",
+    "hash": "68128a1e2c8f0a2b"
   },
   {
-    "text": "Someone pushes too hard in a game. How do you set a clear boundary?",
-    "hash": "3da5aa3e86918317"
+    "text": "Tekrar: How does a cheetah run?",
+    "hash": "3183630bb66fa2d6"
   },
   {
-    "text": "Yes, I can fly!",
-    "hash": "47ae2cd591db0aea"
+    "text": "My turn!",
+    "hash": "3b917d182017cea6"
   },
   {
-    "text": "I want broccoli ice cream!",
-    "hash": "f0250c0a28dda732"
+    "text": "Tekrar: Complete \"I fly like a bird!\"",
+    "hash": "a6ce49b2fae96e48"
   },
   {
-    "text": "Stop! I don’t like that!",
-    "hash": "3c8d12e9fb704a4a"
+    "text": "Tekrar: Point to your bike in front of you:",
+    "hash": "f8facc3d2686e63d"
   },
   {
-    "text": "Your friend suggests building a bridge. You love the plan!",
-    "hash": "0d7d6e2d7b69560b"
+    "text": "That is your moon!",
+    "hash": "e092a27e221d1707"
   },
   {
-    "text": "Two plus two is four!",
-    "hash": "6dd6ae94d3421e16"
+    "text": "Jumping",
+    "hash": "f3ea2357b20b1e8a"
   },
   {
-    "text": "That is a good idea!",
-    "hash": "4a5e71269c0305e1"
+    "text": "Clap your hands",
+    "hash": "ecf42370b77accc2"
   },
   {
-    "text": "It is cold snow!",
-    "hash": "a64f384c46e4a16d"
+    "text": "Touch your nose",
+    "hash": "156650fbd4485038"
   },
   {
-    "text": "Everyone gets the exact same number of cards. That is:",
-    "hash": "ca01e399bca6691e"
+    "text": "Freeze!",
+    "hash": "7e193f2524905dab"
   },
   {
-    "text": "Fair!",
-    "hash": "93cbd1409cbb568f"
+    "text": "What are you doing right now? Zıplıyorum",
+    "hash": "3ca78b3709317d9a"
   },
   {
-    "text": "Heavy!",
-    "hash": "a5ecdbe15a6f8db8"
+    "text": "I am sleeping.",
+    "hash": "2869beb1b3bb26dd"
   },
   {
-    "text": "Sleepy!",
-    "hash": "8cb0124b5d482235"
+    "text": "I don’t like jumping.",
+    "hash": "4049e67c037e5a52"
   },
   {
-    "text": "Your friend asks a tricky question and you are not sure:",
-    "hash": "870cabbfce4d6f53"
+    "text": "Dad says: \"Clap your hands!\" What do you do?",
+    "hash": "01a6c95bae957b89"
   },
   {
-    "text": "I don’t know!",
-    "hash": "60801c471a9b77cd"
+    "text": "Go to sleep!",
+    "hash": "712ce56cbd34714c"
   },
   {
-    "text": "Here is your banana!",
-    "hash": "821ac2ed66e37f6d"
+    "text": "Clap my hands!",
+    "hash": "9ba825b12c882348"
   },
   {
-    "text": "Freeze like ice!",
-    "hash": "14fd4152515f7b34"
+    "text": "Touch my nose!",
+    "hash": "4de6d2ac29585638"
   },
   {
-    "text": "There is only ONE rocket on the table. Which sentence is right?",
-    "hash": "49a5d222b05ea5db"
+    "text": "Which one means \"Burnuna dokun\"?",
+    "hash": "7de0b34da34f3fc6"
+  },
+  {
+    "text": "Clap your hands!",
+    "hash": "1b19094854208236"
+  },
+  {
+    "text": "Music stops! \"Freeze!\" What does Freeze mean?",
+    "hash": "5d66b479f6e99882"
+  },
+  {
+    "text": "Run very fast!",
+    "hash": "dcc3303dccc78edd"
+  },
+  {
+    "text": "Eat pizza!",
+    "hash": "f616e1e619d158ac"
+  },
+  {
+    "text": "Don! Kıpırdama!",
+    "hash": "438d934744d25fe1"
+  },
+  {
+    "text": "You are running right now! Complete: \"I am !\"",
+    "hash": "5ab7c993ac1aa9be"
+  },
+  {
+    "text": "I am freeze!",
+    "hash": "02bc0e689dffeac8"
+  },
+  {
+    "text": "You are building a Lego tower right now:",
+    "hash": "a658a92e6df539ed"
+  },
+  {
+    "text": "I am building Lego!",
+    "hash": "08ea3bd1feb5595c"
+  },
+  {
+    "text": "Someone asks \"What are you doing?\" when you clap:",
+    "hash": "781c8d0f10376166"
+  },
+  {
+    "text": "Tekrar: Invite your friend to play together:",
+    "hash": "9547aec9f91dc39d"
+  },
+  {
+    "text": "I don’t like it.",
+    "hash": "79b8fdfd36470ca4"
+  },
+  {
+    "text": "Tekrar: You do NOT like broccoli:",
+    "hash": "35d67c66d28ab9cf"
+  },
+  {
+    "text": "There is",
+    "hash": "e7728748599b7155"
+  },
+  {
+    "text": "There are",
+    "hash": "5a2174dfd236cf49"
+  },
+  {
+    "text": "How many?",
+    "hash": "d046b6c60aa78cf6"
+  },
+  {
+    "text": "Look at",
+    "hash": "d19c5d3a18f8c741"
+  },
+  {
+    "text": "Look! There is a cute fox!",
+    "hash": "234f6b3b20ebed2c"
+  },
+  {
+    "text": "Only ONE rocket! Which sentence is right?",
+    "hash": "69ccd44fc6470c2d"
   },
   {
     "text": "There is one rocket!",
@@ -4620,160 +5336,552 @@
     "hash": "d03dd149eb6aa95b"
   },
   {
-    "text": "I are a rocket!",
-    "hash": "9d2a431974c04023"
-  },
-  {
-    "text": "You count 5 yellow bricks in the box. Choose the right sentence:",
-    "hash": "349cff55479ad823"
+    "text": "FIVE yellow bricks! Which sentence is right?",
+    "hash": "f1cae845d97b97af"
   },
   {
     "text": "There is five bricks!",
     "hash": "68ba0215753f361b"
   },
   {
-    "text": "It am five bricks!",
-    "hash": "e092f56e7d1ef13c"
-  },
-  {
     "text": "There are five bricks!",
     "hash": "170db530484c2796"
   },
   {
-    "text": "You want to count the stars in the sky. What do you ask?",
-    "hash": "58a43fe3e5a5f98b"
-  },
-  {
-    "text": "Can I swim yesterday?",
-    "hash": "7c7872861e3bf37d"
+    "text": "You want to ask \"Kaç tane yıldız var?\":",
+    "hash": "e25caf63a6361f8c"
   },
   {
     "text": "How many stars are there?",
     "hash": "67891dd7a92e5a71"
   },
   {
-    "text": "Who is your pizza?",
-    "hash": "b8d7b08da12f76a9"
+    "text": "ONE fox in the forest:",
+    "hash": "f5dbc1a6a40c55e8"
   },
   {
-    "text": "Look! One clever fox is in the forest:",
-    "hash": "bc6e112a75737241"
-  },
-  {
-    "text": "There is a fox in the forest!",
-    "hash": "6f7cbeb91f816b71"
+    "text": "There is a fox!",
+    "hash": "d25d65de5943c704"
   },
   {
     "text": "There are a fox!",
     "hash": "cddad84971eaad3c"
   },
   {
-    "text": "Wait for me, forest!",
-    "hash": "d6c296fad9fffb7a"
-  },
-  {
-    "text": "Complete: \"There three red apples on the plate.\"",
-    "hash": "6de3a7a72394817c"
+    "text": "Complete: \"There three red apples.\" 3 elma",
+    "hash": "a9fea609cf51749e"
   },
   {
     "text": "is",
     "hash": "22c29e6b15f76d97"
   },
   {
+    "text": "am",
+    "hash": "aa6fda029ea1a7e3"
+  },
+  {
     "text": "are",
     "hash": "fed4a59351768b70"
   },
   {
-    "text": "Complete: \"There a big whale in the ocean.\"",
-    "hash": "194be6809c323720"
+    "text": "Complete: \"There one big whale.\" 1 balina",
+    "hash": "7d48acfe68d4969a"
   },
   {
-    "text": "were",
-    "hash": "3c36841611f0d853"
+    "text": "my",
+    "hash": "81ea60023a64f269"
   },
   {
-    "text": "You see a huge rainbow and want Mom to see it too!",
-    "hash": "3236a29d797af215"
+    "text": "You see a rainbow! Say \"Gökkuşağına bak!\":",
+    "hash": "ad5081091f138e5b"
   },
   {
     "text": "Look at the rainbow!",
     "hash": "3fe26e35fbb960b9"
   },
   {
-    "text": "Brush your teeth!",
-    "hash": "9e9ac134c5221ca1"
+    "text": "Tekrar: \"I am jumping!\" means:",
+    "hash": "95d1a9f8df262b3b"
   },
   {
-    "text": "Because it is heavy!",
-    "hash": "f3580a6f5908de4b"
+    "text": "Uyuyorum!",
+    "hash": "5de879b8625faa8e"
   },
   {
-    "text": "There are 4 balloons and 2 pop. How many balloons are there now?",
-    "hash": "8d3ffabc7cc2dfba"
+    "text": "Açım!",
+    "hash": "7625973102b4500f"
   },
   {
-    "text": "There is six balloons!",
-    "hash": "5929e379f8602464"
+    "text": "Zıplıyorum!",
+    "hash": "1c6e436bfcb0fb9d"
   },
   {
-    "text": "There are ten cakes!",
-    "hash": "abd5356ee9d5e5c2"
+    "text": "Tekrar: Match ends! How do you say \"İyi oyundu!\"?",
+    "hash": "ac17f1270e8759fe"
   },
   {
-    "text": "There are two balloons!",
-    "hash": "400c50902ae4a9c5"
+    "text": "There is a ball!",
+    "hash": "39bd8fc3edc274f2"
   },
   {
-    "text": "Which question asks for a NUMBER?",
-    "hash": "2588d30f30adb665"
+    "text": "How many apples?",
+    "hash": "3f3c5b69f5a91131"
   },
   {
-    "text": "Who is singing?",
-    "hash": "fc3e29b2badd2912"
+    "text": "In On",
+    "hash": "6defaf5d7cc2411a"
   },
   {
-    "text": "How many books are there?",
-    "hash": "156a3d439ff666fc"
+    "text": "In the box, on the chair!",
+    "hash": "5324f6da253cc366"
   },
   {
-    "text": "Where is my shoe?",
-    "hash": "d3fb641de63f5835"
+    "text": "It is under the bed!",
+    "hash": "d70ab15b4edb94dd"
   },
   {
-    "text": "Choose the correct plural sentence:",
-    "hash": "1c92cfaf8dc63b64"
+    "text": "Next to",
+    "hash": "6f9375644a4b91a1"
   },
   {
-    "text": "There is two towers on the castle!",
-    "hash": "fd4cbb470db7e6c2"
+    "text": "Pikachu is next to me!",
+    "hash": "3a452d7c94f23c5d"
   },
   {
-    "text": "There am two towers!",
-    "hash": "725445dc5a79b6cb"
+    "text": "The ball is BELOW the bed. Where is it?",
+    "hash": "ccac0eacb6e0de80"
   },
   {
-    "text": "There are two towers on the castle!",
-    "hash": "efdab7ead6ed2657"
+    "text": "Under the bed!",
+    "hash": "6edffc7890878331"
   },
   {
-    "text": "You lost your blue bike. Which question do you ask?",
-    "hash": "6f8673c66cc50885"
+    "text": "On the bed!",
+    "hash": "434122047a7f7d1f"
   },
   {
-    "text": "Where is my blue bike?",
-    "hash": "87bc35a577067b8a"
+    "text": "In the bed!",
+    "hash": "db1034c414d78789"
   },
   {
-    "text": "Who is my blue bike?",
-    "hash": "8f44a21f4753a6f4"
+    "text": "The Lego brick is INSIDE the box. Where is it?",
+    "hash": "cc9176d09a6eda47"
   },
   {
-    "text": "When is my blue bike?",
-    "hash": "851b7e6549112524"
+    "text": "Under the box!",
+    "hash": "606ed896ee3b55df"
   },
   {
-    "text": "Someone knocks on the door! What do you ask?",
-    "hash": "ac8e5c231755f763"
+    "text": "Next to the box!",
+    "hash": "286d564ecd6f93b7"
+  },
+  {
+    "text": "In the box!",
+    "hash": "e903770a6a860885"
+  },
+  {
+    "text": "The cat sits ON TOP OF the chair. Where is it?",
+    "hash": "972bd412e7bb7f73"
+  },
+  {
+    "text": "Twelve chairs!",
+    "hash": "ce2f2ec626f40c05"
+  },
+  {
+    "text": "On the chair!",
+    "hash": "eec2172bd4b45d4e"
+  },
+  {
+    "text": "Under the chair!",
+    "hash": "2a2428e8b92bc3cc"
+  },
+  {
+    "text": "Pikachu stands right BESIDE you. Where is Pikachu?",
+    "hash": "d09c99d830603e04"
+  },
+  {
+    "text": "Next to me!",
+    "hash": "ffea2072fc03dbd6"
+  },
+  {
+    "text": "Under me!",
+    "hash": "70135357d323606b"
+  },
+  {
+    "text": "Count: Ten, eleven, ! 10, 11, 12",
+    "hash": "ffce2f346a05fbc5"
+  },
+  {
+    "text": "Two!",
+    "hash": "51224cf0ae9122d5"
+  },
+  {
+    "text": "Five!",
+    "hash": "c3a5db4e1d4dee08"
+  },
+  {
+    "text": "Twelve!",
+    "hash": "40a1c916f6639a0b"
+  },
+  {
+    "text": "You have 10 cards and get 2 more. How many now?",
+    "hash": "a44190256d88ffd8"
+  },
+  {
+    "text": "Twelve cards!",
+    "hash": "b6cc809bd633b30e"
+  },
+  {
+    "text": "Three cards!",
+    "hash": "057946cf25e949b0"
+  },
+  {
+    "text": "You lost your toy and want to ask \"Nerede?\"",
+    "hash": "5a669c1d45e851ae"
+  },
+  {
+    "text": "Where is it?",
+    "hash": "2e601330edf4e52e"
+  },
+  {
+    "text": "What are you doing?",
+    "hash": "c91342cc9f98ffe4"
+  },
+  {
+    "text": "Tekrar: There 5 yellow bricks in the box.",
+    "hash": "1ae84dc2b73a9744"
+  },
+  {
+    "text": "There is 5 bricks!",
+    "hash": "13d66156884f0b86"
+  },
+  {
+    "text": "I can’t bricks!",
+    "hash": "abc1c9c873da3ef6"
+  },
+  {
+    "text": "There are 5 bricks!",
+    "hash": "1506bc0563e7cf7a"
+  },
+  {
+    "text": "Tekrar: \"Clap your hands!\" means:",
+    "hash": "26d344f13bceb7c6"
+  },
+  {
+    "text": "Hızlı koş!",
+    "hash": "5e10c14c23d3b4f7"
+  },
+  {
+    "text": "Ellerini çırp!",
+    "hash": "d394329725623fab"
+  },
+  {
+    "text": "Burnuna dokun!",
+    "hash": "e0e504cfcf4f220f"
+  },
+  {
+    "text": "Tekrar: Your friends are running ahead. You say:",
+    "hash": "e2d551ae32fdd930"
+  },
+  {
+    "text": "Float",
+    "hash": "59ed91d99e37682b"
+  },
+  {
+    "text": "Sink",
+    "hash": "8da5221302b3cd1b"
+  },
+  {
+    "text": "Heavy Light",
+    "hash": "29d5ccc63bbf6988"
+  },
+  {
+    "text": "Because...",
+    "hash": "55c7c046d1ce7931"
+  },
+  {
+    "text": "A light toy duck stays on top of water. It...",
+    "hash": "8db173bcfa16884a"
+  },
+  {
+    "text": "It jumps!",
+    "hash": "8629455aecf99cf5"
+  },
+  {
+    "text": "It floats!",
+    "hash": "49f22a59b0057fc5"
+  },
+  {
+    "text": "It sinks!",
+    "hash": "66aed83756fcd521"
+  },
+  {
+    "text": "A big stone goes down under the water. It...",
+    "hash": "21d3f282be46965e"
+  },
+  {
+    "text": "It flies!",
+    "hash": "4bf466dab2a8ac81"
+  },
+  {
+    "text": "A feather is NOT heavy. It is...",
+    "hash": "cafbbb39e1e412cd"
+  },
+  {
+    "text": "Heavy!",
+    "hash": "a5ecdbe15a6f8db8"
+  },
+  {
+    "text": "Hungry!",
+    "hash": "8037fe59db995d94"
+  },
+  {
+    "text": "Light!",
+    "hash": "6752cc488f9e94c4"
+  },
+  {
+    "text": "A metal hammer is NOT light. It is...",
+    "hash": "3b0eb6db0bbf809c"
+  },
+  {
+    "text": "Why does a balloon float? \" it is light!\"",
+    "hash": "b49a6aefb6c03ef7"
+  },
+  {
+    "text": "Which word asks \"Neden?\"",
+    "hash": "6f84a9005240902e"
+  },
+  {
+    "text": "Because!",
+    "hash": "8f268891f23e3ce5"
+  },
+  {
+    "text": "Float!",
+    "hash": "0877aaca843a3ea0"
+  },
+  {
+    "text": "Why?",
+    "hash": "2c435c741a7df767"
+  },
+  {
+    "text": "A Lego boat is light. Will it sink or float?",
+    "hash": "77cf7ad0ca11ba57"
+  },
+  {
+    "text": "It will freeze!",
+    "hash": "a28480a0a4880fb6"
+  },
+  {
+    "text": "It will float!",
+    "hash": "3c6d181cffea3dc9"
+  },
+  {
+    "text": "It will sink!",
+    "hash": "df779ce0280cbab7"
+  },
+  {
+    "text": "Tekrar: The toy is the box. Altında",
+    "hash": "609bd1fa955f40c6"
+  },
+  {
+    "text": "On the box!",
+    "hash": "a4e8ad27958b6912"
+  },
+  {
+    "text": "Heavy box!",
+    "hash": "fa59fe531ba93581"
+  },
+  {
+    "text": "Tekrar: \"How many stars?\" means:",
+    "hash": "fd6b5cb9d352b92f"
+  },
+  {
+    "text": "Yıldız ağır mı?",
+    "hash": "97e5f19f27f2eec8"
+  },
+  {
+    "text": "Kaç tane yıldız var?",
+    "hash": "7edd9632b45f860b"
+  },
+  {
+    "text": "Yüzüyorum!",
+    "hash": "a8d3efc477a617db"
+  },
+  {
+    "text": "Brush teeth",
+    "hash": "7a5febbe686eb9b1"
+  },
+  {
+    "text": "I brush my teeth in the morning!",
+    "hash": "f732141173ac7b4c"
+  },
+  {
+    "text": "Kitchen",
+    "hash": "9d29caa4485c794e"
+  },
+  {
+    "text": "Where?",
+    "hash": "f34cd0ba14f6994d"
+  },
+  {
+    "text": "Eight o’clock",
+    "hash": "757b82afa2753742"
+  },
+  {
+    "text": "Every morning after breakfast, what do you do?",
+    "hash": "4764834ca10e7cc2"
+  },
+  {
+    "text": "Go to bed!",
+    "hash": "d49bba7a8e653072"
+  },
+  {
+    "text": "Sink in water!",
+    "hash": "8131d02679d4f08a"
+  },
+  {
+    "text": "Brush my teeth!",
+    "hash": "32859381b26aa131"
+  },
+  {
+    "text": "Where do Mom and Dad cook breakfast?",
+    "hash": "26aac9e2d6266d5a"
+  },
+  {
+    "text": "At eight o’clock!",
+    "hash": "276d0bf9798846a1"
+  },
+  {
+    "text": "In the kitchen!",
+    "hash": "b46d612dc9d4fea7"
+  },
+  {
+    "text": "Under the swing!",
+    "hash": "48f43932575f2892"
+  },
+  {
+    "text": "The clock shows 8:00. What time is it?",
+    "hash": "242cd11cd9b31803"
+  },
+  {
+    "text": "Eight o’clock!",
+    "hash": "0ef05537fe70be59"
+  },
+  {
+    "text": "Twelve o’clock!",
+    "hash": "2da916ff3fa19856"
+  },
+  {
+    "text": "You ask \" is my pencil?\" Kalemim nerede?",
+    "hash": "e3f998f585a5c343"
+  },
+  {
+    "text": "Because my pencil!",
+    "hash": "db2be82cf03d714c"
+  },
+  {
+    "text": "Heavy my pencil!",
+    "hash": "9a88dbad3840374f"
+  },
+  {
+    "text": "Where is my pencil?",
+    "hash": "4efc0262f87a0cf9"
+  },
+  {
+    "text": "Where is your pencil? Inside your school bag!",
+    "hash": "b66a19b8790950a2"
+  },
+  {
+    "text": "Brush teeth!",
+    "hash": "e3727189efdae67b"
+  },
+  {
+    "text": "In my bag!",
+    "hash": "52e7a0e83875424f"
+  },
+  {
+    "text": "How do you ask \"Saat kaç?\" in English?",
+    "hash": "c7f1345833dfec0f"
+  },
+  {
+    "text": "What time is it?",
+    "hash": "5e623cdc095ae897"
+  },
+  {
+    "text": "How many stars?",
+    "hash": "0035a66d80b01e53"
+  },
+  {
+    "text": "First thing in the morning: \" , brush your teeth!\"",
+    "hash": "5ad7d00949dd0b3f"
+  },
+  {
+    "text": "Wake up!",
+    "hash": "be8f6855f5fa4cc2"
+  },
+  {
+    "text": "Tekrar: Why does a toy boat float?",
+    "hash": "035127446d5a78f4"
+  },
+  {
+    "text": "Tekrar: \"Under the bed\" means:",
+    "hash": "ec657504c70bda7f"
+  },
+  {
+    "text": "Yatağın altında!",
+    "hash": "73aa25fee9bef8a6"
+  },
+  {
+    "text": "Yatağın üstünde!",
+    "hash": "1a72e53a7adb60a4"
+  },
+  {
+    "text": "Saat sekizde!",
+    "hash": "6c8400354c5928e8"
+  },
+  {
+    "text": "Tekrar: \"I can swim!\" means:",
+    "hash": "6abd9265dbf757c2"
+  },
+  {
+    "text": "Yüzebilirim!",
+    "hash": "67d911fef606f3c3"
+  },
+  {
+    "text": "Yüzemem!",
+    "hash": "76fa10b0df9c9b67"
+  },
+  {
+    "text": "Who?",
+    "hash": "334d50e58445be35"
+  },
+  {
+    "text": "When?",
+    "hash": "6d180bf6b0138708"
+  },
+  {
+    "text": "Whose?",
+    "hash": "4cd4c6f9f24532a6"
+  },
+  {
+    "text": "You lost your blue key. Ask \"Mavi anahtarım NEREDE?\":",
+    "hash": "94bf8d5b1470195c"
+  },
+  {
+    "text": "Where is my blue key?",
+    "hash": "ad4d2fda6a7e9ef4"
+  },
+  {
+    "text": "Who is my blue key?",
+    "hash": "56337ec167f89919"
+  },
+  {
+    "text": "When is my blue key?",
+    "hash": "8803d568e360608c"
+  },
+  {
+    "text": "Someone knocks on the door! Ask \"KİM var?\":",
+    "hash": "c579f64dc1baaac2"
   },
   {
     "text": "Whose is seven?",
@@ -4788,8 +5896,8 @@
     "hash": "86bdf9d9b80b7899"
   },
   {
-    "text": "You find a red backpack on the bench. You want to find the owner:",
-    "hash": "477d1bc626380ec5"
+    "text": "You find a backpack. Ask \"Bu KİMİN sırt çantası?\":",
+    "hash": "7391e2913cc37632"
   },
   {
     "text": "When backpack is this?",
@@ -4804,116 +5912,232 @@
     "hash": "aa8db2f530c81247"
   },
   {
-    "text": "You want to know the time of your basketball practice:",
-    "hash": "c0e4f26af4edb2b9"
+    "text": "Ask \"NE ZAMAN piyano çalarız?\":",
+    "hash": "01e866923944f94e"
   },
   {
-    "text": "When is basketball?",
-    "hash": "2d8871d757a6a3af"
+    "text": "When do we play piano?",
+    "hash": "7512e5b57be7eb8b"
   },
   {
-    "text": "Who is basketball?",
-    "hash": "d065440dff3fc5e0"
+    "text": "Who is piano?",
+    "hash": "481a97cb5bda94d6"
   },
   {
-    "text": "Whose is basketball?",
-    "hash": "01ccac0d8e67353d"
+    "text": "Whose is piano?",
+    "hash": "2fe3db1c3bcd962c"
   },
   {
-    "text": "There is a mystery box! You want to know what is inside:",
-    "hash": "4eb674ca5089d4aa"
+    "text": "Which word means \"Kim?\"",
+    "hash": "400ab19eb2e874ad"
   },
   {
-    "text": "When is the box?",
-    "hash": "7189c0da8749aa5b"
+    "text": "Which word means \"Ne zaman?\"",
+    "hash": "89719702a364c135"
   },
   {
-    "text": "What is in the box?",
-    "hash": "52117415fa92ec2e"
+    "text": "Answer: \"Whose book is this?\" Benim!",
+    "hash": "f6428faeb9195624"
   },
   {
-    "text": "Who is the box?",
-    "hash": "3066d1a79fdff26e"
+    "text": "It is my book!",
+    "hash": "3bd8c3fdd9cac44a"
   },
   {
-    "text": "Answer the question: \"Where is Pikachu?\"",
-    "hash": "c8ecf78a1744d6ae"
+    "text": "At four o’clock!",
+    "hash": "7a5b0f5bc9ce742d"
   },
   {
-    "text": "He is my best friend!",
-    "hash": "f0cdc758acae4faf"
+    "text": "Tekrar: \"Brush my teeth\" means:",
+    "hash": "7d919d910055bcc1"
   },
   {
-    "text": "At five o’clock!",
-    "hash": "c849df7a1fc0aba4"
+    "text": "Yüzerim!",
+    "hash": "fa6717643a0b0fa0"
   },
   {
-    "text": "He is under the bed!",
-    "hash": "27259214980a95bb"
+    "text": "Dişlerimi fırçalarım!",
+    "hash": "6a2e33b53cf22f57"
   },
   {
-    "text": "Answer the question: \"Who is playing the piano?\"",
-    "hash": "72a4e2fa10e9f181"
+    "text": "Mutfağa giderim!",
+    "hash": "31e5767eb6277ba3"
   },
   {
-    "text": "Deniz is playing the piano!",
-    "hash": "4ee4903ab9871443"
+    "text": "Tekrar: Why does a toy duck float?",
+    "hash": "0bf1945a2524352b"
   },
   {
-    "text": "In the kitchen!",
-    "hash": "b46d612dc9d4fea7"
+    "text": "Whose duck is it?",
+    "hash": "29c6b92ebfac3c7e"
   },
   {
-    "text": "Three red apples!",
-    "hash": "15c6e7e6465af4c6"
+    "text": "Tekrar: \"In the box\" means:",
+    "hash": "7833399d1d1de37d"
   },
   {
-    "text": "Answer the question: \"Whose book is this?\"",
-    "hash": "b945dc9c3bf2230a"
+    "text": "Kutunun altında!",
+    "hash": "af477a96ce574365"
   },
   {
-    "text": "Because it is light!",
-    "hash": "143b94df15604d7e"
+    "text": "Kutunun içinde!",
+    "hash": "8bfa7ae621706534"
   },
   {
-    "text": "It is my sister’s book!",
-    "hash": "2eee747ef221f8b2"
+    "text": "Stronger than",
+    "hash": "c9ff954b4fdb5022"
   },
   {
-    "text": "Answer the question: \"When do we go to school?\"",
-    "hash": "692fdc9e6de2127a"
+    "text": "Faster than",
+    "hash": "fda9a3fc5d90ad7d"
   },
   {
-    "text": "Under the table!",
-    "hash": "d45701faa73548f7"
+    "text": "Biggest",
+    "hash": "6974e2615b849f29"
   },
   {
-    "text": "A green frog!",
-    "hash": "308447a06c2d06aa"
+    "text": "Yesterday I...",
+    "hash": "1e837aa9dffed8a7"
   },
   {
-    "text": "In the morning!",
-    "hash": "bf66ddb4d9ffef0e"
+    "text": "Compare a lion and a cat! A lion is...",
+    "hash": "ddb98fc9233790da"
   },
   {
-    "text": "Which word asks about a PERSON?",
-    "hash": "2e883fbb9fcfd619"
+    "text": "Stronger than a cat!",
+    "hash": "179d35a7cfe8a0a9"
   },
   {
-    "text": "Where",
-    "hash": "d2644be29c3716de"
+    "text": "Smaller than a mouse!",
+    "hash": "b9c47db8ebda947d"
   },
   {
-    "text": "When",
-    "hash": "f978841dcc83a9a7"
+    "text": "Compare a cheetah and a turtle! A cheetah is...",
+    "hash": "cba375bfb298a955"
   },
   {
-    "text": "Who",
-    "hash": "4af28811c24337e2"
+    "text": "Faster than a turtle!",
+    "hash": "571156d2d597870c"
   },
   {
-    "text": "No land animal runs faster than a cheetah. The cheetah is:",
-    "hash": "f89adf3f9c108a08"
+    "text": "Slower than a turtle!",
+    "hash": "40a48d6121abbcec"
+  },
+  {
+    "text": "Which animal is the BIGGEST animal in the ocean?",
+    "hash": "2c23139870f4f045"
+  },
+  {
+    "text": "The small fish is the biggest!",
+    "hash": "73b7a167f2ae17be"
+  },
+  {
+    "text": "You played basketball YESTERDAY. What do you say?",
+    "hash": "ffedc12001373738"
+  },
+  {
+    "text": "Tomorrow I freeze!",
+    "hash": "bd0d0ffd7edd60e7"
+  },
+  {
+    "text": "A giraffe is VERY tall. It is than a dog!",
+    "hash": "c93e9589b7280663"
+  },
+  {
+    "text": "Taller than a dog!",
+    "hash": "d0eb78b388100286"
+  },
+  {
+    "text": "Quiet than a dog!",
+    "hash": "54c70711c8d2f433"
+  },
+  {
+    "text": "An elephant is bigger a rabbit!",
+    "hash": "de2f30a8debc7ec2"
+  },
+  {
+    "text": "Bigger under a rabbit!",
+    "hash": "abad50aa0dbef446"
+  },
+  {
+    "text": "Bigger because a rabbit!",
+    "hash": "0f240d894e2915dc"
+  },
+  {
+    "text": "Bigger than a rabbit!",
+    "hash": "d26b50da4b94a53a"
+  },
+  {
+    "text": "Which word means \"Dün\"?",
+    "hash": "2838e870e4483546"
+  },
+  {
+    "text": "Yesterday!",
+    "hash": "0f7fab3d8ce39a0f"
+  },
+  {
+    "text": "Kitchen!",
+    "hash": "8cdf838d9ed048bf"
+  },
+  {
+    "text": "Tekrar: \"Who is at the door?\" asks:",
+    "hash": "f5b3d26c21a3b179"
+  },
+  {
+    "text": "Kapıda KİM var?",
+    "hash": "872a28b42e2cd18d"
+  },
+  {
+    "text": "Kapı NEREDE?",
+    "hash": "becd3d8bfc67b562"
+  },
+  {
+    "text": "Saat KAÇ?",
+    "hash": "56d6f5757515ab00"
+  },
+  {
+    "text": "Piyano çalarım!",
+    "hash": "79bb3e84040b6640"
+  },
+  {
+    "text": "Tekrar: \"Can I have an apple, please?\" means:",
+    "hash": "733e17a4417b4f01"
+  },
+  {
+    "text": "Elma çok ağır!",
+    "hash": "5c5734603b89e895"
+  },
+  {
+    "text": "Bir elma alabilir miyim lütfen?",
+    "hash": "71340045a8afa169"
+  },
+  {
+    "text": "Elma sevmem!",
+    "hash": "41fe4451b5cc2a76"
+  },
+  {
+    "text": "The fastest",
+    "hash": "a6fdec7b863ecaf7"
+  },
+  {
+    "text": "The biggest",
+    "hash": "d68cec04bf16f9a2"
+  },
+  {
+    "text": "The tallest",
+    "hash": "1c0253f7d62487b1"
+  },
+  {
+    "text": "The smartest",
+    "hash": "b31fa4b1f9724ea8"
+  },
+  {
+    "text": "The owl is the smartest bird!",
+    "hash": "33ce9016313ed3c9"
+  },
+  {
+    "text": "The cheetah runs faster than everyone! It is:",
+    "hash": "b1e613ab41f9c245"
   },
   {
     "text": "The slowest!",
@@ -4928,8 +6152,8 @@
     "hash": "51ba559394bc5793"
   },
   {
-    "text": "The blue whale is larger than every other animal. It is:",
-    "hash": "b368c48f69434cc2"
+    "text": "The blue whale is larger than every animal. It is:",
+    "hash": "2bd0d3bf7c0ab27c"
   },
   {
     "text": "The biggest animal!",
@@ -4960,8 +6184,8 @@
     "hash": "bb69d6e1a10a934a"
   },
   {
-    "text": "Jupiter is huge! It is planet in our solar system.",
-    "hash": "bdc9abeb048ef124"
+    "text": "Jupiter is huge! It is planet in space.",
+    "hash": "0f3edd1a67c20708"
   },
   {
     "text": "bigger than",
@@ -4976,96 +6200,96 @@
     "hash": "b02d138a72b43eee"
   },
   {
-    "text": "An ant is tiny compared to a cat and an elephant. The ant is:",
-    "hash": "149eb3f31bb1634b"
-  },
-  {
-    "text": "The tallest!",
-    "hash": "dee094526120a607"
-  },
-  {
-    "text": "The loudest!",
-    "hash": "076bce3065f6847e"
-  },
-  {
-    "text": "A rocket flies much faster than a bike and a car. The rocket is:",
-    "hash": "bbf38882cff91246"
+    "text": "A rocket flies faster than a bike and a car. It is:",
+    "hash": "7c988dab7969c025"
   },
   {
     "text": "The wettest!",
     "hash": "24f81c99805d9dd8"
   },
   {
-    "text": "Complete: \"That clever owl is bird in the story!\"",
-    "hash": "2f9b6fe5d81ef02e"
+    "text": "That clever owl knows everything! It is:",
+    "hash": "59203118ffa29193"
   },
   {
-    "text": "under the bed",
-    "hash": "78666e5462eca97d"
+    "text": "The smartest!",
+    "hash": "6213c5f0cbe0b014"
   },
   {
-    "text": "five o’clock",
-    "hash": "07822fa033092daa"
+    "text": "You built the highest Lego tower! It is:",
+    "hash": "40100b269b780137"
   },
   {
-    "text": "the smartest",
-    "hash": "b5756a57d55bb098"
+    "text": "The smallest apple!",
+    "hash": "304cdafaf0c8e5ae"
   },
   {
-    "text": "Mount Everest is higher than every other mountain. It is:",
-    "hash": "4f276a3fca1a2c6e"
+    "text": "The tallest Lego tower!",
+    "hash": "d8a3dffb079a2e6d"
   },
   {
-    "text": "The highest mountain!",
-    "hash": "fed10855942f47d6"
+    "text": "Tekrar: Compare a lion and a cat: A lion is...",
+    "hash": "367234f39e1c05f7"
   },
   {
-    "text": "The smallest toy!",
-    "hash": "fb130139edf409be"
+    "text": "Whose cat is it?",
+    "hash": "f0f00815b7739f6f"
   },
   {
-    "text": "The coldest soup!",
-    "hash": "684f512b12f6d797"
+    "text": "Tekrar: You lost your key. Ask \"Anahtarım nerede?\":",
+    "hash": "b308b525a130bd39"
   },
   {
-    "text": "Which word means \"en gürültülü en sesli\"?",
-    "hash": "a3b6edb89cdf4ba3"
+    "text": "The fastest key!",
+    "hash": "712a6a019bd9a362"
   },
   {
-    "text": "The lightest",
-    "hash": "051681de44f9772d"
+    "text": "Where is my key?",
+    "hash": "c8370719affcacfa"
   },
   {
-    "text": "The loudest",
-    "hash": "f2fb805cf5e158c5"
+    "text": "Who is my key?",
+    "hash": "f5518027e4e9fcc7"
   },
   {
-    "text": "The quietest",
-    "hash": "a30973c221f1779e"
+    "text": "Tekrar: \"There are five bricks!\" means:",
+    "hash": "0a30956604eea614"
   },
   {
-    "text": "Which sentence uses THE -EST correctly?",
-    "hash": "9ee21e076cc38c01"
+    "text": "Tuğlalar ağır!",
+    "hash": "bc6d80690a5bc805"
   },
   {
-    "text": "I am the faster than car!",
-    "hash": "85dda50559b33e55"
+    "text": "Beş tane tuğla var!",
+    "hash": "a054745e8af6d9c2"
   },
   {
-    "text": "This is the tallest Lego tower!",
-    "hash": "d049f6a0cd3fd62e"
+    "text": "Bir tane tuğla var!",
+    "hash": "0207463f49908778"
   },
   {
-    "text": "This is tallest than tower!",
-    "hash": "a97788abd030a595"
+    "text": "Played",
+    "hash": "7eb4838ea8b58712"
   },
   {
-    "text": "How do you say you played basketball YESTERDAY?",
-    "hash": "422576255fc7ca25"
+    "text": "Went",
+    "hash": "c312079a8bed81b4"
   },
   {
-    "text": "Yesterday, I played basketball!",
-    "hash": "5c43ce6c4743022e"
+    "text": "Yesterday, I went to school!",
+    "hash": "5600a82b4b47ed41"
+  },
+  {
+    "text": "Saw",
+    "hash": "8121d193916902a3"
+  },
+  {
+    "text": "Ate",
+    "hash": "3430982b9f385520"
+  },
+  {
+    "text": "How do you say \"Dün basketbol oynadım\"?",
+    "hash": "bc7f1460f678c91d"
   },
   {
     "text": "Yesterday, I playing basketball!",
@@ -5076,12 +6300,12 @@
     "hash": "5a08abe9ca0db1c8"
   },
   {
-    "text": "What is the past form of GO \"Yesterday I to the park\" ?",
-    "hash": "681e8074f8680719"
+    "text": "Yesterday I to school! Gittim",
+    "hash": "b8f2be4101cde3f1"
   },
   {
-    "text": "going",
-    "hash": "91e913fbae55aed5"
+    "text": "ate",
+    "hash": "d3e41c7499cb9b1a"
   },
   {
     "text": "went",
@@ -5092,156 +6316,144 @@
     "hash": "5cdcf0210ec6d34d"
   },
   {
-    "text": "What is the past form of SEE \"Yesterday I a lion\" ?",
-    "hash": "9913a05f98bfd84b"
+    "text": "Yesterday I a giant lion! Gördüm",
+    "hash": "74d775033d9b1fbe"
   },
   {
     "text": "seed",
     "hash": "4ff2977ab20d0f68"
   },
   {
-    "text": "seeing",
-    "hash": "cd95aa117c70bad7"
-  },
-  {
     "text": "saw",
     "hash": "8ad716c5e6cf9fcb"
   },
   {
-    "text": "What is the past form of EAT \"Yesterday I hot pizza\" ?",
-    "hash": "d188e5e1add02411"
-  },
-  {
-    "text": "ate",
-    "hash": "d3e41c7499cb9b1a"
+    "text": "Yesterday we hot pizza! Yedik",
+    "hash": "124aae5a9bb7ab4c"
   },
   {
     "text": "eated",
     "hash": "2b07e4f8e63d3d26"
   },
   {
-    "text": "eating",
-    "hash": "5b07cf1cd6a78402"
+    "text": "Yesterday I a song on my piano! Çaldım",
+    "hash": "9fd410b65d045e7d"
   },
   {
-    "text": "Complete: \"Last night, we a fun science show.\"",
-    "hash": "3b83b795a85aaf35"
-  },
-  {
-    "text": "will watch",
-    "hash": "5218b000ad05dd75"
-  },
-  {
-    "text": "watched",
-    "hash": "f5a7cc609d6d32cf"
-  },
-  {
-    "text": "watching",
-    "hash": "aa7923573c19a8bd"
-  },
-  {
-    "text": "What is the past form of BUILD \"Yesterday I a castle\" ?",
-    "hash": "2e7f2a174eb9574b"
-  },
-  {
-    "text": "builded",
-    "hash": "d47eb2339050d737"
-  },
-  {
-    "text": "building",
-    "hash": "78546c9e70a8cf33"
-  },
-  {
-    "text": "built",
-    "hash": "4abe8e890a174cf8"
-  },
-  {
-    "text": "Complete: \"Yesterday we a great time at the park!\"",
-    "hash": "c1b1bc928fda27ee"
-  },
-  {
-    "text": "had",
-    "hash": "c8bf367a99051554"
-  },
-  {
-    "text": "haved",
-    "hash": "44e4d485a11ebdab"
-  },
-  {
-    "text": "has",
-    "hash": "83d6e21cc754f1c1"
-  },
-  {
-    "text": "Complete: \"Yesterday morning I to school with Dad.\"",
-    "hash": "a8e93041c30fd045"
-  },
-  {
-    "text": "walks",
-    "hash": "e0c1d5d2f08cc7a2"
-  },
-  {
-    "text": "walked",
-    "hash": "f1eff911998bf6b8"
-  },
-  {
-    "text": "walking",
-    "hash": "981ac0d4c7d1b3ea"
-  },
-  {
-    "text": "Which word tells us the action happened in the PAST?",
-    "hash": "7b2d454f7a323419"
-  },
-  {
-    "text": "Next week",
-    "hash": "9064fb7f65afa371"
+    "text": "played",
+    "hash": "f8d08bd7d8a09333"
   },
   {
     "text": "Yesterday",
     "hash": "59d77fb93a440c6c"
   },
   {
-    "text": "Choose the correct past sentence:",
-    "hash": "0206a362f1bd97cd"
+    "text": "Say \"Dün parka gittim\":",
+    "hash": "9096e30c03a47662"
   },
   {
-    "text": "Yesterday I play piano tomorrow!",
-    "hash": "962294fb13dcfbc6"
+    "text": "Yesterday, I ate the park!",
+    "hash": "4f03b241479c2965"
   },
   {
-    "text": "Yesterday I am jumping!",
-    "hash": "7e55305c9b53a44f"
+    "text": "Yesterday, I under the park!",
+    "hash": "edb4ee3c9b1978b7"
   },
   {
-    "text": "Yesterday I played a song on my piano!",
-    "hash": "ab40d8c2b69ec6b0"
+    "text": "Tekrar: \"The blue whale is the biggest!\" means:",
+    "hash": "2344b0872a49dfd9"
   },
   {
-    "text": "You have a plan for tomorrow. Which sentence is right?",
-    "hash": "d83f799c3ba02301"
+    "text": "Dün balina yedim!",
+    "hash": "610c85802ec8d7c3"
   },
   {
-    "text": "Tomorrow, I under the table!",
-    "hash": "d44e804bfb0b0f27"
+    "text": "Mavi balina en büyüğüdür!",
+    "hash": "21024e20f00d5be7"
+  },
+  {
+    "text": "Mavi balina en küçüğüdür!",
+    "hash": "6fde8131df03ad76"
+  },
+  {
+    "text": "Tekrar: \"A cheetah is faster than a turtle!\" means:",
+    "hash": "ae91db7904519a38"
+  },
+  {
+    "text": "Kaplumbağa en hızlısıdır!",
+    "hash": "2b04a9ec953bc561"
+  },
+  {
+    "text": "Çita suyun altındadır!",
+    "hash": "53ebf78bd15e6317"
+  },
+  {
+    "text": "Çita kaplumbağadan daha hızlıdır!",
+    "hash": "69e0bd30371c5d5a"
+  },
+  {
+    "text": "Tekrar: How do you politely ask for milk?",
+    "hash": "a702e6ffd3825817"
+  },
+  {
+    "text": "I went milk!",
+    "hash": "73a3fad4c89ab803"
+  },
+  {
+    "text": "I saw broccoli!",
+    "hash": "5d1f9c6d838f4f49"
+  },
+  {
+    "text": "I am going to",
+    "hash": "f581573c6d26f10a"
+  },
+  {
+    "text": "Tomorrow I will",
+    "hash": "f71d512f86522e55"
+  },
+  {
+    "text": "Tomorrow I will swim in the pool!",
+    "hash": "a1f7ffc8eaeae898"
+  },
+  {
+    "text": "I want to be",
+    "hash": "93ed8aa55bada248"
+  },
+  {
+    "text": "Next weekend",
+    "hash": "cb5c2bf9591e9dbd"
+  },
+  {
+    "text": "Next weekend I will play basketball!",
+    "hash": "d174eed7fca6aef3"
+  },
+  {
+    "text": "Tomorrow plan: \"Yarın bir roket yapacağım!\"",
+    "hash": "4b94156c664d5b63"
+  },
+  {
+    "text": "Tomorrow, under the bed!",
+    "hash": "6fa4858521bbd709"
   },
   {
     "text": "Tomorrow, I am going to build a rocket!",
     "hash": "b0adbea364499d36"
   },
   {
-    "text": "Tomorrow, I built yesterday!",
-    "hash": "0b467bb0fe6eec44"
+    "text": "Tomorrow, I ate yesterday!",
+    "hash": "a78d60d048234e9b"
   },
   {
-    "text": "Complete your weekend plan: \"On Saturday, I swim!\"",
-    "hash": "9fcdf2692026cf6c"
+    "text": "On Saturday, I swim in the pool! Yüzeceğim",
+    "hash": "bb55e5e120e24946"
   },
   {
     "text": "will",
     "hash": "7d44cc5faaa55c2c"
   },
   {
-    "text": "You dream of flying to Mars! What do you say?",
-    "hash": "d7c881408c1870bd"
+    "text": "How do you say \"Astronot olmak istiyorum\"?",
+    "hash": "53ac9a844d3c8e50"
   },
   {
     "text": "I want to be an astronaut!",
@@ -5256,8 +6468,8 @@
     "hash": "d408024764a7b004"
   },
   {
-    "text": "You love science experiments like Checker Tobi! What do you say?",
-    "hash": "8453f4da2fb70654"
+    "text": "How do you say \"Bilim insanı olmak istiyorum\"?",
+    "hash": "3cd2590bbaccb1d2"
   },
   {
     "text": "The whale is biggest!",
@@ -5268,32 +6480,24 @@
     "hash": "0dd0d2b7592a0590"
   },
   {
-    "text": "Complete: \"Next week, I am going to a new piano song.\"",
-    "hash": "9363deacce19b995"
+    "text": "Which word means \"Yarın\"?",
+    "hash": "77794400e4f3a7d5"
   },
   {
-    "text": "played",
-    "hash": "f8d08bd7d8a09333"
+    "text": "Which phrase means \"Gelecek hafta sonu\"?",
+    "hash": "68e5e8c113eecd2e"
   },
   {
-    "text": "playing",
-    "hash": "0035563f1dd660f3"
+    "text": "Yesterday morning",
+    "hash": "53ca639a0ca1ad87"
   },
   {
-    "text": "play",
-    "hash": "1c61410c44f39314"
+    "text": "In the kitchen",
+    "hash": "6c6c8e79d137c3aa"
   },
   {
-    "text": "Which word tells us the action will happen in the FUTURE?",
-    "hash": "5db29ca1aca81772"
-  },
-  {
-    "text": "Last night",
-    "hash": "00a49ccbcf4aa368"
-  },
-  {
-    "text": "Complete: \"I am going ride my bike in the park.\"",
-    "hash": "45f3b17c0804b5df"
+    "text": "Complete: \"I am going ride my bike!\"",
+    "hash": "3adccc1143b15617"
   },
   {
     "text": "than",
@@ -5304,44 +6508,52 @@
     "hash": "a1250868c524645d"
   },
   {
-    "text": "Your friend asks: \"What will you do after school?\"",
-    "hash": "4257a3d352d32e39"
+    "text": "under",
+    "hash": "009f2b4e5093c977"
   },
   {
-    "text": "Yesterday I ate an apple!",
-    "hash": "ca370a50905a12ef"
+    "text": "Tekrar: Yesterday I hot pizza! Yedim",
+    "hash": "93fc42a5218a4b63"
   },
   {
-    "text": "Whose shoe is this?",
-    "hash": "0ae8a41f39afa558"
+    "text": "Tekrar: Yesterday I to school! Gittim",
+    "hash": "c90cb8b5128347b9"
   },
   {
-    "text": "I will play basketball!",
-    "hash": "3214bdb4657d77b3"
+    "text": "going",
+    "hash": "91e913fbae55aed5"
   },
   {
-    "text": "Complete: \"We going to read a cool story tonight!\"",
-    "hash": "a7f5e78ba08c744e"
+    "text": "tomorrow",
+    "hash": "26d81a270044784d"
   },
   {
-    "text": "You finished all 14 Levels of Deniz’s English World! What do you say?",
-    "hash": "aafad97c8f562052"
+    "text": "Tekrar: \"The giraffe is the tallest!\" means:",
+    "hash": "3fe09f2c47c23721"
   },
   {
-    "text": "I am an English Champion!",
-    "hash": "cea4139e2d3658cb"
+    "text": "Zürafa en uzunudur!",
+    "hash": "27cbd12418106529"
   },
   {
-    "text": "I don’t know anything!",
-    "hash": "e9a25db4b70c2b05"
+    "text": "Zürafa en küçüğüdür!",
+    "hash": "2ef748bd3fdf969e"
   },
   {
-    "text": "Goodbye forever!",
-    "hash": "8006a1cdfcced45e"
+    "text": "Zürafa yüzer!",
+    "hash": "28a649842dc3db17"
   },
   {
-    "text": "What is Deniz’s 1 absolute favorite food in the world?",
-    "hash": "455e665d9cc7976b"
+    "text": "Baking fluffy cake and sweet pudding is fun!",
+    "hash": "853b83a9b6698fc2"
+  },
+  {
+    "text": "We live in Aachen!",
+    "hash": "f75d1877c83a9127"
+  },
+  {
+    "text": "What is Deniz’s favorite food?",
+    "hash": "e4cbde3b3a8c4bfa"
   },
   {
     "text": "Cold broccoli soup",
@@ -5356,8 +6568,8 @@
     "hash": "f9e3aceb9e947924"
   },
   {
-    "text": "In which beautiful German city does Deniz live with his family?",
-    "hash": "b12eebf0dafd686f"
+    "text": "Which city does Deniz live in?",
+    "hash": "a95c3a69845263b3"
   },
   {
     "text": "The North Pole",
@@ -5368,8 +6580,8 @@
     "hash": "fdcfbd0222bac068"
   },
   {
-    "text": "Which hotel in Turkey does Deniz love staying at for sunny holidays?",
-    "hash": "e9012c902a5fc9ad"
+    "text": "Which hotel in Turkey does Deniz love?",
+    "hash": "ec3ee90167e5095b"
   },
   {
     "text": "A submarine station",
@@ -5384,8 +6596,8 @@
     "hash": "4f667d1481e7e109"
   },
   {
-    "text": "What sweet treats do Deniz, Mom Melis, and Dad Ege bake together?",
-    "hash": "da7241e854791e42"
+    "text": "What sweet treats do we bake together?",
+    "hash": "ed13a6973c5e75c1"
   },
   {
     "text": "Salty pickles",
@@ -5400,28 +6612,8 @@
     "hash": "cea68189f5e7bf21"
   },
   {
-    "text": "Deniz has finished giant Lego sets worth thousands of euros! What is he?",
-    "hash": "62d95fc84a0399e1"
-  },
-  {
-    "text": "A real Lego Master Builder!",
-    "hash": "696b4271e41eee6f"
-  },
-  {
-    "text": "A sleepy turtle",
-    "hash": "25ddaac5d946841f"
-  },
-  {
-    "text": "A pirate who dislikes bricks",
-    "hash": "83f9b99c72d2df33"
-  },
-  {
-    "text": "What shiny swimming medal is Deniz working hard to achieve on Sundays?",
-    "hash": "1e72cda99f6fc00d"
-  },
-  {
-    "text": "A rubber duck",
-    "hash": "a778780be0709fef"
+    "text": "What swimming medal is Deniz practicing for?",
+    "hash": "f3b1db25b2c9524f"
   },
   {
     "text": "The Silver Medal Silberabzeichen !",
@@ -5432,24 +6624,16 @@
     "hash": "800032fbb6586f55"
   },
   {
-    "text": "Every Monday, Deniz plays piano melodies with his teacher. Who is he?",
-    "hash": "bfe7d97c6c1619f9"
+    "text": "A rubber duck",
+    "hash": "a778780be0709fef"
   },
   {
-    "text": "A noisy alarm clock",
-    "hash": "19d76b4ee730543a"
+    "text": "Which sport does Deniz play on Wednesday?",
+    "hash": "cd0cdd2b4dede685"
   },
   {
-    "text": "A dinosaur",
-    "hash": "9b630f912e4ebb49"
-  },
-  {
-    "text": "Teacher Jeremias!",
-    "hash": "10cfa39eb2031835"
-  },
-  {
-    "text": "On Wednesday afternoon, Deniz puts on his sneakers for which sport?",
-    "hash": "aa44ff9419e82289"
+    "text": "Sleeping in bed",
+    "hash": "3e933c8d3984dee8"
   },
   {
     "text": "Basketball!",
@@ -5460,12 +6644,12 @@
     "hash": "f9a70d2b237a2295"
   },
   {
-    "text": "Sleeping in bed",
-    "hash": "3e933c8d3984dee8"
+    "text": "Which science TV shows does Deniz love?",
+    "hash": "a3e6c97e17bd969d"
   },
   {
-    "text": "Which curious TV shows does Deniz love watching for science mysteries?",
-    "hash": "6d59648fe2f7dcc3"
+    "text": "Silent boring news",
+    "hash": "29249f616e11a870"
   },
   {
     "text": "Traffic camera video",
@@ -5476,28 +6660,48 @@
     "hash": "57cda8139b3b7266"
   },
   {
-    "text": "Silent boring news",
-    "hash": "29249f616e11a870"
+    "text": "Tekrar: \"I want to be an astronaut!\" means:",
+    "hash": "24b749788eb4d7b2"
   },
   {
-    "text": "Who are Deniz’s school friends at GGS Laurensberg in Class 1b?",
-    "hash": "da7edc777bcc86dd"
+    "text": "Astronot olmak istiyorum!",
+    "hash": "55f17528a8c8e8b9"
   },
   {
-    "text": "Only dancing robots",
-    "hash": "9e9537d668908e4f"
+    "text": "Dün uzaya gittim!",
+    "hash": "41d91bea1ac6b234"
   },
   {
-    "text": "Ojas, Elias, Julius, Vukasin, and Liam!",
-    "hash": "b2ebce290a4e9d1e"
+    "text": "Spagetti severim!",
+    "hash": "30cb138b9d75f93c"
   },
   {
-    "text": "Ten wild lions",
-    "hash": "f1959ff10289189b"
+    "text": "Tekrar: Yesterday I a lion! Gördüm",
+    "hash": "f6777f341ed007d2"
   },
   {
-    "text": "What is Dad Dr. Ege’s job at E-Space after finishing his PhD doctorate?",
-    "hash": "6d1600042393653a"
+    "text": "Tekrar: Say \"Spagetti severim!\":",
+    "hash": "133041e7599bc6a7"
+  },
+  {
+    "text": "Under the table!",
+    "hash": "d45701faa73548f7"
+  },
+  {
+    "text": "Mom Melis helps patients at the hospital!",
+    "hash": "43120a60fcfd81a6"
+  },
+  {
+    "text": "Plus Equal",
+    "hash": "ec7dbb5e50e34a59"
+  },
+  {
+    "text": "Deniz is a math wizard and genius!",
+    "hash": "ce47c6f4e335e7d4"
+  },
+  {
+    "text": "What is Dad Dr. Ege’s job?",
+    "hash": "8cb008a947efcd7c"
   },
   {
     "text": "He is a 5G Engineer and Scientist!",
@@ -5512,12 +6716,12 @@
     "hash": "b8f9bb5d8ff6fc1a"
   },
   {
-    "text": "Where does Mom Melis work as an anesthesiology resident doctor?",
-    "hash": "7431baa5f7bb82a0"
+    "text": "Where does Mom Melis work as a doctor?",
+    "hash": "fd74f106899c7cee"
   },
   {
-    "text": "On a ferry boat in Istanbul",
-    "hash": "d7681b2e2a544664"
+    "text": "On a ferry boat",
+    "hash": "72399665a33ac905"
   },
   {
     "text": "SAH Eschweiler Hospital!",
@@ -5528,28 +6732,8 @@
     "hash": "5e490ca428a40562"
   },
   {
-    "text": "How does Mom Dr. Melis help patients before an operation?",
-    "hash": "b45ed02e46b04081"
-  },
-  {
-    "text": "She gives them five toy cars",
-    "hash": "166a97c1b13b6f1f"
-  },
-  {
-    "text": "She asks them to run a race",
-    "hash": "4cc5d8203fbda415"
-  },
-  {
-    "text": "She helps them sleep safely without pain!",
-    "hash": "20c671f45bf1773e"
-  },
-  {
-    "text": "Math Wizard Deniz! Solve: Twenty plus fifteen equals... 20 15 ?",
-    "hash": "2b379ecfdb5ca403"
-  },
-  {
-    "text": "Thirty-five! 35",
-    "hash": "ec8c2cceab317fd2"
+    "text": "Solve: Twenty plus fifteen equals... 20 15 ?",
+    "hash": "b81daca053a6906a"
   },
   {
     "text": "Ten! 10",
@@ -5560,12 +6744,12 @@
     "hash": "a9b74a6d396fa4e2"
   },
   {
-    "text": "Math Wizard Deniz! Solve: Thirty-four plus sixteen equals... 34 16 ?",
-    "hash": "4e7b0d6e27747c4e"
+    "text": "Thirty-five! 35",
+    "hash": "ec8c2cceab317fd2"
   },
   {
-    "text": "Forty! 40",
-    "hash": "e0e96a9d837d1e72"
+    "text": "Solve: Thirty-four plus sixteen equals... 34 16 ?",
+    "hash": "3b90ec81692ce76f"
   },
   {
     "text": "Fifty! 50",
@@ -5576,12 +6760,12 @@
     "hash": "71f90a261022647b"
   },
   {
-    "text": "How fast do Dad’s 5G signals travel through the air to satellites?",
-    "hash": "f80c2250fd1ce760"
+    "text": "Forty! 40",
+    "hash": "e0e96a9d837d1e72"
   },
   {
-    "text": "Slower than a snail",
-    "hash": "fb8c328eabdb51ce"
+    "text": "How fast do 5G signals travel?",
+    "hash": "1a044c9d0a465c61"
   },
   {
     "text": "They take three years",
@@ -5592,40 +6776,32 @@
     "hash": "387cbb7b246881f1"
   },
   {
-    "text": "Who is Deniz’s wonderful teacher in Class 1b at GGS Laurensberg?",
-    "hash": "9b48df3a3729cf84"
+    "text": "Slower than a snail",
+    "hash": "fb8c328eabdb51ce"
   },
   {
-    "text": "Frau Schwarz!",
-    "hash": "c51094bacd964acf"
+    "text": "Which word means \"Artı \" in English?",
+    "hash": "31b10d1a7c821adf"
   },
   {
-    "text": "Captain Hook",
-    "hash": "6c5511fe0d873eab"
+    "text": "Equal!",
+    "hash": "6d42172f4882bf69"
   },
   {
-    "text": "Woozle Goozle",
-    "hash": "20fd84474b2855fe"
+    "text": "Hospital!",
+    "hash": "9e3b2b701add84fe"
   },
   {
-    "text": "Who are Deniz’s beloved grandmas and grandpa?",
-    "hash": "810b92df6d52fe1c"
+    "text": "Plus!",
+    "hash": "85f198ad25c22d3a"
   },
   {
-    "text": "Goldfish in the pond",
-    "hash": "913ff496957a0613"
+    "text": "Deniz speaks English and solves math! He is:",
+    "hash": "2bc0f81a04b4eca1"
   },
   {
-    "text": "Grandma Nevin, Grandma Serpil, and Grandpa Ahmet!",
-    "hash": "6d58819c8a754ba7"
-  },
-  {
-    "text": "Three Lego wizards from Mars",
-    "hash": "72b1ce159387f660"
-  },
-  {
-    "text": "Deniz can read, write, calculate two-digit math, and speak English! What is he?",
-    "hash": "c5506d5dbcfa5e2f"
+    "text": "A brilliant Genius!",
+    "hash": "773a4d7b0572ff36"
   },
   {
     "text": "A sleepy cat",
@@ -5636,12 +6812,24 @@
     "hash": "9bdf0008138ecf06"
   },
   {
-    "text": "A brilliant Genius!",
-    "hash": "773a4d7b0572ff36"
+    "text": "Tekrar: What is Deniz’s favorite food?",
+    "hash": "8ea33e48dc77721a"
   },
   {
-    "text": "You completed the entire 16-Level Curriculum of Deniz’s English World!",
-    "hash": "aaca81e2b84667f8"
+    "text": "Tekrar: \"Tomorrow, I will swim!\" means:",
+    "hash": "cdc35b14c952fa6f"
+  },
+  {
+    "text": "Dün yüzdüm!",
+    "hash": "81f374df9e2da481"
+  },
+  {
+    "text": "Yarın yüzeceğim!",
+    "hash": "d1fbd7f0b27ba428"
+  },
+  {
+    "text": "You completed all 16 Levels! What do you say?",
+    "hash": "b1847088b8e32740"
   },
   {
     "text": "I forgot my name!",
@@ -5710,10 +6898,6 @@
   {
     "text": "You are hungry after basketball! How do you ask nicely for an apple?",
     "hash": "a3089332bef5aa1b"
-  },
-  {
-    "text": "Can I have an apple, please?",
-    "hash": "97b98da0d69bbcef"
   },
   {
     "text": "See you tomorrow at school!",
@@ -6116,10 +7300,6 @@
     "hash": "4b62086ceba85aad"
   },
   {
-    "text": "In the kitchen",
-    "hash": "6c6c8e79d137c3aa"
-  },
-  {
     "text": "In the garage",
     "hash": "4fa15c6f95d742ec"
   },
@@ -6230,10 +7410,6 @@
   {
     "text": "A tiny goldfish",
     "hash": "0805acad342e6748"
-  },
-  {
-    "text": "The blue whale is the biggest!",
-    "hash": "1910ca8067edfc03"
   },
   {
     "text": "A red Lego crab",
@@ -6434,14 +7610,6 @@
   {
     "text": "Dark!",
     "hash": "568498b1e7c24ae0"
-  },
-  {
-    "text": "Light!",
-    "hash": "6752cc488f9e94c4"
-  },
-  {
-    "text": "Loud!",
-    "hash": "e945115a5aafa2ef"
   },
   {
     "text": "The clock shows 8:30 in the morning! How do you say 8:30 in English?",
@@ -7352,16 +8520,16 @@
     "hash": "fc8a6e5bde87372a"
   },
   {
+    "text": "building",
+    "hash": "78546c9e70a8cf33"
+  },
+  {
     "text": "Good morning, Deniz! Time for school!",
     "hash": "b0ae50f886b770f6"
   },
   {
     "text": "Good morning!",
     "hash": "f63bfea9f1b90356"
-  },
-  {
-    "text": "Good night!",
-    "hash": "7c66af721436bd9f"
   },
   {
     "text": "Find the Sun!",
@@ -7738,10 +8906,6 @@
   {
     "text": "Pass the ball, please!",
     "hash": "f3652b1bed6ed2c8"
-  },
-  {
-    "text": "Go to sleep!",
-    "hash": "712ce56cbd34714c"
   },
   {
     "text": "Find the Basketball!",
@@ -8532,10 +9696,6 @@
     "hash": "d0ab57f5ecd67c98"
   },
   {
-    "text": "Next to",
-    "hash": "6f9375644a4b91a1"
-  },
-  {
     "text": "Find the Next to!",
     "hash": "704985a4fcf8a0ef"
   },
@@ -8602,10 +9762,6 @@
   {
     "text": "It is between the desk and the chair!",
     "hash": "15241cb019daf640"
-  },
-  {
-    "text": "It is under the bed!",
-    "hash": "d70ab15b4edb94dd"
   },
   {
     "text": "It is above the poster!",
@@ -10176,6 +11332,10 @@
     "hash": "8b2d4f070c11afdb"
   },
   {
+    "text": "Captain Hook",
+    "hash": "6c5511fe0d873eab"
+  },
+  {
     "text": "Pikachu",
     "hash": "b24ae23c675f2cbf"
   },
@@ -10230,6 +11390,10 @@
   {
     "text": "Weather only",
     "hash": "4841ea6c4e97ea14"
+  },
+  {
+    "text": "What sweet treats do Deniz, Mom Melis, and Dad Ege bake together?",
+    "hash": "da7241e854791e42"
   },
   {
     "text": "Fluffy cake and pudding",

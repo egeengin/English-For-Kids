@@ -58,13 +58,17 @@ for (const it of VOCAB_BANK_500 || []) {
 for (const day of Object.values(DAY_LESSONS || {})) {
   for (const cl of day.chantLines || []) add(cl.en);
   for (const vc of day.visualCards || []) add(vc.en);
-  for (const sp of day.sentencePatterns || []) {
+  for (const sp of day.patterns || []) {
     for (const opt of sp.options || []) add(opt.fullEn);
   }
 }
 
 // 5. Daily Missions
 for (const day of DAILY_EXPEDITION_DAYS || []) {
+  for (const v of day.vocabFocus || []) {
+    add(v.en);
+    if (v.exampleEn) add(v.exampleEn);
+  }
   for (const q of day.questions || []) {
     add(q.promptEn);
     for (const opt of q.options || []) add(opt.textEn);

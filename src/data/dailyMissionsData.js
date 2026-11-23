@@ -1780,6 +1780,27 @@ DISCOVERY_STAGES.forEach((stage) => {
 });
 
 
+function makeDayQ(id, emoji, promptEn, promptTr, options, isReview = false) {
+  let hash = 0;
+  const str = String(id || '');
+  for (let i = 0; i < str.length; i++) hash = (hash * 31 + str.charCodeAt(i)) | 0;
+  const shift = options.length > 0 ? Math.abs(hash) % options.length : 0;
+  const rotated = shift === 0 ? options : options.slice(shift).concat(options.slice(0, shift));
+  return {
+    id,
+    characterEmoji: emoji,
+    promptEn,
+    promptTr,
+    isReview,
+    options: rotated.map(([, textEn, optEmoji, isCorrect], idx) => ({
+      id: ['a', 'b', 'c'][idx] || String(idx),
+      textEn,
+      emoji: optEmoji,
+      isCorrect: Boolean(isCorrect),
+    })),
+  };
+}
+
 const BASE_EXPEDITION_DAYS = [
   {
     id: 'day-1',
@@ -1787,13 +1808,65 @@ const BASE_EXPEDITION_DAYS = [
     shortLabel: 'Bölüm 1',
     badge: '🍕 Tercihler & Mutfak Şifresi',
     title: 'I Like / I Don’t Like & Kibarca İsteme',
-    desc: 'Tek kelimelerden ("Apple", "Red") tam cümlelere geçiyoruz! Evdeki yiyeceklerle komik oylama oyunu ve mutfak şifresi.',
-    grammarFocus: 'I like ... / I don’t like ... / Can I have ..., please?',
+    desc: 'Sevdiğimiz ve sevmediğimiz yiyecekleri söylemeyi ve kibarca bir şey istemeyi öğreniyoruz!',
+    grammarFocus: 'I like ... / I don’t like ... / I am hungry! / Can I have ..., please?',
     vocabFocus: [
-      { en: 'I like', tr: 'Severim', de: 'Ich mag', emoji: '😋' },
-      { en: 'I don’t like', tr: 'Sevmem', de: 'Ich mag nicht', emoji: '🤢' },
-      { en: 'I am hungry!', tr: 'Açım!', de: 'Ich habe Hunger!', emoji: '🍕' },
-      { en: 'Can I have...?', tr: '... alabilir miyim?', de: 'Kann ich ... haben?', emoji: '🙏' },
+      { en: 'I like', tr: 'Severim', de: 'Ich mag', emoji: '😋', exampleEn: 'I like red apples!', exampleTr: 'Kırmızı elmaları severim!' },
+      { en: 'I don’t like', tr: 'Sevmem', de: 'Ich mag nicht', emoji: '🤢', exampleEn: 'I don’t like broccoli!', exampleTr: 'Brokoliyi sevmem!' },
+      { en: 'I am hungry!', tr: 'Açım!', de: 'Ich habe Hunger!', emoji: '🍕', exampleEn: 'I am hungry! Let us eat!', exampleTr: 'Açım! Haydi yiyelim!' },
+      { en: 'Can I have...?', tr: '... alabilir miyim?', de: 'Kann ich ... haben?', emoji: '🙏', exampleEn: 'Can I have water, please?', exampleTr: 'Su alabilir miyim lütfen?' },
+    ],
+    questions: [
+      makeDayQ('d1-q1', '🍎', 'I ___ red apples! Yummy!', 'Kırmızı elmaları severim demek için hangisini seçersin?', [
+        ['a', 'I like red apples!', '😋', true],
+        ['b', 'I don’t like apples!', '🤢', false],
+        ['c', 'I am a red apple.', '🍎', false],
+      ]),
+      makeDayQ('d1-q2', '🥦', 'Yuck! How do you say you do NOT like broccoli?', 'Brokoliyi sevmediğini nasıl söylersin?', [
+        ['a', 'I don’t like broccoli!', '🤢', true],
+        ['b', 'I like broccoli!', '😋', false],
+        ['c', 'Broccoli is blue.', '🔵', false],
+      ]),
+      makeDayQ('d1-q3', '🍕', 'Your tummy says grumble! How do you say "Açım!"?', 'Karnın acıktığında İngilizce "Açım!" nasıl dersin?', [
+        ['a', 'I am hungry!', '🍕', true],
+        ['b', 'I am a pizza!', '🧀', false],
+        ['c', 'Good night!', '🌙', false],
+      ]),
+      makeDayQ('d1-q4', '💧', 'You want water politely. What do you ask?', 'Kibarca su istemek için ne sorarsın?', [
+        ['a', 'Can I have water, please?', '🙏', true],
+        ['b', 'I don’t like water!', '🤢', false],
+        ['c', 'Water is a bike.', '🚲', false],
+      ]),
+      makeDayQ('d1-q5', '🍝', 'Spaghetti is your favorite! What do you say?', 'Spagettiyi çok seviyorsun! Ne dersin?', [
+        ['a', 'I like spaghetti!', '🍝', true],
+        ['b', 'I don’t like spaghetti!', '🤢', false],
+        ['c', 'Goodbye spaghetti!', '👋', false],
+      ]),
+      makeDayQ('d1-q6', '🍎', 'Someone gives you an apple. What is the magic word?', 'Biri sana elma verdi. Sihirli teşekkür kelimesi nedir?', [
+        ['a', 'Thank you!', '🙏', true],
+        ['b', 'I am hungry!', '🍕', false],
+        ['c', 'No, broccoli!', '🥦', false],
+      ]),
+      makeDayQ('d1-q7', '🥛', 'Complete: "___ I have milk, please?"', 'Cümleyi tamamla: "Süt alabilir miyim lütfen?"', [
+        ['a', 'Can I have milk, please?', '🥛', true],
+        ['b', 'I don’t like milk?', '🤢', false],
+        ['c', 'Milk is hungry!', '🍕', false],
+      ]),
+      makeDayQ('d1-q8', '🍌', 'Do you like bananas? 👍 (Yes!)', 'Muzu seviyor musun? Evet demek için:', [
+        ['a', 'Yes, I like bananas!', '🍌', true],
+        ['b', 'No, I don’t like bananas.', '🤢', false],
+        ['c', 'I am a banana.', '🙈', false],
+      ]),
+      makeDayQ('d1-q9', '🍋', 'Sour lemon! 😖 Which one means "Limonu sevmem"?', 'Ekşi limon! "Limonu sevmem" hangisidir?', [
+        ['a', 'I don’t like lemon!', '🍋', true],
+        ['b', 'I like lemon!', '😋', false],
+        ['c', 'Can I have lemon?', '🙏', false],
+      ]),
+      makeDayQ('d1-q10', '🍰', 'Complete: "I am ___! Can I have cake, please?"', 'Cümleyi tamamla: "Açım! Pasta alabilir miyim lütfen?"', [
+        ['a', 'I am hungry!', '🍰', true],
+        ['b', 'I am sleepy!', '😴', false],
+        ['c', 'I don’t like cake!', '🤢', false],
+      ]),
     ],
     tvRecommendation: {
       title: 'Do You Like Broccoli Ice Cream?',
@@ -1830,12 +1903,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '🏀🎹 Basket & Piyano Güçleri',
     title: 'I Can / I Can’t + Hızlı, Yavaş, Yüksek, Kısık',
     desc: 'Deniz’in iki gerçek hobisi olan Basketbol ve Piyanoyu doğrudan İngilizceye bağlıyoruz!',
-    grammarFocus: 'I can ... / I can’t ... / Fast / Slow / Quiet',
+    grammarFocus: 'I can ... / I can’t ... / Fast & Slow / Loud & Quiet',
     vocabFocus: [
-      { en: 'Shoot!', tr: 'Şut at!', de: 'Wirf!', emoji: '🏀' },
-      { en: 'Fast!', tr: 'Hızlı!', de: 'Schnell!', emoji: '⚡' },
-      { en: 'Quiet!', tr: 'Sessiz!', de: 'Leise!', emoji: '🤫' },
-      { en: 'Swim', tr: 'Yüzmek', de: 'Schwimmen', emoji: '🏊' },
+      { en: 'I can', tr: 'Yapabilirim', de: 'Ich kann', emoji: '🏀', exampleEn: 'I can jump and I can swim!', exampleTr: 'Zıplayabilirim ve yüzebilirim!' },
+      { en: 'I can’t', tr: 'Yapamam', de: 'Ich kann nicht', emoji: '🕊️', exampleEn: 'I can’t fly like a bird!', exampleTr: 'Kuş gibi uçamam!' },
+      { en: 'Fast / Slow', tr: 'Hızlı / Yavaş', de: 'Schnell / Langsam', emoji: '⚡', exampleEn: 'I can run fast and walk slow!', exampleTr: 'Hızlı koşabilir ve yavaş yürüyebilirim!' },
+      { en: 'Loud / Quiet', tr: 'Yüksek / Sessiz', de: 'Laut / Leise', emoji: '🤫', exampleEn: 'Play piano loud and quiet!', exampleTr: 'Piyanoyu yüksek ve sessiz çal!' },
+    ],
+    questions: [
+      makeDayQ('d2-q1', '🏊', 'You know how to swim! What do you say?', 'Yüzebildiğini İngilizce nasıl söylersin?', [
+        ['a', 'I can swim!', '🏊', true],
+        ['b', 'I can’t swim!', '❌', false],
+        ['c', 'I am hungry!', '🍕', false],
+      ]),
+      makeDayQ('d2-q2', '🕊️', 'Humans do not have wings. Complete: "I ___ fly!"', 'İnsanların kanadı yoktur: "Uçamam!" nasıl dersin?', [
+        ['a', 'I can’t fly!', '🕊️', true],
+        ['b', 'I can fly!', '✈️', false],
+        ['c', 'I like fly!', '😋', false],
+      ]),
+      makeDayQ('d2-q3', '🐆', 'How does a cheetah run?', 'Bir çita nasıl koşar? (Hızlı)', [
+        ['a', 'Fast!', '⚡', true],
+        ['b', 'Slow!', '🐢', false],
+        ['c', 'Quiet!', '🤫', false],
+      ]),
+      makeDayQ('d2-q4', '🐢', 'How does a turtle walk?', 'Bir kaplumbağa nasıl yürür? (Yavaş)', [
+        ['a', 'Slow!', '🐢', true],
+        ['b', 'Fast!', '⚡', false],
+        ['c', 'Loud!', '🔊', false],
+      ]),
+      makeDayQ('d2-q5', '🤫', 'Baby is sleeping! Play the piano...', 'Bebek uyuyor! Piyanoyu nasıl çalmalısın? (Sessiz)', [
+        ['a', 'Quiet!', '🤫', true],
+        ['b', 'Loud!', '🔊', false],
+        ['c', 'Fast!', '⚡', false],
+      ]),
+      makeDayQ('d2-q6', '🏀', 'You can play basketball! Which sentence is right?', 'Basketbol oynayabilirim! Doğru cümle hangisi?', [
+        ['a', 'I can play basketball!', '🏀', true],
+        ['b', 'I can’t play basketball!', '❌', false],
+        ['c', 'Can I have basketball?', '🙏', false],
+      ]),
+      makeDayQ('d2-q7', '🦁', 'A lion roars very... (Yüksek sesle)', 'Aslan çok yüksek sesle kükrer. "Yüksek ses" hangisi?', [
+        ['a', 'Loud!', '🔊', true],
+        ['b', 'Quiet!', '🤫', false],
+        ['c', 'Slow!', '🐢', false],
+      ]),
+      makeDayQ('d2-q8', '🍎', '🔄 Tekrar: How do you say "Elmaları severim"?', '🔄 Tekrar (Bölüm 1): "Elmaları severim" nasıl söylenir?', [
+        ['a', 'I like apples!', '🍎', true],
+        ['b', 'I don’t like apples!', '🤢', false],
+        ['c', 'I can’t apples!', '❌', false],
+      ], true),
+      makeDayQ('d2-q9', '🚲', '🔄 Tekrar: How do you say "Benim kırmızı bisikletim var"?', '🔄 Tekrar (Bölüm 2): "Benim kırmızı bisikletim var" hangisi?', [
+        ['a', 'I have got a red bike!', '🚲', true],
+        ['b', 'I don’t like bike!', '🤢', false],
+        ['c', 'That is your bike.', '👉', false],
+      ], true),
+      makeDayQ('d2-q10', '💧', '🔄 Tekrar: How do you politely ask for water?', '🔄 Tekrar (Bölüm 1): Kibarca nasıl su istersin?', [
+        ['a', 'Can I have water, please?', '💧', true],
+        ['b', 'I am hungry!', '🍕', false],
+        ['c', 'Play loud!', '🔊', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'Scratch Garden: Fast and Slow / Loud and Quiet',
@@ -1872,12 +1997,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '🏃 Hareket & Şu An Ne Yapıyorum?',
     title: 'Dad Says (TPR) & Donma Oyunu (-ing)',
     desc: 'Tüm vücutla hareket ederek fiilleri ve "I am building / playing" şimdiki zaman kalıbını öğreniyoruz.',
-    grammarFocus: 'What are you doing? -> I am + ...ing',
+    grammarFocus: 'What are you doing? -> I am + ...ing / Clap / Touch / Freeze',
     vocabFocus: [
-      { en: 'Building', tr: 'İnşa ediyorum', de: 'Bauen', emoji: '🧱' },
-      { en: 'Jumping', tr: 'Zıplıyorum', de: 'Springen', emoji: '🤸' },
-      { en: 'Playing piano', tr: 'Piyano çalıyorum', de: 'Klavier spielen', emoji: '🎹' },
-      { en: 'Touch your nose', tr: 'Burnuna dokun', de: 'Nase berühren', emoji: '👃' },
+      { en: 'Jumping', tr: 'Zıplıyorum', de: 'Springen', emoji: '🦘', exampleEn: 'What are you doing? I am jumping!', exampleTr: 'Ne yapıyorsun? Zıplıyorum!' },
+      { en: 'Clap your hands', tr: 'Ellerini çırp', de: 'Klatsch in die Hände', emoji: '👏', exampleEn: 'Clap your hands, clap, clap, clap!', exampleTr: 'Ellerini çırp, şak şak şak!' },
+      { en: 'Touch your nose', tr: 'Burnuna dokun', de: 'Fass dir an die Nase', emoji: '👃', exampleEn: 'Touch your nose! One, two, three!', exampleTr: 'Burnuna dokun! Bir, iki, üç!' },
+      { en: 'Freeze!', tr: 'Don! Kıpırdama!', de: 'Stopp! Nicht bewegen!', emoji: '❄️', exampleEn: 'Now freeze! Don’t move!', exampleTr: 'Şimdi don! Kıpırdama!' },
+    ],
+    questions: [
+      makeDayQ('d3-q1', '🦘', 'What are you doing right now? (Zıplıyorum)', '"Şu an zıplıyorum" İngilizce nasıl söylenir?', [
+        ['a', 'I am jumping!', '🦘', true],
+        ['b', 'I am sleeping.', '😴', false],
+        ['c', 'I don’t like jumping.', '🤢', false],
+      ]),
+      makeDayQ('d3-q2', '👏', 'Dad says: "Clap your hands!" What do you do?', 'Baba "Clap your hands!" dedi. Ne yaparsın?', [
+        ['a', 'Clap my hands! 👏', '👏', true],
+        ['b', 'Touch my nose! 👃', '👃', false],
+        ['c', 'Go to sleep! 😴', '😴', false],
+      ]),
+      makeDayQ('d3-q3', '👃', 'Which one means "Burnuna dokun"?', '"Burnuna dokun" hangisidir?', [
+        ['a', 'Touch your nose!', '👃', true],
+        ['b', 'Clap your hands!', '👏', false],
+        ['c', 'Freeze!', '❄️', false],
+      ]),
+      makeDayQ('d3-q4', '❄️', 'Music stops! "Freeze!" What does Freeze mean?', 'Müzik durdu! "Freeze!" ne demektir?', [
+        ['a', 'Don! Kıpırdama!', '❄️', true],
+        ['b', 'Run very fast!', '⚡', false],
+        ['c', 'Eat pizza!', '🍕', false],
+      ]),
+      makeDayQ('d3-q5', '🏃', 'You are running right now! Complete: "I am ___!"', 'Şu an koşuyorsun! Cümleyi tamamla: "Koşuyorum!"', [
+        ['a', 'I am running!', '🏃', true],
+        ['b', 'I am freeze!', '❄️', false],
+        ['c', 'Touch your nose!', '👃', false],
+      ]),
+      makeDayQ('d3-q6', '🧱', 'You are building a Lego tower right now:', 'Şu an Lego kulesi yapıyorsun: Hangisi doğru?', [
+        ['a', 'I am building Lego!', '🧱', true],
+        ['b', 'I am jumping!', '🦘', false],
+        ['c', 'Clap your hands!', '👏', false],
+      ]),
+      makeDayQ('d3-q7', '❓', 'Someone asks "What are you doing?" when you clap:', 'Alkışlarken biri "Ne yapıyorsun?" diye sorarsa:', [
+        ['a', 'I am clapping!', '👏', true],
+        ['b', 'I am hungry!', '🍕', false],
+        ['c', 'That is your bike.', '🚲', false],
+      ]),
+      makeDayQ('d3-q8', '🕊️', '🔄 Tekrar: Complete "I ___ fly like a bird!"', '🔄 Tekrar (Bölüm 3): "Kuş gibi uçamam!" hangisi?', [
+        ['a', 'I can’t fly!', '🕊️', true],
+        ['b', 'I can fly!', '✈️', false],
+        ['c', 'I am jumping!', '🦘', false],
+      ], true),
+      makeDayQ('d3-q9', '🤝', '🔄 Tekrar: Invite your friend to play together:', '🔄 Tekrar (Bölüm 4): Arkadaşını "Haydi oynayalım!" diye nasıl çağırırsın?', [
+        ['a', 'Let’s play!', '🤝', true],
+        ['b', 'Freeze!', '❄️', false],
+        ['c', 'I don’t like it.', '🤢', false],
+      ], true),
+      makeDayQ('d3-q10', '🥦', '🔄 Tekrar: You do NOT like broccoli:', '🔄 Tekrar (Bölüm 1): "Brokoliyi sevmem" nasıl söylenir?', [
+        ['a', 'I don’t like broccoli!', '🥦', true],
+        ['b', 'I like broccoli!', '😋', false],
+        ['c', 'Touch your nose!', '👃', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'Steve and Maggie — Action Verbs',
@@ -1914,12 +2091,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '🔬 Checker Deniz Bilim & Canavar',
     title: 'Batar mı Yüzer mi? (Why/Because) & Zarla Canavar',
     desc: 'Checker Tobi ve Woozle Goozle merakını İngilizce bilim deneyine çeviriyoruz!',
-    grammarFocus: 'Why ...? Because ... / It has got ... / Hot & Cold',
+    grammarFocus: 'Why ...? Because ... / Sink & Float / Heavy & Light',
     vocabFocus: [
-      { en: 'Float', tr: 'Yüzmek', de: 'Schwimmen', emoji: '⛵' },
-      { en: 'Heavy', tr: 'Ağır', de: 'Schwer', emoji: '🪨' },
-      { en: 'Because...', tr: 'Çünkü...', de: 'Weil...', emoji: '🔬' },
-      { en: 'Sunny', tr: 'Güneşli', de: 'Sonnig', emoji: '☀️' },
+      { en: 'Float', tr: 'Suda yüzmek', de: 'Schwimmen', emoji: '⛵', exampleEn: 'The yellow duck floats!', exampleTr: 'Sarı ördek suda yüzer!' },
+      { en: 'Sink', tr: 'Batmak', de: 'Sinken', emoji: '🪨', exampleEn: 'The heavy stone sinks!', exampleTr: 'Ağır taş batar!' },
+      { en: 'Heavy / Light', tr: 'Ağır / Hafif', de: 'Schwer / Leicht', emoji: '⚖️', exampleEn: 'Heavy goes down, light stays up!', exampleTr: 'Ağır dibe iner, hafif yukarıda kalır!' },
+      { en: 'Because...', tr: 'Çünkü...', de: 'Weil...', emoji: '🔬', exampleEn: 'Why does it float? Because it is light!', exampleTr: 'Neden yüzer? Çünkü hafiftir!' },
+    ],
+    questions: [
+      makeDayQ('d4-q1', '🦆', 'A light toy duck stays on top of water. It...', 'Hafif oyuncak ördek suyun üstünde kalır. Buna ne denir?', [
+        ['a', 'It floats!', '⛵', true],
+        ['b', 'It sinks!', '🪨', false],
+        ['c', 'It jumps!', '🦘', false],
+      ]),
+      makeDayQ('d4-q2', '🪨', 'A big stone goes down under the water. It...', 'Büyük bir taş suyun dibine iner. Buna ne denir?', [
+        ['a', 'It sinks!', '🪨', true],
+        ['b', 'It floats!', '⛵', false],
+        ['c', 'It flies!', '🕊️', false],
+      ]),
+      makeDayQ('d4-q3', '🪶', 'A feather is NOT heavy. It is...', 'Bir kuş tüyü ağır değildir. Nedir? (Hafif)', [
+        ['a', 'Light!', '🪶', true],
+        ['b', 'Heavy!', '🪨', false],
+        ['c', 'Hungry!', '🍕', false],
+      ]),
+      makeDayQ('d4-q4', '🪨', 'A metal hammer is NOT light. It is...', 'Metal bir çekiç hafif değildir. Nedir? (Ağır)', [
+        ['a', 'Heavy!', '🪨', true],
+        ['b', 'Light!', '🪶', false],
+        ['c', 'Quiet!', '🤫', false],
+      ]),
+      makeDayQ('d4-q5', '🔬', 'Why does a balloon float? "___ it is light!"', 'Balon neden yüzer? "Çünkü hafiftir!" nasıl dersin?', [
+        ['a', 'Because it is light!', '🎈', true],
+        ['b', 'Because it is heavy!', '🪨', false],
+        ['c', 'I don’t like it!', '🤢', false],
+      ]),
+      makeDayQ('d4-q6', '❓', 'Which word asks "Neden?"', 'İngilizce "Neden?" sorusu hangisidir?', [
+        ['a', 'Why?', '❓', true],
+        ['b', 'Because!', '💡', false],
+        ['c', 'Float!', '⛵', false],
+      ]),
+      makeDayQ('d4-q7', '⛵', 'A Lego boat is light. Will it sink or float?', 'Lego tekne hafiftir. Batar mı yüzer mi?', [
+        ['a', 'It will float!', '⛵', true],
+        ['b', 'It will sink!', '🪨', false],
+        ['c', 'It will freeze!', '❄️', false],
+      ]),
+      makeDayQ('d4-q8', '📦', '🔄 Tekrar: The toy is ___ the box. (Altında)', '🔄 Tekrar (Bölüm 7): Oyuncak kutunun ALTINDA hangisidir?', [
+        ['a', 'Under the box!', '⬇️', true],
+        ['b', 'On the box!', '⬆️', false],
+        ['c', 'Heavy box!', '🪨', false],
+      ], true),
+      makeDayQ('d4-q9', '⭐', '🔄 Tekrar: "How many stars?" means:', '🔄 Tekrar (Bölüm 6): "How many stars?" ne sorar?', [
+        ['a', 'Kaç tane yıldız var?', '🔢', true],
+        ['b', 'Yıldız ağır mı?', '🪨', false],
+        ['c', 'Burnuna dokun!', '👃', false],
+      ], true),
+      makeDayQ('d4-q10', '🤸', '🔄 Tekrar: "I am jumping!" means:', '🔄 Tekrar (Bölüm 5): "I am jumping!" ne demektir?', [
+        ['a', 'Zıplıyorum!', '🦘', true],
+        ['b', 'Yüzüyorum!', '🏊', false],
+        ['c', 'Açım!', '🍕', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'SciShow Kids: Sink or Float!',
@@ -1956,12 +2185,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '🗺️ Hazine Avı & Pokemon Matematik',
     title: 'Nerede Saklanıyor? & Pokemon Kart Takası',
     desc: 'Evin içinde sıcak-soğuk hazine avı ve 11–20 arası sayılarla Pokemon kart matematiği!',
-    grammarFocus: 'Where is it? In/On/Under/Behind/Next to + Sayılar 11–20',
+    grammarFocus: 'In / On / Under / Next to + Numbers 10–12',
     vocabFocus: [
-      { en: 'Under', tr: 'Altında', de: 'Unter', emoji: '🪑' },
-      { en: 'On the box', tr: 'Kutunun üstünde', de: 'Auf der Kiste', emoji: '📦' },
-      { en: 'Twelve', tr: 'On iki', de: 'Zwölf', emoji: '🔢' },
-      { en: 'Cards', tr: 'Kartlar', de: 'Karten', emoji: '🃏' },
+      { en: 'In / On', tr: 'İçinde / Üstünde', de: 'In / Auf', emoji: '📦', exampleEn: 'In the box, on the chair!', exampleTr: 'Kutunun içinde, sandalyenin üstünde!' },
+      { en: 'Under', tr: 'Altında', de: 'Unter', emoji: '🪑', exampleEn: 'It is under the bed!', exampleTr: 'Yatağın altında!' },
+      { en: 'Next to', tr: 'Yanında', de: 'Neben', emoji: '🧸', exampleEn: 'Pikachu is next to me!', exampleTr: 'Pikachu benim yanımda!' },
+      { en: 'Twelve', tr: 'On iki (12)', de: 'Zwölf', emoji: '🔢', exampleEn: 'Ten, eleven, twelve — count with me!', exampleTr: 'On, on bir, on iki — benimle say!' },
+    ],
+    questions: [
+      makeDayQ('d5-q1', '🛏️', 'The ball is BELOW the bed. Where is it?', 'Top yatağın ALTINDA. Hangisi "altında" demektir?', [
+        ['a', 'Under the bed!', '⬇️', true],
+        ['b', 'On the bed!', '⬆️', false],
+        ['c', 'In the bed!', '📦', false],
+      ]),
+      makeDayQ('d5-q2', '📦', 'The Lego brick is INSIDE the box. Where is it?', 'Lego parçası kutunun İÇİNDE. Hangisi "içinde" demektir?', [
+        ['a', 'In the box!', '📦', true],
+        ['b', 'Under the box!', '⬇️', false],
+        ['c', 'Next to the box!', '➡️', false],
+      ]),
+      makeDayQ('d5-q3', '🪑', 'The cat sits ON TOP OF the chair. Where is it?', 'Kedi sandalyenin ÜSTÜNDE oturuyor. Hangisi doğru?', [
+        ['a', 'On the chair!', '🪑', true],
+        ['b', 'Under the chair!', '⬇️', false],
+        ['c', 'Twelve chairs!', '🔢', false],
+      ]),
+      makeDayQ('d5-q4', '⚡', 'Pikachu stands right BESIDE you. Where is Pikachu?', 'Pikachu hemen senin YANINDA duruyor. Hangisi "yanında"?', [
+        ['a', 'Next to me!', '➡️', true],
+        ['b', 'Under me!', '⬇️', false],
+        ['c', 'In the box!', '📦', false],
+      ]),
+      makeDayQ('d5-q5', '🔢', 'Count: Ten, eleven, ___! (10, 11, 12)', 'Say bakalım: 10, 11, ... (12 hangisidir?)', [
+        ['a', 'Twelve!', '1️⃣2️⃣', true],
+        ['b', 'Two!', '2️⃣', false],
+        ['c', 'Five!', '5️⃣', false],
+      ]),
+      makeDayQ('d5-q6', '🃏', 'You have 10 cards and get 2 more. How many now?', '10 kartın var, 2 tane daha aldın. Kaç kart oldu?', [
+        ['a', 'Twelve cards!', '🃏', true],
+        ['b', 'Three cards!', '3️⃣', false],
+        ['c', 'Under the box!', '📦', false],
+      ]),
+      makeDayQ('d5-q7', '❓', 'You lost your toy and want to ask "Nerede?"', 'Oyuncağını kaybettin, "Nerede?" nasıl sorarsın?', [
+        ['a', 'Where is it?', '🔍', true],
+        ['b', 'What are you doing?', '🏃', false],
+        ['c', 'Can I have water?', '💧', false],
+      ]),
+      makeDayQ('d5-q8', '🧱', '🔄 Tekrar: There ___ 5 yellow bricks in the box.', '🔄 Tekrar (Bölüm 6): Birden çok taş için hangisi?', [
+        ['a', 'There are 5 bricks!', '🧱', true],
+        ['b', 'There is 5 bricks!', '❌', false],
+        ['c', 'I can’t bricks!', '🙈', false],
+      ], true),
+      makeDayQ('d5-q9', '👏', '🔄 Tekrar: "Clap your hands!" means:', '🔄 Tekrar (Bölüm 5): "Clap your hands!" ne demektir?', [
+        ['a', 'Ellerini çırp!', '👏', true],
+        ['b', 'Burnuna dokun!', '👃', false],
+        ['c', 'Hızlı koş!', '⚡', false],
+      ], true),
+      makeDayQ('d5-q10', '⌛', '🔄 Tekrar: Your friends are running ahead. You say:', '🔄 Tekrar (Bölüm 4): "Beni bekle!" nasıl söylersin?', [
+        ['a', 'Wait for me!', '🏃', true],
+        ['b', 'Under the chair!', '🪑', false],
+        ['c', 'I am hungry!', '🍕', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'Scratch Garden: Prepositions (In, On, Under)',
@@ -1998,12 +2279,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '⏰ Sabah Rutinim & Hikaye Dedektifi',
     title: 'Okul Günü Pantomimi, Saatler & Who/Where',
     desc: 'Dinleme hafızasını 2–3 cümlelik hikayelere taşıyor, günlük rutinleri ve odaları öğreniyoruz.',
-    grammarFocus: 'In the morning I ... / Who / Where / Half past eight',
+    grammarFocus: 'Brush teeth / Kitchen / Where? / Eight o’clock',
     vocabFocus: [
-      { en: 'Brush teeth', tr: 'Diş fırçalamak', de: 'Zähne putzen', emoji: '🪥' },
-      { en: 'Kitchen', tr: 'Mutfak', de: 'Küche', emoji: '🍳' },
-      { en: 'Where?', tr: 'Nerede?', de: 'Wo?', emoji: '❓' },
-      { en: 'Eight o’clock', tr: 'Saat sekiz', de: 'Acht Uhr', emoji: '🕗' },
+      { en: 'Brush teeth', tr: 'Diş fırçalamak', de: 'Zähne putzen', emoji: '🪥', exampleEn: 'I brush my teeth in the morning!', exampleTr: 'Sabahları dişlerimi fırçalarım!' },
+      { en: 'Kitchen', tr: 'Mutfak', de: 'Küche', emoji: '🍳', exampleEn: 'Breakfast is in the kitchen!', exampleTr: 'Kahvaltı mutfakta!' },
+      { en: 'Where?', tr: 'Nerede?', de: 'Wo?', emoji: '❓', exampleEn: 'Where is my pencil? In my bag!', exampleTr: 'Kalemim nerede? Çantamda!' },
+      { en: 'Eight o’clock', tr: 'Saat sekiz', de: 'Acht Uhr', emoji: '🕗', exampleEn: 'What time is it? Eight o’clock!', exampleTr: 'Saat kaç? Saat sekiz!' },
+    ],
+    questions: [
+      makeDayQ('d6-q1', '🪥', 'Every morning after breakfast, what do you do?', 'Her sabah kahvaltıdan sonra dişlerini ne yaparsın?', [
+        ['a', 'Brush my teeth!', '🪥', true],
+        ['b', 'Go to bed!', '🛏️', false],
+        ['c', 'Sink in water!', '🪨', false],
+      ]),
+      makeDayQ('d6-q2', '🍳', 'Where do Mom and Dad cook breakfast?', 'Anne ve baba kahvaltıyı nerede hazırlar? (Mutfak)', [
+        ['a', 'In the kitchen!', '🍳', true],
+        ['b', 'Under the swing!', '🌳', false],
+        ['c', 'At eight o’clock!', '🕗', false],
+      ]),
+      makeDayQ('d6-q3', '🕗', 'The clock shows 8:00. What time is it?', 'Saat 8:00 gösteriyor. "Saat sekiz" nasıl söylenir?', [
+        ['a', 'Eight o’clock!', '🕗', true],
+        ['b', 'Twelve o’clock!', '🕛', false],
+        ['c', 'In the kitchen!', '🍳', false],
+      ]),
+      makeDayQ('d6-q4', '✏️', 'You ask "___ is my pencil?" (Kalemim nerede?)', '"Kalemim NEREDE?" diye sormak için hangi kelimeyi seçersin?', [
+        ['a', 'Where is my pencil?', '❓', true],
+        ['b', 'Because my pencil!', '💡', false],
+        ['c', 'Heavy my pencil!', '🪨', false],
+      ]),
+      makeDayQ('d6-q5', '🎒', 'Where is your pencil? Inside your school bag!', 'Kalemin çantanın içinde. Cevabın ne olur?', [
+        ['a', 'In my bag!', '🎒', true],
+        ['b', 'Eight o’clock!', '🕗', false],
+        ['c', 'Brush teeth!', '🪥', false],
+      ]),
+      makeDayQ('d6-q6', '⏰', 'How do you ask "Saat kaç?" in English?', 'İngilizce "Saat kaç?" nasıl sorulur?', [
+        ['a', 'What time is it?', '⏰', true],
+        ['b', 'What are you doing?', '🏃', false],
+        ['c', 'How many stars?', '⭐', false],
+      ]),
+      makeDayQ('d6-q7', '☀️', 'First thing in the morning: "___, brush your teeth!"', 'Sabah ilk işimiz nedir? ("Uyan!")', [
+        ['a', 'Wake up!', '☀️', true],
+        ['b', 'Freeze!', '❄️', false],
+        ['c', 'Good game!', '🎮', false],
+      ]),
+      makeDayQ('d6-q8', '⛵', '🔄 Tekrar: Why does a toy boat float?', '🔄 Tekrar (Bölüm 8): Oyuncak tekne neden yüzer?', [
+        ['a', 'Because it is light!', '⛵', true],
+        ['b', 'Because it is heavy!', '🪨', false],
+        ['c', 'In the kitchen!', '🍳', false],
+      ], true),
+      makeDayQ('d6-q9', '🪑', '🔄 Tekrar: "Under the bed" means:', '🔄 Tekrar (Bölüm 7): "Under the bed" ne demektir?', [
+        ['a', 'Yatağın altında!', '⬇️', true],
+        ['b', 'Yatağın üstünde!', '⬆️', false],
+        ['c', 'Saat sekizde!', '🕗', false],
+      ], true),
+      makeDayQ('d6-q10', '🏊', '🔄 Tekrar: "I can swim!" means:', '🔄 Tekrar (Bölüm 3): "I can swim!" ne demektir?', [
+        ['a', 'Yüzebilirim!', '🏊', true],
+        ['b', 'Yüzemem!', '❌', false],
+        ['c', 'Açım!', '🍕', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'British Council LearnEnglish Kids — Short Stories',
@@ -2040,12 +2373,64 @@ const BASE_EXPEDITION_DAYS = [
     badge: '👑 Büyük Turnuva & Boss Finali',
     title: 'Pokemon Karşılaştırma, Geçmiş Zaman & 3 Cümle Finali',
     desc: 'Haftanın finali! Karşılaştırma yapıyoruz ("stronger than"), dün ne yaptığımızı söylüyoruz ("Yesterday") ve 3 cümleyle kartımızı tanıtıyoruz.',
-    grammarFocus: 'Stronger than / Faster than / Yesterday I ... / 3 Sentences',
+    grammarFocus: 'Stronger than / Faster than / The biggest / Yesterday I...',
     vocabFocus: [
-      { en: 'Stronger than', tr: '...dan daha güçlü', de: 'Stärker als', emoji: '💪' },
-      { en: 'Faster than', tr: '...dan daha hızlı', de: 'Schneller als', emoji: '⚡' },
-      { en: 'Biggest', tr: 'En büyük', de: 'Am größten', emoji: '🐋' },
-      { en: 'Yesterday I...', tr: 'Dün ben...', de: 'Gestern habe ich...', emoji: '⏳' },
+      { en: 'Stronger than', tr: '...dan daha güçlü', de: 'Stärker als', emoji: '💪', exampleEn: 'A lion is stronger than a cat!', exampleTr: 'Aslan kediden daha güçlüdür!' },
+      { en: 'Faster than', tr: '...dan daha hızlı', de: 'Schneller als', emoji: '⚡', exampleEn: 'A cheetah is faster than a turtle!', exampleTr: 'Çita kaplumbağadan daha hızlıdır!' },
+      { en: 'Biggest', tr: 'En büyük', de: 'Am größten', emoji: '🐋', exampleEn: 'The blue whale is the biggest!', exampleTr: 'Mavi balina en büyüğüdür!' },
+      { en: 'Yesterday I...', tr: 'Dün ben...', de: 'Gestern habe ich...', emoji: '⏳', exampleEn: 'Yesterday I played and had fun!', exampleTr: 'Dün oyun oynadım ve çok eğlendim!' },
+    ],
+    questions: [
+      makeDayQ('d7-q1', '🦁', 'Compare a lion and a cat! A lion is...', 'Aslan ile kediyi karşılaştır: Aslan kediden daha...', [
+        ['a', 'Stronger than a cat!', '💪', true],
+        ['b', 'Smaller than a mouse!', '🐭', false],
+        ['c', 'Eight o’clock!', '🕗', false],
+      ]),
+      makeDayQ('d7-q2', '🐆', 'Compare a cheetah and a turtle! A cheetah is...', 'Çita ile kaplumbağayı karşılaştır: Çita daha...', [
+        ['a', 'Faster than a turtle!', '⚡', true],
+        ['b', 'Slower than a turtle!', '🐢', false],
+        ['c', 'Under the box!', '📦', false],
+      ]),
+      makeDayQ('d7-q3', '🐋', 'Which animal is the BIGGEST animal in the ocean?', 'Okyanustaki EN BÜYÜK hayvan hangisidir?', [
+        ['a', 'The blue whale is the biggest!', '🐋', true],
+        ['b', 'The small fish is the biggest!', '🐟', false],
+        ['c', 'I am hungry!', '🍕', false],
+      ]),
+      makeDayQ('d7-q4', '⚽', 'You played basketball YESTERDAY. What do you say?', 'Dün basketbol oynadın. "Dün ben oynadım" nasıl dersin?', [
+        ['a', 'Yesterday I played!', '⚽', true],
+        ['b', 'Tomorrow I freeze!', '❄️', false],
+        ['c', 'Touch your nose!', '👃', false],
+      ]),
+      makeDayQ('d7-q5', '🦒', 'A giraffe is VERY tall. It is ___ than a dog!', 'Zürafa köpekten daha uzundur. Hangisi doğru?', [
+        ['a', 'Taller than a dog!', '🦒', true],
+        ['b', 'Smaller than a mouse!', '🐭', false],
+        ['c', 'Quiet than a dog!', '🤫', false],
+      ]),
+      makeDayQ('d7-q6', '🐘', 'An elephant is bigger ___ a rabbit!', 'Karşılaştırma yaparken hangi kelimeyi kullanırız? (...dan)', [
+        ['a', 'Bigger than a rabbit!', '🐘', true],
+        ['b', 'Bigger under a rabbit!', '⬇️', false],
+        ['c', 'Bigger because a rabbit!', '🔬', false],
+      ]),
+      makeDayQ('d7-q7', '⏳', 'Which word means "Dün"?', 'İngilizce "Dün" anlamına gelen kelime hangisidir?', [
+        ['a', 'Yesterday!', '⏳', true],
+        ['b', 'Kitchen!', '🍳', false],
+        ['c', 'Float!', '⛵', false],
+      ]),
+      makeDayQ('d7-q8', '❓', '🔄 Tekrar: "Who is at the door?" asks:', '🔄 Tekrar (Bölüm 10): "Who is at the door?" ne sorar?', [
+        ['a', 'Kapıda KİM var?', '🚪', true],
+        ['b', 'Kapı NEREDE?', '🗺️', false],
+        ['c', 'Saat KAÇ?', '⏰', false],
+      ], true),
+      makeDayQ('d7-q9', '🪥', '🔄 Tekrar: "Brush my teeth" means:', '🔄 Tekrar (Bölüm 9): "Brush my teeth" ne demektir?', [
+        ['a', 'Dişlerimi fırçalarım!', '🪥', true],
+        ['b', 'Mutfağa giderim!', '🍳', false],
+        ['c', 'Piyano çalarım!', '🎹', false],
+      ], true),
+      makeDayQ('d7-q10', '🍎', '🔄 Tekrar: "Can I have an apple, please?" means:', '🔄 Tekrar (Bölüm 1): Kibarca ne istiyorsun?', [
+        ['a', 'Bir elma alabilir miyim lütfen?', '🍎', true],
+        ['b', 'Elma sevmem!', '🤢', false],
+        ['c', 'Elma çok ağır!', '🪨', false],
+      ], true),
     ],
     tvRecommendation: {
       title: 'Nat Geo Kids — Awesome & Fastest Animals',

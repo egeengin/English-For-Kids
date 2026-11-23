@@ -15,7 +15,7 @@ import {
   stopKidsSongBeat,
 } from '../utils/soundEffects';
 
-export default function DailySingLearn({ dayId, isMuted = false }) {
+export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
   const lesson = DAY_LESSONS[dayId];
   const [isSinging, setIsSinging] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -321,8 +321,12 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
               onClick={() => {
                 playSparkle(isMuted);
                 setShowVideo(false);
-                const el = document.getElementById('daily-step-quiz');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (onGoToQuiz) {
+                  onGoToQuiz();
+                } else {
+                  const el = document.getElementById('daily-step-quiz');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
               }}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-display font-black text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95"
             >
@@ -366,6 +370,11 @@ export default function DailySingLearn({ dayId, isMuted = false }) {
                 <div className="font-display font-black text-base sm:text-lg leading-snug">
                   {line.en}
                 </div>
+                {line.tr && (
+                  <div className={`text-xs sm:text-sm font-bold mt-0.5 ${isActive ? 'text-slate-700' : 'text-indigo-200'}`}>
+                    {line.tr}
+                  </div>
+                )}
               </div>
               <Volume2 className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-slate-900' : 'text-yellow-300'}`} />
             </button>

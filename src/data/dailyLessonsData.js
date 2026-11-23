@@ -10,10 +10,10 @@ export const DAY_LESSONS = {
       end: 48,
     },
     chantLines: [
-      { emoji: '🍎', en: 'Do you like apples? Yes, I do!', tr: 'Elma sever misin? Evet, severim!' },
-      { emoji: '🥦', en: 'Do you like broccoli? No, I don’t!', tr: 'Brokoli sever misin? Hayır, sevmem!' },
+      { emoji: '🍎', en: 'I like red apples! Yummy!', tr: 'Kırmızı elmaları severim! Nefis!' },
+      { emoji: '🥦', en: 'I don’t like broccoli! Oh no!', tr: 'Brokoliyi sevmem! Hayır!' },
+      { emoji: '🍕', en: 'I am hungry! Let us eat!', tr: 'Açım! Haydi yiyelim!' },
       { emoji: '💧', en: 'Can I have water, please? Thank you!', tr: 'Su alabilir miyim lütfen? Teşekkürler!' },
-      { emoji: '😋', en: 'Yummy, yummy, good for you!', tr: 'Nefis, nefis, senin için çok iyi!' },
     ],
     visualCards: [
       {
@@ -83,10 +83,10 @@ export const DAY_LESSONS = {
       end: 46,
     },
     chantLines: [
-      { emoji: '🦘', en: 'I can jump! Jump, jump, jump!', tr: 'Zıplayabilirim! Zıpla, zıpla, zıpla!' },
-      { emoji: '🎹', en: 'I can play piano, fast and slow!', tr: 'Hızlı ve yavaş piyano çalabilirim!' },
-      { emoji: '🦸', en: 'Can you fly? No, I can’t!', tr: 'Uçabilir misin? Hayır, uçamam!' },
-      { emoji: '🎶', en: 'Loud and quiet, here we go!', tr: 'Yüksek ses ve kısık ses, haydi başlayalım!' },
+      { emoji: '🏊', en: 'I can jump and I can swim!', tr: 'Zıplayabilirim ve yüzebilirim!' },
+      { emoji: '🦸', en: 'I can’t fly like a bird!', tr: 'Kuş gibi uçamam!' },
+      { emoji: '⚡', en: 'I can run fast and walk slow!', tr: 'Hızlı koşabilir ve yavaş yürüyebilirim!' },
+      { emoji: '🤫', en: 'Play piano loud and quiet!', tr: 'Piyanoyu yüksek ve sessiz çal!' },
     ],
     visualCards: [
       {
@@ -154,10 +154,10 @@ export const DAY_LESSONS = {
       end: 50,
     },
     chantLines: [
-      { emoji: '👏', en: 'Clap your hands, clap, clap, clap!', tr: 'Ellerini çırp, şak şak şak!' },
       { emoji: '🦘', en: 'What are you doing? I am jumping!', tr: 'Ne yapıyorsun? Zıplıyorum!' },
-      { emoji: '❄️', en: 'Touch your nose and freeze like ice!', tr: 'Burnuna dokun ve buz gibi don!' },
-      { emoji: '🌀', en: 'Dad says spin! That was nice!', tr: 'Baba "dön" diyor! Harikaydı!' },
+      { emoji: '👏', en: 'Clap your hands, clap, clap, clap!', tr: 'Ellerini çırp, şak şak şak!' },
+      { emoji: '👃', en: 'Touch your nose! One, two, three!', tr: 'Burnuna dokun! Bir, iki, üç!' },
+      { emoji: '❄️', en: 'Now freeze! Don’t move!', tr: 'Şimdi don! Kıpırdama!' },
     ],
     visualCards: [
       {
@@ -367,10 +367,10 @@ export const DAY_LESSONS = {
       end: 46,
     },
     chantLines: [
-      { emoji: '☀️', en: 'Wake up, brush your teeth, grab your bag!', tr: 'Uyan, dişlerini fırçala, çantanı al!' },
-      { emoji: '⏰', en: 'What time is it? Seven o’clock!', tr: 'Saat kaç? Saat yedi!' },
-      { emoji: '🏫', en: 'Who is at school? My teacher and friend!', tr: 'Okulda kim var? Öğretmenim ve arkadaşım!' },
-      { emoji: '✏️', en: 'Where is my pencil? In my backpack!', tr: 'Kalemim nerede? Sırt çantamda!' },
+      { emoji: '🪥', en: 'Wake up, brush your teeth, grab your bag!', tr: 'Uyan, dişlerini fırçala, çantanı al!' },
+      { emoji: '🕗', en: 'What time is it? Eight o’clock!', tr: 'Saat kaç? Saat sekiz!' },
+      { emoji: '🍳', en: 'Breakfast is in the kitchen!', tr: 'Kahvaltı mutfakta!' },
+      { emoji: '✏️', en: 'Where is my pencil? In my bag!', tr: 'Kalemim nerede? Çantamda!' },
     ],
     visualCards: [
       {
@@ -438,10 +438,10 @@ export const DAY_LESSONS = {
       end: 46,
     },
     chantLines: [
+      { emoji: '💪', en: 'A lion is stronger than a cat!', tr: 'Aslan kediden daha güçlüdür!' },
       { emoji: '🐆', en: 'A cheetah is faster than a turtle!', tr: 'Çita kaplumbağadan daha hızlıdır!' },
+      { emoji: '🐋', en: 'The blue whale is the biggest!', tr: 'Mavi balina en büyüğüdür!' },
       { emoji: '⚽', en: 'Yesterday I played and had fun!', tr: 'Dün oyun oynadım ve çok eğlendim!' },
-      { emoji: '💪', en: 'Bigger, smaller, fast and strong!', tr: 'Daha büyük, daha küçük, hızlı ve güçlü!' },
-      { emoji: '👑', en: 'I am a superstar! Sing this song!', tr: 'Ben bir süper yıldızım! Bu şarkıyı söyle!' },
     ],
     visualCards: [
       {

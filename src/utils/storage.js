@@ -6,13 +6,42 @@ import { getEffectiveGeminiApiKey } from './gemini.js';
 
 const STORAGE_KEY = 'lego_english_adventure_state_v1';
 
+export function getLocalDateKey(date = new Date()) {
+  const d = date instanceof Date ? date : new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function parseDateKeyNoon(dateKey) {
+  const match = typeof dateKey === 'string' && dateKey.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  const parsed = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function computeNextStreak(lastActiveDate, todayKey, currentStreak = 1) {
+  const baseStreak = Math.max(1, Number(currentStreak) || 1);
+  if (!lastActiveDate || lastActiveDate === todayKey) return baseStreak;
+
+  const lastDate = parseDateKeyNoon(lastActiveDate);
+  const currentDate = parseDateKeyNoon(todayKey);
+  if (!lastDate || !currentDate) return baseStreak;
+
+  const diffDays = Math.round((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+  if (diffDays === 1) return baseStreak + 1;
+  if (diffDays > 1) return 1;
+  return baseStreak;
+}
+
 export const INITIAL_STATE = {
   childName: 'Deniz', // Customizable for white-labeling / selling as a product
   childAge: 7,
   stars: 0,
   bricks: 4, // Initial starter bricks so child can immediately explore builder!
   streak: 1,
-  lastActiveDate: new Date().toISOString().split('T')[0],
+  lastActiveDate: getLocalDateKey(),
   playtimeMinutes: 1,
   totalQuestionsAnswered: 0,
   masteredWords: [], // IDs of words mastered without hints
@@ -57,19 +86,9 @@ export function loadSavedState() {
     if (!raw) return INITIAL_STATE;
     const parsed = JSON.parse(raw);
     
-    // Update streak if it's a new day
-    const today = new Date().toISOString().split('T')[0];
-    let streak = parsed.streak || 1;
-    if (parsed.lastActiveDate && parsed.lastActiveDate !== today) {
-      const lastDate = new Date(parsed.lastActiveDate);
-      const currentDate = new Date(today);
-      const diffDays = Math.round((currentDate - lastDate) / (1000 * 60 * 60 * 24));
-      if (diffDays === 1) {
-        streak += 1;
-      } else if (diffDays > 1) {
-        streak = 1;
-      }
-    }
+    // Update streak if it's a new local day
+    const today = getLocalDateKey();
+    const streak = computeNextStreak(parsed.lastActiveDate, today, parsed.streak);
 
     return {
       ...INITIAL_STATE,

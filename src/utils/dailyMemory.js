@@ -3,8 +3,26 @@
 const STORAGE_KEY = 'lego_english_daily_activity_logs_v1';
 const RECALL_SEEN_KEY = 'lego_english_daily_recall_last_seen_date_v1';
 
-export function getTodayKey() {
-  return new Date().toISOString().split('T')[0];
+export function getTodayKey(date = new Date()) {
+  const d = date instanceof Date ? date : new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function parseDateKeyNoon(dateKey) {
+  const match = typeof dateKey === 'string' && dateKey.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  const parsed = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function diffCalendarDays(earlierKey, laterKey) {
+  const d1 = parseDateKeyNoon(earlierKey);
+  const d2 = parseDateKeyNoon(laterKey);
+  if (!d1 || !d2) return 0;
+  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
 }
 
 export function readDailyLogs() {
@@ -192,9 +210,7 @@ export function getDailyMemorySummary({
   let isYesterday = false;
 
   if (hasPreviousActivity) {
-    const lastD = new Date(previousDate);
-    const todayD = new Date(todayKey);
-    const diffDays = Math.round((todayD - lastD) / (1000 * 60 * 60 * 24));
+    const diffDays = diffCalendarDays(previousDate, todayKey);
     isYesterday = diffDays === 1;
 
     recapStats = {

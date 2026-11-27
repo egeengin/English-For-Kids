@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, Mic, CheckCircle2, ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
 import { playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
@@ -64,27 +64,28 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   useEffect(() => {
     return () => {
       if (listenerRef.current) listenerRef.current.abort();
+      stopSpeech();
     };
   }, []);
 
-  const handleSuccess = () => {
+  const handleSuccess = useCallback(() => {
     playStarSparkle(isMuted);
     setPassed(true);
     recordMasteredWord(item.phrase, item.emoji, item.tr);
     confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
     if (onRewardEarned) onRewardEarned(rewardStars);
     if (!isMuted) speakEnglish('Awesome speaking!');
-  };
+  }, [isMuted, item.emoji, item.phrase, item.tr, onRewardEarned, rewardStars]);
 
-  const stopClip = async () => {
+  const stopClip = useCallback(async () => {
     if (recorderRef.current) {
       const url = await recorderRef.current.stopAndGetUrl();
       recorderRef.current = null;
       if (url) setRecordedAudioUrl(url);
     }
-  };
+  }, []);
 
-  const startMic = async () => {
+  const startMic = useCallback(async () => {
     if (!micSupported || isListening) return;
     playTap(isMuted);
     setHeardText('');
@@ -128,9 +129,9 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     });
 
     if (listenerRef.current) listenerRef.current.start();
-  };
+  }, [handleSuccess, isListening, isMuted, item.emoji, item.phrase, item.tr, micSupported, stopClip]);
 
-  const nextPhrase = () => {
+  const nextPhrase = useCallback(() => {
     playTap(isMuted);
     if (listenerRef.current) listenerRef.current.abort();
     setIdx((i) => i + 1);
@@ -140,7 +141,32 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
     setFeedback('');
     setRecordedAudioUrl(null);
     setIsListening(false);
-  };
+  }, [isMuted]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const target = e.target;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      const isInteractiveTarget =
+        tag === 'BUTTON' ||
+        tag === 'A' ||
+        target?.getAttribute?.('role') === 'button' ||
+        Boolean(target?.closest?.('button, a, [role="button"]'));
+
+      if (e.code === 'Space' && !isInteractiveTarget) {
+        e.preventDefault();
+        unlockAudio();
+        if (!isMuted) speakEnglish(item.phrase);
+      } else if (e.key === 'm' || e.key === 'M') {
+        startMic();
+      } else if ((e.key === 'Enter' && !isInteractiveTarget) || e.key === 'ArrowRight') {
+        if (passed) nextPhrase();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMuted, item.phrase, nextPhrase, passed, startMic]);
 
   return (
     <div className="w-full max-w-3xl mx-auto px-3 py-4">
@@ -290,6 +316,9 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
             </button>
           </div>
         )}
+        <div className="mt-4 hidden sm:block text-xs font-bold text-slate-400">
+          Keyboard: Space = Listen • M = Speak • Enter = Next
+        </div>
       </div>
     </div>
   );

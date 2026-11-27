@@ -247,3 +247,97 @@ export function findCurrentActiveDayId(
   }
   return days[0]?.id || 'day-1';
 }
+
+export function getSpokenPhrasesForDay(questProgress = {}, dayId) {
+  const map = questProgress?.[dayId]?.spokenPhrases;
+  return map && typeof map === 'object' ? { ...map } : {};
+}
+
+export function markQuestStepInProgress(questProgress = {}, dayId, stepKey) {
+  if (!dayId || !stepKey) return questProgress;
+  const existing = questProgress || {};
+  const dayEntry = existing[dayId] || {};
+  if (dayEntry[stepKey]) return existing;
+  return {
+    ...existing,
+    [dayId]: {
+      ...dayEntry,
+      [stepKey]: true,
+    },
+  };
+}
+
+export function markSpokenPhraseInProgress(questProgress = {}, dayId, phrase) {
+  const clean = typeof phrase === 'string' ? phrase.trim() : '';
+  if (!dayId || !clean) return questProgress;
+  const existing = questProgress || {};
+  const dayEntry = existing[dayId] || {};
+  const spoken = dayEntry.spokenPhrases || {};
+  if (spoken[clean]) return existing;
+  return {
+    ...existing,
+    [dayId]: {
+      ...dayEntry,
+      spokenPhrases: {
+        ...spoken,
+        [clean]: true,
+      },
+    },
+  };
+}
+
+export function claimQuestChestInProgress(questProgress = {}, dayId) {
+  if (!dayId) return { questProgress, newlyClaimed: false };
+  const existing = questProgress || {};
+  const dayEntry = existing[dayId] || {};
+  if (dayEntry.chestClaimed) {
+    return { questProgress: existing, newlyClaimed: false };
+  }
+  return {
+    newlyClaimed: true,
+    questProgress: {
+      ...existing,
+      [dayId]: {
+        ...dayEntry,
+        chestClaimed: true,
+      },
+    },
+  };
+}
+
+export function getIslandOverallSummary(
+  days = [],
+  questProgress = {},
+  dailyQuizAnswers = {},
+  getQuestionsForDay = () => []
+) {
+  const stops = days.map((day) => {
+    const meta = getIslandStopMeta(day.id);
+    const completion = getStepCompletionForDay(
+      day.id,
+      questProgress,
+      dailyQuizAnswers,
+      getQuestionsForDay(day.id) || []
+    );
+    return {
+      dayId: day.id,
+      stopNumber: meta.stopNumber,
+      titleEn: meta.titleEn,
+      emoji: meta.emoji,
+      biomeId: meta.biomeId,
+      ...completion,
+    };
+  });
+
+  const totalStops = stops.length;
+  const completedStops = stops.filter((s) => s.completedSteps === 4).length;
+  const totalStars = stops.reduce((sum, s) => sum + s.starsEarned, 0);
+
+  return {
+    totalStops,
+    completedStops,
+    totalStars,
+    maxStars: totalStops * 3,
+    stops,
+  };
+}

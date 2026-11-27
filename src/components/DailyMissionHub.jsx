@@ -17,7 +17,7 @@ import {
   DAILY_EXPEDITION_DAYS,
   getWorksheetQuestions,
 } from '../data/dailyMissionsData';
-import { getIslandStopMeta } from '../data/islandMapData';
+import { getIslandStopMeta, getSpokenPhrasesForDay } from '../data/islandMapData';
 import {
   speakEnglish,
   stopSpeech,
@@ -60,6 +60,7 @@ export default function DailyMissionHub({
   initialStep = null,
   questProgress = {},
   onMarkQuestStep,
+  onMarkSpokenPhrase,
   onBackToIsland,
   childName = 'Deniz',
   isMuted = false,
@@ -81,7 +82,9 @@ export default function DailyMissionHub({
 
   // Learn-step inline voice echo state
   const [learnListeningWord, setLearnListeningWord] = useState(null);
-  const [learnSpokenWords, setLearnSpokenWords] = useState({});
+  const [learnSpokenWords, setLearnSpokenWords] = useState(() =>
+    getSpokenPhrasesForDay(questProgress, currentDayId)
+  );
   const learnListenerRef = useRef(null);
 
   // Step 4 Speak spotlight state
@@ -89,7 +92,9 @@ export default function DailyMissionHub({
   const [isSpeakListening, setIsSpeakListening] = useState(false);
   const [speakHeardText, setSpeakHeardText] = useState('');
   const [speakFeedback, setSpeakFeedback] = useState('');
-  const [speakPassedMap, setSpeakPassedMap] = useState({});
+  const [speakPassedMap, setSpeakPassedMap] = useState(() =>
+    getSpokenPhrasesForDay(questProgress, currentDayId)
+  );
   const [speakRecordingUrl, setSpeakRecordingUrl] = useState(null);
   const [isStopCelebrated, setIsStopCelebrated] = useState(false);
   const speakListenerRef = useRef(null);
@@ -129,7 +134,9 @@ export default function DailyMissionHub({
     setLessonStep('learn');
     setActiveQuestionIdx(0);
     setSpeakCardIdx(0);
-    setSpeakPassedMap({});
+    const persistedSpoken = getSpokenPhrasesForDay(questProgress, dayId);
+    setLearnSpokenWords(persistedSpoken);
+    setSpeakPassedMap(persistedSpoken);
     setSpeakFeedback('');
     setSpeakHeardText('');
     setSpeakRecordingUrl(null);
@@ -357,6 +364,7 @@ export default function DailyMissionHub({
           playSuccess(isMuted);
           recordMasteredWord(vocabItem.en, vocabItem.emoji, vocabItem.tr || '');
           setLearnSpokenWords((prev) => ({ ...prev, [vocabItem.en]: true }));
+          if (onMarkSpokenPhrase) onMarkSpokenPhrase(activeDay.id, vocabItem.en);
           if (onRewardEarned) onRewardEarned({ stars: 1, bricks: 1 });
           triggerBurst('+1 ⭐ NICE!');
           if (!isMuted) speakEnglish('Awesome!');
@@ -382,6 +390,8 @@ export default function DailyMissionHub({
       const alreadyDone = Boolean(speakPassedMap[item.en]);
       const nextMap = { ...speakPassedMap, [item.en]: true };
       setSpeakPassedMap(nextMap);
+      setLearnSpokenWords((prev) => ({ ...prev, [item.en]: true }));
+      if (onMarkSpokenPhrase) onMarkSpokenPhrase(activeDay.id, item.en);
       recordMasteredWord(item.en, item.emoji, item.tr || '');
       playSuccess(isMuted);
       if (!alreadyDone && onRewardEarned) {
@@ -412,6 +422,7 @@ export default function DailyMissionHub({
       isMuted,
       isStopCelebrated,
       onMarkQuestStep,
+      onMarkSpokenPhrase,
       onRewardEarned,
       speakPassedMap,
       stopMeta.stopNumber,
@@ -520,7 +531,17 @@ export default function DailyMissionHub({
         target?.getAttribute?.('role') === 'button' ||
         Boolean(target?.closest?.('button, a, [role="button"]'));
 
-      if (lessonStep === 'quiz' && activeDailyQuestion) {
+      if (lessonStep === 'learn') {
+        const digit = Number(e.key);
+        if (digit >= 1 && digit <= 9) {
+          const item = vocabList[digit - 1];
+          if (item && !isMuted) {
+            cancelHoverSpeech();
+            unlockAudio();
+            speakEnglish(item.en);
+          }
+        }
+      } else if (lessonStep === 'quiz' && activeDailyQuestion) {
         if (e.key === '1' || e.key === '2' || e.key === '3') {
           const opt = activeDailyQuestion.options[Number(e.key) - 1];
           if (opt && !wrongOptionIds.has(opt.id)) {
@@ -567,13 +588,14 @@ export default function DailyMissionHub({
     handleDailyQuizClick,
     handleSelectQuestion,
     handleStartSpotlightSpeak,
+    isMuted,
     lessonStep,
     playQuestionPrompt,
     safeQuestionIdx,
     speakCardIdx,
     startQuizVoiceAnswer,
     stopQuizVoiceAnswer,
-    vocabList.length,
+    vocabList,
     wrongOptionIds,
   ]);
 

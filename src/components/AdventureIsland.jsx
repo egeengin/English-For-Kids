@@ -17,7 +17,9 @@ import {
   getIslandStopMeta,
   getStepCompletionForDay,
   findCurrentActiveDayId,
+  getIslandOverallSummary,
 } from '../data/islandMapData';
+import { getDailyMemorySummary } from '../utils/dailyMemory';
 import {
   speakEnglish,
   unlockAudio,
@@ -92,17 +94,25 @@ export default function AdventureIsland({
     questionsByDayId[heroDayId] || []
   );
 
-  const totalIslandStars = useMemo(() => {
-    return DAILY_EXPEDITION_DAYS.reduce((sum, day) => {
-      const comp = getStepCompletionForDay(
-        day.id,
+  const islandSummary = useMemo(
+    () =>
+      getIslandOverallSummary(
+        DAILY_EXPEDITION_DAYS,
         questProgress,
         dailyQuizAnswers,
-        questionsByDayId[day.id] || []
-      );
-      return sum + comp.starsEarned;
-    }, 0);
-  }, [questProgress, dailyQuizAnswers, questionsByDayId]);
+        (dayId) => questionsByDayId[dayId] || []
+      ),
+    [questProgress, dailyQuizAnswers, questionsByDayId]
+  );
+
+  const totalIslandStars = islandSummary.totalStars;
+  const todayStars = getDailyMemorySummary({ childName })?.todayStats?.stars || 0;
+
+  const heroStopIndex = DAILY_EXPEDITION_DAYS.findIndex((d) => d.id === heroDayId);
+  const nextStopDay =
+    heroStopIndex >= 0 && heroStopIndex < DAILY_EXPEDITION_DAYS.length - 1
+      ? DAILY_EXPEDITION_DAYS[heroStopIndex + 1]
+      : null;
 
   const handleOpenChest = () => {
     unlockAudio();
@@ -144,7 +154,13 @@ export default function AdventureIsland({
               </span>
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 border border-amber-300 text-amber-900 font-display font-black text-xs">
                 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                {totalIslandStars} / 48 Island Stars
+                {totalIslandStars} / {islandSummary.maxStars} Island Stars
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100/90 border border-emerald-300 text-emerald-900 font-display font-black text-xs">
+                🗺️ {islandSummary.completedStops} / {islandSummary.totalStops} Stops
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-sky-100/90 border border-sky-300 text-sky-900 font-display font-black text-xs">
+                🎯 {todayStars >= 5 ? `Today: ${todayStars} ⭐ Goal Done!` : `Today: ${todayStars} / 5 ⭐`}
               </span>
             </div>
 
@@ -241,6 +257,20 @@ export default function AdventureIsland({
                     : `${heroCompletion.completedSteps}/4 Steps`}
                 </span>
               </div>
+            )}
+
+            {heroCompletion.completedSteps === 4 && nextStopDay && (
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  unlockAudio();
+                  onLaunchQuest(nextStopDay.id, 'learn');
+                }}
+                className="w-full py-2 px-4 rounded-2xl bg-sky-100 hover:bg-sky-200 text-sky-900 font-display font-black text-xs border-2 border-sky-300 flex items-center justify-center gap-1.5 cursor-pointer transition"
+              >
+                <span>Next Island Stop →</span>
+              </button>
             )}
           </div>
         </div>

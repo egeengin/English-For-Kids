@@ -23,7 +23,8 @@ import {
 } from 'lucide-react';
 import { speakEnglish, speakTurkish, precacheSpeechLibrary } from '../utils/speech';
 import { getStoryWorlds } from '../data/storyData';
-import { DAILY_EXPEDITION_DAYS, DISCOVERY_STAGES } from '../data/dailyMissionsData';
+import { DAILY_EXPEDITION_DAYS, DISCOVERY_STAGES, getWorksheetQuestions } from '../data/dailyMissionsData';
+import { getIslandOverallSummary } from '../data/islandMapData';
 import { EXTRA_LEVELS } from '../data/extraLevelsData';
 import { SCENES_DATA } from '../data/scenesData';
 import { playTap, playSuccessChime, playGentleWobble } from '../utils/soundEffects';
@@ -39,6 +40,8 @@ export default function ParentDashboard({
   practicingWords,
   curriculumLevels,
   customWords,
+  questProgress = {},
+  dailyQuizAnswers = {},
   onAddCustomWord,
   onDeleteCustomWord,
   onResetProgress,
@@ -401,6 +404,70 @@ export default function ParentDashboard({
                       <div className="text-slate-500 font-bold">Henüz zorlanılan kelime yok!</div>
                     )}
                   </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Adventure Island 16-Stop Progress */}
+          {(() => {
+            const islandSummary = getIslandOverallSummary(
+              DAILY_EXPEDITION_DAYS,
+              questProgress,
+              dailyQuizAnswers,
+              (dayId) => getWorksheetQuestions({ mode: 'day', dayId })?.questions || []
+            );
+            return (
+              <div className="bg-white border-2 border-sky-200 rounded-2xl p-4 shadow-xs space-y-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
+                    🏝️ Adventure Island İlerlemesi (16 Durak)
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs font-black">
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900">
+                      {islandSummary.completedStops} / {islandSummary.totalStops} Durak Tamamlandı
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900">
+                      ⭐ {islandSummary.totalStars} / {islandSummary.maxStars}
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {islandSummary.stops.map((stop) => (
+                    <div
+                      key={stop.dayId}
+                      className={`rounded-xl p-2 border text-xs flex flex-col gap-1.5 ${
+                        stop.completedSteps === 4
+                          ? 'bg-emerald-50 border-emerald-300'
+                          : stop.completedSteps > 0
+                          ? 'bg-sky-50 border-sky-200'
+                          : 'bg-slate-50 border-slate-200'
+                      }`}
+                    >
+                      <div className="font-bold text-slate-800 truncate">
+                        #{stop.stopNumber} {stop.emoji} {stop.titleEn}
+                      </div>
+                      <div className="flex items-center gap-1 text-[10px] font-black">
+                        {[
+                          { label: 'L', done: stop.learnDone },
+                          { label: 'S', done: stop.singDone },
+                          { label: 'P', done: stop.playDone },
+                          { label: '🎙️', done: stop.speakDone },
+                        ].map((badge) => (
+                          <span
+                            key={badge.label}
+                            className={`px-1.5 py-0.5 rounded ${
+                              badge.done
+                                ? 'bg-emerald-500 text-white'
+                                : 'bg-white text-slate-400 border border-slate-200'
+                            }`}
+                          >
+                            {badge.label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             );

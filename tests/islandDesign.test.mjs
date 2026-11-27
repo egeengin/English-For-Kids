@@ -13,7 +13,13 @@ import {
   getIslandStopMeta,
   getStepCompletionForDay,
   findCurrentActiveDayId,
+  getSpokenPhrasesForDay,
+  markQuestStepInProgress,
+  markSpokenPhraseInProgress,
+  claimQuestChestInProgress,
+  getIslandOverallSummary,
 } from '../src/data/islandMapData.js';
+import { getWorksheetQuestions } from '../src/data/dailyMissionsData.js';
 import { INITIAL_STATE, loadSavedState, saveState } from '../src/utils/storage.js';
 
 test('Island Map: all 16 expedition days have English metadata and belong to 4 biomes', () => {
@@ -83,6 +89,50 @@ test('Island Map: findCurrentActiveDayId returns first incomplete stop', () => {
   };
   const nextId = findCurrentActiveDayId(DAILY_EXPEDITION_DAYS, questProgress, {}, () => []);
   assert.equal(nextId, 'level-2');
+
+  const allCompleteProgress = Object.fromEntries(
+    DAILY_EXPEDITION_DAYS.map((d) => [d.id, { learn: true, song: true, quiz: true, speak: true }])
+  );
+  assert.equal(
+    findCurrentActiveDayId(DAILY_EXPEDITION_DAYS, allCompleteProgress, {}, () => []),
+    'day-1'
+  );
+  assert.equal(getIslandStopMeta('nonexistent-stop').titleEn, 'Island Quest');
+});
+
+test('Island Map: pure progression helpers and summary behave immutably and prevent double-claim', () => {
+  const s0 = {};
+  const s1 = markQuestStepInProgress(s0, 'day-1', 'learn');
+  assert.equal(s1['day-1'].learn, true);
+  assert.equal(s0['day-1'], undefined);
+  assert.equal(markQuestStepInProgress(s1, 'day-1', 'learn'), s1);
+  assert.equal(markQuestStepInProgress(s1, '', 'learn'), s1);
+
+  const s2 = markSpokenPhraseInProgress(s1, 'day-1', '  Hello Leo!  ');
+  assert.deepEqual(getSpokenPhrasesForDay(s2, 'day-1'), { 'Hello Leo!': true });
+  assert.equal(markSpokenPhraseInProgress(s2, 'day-1', 'Hello Leo!'), s2);
+  assert.equal(markSpokenPhraseInProgress(s2, 'day-1', '   '), s2);
+
+  const claim1 = claimQuestChestInProgress(s2, 'day-1');
+  assert.equal(claim1.newlyClaimed, true);
+  assert.equal(claim1.questProgress['day-1'].chestClaimed, true);
+  const claim2 = claimQuestChestInProgress(claim1.questProgress, 'day-1');
+  assert.equal(claim2.newlyClaimed, false);
+
+  const badClaim = claimQuestChestInProgress(s2, '');
+  assert.equal(badClaim.newlyClaimed, false);
+
+  const summary = getIslandOverallSummary(
+    DAILY_EXPEDITION_DAYS,
+    { 'day-1': { learn: true, song: true, quiz: true, speak: true } },
+    {},
+    (dayId) => getWorksheetQuestions({ mode: 'day', dayId })?.questions || []
+  );
+  assert.equal(summary.totalStops, 16);
+  assert.equal(summary.maxStars, 48);
+  assert.equal(summary.completedStops, 1);
+  assert.equal(summary.totalStars, 3);
+  assert.equal(getWorksheetQuestions({ mode: 'stage', stageId: 'nonexistent' }).questions.length, 10);
 });
 
 test('Storage: defaults lastTab to island and persists questProgress', () => {

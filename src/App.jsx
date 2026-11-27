@@ -28,6 +28,11 @@ const LevelDiscoveryGame = lazy(() => import('./components/LevelDiscoveryGame'))
 const PrintableMissionSheetModal = lazy(() => import('./components/PrintableMissionSheetModal'));
 const DailyRecallModal = lazy(() => import('./components/DailyRecallModal'));
 import { CURRICULUM_LEVELS } from './data/curriculum';
+import {
+  markQuestStepInProgress,
+  markSpokenPhraseInProgress,
+  claimQuestChestInProgress,
+} from './data/islandMapData';
 import { loadSavedState, saveState } from './utils/storage';
 import { saveGeminiApiKey } from './utils/gemini';
 import { stopSpeech, cancelHoverSpeech } from './utils/speech';
@@ -142,40 +147,41 @@ export default function App() {
   const handleMarkQuestStep = useCallback((dayId, stepKey) => {
     if (!dayId || !stepKey) return;
     setState((prev) => {
-      const existing = prev.questProgress || {};
-      const dayEntry = existing[dayId] || {};
-      if (dayEntry[stepKey]) return prev;
+      const nextProgress = markQuestStepInProgress(prev.questProgress, dayId, stepKey);
+      if (nextProgress === prev.questProgress) return prev;
       return {
         ...prev,
-        questProgress: {
-          ...existing,
-          [dayId]: {
-            ...dayEntry,
-            [stepKey]: true,
-          },
-        },
+        questProgress: nextProgress,
+      };
+    });
+  }, []);
+
+  const handleMarkSpokenPhrase = useCallback((dayId, phrase) => {
+    if (!dayId || !phrase) return;
+    setState((prev) => {
+      const nextProgress = markSpokenPhraseInProgress(prev.questProgress, dayId, phrase);
+      if (nextProgress === prev.questProgress) return prev;
+      return {
+        ...prev,
+        questProgress: nextProgress,
       };
     });
   }, []);
 
   const handleClaimQuestChest = useCallback((dayId) => {
     if (!dayId) return;
-    logDailyActivity({ stars: 5, bricks: 2, missionTitle: `Island Chest: ${dayId}` });
     setState((prev) => {
-      const existing = prev.questProgress || {};
-      const dayEntry = existing[dayId] || {};
-      if (dayEntry.chestClaimed) return prev;
+      const { questProgress: nextProgress, newlyClaimed } = claimQuestChestInProgress(
+        prev.questProgress,
+        dayId
+      );
+      if (!newlyClaimed) return prev;
+      logDailyActivity({ stars: 5, bricks: 2, missionTitle: `Island Chest: ${dayId}` });
       return {
         ...prev,
         stars: (prev.stars || 0) + 5,
         bricks: (prev.bricks || 0) + 2,
-        questProgress: {
-          ...existing,
-          [dayId]: {
-            ...dayEntry,
-            chestClaimed: true,
-          },
-        },
+        questProgress: nextProgress,
       };
     });
   }, []);
@@ -520,6 +526,7 @@ export default function App() {
             initialStep={requestedQuestStep.dayId === selectedDayId ? requestedQuestStep.step : null}
             questProgress={state.questProgress || {}}
             onMarkQuestStep={handleMarkQuestStep}
+            onMarkSpokenPhrase={handleMarkSpokenPhrase}
             onBackToIsland={() => handleTabChange('island')}
             childName={childName}
             isMuted={state.soundMuted}
@@ -720,6 +727,8 @@ export default function App() {
             totalQuestionsAnswered={state.totalQuestionsAnswered || 0}
             masteredWords={state.masteredWords || []}
             practicingWords={state.practicingWords || []}
+            questProgress={state.questProgress || {}}
+            dailyQuizAnswers={state.dailyQuizAnswers || {}}
             curriculumLevels={CURRICULUM_LEVELS}
             customWords={state.customWords || []}
             onAddCustomWord={handleAddCustomWord}

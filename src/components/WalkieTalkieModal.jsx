@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import { Mic, Volume2, X, Send, Bot, AlertCircle } from 'lucide-react';
 import { chatWithLeoGemini, LEO_MISSIONS } from '../utils/gemini';
 import { createSpeechListener, isSpeechRecognitionSupported } from '../utils/speechRecognition';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playTap, playSuccess, playRadioBeep } from '../utils/soundEffects';
 import LeoBuddy from './LeoBuddy';
 
@@ -68,6 +68,20 @@ export default function WalkieTalkieModal({
       }
     };
   }, []);
+
+  // Escape key closes Walkie-Talkie on desktop
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (speechListenerRef.current) speechListenerRef.current.abort();
+        stopSpeech();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -258,7 +272,7 @@ export default function WalkieTalkieModal({
   const clampedTurns = Math.min(missionTurnCount, activeMission.stepsCount);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
       
       {/* Walkie-Talkie Device Frame */}
       <div className="relative w-full h-[100dvh] sm:h-[92dvh] sm:max-w-5xl bg-gradient-to-b from-amber-400 via-yellow-400 to-amber-500 rounded-none sm:rounded-3xl p-4 sm:p-6 shadow-2xl border-0 sm:border-4 border-amber-600 flex flex-col justify-between">

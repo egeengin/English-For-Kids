@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { RotateCcw, Sparkles, Volume2 } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap, playVictoryFanfare } from '../utils/soundEffects';
 
 const RHYME_SETS = [
@@ -41,6 +41,14 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
   const [setIdx, setSetIdx] = useState(0);
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matchedIds, setMatchedIds] = useState([]);
+  const rhymeTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (rhymeTimerRef.current) clearTimeout(rhymeTimerRef.current);
+      stopSpeech();
+    };
+  }, []);
 
   const pairs = RHYME_SETS[setIdx % RHYME_SETS.length];
   const shuffledRight = useMemo(
@@ -66,7 +74,8 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
       setMatchedIds(next);
       setSelectedLeft(null);
       if (!isMuted) {
-        setTimeout(() => speakEnglish(`${pair.left.word} and ${pair.right.word} rhyme!`), 320);
+        if (rhymeTimerRef.current) clearTimeout(rhymeTimerRef.current);
+        rhymeTimerRef.current = setTimeout(() => speakEnglish(`${pair.left.word} and ${pair.right.word} rhyme!`), 320);
       }
       if (next.length === pairs.length) {
         playVictoryFanfare(isMuted);
@@ -81,6 +90,8 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
 
   const handleNextSet = () => {
     playTap(isMuted);
+    if (rhymeTimerRef.current) clearTimeout(rhymeTimerRef.current);
+    stopSpeech();
     setSetIdx((i) => i + 1);
     setSelectedLeft(null);
     setMatchedIds([]);

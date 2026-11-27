@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 
 const PLACE_TASKS = [
@@ -44,6 +44,14 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
   const [taskIdx, setTaskIdx] = useState(0);
   const [placedSpotId, setPlacedSpotId] = useState(null);
   const [score, setScore] = useState(0);
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      stopSpeech();
+    };
+  }, []);
 
   const task = PLACE_TASKS[taskIdx % PLACE_TASKS.length];
 
@@ -69,7 +77,8 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
         confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
       }
       if (!isMuted) speakEnglish(`Great! ${spot.label}!`);
-      setTimeout(() => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = setTimeout(() => {
         setTaskIdx((i) => i + 1);
         setPlacedSpotId(null);
       }, 1150);

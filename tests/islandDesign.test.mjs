@@ -125,13 +125,54 @@ test('Full English immersion: categories, Leo missions, and core kid UI avoid Tu
     'src/components/PutItThereGame.jsx',
     'src/components/RhymingPairsGame.jsx',
     'src/components/QuestionQuizGame.jsx',
+    'src/components/MiniBooksReader.jsx',
+    'src/components/PhonicsBuilder.jsx',
+    'src/components/StickerCollection.jsx',
+    'src/components/SceneExplorer.jsx',
+    'src/components/BalloonPopGame.jsx',
+    'src/components/QuickSpeakGame.jsx',
+    'src/components/LevelDiscoveryGame.jsx',
+    'src/components/DailyRecallModal.jsx',
+    'src/components/WalkieTalkieModal.jsx',
     'src/components/ErrorBoundary.jsx',
     'src/utils/useVoiceQuizAnswer.js',
   ];
 
-  const leakedTurkishUi = /\b(Dinle|Tekrar|Doğru|Yanlış|Sonraki|Önceki|Harika|Süper|Kapat|Kelime)\b/;
+  const leakedTurkishUi = /\b(Dinle|Dinliyorum|Tekrar|Doğru|Yanlış|Sonraki|Önceki|Harika|Süper|Kapat|Kelime|Fark|Evrimleştir|Kaydımı)\b/;
   for (const file of kidFiles) {
     const content = fs.readFileSync(file, 'utf8');
     assert.equal(leakedTurkishUi.test(content), false, `Found leaked Turkish UI label in ${file}`);
+  }
+});
+
+test('Code quality & accessibility integrity: no invalid nested buttons, dead animation classes, or missing audio cleanup', () => {
+  const componentFiles = fs.readdirSync('src/components').filter((f) => f.endsWith('.jsx'));
+  for (const file of componentFiles) {
+    const content = fs.readFileSync(`src/components/${file}`, 'utf8');
+    assert.equal(content.includes('animate-fade-in'), false, `Invalid class animate-fade-in in ${file}`);
+    assert.equal(content.includes('animate-scale-up'), false, `Invalid class animate-scale-up in ${file}`);
+  }
+
+  for (const quizFile of ['src/components/MiniBooksReader.jsx', 'src/components/QuestionQuizGame.jsx', 'src/components/DailyMissionHub.jsx']) {
+    const content = fs.readFileSync(quizFile, 'utf8');
+    assert.equal(content.includes('<span\n                          role="button"'), false, `Nested span role=button in ${quizFile}`);
+    assert.equal(content.includes('role="button"\n                    tabIndex={-1}'), false, `Nested role=button in ${quizFile}`);
+  }
+
+  const appContent = fs.readFileSync('src/App.jsx', 'utf8');
+  assert.ok(appContent.includes('stopSpeech()'), 'App.jsx must stop speech on navigation/modal close');
+
+  for (const gameFile of [
+    'src/components/AudioMemoryGame.jsx',
+    'src/components/SoundDetectiveGame.jsx',
+    'src/components/SmartReviewGame.jsx',
+    'src/components/ListenColorGame.jsx',
+    'src/components/PutItThereGame.jsx',
+    'src/components/RhymingPairsGame.jsx',
+    'src/components/QuestionQuizGame.jsx',
+    'src/components/SceneExplorer.jsx',
+  ]) {
+    const content = fs.readFileSync(gameFile, 'utf8');
+    assert.ok(content.includes('stopSpeech()'), `${gameFile} must call stopSpeech() on unmount`);
   }
 });

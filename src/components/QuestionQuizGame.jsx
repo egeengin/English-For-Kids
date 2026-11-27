@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
@@ -342,6 +342,15 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
   const [solved, setSolved] = useState(false);
   const [score, setScore] = useState(0);
   const [wrongOptions, setWrongOptions] = useState(new Set());
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      cancelHoverSpeech();
+      stopSpeech();
+    };
+  }, []);
 
   const item = QUESTION_BANK[qIdx % QUESTION_BANK.length];
 
@@ -374,7 +383,8 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
         confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
       }
       if (!isMuted) speakEnglish('Awesome! That is right!');
-      setTimeout(() => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = setTimeout(() => {
         setQIdx((i) => i + 1);
         setSolved(false);
         setWrongOptions(new Set());
@@ -421,13 +431,15 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
           {shuffledOptions.map((opt, idx) => {
             const cleanText = cleanOptionForSpeech(opt.text);
             const isWrong = wrongOptions.has(opt.text);
+            const isDisabled = isWrong || solved;
             return (
-              <button
+              <div
                 key={idx}
-                type="button"
-                disabled={isWrong || solved}
+                role="button"
+                tabIndex={isDisabled ? -1 : 0}
+                aria-disabled={isDisabled}
                 onPointerEnter={(e) => {
-                  if (isWrong || solved) return;
+                  if (isDisabled) return;
                   triggerHoverSpeech(cleanText, {
                     isMuted,
                     pointerType: e.pointerType,
@@ -436,15 +448,23 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                 }}
                 onPointerLeave={cancelHoverSpeech}
                 onFocus={() => {
-                  if (isWrong || solved) return;
+                  if (isDisabled) return;
                   triggerHoverSpeech(cleanText, {
                     isMuted,
                     delayMs: 110,
                   });
                 }}
                 onBlur={cancelHoverSpeech}
+                onKeyDown={(e) => {
+                  if (isDisabled) return;
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    cancelHoverSpeech();
+                    handleChoice(opt);
+                  }
+                }}
                 onClick={() => {
-                  if (isWrong || solved) return;
+                  if (isDisabled) return;
                   cancelHoverSpeech();
                   handleChoice(opt);
                 }}
@@ -460,9 +480,9 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                   {isWrong && <span className="text-rose-500 no-underline font-bold text-sm">❌</span>}
                   <span>{opt.text}</span>
                 </span>
-                {!isWrong && !solved && (
-                  <span
-                    role="button"
+                {!isDisabled && (
+                  <button
+                    type="button"
                     tabIndex={-1}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -471,12 +491,13 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                       if (!isMuted) speakEnglish(cleanText);
                     }}
                     title="Listen to choice"
+                    aria-label={`Listen to ${cleanText}`}
                     className="w-8 h-8 rounded-xl bg-teal-100 group-hover:bg-teal-200 text-teal-800 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
                   >
                     <Volume2 className="w-4 h-4" />
-                  </span>
+                  </button>
                 )}
-              </button>
+              </div>
             );
           })}
         </div>

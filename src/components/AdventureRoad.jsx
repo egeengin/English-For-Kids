@@ -111,7 +111,7 @@ export default function AdventureRoad({
   };
 
   return (
-    <div className="w-full max-w-4xl px-4 py-6 flex flex-col items-center animate-fade-in">
+    <div className="w-full max-w-4xl px-4 py-6 flex flex-col items-center animate-fadeIn">
       
       {/* Adventure Island Map Header */}
       <div className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-6 shadow-xl border-4 border-blue-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">

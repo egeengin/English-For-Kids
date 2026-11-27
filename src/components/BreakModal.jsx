@@ -24,6 +24,14 @@ function BreakModalContent({ onContinue, isMuted, milestoneCount }) {
     return () => clearInterval(interval);
   }, [restSeconds]);
 
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onContinue();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onContinue]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md animate-fadeIn">
       <div className="relative w-full max-w-md bg-white rounded-3xl border-4 sm:border-6 border-slate-900 shadow-2xl p-6 sm:p-8 text-center overflow-hidden">

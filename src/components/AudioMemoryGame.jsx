@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, RotateCcw, Sparkles } from 'lucide-react';
 import { VOCAB_BANK_500 } from '../data/vocabularyBank500';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap, playVictoryFanfare } from '../utils/soundEffects';
 
 function buildMemoryDeck(pairCount = 4) {
@@ -23,8 +23,25 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
   const [isLocked, setIsLocked] = useState(false);
   const [moves, setMoves] = useState(0);
   const hasRewardedRef = useRef(false);
+  const flipTimerRef = useRef(null);
+
+  const clearFlipTimer = useCallback(() => {
+    if (flipTimerRef.current) {
+      clearTimeout(flipTimerRef.current);
+      flipTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearFlipTimer();
+      stopSpeech();
+    };
+  }, [clearFlipTimer]);
 
   const startNewGame = useCallback((count = pairCount) => {
+    clearFlipTimer();
+    stopSpeech();
     hasRewardedRef.current = false;
     playTap(isMuted);
     setCards(buildMemoryDeck(count));
@@ -32,7 +49,7 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
     setMatchedIds([]);
     setIsLocked(false);
     setMoves(0);
-  }, [isMuted, pairCount]);
+  }, [clearFlipTimer, isMuted, pairCount]);
 
   useEffect(() => {
     if (matchedIds.length === pairCount && pairCount > 0 && !hasRewardedRef.current) {
@@ -63,14 +80,16 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
       setIsLocked(true);
       const firstCard = cards.find((c) => c.uid === nextFlipped[0]);
       if (firstCard && firstCard.pairId === card.pairId) {
-        setTimeout(() => {
+        clearFlipTimer();
+        flipTimerRef.current = setTimeout(() => {
           playStarSparkle(isMuted);
           setMatchedIds((prev) => [...prev, card.pairId]);
           setFlippedUids([]);
           setIsLocked(false);
         }, 420);
       } else {
-        setTimeout(() => {
+        clearFlipTimer();
+        flipTimerRef.current = setTimeout(() => {
           playGentleWobble(isMuted);
           setFlippedUids([]);
           setIsLocked(false);

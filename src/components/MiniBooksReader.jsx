@@ -488,13 +488,15 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                 {book.options.map((opt, idx) => {
                   const cleanText = cleanOptionForSpeech(opt.text);
                   const isWrong = wrongOptions.has(opt.text);
+                  const isDisabled = isWrong || quizSolved;
                   return (
-                    <button
+                    <div
                       key={idx}
-                      type="button"
-                      disabled={isWrong || quizSolved}
+                      role="button"
+                      tabIndex={isDisabled ? -1 : 0}
+                      aria-disabled={isDisabled}
                       onPointerEnter={(e) => {
-                        if (isWrong || quizSolved) return;
+                        if (isDisabled) return;
                         triggerHoverSpeech(cleanText, {
                           isMuted,
                           pointerType: e.pointerType,
@@ -503,15 +505,23 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                       }}
                       onPointerLeave={cancelHoverSpeech}
                       onFocus={() => {
-                        if (isWrong || quizSolved) return;
+                        if (isDisabled) return;
                         triggerHoverSpeech(cleanText, {
                           isMuted,
                           delayMs: 110,
                         });
                       }}
                       onBlur={cancelHoverSpeech}
+                      onKeyDown={(e) => {
+                        if (isDisabled) return;
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          cancelHoverSpeech();
+                          handleAnswer(opt);
+                        }
+                      }}
                       onClick={() => {
-                        if (isWrong || quizSolved) return;
+                        if (isDisabled) return;
                         cancelHoverSpeech();
                         handleAnswer(opt);
                       }}
@@ -527,9 +537,9 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                         {isWrong && <span className="text-rose-500 no-underline font-bold text-sm">❌</span>}
                         <span>{opt.text}</span>
                       </span>
-                      {!isWrong && !quizSolved && (
-                        <span
-                          role="button"
+                      {!isDisabled && (
+                        <button
+                          type="button"
                           tabIndex={-1}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -538,12 +548,13 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                             if (!isMuted) speakEnglish(cleanText);
                           }}
                           title="Listen to choice"
+                          aria-label={`Listen to ${cleanText}`}
                           className="w-8 h-8 rounded-xl bg-blue-100 group-hover:bg-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
                         >
                           <Volume2 className="w-4 h-4" />
-                        </span>
+                        </button>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>

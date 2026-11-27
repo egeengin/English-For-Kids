@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 
 const COLORS = [
@@ -76,6 +76,14 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
   const [coloredMap, setColoredMap] = useState({});
   const [solved, setSolved] = useState(false);
   const [score, setScore] = useState(0);
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      stopSpeech();
+    };
+  }, []);
 
   const challenge = CHALLENGES[roundIdx % CHALLENGES.length];
 
@@ -102,7 +110,8 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
         confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
       }
       if (!isMuted) speakEnglish(`Awesome! ${selectedColor} ${obj.name}!`);
-      setTimeout(() => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = setTimeout(() => {
         setRoundIdx((i) => i + 1);
         setColoredMap({});
         setSolved(false);

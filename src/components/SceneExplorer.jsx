@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Sparkles,
@@ -9,7 +9,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { SCENES_DATA } from '../data/scenesData';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
@@ -28,6 +28,12 @@ export default function SceneExplorer({
   const currentScene = SCENES_DATA[selectedSceneIndex] || SCENES_DATA[0];
   const totalDifferences = currentScene.differences.length;
   const foundCount = foundDiffIds.size;
+
+  useEffect(() => {
+    return () => {
+      stopSpeech();
+    };
+  }, []);
 
   const selectScene = (idx) => {
     setSelectedSceneIndex(idx);
@@ -103,7 +109,7 @@ export default function SceneExplorer({
         <div className="flex items-center gap-2.5">
           <span className="text-3xl">🔍</span>
           <h2 className="font-display font-black text-lg sm:text-xl text-slate-900">
-            7 Fark Bul
+            Spot 7 Differences
           </h2>
         </div>
 

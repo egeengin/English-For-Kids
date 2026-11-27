@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sparkles,
   Volume2,
@@ -22,6 +22,18 @@ export default function DailyRecallModal({
 }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeSpeakingWord, setActiveSpeakingWord] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        stopSpeech();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !summary) return null;
 

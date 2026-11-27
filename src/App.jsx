@@ -30,6 +30,7 @@ const DailyRecallModal = lazy(() => import('./components/DailyRecallModal'));
 import { CURRICULUM_LEVELS } from './data/curriculum';
 import { loadSavedState, saveState } from './utils/storage';
 import { saveGeminiApiKey } from './utils/gemini';
+import { stopSpeech, cancelHoverSpeech } from './utils/speech';
 import {
   logDailyActivity,
   getDailyMemorySummary,
@@ -105,6 +106,8 @@ export default function App() {
 
   // Handle Tab Switch (guards parent dashboard with math challenge)
   const handleTabChange = (tabId) => {
+    stopSpeech();
+    cancelHoverSpeech();
     if (tabId === 'parent') {
       if (!isParentUnlocked) {
         setIsMathGateOpen(true);
@@ -123,6 +126,8 @@ export default function App() {
   };
 
   const handleLaunchQuest = (dayId, step = 'learn') => {
+    stopSpeech();
+    cancelHoverSpeech();
     const targetDayId = dayId || selectedDayId || 'day-1';
     handleSelectDayId(targetDayId);
     setRequestedQuestStep((prev) => ({
@@ -448,6 +453,7 @@ export default function App() {
       <DailyRecallModal
         isOpen={isDailyRecallOpen}
         onClose={() => {
+          stopSpeech();
           markDailyRecallSeen();
           setIsDailyRecallOpen(false);
         }}
@@ -809,7 +815,10 @@ export default function App() {
       {/* Walkie-Talkie Open-Ended Gemini Companion Modal */}
       <WalkieTalkieModal
         isOpen={isWalkieTalkieOpen}
-        onClose={() => setIsWalkieTalkieOpen(false)}
+        onClose={() => {
+          stopSpeech();
+          setIsWalkieTalkieOpen(false);
+        }}
         onRewardEarned={handleRewardEarned}
         childName={childName}
         childAge={childAge}

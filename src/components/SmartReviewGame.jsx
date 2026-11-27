@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, RotateCcw, Sparkles } from 'lucide-react';
 import { VOCAB_BANK_500 } from '../data/vocabularyBank500';
 import { getReviewWords, recordMasteredWord, recordMissedWord } from '../utils/reviewTracker';
-import { speakEnglish, unlockAudio } from '../utils/speech';
+import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 
 function buildReviewOptions(target, roundSeed = 0) {
@@ -34,6 +34,14 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
   const [roundSeed, setRoundSeed] = useState(0);
   const [step, setStep] = useState(0);
   const [solved, setSolved] = useState(false);
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      stopSpeech();
+    };
+  }, []);
 
   const target = reviewList[step % reviewList.length];
 
@@ -53,7 +61,8 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
         confetti({ particleCount: 65, spread: 65, origin: { y: 0.65 } });
       }
       if (!isMuted) speakEnglish(`Great! ${target.word}!`);
-      setTimeout(() => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = setTimeout(() => {
         if (step + 1 < reviewList.length) {
           setStep((s) => s + 1);
           setSolved(false);
@@ -113,6 +122,7 @@ export default function SmartReviewGame({ onRewardEarned, isMuted = false }) {
             type="button"
             onClick={() => {
               playTap(isMuted);
+              if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
               setReviewList(getReviewWords(8));
               setRoundSeed((r) => r + 1);
               setStep(0);

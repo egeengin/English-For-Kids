@@ -153,7 +153,7 @@ export default function LegoDiorama({
   };
 
   return (
-    <div className="w-full max-w-5xl px-4 py-6 flex flex-col items-center animate-fade-in">
+    <div className="w-full max-w-5xl px-4 py-6 flex flex-col items-center animate-fadeIn">
       
       {/* Header Banner */}
       <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 mb-6">
@@ -270,7 +270,7 @@ export default function LegoDiorama({
 
         {/* Active Item Audio Translator Banner (In Canvas) */}
         {activeAudioWord && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-white/95 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border-2 border-yellow-400 flex items-center gap-3 text-xs animate-scale-up">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-white/95 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border-2 border-yellow-400 flex items-center gap-3 text-xs animate-scaleUp">
             <span className="text-xl">{activeAudioWord.emoji}</span>
             <div className="flex items-center gap-2 font-bold text-slate-800">
               <span className="font-black text-sm text-slate-900">{activeAudioWord.word}</span>
@@ -352,7 +352,7 @@ export default function LegoDiorama({
 
       {/* Snapshot Gallery Feed */}
       {photoGallery.length > 0 && (
-        <div className="w-full mt-6 p-4 bg-amber-50 rounded-2xl border border-amber-200 shadow-sm animate-fade-in">
+        <div className="w-full mt-6 p-4 bg-amber-50 rounded-2xl border border-amber-200 shadow-sm animate-fadeIn">
           <h3 className="font-display font-black text-sm text-slate-900 mb-2 flex items-center gap-2">
             <span>📸 {childName}'s Souvenir Album</span>
             <span className="text-xs font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full">

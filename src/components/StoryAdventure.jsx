@@ -516,7 +516,7 @@ export default function StoryAdventure({
       {/* Compact Single-Row Controls: World Picker + Chapter Pills + Find It */}
       <div className="w-full flex items-center justify-between gap-2 bg-slate-900 text-white px-3 py-2 rounded-2xl shadow-md border-2 border-slate-800 mb-2.5 flex-wrap">
         <select
-          aria-label="Hikaye Dünyası Seç"
+          aria-label="Choose Story World"
           value={story.id}
           onChange={(e) => {
             playTap(isMuted);
@@ -1031,7 +1031,7 @@ export default function StoryAdventure({
                       className="mt-2.5 px-4 py-2 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-900 font-display font-black text-xs sm:text-sm inline-flex items-center gap-1.5 border border-purple-300 cursor-pointer transition"
                     >
                       <Volume2 className="w-4 h-4" />
-                      <span>🔊 Kaydımı Dinle</span>
+                      <span>🔊 Play My Voice</span>
                     </button>
                   )}
                 </div>
@@ -1115,20 +1115,20 @@ export default function StoryAdventure({
                   type="button"
                   onClick={() => !isMuted && speakEnglish(targetPhraseClean)}
                   className="p-2.5 rounded-xl bg-white border border-purple-200 text-purple-700 hover:bg-purple-100 cursor-pointer flex-shrink-0"
-                  title="Dinle"
+                  title="Listen"
                 >
                   <Volume2 className="w-4 h-4" />
                 </button>
                 <div>
                   <div className="text-xs font-black text-purple-900">
-                    {voiceBonusClaimed ? '🎉 Sesli Bonus Kazanıldı! (+2 ⭐)' : '🎙️ Şimdi Sesli Söyle (+2 ⭐ Bonus)'}
+                    {voiceBonusClaimed ? '🎉 Voice Bonus Earned! (+2 ⭐)' : '🎙️ Say It Aloud! (+2 ⭐ Bonus)'}
                   </div>
                   <div className="font-display font-black text-sm sm:text-base text-slate-900">
                     “{targetPhraseClean}”
                   </div>
                   {interimSpeech && (
                     <div className="text-xs font-bold text-purple-700 mt-0.5">
-                      Duyulan: “{interimSpeech}”
+                      Heard: “{interimSpeech}”
                     </div>
                   )}
                   {voiceError && (
@@ -1151,10 +1151,10 @@ export default function StoryAdventure({
                   <Mic className="w-4 h-4" />
                   <span>
                     {isListening
-                      ? 'Dinliyorum...'
+                      ? 'Listening...'
                       : isEvaluatingSpeech
-                      ? 'Kontrol...'
-                      : '🎙️ Söyle (+2 ⭐)'}
+                      ? 'Checking...'
+                      : '🎙️ Say It (+2 ⭐)'}
                   </span>
                 </button>
               )}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish, unlockAudio } from '../utils/speech';
+import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
@@ -33,6 +33,14 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
   const [targetSide, setTargetSide] = useState(() => (Math.random() < 0.5 ? 'a' : 'b'));
   const [status, setStatus] = useState(null); // 'correct' | 'wrong' | null
   const [score, setScore] = useState(0);
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      stopSpeech();
+    };
+  }, []);
 
   const pair = SOUND_PAIRS[roundIdx % SOUND_PAIRS.length];
   const target = pair[targetSide];
@@ -67,7 +75,8 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
       if ((score + 1) % 5 === 0) {
         confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
       }
-      setTimeout(nextRound, 950);
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = setTimeout(nextRound, 950);
     } else {
       playGentleWobble(isMuted);
       setStatus('wrong');

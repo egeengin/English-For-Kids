@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Lock, X, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
 import { playGentleWobble, playSuccessChime, playTap } from '../utils/soundEffects';
 
@@ -25,21 +25,19 @@ function MathGateModalContent({ onClose, onSuccess, isMuted }) {
 
   const expectedAnswer = num1 + num2;
 
-  const handleKeyPress = (digit) => {
+  const handleKeyPress = useCallback((digit) => {
     playTap(isMuted);
-    if (answer.length < 3) {
-      setAnswer(prev => prev + digit);
-      setError(false);
-    }
-  };
-
-  const handleBackspace = () => {
-    playTap(isMuted);
-    setAnswer(prev => prev.slice(0, -1));
+    setAnswer((prev) => (prev.length < 3 ? prev + digit : prev));
     setError(false);
-  };
+  }, [isMuted]);
 
-  const handleSubmit = (e) => {
+  const handleBackspace = useCallback(() => {
+    playTap(isMuted);
+    setAnswer((prev) => prev.slice(0, -1));
+    setError(false);
+  }, [isMuted]);
+
+  const handleSubmit = useCallback((e) => {
     if (e) e.preventDefault();
     if (parseInt(answer, 10) === expectedAnswer) {
       playSuccessChime(isMuted);
@@ -49,7 +47,23 @@ function MathGateModalContent({ onClose, onSuccess, isMuted }) {
       setError(true);
       generateQuestion();
     }
-  };
+  }, [answer, expectedAnswer, isMuted, onSuccess]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key >= '0' && e.key <= '9') {
+        handleKeyPress(e.key);
+      } else if (e.key === 'Backspace') {
+        handleBackspace();
+      } else if (e.key === 'Enter' && answer) {
+        handleSubmit();
+      } else if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [answer, handleBackspace, handleKeyPress, handleSubmit, onClose]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
@@ -106,7 +120,7 @@ function MathGateModalContent({ onClose, onSuccess, isMuted }) {
         {/* Answer Screen */}
         <div className="w-full bg-white border-2 border-slate-400 rounded-xl py-3 px-4 text-center mb-3">
           <span className="text-2xl font-bold font-mono text-slate-800 tracking-widest min-h-[32px] inline-block">
-            {answer || <span className="text-slate-300">Tap digits below</span>}
+            {answer || <span className="text-slate-300">Tap or type digits</span>}
           </span>
         </div>
 

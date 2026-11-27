@@ -443,7 +443,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                   className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-black flex items-center gap-1 cursor-pointer transition transform active:scale-95"
                 >
                   <ArrowLeft className="w-5 h-5" />
-                  <span>Geri</span>
+                  <span>Back</span>
                 </button>
 
                 <button
@@ -454,7 +454,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                   }`}
                 >
                   <Volume2 className={`w-6 h-6 ${isReading ? 'animate-bounce' : ''}`} />
-                  <span>Benim İçin Oku</span>
+                  <span>Read to Me</span>
                 </button>
 
                 <button
@@ -464,7 +464,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                     !isReading ? 'ring-4 ring-emerald-300 scale-105' : ''
                   }`}
                 >
-                  <span>{pageIdx === book.pages.length - 1 ? 'Soruya Geç' : 'Sonraki'}</span>
+                  <span>{pageIdx === book.pages.length - 1 ? 'Go to Quiz' : 'Next'}</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -481,7 +481,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                 className="mb-5 px-4 py-2 rounded-xl bg-blue-100 text-blue-900 font-black text-sm inline-flex items-center gap-1.5 cursor-pointer hover:bg-blue-200 transition"
               >
                 <Volume2 className="w-4 h-4" />
-                <span>Soruyu Dinle</span>
+                <span>Listen to Question</span>
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -537,7 +537,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                             playTap(isMuted);
                             if (!isMuted) speakEnglish(cleanText);
                           }}
-                          title="Seçeneği dinle"
+                          title="Listen to choice"
                           className="w-8 h-8 rounded-xl bg-blue-100 group-hover:bg-blue-200 text-blue-700 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
                         >
                           <Volume2 className="w-4 h-4" />
@@ -552,7 +552,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                 <div className="mt-6 flex flex-col items-center gap-3">
                   <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-5 py-2.5 rounded-2xl font-black">
                     <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                    <span>Kitabı tamamladın! (+4 ⭐)</span>
+                    <span>Book Complete! (+4 ⭐)</span>
                   </div>
                   {bookIdx < books.length - 1 ? (
                     <button
@@ -560,7 +560,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                       onClick={() => selectBook(bookIdx + 1)}
                       className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-display font-black text-lg shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition flex items-center gap-2 cursor-pointer"
                     >
-                      <span>Sonraki Kitap ({books[bookIdx + 1].title}) 📚</span>
+                      <span>Next Book ({books[bookIdx + 1].title}) 📚</span>
                       <ArrowRight className="w-5 h-5" />
                     </button>
                   ) : (
@@ -569,7 +569,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                       onClick={() => selectBook(0)}
                       className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-display font-black text-lg shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition flex items-center gap-2 cursor-pointer"
                     >
-                      <span>İlk Kitaba Dön 🌟</span>
+                      <span>Back to First Book 🌟</span>
                     </button>
                   )}
                 </div>

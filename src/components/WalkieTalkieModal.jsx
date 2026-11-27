@@ -5,6 +5,7 @@ import { chatWithLeoGemini, LEO_MISSIONS } from '../utils/gemini';
 import { createSpeechListener, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { speakEnglish } from '../utils/speech';
 import { playSnap, playTap, playSuccess, playRadioBeep } from '../utils/soundEffects';
+import LeoBuddy from './LeoBuddy';
 
 const LANGUAGE_OPTIONS = [
   { code: 'en-US', label: 'English', flag: '🇬🇧' },
@@ -263,7 +264,12 @@ export default function WalkieTalkieModal({
       <div className="relative w-full h-[100dvh] sm:h-[92dvh] sm:max-w-5xl bg-gradient-to-b from-amber-400 via-yellow-400 to-amber-500 rounded-none sm:rounded-3xl p-4 sm:p-6 shadow-2xl border-0 sm:border-4 border-amber-600 flex flex-col justify-between">
         {/* Top Status & Controls Bar */}
         <div className="w-full flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
+            <LeoBuddy
+              mood={isListening ? 'listening' : isLoading ? 'thinking' : 'happy'}
+              size="sm"
+              isMuted={isMuted}
+            />
             <div className={`w-3.5 h-3.5 rounded-full border-2 border-slate-900 ${
               isListening ? 'bg-red-500 animate-ping' : 'bg-emerald-400 shadow-sm'
             }`} />
@@ -298,7 +304,7 @@ export default function WalkieTalkieModal({
                     : 'bg-amber-100/80 hover:bg-white text-slate-900'
                 }`}
               >
-                {m.emoji} {m.labelTr}
+                {m.emoji} {m.labelEn || m.labelTr}
               </button>
             ))}
             <span
@@ -375,14 +381,14 @@ export default function WalkieTalkieModal({
                       className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-300 hover:text-amber-200 bg-slate-900/70 px-3 py-1 rounded-lg border border-amber-500/30 cursor-pointer"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
-                      <span>Normal Dinle</span>
+                      <span>Listen</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSpeakReply(msg.en, 0.78)}
                       className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-300 hover:text-emerald-200 bg-slate-900/70 px-3 py-1 rounded-lg border border-emerald-500/30 cursor-pointer"
                     >
-                      <span>🐢 Yavaş ve Net Dinle</span>
+                      <span>🐢 Slow &amp; Clear</span>
                     </button>
                   </div>
                 )}
@@ -436,7 +442,7 @@ export default function WalkieTalkieModal({
                   if (!isMuted) speakEnglish(hint);
                 }}
                 className="flex-1 text-left flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-900 hover:text-blue-800 cursor-pointer"
-                title="Dinle"
+                title="Listen"
               >
                 <span className="text-amber-600">💡</span>
                 <span>{hint}</span>
@@ -446,7 +452,7 @@ export default function WalkieTalkieModal({
                 onClick={() => handleSendMessage(hint)}
                 disabled={isLoading || isListening}
                 className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-yellow-300 font-black text-xs cursor-pointer flex-shrink-0"
-                title="Gönder"
+                title="Send"
                 aria-label="Send hint"
               >
                 ➔

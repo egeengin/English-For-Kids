@@ -347,6 +347,11 @@ export default function BalloonPopGame({
     startFreshDeck(selectedCategory);
   };
 
+  const handleBalloonClickRef = useRef(handleBalloonClick);
+  useEffect(() => {
+    handleBalloonClickRef.current = handleBalloonClick;
+  });
+
   // Desktop keyboard shortcuts: 1/2/3 pop balloons, Space replays prompt
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -356,8 +361,8 @@ export default function BalloonPopGame({
 
       if (e.key === '1' || e.key === '2' || e.key === '3') {
         const chosen = options[Number(e.key) - 1];
-        if (chosen) handleBalloonClick(chosen);
-      } else if (e.code === 'Space') {
+        if (chosen) handleBalloonClickRef.current(chosen);
+      } else if (e.code === 'Space' && e.target?.tagName !== 'BUTTON') {
         e.preventDefault();
         unlockAudio();
         speakEnglish(targetItem.questionEn);
@@ -365,7 +370,7 @@ export default function BalloonPopGame({
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  });
+  }, [isGameOver, options, targetItem]);
 
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
@@ -597,6 +602,9 @@ export default function BalloonPopGame({
                 >
                   {/* Lego Stud on Balloon */}
                   <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-5 h-2.5 bg-white/40 rounded-full" />
+                  <kbd className="hidden md:inline-flex absolute top-2.5 right-3 px-1.5 py-0.5 rounded-md bg-black/25 text-white font-display font-black text-[11px]">
+                    {idx + 1}
+                  </kbd>
 
                   {/* Big Emoji */}
                   <span className="text-5xl sm:text-6xl drop-shadow-md mb-2">

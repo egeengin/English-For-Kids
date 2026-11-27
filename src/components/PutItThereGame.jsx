@@ -88,7 +88,7 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
             <span>Put It There!</span>
           </h2>
           <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 font-black text-sm border border-emerald-300">
-            ⭐ Doğru: {score}
+            ⭐ Score: {score}
           </span>
         </div>
 
@@ -106,7 +106,7 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
             className="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm inline-flex items-center gap-1.5 cursor-pointer"
           >
             <Volume2 className="w-4 h-4" />
-            <span>Dinle</span>
+            <span>Listen</span>
           </button>
         </div>
 
@@ -141,7 +141,7 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
         {placedSpotId && (
           <div className="mt-4 inline-flex items-center gap-2 text-emerald-700 font-black">
             <CheckCircle2 className="w-5 h-5" />
-            <span>Doğru yere koydun! (+2 ⭐)</span>
+            <span>Great job! Right spot! (+2 ⭐)</span>
             <Sparkles className="w-5 h-5 text-amber-500" />
           </div>
         )}

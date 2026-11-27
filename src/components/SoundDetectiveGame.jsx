@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish } from '../utils/speech';
+import { speakEnglish, unlockAudio } from '../utils/speech';
 import { playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
@@ -78,6 +78,29 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
     }
   };
 
+  const handlePickRef = useRef(handlePick);
+  useEffect(() => {
+    handlePickRef.current = handlePick;
+  });
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.key === '1') {
+        handlePickRef.current('a');
+      } else if (e.key === '2') {
+        handlePickRef.current('b');
+      } else if (e.code === 'Space' && tag !== 'BUTTON') {
+        e.preventDefault();
+        unlockAudio();
+        speakCurrentTarget();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [speakCurrentTarget]);
+
   return (
     <div className="w-full max-w-3xl mx-auto px-3 py-4">
       <div className="bg-white rounded-3xl shadow-xl border-4 border-sky-200 p-5 sm:p-8 text-center">
@@ -87,28 +110,30 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
             <span>Sound Detective</span>
           </h2>
           <span className="px-3.5 py-1 rounded-full bg-sky-100 text-sky-900 font-black text-sm border border-sky-300">
-            ⭐ Doğru: {score}
+            ⭐ Score: {score}
           </span>
         </div>
 
         <p className="text-sm sm:text-base font-bold text-slate-600 mb-5">
-          Sesi dinle ve doğru balona dokun!
+          Listen and pick the matching word!
         </p>
 
         <button
           type="button"
           onClick={() => {
             playTap(isMuted);
+            unlockAudio();
             speakCurrentTarget();
           }}
           className="mb-6 px-6 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-display font-black text-lg shadow-md inline-flex items-center gap-2 cursor-pointer active:scale-95 transition"
         >
           <Volume2 className="w-6 h-6" />
-          <span>Tekrar Dinle</span>
+          <span>Listen Again</span>
+          <kbd className="hidden md:inline-flex px-1.5 py-0.5 text-[11px] rounded bg-white/20">Space</kbd>
         </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {['a', 'b'].map((side) => {
+          {['a', 'b'].map((side, idx) => {
             const item = pair[side];
             const isWin = status === 'correct' && side === targetSide;
             return (
@@ -116,12 +141,15 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
                 key={side}
                 type="button"
                 onClick={() => handlePick(side)}
-                className={`p-8 rounded-3xl border-4 transition-all cursor-pointer flex flex-col items-center justify-center gap-3 shadow-md ${
+                className={`relative p-8 rounded-3xl border-4 transition-all cursor-pointer flex flex-col items-center justify-center gap-3 shadow-md ${
                   isWin
                     ? 'bg-emerald-50 border-emerald-500 scale-105'
                     : 'bg-slate-50 hover:bg-sky-50 border-slate-200 hover:border-sky-400 active:scale-95'
                 }`}
               >
+                <kbd className="hidden md:inline-flex absolute top-3 left-3 px-2 py-0.5 rounded-lg bg-white border border-slate-300 text-slate-600 font-display font-black text-xs">
+                  {idx + 1}
+                </kbd>
                 <span className="text-6xl sm:text-7xl leading-none">{item.emoji}</span>
                 <span className="font-display font-black text-2xl sm:text-3xl text-slate-900">
                   {item.word}
@@ -129,7 +157,7 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
                 {isWin && (
                   <span className="inline-flex items-center gap-1 text-emerald-700 font-black text-sm">
                     <CheckCircle2 className="w-5 h-5" />
-                    <span>Harika! (+2 ⭐)</span>
+                    <span>Awesome! (+2 ⭐)</span>
                   </span>
                 )}
               </button>
@@ -140,7 +168,7 @@ export default function SoundDetectiveGame({ onRewardEarned, isMuted = false }) 
         {status === 'wrong' && (
           <div className="mt-4 inline-flex items-center gap-2 text-amber-800 bg-amber-100 px-4 py-2 rounded-xl font-bold text-sm">
             <Sparkles className="w-4 h-4" />
-            <span>Tekrar dinle ve doğru kelimeyi seç!</span>
+            <span>Listen again and pick the right word!</span>
           </div>
         )}
       </div>

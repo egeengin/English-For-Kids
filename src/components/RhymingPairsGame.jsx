@@ -98,7 +98,7 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
               <span>Rhyming Pairs</span>
             </h2>
             <p className="text-sm font-bold text-slate-500">
-              Soldan bir kelime seç, sağdan kafiyeli (uyaklı) eşini bul! ({matchedIds.length}/{pairs.length})
+              Pick a word on the left, then find its rhyme on the right! ({matchedIds.length}/{pairs.length})
             </p>
           </div>
           <button
@@ -107,7 +107,7 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
             className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-sm flex items-center gap-1.5 cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Yeni Liste</span>
+            <span>New Set</span>
           </button>
         </div>
 
@@ -174,14 +174,14 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
           <div className="mt-5 bg-emerald-100 border-2 border-emerald-400 rounded-2xl p-4 flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2 font-display font-black text-lg text-emerald-900">
               <Sparkles className="w-6 h-6 text-emerald-600" />
-              <span>Süper! Tüm kafiyeleri buldun! (+5 ⭐)</span>
+              <span>Awesome! You found all the rhymes! (+5 ⭐)</span>
             </div>
             <button
               type="button"
               onClick={handleNextSet}
               className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm cursor-pointer"
             >
-              Sonraki Set →
+              Next Set →
             </button>
           </div>
         )}

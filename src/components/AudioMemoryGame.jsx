@@ -91,7 +91,7 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
               <span>Audio Memory Match</span>
             </h2>
             <p className="text-sm font-bold text-slate-500">
-              Kartları çevir, sesi dinle ve eşini bul! ({matchedIds.length}/{pairCount})
+              Flip cards, listen &amp; find matching pairs! ({matchedIds.length}/{pairCount})
             </p>
           </div>
 
@@ -110,7 +110,7 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
                     : 'bg-slate-100 text-slate-700 border-slate-200 hover:border-indigo-300'
                 }`}
               >
-                {cnt * 2} Kart
+                {cnt * 2} Cards
               </button>
             ))}
             <button
@@ -119,7 +119,7 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
               className="px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm border-2 border-amber-600 flex items-center gap-1 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Yeni Oyun</span>
+              <span>New Game</span>
             </button>
           </div>
         </div>
@@ -161,14 +161,14 @@ export default function AudioMemoryGame({ onRewardEarned, isMuted = false }) {
           <div className="mt-5 bg-emerald-100 border-2 border-emerald-400 rounded-2xl p-4 flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2 font-display font-black text-lg text-emerald-900">
               <Sparkles className="w-6 h-6 text-emerald-600" />
-              <span>Harika hafıza! {moves} hamlede tamamlandı! (+5 ⭐)</span>
+              <span>Awesome memory! Finished in {moves} moves! (+5 ⭐)</span>
             </div>
             <button
               type="button"
               onClick={() => startNewGame(pairCount)}
               className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm cursor-pointer"
             >
-              Tekrar Oyna →
+              Play Again →
             </button>
           </div>
         )}

@@ -67,7 +67,7 @@ export function useVoiceQuizAnswer({
         heardText: '',
         voiceNotice: {
           type: 'error',
-          text: 'Mikrofon bu tarayıcıda desteklenmiyor. Şıkka dokunabilirsin!',
+          text: 'Microphone is not supported in this browser — click an answer!',
         },
       });
       return;
@@ -114,12 +114,12 @@ export function useVoiceQuizAnswer({
             ? {
                 type: 'matched',
                 text: matched.isCorrect
-                  ? '🎙️ Sesli Cevap: +2 ⭐!'
-                  : `🎙️ "${matched.textEn}" seçildi`,
+                  ? '🎙️ Voice Answer: +2 ⭐!'
+                  : `🎙️ Selected "${matched.textEn}"`,
               }
             : {
                 type: 'retry',
-                text: `"${transcript}" duyuldu. Tekrar söyle veya şıkka tıkla!`,
+                text: `Heard "${transcript}" — say it again or click!`,
               },
         });
         if (matched && callbackRef.current) {
@@ -129,8 +129,8 @@ export function useVoiceQuizAnswer({
       onError: (_, errorType) => {
         const msg =
           errorType === 'not-allowed' || errorType === 'permission-denied'
-            ? 'Mikrofon izni kapalı. İzin ver veya şıkka tıkla!'
-            : 'Ses duyulmadı. Tekrar deneyebilir veya şıkka tıklayabilirsin!';
+            ? 'Microphone permission is off — allow it or click an answer!'
+            : 'Could not hear clearly — try again or click an answer!';
         setVoiceState((prev) => ({
           key: activeKey,
           isListening: false,

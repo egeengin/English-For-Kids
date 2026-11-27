@@ -175,6 +175,9 @@ export default function DailyMissionHub({
     return q.options.some((o) => o.id === chosenId && o.isCorrect);
   }).length;
 
+  const safeQuestionIdx = Math.min(activeQuestionIdx, Math.max(0, dayQuizQuestions.length - 1));
+  const activeDailyQuestion = dayQuizQuestions[safeQuestionIdx] || null;
+
   const triggerBurst = useCallback((label) => {
     if (burstTimerRef.current) clearTimeout(burstTimerRef.current);
     setStarBurst({ id: Date.now(), label });
@@ -258,6 +261,18 @@ export default function DailyMissionHub({
         if (onSaveDailyQuizAnswer) {
           onSaveDailyQuizAnswer(questionId, opt.id);
         }
+        const answeredAfter = dayQuizQuestions.filter(
+          (item) => item.id === questionId || Boolean(dailyQuizAnswers[item.id])
+        ).length;
+        const isLastQuestion =
+          dayQuizQuestions.length > 0 &&
+          dayQuizQuestions[dayQuizQuestions.length - 1]?.id === questionId;
+        if (
+          onMarkQuestStep &&
+          (isLastQuestion || (dayQuizQuestions.length > 0 && answeredAfter >= Math.ceil(dayQuizQuestions.length / 2)))
+        ) {
+          onMarkQuestStep(activeDay.id, 'quiz');
+        }
       } else {
         setQuizStreak(0);
         playDiDit(isMuted);
@@ -266,9 +281,12 @@ export default function DailyMissionHub({
       }
     },
     [
+      activeDay.id,
+      dailyQuizAnswers,
       dayQuizQuestions,
       isMuted,
       isSlowMode,
+      onMarkQuestStep,
       onRewardEarned,
       onSaveDailyQuizAnswer,
       quizStreak,
@@ -277,9 +295,6 @@ export default function DailyMissionHub({
       wrongOptionIds.size,
     ]
   );
-
-  const safeQuestionIdx = Math.min(activeQuestionIdx, Math.max(0, dayQuizQuestions.length - 1));
-  const activeDailyQuestion = dayQuizQuestions[safeQuestionIdx] || null;
 
   const {
     isListening: isQuizListening,
@@ -481,11 +496,29 @@ export default function DailyMissionHub({
     [activeDay.id, isMuted, onMarkQuestStep, stopQuizSpeech]
   );
 
+  // Auto-read active quiz prompt when entering the Play step
+  useEffect(() => {
+    if (lessonStep !== 'quiz' || isMuted || !activeDailyQuestion?.promptEn) return undefined;
+    const t = setTimeout(() => {
+      playQuestionPrompt(activeDailyQuestion);
+    }, 240);
+    return () => {
+      clearTimeout(t);
+      stopQuizSpeech();
+    };
+  }, [lessonStep, activeDailyQuestion, isMuted, playQuestionPrompt, stopQuizSpeech]);
+
   // Desktop keyboard shortcuts for Play (Quiz) and Speak steps
   useEffect(() => {
     const onKeyDown = (e) => {
-      const tag = e.target?.tagName;
+      const target = e.target;
+      const tag = target?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      const isInteractiveTarget =
+        tag === 'BUTTON' ||
+        tag === 'A' ||
+        target?.getAttribute?.('role') === 'button' ||
+        Boolean(target?.closest?.('button, a, [role="button"]'));
 
       if (lessonStep === 'quiz' && activeDailyQuestion) {
         if (e.key === '1' || e.key === '2' || e.key === '3') {
@@ -493,13 +526,13 @@ export default function DailyMissionHub({
           if (opt && !wrongOptionIds.has(opt.id)) {
             handleDailyQuizClick(activeDailyQuestion.id, opt);
           }
-        } else if (e.code === 'Space') {
+        } else if (e.code === 'Space' && !isInteractiveTarget) {
           e.preventDefault();
           stopQuizVoiceAnswer();
           playQuestionPrompt(activeDailyQuestion);
         } else if (e.key === 'm' || e.key === 'M') {
           startQuizVoiceAnswer();
-        } else if (e.key === 'Enter' || e.key === 'ArrowRight') {
+        } else if ((e.key === 'Enter' && !isInteractiveTarget) || e.key === 'ArrowRight') {
           if (safeQuestionIdx < dayQuizQuestions.length - 1) {
             handleSelectQuestion(safeQuestionIdx + 1, true);
           } else {
@@ -507,13 +540,13 @@ export default function DailyMissionHub({
           }
         }
       } else if (lessonStep === 'speak' && activeSpeakItem) {
-        if (e.code === 'Space') {
+        if (e.code === 'Space' && !isInteractiveTarget) {
           e.preventDefault();
           unlockAudio();
           speakEnglish(activeSpeakItem.en);
         } else if (e.key === 'm' || e.key === 'M') {
           handleStartSpotlightSpeak();
-        } else if (e.key === 'Enter' || e.key === 'ArrowRight') {
+        } else if ((e.key === 'Enter' && !isInteractiveTarget) || e.key === 'ArrowRight') {
           if (speakCardIdx < vocabList.length - 1) {
             setSpeakCardIdx((prev) => prev + 1);
             setSpeakHeardText('');

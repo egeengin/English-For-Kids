@@ -257,6 +257,7 @@ export const LEO_MISSIONS = [
   {
     id: 'free',
     emoji: '💬',
+    labelEn: 'Free Chat',
     labelTr: 'Serbest',
     titleTr: 'Serbest Sohbet',
     stepsCount: 3,
@@ -288,6 +289,7 @@ export const LEO_MISSIONS = [
   {
     id: 'pizza',
     emoji: '🍕',
+    labelEn: 'Pizza',
     labelTr: 'Pizza',
     titleTr: 'Pizza Siparişi',
     stepsCount: 3,
@@ -319,6 +321,7 @@ export const LEO_MISSIONS = [
   {
     id: 'basketball',
     emoji: '🏀',
+    labelEn: 'Basketball',
     labelTr: 'Basket',
     titleTr: 'Kayıp Basket Topu',
     stepsCount: 3,
@@ -350,6 +353,7 @@ export const LEO_MISSIONS = [
   {
     id: 'pokemon',
     emoji: '⚡',
+    labelEn: 'Pokemon',
     labelTr: 'Pokemon',
     titleTr: 'Kart Savaşı',
     stepsCount: 3,
@@ -381,6 +385,7 @@ export const LEO_MISSIONS = [
   {
     id: 'spaghetti',
     emoji: '🍝',
+    labelEn: 'Spaghetti',
     labelTr: 'Spagetti',
     titleTr: 'Bolognese Şefi',
     stepsCount: 3,
@@ -412,6 +417,7 @@ export const LEO_MISSIONS = [
   {
     id: 'swimming',
     emoji: '🏊',
+    labelEn: 'Swimming',
     labelTr: 'Yüzme',
     titleTr: 'Gümüş Madalya',
     stepsCount: 3,
@@ -443,6 +449,7 @@ export const LEO_MISSIONS = [
   {
     id: 'lego',
     emoji: '🧱',
+    labelEn: 'Lego Master',
     labelTr: 'Lego Usta',
     titleTr: 'Lego Stüdyosu',
     stepsCount: 3,
@@ -474,6 +481,7 @@ export const LEO_MISSIONS = [
   {
     id: 'piano',
     emoji: '🎹',
+    labelEn: 'Piano',
     labelTr: 'Piyano',
     titleTr: 'Pazartesi Melodisi',
     stepsCount: 3,
@@ -505,6 +513,7 @@ export const LEO_MISSIONS = [
   {
     id: 'checker',
     emoji: '🔬',
+    labelEn: 'Science Lab',
     labelTr: 'Checker Bilim',
     titleTr: 'Checker & Woozle',
     stepsCount: 3,
@@ -536,6 +545,7 @@ export const LEO_MISSIONS = [
   {
     id: 'school',
     emoji: '🏫',
+    labelEn: 'School 1b',
     labelTr: 'Okul 1b',
     titleTr: 'GGS Laurensberg 1b',
     stepsCount: 3,
@@ -567,6 +577,7 @@ export const LEO_MISSIONS = [
   {
     id: 'rocket',
     emoji: '🚀',
+    labelEn: 'Rocket',
     labelTr: 'Roket',
     titleTr: 'Uzay Roketi',
     stepsCount: 3,

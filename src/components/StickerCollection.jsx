@@ -145,7 +145,7 @@ export default function StickerCollection({
       ...prev,
       [badge.id]: {
         type: 'success',
-        text: nextLv === 3 ? '👑 MAX Efsanevi! (+3 ⭐)' : `🎉 Lv.${nextLv} Oldu! (+3 ⭐)`,
+        text: nextLv === 3 ? '👑 MAX Legendary! (+3 ⭐)' : `🎉 Lv.${nextLv} Unlocked! (+3 ⭐)`,
       },
     }));
     if (!isMuted) {
@@ -161,7 +161,7 @@ export default function StickerCollection({
     if (!micSupported) {
       setStatusByBadge((prev) => ({
         ...prev,
-        [badge.id]: { type: 'fallback', text: 'Dinle ve "Söyledim ✓" butonuna bas!' },
+        [badge.id]: { type: 'fallback', text: 'Listen and tap "I said it ✓"!' },
       }));
       return;
     }
@@ -178,7 +178,7 @@ export default function StickerCollection({
     setListeningBadgeId(badge.id);
     setStatusByBadge((prev) => ({
       ...prev,
-      [badge.id]: { type: 'listening', text: '🎙️ Dinliyorum... Cümleyi söyle!' },
+      [badge.id]: { type: 'listening', text: '🎙️ Listening... Say the sentence!' },
     }));
 
     listenerRef.current = createSpeechListener({
@@ -204,7 +204,7 @@ export default function StickerCollection({
             ...prev,
             [badge.id]: {
               type: 'retry',
-              text: `"${transcript}" duyuldu. Tekrar dene veya ✓ bas!`,
+              text: `Heard "${transcript}". Try again or tap ✓!`,
             },
           }));
         }
@@ -215,7 +215,7 @@ export default function StickerCollection({
           ...prev,
           [badge.id]: {
             type: 'retry',
-            text: 'Ses duyulmadı. Tekrar dene veya ✓ bas!',
+            text: 'No voice heard. Try again or tap ✓!',
           },
         }));
       },
@@ -324,7 +324,7 @@ export default function StickerCollection({
                       className="px-3 py-2 rounded-xl bg-white hover:bg-blue-50 border-2 border-blue-200 text-blue-800 font-display font-black text-xs flex items-center justify-center gap-1 cursor-pointer flex-shrink-0"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
-                      <span>Dinle</span>
+                      <span>Listen</span>
                     </button>
 
                     {lv < 3 ? (
@@ -339,14 +339,14 @@ export default function StickerCollection({
                           }`}
                         >
                           <Mic className="w-3.5 h-3.5" />
-                          <span>{isListeningThis ? 'Dinliyor...' : 'Evrimleştir'}</span>
+                          <span>{isListeningThis ? 'Listening...' : 'Evolve'}</span>
                         </button>
                         {(!micSupported || status?.type === 'retry' || status?.type === 'fallback') && (
                           <button
                             type="button"
                             onClick={() => completeEvolution(badge, lv, targetLine)}
                             className="py-2 px-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-xs cursor-pointer"
-                            title="Söyledim ✓"
+                            title="I said it ✓"
                           >
                             ✓
                           </button>

@@ -65,10 +65,10 @@ function createShuffledBricks(wordObj) {
 }
 
 const PHONICS_TIERS = [
-  { id: 'all', label: '🌟 Tüm Seviyeler' },
-  { id: 'tier1', label: '🧱 Seviye 1 (3 Harf)' },
-  { id: 'tier2', label: '⚡ Seviye 2 (4–5 Harf)' },
-  { id: 'tier3', label: '🚀 Seviye 3 (6–8 Harf)' },
+  { id: 'all', label: '🌟 All Levels' },
+  { id: 'tier1', label: '🧱 Level 1 (3 Letters)' },
+  { id: 'tier2', label: '⚡ Level 2 (4–5 Letters)' },
+  { id: 'tier3', label: '🚀 Level 3 (6–8 Letters)' },
 ];
 
 function matchesTier(item, tierId) {
@@ -82,13 +82,13 @@ function matchesTier(item, tierId) {
 function getGermanFalseFriendHint(upperWord) {
   if (!upperWord) return null;
   if (upperWord.includes('W')) {
-    return '🇩🇪 İpucu: İngilizcede W harfi dudak yuvarlanarak /w/ okunur (V değil)!';
+    return '💡 Sound Tip: In English, W sounds like /w/ (round lips)!';
   }
   if (upperWord.includes('V')) {
-    return '🇩🇪 İpucu: İngilizcede V harfi /v/ okunur (Almancadaki F değil)!';
+    return '💡 Sound Tip: In English, V sounds like /v/ (buzzy voice)!';
   }
   if (upperWord.includes('EI')) {
-    return '🇩🇪 İpucu: Burada EI harfleri Almancadaki "ay" gibi okunmaz!';
+    return '💡 Sound Tip: Watch out — EI sounds different in English!';
   }
   return null;
 }
@@ -374,7 +374,7 @@ export default function PhonicsBuilder({
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-display font-black text-slate-900 tracking-tight">
-              {childName}&apos;s Harf Birleştirme ({PHONICS_WORDS.length} Kelime)
+              {childName}&apos;s Phonics Lab ({PHONICS_WORDS.length} Words)
             </h1>
           </div>
         </div>
@@ -383,7 +383,7 @@ export default function PhonicsBuilder({
           <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
             <Star className="w-5 h-5 text-amber-500 fill-amber-400" />
             <span className="font-display font-black text-amber-900 text-sm">
-              {completedIds.length} / {PHONICS_WORDS.length} Tamamlandı
+              {completedIds.length} / {PHONICS_WORDS.length} Done
             </span>
           </div>
 
@@ -391,7 +391,7 @@ export default function PhonicsBuilder({
             type="button"
             onClick={handleResetProgress}
             className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition cursor-pointer"
-            title="İlerlemeyi Sıfırla"
+            title="Reset Progress"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -440,7 +440,7 @@ export default function PhonicsBuilder({
               }`}
             >
               <span>{cat.emoji}</span>
-              <span>{cat.labelTr}</span>
+              <span>{cat.labelEn || cat.labelTr}</span>
               <span
                 className={`text-xs px-1.5 py-0.5 rounded-full ${
                   isActive ? 'bg-slate-900/15 text-slate-950' : 'bg-slate-100 text-slate-500'
@@ -456,7 +456,7 @@ export default function PhonicsBuilder({
       {/* Completed Words Memory Strip */}
       <div className="w-full bg-white rounded-2xl p-3 border-2 border-slate-200 shadow-sm mb-4 max-h-28 overflow-y-auto flex flex-wrap items-center gap-1.5 sm:gap-2">
         <span className="text-xs font-black text-slate-500 mr-1">
-          Kelimeler ({categoryEntries.length}):
+          Words ({categoryEntries.length}):
         </span>
         {stripEntries.map(({ item: w, idx }) => {
           const isDone = completedSet.has(w.id);
@@ -473,7 +473,7 @@ export default function PhonicsBuilder({
                   ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                   : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-blue-300'
               }`}
-              title={isDone ? `${w.word} tamamlandı` : `${w.word} kelimesine geç`}
+              title={isDone ? `${w.word} done` : `Jump to ${w.word}`}
             >
               <span>{w.emoji}</span>
               <span>{isDone || isCurrent ? w.word : '•••'}</span>
@@ -490,10 +490,10 @@ export default function PhonicsBuilder({
             <Trophy className="w-11 h-11" />
           </div>
           <h2 className="font-display font-black text-2xl sm:text-3xl">
-            Harika {childName}! Tüm {PHONICS_WORDS.length} Kelimeyi Tamamladın! 🎉
+            Awesome {childName}! You mastered all {PHONICS_WORDS.length} words! 🎉
           </h2>
           <p className="text-sm sm:text-base font-bold text-emerald-100 max-w-xl mx-auto">
-            Yaptığın bütün kelimeler hafızada işaretlendi. İstersen baştan tekrar çözebilirsin!
+            All your built words are saved! Want to play through them again?
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
@@ -501,7 +501,7 @@ export default function PhonicsBuilder({
               onClick={handleResetProgress}
               className="px-5 py-3 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-sm shadow-lg cursor-pointer"
             >
-              🔄 Tüm Kelimeleri Baştan Çöz
+              🔄 Play All Words Again
             </button>
           </div>
         </div>
@@ -532,7 +532,7 @@ export default function PhonicsBuilder({
                 className="flex items-center gap-1.5 px-3.5 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 rounded-xl font-bold text-xs shadow-md transition active:scale-95 cursor-pointer"
               >
                 <Volume2 className="w-4 h-4 text-slate-900" />
-                <span>Kelimeyi Dinle 🔊</span>
+                <span>Listen to Word 🔊</span>
               </button>
               {falseFriendHint && (
                 <span className="px-3 py-1 rounded-xl bg-amber-300 text-slate-950 font-display font-black text-xs shadow-sm">
@@ -546,7 +546,7 @@ export default function PhonicsBuilder({
                 className="flex items-center gap-1 px-3 py-1.5 bg-emerald-800/60 hover:bg-emerald-800 text-emerald-100 rounded-xl font-bold text-xs border border-emerald-400/30 transition cursor-pointer"
               >
                 <HelpCircle className="w-4 h-4 text-yellow-300" />
-                <span>{showHint ? 'Gizle' : '💡 İpucu'}</span>
+                <span>{showHint ? 'Hide' : '💡 Hint'}</span>
               </button>
             </div>
           </div>
@@ -554,7 +554,7 @@ export default function PhonicsBuilder({
           {showHint && (
             <div className="relative z-10 mb-6 p-3.5 bg-yellow-100 text-yellow-900 rounded-2xl border border-yellow-300 text-xs sm:text-sm font-semibold flex items-center justify-between">
               <span>
-                💡 <strong>Ses İpucu:</strong> {currentWord.phoneticGuide}
+                💡 <strong>Sound Hint:</strong> {currentWord.phoneticGuide}
               </span>
               <span className="text-xl">{currentWord.emoji}</span>
             </div>
@@ -572,7 +572,7 @@ export default function PhonicsBuilder({
               onPointerLeave={cancelHoverSpeech}
               onClick={handleHearTargetWord}
               className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white/90 shadow-xl border-4 border-emerald-300 flex items-center justify-center text-5xl sm:text-6xl mb-6 transform hover:scale-105 transition cursor-pointer"
-              title="Dinlemek için üstüne gel veya tıkla"
+              title="Hover or click to listen"
             >
               {isSuccess ? (
                 <span className="animate-bounce">{currentWord.emoji}</span>
@@ -623,7 +623,7 @@ export default function PhonicsBuilder({
           {/* Letter Brick Tray */}
           <div className="relative z-10 bg-emerald-900/70 backdrop-blur-md rounded-2xl p-4 sm:p-6 border-2 border-emerald-400/40">
             <p className="text-center text-xs sm:text-sm font-bold text-emerald-200 uppercase tracking-wider mb-4">
-              Harf tuğlalarına dokunarak kelimeyi oluştur:
+              Tap letter bricks to build the word:
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 min-h-[90px]">
@@ -642,13 +642,13 @@ export default function PhonicsBuilder({
                   <span>{brick.letter}</span>
 
                   <span className="text-[9px] font-bold text-amber-900/80 -mt-1 uppercase">
-                    Ses 🔊
+                    Sound 🔊
                   </span>
                 </button>
               ))}
 
               {availableBricks.length === 0 && !isSuccess && (
-                <p className="text-xs text-emerald-200 italic">Kontrol ediliyor...</p>
+                <p className="text-xs text-emerald-200 italic">Checking...</p>
               )}
             </div>
           </div>
@@ -662,10 +662,10 @@ export default function PhonicsBuilder({
                 </div>
                 <div>
                   <h3 className="font-display font-black text-lg sm:text-xl text-slate-900">
-                    Harikasın, {childName}!
+                    Awesome, {childName}!
                   </h3>
                   <p className="text-xs sm:text-sm font-bold text-slate-800">
-                    <strong>{currentWord.word}</strong> kelimesini kurdun! (+2 Lego Parçası 🧱 +1 Yıldız ⭐)
+                    You built <strong>{currentWord.word}</strong>! (+2 Bricks 🧱 +1 Star ⭐)
                   </p>
                 </div>
               </div>
@@ -676,14 +676,14 @@ export default function PhonicsBuilder({
                   onClick={handleHearTargetWord}
                   className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-yellow-300 rounded-xl text-xs font-bold shadow-md cursor-pointer transition active:scale-95"
                 >
-                  Tekrar Dinle 🔊
+                  Listen Again 🔊
                 </button>
                 <button
                   type="button"
                   onClick={handleNextWord}
                   className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg cursor-pointer transition active:scale-95"
                 >
-                  <span>Sonraki Kelime</span>
+                  <span>Next Word</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

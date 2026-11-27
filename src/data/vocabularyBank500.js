@@ -1,17 +1,17 @@
 // 520+ Categorized English Vocabulary & Phonics Bank for Deniz (Age 7)
 
 export const VOCAB_CATEGORIES = [
-  { id: 'all', labelTr: 'Tümü (500+)', emoji: '🌟', color: 'bg-slate-900 text-white' },
-  { id: 'animals', labelTr: 'Hayvanlar', emoji: '🐾', color: 'bg-amber-500 text-slate-950' },
-  { id: 'food', labelTr: 'Yiyecek & İçecek', emoji: '🍎', color: 'bg-rose-500 text-white' },
-  { id: 'nature', labelTr: 'Doğa & Hava', emoji: '🌿', color: 'bg-emerald-600 text-white' },
-  { id: 'home_school', labelTr: 'Ev & Okul', emoji: '🏫', color: 'bg-blue-600 text-white' },
-  { id: 'colors_numbers', labelTr: 'Renk, Şekil & Sayı', emoji: '🎨', color: 'bg-purple-600 text-white' },
-  { id: 'vehicles_space', labelTr: 'Araçlar & Uzay', emoji: '🚀', color: 'bg-sky-600 text-white' },
-  { id: 'actions_sports', labelTr: 'Eylemler & Spor', emoji: '🏃', color: 'bg-orange-500 text-white' },
-  { id: 'clothes_body', labelTr: 'Kıyafet & Vücut', emoji: '👕', color: 'bg-teal-600 text-white' },
-  { id: 'adjectives', labelTr: 'Sıfatlar & Duygular', emoji: '⚡', color: 'bg-indigo-600 text-white' },
-  { id: 'places_music', labelTr: 'Yerler, Müzik & Oyun', emoji: '🎸', color: 'bg-pink-600 text-white' },
+  { id: 'all', labelEn: 'All (500+)', labelTr: 'Tümü (500+)', emoji: '🌟', color: 'bg-slate-900 text-white' },
+  { id: 'animals', labelEn: 'Animals', labelTr: 'Hayvanlar', emoji: '🐾', color: 'bg-amber-500 text-slate-950' },
+  { id: 'food', labelEn: 'Food & Drinks', labelTr: 'Yiyecek & İçecek', emoji: '🍎', color: 'bg-rose-500 text-white' },
+  { id: 'nature', labelEn: 'Nature & Weather', labelTr: 'Doğa & Hava', emoji: '🌿', color: 'bg-emerald-600 text-white' },
+  { id: 'home_school', labelEn: 'Home & School', labelTr: 'Ev & Okul', emoji: '🏫', color: 'bg-blue-600 text-white' },
+  { id: 'colors_numbers', labelEn: 'Colors, Shapes & Numbers', labelTr: 'Renk, Şekil & Sayı', emoji: '🎨', color: 'bg-purple-600 text-white' },
+  { id: 'vehicles_space', labelEn: 'Vehicles & Space', labelTr: 'Araçlar & Uzay', emoji: '🚀', color: 'bg-sky-600 text-white' },
+  { id: 'actions_sports', labelEn: 'Actions & Sports', labelTr: 'Eylemler & Spor', emoji: '🏃', color: 'bg-orange-500 text-white' },
+  { id: 'clothes_body', labelEn: 'Clothes & Body', labelTr: 'Kıyafet & Vücut', emoji: '👕', color: 'bg-teal-600 text-white' },
+  { id: 'adjectives', labelEn: 'Feelings & Opposites', labelTr: 'Sıfatlar & Duygular', emoji: '⚡', color: 'bg-indigo-600 text-white' },
+  { id: 'places_music', labelEn: 'Places, Music & Fun', labelTr: 'Yerler, Müzik & Oyun', emoji: '🎸', color: 'bg-pink-600 text-white' },
 ];
 
 const BALLOON_COLORS = [

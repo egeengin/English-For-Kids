@@ -396,7 +396,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
             <span>Who / Where / What?</span>
           </h2>
           <span className="px-3.5 py-1 rounded-full bg-teal-100 text-teal-900 font-black text-sm border border-teal-300">
-            ⭐ Doğru: {score}
+            ⭐ Score: {score}
           </span>
         </div>
 
@@ -414,7 +414,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
           className="mb-6 px-5 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-display font-black text-base shadow-sm inline-flex items-center gap-2 cursor-pointer"
         >
           <Volume2 className="w-5 h-5" />
-          <span>Soruyu Dinle</span>
+          <span>Listen to Question</span>
         </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -470,7 +470,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
                       playTap(isMuted);
                       if (!isMuted) speakEnglish(cleanText);
                     }}
-                    title="Seçeneği dinle"
+                    title="Listen to choice"
                     className="w-8 h-8 rounded-xl bg-teal-100 group-hover:bg-teal-200 text-teal-800 flex items-center justify-center flex-shrink-0 transition active:scale-90 cursor-pointer"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -484,7 +484,7 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
         {solved && (
           <div className="mt-4 inline-flex items-center gap-2 text-emerald-700 font-black text-base">
             <CheckCircle2 className="w-5 h-5" />
-            <span>Süper! (+2 ⭐)</span>
+            <span>Awesome! (+2 ⭐)</span>
             <Sparkles className="w-5 h-5 text-amber-500" />
           </div>
         )}

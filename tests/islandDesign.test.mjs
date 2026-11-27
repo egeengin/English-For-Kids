@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 
 import { DAILY_EXPEDITION_DAYS } from '../src/data/dailyMissionsData.js';
+import { VOCAB_CATEGORIES } from '../src/data/vocabularyBank500.js';
+import { LEO_MISSIONS } from '../src/utils/gemini.js';
 import {
   ISLAND_BIOMES,
   ISLAND_STOPS_BY_DAY_ID,
@@ -101,4 +104,34 @@ test('Storage: defaults lastTab to island and persists questProgress', () => {
   const reloaded = loadSavedState();
   assert.equal(reloaded.questProgress['day-1'].learn, true);
   assert.equal(reloaded.questProgress['day-1'].song, true);
+});
+
+test('Full English immersion: categories, Leo missions, and core kid UI avoid Turkish labels', () => {
+  for (const cat of VOCAB_CATEGORIES) {
+    assert.ok(cat.labelEn && cat.labelEn.trim().length > 0, `Missing labelEn on category ${cat.id}`);
+  }
+  for (const mission of LEO_MISSIONS) {
+    assert.ok(mission.labelEn && mission.labelEn.trim().length > 0, `Missing labelEn on mission ${mission.id}`);
+  }
+
+  const kidFiles = [
+    'src/components/AdventureIsland.jsx',
+    'src/components/ArcadeHub.jsx',
+    'src/components/Navbar.jsx',
+    'src/components/AudioMemoryGame.jsx',
+    'src/components/SoundDetectiveGame.jsx',
+    'src/components/SmartReviewGame.jsx',
+    'src/components/ListenColorGame.jsx',
+    'src/components/PutItThereGame.jsx',
+    'src/components/RhymingPairsGame.jsx',
+    'src/components/QuestionQuizGame.jsx',
+    'src/components/ErrorBoundary.jsx',
+    'src/utils/useVoiceQuizAnswer.js',
+  ];
+
+  const leakedTurkishUi = /\b(Dinle|Tekrar|Doğru|Yanlış|Sonraki|Önceki|Harika|Süper|Kapat|Kelime)\b/;
+  for (const file of kidFiles) {
+    const content = fs.readFileSync(file, 'utf8');
+    assert.equal(leakedTurkishUi.test(content), false, `Found leaked Turkish UI label in ${file}`);
+  }
 });

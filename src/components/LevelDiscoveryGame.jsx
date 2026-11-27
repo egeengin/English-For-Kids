@@ -415,8 +415,8 @@ export default function LevelDiscoveryGame({
                         speakEnglish(opt.textEn);
                       }}
                       className="p-2 rounded-xl bg-white border border-slate-200 hover:border-blue-400 text-blue-700 shadow-2xs cursor-pointer"
-                      title="Dinle"
-                      aria-label="Dinle"
+                      title="Listen"
+                      aria-label="Listen"
                     >
                       <Volume2 className="w-4 h-4" />
                     </button>

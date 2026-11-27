@@ -26,17 +26,17 @@ export default class ErrorBoundary extends React.Component {
           <div className="max-w-md w-full bg-white rounded-3xl border-4 border-amber-400 shadow-2xl p-6 text-center space-y-4">
             <div className="text-6xl">🧱⚡</div>
             <h1 className="text-2xl font-display font-black text-slate-900">
-              Küçük Bir Lego Parçası Kaydı!
+              Oops! A Tiny Island Glitch!
             </h1>
             <p className="text-sm text-slate-600 font-medium">
-              Sayfayı yenileyerek kaldığın yerden eğlenceye devam edebilirsin. Yıldızların ve ödüllerin güvende!
+              Reload the page to keep playing — your stars and progress are safe!
             </p>
             <button
               type="button"
               onClick={this.handleReset}
               className="w-full py-3.5 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-base shadow-lg cursor-pointer transition active:scale-95"
             >
-              🔄 Yeniden Başlat
+              🔄 Reload Island
             </button>
           </div>
         </div>

@@ -13,6 +13,7 @@ import {
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
+  prefetchSpeech,
 } from '../utils/speech';
 import {
   playSnap,
@@ -150,12 +151,18 @@ export default function BalloonPopGame({
     };
   }, [clearPendingTimers]);
 
-  // Speak question cleanly whenever round changes
+  // Speak question cleanly whenever round changes & preload current + next round clips
   useEffect(() => {
     if (isGameOver || !targetItem) return undefined;
     if (promptTimerRef.current) clearTimeout(promptTimerRef.current);
 
     if (!isMuted) {
+      prefetchSpeech([
+        targetItem.questionEn,
+        targetItem.repeatPhrase,
+        ...options.map((o) => o.word),
+        deck[roundIdx + 1]?.item?.questionEn,
+      ]);
       promptTimerRef.current = setTimeout(() => {
         speakEnglish(targetItem.questionEn);
       }, 260);
@@ -167,7 +174,7 @@ export default function BalloonPopGame({
         promptTimerRef.current = null;
       }
     };
-  }, [roundIdx, isGameOver, targetItem, isMuted]);
+  }, [roundIdx, isGameOver, targetItem, options, deck, isMuted]);
 
   const finishOrAdvanceRound = useCallback(
     (nextIndex) => {

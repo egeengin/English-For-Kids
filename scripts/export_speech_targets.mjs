@@ -204,6 +204,7 @@ try {
 // 12. Adventure Island stops & Leo greetings/celebrations
 for (const stop of Object.values(ISLAND_STOPS_BY_DAY_ID || {})) {
   add(stop.titleEn);
+  add(String(stop.taglineEn || '').replace(/&/g, ' and '));
   add(`Hi Deniz! Ready for Stop ${stop.stopNumber}: ${stop.titleEn}?`);
   add(`Woohoo, Deniz! Stop ${stop.stopNumber} is complete!`);
   add(`Amazing job Deniz! You finished Stop ${stop.stopNumber}!`);
@@ -321,6 +322,21 @@ for (const group of Object.values(SILLY_SENTENCE_PARTS || {})) {
 }
 for (const vc of SILLY_VOICE_CHALLENGES || []) add(vc.prompt);
 add('Mix crazy bricks to build a funny English sentence!');
+
+// 20. Carrier phrases used by resolveSequentialAssets
+for (const carrier of [
+  'Find',
+  'Find the',
+  'I am asking for',
+  'I am asking:',
+  'Not there!',
+  'That word does not fit. I am asking for',
+  'That is',
+  'Good try! Find',
+  'Not this one. I am asking for',
+]) {
+  add(carrier);
+}
 
 const all = [...en].map((t) => ({ text: t, hash: hashClip(t) }));
 console.log('Total unique English speech texts:', all.length);

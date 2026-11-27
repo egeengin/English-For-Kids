@@ -8,7 +8,7 @@ import {
   getNextCyclicIndex,
   getRandomSillyIndices,
 } from '../data/funnyData';
-import { speakEnglish, speakEnglishSequence, stopSpeech, unlockAudio } from '../utils/speech';
+import { speakEnglish, speakEnglishSequence, stopSpeech, unlockAudio, prefetchSpeech } from '../utils/speech';
 import { playBoing, playComicPop, playGiggle, playTap } from '../utils/soundEffects';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 
@@ -31,6 +31,14 @@ export default function SillySentenceGame({ onRewardEarned, isMuted = false, cos
   const micSupported = isSpeechRecognitionSupported();
 
   const sentence = buildSillySentence(indices);
+
+  useEffect(() => {
+    if (!isMuted) {
+      prefetchSpeech(
+        Object.values(SILLY_SENTENCE_PARTS).flatMap((group) => group.map((part) => part.text))
+      );
+    }
+  }, [isMuted]);
 
   useEffect(() => {
     return () => {

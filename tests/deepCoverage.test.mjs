@@ -66,6 +66,8 @@ import {
 } from '../src/utils/gemini.js';
 import {
   getAzureSpeechAsset,
+  getAzureSpeechAssetSync,
+  preloadSpeechManifest,
   resetManifestCacheForTesting,
 } from '../src/utils/azureSpeechManifest.js';
 import {
@@ -76,6 +78,7 @@ import {
   precacheSpeechLibrary,
   stopSpeech,
   prefetchSpeech,
+  clearPreloadedClipCacheForTesting,
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
@@ -774,6 +777,9 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
       return { ok: false, status: 404 };
     });
 
+    assert.equal(getAzureSpeechAssetSync('Red', 'en'), null);
+    await preloadSpeechManifest();
+    assert.equal(getAzureSpeechAssetSync('Red', 'en'), '/audio/gemini/en/red');
     assert.equal(await getAzureSpeechAsset('Red', 'en'), '/audio/gemini/en/red');
     assert.equal(await getAzureSpeechAsset('RED!', 'en'), '/audio/gemini/en/red');
 
@@ -868,7 +874,46 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     setGlobal('Audio', MockAudio);
 
     unlockAudio();
-    prefetchSpeech(['red']);
+    // Prefetch .m4a into memory blob cache and verify speakEnglish uses blob: URL
+    let blobUrlCount = 0;
+    setGlobal('URL', {
+      createObjectURL: () => {
+        blobUrlCount += 1;
+        return `blob:cached-clip-${blobUrlCount}`;
+      },
+      revokeObjectURL: () => {},
+    });
+    const m4aFetches = [];
+    setGlobal('fetch', async (url) => {
+      if (String(url).endsWith('.m4a')) {
+        m4aFetches.push(String(url));
+        return {
+          ok: true,
+          blob: async () => new Blob([new Uint8Array([1, 2, 3, 4])], { type: 'audio/mp4' }),
+        };
+      }
+      if (String(url).includes('audio/')) return { ok: true, json: async () => mockManifest };
+      return { ok: false, status: 404 };
+    });
+
+    await prefetchSpeech(['Red', 'Cat']);
+    assert.equal(m4aFetches.length, 2);
+
+    const playedSrcs = [];
+    class SpyAudio extends MockAudio {
+      set src(v) {
+        this._src = v;
+        if (String(v).startsWith('blob:cached-clip')) playedSrcs.push(v);
+      }
+      get src() {
+        return this._src || '';
+      }
+    }
+    setGlobal('Audio', SpyAudio);
+    await new Promise((resolve) => speakEnglish('Red', resolve));
+    assert.ok(playedSrcs.some((s) => s.startsWith('blob:cached-clip')));
+    setGlobal('Audio', MockAudio);
+
     triggerHoverSpeech('', { isMuted: false });
     triggerHoverSpeech('Red', { isMuted: true });
     triggerHoverSpeech('Red', { pointerType: 'touch' });
@@ -921,6 +966,7 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
   } finally {
     stopSpeech();
     clearGeminiApiKey();
+    clearPreloadedClipCacheForTesting();
     resetManifestCacheForTesting();
     restore();
   }

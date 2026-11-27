@@ -4,7 +4,13 @@
  * Fallback: Pre-rendered local audio (/audio/{en,de,tr}/) -> Browser Web Speech Synthesis.
  */
 import { getEffectiveGeminiApiKey } from './gemini.js';
-import { getAzureSpeechAsset } from './azureSpeechManifest.js';
+import {
+  getAzureSpeechAsset,
+  getAzureSpeechAssetSync,
+  preloadSpeechManifest,
+} from './azureSpeechManifest.js';
+
+export { preloadSpeechManifest };
 
 const GEMINI_TTS_MODELS = [
   'gemini-3.1-flash-tts-preview',
@@ -326,6 +332,7 @@ function detachUnlockListeners() {
 }
 
 function handleGestureUnlock() {
+  sharedAudioUnlocked = true;
   unlockAudio();
 }
 
@@ -834,11 +841,105 @@ export function stopSpeech() {
   stopActivePlayback();
 }
 
+const MAX_PRELOADED_CLIPS = 220;
+const preloadedClipUrls = new Map();
+const inFlightPreloads = new Set();
+
+function buildLocalAssetUrl(basePath, ext = 'm4a') {
+  const cleanPath = String(basePath || '').replace(/^\/+/, '');
+  const baseUrl =
+    typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL
+      ? import.meta.env.BASE_URL
+      : './';
+  const prefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  return `${prefix}${cleanPath}.${ext}`;
+}
+
+async function preloadClipUrl(m4aUrl) {
+  if (!m4aUrl || preloadedClipUrls.has(m4aUrl) || inFlightPreloads.has(m4aUrl)) return;
+  if (
+    typeof fetch !== 'function' ||
+    typeof Blob === 'undefined' ||
+    typeof URL === 'undefined' ||
+    typeof URL.createObjectURL !== 'function'
+  ) {
+    return;
+  }
+  if (typeof window !== 'undefined' && window.location?.protocol === 'file:') return;
+
+  inFlightPreloads.add(m4aUrl);
+  try {
+    const res = await fetch(m4aUrl, { cache: 'force-cache' });
+    if (!res || !res.ok) return;
+    const blob = await res.blob();
+    if (!blob || blob.size === 0) return;
+
+    if (preloadedClipUrls.size >= MAX_PRELOADED_CLIPS) {
+      const oldest = preloadedClipUrls.entries().next().value;
+      if (oldest) {
+        preloadedClipUrls.delete(oldest[0]);
+        try {
+          URL.revokeObjectURL(oldest[1]);
+        } catch {
+          // ignore
+        }
+      }
+    }
+    preloadedClipUrls.set(m4aUrl, URL.createObjectURL(blob));
+  } catch {
+    // Ignore preload failures; playback will fetch normally
+  } finally {
+    inFlightPreloads.delete(m4aUrl);
+  }
+}
+
+export function clearPreloadedClipCacheForTesting() {
+  if (typeof URL !== 'undefined' && typeof URL.revokeObjectURL === 'function') {
+    for (const blobUrl of preloadedClipUrls.values()) {
+      try {
+        URL.revokeObjectURL(blobUrl);
+      } catch {
+        // ignore
+      }
+    }
+  }
+  preloadedClipUrls.clear();
+  inFlightPreloads.clear();
+}
+
 /**
- * Background prefetching is disabled to conserve per-model Gemini TTS daily quota.
+ * Preload pre-generated local audio clips into memory blob URLs (never calls Gemini API).
  */
-export function prefetchSpeech() {
-  // No-op
+export async function prefetchSpeech(texts = [], lang = 'en-US') {
+  if (!Array.isArray(texts) || texts.length === 0) return;
+  const uniqueTexts = Array.from(
+    new Set(texts.map((t) => cleanTextForTTS(t)).filter(Boolean))
+  );
+  if (uniqueTexts.length === 0) return;
+
+  try {
+    const urlSet = new Set();
+    for (const clean of uniqueTexts) {
+      const assets = await resolveSequentialAssets(clean, lang);
+      if (Array.isArray(assets)) {
+        for (const a of assets) {
+          urlSet.add(buildLocalAssetUrl(a, 'm4a'));
+        }
+      }
+    }
+
+    const queue = Array.from(urlSet).filter((u) => !preloadedClipUrls.has(u));
+    const concurrency = 4;
+    const workers = Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
+      while (queue.length > 0) {
+        const nextUrl = queue.shift();
+        if (nextUrl) await preloadClipUrl(nextUrl);
+      }
+    });
+    await Promise.all(workers);
+  } catch {
+    // Ignore background prefetch errors
+  }
 }
 
 function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
@@ -847,15 +948,12 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
     return;
   }
 
-  const cleanPath = basePath.replace(/^\/+/, '');
-  const baseUrl =
-    typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL
-      ? import.meta.env.BASE_URL
-      : './';
-  const prefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-
-  const m4aUrl = `${prefix}${cleanPath}.m4a`;
-  const wavUrl = `${prefix}${cleanPath}.wav`;
+  const m4aUrl = buildLocalAssetUrl(basePath, 'm4a');
+  const wavUrl = buildLocalAssetUrl(basePath, 'wav');
+  const cachedUrl = preloadedClipUrls.get(m4aUrl);
+  if (!cachedUrl) {
+    preloadClipUrl(m4aUrl);
+  }
 
   const audio = ensureUnlockedAudioPlayer() || new Audio();
   audio.onended = null;
@@ -864,7 +962,7 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   audio.oncanplaythrough = null;
   audio.playbackRate = 1.0;
   audio.volume = 1.0;
-  audio.src = m4aUrl;
+  audio.src = cachedUrl || m4aUrl;
   activeAudio = audio;
 
   let finished = false;
@@ -996,7 +1094,9 @@ function playSequentialAudioFiles(assetList, myToken, onEnd, onError, onStart) {
 export async function resolveSequentialAssets(cleanText, lang = 'en-US') {
   if (!cleanText) return null;
 
-  // 1. Direct match in manifest
+  // 1. Direct match in manifest (sync cache hit first for instant hover playback)
+  const syncDirect = getAzureSpeechAssetSync(cleanText, lang);
+  if (syncDirect) return [syncDirect];
   const direct = await getAzureSpeechAsset(cleanText, lang);
   if (direct) return [direct];
 
@@ -1514,7 +1614,7 @@ export function cancelHoverSpeech() {
 
 export function triggerHoverSpeech(
   text,
-  { isMuted = false, pointerType = 'mouse', delayMs = 140 } = {}
+  { isMuted = false, pointerType = 'mouse', delayMs = 35 } = {}
 ) {
   cancelHoverSpeech();
   if (isMuted || pointerType === 'touch' || !text) return;

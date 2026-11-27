@@ -34,6 +34,7 @@ import {
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
+  prefetchSpeech,
 } from '../utils/speech';
 import {
   playTap,
@@ -174,6 +175,17 @@ export default function AdventureIsland({
       : heroCompletion.completedSteps === 0
       ? `Hi ${childName}! Ready for Stop ${heroMeta.stopNumber}: ${heroMeta.titleEn}?`
       : `Great going, ${childName}! Just ${4 - heroCompletion.completedSteps} more to open the chest!`;
+
+  useEffect(() => {
+    if (isMuted) return;
+    prefetchSpeech([
+      ...DAILY_EXPEDITION_DAYS.map((d) => getIslandStopMeta(d.id).titleEn),
+      heroGreeting,
+      activeJoke.setup,
+      activeJoke.punchline,
+      ...ISLAND_CRITTERS.map((c) => c.line),
+    ]);
+  }, [isMuted, heroGreeting, activeJoke.setup, activeJoke.punchline]);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 py-5 sm:py-7 space-y-6 flex-1 island-pop-in">

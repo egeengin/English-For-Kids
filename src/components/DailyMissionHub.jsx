@@ -170,15 +170,6 @@ export default function DailyMissionHub({
     [dayWorksheet]
   );
 
-  // Pre-warm Gemini TTS cache for daily key vocabulary & initial quiz prompts
-  useEffect(() => {
-    if (isMuted || !activeDay) return;
-    prefetchSpeech([
-      ...vocabList.map((v) => v.en),
-      ...dayQuizQuestions.slice(0, 2).map((q) => q.promptEn),
-    ]);
-  }, [activeDay, vocabList, dayQuizQuestions, isMuted]);
-
   const dayQuizScore = dayQuizQuestions.filter((q) => {
     const chosenId = dailyQuizAnswers[q.id];
     return q.options.some((o) => o.id === chosenId && o.isCorrect);
@@ -186,6 +177,21 @@ export default function DailyMissionHub({
 
   const safeQuestionIdx = Math.min(activeQuestionIdx, Math.max(0, dayQuizQuestions.length - 1));
   const activeDailyQuestion = dayQuizQuestions[safeQuestionIdx] || null;
+
+  // Pre-warm audio blob cache for daily key vocabulary, examples, and active/next quiz cards
+  useEffect(() => {
+    if (isMuted || !activeDay) return;
+    const activeQ = dayQuizQuestions[safeQuestionIdx];
+    const nextQ = dayQuizQuestions[safeQuestionIdx + 1];
+    prefetchSpeech([
+      ...vocabList.map((v) => v.en),
+      ...vocabList.map((v) => v.exampleEn),
+      activeQ?.promptEn,
+      ...(activeQ?.options || []).map((o) => o.textEn),
+      nextQ?.promptEn,
+      ...(nextQ?.options || []).map((o) => o.textEn),
+    ]);
+  }, [activeDay, vocabList, dayQuizQuestions, safeQuestionIdx, isMuted]);
 
   const triggerBurst = useCallback((label) => {
     if (burstTimerRef.current) clearTimeout(burstTimerRef.current);

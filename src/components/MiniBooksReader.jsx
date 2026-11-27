@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
-import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
+import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech, prefetchSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
 
 function cleanOptionForSpeech(text) {
@@ -318,6 +318,15 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
 
     speakEnglish(sentence, finishReading, { onStart: startHighlight });
   }, [isMuted]);
+
+  useEffect(() => {
+    if (isMuted || !book) return;
+    prefetchSpeech([
+      ...(book.pages || []).map((p) => p.text),
+      book.question,
+      ...(book.options || []).map((o) => cleanOptionForSpeech(o.text)),
+    ]);
+  }, [book, isMuted]);
 
   useEffect(() => {
     if (isQuestionPage || !currentPage) return undefined;

@@ -1,4 +1,5 @@
 let manifestPromise = null;
+let cachedManifest = null;
 
 function getManifestUrl(pathName = 'audio/manifest.json') {
   const baseUrl =
@@ -32,9 +33,11 @@ async function fetchManifestFile(url) {
 
 export function resetManifestCacheForTesting() {
   manifestPromise = null;
+  cachedManifest = null;
 }
 
 async function loadManifest() {
+  if (cachedManifest) return cachedManifest;
   if (!manifestPromise) {
     manifestPromise = (async () => {
       // Primary: audio/manifest.json
@@ -43,14 +46,20 @@ async function loadManifest() {
       if (!data) {
         data = await fetchManifestFile(getManifestUrl('audio/azure/manifest.json'));
       }
+      if (data && typeof data === 'object') {
+        cachedManifest = data;
+      }
       return data;
     })();
   }
   return manifestPromise;
 }
 
-export async function getAzureSpeechAsset(text, lang = 'en') {
-  const manifest = await loadManifest();
+export function preloadSpeechManifest() {
+  return loadManifest().catch(() => null);
+}
+
+function lookupInManifest(manifest, text, lang = 'en') {
   if (!manifest || typeof manifest !== 'object') return null;
   const directKey = getAzureSpeechManifestKey(text, lang);
   if (manifest[directKey]) return manifest[directKey];
@@ -77,4 +86,13 @@ export async function getAzureSpeechAsset(text, lang = 'en') {
 
   const noPunctKey = lowerKey.replace(/[.,!?:;]+$/g, '');
   return manifest._lowerNoPunctMap?.get(noPunctKey) || null;
+}
+
+export function getAzureSpeechAssetSync(text, lang = 'en') {
+  return lookupInManifest(cachedManifest, text, lang);
+}
+
+export async function getAzureSpeechAsset(text, lang = 'en') {
+  const manifest = await loadManifest();
+  return lookupInManifest(manifest, text, lang);
 }

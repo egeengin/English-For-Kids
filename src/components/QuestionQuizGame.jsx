@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech } from '../utils/speech';
+import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech, prefetchSpeech } from '../utils/speech';
 import { playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 
@@ -367,9 +367,17 @@ export default function QuestionQuizGame({ onRewardEarned, isMuted = false }) {
   }, [isMuted, item]);
 
   useEffect(() => {
+    if (!isMuted && item) {
+      const nextItem = QUESTION_BANK[(qIdx + 1) % QUESTION_BANK.length];
+      prefetchSpeech([
+        item.q,
+        ...shuffledOptions.map((o) => cleanOptionForSpeech(o.text)),
+        nextItem?.q,
+      ]);
+    }
     const t = setTimeout(speakQ, 300);
     return () => clearTimeout(t);
-  }, [qIdx, speakQ]);
+  }, [qIdx, speakQ, isMuted, item, shuffledOptions]);
 
   const handleChoice = (opt) => {
     if (solved) return;

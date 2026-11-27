@@ -16,6 +16,7 @@ import {
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
+  prefetchSpeech,
 } from '../utils/speech';
 import {
   playSnap,
@@ -164,6 +165,10 @@ export default function PhonicsBuilder({
     if (allDone || !currentWord) return undefined;
     if (speakTimerRef.current) clearTimeout(speakTimerRef.current);
     if (!isMuted) {
+      prefetchSpeech([
+        currentWord.word.toLowerCase(),
+        PHONICS_WORDS[(currentIndex + 1) % PHONICS_WORDS.length]?.word?.toLowerCase(),
+      ]);
       speakTimerRef.current = setTimeout(() => {
         speakEnglish(currentWord.word.toLowerCase());
       }, 280);

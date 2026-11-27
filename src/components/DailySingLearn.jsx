@@ -8,6 +8,7 @@ import {
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
+  prefetchSpeech,
 } from '../utils/speech';
 import {
   playSparkle,
@@ -73,6 +74,15 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
       cancelHoverSpeech();
     };
   }, []);
+
+  useEffect(() => {
+    if (isMuted || !lesson) return;
+    prefetchSpeech([
+      ...(lesson.chantLines || []).map((c) => c.en),
+      ...(lesson.visualCards || []).map((c) => c.en),
+      ...(lesson.patterns || []).flatMap((p) => (p.options || []).map((o) => o.fullEn)),
+    ]);
+  }, [lesson, isMuted]);
 
   const handlePracticeSpeak = async (patternId) => {
     cancelHoverSpeech();

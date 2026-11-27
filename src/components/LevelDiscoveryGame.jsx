@@ -64,6 +64,7 @@ export default function LevelDiscoveryGame({
       return;
     }
     prefetchSpeech([
+      currentQuestion.promptEn,
       ...(currentQuestion.options || []).map((o) => o.textEn),
       nextQuestion?.promptEn,
     ]);

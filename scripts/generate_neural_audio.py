@@ -144,10 +144,10 @@ async def main():
             await asyncio.gather(*(synthesize_item(sem, it, progress) for it in batch))
             # Incremental manifest save
             with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
-                json.dump(manifest, f, indent=2, ensure_ascii=False)
+                json.dump(manifest, f, separators=(",", ":"), ensure_ascii=False)
                 f.write("\n")
             with open(AZURE_MANIFEST_PATH, "w", encoding="utf-8") as f:
-                json.dump(manifest, f, indent=2, ensure_ascii=False)
+                json.dump(manifest, f, separators=(",", ":"), ensure_ascii=False)
                 f.write("\n")
 
         elapsed = time.time() - t0
@@ -155,10 +155,10 @@ async def main():
 
     # Final manifest save
     with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2, ensure_ascii=False)
+        json.dump(manifest, f, separators=(",", ":"), ensure_ascii=False)
         f.write("\n")
     with open(AZURE_MANIFEST_PATH, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2, ensure_ascii=False)
+        json.dump(manifest, f, separators=(",", ":"), ensure_ascii=False)
         f.write("\n")
     print(f"Manifests updated at {MANIFEST_PATH} and {AZURE_MANIFEST_PATH}")
 

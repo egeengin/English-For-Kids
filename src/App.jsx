@@ -36,7 +36,7 @@ import {
 } from './data/islandMapData';
 import { loadSavedState, saveState, VALID_KID_TABS } from './utils/storage';
 import { saveGeminiApiKey } from './utils/gemini';
-import { stopSpeech, cancelHoverSpeech } from './utils/speech';
+import { stopSpeech, cancelHoverSpeech, preloadSpeechManifest } from './utils/speech';
 import {
   logDailyActivity,
   getDailyMemorySummary,
@@ -93,6 +93,11 @@ export default function App() {
     stageId: 'stage-1',
     dayId: 'day-1',
   });
+
+  // Preload audio manifest immediately on boot so hover/click speech resolves synchronously
+  useEffect(() => {
+    preloadSpeechManifest();
+  }, []);
 
   // Sync state to localStorage
   useEffect(() => {

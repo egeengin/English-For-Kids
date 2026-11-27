@@ -213,6 +213,16 @@
     transform-origin: center bottom;
     animation: voice-bar 0.7s ease-in-out infinite;
   }
+
+  .animate-silly-jiggle {
+    animation: silly-jiggle 0.35s ease-in-out 2;
+  }
+}
+
+@keyframes silly-jiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-7deg) scale(1.06); }
+  75% { transform: rotate(7deg) scale(1.06); }
 }
 
 /* Custom scrollbars */

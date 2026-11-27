@@ -33,6 +33,7 @@ import {
   playVictoryFanfare,
   playGentleWobble,
 } from '../utils/soundEffects';
+import { FUNNY_COMBO_CHEERS, getFunnyLineByIndex } from '../data/funnyData';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
 import {
@@ -59,6 +60,7 @@ export default function DailyMissionHub({
   onSelectDayId,
   initialStep = null,
   questProgress = {},
+  leoCostume = 'cap',
   onMarkQuestStep,
   onMarkSpokenPhrase,
   onBackToIsland,
@@ -257,7 +259,11 @@ export default function DailyMissionHub({
           }
           triggerBurst('+2 ⭐ VOICE!');
         } else {
-          triggerBurst(nextCombo >= 3 ? `⚡ ${nextCombo}x +1 ⭐` : '+1 ⭐');
+          triggerBurst(
+            nextCombo >= 2
+              ? `${getFunnyLineByIndex(FUNNY_COMBO_CHEERS, nextCombo)} +1 ⭐`
+              : '+1 ⭐'
+          );
         }
         if (!isMuted) {
           setTimeout(
@@ -778,6 +784,7 @@ export default function DailyMissionHub({
               <LeoBuddy
                 mood="happy"
                 size="sm"
+                costume={leoCostume}
                 speechBubble={`Listen to all ${vocabList.length} phrases, or tap Say It to echo me!`}
                 isMuted={isMuted}
               />
@@ -1058,7 +1065,7 @@ export default function DailyMissionHub({
                       : 'border-amber-200 hover:border-blue-300'
                   }`}
                 >
-                  <LeoBuddy mood={leoQuizMood} size="sm" isMuted={isMuted} />
+                  <LeoBuddy mood={leoQuizMood} size="sm" costume={leoCostume} isMuted={isMuted} />
                   <span className="text-4xl sm:text-5xl flex-shrink-0">{q.characterEmoji}</span>
                   <div className="flex-1 min-w-0">
                     {q.isReview && (
@@ -1206,6 +1213,7 @@ export default function DailyMissionHub({
             <LeoBuddy
               mood={isSpeakListening ? 'listening' : allSpeakDone ? 'cheering' : 'waving'}
               size="md"
+              costume={leoCostume}
               speechBubble={
                 allSpeakDone
                   ? `Superstar ${childName}! You spoke every phrase!`

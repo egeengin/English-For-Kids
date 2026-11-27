@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { speakEnglish, unlockAudio } from '../utils/speech';
-import { playTap } from '../utils/soundEffects';
+import { playTap, playGiggle, playBoing } from '../utils/soundEffects';
+import { LEO_TICKLE_LINES } from '../data/funnyData';
 
 const SIZE_CLASSES = {
   sm: 'w-14 h-14',
@@ -8,31 +9,157 @@ const SIZE_CLASSES = {
   lg: 'w-28 h-28 sm:w-32 sm:h-32',
 };
 
+function renderLeoCostume(costume) {
+  switch (costume) {
+    case 'crown':
+      return (
+        <g transform="translate(0, -4)">
+          <path
+            d="M36 37 L38 17 L49 27 L60 12 L71 27 L82 17 L84 37 Z"
+            fill="#FACC15"
+            stroke="#B45309"
+            strokeWidth="2.4"
+            strokeLinejoin="round"
+          />
+          <circle cx="60" cy="22" r="3" fill="#EF4444" />
+          <circle cx="44" cy="28" r="2.3" fill="#3B82F6" />
+          <circle cx="76" cy="28" r="2.3" fill="#10B981" />
+        </g>
+      );
+    case 'dino':
+      return (
+        <g transform="translate(0, -3)">
+          <path d="M40 35 Q60 18 80 35 Z" fill="#10B981" stroke="#047857" strokeWidth="2.4" />
+          <polygon points="48,25 53,13 58,23" fill="#34D399" stroke="#047857" strokeWidth="1.8" />
+          <polygon points="57,22 62,10 67,22" fill="#34D399" stroke="#047857" strokeWidth="1.8" />
+          <polygon points="66,25 71,14 75,26" fill="#34D399" stroke="#047857" strokeWidth="1.8" />
+        </g>
+      );
+    case 'pirate':
+      return (
+        <g transform="translate(0, -4)">
+          <path
+            d="M28 38 Q42 14 60 22 Q78 14 92 38 Q60 43 28 38 Z"
+            fill="#1E293B"
+            stroke="#0F172A"
+            strokeWidth="2.4"
+          />
+          <circle cx="60" cy="30" r="4" fill="#FACC15" />
+        </g>
+      );
+    case 'party':
+      return (
+        <g transform="translate(0, -4)">
+          <polygon points="43,36 60,7 77,36" fill="#EC4899" stroke="#9D174D" strokeWidth="2.4" strokeLinejoin="round" />
+          <circle cx="55" cy="28" r="2.5" fill="#FACC15" />
+          <circle cx="65" cy="24" r="2.5" fill="#38BDF8" />
+          <circle cx="60" cy="7" r="4.5" fill="#FACC15" stroke="#B45309" strokeWidth="1.5" />
+        </g>
+      );
+    case 'astronaut':
+      return (
+        <g>
+          <circle
+            cx="60"
+            cy="58"
+            r="43"
+            fill="rgba(186, 230, 253, 0.24)"
+            stroke="#0284C7"
+            strokeWidth="3"
+          />
+          <path d="M27 38 Q35 24 50 22" fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
+        </g>
+      );
+    case 'cap':
+    default:
+      return (
+        <g transform="translate(0, -3)">
+          <path
+            d="M36 37 C38 22, 82 22, 84 37 Z"
+            fill="#0284C7"
+            stroke="#075985"
+            strokeWidth="2.5"
+          />
+          <path
+            d="M32 37 Q60 32 92 40 Q74 43 32 37 Z"
+            fill="#38BDF8"
+            stroke="#075985"
+            strokeWidth="2.2"
+          />
+          <circle cx="60" cy="29" r="4.5" fill="#FACC15" stroke="#B45309" strokeWidth="1.5" />
+        </g>
+      );
+  }
+}
+
 /**
- * Expressive animated SVG lion cub companion (Leo) wearing an explorer cap and scarf.
+ * Expressive animated SVG lion cub companion (Leo) wearing swappable silly costumes & reacting to tickles.
  */
 export default function LeoBuddy({
   mood = 'idle',
   size = 'md',
+  costume = 'cap',
   speechBubble = '',
   onClick,
   isMuted = false,
   className = '',
 }) {
-  const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.md;
-  const isCheering = mood === 'cheering' || mood === 'excited';
-  const isListening = mood === 'listening';
-  const isThinking = mood === 'thinking';
-  const isDancing = mood === 'dancing';
-  const isWaving = mood === 'waving';
+  const [tickleLine, setTickleLine] = useState('');
+  const [isJiggling, setIsJiggling] = useState(false);
+  const jiggleTimerRef = useRef(null);
+  const bubbleTimerRef = useRef(null);
+  const tickleIdxRef = useRef(0);
 
-  const handleClick = () => {
+  useEffect(() => {
+    return () => {
+      if (jiggleTimerRef.current) clearTimeout(jiggleTimerRef.current);
+      if (bubbleTimerRef.current) clearTimeout(bubbleTimerRef.current);
+    };
+  }, []);
+
+  const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.md;
+  const activeMood = isJiggling ? 'cheering' : mood;
+  const isCheering = activeMood === 'cheering' || activeMood === 'excited';
+  const isListening = activeMood === 'listening';
+  const isThinking = activeMood === 'thinking';
+  const isDancing = activeMood === 'dancing';
+  const isWaving = activeMood === 'waving';
+  const activeBubble = tickleLine || speechBubble;
+
+  const handleCharacterClick = () => {
+    unlockAudio();
+    if (onClick) {
+      playTap(isMuted);
+      onClick();
+      return;
+    }
+
+    const lineIdx = tickleIdxRef.current % LEO_TICKLE_LINES.length;
+    const line = LEO_TICKLE_LINES[lineIdx];
+    tickleIdxRef.current += 1;
+
+    if (lineIdx % 2 === 0) playGiggle(isMuted);
+    else playBoing(isMuted);
+
+    setIsJiggling(true);
+    setTickleLine(line);
+    if (jiggleTimerRef.current) clearTimeout(jiggleTimerRef.current);
+    if (bubbleTimerRef.current) clearTimeout(bubbleTimerRef.current);
+    jiggleTimerRef.current = setTimeout(() => setIsJiggling(false), 720);
+    bubbleTimerRef.current = setTimeout(() => setTickleLine(''), 3400);
+
+    if (!isMuted) {
+      speakEnglish(line);
+    }
+  };
+
+  const handleBubbleClick = () => {
     playTap(isMuted);
     unlockAudio();
     if (onClick) {
       onClick();
-    } else if (speechBubble && !isMuted) {
-      speakEnglish(speechBubble);
+    } else if (activeBubble && !isMuted) {
+      speakEnglish(activeBubble);
     }
   };
 
@@ -40,10 +167,11 @@ export default function LeoBuddy({
     <div className={`inline-flex items-center gap-3 ${className}`}>
       <button
         type="button"
-        onClick={handleClick}
-        aria-label={speechBubble ? `Leo says: ${speechBubble}` : 'Leo the Adventure Buddy'}
+        onClick={handleCharacterClick}
+        aria-label={activeBubble ? `Leo says: ${activeBubble}` : 'Tickle Leo the Adventure Buddy'}
+        title="Tickle Leo!"
         className={`relative flex-shrink-0 rounded-full cursor-pointer focus-visible:outline-blue-600 transition-transform hover:scale-105 ${
-          isDancing ? 'animate-bounce' : 'island-float'
+          isJiggling ? 'animate-silly-jiggle' : isDancing ? 'animate-bounce' : 'island-float'
         }`}
       >
         {/* Listening pulse halo */}
@@ -90,25 +218,11 @@ export default function LeoBuddy({
           <ellipse cx="40" cy="68" rx="6" ry="3.5" fill="#FB7185" opacity="0.55" />
           <ellipse cx="80" cy="68" rx="6" ry="3.5" fill="#FB7185" opacity="0.55" />
 
-          {/* Explorer Cap */}
-          <g transform="translate(0, -3)">
-            <path
-              d="M36 37 C38 22, 82 22, 84 37 Z"
-              fill="#0284C7"
-              stroke="#075985"
-              strokeWidth="2.5"
-            />
-            <path
-              d="M32 37 Q60 32 92 40 Q74 43 32 37 Z"
-              fill="#38BDF8"
-              stroke="#075985"
-              strokeWidth="2.2"
-            />
-            <circle cx="60" cy="29" r="4.5" fill="#FACC15" stroke="#B45309" strokeWidth="1.5" />
-          </g>
+          {/* Swappable Silly Hat / Costume */}
+          {renderLeoCostume(costume)}
 
           {/* Eyes */}
-          {isCheering || mood === 'happy' ? (
+          {isCheering || activeMood === 'happy' ? (
             <g fill="none" stroke="#1E293B" strokeWidth="3.2" strokeLinecap="round">
               {isCheering ? (
                 <>
@@ -195,10 +309,10 @@ export default function LeoBuddy({
         </svg>
       </button>
 
-      {speechBubble && (
+      {activeBubble && (
         <button
           type="button"
-          onClick={handleClick}
+          onClick={handleBubbleClick}
           className="relative bg-white hover:bg-amber-50 border-2 border-amber-300 rounded-2xl px-4 py-2.5 text-left shadow-sm cursor-pointer max-w-sm transition"
         >
           <span
@@ -206,7 +320,7 @@ export default function LeoBuddy({
             className="hidden sm:block absolute -left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white border-l-2 border-b-2 border-amber-300 rotate-45"
           />
           <p className="font-display font-bold text-sm sm:text-base text-slate-900 leading-snug">
-            {speechBubble}
+            {activeBubble}
           </p>
         </button>
       )}

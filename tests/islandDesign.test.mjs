@@ -8,6 +8,13 @@ import { VOCAB_BANK_500, VOCAB_CATEGORIES } from '../src/data/vocabularyBank500.
 import { LEO_MISSIONS } from '../src/utils/gemini.js';
 import { cleanTextForTTS } from '../src/utils/speech.js';
 import {
+  LEO_TICKLE_LINES,
+  KID_JOKES,
+  ISLAND_CRITTERS,
+  SILLY_SENTENCE_PARTS,
+  SILLY_VOICE_CHALLENGES,
+} from '../src/data/funnyData.js';
+import {
   ISLAND_BIOMES,
   ISLAND_STOPS_BY_DAY_ID,
   getIslandStopMeta,
@@ -187,6 +194,8 @@ test('Full English immersion: categories, Leo missions, and core kid UI avoid Tu
     'src/components/DailyRecallModal.jsx',
     'src/components/WalkieTalkieModal.jsx',
     'src/components/ErrorBoundary.jsx',
+    'src/components/SillySentenceGame.jsx',
+    'src/data/funnyData.js',
     'src/utils/useVoiceQuizAnswer.js',
   ];
 
@@ -223,6 +232,7 @@ test('Code quality & accessibility integrity: no invalid nested buttons, dead an
     'src/components/RhymingPairsGame.jsx',
     'src/components/QuestionQuizGame.jsx',
     'src/components/SceneExplorer.jsx',
+    'src/components/SillySentenceGame.jsx',
   ]) {
     const content = fs.readFileSync(gameFile, 'utf8');
     assert.ok(content.includes('stopSpeech()'), `${gameFile} must call stopSpeech() on unmount`);
@@ -283,7 +293,19 @@ test('Audio integrity: zero broken manifest entries and 100% pre-generated cover
     'Put the soccer ball UNDER the table!',
     'A burger and fries, please!',
     'Where is the pool?',
+    'Mix crazy bricks to build a funny English sentence!',
   ]) {
     assertHasAudio(phrase, 'Mini-game Prompt');
   }
+
+  for (const line of LEO_TICKLE_LINES) assertHasAudio(line, 'Leo Tickle');
+  for (const joke of KID_JOKES) {
+    assertHasAudio(joke.setup, `Joke ${joke.id} setup`);
+    assertHasAudio(joke.punchline, `Joke ${joke.id} punchline`);
+  }
+  for (const critter of ISLAND_CRITTERS) assertHasAudio(critter.line, `Critter ${critter.id}`);
+  for (const group of Object.values(SILLY_SENTENCE_PARTS)) {
+    for (const part of group) assertHasAudio(part.text, 'Silly Sentence Part');
+  }
+  for (const vc of SILLY_VOICE_CHALLENGES) assertHasAudio(vc.prompt, `Voice Challenge ${vc.id}`);
 });

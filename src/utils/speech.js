@@ -763,7 +763,7 @@ export async function precacheSpeechLibrary(texts = [], { onProgress, voiceName 
 /**
  * Stop any active audio or speech synthesis and invalidate in-flight TTS requests.
  */
-export function stopSpeech() {
+function stopActivePlayback() {
   speechSeqToken += 1;
 
   if (webSpeechTimeout) {
@@ -826,6 +826,11 @@ export function stopSpeech() {
     }
     activeUtterance = null;
   }
+}
+
+export function stopSpeech() {
+  sequenceToken += 1;
+  stopActivePlayback();
 }
 
 /**
@@ -1390,7 +1395,7 @@ async function playBlobAudio(wavBlob, myToken, onEnd, rate = 1.0, onStart) {
 
 async function speakWithGeminiOrFallback(
   rawText,
-  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd, onStart, rate } = {}
+  { lang = 'en-US', voiceName = DEFAULT_VOICE_NAME, localFolder = 'en', localKey = null, onEnd, onStart, rate, _preserveSequence = false } = {}
 ) {
   const clean = cleanTextForTTS(rawText);
   if (!clean) {
@@ -1398,7 +1403,11 @@ async function speakWithGeminiOrFallback(
     return;
   }
 
-  stopSpeech();
+  if (_preserveSequence) {
+    stopActivePlayback();
+  } else {
+    stopSpeech();
+  }
   const myToken = speechSeqToken;
   // Unlock the shared audio element after stopping the previous request.
   // This is important for the first click in Safari/Chrome autoplay policies.
@@ -1517,7 +1526,56 @@ export function speakEnglish(text, onEnd, options = {}) {
     onEnd,
     onStart: options?.onStart,
     rate: options?.rate,
+    _preserveSequence: Boolean(options?._preserveSequence),
   });
+}
+
+let sequenceToken = 0;
+
+/**
+ * Play a list of English phrases back-to-back cleanly, cancelling immediately on stopSpeech().
+ */
+export function speakEnglishSequence(parts = [], onEnd, options = {}) {
+  const cleanParts = (Array.isArray(parts) ? parts : [])
+    .map((p) => cleanTextForTTS(p))
+    .filter(Boolean);
+
+  stopSpeech();
+  if (cleanParts.length === 0) {
+    if (onEnd) onEnd();
+    return;
+  }
+
+  sequenceToken += 1;
+  const mySeq = sequenceToken;
+  let idx = 0;
+
+  const playNext = () => {
+    if (mySeq !== sequenceToken) return;
+    if (idx >= cleanParts.length) {
+      if (onEnd) onEnd();
+      return;
+    }
+    const text = cleanParts[idx];
+    idx += 1;
+    const tokenBeforeSpeak = speechSeqToken;
+    speakEnglish(
+      text,
+      () => {
+        if (mySeq !== sequenceToken) return;
+        // Stop sequence if an unrelated speech interruption occurred
+        if (speechSeqToken > tokenBeforeSpeak + 1) return;
+        if (idx < cleanParts.length) {
+          setTimeout(playNext, 90);
+        } else if (onEnd) {
+          onEnd();
+        }
+      },
+      { ...options, _preserveSequence: true }
+    );
+  };
+
+  playNext();
 }
 
 /**

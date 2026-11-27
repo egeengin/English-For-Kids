@@ -20,6 +20,7 @@ export default function WalkieTalkieModal({
   childName = 'Deniz',
   childAge = 7,
   geminiApiKey = '',
+  leoCostume = 'cap',
   isMuted = false,
 }) {
   const [activeMissionId, setActiveMissionId] = useState('free');
@@ -282,6 +283,7 @@ export default function WalkieTalkieModal({
             <LeoBuddy
               mood={isListening ? 'listening' : isLoading ? 'thinking' : 'happy'}
               size="sm"
+              costume={leoCostume}
               isMuted={isMuted}
             />
             <div className={`w-3.5 h-3.5 rounded-full border-2 border-slate-900 ${

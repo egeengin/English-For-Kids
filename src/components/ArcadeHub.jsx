@@ -31,6 +31,7 @@ const VOICE_SPOTLIGHT = [
 ];
 
 const ARCADE_GAMES = [
+  { id: 'silly_sentences', emoji: '🤪', title: 'Silly Sentence Lab', desc: 'Mix crazy funny English sentences!', color: 'border-amber-300 hover:border-amber-500 bg-amber-50/80' },
   { id: 'balloons', emoji: '🎈', title: 'Balloon Pop', desc: 'Listen & pop the floating balloons', color: 'border-rose-300 hover:border-rose-500 bg-rose-50/70' },
   { id: 'phonics', emoji: '🔤', title: 'Phonics Snap', desc: 'Snap letter bricks into words', color: 'border-amber-300 hover:border-amber-500 bg-amber-50/70' },
   { id: 'memory', emoji: '🃏', title: 'Sound Memory', desc: 'Flip & match English sound pairs', color: 'border-indigo-300 hover:border-indigo-500 bg-indigo-50/70' },
@@ -45,6 +46,7 @@ const ARCADE_GAMES = [
 export default function ArcadeHub({
   childName = 'Deniz',
   stars = 0,
+  leoCostume = 'cap',
   onSelectGame,
   onOpenWalkieTalkie,
   isMuted = false,
@@ -56,6 +58,7 @@ export default function ArcadeHub({
         <LeoBuddy
           mood="excited"
           size="md"
+          costume={leoCostume}
           speechBubble={`Welcome to Arcade Pier, ${childName}! Pick a game to win stars!`}
           isMuted={isMuted}
         />

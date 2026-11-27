@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, Mic, CheckCircle2, ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
-import { playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
+import { playStarSparkle, playTap, playGentleWobble, playBoing } from '../utils/soundEffects';
+import { SILLY_VOICE_CHALLENGES } from '../data/funnyData';
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
 import { recordMasteredWord, recordMissedWord } from '../utils/reviewTracker';
@@ -44,6 +45,7 @@ const SPEAK_PHRASES = [
 export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
   const [idx, setIdx] = useState(0);
   const [speakMode, setSpeakMode] = useState('echo'); // 'echo' | 'memory'
+  const [voiceIdx, setVoiceIdx] = useState(-1); // -1 = normal voice, 0..N = silly voice
   const [showHint, setShowHint] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [heardText, setHeardText] = useState('');
@@ -213,6 +215,42 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           >
             🧠 Memory Mode (+5 ⭐)
           </button>
+        </div>
+
+        {/* Silly Voice Challenge Spinner */}
+        <div className="mb-3 flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              unlockAudio();
+              playBoing(isMuted);
+              const nextV = (voiceIdx + 1) % SILLY_VOICE_CHALLENGES.length;
+              setVoiceIdx(nextV);
+              if (!isMuted) {
+                speakEnglish(SILLY_VOICE_CHALLENGES[nextV].prompt);
+              }
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-950 font-display font-black text-xs cursor-pointer transition"
+          >
+            <span>🎲 Spin Silly Voice:</span>
+            <span>
+              {voiceIdx >= 0
+                ? `${SILLY_VOICE_CHALLENGES[voiceIdx].emoji} ${SILLY_VOICE_CHALLENGES[voiceIdx].label}`
+                : 'Normal'}
+            </span>
+          </button>
+          {voiceIdx >= 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                playTap(isMuted);
+                setVoiceIdx(-1);
+              }}
+              className="text-xs font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
+            >
+              Reset
+            </button>
+          )}
         </div>
 
         <div className="text-6xl mb-3 mt-1 leading-none">{item.emoji}</div>

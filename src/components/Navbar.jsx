@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Volume2,
   VolumeX,
@@ -11,7 +11,9 @@ import {
   Radio,
   Flame,
 } from 'lucide-react';
-import { playTap } from '../utils/soundEffects';
+import { playTap, playComicPop } from '../utils/soundEffects';
+
+const SILLY_STAR_POPS = ['✨', '🍕', '🦖', '🚀', '🎈'];
 
 export default function Navbar({
   currentTab,
@@ -24,6 +26,16 @@ export default function Navbar({
   onOpenDailyRecall,
   childName = 'Deniz',
 }) {
+  const [sillyStarPop, setSillyStarPop] = useState('');
+  const starPopIdxRef = useRef(0);
+  const starTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (starTimerRef.current) clearTimeout(starTimerRef.current);
+    };
+  }, []);
+
   const tabs = [
     { id: 'island', label: '🏝️ Island', icon: Map, activeClass: 'bg-sky-600 text-white border-sky-800' },
     { id: 'daily', label: '🗺️ Quest', icon: Compass, activeClass: 'bg-emerald-600 text-white border-emerald-800' },
@@ -60,7 +72,7 @@ export default function Navbar({
             const Icon = tab.icon;
             const isActive =
               tab.id === 'games'
-                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
+                ? ['games', 'silly_sentences', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
                 : tab.id === 'story'
                 ? currentTab === 'story' || currentTab === 'books'
                 : currentTab === tab.id;
@@ -84,13 +96,23 @@ export default function Navbar({
 
         {/* Right: Stars, Streak Memory, Leo, Mute, Parent */}
         <div className="order-2 md:order-3 flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          <div
-            className="flex items-center gap-1 bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-amber-800 font-black text-xs"
+          <button
+            type="button"
+            onClick={() => {
+              playComicPop(isMuted);
+              const nextEmoji = SILLY_STAR_POPS[starPopIdxRef.current % SILLY_STAR_POPS.length];
+              starPopIdxRef.current += 1;
+              setSillyStarPop(nextEmoji);
+              if (starTimerRef.current) clearTimeout(starTimerRef.current);
+              starTimerRef.current = setTimeout(() => setSillyStarPop(''), 900);
+            }}
+            className="flex items-center gap-1 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl px-2.5 py-1.5 text-amber-800 font-black text-xs cursor-pointer transition"
             title="Stars"
           >
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
             <span>{stars}</span>
-          </div>
+            {sillyStarPop && <span className="animate-bounce">{sillyStarPop}</span>}
+          </button>
 
           {onOpenDailyRecall && (
             <button

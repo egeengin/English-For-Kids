@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Play,
@@ -9,6 +9,9 @@ import {
   Gamepad2,
   Radio,
   Sparkles,
+  Volume2,
+  ArrowRight,
+  Smile,
 } from 'lucide-react';
 import LeoBuddy from './LeoBuddy';
 import { DAILY_EXPEDITION_DAYS, getWorksheetQuestions } from '../data/dailyMissionsData';
@@ -21,12 +24,25 @@ import {
 } from '../data/islandMapData';
 import { getDailyMemorySummary } from '../utils/dailyMemory';
 import {
+  LEO_COSTUMES,
+  KID_JOKES,
+  ISLAND_CRITTERS,
+  getNextCyclicIndex,
+} from '../data/funnyData';
+import {
   speakEnglish,
   unlockAudio,
   triggerHoverSpeech,
   cancelHoverSpeech,
 } from '../utils/speech';
-import { playTap, playVictoryFanfare } from '../utils/soundEffects';
+import {
+  playTap,
+  playVictoryFanfare,
+  playBoing,
+  playGiggle,
+  playSillyToot,
+  playComicPop,
+} from '../utils/soundEffects';
 
 const STEP_LABELS = [
   { key: 'learnDone', step: 'learn', label: '1. Learn', emoji: '🎓' },
@@ -42,17 +58,39 @@ const CTA_BY_STEP = {
   speak: 'Continue: Speak with Leo!',
 };
 
+function playComedySfx(sfx, isMuted) {
+  if (sfx === 'boing') playBoing(isMuted);
+  else if (sfx === 'giggle') playGiggle(isMuted);
+  else if (sfx === 'toot') playSillyToot(isMuted);
+  else playComicPop(isMuted);
+}
+
 export default function AdventureIsland({
   childName = 'Deniz',
   selectedDayId = 'day-1',
   questProgress = {},
   dailyQuizAnswers = {},
+  leoCostume = 'cap',
+  onChangeCostume,
   onLaunchQuest,
   onClaimChest,
   onNavigateTab,
   onOpenWalkieTalkie,
   isMuted = false,
 }) {
+  const [jokeIdx, setJokeIdx] = useState(0);
+  const [showPunchline, setShowPunchline] = useState(false);
+  const [activeCritterId, setActiveCritterId] = useState(null);
+  const critterTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (critterTimerRef.current) clearTimeout(critterTimerRef.current);
+    };
+  }, []);
+
+  const activeJoke = KID_JOKES[jokeIdx % KID_JOKES.length];
+  const activeCritter = ISLAND_CRITTERS.find((c) => c.id === activeCritterId) || null;
   const questionsByDayId = useMemo(() => {
     const map = {};
     for (const day of DAILY_EXPEDITION_DAYS) {
@@ -164,13 +202,45 @@ export default function AdventureIsland({
               </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex flex-col gap-3">
               <LeoBuddy
                 mood={heroCompletion.completedSteps === 4 ? 'cheering' : 'waving'}
                 size="lg"
+                costume={leoCostume}
                 speechBubble={heroGreeting}
                 isMuted={isMuted}
               />
+
+              {/* Leo Hat Dress-Up Strip */}
+              {onChangeCostume && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-amber-900 mr-1">
+                    🎩 Leo’s Hat:
+                  </span>
+                  {LEO_COSTUMES.map((hat) => {
+                    const activeHat = leoCostume === hat.id;
+                    return (
+                      <button
+                        key={hat.id}
+                        type="button"
+                        onClick={() => {
+                          unlockAudio();
+                          playComicPop(isMuted);
+                          onChangeCostume(hat.id);
+                        }}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-display font-black border-2 transition cursor-pointer ${
+                          activeHat
+                            ? 'bg-slate-900 text-white border-slate-950 scale-105 shadow-xs'
+                            : 'bg-white/85 hover:bg-white text-slate-800 border-amber-200'
+                        }`}
+                      >
+                        <span>{hat.emoji}</span>
+                        <span>{hat.labelEn}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* 4 Stepping Stones Preview */}
@@ -413,23 +483,23 @@ export default function AdventureIsland({
         </div>
       </section>
 
-      {/* COZY ISLAND DOCKS: Story Cove, Arcade Pier, Talk to Leo */}
-      <section aria-label="Island Docks" className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-2">
+      {/* COZY ISLAND DOCKS: Story Cove, Arcade Pier, Silly Sentence Lab, Talk to Leo */}
+      <section aria-label="Island Docks" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <button
           type="button"
           onClick={() => {
             playTap(isMuted);
             onNavigateTab('story');
           }}
-          className="rounded-3xl bg-white hover:bg-purple-50 border-3 border-purple-200 hover:border-purple-400 p-5 text-left shadow-sm flex items-center gap-4 cursor-pointer transition"
+          className="rounded-3xl bg-white hover:bg-purple-50 border-3 border-purple-200 hover:border-purple-400 p-4 text-left shadow-sm flex items-center gap-3.5 cursor-pointer transition"
         >
-          <div className="w-14 h-14 rounded-2xl bg-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-            <BookOpen className="w-7 h-7" />
+          <div className="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <div className="font-display font-black text-lg text-slate-900">📖 Story Cove</div>
-            <div className="text-xs sm:text-sm font-bold text-slate-500">
-              10 interactive worlds &amp; 13 mini-books
+            <div className="font-display font-black text-base text-slate-900">📖 Story Cove</div>
+            <div className="text-xs font-bold text-slate-500">
+              10 interactive worlds &amp; books
             </div>
           </div>
         </button>
@@ -440,15 +510,34 @@ export default function AdventureIsland({
             playTap(isMuted);
             onNavigateTab('games');
           }}
-          className="rounded-3xl bg-white hover:bg-rose-50 border-3 border-rose-200 hover:border-rose-400 p-5 text-left shadow-sm flex items-center gap-4 cursor-pointer transition"
+          className="rounded-3xl bg-white hover:bg-rose-50 border-3 border-rose-200 hover:border-rose-400 p-4 text-left shadow-sm flex items-center gap-3.5 cursor-pointer transition"
         >
-          <div className="w-14 h-14 rounded-2xl bg-rose-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Gamepad2 className="w-7 h-7" />
+          <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <Gamepad2 className="w-6 h-6" />
           </div>
           <div>
-            <div className="font-display font-black text-lg text-slate-900">🕹️ Arcade Pier</div>
-            <div className="text-xs sm:text-sm font-bold text-slate-500">
-              Balloons, phonics, voice &amp; hero cards
+            <div className="font-display font-black text-base text-slate-900">🕹️ Arcade Pier</div>
+            <div className="text-xs font-bold text-slate-500">
+              Balloons, phonics &amp; quizzes
+            </div>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            playBoing(isMuted);
+            onNavigateTab('silly_sentences');
+          }}
+          className="rounded-3xl bg-white hover:bg-amber-50 border-3 border-amber-300 hover:border-amber-500 p-4 text-left shadow-sm flex items-center gap-3.5 cursor-pointer transition"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+            🤪
+          </div>
+          <div>
+            <div className="font-display font-black text-base text-slate-900">Silly Sentences</div>
+            <div className="text-xs font-bold text-slate-500">
+              Mix funny crazy sentences!
             </div>
           </div>
         </button>
@@ -459,18 +548,145 @@ export default function AdventureIsland({
             playTap(isMuted);
             onOpenWalkieTalkie();
           }}
-          className="rounded-3xl bg-gradient-to-r from-amber-300 to-yellow-300 hover:from-amber-400 hover:to-yellow-400 border-3 border-amber-500 p-5 text-left shadow-sm flex items-center gap-4 cursor-pointer transition"
+          className="rounded-3xl bg-gradient-to-r from-amber-300 to-yellow-300 hover:from-amber-400 hover:to-yellow-400 border-3 border-amber-500 p-4 text-left shadow-sm flex items-center gap-3.5 cursor-pointer transition"
         >
-          <div className="w-14 h-14 rounded-2xl bg-slate-900 text-amber-300 flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Radio className="w-7 h-7" />
+          <div className="w-12 h-12 rounded-2xl bg-slate-900 text-amber-300 flex items-center justify-center flex-shrink-0 shadow-sm">
+            <Radio className="w-6 h-6" />
           </div>
           <div>
-            <div className="font-display font-black text-lg text-slate-950">🎙️ Talk to Leo</div>
-            <div className="text-xs sm:text-sm font-bold text-amber-950/80">
-              Play walkie-talkie &amp; practice speaking!
+            <div className="font-display font-black text-base text-slate-950">🎙️ Talk to Leo</div>
+            <div className="text-xs font-bold text-amber-950/80">
+              Walkie-talkie voice chat!
             </div>
           </div>
         </button>
+      </section>
+
+      {/* SILLY ISLAND COMEDY CORNER: Joke Machine + Clickable Goofy Critters */}
+      <section aria-label="Silly Comedy Corner" className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-2">
+        {/* Leo's Joke Box */}
+        <div className="rounded-3xl bg-gradient-to-br from-yellow-50 via-white to-amber-50 border-3 border-amber-300 p-5 shadow-sm flex flex-col justify-between gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 font-display font-black text-base text-slate-900">
+              <Smile className="w-5 h-5 text-amber-600" />
+              <span>🤣 Leo’s Joke Box</span>
+            </div>
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[11px] font-black">
+              Joke #{(jokeIdx % KID_JOKES.length) + 1}
+            </span>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <span className="text-4xl leading-none flex-shrink-0">{activeJoke.emoji}</span>
+            <div className="space-y-2 flex-1">
+              <p className="font-display font-black text-base sm:text-lg text-slate-900 leading-snug">
+                {activeJoke.setup}
+              </p>
+              {showPunchline && (
+                <p className="font-display font-black text-base sm:text-lg text-rose-600 bg-rose-50 border border-rose-200 rounded-2xl px-3.5 py-2 animate-fadeIn">
+                  😂 {activeJoke.punchline}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                unlockAudio();
+                playTap(isMuted);
+                if (!isMuted) speakEnglish(activeJoke.setup);
+              }}
+              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <Volume2 className="w-4 h-4" />
+              <span>Hear Joke</span>
+            </button>
+
+            {!showPunchline ? (
+              <button
+                type="button"
+                onClick={() => {
+                  unlockAudio();
+                  playComedySfx(activeJoke.sfx, isMuted);
+                  setShowPunchline(true);
+                  try {
+                    confetti({ particleCount: 35, spread: 60, origin: { y: 0.7 } });
+                  } catch {
+                    // ignore
+                  }
+                  if (!isMuted) speakEnglish(activeJoke.punchline);
+                }}
+                className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-xs border border-amber-500 cursor-pointer"
+              >
+                🤣 Reveal Punchline!
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  unlockAudio();
+                  playTap(isMuted);
+                  const next = getNextCyclicIndex(jokeIdx, KID_JOKES.length);
+                  setJokeIdx(next);
+                  setShowPunchline(false);
+                  if (!isMuted) speakEnglish(KID_JOKES[next].setup);
+                }}
+                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-display font-black text-xs inline-flex items-center gap-1 cursor-pointer"
+              >
+                <span>Next Joke</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Clickable Island Critters */}
+        <div className="rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-sky-50 border-3 border-emerald-300 p-5 shadow-sm flex flex-col justify-between gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="font-display font-black text-base text-slate-900">
+              🦀 Silly Island Critters (Tap one!)
+            </div>
+            <span className="text-xs font-bold text-emerald-700">Funny sounds!</span>
+          </div>
+
+          <div className="grid grid-cols-4 gap-2.5">
+            {ISLAND_CRITTERS.map((critter) => {
+              const isSelected = activeCritterId === critter.id;
+              return (
+                <button
+                  key={critter.id}
+                  type="button"
+                  onClick={() => {
+                    unlockAudio();
+                    playComedySfx(critter.sfx, isMuted);
+                    setActiveCritterId(critter.id);
+                    if (critterTimerRef.current) clearTimeout(critterTimerRef.current);
+                    critterTimerRef.current = setTimeout(() => setActiveCritterId(null), 3200);
+                    if (!isMuted) speakEnglish(critter.line);
+                  }}
+                  className={`rounded-2xl p-3 border-2 flex flex-col items-center justify-center gap-1 cursor-pointer transition ${
+                    isSelected
+                      ? 'bg-amber-100 border-amber-400 animate-silly-jiggle shadow-sm'
+                      : 'bg-white hover:bg-emerald-50 border-emerald-200'
+                  }`}
+                >
+                  <span className="text-3xl sm:text-4xl leading-none">{critter.emoji}</span>
+                  <span className="text-[11px] font-display font-black text-slate-700 truncate w-full text-center">
+                    {critter.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="rounded-2xl bg-white border border-emerald-200 px-3.5 py-2.5 min-h-[44px] flex items-center text-xs sm:text-sm font-display font-black text-slate-800">
+            {activeCritter
+              ? `${activeCritter.emoji} ${activeCritter.name}: “${activeCritter.line}”`
+              : 'Tap Captain Pinch, Frog, Duck, or Mini Alien for a goofy surprise!'}
+          </div>
+        </div>
       </section>
     </div>
   );

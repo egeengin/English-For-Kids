@@ -20,7 +20,10 @@ import {
   playStarSparkle,
   playGentleWobble,
   playTap,
+  playBoing,
+  playComicPop,
 } from '../utils/soundEffects';
+import { FUNNY_COMBO_CHEERS, FUNNY_OOPS_LINES, getFunnyLineByIndex } from '../data/funnyData';
 
 import { VOCAB_CATEGORIES, VOCAB_BANK_500 } from '../data/vocabularyBank500';
 
@@ -111,6 +114,7 @@ export default function BalloonPopGame({
   const [missedIdsQueued, setMissedIdsQueued] = useState(() => new Set());
   const [isGameOver, setIsGameOver] = useState(false);
   const [wobbleId, setWobbleId] = useState(null);
+  const [oopsBanner, setOopsBanner] = useState('');
 
   const deckRef = useRef(deck);
   useEffect(() => {
@@ -195,6 +199,7 @@ export default function BalloonPopGame({
       setHypeMessage('');
       setWrongCountInRound(0);
       setWobbleId(null);
+      setOopsBanner('');
       setIsRoundLocked(false);
     },
     [clearPendingTimers, isMuted, onRewardEarned, selectedCategory]
@@ -237,6 +242,7 @@ export default function BalloonPopGame({
 
       const nextStreak = wrongCountInRound === 0 ? streak + 1 : 1;
       setStreak(nextStreak);
+      setOopsBanner('');
 
       const bonusStars = nextStreak >= 3 ? 2 : 1;
       if (onRewardEarned) {
@@ -244,11 +250,14 @@ export default function BalloonPopGame({
       }
 
       if (nextStreak === 2) {
-        setHypeMessage('🔥 2x Streak! Awesome!');
+        playComicPop(isMuted);
+        setHypeMessage(`🔥 2x Streak! ${getFunnyLineByIndex(FUNNY_COMBO_CHEERS, nextStreak)}`);
       } else if (nextStreak === 3) {
-        setHypeMessage('⚡ 3x Super Combo! (+1 Bonus ⭐)');
+        playComicPop(isMuted);
+        setHypeMessage(`⚡ 3x ${getFunnyLineByIndex(FUNNY_COMBO_CHEERS, nextStreak)} (+1 Bonus ⭐)`);
       } else if (nextStreak >= 4) {
-        setHypeMessage(`👑 ${nextStreak}x Unstoppable! (+1 Bonus ⭐)`);
+        playComicPop(isMuted);
+        setHypeMessage(`👑 ${nextStreak}x ${getFunnyLineByIndex(FUNNY_COMBO_CHEERS, nextStreak)} (+1 Bonus ⭐)`);
       } else {
         setHypeMessage('');
       }
@@ -291,10 +300,12 @@ export default function BalloonPopGame({
       return;
     }
 
-    // Wrong balloon: reset combo, gentle wobble, teach word, and queue review
+    // Wrong balloon: reset combo, gentle boing + wobble, funny oops message, and queue review
     setStreak(0);
     setHypeMessage('');
+    playBoing(isMuted);
     playGentleWobble(isMuted);
+    setOopsBanner(getFunnyLineByIndex(FUNNY_OOPS_LINES, wrongCountInRound));
     setWobbleId(item.id);
     if (wobbleTimerRef.current) clearTimeout(wobbleTimerRef.current);
     wobbleTimerRef.current = setTimeout(() => setWobbleId(null), 550);
@@ -447,6 +458,13 @@ export default function BalloonPopGame({
       </div>
 
       {/* Question Prompt Banner (Hover or Click to Listen) */}
+      {oopsBanner && !isGameOver && (
+        <div className="w-full mb-2 text-center">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-amber-100 border-2 border-amber-300 text-amber-950 font-display font-black text-xs sm:text-sm animate-bounce">
+            😜 {oopsBanner}
+          </span>
+        </div>
+      )}
       {targetItem && !isGameOver && (
         <div
           onPointerEnter={(e) =>

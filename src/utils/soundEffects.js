@@ -314,6 +314,116 @@ export function playSuccess(isMuted = false) { return playSuccessChime(isMuted);
 export function playWobble(isMuted = false) { return playGentleWobble(isMuted); }
 export function playWrong(isMuted = false) { return playDiDit(isMuted); }
 
+/**
+ * Bouncy cartoon spring boing sound
+ */
+export function playBoing(isMuted = false) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(150, now);
+  osc.frequency.exponentialRampToValueAtTime(520, now + 0.1);
+  osc.frequency.exponentialRampToValueAtTime(260, now + 0.2);
+  osc.frequency.exponentialRampToValueAtTime(440, now + 0.31);
+
+  gain.gain.setValueAtTime(0.28, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.32);
+}
+
+/**
+ * Rapid chirpy giggle hops when Leo is tickled or celebrating
+ */
+export function playGiggle(isMuted = false) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const hops = [620, 760, 900, 1080];
+  hops.forEach((freq, idx) => {
+    const t = now + idx * 0.06;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.15, t + 0.045);
+
+    gain.gain.setValueAtTime(0.22, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.055);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.06);
+  });
+}
+
+/**
+ * Silly cartoon tuba / duck honk sound
+ */
+export function playSillyToot(isMuted = false) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const filter = ctx.createBiquadFilter();
+  const gain = ctx.createGain();
+
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(145, now);
+  osc.frequency.linearRampToValueAtTime(92, now + 0.22);
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(480, now);
+
+  gain.gain.setValueAtTime(0.24, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.24);
+}
+
+/**
+ * Bubbly cork pop for funny clicks & hat swaps
+ */
+export function playComicPop(isMuted = false) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(220, now);
+  osc.frequency.exponentialRampToValueAtTime(780, now + 0.075);
+
+  gain.gain.setValueAtTime(0.3, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.09);
+}
+
 // Cheerful upbeat Web Audio Kids Song Synthesizer (marimba melody + bass + beat)
 let songTimerId = null;
 let songStepIndex = 0;

@@ -27,9 +27,27 @@ import {
 import {
   initAudioContext,
   playDiDit,
+  playBoing,
+  playGiggle,
+  playSillyToot,
+  playComicPop,
   startKidsSongBeat,
   stopKidsSongBeat,
 } from '../src/utils/soundEffects.js';
+import {
+  LEO_COSTUMES,
+  LEO_TICKLE_LINES,
+  KID_JOKES,
+  ISLAND_CRITTERS,
+  SILLY_SENTENCE_PARTS,
+  SILLY_VOICE_CHALLENGES,
+  FUNNY_COMBO_CHEERS,
+  FUNNY_OOPS_LINES,
+  buildSillySentence,
+  getNextCyclicIndex,
+  getRandomSillyIndices,
+  getFunnyLineByIndex,
+} from '../src/data/funnyData.js';
 import {
   isSpeechRecognitionSupported,
   createSpeechListener,
@@ -67,6 +85,7 @@ import {
   speakEncouragement,
   speakDialoguePhrase,
   speakPhoneme,
+  speakEnglishSequence,
 } from '../src/utils/speech.js';
 
 function saveGlobals(names) {
@@ -479,6 +498,16 @@ test('soundEffects: covers playDiDit, suspended AudioContext resume, and beat st
     playDiDit(false);
     assert.equal(oscStartCount - beforeDiDit, 2);
 
+    for (const sfxFn of [playBoing, playGiggle, playSillyToot, playComicPop]) {
+      sfxFn(true);
+    }
+    const beforeFunny = oscStartCount;
+    playBoing(false);
+    playGiggle(false);
+    playSillyToot(false);
+    playComicPop(false);
+    assert.equal(oscStartCount - beforeFunny, 7);
+
     const steps = [];
     startKidsSongBeat(false, 2, (s) => steps.push(s));
     await new Promise((r) => setTimeout(r, 1000));
@@ -855,6 +884,12 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     setGlobal('Audio', FailingAudio);
     setGlobal('fetch', async () => ({ ok: false, status: 500 }));
     await new Promise((resolve) => speakEnglish('Unmapped Offline Phrase', resolve));
+
+    // Sequential speech playback + empty array + interruption
+    await new Promise((resolve) => speakEnglishSequence([], resolve));
+    setGlobal('Audio', MockAudio);
+    await new Promise((resolve) => speakEnglishSequence(['Red', 'Cat'], resolve));
+    speakEnglishSequence(['Red', 'Cat'], () => {});
     stopSpeech();
   } finally {
     stopSpeech();
@@ -862,4 +897,30 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     resetManifestCacheForTesting();
     restore();
   }
+});
+
+test('funnyData: covers silly sentence builder, cyclic indices, costumes, jokes, critters, and lines', () => {
+  assert.ok(LEO_COSTUMES.length >= 6);
+  assert.ok(LEO_TICKLE_LINES.length >= 6);
+  assert.ok(KID_JOKES.length >= 10);
+  assert.ok(ISLAND_CRITTERS.length >= 4);
+  assert.ok(SILLY_VOICE_CHALLENGES.length >= 5);
+  assert.ok(FUNNY_COMBO_CHEERS.length >= 5);
+  assert.ok(FUNNY_OOPS_LINES.length >= 4);
+
+  const built = buildSillySentence({ s: 1, v: 2, o: 3, p: 4 });
+  assert.equal(built.parts.length, 4);
+  assert.equal(built.fullText, built.parts.join(' '));
+  assert.ok(built.emojis.length > 0);
+
+  const zeroRng = getRandomSillyIndices(() => 0);
+  assert.deepEqual(zeroRng, { s: 0, v: 0, o: 0, p: 0 });
+
+  assert.equal(getNextCyclicIndex(0, 5), 1);
+  assert.equal(getNextCyclicIndex(4, 5), 0);
+  assert.equal(getNextCyclicIndex(0, 0), 0);
+
+  assert.equal(getFunnyLineByIndex(['a', 'b'], 3), 'b');
+  assert.equal(getFunnyLineByIndex([], 1), '');
+  assert.equal(SILLY_SENTENCE_PARTS.subjects.length, 6);
 });

@@ -12,6 +12,13 @@ import { DAY_LESSONS } from '../src/data/dailyLessonsData.js';
 import { ISLAND_STOPS_BY_DAY_ID } from '../src/data/islandMapData.js';
 import { LEO_MISSIONS } from '../src/utils/gemini.js';
 import { cleanTextForTTS } from '../src/utils/speech.js';
+import {
+  LEO_TICKLE_LINES,
+  KID_JOKES,
+  ISLAND_CRITTERS,
+  SILLY_SENTENCE_PARTS,
+  SILLY_VOICE_CHALLENGES,
+} from '../src/data/funnyData.js';
 
 function cleanText(text) {
   return cleanTextForTTS(text);
@@ -301,6 +308,19 @@ try {
 } catch {
   // ignore
 }
+
+// 19. Silly Island, Jokes, Critters, Tickles & Sentence Lab
+for (const line of LEO_TICKLE_LINES || []) add(line);
+for (const joke of KID_JOKES || []) {
+  add(joke.setup);
+  add(joke.punchline);
+}
+for (const critter of ISLAND_CRITTERS || []) add(critter.line);
+for (const group of Object.values(SILLY_SENTENCE_PARTS || {})) {
+  for (const part of group || []) add(part.text);
+}
+for (const vc of SILLY_VOICE_CHALLENGES || []) add(vc.prompt);
+add('Mix crazy bricks to build a funny English sentence!');
 
 const all = [...en].map((t) => ({ text: t, hash: hashClip(t) }));
 console.log('Total unique English speech texts:', all.length);

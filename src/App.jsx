@@ -25,6 +25,7 @@ const WalkieTalkieModal = lazy(() => import('./components/WalkieTalkieModal'));
 const CertificateModal = lazy(() => import('./components/CertificateModal'));
 const DailyMissionHub = lazy(() => import('./components/DailyMissionHub'));
 const LevelDiscoveryGame = lazy(() => import('./components/LevelDiscoveryGame'));
+const SillySentenceGame = lazy(() => import('./components/SillySentenceGame'));
 const PrintableMissionSheetModal = lazy(() => import('./components/PrintableMissionSheetModal'));
 const DailyRecallModal = lazy(() => import('./components/DailyRecallModal'));
 import { CURRICULUM_LEVELS } from './data/curriculum';
@@ -315,6 +316,14 @@ export default function App() {
     }));
   };
 
+  // Change Leo's silly hat / costume
+  const handleChangeLeoCostume = useCallback((costumeId) => {
+    setState((prev) => ({
+      ...prev,
+      equippedAccessory: costumeId || 'cap',
+    }));
+  }, []);
+
   // Daily Mission checklist toggle
   const handleToggleChecklistItem = (itemId) => {
     setState(prev => {
@@ -499,6 +508,8 @@ export default function App() {
             selectedDayId={selectedDayId}
             questProgress={state.questProgress || {}}
             dailyQuizAnswers={state.dailyQuizAnswers || {}}
+            leoCostume={state.equippedAccessory || 'cap'}
+            onChangeCostume={handleChangeLeoCostume}
             onLaunchQuest={handleLaunchQuest}
             onClaimChest={handleClaimQuestChest}
             onNavigateTab={handleTabChange}
@@ -525,6 +536,7 @@ export default function App() {
             onSelectDayId={handleSelectDayId}
             initialStep={requestedQuestStep.dayId === selectedDayId ? requestedQuestStep.step : null}
             questProgress={state.questProgress || {}}
+            leoCostume={state.equippedAccessory || 'cap'}
             onMarkQuestStep={handleMarkQuestStep}
             onMarkSpokenPhrase={handleMarkSpokenPhrase}
             onBackToIsland={() => handleTabChange('island')}
@@ -617,7 +629,7 @@ export default function App() {
         )}
 
         {/* Clean Back-to-Arcade Bar inside Individual Mini-Games */}
-        {['balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab) && (
+        {['silly_sentences', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab) && (
           <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 pt-4 pb-1 flex items-center justify-between gap-2">
             <button
               type="button"
@@ -642,8 +654,17 @@ export default function App() {
           <ArcadeHub
             childName={childName}
             stars={state.stars}
+            leoCostume={state.equippedAccessory || 'cap'}
             onSelectGame={(gameId) => handleTabChange(gameId)}
             onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
+            isMuted={state.soundMuted}
+          />
+        )}
+
+        {currentTab === 'silly_sentences' && (
+          <SillySentenceGame
+            onRewardEarned={handleRewardEarned}
+            costume={state.equippedAccessory || 'cap'}
             isMuted={state.soundMuted}
           />
         )}
@@ -783,7 +804,7 @@ export default function App() {
         <button
           onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
+            ['games', 'silly_sentences', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
               ? 'text-rose-400 font-black'
               : 'text-slate-400'
           }`}
@@ -832,6 +853,7 @@ export default function App() {
         childName={childName}
         childAge={childAge}
         geminiApiKey={geminiApiKey}
+        leoCostume={state.equippedAccessory || 'cap'}
         isMuted={state.soundMuted}
       />
 

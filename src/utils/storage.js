@@ -6,6 +6,29 @@ import { getEffectiveGeminiApiKey } from './gemini.js';
 
 const STORAGE_KEY = 'lego_english_adventure_state_v1';
 
+export const VALID_KID_TABS = new Set([
+  'island',
+  'daily',
+  'discovery',
+  'phonics',
+  'differences',
+  'story',
+  'books',
+  'games',
+  'silly_sentences',
+  'balloons',
+  'memory',
+  'sound_pairs',
+  'rhymes',
+  'questions',
+  'quick_speak',
+  'smart_review',
+  'listen_color',
+  'put_it',
+  'collection',
+  'arena',
+]);
+
 export function getLocalDateKey(date = new Date()) {
   const d = date instanceof Date ? date : new Date(date);
   const year = d.getFullYear();
@@ -97,7 +120,7 @@ export function loadSavedState() {
       childAge: Number(parsed.childAge) || 7,
       geminiApiKey: (parsed.geminiApiKey && parsed.geminiApiKey.trim()) || getEffectiveGeminiApiKey(),
       lastTab:
-        parsed.lastTab && parsed.lastTab !== 'parent' && parsed.lastTab !== 'workshop'
+        parsed.lastTab && VALID_KID_TABS.has(parsed.lastTab)
           ? parsed.lastTab
           : 'island',
       selectedDayId: parsed.selectedDayId || 'day-1',

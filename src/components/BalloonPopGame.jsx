@@ -18,7 +18,6 @@ import {
   playSnap,
   playVictoryFanfare,
   playStarSparkle,
-  playGentleWobble,
   playTap,
   playBoing,
   playComicPop,
@@ -300,11 +299,10 @@ export default function BalloonPopGame({
       return;
     }
 
-    // Wrong balloon: reset combo, gentle boing + wobble, funny oops message, and queue review
+    // Wrong balloon: reset combo, gentle boing, funny oops message, and queue review
     setStreak(0);
     setHypeMessage('');
     playBoing(isMuted);
-    playGentleWobble(isMuted);
     setOopsBanner(getFunnyLineByIndex(FUNNY_OOPS_LINES, wrongCountInRound));
     setWobbleId(item.id);
     if (wobbleTimerRef.current) clearTimeout(wobbleTimerRef.current);

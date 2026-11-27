@@ -370,7 +370,7 @@ export function playGiggle(isMuted = false) {
 }
 
 /**
- * Silly cartoon tuba / duck honk sound
+ * Bright, playful cartoon duck-quack / slide-whistle double chirp (clean triangle + sine waves)
  */
 export function playSillyToot(isMuted = false) {
   if (isMuted) return;
@@ -378,25 +378,22 @@ export function playSillyToot(isMuted = false) {
   if (!ctx) return;
 
   const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const filter = ctx.createBiquadFilter();
-  const gain = ctx.createGain();
+  [0, 0.11].forEach((offset, idx) => {
+    const t = now + offset;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = idx === 0 ? 'triangle' : 'sine';
+    osc.frequency.setValueAtTime(idx === 0 ? 520 : 660, t);
+    osc.frequency.exponentialRampToValueAtTime(idx === 0 ? 340 : 490, t + 0.085);
 
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(145, now);
-  osc.frequency.linearRampToValueAtTime(92, now + 0.22);
+    gain.gain.setValueAtTime(0.24, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
 
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(480, now);
-
-  gain.gain.setValueAtTime(0.24, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
-
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(now);
-  osc.stop(now + 0.24);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.095);
+  });
 }
 
 /**

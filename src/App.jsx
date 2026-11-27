@@ -34,7 +34,7 @@ import {
   markSpokenPhraseInProgress,
   claimQuestChestInProgress,
 } from './data/islandMapData';
-import { loadSavedState, saveState } from './utils/storage';
+import { loadSavedState, saveState, VALID_KID_TABS } from './utils/storage';
 import { saveGeminiApiKey } from './utils/gemini';
 import { stopSpeech, cancelHoverSpeech } from './utils/speech';
 import {
@@ -501,8 +501,8 @@ export default function App() {
 
       {/* Main Content Arena */}
       <main className={`flex-1 w-full flex flex-col items-center ${isPrintableOpen || isCertificateOpen ? 'print:hidden' : ''}`}>
-        {/* Cozy Adventure Island Home */}
-        {currentTab === 'island' && (
+        {/* Cozy Adventure Island Home (also safe fallback for any unknown/legacy tab) */}
+        {(currentTab === 'island' || (currentTab !== 'parent' && !VALID_KID_TABS.has(currentTab))) && (
           <AdventureIsland
             childName={childName}
             selectedDayId={selectedDayId}

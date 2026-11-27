@@ -295,6 +295,14 @@ test('storage: covers local date formatting, streak transitions, tab sanitizatio
     assert.equal(brokenStreak.streak, 1);
     assert.equal(brokenStreak.lastTab, 'daily');
 
+    for (const legacyTab of ['road', 'diorama', 'workshop', 'parent', 'unknown_tab']) {
+      mem.setItem(
+        'lego_english_adventure_state_v1',
+        JSON.stringify({ lastTab: legacyTab })
+      );
+      assert.equal(loadSavedState().lastTab, 'island');
+    }
+
     const throwingMem = makeMemoryStorage(true);
     setGlobal('localStorage', throwingMem);
     setGlobal('window', { localStorage: throwingMem });
@@ -506,7 +514,7 @@ test('soundEffects: covers playDiDit, suspended AudioContext resume, and beat st
     playGiggle(false);
     playSillyToot(false);
     playComicPop(false);
-    assert.equal(oscStartCount - beforeFunny, 7);
+    assert.equal(oscStartCount - beforeFunny, 8);
 
     const steps = [];
     startKidsSongBeat(false, 2, (s) => steps.push(s));
@@ -891,6 +899,25 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     await new Promise((resolve) => speakEnglishSequence(['Red', 'Cat'], resolve));
     speakEnglishSequence(['Red', 'Cat'], () => {});
     stopSpeech();
+
+    // Autoplay NotAllowedError on .m4a should end cleanly WITHOUT .wav fallback or speechSynthesis stutter
+    let webSpeechCalls = 0;
+    speechWindow.speechSynthesis.speak = () => {
+      webSpeechCalls += 1;
+    };
+    const requestedSrcs = [];
+    class AutoplayBlockedAudio extends MockAudio {
+      play() {
+        requestedSrcs.push(this.src);
+        const err = new Error('play() blocked by autoplay policy');
+        err.name = 'NotAllowedError';
+        return Promise.reject(err);
+      }
+    }
+    setGlobal('Audio', AutoplayBlockedAudio);
+    await new Promise((resolve) => speakEnglish('Red', resolve));
+    assert.equal(webSpeechCalls, 0);
+    assert.equal(requestedSrcs.some((s) => s.endsWith('.wav')), false);
   } finally {
     stopSpeech();
     clearGeminiApiKey();

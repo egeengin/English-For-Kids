@@ -28,6 +28,7 @@ const modelCooldownUntil = new Map();
 let ttsIdbPromise = null;
 
 let speechSeqToken = 0;
+let sequenceToken = 0;
 let sharedAudioPlayer = null;
 let sharedAudioUnlocked = false;
 let unlockListenersAttached = false;
@@ -50,7 +51,7 @@ const SILENT_WAV_BYTES = new Uint8Array([
 
 function ensureUnlockedAudioPlayer() {
   if (typeof Audio === 'undefined') return null;
-  if (!sharedAudioPlayer) {
+  if (!sharedAudioPlayer || !(sharedAudioPlayer instanceof Audio)) {
     sharedAudioPlayer = new Audio();
     sharedAudioPlayer.preload = 'auto';
     sharedAudioPlayer.referrerPolicy = 'no-referrer';
@@ -856,8 +857,14 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   const m4aUrl = `${prefix}${cleanPath}.m4a`;
   const wavUrl = `${prefix}${cleanPath}.wav`;
 
-  const audio = new Audio(m4aUrl);
+  const audio = ensureUnlockedAudioPlayer() || new Audio();
+  audio.onended = null;
+  audio.onerror = null;
+  audio.onplaying = null;
+  audio.oncanplaythrough = null;
+  audio.playbackRate = 1.0;
   audio.volume = 1.0;
+  audio.src = m4aUrl;
   activeAudio = audio;
 
   let finished = false;
@@ -865,6 +872,7 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   const notifyStart = () => {
     if (!started) {
       started = true;
+      sharedAudioUnlocked = true;
       if (onStart) onStart();
     }
   };
@@ -878,10 +886,16 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
   };
 
   const tryWavFallback = () => {
-    if (myToken !== speechSeqToken) return;
+    if (myToken !== speechSeqToken || finished) return;
     try {
-      const fallbackAudio = new Audio(wavUrl);
+      const fallbackAudio = ensureUnlockedAudioPlayer() || new Audio();
+      fallbackAudio.onended = null;
+      fallbackAudio.onerror = null;
+      fallbackAudio.onplaying = null;
+      fallbackAudio.oncanplaythrough = null;
+      fallbackAudio.playbackRate = 1.0;
       fallbackAudio.volume = 1.0;
+      fallbackAudio.src = wavUrl;
       activeAudio = fallbackAudio;
 
       fallbackAudio.onended = () => {
@@ -902,7 +916,11 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
       fallbackAudio.onplaying = notifyStart;
       const p = fallbackAudio.play();
       if (p !== undefined) {
-        p.then(notifyStart).catch(() => {
+        p.then(notifyStart).catch((err) => {
+          if (err?.name === 'NotAllowedError') {
+            handleEnd();
+            return;
+          }
           if (!finished) {
             finished = true;
             if (activeAudio === fallbackAudio) activeAudio = null;
@@ -923,7 +941,13 @@ function playLocalAudioFile(basePath, myToken, onEnd, onError, onStart) {
 
   const promise = audio.play();
   if (promise !== undefined) {
-    promise.then(notifyStart).catch(tryWavFallback);
+    promise.then(notifyStart).catch((err) => {
+      if (err?.name === 'NotAllowedError') {
+        handleEnd();
+        return;
+      }
+      tryWavFallback();
+    });
   } else {
     notifyStart();
   }
@@ -1494,6 +1518,7 @@ export function triggerHoverSpeech(
 ) {
   cancelHoverSpeech();
   if (isMuted || pointerType === 'touch' || !text) return;
+  if (typeof document !== 'undefined' && !sharedAudioUnlocked) return;
   hoverSpeechTimer = setTimeout(() => {
     hoverSpeechTimer = null;
     speakEnglish(text);
@@ -1529,8 +1554,6 @@ export function speakEnglish(text, onEnd, options = {}) {
     _preserveSequence: Boolean(options?._preserveSequence),
   });
 }
-
-let sequenceToken = 0;
 
 /**
  * Play a list of English phrases back-to-back cleanly, cancelling immediately on stopSpeech().

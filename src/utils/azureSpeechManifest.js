@@ -20,7 +20,7 @@ export function getAzureSpeechManifestKey(text, lang = 'en') {
 async function fetchManifestFile(url) {
   if (typeof fetch !== 'function') return null;
   try {
-    const response = await fetch(url, { cache: 'force-cache' });
+    const response = await fetch(url, { cache: 'no-cache' });
     if (response && response.ok) {
       return await response.json();
     }

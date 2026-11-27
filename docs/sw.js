@@ -1,11 +1,8 @@
-const CACHE_NAME = 'lego-english-v4';
+const CACHE_NAME = 'lego-english-v6';
 
-// Static app shell files to cache on install
+// Static icon only — never precache HTML or JSON so updates deploy cleanly
 const PRECACHE_ASSETS = [
-  './',
-  './index.html',
   './favicon.svg',
-  './manifest.json',
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,18 +24,18 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) {
     return;
   }
 
-  // Audio and media assets: cache-first for smooth, instant offline play
+  // Immutable audio & artwork files only (exclude .json manifests so updates stay fresh)
   if (
-    url.pathname.includes('/audio/') ||
-    url.pathname.endsWith('.svg') ||
-    url.pathname.endsWith('.png') ||
     url.pathname.endsWith('.m4a') ||
-    url.pathname.endsWith('.wav')
+    url.pathname.endsWith('.wav') ||
+    url.pathname.endsWith('.svg') ||
+    url.pathname.endsWith('.png')
   ) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
@@ -55,7 +52,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Code assets (.js, .css, HTML): Network-first with cache fallback
+  // HTML, JS, CSS, JSON: Network-first with offline cache fallback
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {

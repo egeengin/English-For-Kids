@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Volume2,
   VolumeX,
-  Sparkles,
+  Gamepad2,
   ShieldCheck,
   BookOpen,
-  Award,
-  Calendar,
+  Compass,
+  Map,
   Star,
   Radio,
   Flame,
@@ -25,10 +25,10 @@ export default function Navbar({
   childName = 'Deniz',
 }) {
   const tabs = [
-    { id: 'daily', label: '📅 Günlük', icon: Calendar, activeClass: 'bg-emerald-600 text-white border-emerald-800' },
-    { id: 'story', label: '📖 Hikaye', icon: BookOpen, activeClass: 'bg-purple-600 text-white border-purple-800' },
-    { id: 'games', label: '🎮 Oyunlar', icon: Sparkles, activeClass: 'bg-rose-500 text-white border-rose-700' },
-    { id: 'discovery', label: '⭐ Test', icon: Award, activeClass: 'bg-blue-600 text-white border-blue-800' },
+    { id: 'island', label: '🏝️ Island', icon: Map, activeClass: 'bg-sky-600 text-white border-sky-800' },
+    { id: 'daily', label: '🗺️ Quest', icon: Compass, activeClass: 'bg-emerald-600 text-white border-emerald-800' },
+    { id: 'story', label: '📖 Stories', icon: BookOpen, activeClass: 'bg-purple-600 text-white border-purple-800' },
+    { id: 'games', label: '🕹️ Arcade', icon: Gamepad2, activeClass: 'bg-rose-500 text-white border-rose-700' },
   ];
 
   const handleTabClick = (tabId) => {
@@ -39,28 +39,28 @@ export default function Navbar({
   return (
     <header
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
-      className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm text-slate-900 shadow-xs border-b border-slate-200 print:hidden"
+      className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm text-slate-900 shadow-xs border-b border-amber-200/80 print:hidden"
     >
       <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
         {/* Left: Minimal Brand */}
         <button
           type="button"
-          onClick={() => handleTabClick('discovery')}
+          onClick={() => handleTabClick('island')}
           className="flex items-center gap-1.5 cursor-pointer text-left flex-shrink-0"
         >
-          <span className="text-xl sm:text-2xl">🌟</span>
+          <span className="text-xl sm:text-2xl">🏝️</span>
           <span className="font-display font-black text-base sm:text-lg text-slate-900">
-            {childName}
+            {childName}’s Island
           </span>
         </button>
 
-        {/* Center: 4 Clean Navigation Pills */}
+        {/* Center: 4 Clean English Navigation Pills */}
         <nav className="order-3 md:order-2 w-full md:w-auto flex items-center justify-start md:justify-center gap-1.5 overflow-x-auto pb-0.5 md:pb-0">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive =
               tab.id === 'games'
-                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab)
+                ? ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
                 : tab.id === 'story'
                 ? currentTab === 'story' || currentTab === 'books'
                 : currentTab === tab.id;
@@ -86,7 +86,7 @@ export default function Navbar({
         <div className="order-2 md:order-3 flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <div
             className="flex items-center gap-1 bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-amber-800 font-black text-xs"
-            title="Yıldızlar"
+            title="Stars"
           >
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
             <span>{stars}</span>
@@ -100,10 +100,10 @@ export default function Navbar({
                 onOpenDailyRecall();
               }}
               className="flex items-center gap-1 bg-orange-50 hover:bg-orange-100 border border-orange-300 rounded-xl px-2 sm:px-2.5 py-1.5 text-orange-800 font-black text-xs cursor-pointer transition shadow-xs"
-              title="Günlük Hafıza: Neler yaptık, neler öğrendik?"
+              title="Daily Memory Recap"
             >
               <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />
-              <span>{streak}g</span>
+              <span>{streak}d</span>
             </button>
           )}
 
@@ -132,8 +132,8 @@ export default function Navbar({
                 ? 'bg-rose-50 border-rose-300 text-rose-600'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
             }`}
-            title={isMuted ? 'Sesi Aç' : 'Sesi Kapat'}
-            aria-label="Ses Ayarı"
+            title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+            aria-label="Toggle sound"
           >
             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
@@ -146,8 +146,8 @@ export default function Navbar({
                 ? 'bg-slate-900 text-white border-slate-950'
                 : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200'
             }`}
-            title="Ebeveyn Paneli"
-            aria-label="Ebeveyn Paneli"
+            title="Parent Hub"
+            aria-label="Parent Hub"
           >
             <ShieldCheck className="w-4 h-4" />
           </button>

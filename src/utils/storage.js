@@ -28,11 +28,12 @@ export const INITIAL_STATE = {
   soundMuted: false,
   geminiApiKey: getEffectiveGeminiApiKey(),
   // Guru features persistence:
-  lastTab: 'discovery',
+  lastTab: 'island',
   selectedDayId: 'day-1',
   roadProgress: { 'stage-1': 3 }, // stage-1 unlocked with 3 stars by default
   dailyChecklist: {},
   dailyQuizAnswers: {},
+  questProgress: {},
   discoveryResults: {},
   cardLevels: {},
   dioramaItems: [
@@ -79,10 +80,11 @@ export function loadSavedState() {
       lastTab:
         parsed.lastTab && parsed.lastTab !== 'parent' && parsed.lastTab !== 'workshop'
           ? parsed.lastTab
-          : 'discovery',
+          : 'island',
       selectedDayId: parsed.selectedDayId || 'day-1',
       dailyChecklist: parsed.dailyChecklist || {},
       dailyQuizAnswers: parsed.dailyQuizAnswers || {},
+      questProgress: parsed.questProgress || {},
       discoveryResults: parsed.discoveryResults || {},
       cardLevels: parsed.cardLevels || {},
       streak,

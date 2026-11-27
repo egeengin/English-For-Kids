@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Square, Music, Volume2, Sparkles, Tv, X, Mic, ChevronDown, ChevronUp } from 'lucide-react';
 import { DAY_LESSONS } from '../data/dailyLessonsData';
+import LeoBuddy from './LeoBuddy';
 import {
   speakEnglish,
   stopSpeech,
@@ -15,7 +16,7 @@ import {
   stopKidsSongBeat,
 } from '../utils/soundEffects';
 
-export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
+export default function DailySingLearn({ dayId, isMuted = false, showHelper = false, onGoToQuiz }) {
   const lesson = DAY_LESSONS[dayId];
   const [isSinging, setIsSinging] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -90,7 +91,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
       !navigator.mediaDevices.getUserMedia ||
       typeof MediaRecorder === 'undefined'
     ) {
-      setMicStatus('Bu tarayıcıda ses kaydı desteklenmiyor.');
+      setMicStatus('Voice recording is not supported in this browser.');
       return;
     }
 
@@ -135,7 +136,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
       }, 3500);
     } catch {
       setRecordingPatternId(null);
-      setMicStatus('Mikrofon izni verilmedi.');
+      setMicStatus('Microphone permission was not granted.');
     }
   };
 
@@ -178,7 +179,6 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
       return;
     }
 
-    // Safety timer synced to 1-bar / 2-bar musical groove (~3.8s)
     stepTimerRef.current = setTimeout(() => {
       playLineSequence(idx + 1, sessionId);
     }, 5200);
@@ -215,17 +215,19 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
 
   return (
     <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white rounded-3xl p-4 sm:p-6 shadow-xl border-4 border-indigo-400/50 space-y-5">
-      {/* Header + Sing-Along Action */}
+      {/* Header + Leo Buddy + Sing-Along Action */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-3.5">
         <div className="flex items-center gap-3">
-          <div
-            className={`w-12 h-12 rounded-2xl bg-yellow-400 text-slate-950 flex items-center justify-center shadow-md flex-shrink-0 ${
-              isSinging ? 'animate-bounce' : ''
-            }`}
-          >
-            <Music className="w-6 h-6" />
-          </div>
+          <LeoBuddy
+            mood={isSinging ? 'dancing' : 'happy'}
+            size="sm"
+            isMuted={isMuted}
+          />
           <div>
+            <div className="text-[11px] font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1">
+              <Music className="w-3.5 h-3.5" />
+              <span>Sing Along with Leo</span>
+            </div>
             <h3 className="font-display font-black text-base sm:text-xl text-white">
               {lesson.songTitle}
             </h3>
@@ -250,7 +252,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
               }`}
             >
               {showVideo ? <X className="w-4 h-4" /> : <Tv className="w-4 h-4" />}
-              <span>{showVideo ? 'Kapat' : '🎬 Şarkı'}</span>
+              <span>{showVideo ? 'Close' : '🎬 Watch Song'}</span>
             </button>
           )}
 
@@ -264,7 +266,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
             }`}
           >
             {isSinging ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-            <span>{isSinging ? 'Durdur' : '🎵 Ritimle Çal'}</span>
+            <span>{isSinging ? 'Stop' : '🎵 Play Beat'}</span>
             {isSinging && (
               <span className="inline-flex items-end gap-0.5 h-4 ml-1" aria-hidden="true">
                 {[0, 1, 2].map((bar) => (
@@ -281,13 +283,13 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
         </div>
       </div>
 
-      {/* Curated YouTube Song Clip (Exact Cut Segment) */}
+      {/* Curated YouTube Song Clip */}
       {showVideo && lesson.youtubeClip && (
         <div className="bg-slate-950/80 border-2 border-red-400/60 rounded-2xl p-3 sm:p-4 space-y-2.5 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 rounded-lg bg-red-600 text-white font-black text-[11px] uppercase">
-                🎬 Şarkı Kesiti ({lesson.youtubeClip.start}s – {lesson.youtubeClip.end}s)
+                🎬 Clip ({lesson.youtubeClip.start}s – {lesson.youtubeClip.end}s)
               </span>
               <span className="font-display font-bold text-xs sm:text-sm text-white">
                 {lesson.youtubeClip.title}
@@ -299,7 +301,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
               rel="noopener noreferrer"
               className="text-xs font-bold text-red-300 hover:text-red-200 underline"
             >
-              YouTube&apos;da Aç ↗
+              Open on YouTube ↗
             </a>
           </div>
           <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
@@ -314,7 +316,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
           </div>
           <div className="flex items-center justify-between gap-2 pt-1">
             <span className="text-xs font-semibold text-indigo-200">
-              ⏱️ {lesson.youtubeClip.end - lesson.youtubeClip.start} saniyelik kısa kesit
+              ⏱️ {lesson.youtubeClip.end - lesson.youtubeClip.start}s song clip
             </span>
             <button
               type="button"
@@ -330,7 +332,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
               }}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-display font-black text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95"
             >
-              <span>✅ İzledim, Teste Geç ↓</span>
+              <span>✅ Done! Let’s Play ↓</span>
             </button>
           </div>
         </div>
@@ -370,7 +372,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
                 <div className="font-display font-black text-base sm:text-lg leading-snug">
                   {line.en}
                 </div>
-                {line.tr && (
+                {showHelper && line.tr && (
                   <div className={`text-xs sm:text-sm font-bold mt-0.5 ${isActive ? 'text-slate-700' : 'text-indigo-200'}`}>
                     {line.tr}
                   </div>
@@ -382,7 +384,7 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
         })}
       </div>
 
-      {/* Optional Collapsible Examples & Sentence Builder */}
+      {/* Collapsible Examples & Sentence Builder */}
       <div className="pt-1">
         <button
           type="button"
@@ -392,288 +394,288 @@ export default function DailySingLearn({ dayId, isMuted = false, onGoToQuiz }) {
           }}
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-yellow-300 font-display font-black text-xs cursor-pointer transition"
         >
-          <span>🧩 Örnekler &amp; Cümle Kurucu</span>
+          <span>🧩 Examples &amp; Sentence Builder</span>
           {showExamples ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
       </div>
 
       {showExamples && (
         <div className="space-y-5 pt-2 border-t border-white/15">
-      {/* Animated Visual Rule Cards (Teach before Testing) */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-1.5 text-xs font-black text-yellow-300 uppercase tracking-wide">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Canlı Örnekler:</span>
-        </div>
+          {/* Animated Visual Rule Cards */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-black text-yellow-300 uppercase tracking-wide">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Live Examples:</span>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {lesson.visualCards.map((card, idx) => {
-            const isCardActive = activeCardIdx === idx;
-            return (
-              <button
-                key={card.badge}
-                type="button"
-                onPointerEnter={(e) => {
-                  setActiveCardIdx(idx);
-                  triggerHoverSpeech(card.en, { isMuted, pointerType: e.pointerType });
-                }}
-                onPointerLeave={() => {
-                  setActiveCardIdx(-1);
-                  cancelHoverSpeech();
-                }}
-                onClick={() => {
-                  cancelHoverSpeech();
-                  unlockAudio();
-                  setActiveCardIdx(idx);
-                  speakEnglish(card.en, () => setActiveCardIdx(-1));
-                }}
-                className={`rounded-2xl p-4 bg-white text-slate-900 border-2 text-left transition cursor-pointer shadow-md flex flex-col justify-between gap-2.5 ${
-                  isCardActive ? 'border-yellow-400 ring-4 ring-yellow-300/40 -translate-y-0.5' : 'border-white/80'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`px-2.5 py-0.5 rounded-lg font-black text-[11px] uppercase ${card.badgeColor}`}>
-                    {card.badge}
-                  </span>
-                  <span className={`text-3xl sm:text-4xl transition-transform duration-300 ${card.animClass}`}>
-                    {card.emoji}
-                  </span>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {lesson.visualCards.map((card, idx) => {
+                const isCardActive = activeCardIdx === idx;
+                return (
+                  <button
+                    key={card.badge}
+                    type="button"
+                    onPointerEnter={(e) => {
+                      setActiveCardIdx(idx);
+                      triggerHoverSpeech(card.en, { isMuted, pointerType: e.pointerType });
+                    }}
+                    onPointerLeave={() => {
+                      setActiveCardIdx(-1);
+                      cancelHoverSpeech();
+                    }}
+                    onClick={() => {
+                      cancelHoverSpeech();
+                      unlockAudio();
+                      setActiveCardIdx(idx);
+                      speakEnglish(card.en, () => setActiveCardIdx(-1));
+                    }}
+                    className={`rounded-2xl p-4 bg-white text-slate-900 border-2 text-left transition cursor-pointer shadow-md flex flex-col justify-between gap-2.5 ${
+                      isCardActive ? 'border-yellow-400 ring-4 ring-yellow-300/40 -translate-y-0.5' : 'border-white/80'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`px-2.5 py-0.5 rounded-lg font-black text-[11px] uppercase ${card.badgeColor}`}>
+                        {card.badge}
+                      </span>
+                      <span className={`text-3xl sm:text-4xl transition-transform duration-300 ${card.animClass}`}>
+                        {card.emoji}
+                      </span>
+                    </div>
 
-                <div className="font-display font-black text-base sm:text-lg text-slate-900 leading-snug">
-                  {card.en}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Interactive Sentence Pattern Builder (Kalıp Kurucu) */}
-      {Array.isArray(lesson.patterns) && lesson.patterns.length > 0 && (
-        <div className="space-y-3 pt-2 border-t border-white/15">
-          <div className="flex items-center gap-1.5 text-xs font-black text-emerald-300 uppercase tracking-wide">
-            <span>🧩 Kelime Kalıbı Kurucu (Kelimeye dokun, cümleyi kur ve dinle):</span>
+                    <div className="font-display font-black text-base sm:text-lg text-slate-900 leading-snug">
+                      {card.en}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {lesson.patterns.map((pattern) => {
-              const selectedIdx = selectedPatternChips[pattern.id] ?? 0;
-              const activeOpt = pattern.options[selectedIdx] || pattern.options[0];
-              return (
-                <div
-                  key={pattern.id}
-                  className="bg-white/10 border border-white/20 rounded-2xl p-3.5 sm:p-4 space-y-3"
-                >
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-xs font-black text-yellow-300 uppercase">
-                      {pattern.titleTr}
-                    </span>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handlePracticeSpeak(pattern.id)}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-black text-[11px] cursor-pointer transition ${
-                          recordingPatternId === pattern.id
-                            ? 'bg-rose-500 text-white animate-pulse'
-                            : playingPatternId === pattern.id
-                            ? 'bg-emerald-400 text-slate-950'
-                            : 'bg-white/20 hover:bg-white/30 text-white'
-                        }`}
-                        title="Cümleyi sesli söyle ve kendi sesini dinle"
-                      >
-                        <Mic className="w-3.5 h-3.5" />
-                        <span>
-                          {recordingPatternId === pattern.id
-                            ? 'Dinliyorum... (Durdur)'
-                            : playingPatternId === pattern.id
-                            ? 'Sesin Çalıyor!'
-                            : 'Söyle & Dinle'}
+          {/* Interactive Sentence Pattern Builder */}
+          {Array.isArray(lesson.patterns) && lesson.patterns.length > 0 && (
+            <div className="space-y-3 pt-2 border-t border-white/15">
+              <div className="flex items-center gap-1.5 text-xs font-black text-emerald-300 uppercase tracking-wide">
+                <span>🧩 Sentence Builder (Tap a word, build &amp; speak!):</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {lesson.patterns.map((pattern) => {
+                  const selectedIdx = selectedPatternChips[pattern.id] ?? 0;
+                  const activeOpt = pattern.options[selectedIdx] || pattern.options[0];
+                  return (
+                    <div
+                      key={pattern.id}
+                      className="bg-white/10 border border-white/20 rounded-2xl p-3.5 sm:p-4 space-y-3"
+                    >
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <span className="text-xs font-black text-yellow-300 uppercase">
+                          {showHelper && pattern.titleTr ? pattern.titleTr : 'Build & Speak'}
                         </span>
-                      </button>
-                      {recordedUrls[pattern.id] && (
-                        <button
-                          type="button"
-                          onClick={() => handleCompareSpeak(pattern.id, activeOpt.fullEn)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-sky-300"
-                          title="Önce İngilizce referansı, 0.5 sn sonra senin sesini çalar"
-                        >
-                          <span>🔁 Karşılaştır</span>
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handlePracticeSpeak(pattern.id)}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-black text-[11px] cursor-pointer transition ${
+                              recordingPatternId === pattern.id
+                                ? 'bg-rose-500 text-white animate-pulse'
+                                : playingPatternId === pattern.id
+                                ? 'bg-emerald-400 text-slate-950'
+                                : 'bg-white/20 hover:bg-white/30 text-white'
+                            }`}
+                            title="Record your voice and listen back"
+                          >
+                            <Mic className="w-3.5 h-3.5" />
+                            <span>
+                              {recordingPatternId === pattern.id
+                                ? 'Listening... (Stop)'
+                                : playingPatternId === pattern.id
+                                ? 'Playing!'
+                                : 'Record'}
+                            </span>
+                          </button>
+                          {recordedUrls[pattern.id] && (
+                            <button
+                              type="button"
+                              onClick={() => handleCompareSpeak(pattern.id, activeOpt.fullEn)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-sky-300"
+                              title="Play English model, then your voice"
+                            >
+                              <span>🔁 Compare</span>
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              cancelHoverSpeech();
+                              unlockAudio();
+                              speakEnglish(activeOpt.fullEn);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-yellow-300"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                            <span>Listen</span>
+                          </button>
+                        </div>
+                      </div>
+                      {micStatus && (
+                        <div className="text-[11px] font-bold text-amber-200">{micStatus}</div>
                       )}
+
+                      {/* Assembled Sentence Slot */}
+                      <div className="bg-slate-950/60 border border-white/15 rounded-xl p-3">
+                        <div className="font-display font-black text-base sm:text-lg text-white flex flex-wrap items-center gap-1.5">
+                          <span>{pattern.templateBefore}</span>
+                          <span className="px-2.5 py-0.5 rounded-lg bg-yellow-400 text-slate-950 shadow-sm">
+                            {activeOpt.emoji} {activeOpt.word}
+                          </span>
+                          <span>{pattern.templateAfter}</span>
+                        </div>
+                      </div>
+
+                      {/* Selectable Word Chips */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {pattern.options.map((opt, oIdx) => {
+                          const isPicked = oIdx === selectedIdx;
+                          return (
+                            <button
+                              key={opt.word}
+                              type="button"
+                              onPointerEnter={(e) =>
+                                triggerHoverSpeech(opt.fullEn, {
+                                  isMuted,
+                                  pointerType: e.pointerType,
+                                })
+                              }
+                              onPointerLeave={cancelHoverSpeech}
+                              onClick={() => {
+                                cancelHoverSpeech();
+                                unlockAudio();
+                                playTap(isMuted);
+                                setSelectedPatternChips((prev) => ({
+                                  ...prev,
+                                  [pattern.id]: oIdx,
+                                }));
+                                speakEnglish(opt.fullEn);
+                              }}
+                              className={`px-2.5 py-1.5 rounded-xl text-xs font-display font-black border transition cursor-pointer ${
+                                isPicked
+                                  ? 'bg-emerald-500 text-white border-emerald-300 shadow-sm'
+                                  : 'bg-white text-slate-900 border-slate-200 hover:bg-yellow-100'
+                              }`}
+                            >
+                              {opt.emoji} {opt.word}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Free Sentence Sandbox */}
+          <div className="pt-2 border-t border-white/15 space-y-2.5">
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  playTap(isMuted);
+                  setSandboxOpen((prev) => !prev);
+                }}
+                className="inline-flex items-center gap-2 text-xs font-black text-sky-300 hover:text-sky-200 uppercase tracking-wide cursor-pointer"
+              >
+                <span>🧪 Silly Sentence Sandbox (Make your own!)</span>
+                <span className="px-2 py-0.5 rounded-lg bg-white/10 text-white text-[10px]">
+                  {sandboxOpen ? 'Hide ▲' : 'Open ▼'}
+                </span>
+              </button>
+            </div>
+
+            {sandboxOpen && (
+              <div className="bg-slate-950/60 border border-sky-400/30 rounded-2xl p-3.5 sm:p-4 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="font-display font-black text-base sm:text-lg text-white">
+                    {sandboxSubj} <span className="text-yellow-300">{sandboxAct}</span>{' '}
+                    <span className="text-emerald-300">{sandboxExtra}</span>!
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      cancelHoverSpeech();
+                      unlockAudio();
+                      speakEnglish(`${sandboxSubj} ${sandboxAct} ${sandboxExtra}!`);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-xs cursor-pointer"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    <span>Read Sentence</span>
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div className="flex flex-wrap gap-1.5">
+                    {['I', 'My friend', 'The fox', 'Dad'].map((s) => (
                       <button
+                        key={s}
                         type="button"
                         onClick={() => {
-                          cancelHoverSpeech();
-                          unlockAudio();
-                          speakEnglish(activeOpt.fullEn);
+                          playTap(isMuted);
+                          setSandboxSubj(s);
                         }}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400 text-slate-950 font-black text-[11px] cursor-pointer hover:bg-yellow-300"
+                        className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
+                          sandboxSubj === s
+                            ? 'bg-sky-400 text-slate-950'
+                            : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
                       >
-                        <Volume2 className="w-3.5 h-3.5" />
-                        <span>Dinle</span>
+                        {s}
                       </button>
-                    </div>
+                    ))}
                   </div>
-                  {micStatus && (
-                    <div className="text-[11px] font-bold text-amber-200">{micStatus}</div>
-                  )}
-
-                  {/* Assembled Sentence Slot */}
-                  <div className="bg-slate-950/60 border border-white/15 rounded-xl p-3">
-                    <div className="font-display font-black text-base sm:text-lg text-white flex flex-wrap items-center gap-1.5">
-                      <span>{pattern.templateBefore}</span>
-                      <span className="px-2.5 py-0.5 rounded-lg bg-yellow-400 text-slate-950 shadow-sm">
-                        {activeOpt.emoji} {activeOpt.word}
-                      </span>
-                      <span>{pattern.templateAfter}</span>
-                    </div>
-                  </div>
-
-                  {/* Selectable Word Chips */}
                   <div className="flex flex-wrap gap-1.5">
-                    {pattern.options.map((opt, oIdx) => {
-                      const isPicked = oIdx === selectedIdx;
-                      return (
-                        <button
-                          key={opt.word}
-                          type="button"
-                          onPointerEnter={(e) =>
-                            triggerHoverSpeech(opt.fullEn, {
-                              isMuted,
-                              pointerType: e.pointerType,
-                            })
-                          }
-                          onPointerLeave={cancelHoverSpeech}
-                          onClick={() => {
-                            cancelHoverSpeech();
-                            unlockAudio();
-                            playTap(isMuted);
-                            setSelectedPatternChips((prev) => ({
-                              ...prev,
-                              [pattern.id]: oIdx,
-                            }));
-                            speakEnglish(opt.fullEn);
-                          }}
-                          className={`px-2.5 py-1.5 rounded-xl text-xs font-display font-black border transition cursor-pointer ${
-                            isPicked
-                              ? 'bg-emerald-500 text-white border-emerald-300 shadow-sm'
-                              : 'bg-white text-slate-900 border-slate-200 hover:bg-yellow-100'
-                          }`}
-                        >
-                          {opt.emoji} {opt.word}
-                        </button>
-                      );
-                    })}
+                    {['can swim', 'have got a rocket', 'played basketball', 'is faster than a car'].map((a) => (
+                      <button
+                        key={a}
+                        type="button"
+                        onClick={() => {
+                          playTap(isMuted);
+                          setSandboxAct(a);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
+                          sandboxAct === a
+                            ? 'bg-yellow-400 text-slate-950'
+                            : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
+                      >
+                        {a}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['every day', 'in the park', 'at 8 o’clock', 'tomorrow'].map((ex) => (
+                      <button
+                        key={ex}
+                        type="button"
+                        onClick={() => {
+                          playTap(isMuted);
+                          setSandboxExtra(ex);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
+                          sandboxExtra === ex
+                            ? 'bg-emerald-400 text-slate-950'
+                            : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
+                      >
+                        {ex}
+                      </button>
+                    ))}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
-        </div>
-      )}
-
-      {/* Free Sentence Sandbox */}
-      <div className="pt-2 border-t border-white/15 space-y-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              playTap(isMuted);
-              setSandboxOpen((prev) => !prev);
-            }}
-            className="inline-flex items-center gap-2 text-xs font-black text-sky-300 hover:text-sky-200 uppercase tracking-wide cursor-pointer"
-          >
-            <span>🧪 Serbest Cümle Tahtası (Kendi Komik Cümleni Kur!)</span>
-            <span className="px-2 py-0.5 rounded-lg bg-white/10 text-white text-[10px]">
-              {sandboxOpen ? 'Gizle ▲' : 'Aç ▼'}
-            </span>
-          </button>
-        </div>
-
-        {sandboxOpen && (
-          <div className="bg-slate-950/60 border border-sky-400/30 rounded-2xl p-3.5 sm:p-4 space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="font-display font-black text-base sm:text-lg text-white">
-                {sandboxSubj} <span className="text-yellow-300">{sandboxAct}</span>{' '}
-                <span className="text-emerald-300">{sandboxExtra}</span>!
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  cancelHoverSpeech();
-                  unlockAudio();
-                  speakEnglish(`${sandboxSubj} ${sandboxAct} ${sandboxExtra}!`);
-                }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-xs cursor-pointer"
-              >
-                <Volume2 className="w-4 h-4" />
-                <span>Cümleyi Oku</span>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <div className="flex flex-wrap gap-1.5">
-                {['I', 'My friend', 'The fox', 'Dad'].map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => {
-                      playTap(isMuted);
-                      setSandboxSubj(s);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
-                      sandboxSubj === s
-                        ? 'bg-sky-400 text-slate-950'
-                        : 'bg-white/10 text-white hover:bg-white/20'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {['can swim', 'have got a rocket', 'played basketball', 'is faster than a car'].map((a) => (
-                  <button
-                    key={a}
-                    type="button"
-                    onClick={() => {
-                      playTap(isMuted);
-                      setSandboxAct(a);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
-                      sandboxAct === a
-                        ? 'bg-yellow-400 text-slate-950'
-                        : 'bg-white/10 text-white hover:bg-white/20'
-                    }`}
-                  >
-                    {a}
-                  </button>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {['every day', 'in the park', 'at 8 o’clock', 'tomorrow'].map((ex) => (
-                  <button
-                    key={ex}
-                    type="button"
-                    onClick={() => {
-                      playTap(isMuted);
-                      setSandboxExtra(ex);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black cursor-pointer ${
-                      sandboxExtra === ex
-                        ? 'bg-emerald-400 text-slate-950'
-                        : 'bg-white/10 text-white hover:bg-white/20'
-                    }`}
-                  >
-                    {ex}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
         </div>
       )}
     </div>

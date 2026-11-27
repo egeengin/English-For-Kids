@@ -17,7 +17,7 @@
   }
 
   body {
-    background-color: #F8FAFC;
+    background-color: #FFFDF5;
     color: #0F172A;
     font-family: 'Nunito', system-ui, sans-serif;
     touch-action: manipulation;
@@ -26,6 +26,28 @@
   h1, h2, h3, h4, h5, h6, .font-display {
     font-family: 'Fredoka', system-ui, sans-serif;
   }
+
+  :where(button) {
+    transition: box-shadow 150ms ease-out, scale 150ms ease-out, background-color 150ms ease-out, border-color 150ms ease-out;
+  }
+
+  :where(button):active:not(:disabled) {
+    scale: 0.97;
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid #0055BF;
+    outline-offset: 3px;
+  }
+}
+
+/* Cozy Sunlit Adventure Island Backdrop */
+.island-sky-bg {
+  background-color: #FFFDF5;
+  background-image:
+    radial-gradient(circle at 85% 8%, rgba(254, 240, 138, 0.55) 0%, transparent 28%),
+    radial-gradient(circle at 12% 14%, rgba(186, 230, 253, 0.5) 0%, transparent 32%),
+    linear-gradient(180deg, #E0F7FA 0%, #FFFDF5 38%, #F4FBF2 100%);
 }
 
 /* Page Baseplate Background (Applied only to main app shell) */
@@ -126,6 +148,71 @@
 
 .animate-balloon-pop {
   animation: balloon-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Cozy Adventure Island Motion (compositor-only, respects reduced motion) */
+@keyframes island-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes island-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes star-burst-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.75);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.08);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-16px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.95);
+  }
+}
+
+@keyframes voice-bar {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+.island-pop-in {
+  animation: island-pop-in 260ms ease-out both;
+}
+
+.star-burst-pop {
+  animation: star-burst-pop 1400ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .island-float {
+    animation: island-float 3.4s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .island-pop-in {
+    animation: island-pop-in 360ms linear(0, 0.45 15%, 1.08 35%, 0.97 55%, 1.01 75%, 1) both;
+  }
+
+  .voice-bar {
+    transform-origin: center bottom;
+    animation: voice-bar 0.7s ease-in-out infinite;
+  }
 }
 
 /* Custom scrollbars */

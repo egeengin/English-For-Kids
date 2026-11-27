@@ -244,11 +244,11 @@ export default function BalloonPopGame({
       }
 
       if (nextStreak === 2) {
-        setHypeMessage('🔥 2’li Seri! Harika gidiyorsun!');
+        setHypeMessage('🔥 2x Streak! Awesome!');
       } else if (nextStreak === 3) {
-        setHypeMessage('⚡ 3’lü Süper Kombo! (+1 Bonus ⭐)');
+        setHypeMessage('⚡ 3x Super Combo! (+1 Bonus ⭐)');
       } else if (nextStreak >= 4) {
-        setHypeMessage(`👑 ${nextStreak}x Efsane Seri! Durdurulamıyorsun! (+1 Bonus ⭐)`);
+        setHypeMessage(`👑 ${nextStreak}x Unstoppable! (+1 Bonus ⭐)`);
       } else {
         setHypeMessage('');
       }
@@ -347,6 +347,26 @@ export default function BalloonPopGame({
     startFreshDeck(selectedCategory);
   };
 
+  // Desktop keyboard shortcuts: 1/2/3 pop balloons, Space replays prompt
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (isGameOver || !targetItem) return;
+
+      if (e.key === '1' || e.key === '2' || e.key === '3') {
+        const chosen = options[Number(e.key) - 1];
+        if (chosen) handleBalloonClick(chosen);
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        unlockAudio();
+        speakEnglish(targetItem.questionEn);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  });
+
   return (
     <div className="w-full max-w-none px-3 sm:px-6 lg:px-10 py-4 flex-1 flex flex-col items-center select-none">
       {/* Compact Header Bar */}
@@ -360,7 +380,7 @@ export default function BalloonPopGame({
             {currentEntry?.isReview && !isGameOver && (
               <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 text-xs font-black px-2.5 py-0.5 rounded-full border border-amber-400">
                 <Repeat className="w-3.5 h-3.5" />
-                <span>Tekrar</span>
+                <span>Review</span>
               </span>
             )}
           </div>
@@ -370,21 +390,21 @@ export default function BalloonPopGame({
         <div className="flex items-center gap-2 flex-wrap">
           {streak >= 2 && (
             <div className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black shadow-sm animate-bounce">
-              <span>🔥 {streak}x Seri!</span>
+              <span>🔥 {streak}x Streak!</span>
             </div>
           )}
           {reviewIds.size > 0 && (
-            <div className="flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black" title="Yanlış yapılan kelimeler sonraki turlarda öncelikli sorulur">
-              <span>🔁 {reviewIds.size} Tekrar</span>
+            <div className="flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black" title="Missed words return soon for extra practice">
+              <span>🔁 {reviewIds.size} Review</span>
             </div>
           )}
           <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
-            <span>Skor: {score}</span>
+            <span>Score: {score}</span>
           </div>
           <div className="flex items-center gap-1.5 bg-yellow-400/20 text-yellow-800 border border-yellow-400/50 px-3 py-1 rounded-xl text-xs sm:text-sm font-display font-black">
             <Sparkles className="w-4 h-4 text-yellow-500" />
             <span>
-              Tur {Math.min(roundIdx + 1, totalRounds)} / {totalRounds}
+              Round {Math.min(roundIdx + 1, totalRounds)} / {totalRounds}
             </span>
           </div>
 
@@ -392,7 +412,7 @@ export default function BalloonPopGame({
             type="button"
             onClick={handleRestartGame}
             className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition-all cursor-pointer"
-            title="Oyunu Yeniden Başlat"
+            title="Play Again"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -415,7 +435,7 @@ export default function BalloonPopGame({
               }`}
             >
               <span>{cat.emoji}</span>
-              <span>{cat.labelTr}</span>
+              <span>{cat.labelEn || cat.labelTr}</span>
             </button>
           );
         })}
@@ -442,7 +462,7 @@ export default function BalloonPopGame({
                 speakEnglish(targetItem.questionEn);
               }}
               className="w-14 h-14 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 flex items-center justify-center shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer"
-              title="Soruyu Dinle"
+              title="Listen"
             >
               <Volume2 className="w-7 h-7" />
             </button>
@@ -450,16 +470,14 @@ export default function BalloonPopGame({
             <div>
               <span className="text-xs font-bold text-yellow-300/90 uppercase tracking-wider block">
                 {currentEntry?.isReview
-                  ? '🔁 Tekrar Zamanı! Doğru balonu bul:'
-                  : '🎯 Soruyu dinle ve doğru balonu patlat:'}
+                  ? '🔁 Review Time! Pop the right balloon:'
+                  : '🎯 Listen and pop the right balloon (Keys 1, 2, 3):'}
               </span>
               <p className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-white leading-snug mt-0.5">
                 {targetItem.questionEn}
               </p>
             </div>
           </div>
-
-          {/* Bilingual Helper Pills (appear gently or on tap) */}
         </div>
       )}
 
@@ -475,7 +493,7 @@ export default function BalloonPopGame({
                 </div>
               )}
               <div className="text-xs font-black text-emerald-700 uppercase">
-                Süper! Şimdi sesli tekrar et:
+                Awesome! Now say it aloud:
               </div>
               <div className="font-display font-black text-lg sm:text-2xl text-emerald-950">
                 “{echoPhrase}”
@@ -492,14 +510,14 @@ export default function BalloonPopGame({
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border-2 border-emerald-300 text-emerald-800 font-black text-xs hover:bg-emerald-100 cursor-pointer"
             >
               <Volume2 className="w-4 h-4" />
-              <span>Tekrar Dinle</span>
+              <span>Listen Again</span>
             </button>
             <button
               type="button"
               onClick={() => finishOrAdvanceRound(roundIdx + 1)}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs shadow-sm cursor-pointer"
             >
-              <span>Sonraki Balon</span>
+              <span>Next Balloon</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -541,7 +559,7 @@ export default function BalloonPopGame({
                       <span>🎊</span>
                     </div>
                     <span className="font-display font-black text-sm sm:text-base text-amber-700 bg-yellow-200 px-3 py-0.5 rounded-full border border-yellow-400 shadow-sm mt-1">
-                      {streak >= 3 ? '+2 ⭐ KOMBO!' : '+1 ⭐ Süper!'}
+                      {streak >= 3 ? '+2 ⭐ COMBO!' : '+1 ⭐ Awesome!'}
                     </span>
                   </div>
                 </div>
@@ -612,10 +630,10 @@ export default function BalloonPopGame({
               </div>
               <div>
                 <h3 className="font-display font-black text-2xl text-slate-950">
-                  Süper Balon Şampiyonu!
+                  Super Balloon Champion!
                 </h3>
                 <p className="text-sm font-bold text-slate-900">
-                  {totalRounds} turun tamamını başarıyla patlattın! +5 Yıldız ⭐ ve +3 Lego Parçası 🧱 kazandın!
+                  You popped all {totalRounds} rounds! +5 Stars ⭐ and +3 Bricks 🧱!
                 </p>
               </div>
             </div>
@@ -626,7 +644,7 @@ export default function BalloonPopGame({
                 onClick={handleRestartGame}
                 className="px-4 py-2.5 rounded-xl bg-slate-900 text-white font-display font-black text-sm shadow-md hover:bg-slate-800 transition-all cursor-pointer"
               >
-                Tekrar Oyna 🎈
+                Play Again 🎈
               </button>
             </div>
           </div>

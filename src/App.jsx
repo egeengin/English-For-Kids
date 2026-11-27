@@ -5,6 +5,8 @@ const ParentDashboard = lazy(() => import('./components/ParentDashboard'));
 const MathGateModal = lazy(() => import('./components/MathGateModal'));
 const WelcomeScreen = lazy(() => import('./components/WelcomeScreen'));
 const BreakModal = lazy(() => import('./components/BreakModal'));
+const AdventureIsland = lazy(() => import('./components/AdventureIsland'));
+const ArcadeHub = lazy(() => import('./components/ArcadeHub'));
 const SceneExplorer = lazy(() => import('./components/SceneExplorer'));
 const StoryAdventure = lazy(() => import('./components/StoryAdventure'));
 const BalloonPopGame = lazy(() => import('./components/BalloonPopGame'));
@@ -34,7 +36,14 @@ import {
   shouldShowDailyRecall,
   markDailyRecallSeen,
 } from './utils/dailyMemory';
-import { Sparkles, ShieldCheck, BookOpen, Compass, Award } from 'lucide-react';
+import {
+  Sparkles,
+  ShieldCheck,
+  BookOpen,
+  Compass,
+  Map,
+  ArrowLeft,
+} from 'lucide-react';
 
 const findCurriculumWord = (wordId) => {
   for (const level of CURRICULUM_LEVELS) {
@@ -48,17 +57,30 @@ const findCurriculumWord = (wordId) => {
 
 export default function App() {
   const [state, setState] = useState(() => loadSavedState());
-  const [currentTab, setCurrentTab] = useState(() => state.lastTab || 'discovery');
+  const [currentTab, setCurrentTab] = useState(() => state.lastTab || 'island');
   const [isMathGateOpen, setIsMathGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
-  const [isDailyRecallOpen, setIsDailyRecallOpen] = useState(() => shouldShowDailyRecall());
+  const [isDailyRecallOpen, setIsDailyRecallOpen] = useState(() => {
+    if (!shouldShowDailyRecall()) return false;
+    return Boolean(
+      getDailyMemorySummary({
+        childName: state.childName || 'Deniz',
+        streak: state.streak || 1,
+      })?.hasPreviousActivity
+    );
+  });
   const [sessionQuestionsCount, setSessionQuestionsCount] = useState(0);
   const [showBreakModal, setShowBreakModal] = useState(false);
   const [isWalkieTalkieOpen, setIsWalkieTalkieOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [isPrintableOpen, setIsPrintableOpen] = useState(false);
   const [selectedDayId, setSelectedDayId] = useState(() => state.selectedDayId || 'day-1');
+  const [requestedQuestStep, setRequestedQuestStep] = useState({
+    dayId: null,
+    step: null,
+    seq: 0,
+  });
   const [printConfig, setPrintConfig] = useState({
     mode: 'stage',
     stageId: 'stage-1',
@@ -99,6 +121,59 @@ export default function App() {
     setSelectedDayId(dayId);
     setState(prev => ({ ...prev, selectedDayId: dayId }));
   };
+
+  const handleLaunchQuest = (dayId, step = 'learn') => {
+    const targetDayId = dayId || selectedDayId || 'day-1';
+    handleSelectDayId(targetDayId);
+    setRequestedQuestStep((prev) => ({
+      dayId: targetDayId,
+      step,
+      seq: prev.seq + 1,
+    }));
+    setCurrentTab('daily');
+    setState((prev) => ({ ...prev, lastTab: 'daily' }));
+  };
+
+  const handleMarkQuestStep = useCallback((dayId, stepKey) => {
+    if (!dayId || !stepKey) return;
+    setState((prev) => {
+      const existing = prev.questProgress || {};
+      const dayEntry = existing[dayId] || {};
+      if (dayEntry[stepKey]) return prev;
+      return {
+        ...prev,
+        questProgress: {
+          ...existing,
+          [dayId]: {
+            ...dayEntry,
+            [stepKey]: true,
+          },
+        },
+      };
+    });
+  }, []);
+
+  const handleClaimQuestChest = useCallback((dayId) => {
+    if (!dayId) return;
+    logDailyActivity({ stars: 5, bricks: 2, missionTitle: `Island Chest: ${dayId}` });
+    setState((prev) => {
+      const existing = prev.questProgress || {};
+      const dayEntry = existing[dayId] || {};
+      if (dayEntry.chestClaimed) return prev;
+      return {
+        ...prev,
+        stars: (prev.stars || 0) + 5,
+        bricks: (prev.bricks || 0) + 2,
+        questProgress: {
+          ...existing,
+          [dayId]: {
+            ...dayEntry,
+            chestClaimed: true,
+          },
+        },
+      };
+    });
+  }, []);
 
   // Math gate solved successfully
   const handleMathGateSuccess = () => {
@@ -349,8 +424,8 @@ export default function App() {
   const geminiApiKey = state.geminiApiKey || '';
 
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-100 font-display font-black text-slate-700">Loading your Lego adventure…</div>}>
-    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 lego-baseplate-pattern pb-32 sm:pb-8 print:bg-white print:pb-0">
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#FFFDF5] font-display font-black text-slate-700">Loading {childName}’s Adventure Island…</div>}>
+    <div className="min-h-screen flex flex-col island-sky-bg text-slate-900 pb-32 sm:pb-8 print:bg-white print:pb-0">
       
       {/* Welcome & Audio Unlock Overlay on First Load */}
       {showWelcome && (
@@ -405,9 +480,25 @@ export default function App() {
 
       {/* Main Content Arena */}
       <main className={`flex-1 w-full flex flex-col items-center ${isPrintableOpen || isCertificateOpen ? 'print:hidden' : ''}`}>
+        {/* Cozy Adventure Island Home */}
+        {currentTab === 'island' && (
+          <AdventureIsland
+            childName={childName}
+            selectedDayId={selectedDayId}
+            questProgress={state.questProgress || {}}
+            dailyQuizAnswers={state.dailyQuizAnswers || {}}
+            onLaunchQuest={handleLaunchQuest}
+            onClaimChest={handleClaimQuestChest}
+            onNavigateTab={handleTabChange}
+            onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
+            isMuted={state.soundMuted}
+          />
+        )}
+
         {/* Daily Mission Hub */}
         {currentTab === 'daily' && (
           <DailyMissionHub
+            key={`${selectedDayId}-${requestedQuestStep.seq}`}
             dailyChecklist={state.dailyChecklist || {}}
             onToggleChecklistItem={handleToggleChecklistItem}
             dailyQuizAnswers={state.dailyQuizAnswers || {}}
@@ -420,6 +511,11 @@ export default function App() {
             onOpenPrintable={handleOpenPrintable}
             selectedDayId={selectedDayId}
             onSelectDayId={handleSelectDayId}
+            initialStep={requestedQuestStep.dayId === selectedDayId ? requestedQuestStep.step : null}
+            questProgress={state.questProgress || {}}
+            onMarkQuestStep={handleMarkQuestStep}
+            onBackToIsland={() => handleTabChange('island')}
+            childName={childName}
             isMuted={state.soundMuted}
           />
         )}
@@ -461,7 +557,7 @@ export default function App() {
 
         {/* Story Mode Switcher: Interactive Scenes vs Mini Reading Books */}
         {(currentTab === 'story' || currentTab === 'books') && (
-          <div className="w-full max-w-4xl mx-auto px-3 pt-2 pb-0 flex items-center justify-center gap-2.5">
+          <div className="w-full max-w-4xl mx-auto px-3 pt-3 pb-0 flex items-center justify-center gap-2.5">
             <button
               type="button"
               onClick={() => handleTabChange('story')}
@@ -471,7 +567,7 @@ export default function App() {
                   : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
               }`}
             >
-              🗺️ Hikaye Sahneleri
+              🗺️ Story Scenes
             </button>
             <button
               type="button"
@@ -482,7 +578,7 @@ export default function App() {
                   : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
               }`}
             >
-              📖 Mini Kitaplar
+              📖 Mini Books
             </button>
           </div>
         )}
@@ -507,178 +603,40 @@ export default function App() {
           />
         )}
 
-        {/* Games Hub Switcher — 6 Clean Kid-Friendly Buttons */}
-        {['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab) && (
-          <div className="w-full max-w-5xl mx-auto px-3 pt-4 pb-1 flex flex-col items-center gap-2">
-            <div className="flex items-center justify-center gap-2 flex-wrap">
-              <button
-                type="button"
-                onClick={() => handleTabChange('balloons')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  currentTab === 'games' || currentTab === 'balloons'
-                    ? 'bg-rose-500 text-white border-rose-700 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-rose-300'
-                }`}
-              >
-                🎈 Balon
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabChange('memory')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  currentTab === 'memory' || currentTab === 'rhymes'
-                    ? 'bg-indigo-600 text-white border-indigo-800 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300'
-                }`}
-              >
-                🃏 Hafıza &amp; Kafiye
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabChange('sound_pairs')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  ['sound_pairs', 'listen_color', 'put_it', 'differences'].includes(currentTab)
-                    ? 'bg-sky-600 text-white border-sky-800 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-sky-300'
-                }`}
-              >
-                👂 Dinle &amp; Yap
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabChange('questions')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  ['questions', 'quick_speak', 'smart_review'].includes(currentTab)
-                    ? 'bg-teal-600 text-white border-teal-800 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-teal-300'
-                }`}
-              >
-                🎙️ Sor &amp; Konuş
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabChange('phonics')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  currentTab === 'phonics'
-                    ? 'bg-amber-500 text-slate-950 border-amber-700 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
-                }`}
-              >
-                🔤 Harfler
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabChange('collection')}
-                className={`px-4 py-2 rounded-2xl border-2 font-display font-black text-sm transition cursor-pointer ${
-                  currentTab === 'collection'
-                    ? 'bg-amber-400 text-slate-950 border-amber-600 shadow-sm'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300'
-                }`}
-              >
-                🏆 Rozetler
-              </button>
-            </div>
-
-            {(currentTab === 'memory' || currentTab === 'rhymes') && (
-              <div className="flex items-center justify-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('memory')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'memory' ? 'bg-indigo-100 text-indigo-900 border-indigo-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🃏 Hafıza Kartları
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('rhymes')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'rhymes' ? 'bg-purple-100 text-purple-900 border-purple-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🎵 Kafiye Bul
-                </button>
-              </div>
-            )}
-
-            {['sound_pairs', 'listen_color', 'put_it', 'differences'].includes(currentTab) && (
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('sound_pairs')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'sound_pairs' ? 'bg-sky-100 text-sky-900 border-sky-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  👂 Ses Dedektifi
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('listen_color')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'listen_color' ? 'bg-pink-100 text-pink-900 border-pink-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🎨 Dinle &amp; Boya
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('put_it')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'put_it' ? 'bg-emerald-100 text-emerald-900 border-emerald-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  📦 Yerleştir
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('differences')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'differences' ? 'bg-teal-100 text-teal-900 border-teal-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🔍 7 Fark Bul
-                </button>
-              </div>
-            )}
-
-            {['questions', 'quick_speak', 'smart_review'].includes(currentTab) && (
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('questions')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'questions' ? 'bg-teal-100 text-teal-900 border-teal-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  ❓ Sorular
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('quick_speak')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'quick_speak' ? 'bg-violet-100 text-violet-900 border-violet-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🎙️ Hızlı Konuş
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTabChange('smart_review')}
-                  className={`px-3 py-1 rounded-xl text-xs font-black border cursor-pointer ${
-                    currentTab === 'smart_review' ? 'bg-orange-100 text-orange-900 border-orange-400' : 'bg-white text-slate-600 border-slate-200'
-                  }`}
-                >
-                  🔁 Bugünün 8 Kelimesi
-                </button>
-              </div>
-            )}
+        {/* Clean Back-to-Arcade Bar inside Individual Mini-Games */}
+        {['balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab) && (
+          <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 pt-4 pb-1 flex items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={() => handleTabChange('games')}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-rose-50 text-slate-800 border-2 border-slate-200 hover:border-rose-300 font-display font-black text-xs sm:text-sm shadow-2xs cursor-pointer transition"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Arcade</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabChange('island')}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-900 border-2 border-sky-200 font-display font-black text-xs sm:text-sm shadow-2xs cursor-pointer transition"
+            >
+              <span>🏝️ Island Map</span>
+            </button>
           </div>
         )}
 
-        {/* Active Listening Balloon Pop (Default Game) */}
-        {(currentTab === 'games' || currentTab === 'balloons') && (
+        {/* Curated Arcade Pier */}
+        {currentTab === 'games' && (
+          <ArcadeHub
+            childName={childName}
+            stars={state.stars}
+            onSelectGame={(gameId) => handleTabChange(gameId)}
+            onOpenWalkieTalkie={() => setIsWalkieTalkieOpen(true)}
+            isMuted={state.soundMuted}
+          />
+        )}
+
+        {/* Active Listening Balloon Pop */}
+        {currentTab === 'balloons' && (
           <BalloonPopGame
             onRewardEarned={handleRewardEarned}
             onNavigateToWorkshop={() => setCurrentTab('daily')}
@@ -761,7 +719,7 @@ export default function App() {
             onAddCustomWord={handleAddCustomWord}
             onDeleteCustomWord={handleDeleteCustomWord}
             onResetProgress={handleResetProgress}
-            onCloseDashboard={() => setCurrentTab('discovery')}
+            onCloseDashboard={() => setCurrentTab('island')}
             isMuted={state.soundMuted}
             childName={childName}
             childAge={childAge}
@@ -778,23 +736,23 @@ export default function App() {
         className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-800 px-2 pt-2 flex items-center justify-around print:hidden"
       >
         <button
-          onClick={() => handleTabChange('discovery')}
+          onClick={() => handleTabChange('island')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'discovery' ? 'text-yellow-400 font-black' : 'text-slate-400'
+            currentTab === 'island' ? 'text-sky-400 font-black' : 'text-slate-400'
           }`}
         >
-          <Award className="w-5 h-5" />
-          <span>Test ⭐</span>
+          <Map className="w-5 h-5" />
+          <span>Island</span>
         </button>
 
         <button
           onClick={() => handleTabChange('daily')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            currentTab === 'daily' ? 'text-blue-400 font-black' : 'text-slate-400'
+            currentTab === 'daily' ? 'text-emerald-400 font-black' : 'text-slate-400'
           }`}
         >
           <Compass className="w-5 h-5" />
-          <span>Günlük 🚀</span>
+          <span>Quest</span>
         </button>
 
         <button
@@ -804,19 +762,19 @@ export default function App() {
           }`}
         >
           <BookOpen className="w-5 h-5" />
-          <span>Story</span>
+          <span>Stories</span>
         </button>
 
         <button
           onClick={() => handleTabChange('games')}
           className={`min-h-[50px] flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-bold cursor-pointer ${
-            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection'].includes(currentTab)
+            ['games', 'balloons', 'phonics', 'differences', 'memory', 'sound_pairs', 'rhymes', 'questions', 'quick_speak', 'smart_review', 'listen_color', 'put_it', 'collection', 'discovery'].includes(currentTab)
               ? 'text-rose-400 font-black'
               : 'text-slate-400'
           }`}
         >
           <Sparkles className="w-5 h-5" />
-          <span>Oyunlar</span>
+          <span>Arcade</span>
         </button>
 
         <button
@@ -826,7 +784,7 @@ export default function App() {
           }`}
         >
           <ShieldCheck className="w-5 h-5" />
-          <span>Ebeveyn</span>
+          <span>Parent</span>
         </button>
       </div>
 

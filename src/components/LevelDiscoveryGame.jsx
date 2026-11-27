@@ -260,7 +260,7 @@ export default function LevelDiscoveryGame({
                     : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-300'
                 }`}
               >
-                <span>Bölüm {stage.number}</span>
+                <span>Stage {stage.number}</span>
                 <span className={`text-[11px] font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
                   {stat.isCompleted ? '⭐' : `${stat.answeredCount}/10`}
                 </span>
@@ -277,7 +277,7 @@ export default function LevelDiscoveryGame({
           }}
           className="px-3.5 py-2 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-xs sm:text-sm cursor-pointer transition flex-shrink-0"
         >
-          {viewMode === 'report' ? '🎮 Teste Dön' : '📊 Karne'}
+          {viewMode === 'report' ? '🎮 Back to Test' : '📊 Scorecard'}
         </button>
       </div>
 
@@ -326,7 +326,7 @@ export default function LevelDiscoveryGame({
                 className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-xs sm:text-sm shadow-xs cursor-pointer"
               >
                 <Volume2 className="w-4 h-4" />
-                <span>🔊 Dinle</span>
+                <span>🔊 Listen</span>
               </button>
               {micSupported && (
                 <button
@@ -339,7 +339,7 @@ export default function LevelDiscoveryGame({
                   }`}
                 >
                   <Mic className="w-4 h-4" />
-                  <span>{isListening ? 'Dinliyorum...' : '🎙️ Sesli (+2 ⭐)'}</span>
+                  <span>{isListening ? 'Listening...' : '🎙️ Say It (+2 ⭐)'}</span>
                 </button>
               )}
             </div>
@@ -439,7 +439,7 @@ export default function LevelDiscoveryGame({
                           : 'bg-rose-500 text-white'
                       }`}
                     >
-                      {opt.isCorrect ? '✅ Doğru!' : '❌ Yanlış'}
+                      {opt.isCorrect ? '✅ Correct!' : '❌ Try Again'}
                     </div>
                   )}
                 </div>
@@ -452,7 +452,7 @@ export default function LevelDiscoveryGame({
             <div className="flex flex-wrap items-center gap-2 min-h-[32px]">
               {isListening && (
                 <span className="px-3 py-1 rounded-xl bg-rose-100 text-rose-900 font-black text-xs animate-pulse">
-                  🎙️ {heardText ? `"${heardText}"` : 'Dinliyorum...'}
+                  🎙️ {heardText ? `"${heardText}"` : 'Listening...'}
                 </span>
               )}
               {!isListening && (voiceNotice || voiceBonusQuestionId === currentQuestion.id) && (
@@ -463,7 +463,7 @@ export default function LevelDiscoveryGame({
                       : 'bg-amber-100 text-amber-900 border border-amber-300'
                   }`}
                 >
-                  {voiceNotice?.text || '🎙️ Sesli Cevap: +2 ⭐!'}
+                  {voiceNotice?.text || '🎙️ Voice Bonus: +2 ⭐!'}
                 </span>
               )}
             </div>
@@ -475,8 +475,8 @@ export default function LevelDiscoveryGame({
             >
               <span>
                 {activeQuestionIdx < currentStage.questions.length - 1
-                  ? 'Sonraki Soru'
-                  : 'Tamamla 🏆'}
+                  ? 'Next Question'
+                  : 'Finish Stage 🏆'}
               </span>
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -493,34 +493,34 @@ export default function LevelDiscoveryGame({
 
           <div className="space-y-2 max-w-xl mx-auto">
             <div className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black text-xs">
-              Skor: {currentStageStat.correctCount} / 10 Doğru! • +1 Yıldız ⭐
+              Score: {currentStageStat.correctCount} / 10 Correct! • +1 Star ⭐
             </div>
 
             {currentStage.number === 3 ? (
               <>
                 <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
-                  Tebrikler Şampiyon {childName}! ⭐⭐⭐
+                  Way to Go, Champion {childName}! ⭐⭐⭐
                 </h2>
                 <p className="text-sm sm:text-base text-slate-700 font-semibold leading-relaxed">
-                  3 Yıldızla Şampiyonluk hedefini tamamladın! Önünde uzay, dinozorlar ve efsanevi bosslarla dolu yeni bölümler seni bekliyor!
+                  You unlocked 3-Star Champion status! Space, dinosaurs, and exciting new stages await!
                 </p>
               </>
             ) : currentStage.number === DISCOVERY_STAGES.length ? (
               <>
                 <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
-                  Efsanevi Büyük Final Tamamlandı! 👑🏆
+                  Grand Finale Complete! 👑🏆
                 </h2>
                 <p className="text-sm text-slate-600 font-semibold">
-                  {DISCOVERY_STAGES.length * 10} soruluk tüm bölümleri başarıyla bitirdin! Artık gerçek bir İngilizce Grandmaster şampiyonusun.
+                  You conquered all {DISCOVERY_STAGES.length * 10} questions! You are an English Grandmaster!
                 </p>
               </>
             ) : (
               <>
                 <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
-                  {currentStage.titleTr} Bitti! ⭐
+                  {currentStage.titleEn || `Stage ${currentStage.number}`} Complete! ⭐
                 </h2>
                 <p className="text-sm text-slate-600 font-semibold">
-                  Harika iş çıkardın {childName}! Bir sonraki bölüme geçmeye hazır mısın?
+                  Awesome work, {childName}! Ready for the next stage?
                 </p>
               </>
             )}
@@ -536,8 +536,8 @@ export default function LevelDiscoveryGame({
                 <Flame className="w-4 h-4" />
                 <span>
                   {currentStage.number === 3
-                    ? '🔥 Bölüm 4’e Meydan Oku! (Zor)'
-                    : `Bölüm ${currentStage.number + 1}’e Geç`}
+                    ? '🔥 Challenge Stage 4!'
+                    : `Go to Stage ${currentStage.number + 1}`}
                 </span>
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -551,7 +551,7 @@ export default function LevelDiscoveryGame({
                   className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-sm shadow-md cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
-                  <span>Yanlışları Tekrar Çöz</span>
+                  <span>Retry Missed</span>
                 </button>
               )}
 
@@ -564,7 +564,7 @@ export default function LevelDiscoveryGame({
               className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-black text-sm shadow-md cursor-pointer"
             >
               <Trophy className="w-4 h-4" />
-              <span>Sonuç Karnesi</span>
+              <span>Scorecard</span>
             </button>
           </div>
         </div>
@@ -576,10 +576,10 @@ export default function LevelDiscoveryGame({
           <div className="bg-white rounded-3xl p-5 shadow-md border-2 border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-display font-black text-slate-900">
-                📊 {childName}’in Seviye Karnesi ({masteredList.length} Doğru / {totalAnsweredCount} Çözülen)
+                📊 {childName}’s Level Scorecard ({masteredList.length} Mastered / {totalAnsweredCount} Answered)
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 font-semibold mt-0.5">
-                Yanlış yapılan konular sıradaki günlük ders hedeflerimiz olarak listelendi.
+                Missed topics are saved below as quick review targets.
               </p>
             </div>
 
@@ -590,7 +590,7 @@ export default function LevelDiscoveryGame({
                 className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Testi Sıfırla</span>
+                <span>Reset Test</span>
               </button>
             </div>
           </div>
@@ -606,13 +606,13 @@ export default function LevelDiscoveryGame({
                 >
                   <div className="text-2xl">{stage.badgeEmoji}</div>
                   <div className="font-display font-black text-sm text-slate-900">
-                    Bölüm {stage.number}
+                    Stage {stage.number}
                   </div>
                   <div className="text-xs font-black text-emerald-700">
-                    {st.correctCount} / 10 Doğru
+                    {st.correctCount} / 10 Correct
                   </div>
                   <div className="text-xs text-slate-500 font-semibold">
-                    {st.isCompleted ? '⭐ Tamamlandı' : `${st.answeredCount}/10 çözüldü`}
+                    {st.isCompleted ? '⭐ Complete' : `${st.answeredCount}/10 answered`}
                   </div>
                 </div>
               );
@@ -625,11 +625,11 @@ export default function LevelDiscoveryGame({
               <div className="flex items-center gap-2 mb-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                 <h3 className="font-display font-black text-base text-slate-900">
-                  ✅ Bildiği Konular ({masteredList.length})
+                  ✅ Mastered Skills ({masteredList.length})
                 </h3>
               </div>
               {masteredList.length === 0 ? (
-                <p className="text-xs text-slate-400 font-semibold">Henüz doğru işaretlenen soru yok.</p>
+                <p className="text-xs text-slate-400 font-semibold">No answered questions yet.</p>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
                   {masteredList.map((item) => (
@@ -637,7 +637,7 @@ export default function LevelDiscoveryGame({
                       key={item.id}
                       className="px-2.5 py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900"
                     >
-                      ✓ B{item.stageNumber}: {item.skillLabelTr}
+                      ✓ S{item.stageNumber}: {item.skillTag.replace(/_/g, ' ')}
                     </span>
                   ))}
                 </div>
@@ -649,13 +649,13 @@ export default function LevelDiscoveryGame({
               <div className="flex items-center gap-2 mb-3">
                 <Target className="w-5 h-5 text-amber-600" />
                 <h3 className="font-display font-black text-base text-slate-900">
-                  🎯 Öğreneceğimiz Süper Güçler ({learningList.length})
+                  🎯 Superpowers to Practice ({learningList.length})
                 </h3>
               </div>
               {learningList.length === 0 ? (
                 <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
                   <Sparkles className="w-4 h-4 text-amber-500" />
-                  <span>Yanlış yaptığı sorular burada günlük hedefler olarak toplanır.</span>
+                  <span>Any missed questions appear here for quick practice.</span>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -665,7 +665,7 @@ export default function LevelDiscoveryGame({
                       className="bg-amber-50 rounded-xl px-3 py-2 border border-amber-200 flex items-center justify-between gap-2 text-xs"
                     >
                       <span className="font-bold text-slate-800">
-                        🔥 B{item.stageNumber}: {item.skillLabelTr}
+                        🔥 S{item.stageNumber}: {item.skillTag.replace(/_/g, ' ')}
                       </span>
                       {onSwitchToDay && (
                         <button
@@ -676,7 +676,7 @@ export default function LevelDiscoveryGame({
                           }}
                           className="font-black text-blue-700 hover:underline cursor-pointer flex-shrink-0"
                         >
-                          {item.curriculumDayTarget.replace('day-', 'Gün ')}’e Git →
+                          Practice Quest →
                         </button>
                       )}
                     </div>

@@ -62,14 +62,14 @@ export default function DailyRecallModal({
   };
 
   const timeHeading = recapStats?.isYesterday
-    ? '📅 Dün Neler Yaptık?'
-    : '🧠 Önceki Çalışmada Neler Yaptık?';
+    ? '📅 Yesterday’s Adventure'
+    : '🧠 Last Time on the Island';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 backdrop-blur-md animate-fadeIn">
       <div className="relative w-full max-w-lg bg-white rounded-3xl border-4 sm:border-6 border-slate-900 shadow-2xl p-5 sm:p-7 text-left overflow-hidden max-h-[90vh] flex flex-col">
         
-        {/* Top Decorative Lego Studs Strip */}
+        {/* Top Decorative Sunlit Dots Strip */}
         <div className="absolute top-0 left-0 right-0 h-4 bg-yellow-400 flex justify-around items-center px-4">
           {Array.from({ length: 12 }).map((_, i) => (
             <div
@@ -82,13 +82,13 @@ export default function DailyRecallModal({
         {/* Header with Close and Streak */}
         <div className="flex items-center justify-between gap-2 pt-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-2xl sm:text-3xl">🌟</span>
+            <span className="text-2xl sm:text-3xl">🏝️</span>
             <div>
               <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 leading-tight">
-                Tekrar Hoş Geldin, {childName}!
+                Welcome Back, {childName}!
               </h2>
               <p className="text-[11px] sm:text-xs text-slate-500 font-bold">
-                Günlük İlerleme &amp; Hatırlatıcı
+                Daily Progress &amp; Memory Recap
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function DailyRecallModal({
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-orange-100 border border-orange-300 text-orange-700 font-black text-xs">
               <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500 animate-pulse" />
-              <span>{streak} Günlük Seri</span>
+              <span>{streak}-Day Streak</span>
             </div>
             <button
               type="button"
@@ -105,7 +105,7 @@ export default function DailyRecallModal({
                 onClose();
               }}
               className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
-              title="Kapat"
+              title="Close"
             >
               <X className="w-5 h-5" />
             </button>
@@ -120,10 +120,10 @@ export default function DailyRecallModal({
               <span className="text-2xl flex-shrink-0">🦁</span>
               <div>
                 <div className="text-xs font-black text-amber-900 uppercase tracking-wide">
-                  Leo'nun Günlük Notu:
+                  Leo’s Daily Note:
                 </div>
                 <div className="text-xs sm:text-sm font-bold text-slate-700 mt-0.5">
-                  {summarySentenceTr}
+                  {spokenGreetingEn || summarySentenceTr}
                 </div>
               </div>
             </div>
@@ -136,10 +136,10 @@ export default function DailyRecallModal({
                   ? 'bg-rose-500 text-white animate-pulse'
                   : 'bg-amber-400 hover:bg-amber-300 text-slate-950'
               }`}
-              title="Leo'dan İngilizce dinle"
+              title="Hear Leo speak"
             >
               <Volume2 className="w-4 h-4" />
-              <span>{isPlayingAudio ? 'Dinletiliyor...' : 'Leo Seslendirsin'}</span>
+              <span>{isPlayingAudio ? 'Speaking...' : 'Hear Leo'}</span>
             </button>
           </div>
 
@@ -158,7 +158,7 @@ export default function DailyRecallModal({
                     <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
                     <span>+{recapStats.stars}</span>
                   </div>
-                  <div className="text-[10px] font-bold text-slate-500">Yıldız Kazanıldı</div>
+                  <div className="text-[10px] font-bold text-slate-500">Stars Earned</div>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-2">
@@ -166,7 +166,7 @@ export default function DailyRecallModal({
                     <span>🧱</span>
                     <span>+{recapStats.bricks}</span>
                   </div>
-                  <div className="text-[10px] font-bold text-slate-500">Lego Parçası</div>
+                  <div className="text-[10px] font-bold text-slate-500">Bricks</div>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-2">
@@ -174,7 +174,7 @@ export default function DailyRecallModal({
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span>{recapStats.questionsCount}</span>
                   </div>
-                  <div className="text-[10px] font-bold text-slate-500">Soru &amp; Görev</div>
+                  <div className="text-[10px] font-bold text-slate-500">Questions</div>
                 </div>
               </div>
 
@@ -184,7 +184,7 @@ export default function DailyRecallModal({
                   <span className="text-xl">📖</span>
                   <div className="flex-1 min-w-0">
                     <div className="text-[11px] font-black text-purple-900 uppercase">
-                      Okunan Mini Kitap:
+                      Mini-Book Read:
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-purple-800 truncate">
                       {recapStats.booksRead.join(', ')}
@@ -195,7 +195,7 @@ export default function DailyRecallModal({
                     onClick={() => handleStartToday('books')}
                     className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-black text-xs cursor-pointer"
                   >
-                    Tekrar Oku
+                    Read Again
                   </button>
                 </div>
               )}
@@ -204,16 +204,15 @@ export default function DailyRecallModal({
               {recapStats.words && recapStats.words.length > 0 && (
                 <div className="space-y-1.5">
                   <div className="text-[11px] font-black text-slate-700 uppercase flex items-center justify-between">
-                    <span>🔤 Çalışılan Kelimeler (Dinlemek için dokun):</span>
+                    <span>🔤 Words Practiced (Tap to Hear):</span>
                     <span className="text-slate-400 font-normal">
-                      {recapStats.words.length} kelime
+                      {recapStats.words.length} words
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {recapStats.words.slice(0, 8).map((w, idx) => {
                       const wordText = typeof w === 'string' ? w : w.word;
                       const wordEmoji = typeof w === 'object' && w.emoji ? w.emoji : '⭐';
-                      const wordTr = typeof w === 'object' && w.tr ? w.tr : '';
                       const isSpeaking = activeSpeakingWord === wordText;
 
                       return (
@@ -226,7 +225,7 @@ export default function DailyRecallModal({
                               ? 'bg-yellow-400 border-yellow-600 text-slate-950 scale-105'
                               : 'bg-white border-slate-200 text-slate-800 hover:border-yellow-400 hover:bg-yellow-50'
                           }`}
-                          title={`Sesli dinle: ${wordText} ${wordTr ? `(${wordTr})` : ''}`}
+                          title={`Listen: ${wordText}`}
                         >
                           <span>{wordEmoji}</span>
                           <span>{wordText}</span>
@@ -242,10 +241,10 @@ export default function DailyRecallModal({
             <div className="bg-sky-50 border border-sky-200 rounded-2xl p-4 text-center space-y-1">
               <span className="text-3xl">🚀</span>
               <div className="font-display font-black text-sm text-sky-900">
-                Bugün Yepyeni Bir Macera Başlıyor!
+                A Brand New Adventure Begins!
               </div>
               <p className="text-xs text-sky-700 font-bold">
-                Mini kitapları oku, günlük şarkıyı dinle ve Lego parçaları kazanarak modellerini inşa et!
+                Learn, sing, play &amp; speak with Leo to collect Island Stars!
               </p>
             </div>
           )}
@@ -257,15 +256,15 @@ export default function DailyRecallModal({
                 <span className="text-lg">⚡</span>
                 <div>
                   <div className="text-[11px] font-black text-emerald-900 uppercase">
-                    Bugünkü Başarın:
+                    Today’s Progress:
                   </div>
                   <div className="text-xs font-bold text-emerald-800">
-                    +{todayStats.stars} Yıldız • {todayStats.questionsCount} Soru çözüldü
+                    +{todayStats.stars} Stars • {todayStats.questionsCount} Questions
                   </div>
                 </div>
               </div>
               <span className="text-xs font-black text-emerald-700 bg-white px-2 py-0.5 rounded-lg border border-emerald-200">
-                Aktif 🚀
+                Active 🚀
               </span>
             </div>
           )}
@@ -274,10 +273,10 @@ export default function DailyRecallModal({
           <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-3 text-center space-y-2">
             <div className="text-xs font-black text-slate-800 flex items-center justify-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
-              <span>Bugünün Hedefi:</span>
+              <span>Today’s Goal:</span>
             </div>
             <p className="text-xs text-slate-600 font-bold">
-              1 yeni mini kitap oku, günlük şarkıyı dinle ve 5 yıldız topla! 🌟
+              Finish 1 Island Stop or read a mini-book to earn 5 stars! 🌟
             </p>
             <div className="flex items-center justify-center gap-2 pt-1">
               <button
@@ -285,14 +284,14 @@ export default function DailyRecallModal({
                 onClick={() => handleStartToday('daily')}
                 className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs cursor-pointer transition shadow-xs"
               >
-                📅 Günlük Çalışma
+                🗺️ Daily Quest
               </button>
               <button
                 type="button"
                 onClick={() => handleStartToday('books')}
                 className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-display font-black text-xs cursor-pointer transition shadow-xs"
               >
-                📖 Mini Kitaplar
+                📖 Mini Books
               </button>
             </div>
           </div>
@@ -303,10 +302,10 @@ export default function DailyRecallModal({
           <button
             type="button"
             onClick={() => handleStartToday()}
-            className="w-full py-3.5 px-6 rounded-2xl font-display font-black text-base sm:text-lg bg-red-500 hover:bg-red-600 active:bg-red-700 text-white border-2 border-b-4 border-red-800 transition shadow-lg flex items-center justify-center gap-2 cursor-pointer select-none"
+            className="w-full py-3.5 px-6 rounded-2xl font-display font-black text-base sm:text-lg bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white border-2 border-b-4 border-emerald-800 transition shadow-lg flex items-center justify-center gap-2 cursor-pointer select-none"
           >
             <Play className="w-5 h-5 fill-yellow-300 text-yellow-300" />
-            <span>MACERAYA DEVAM ET! 🧱</span>
+            <span>LET’S PLAY! 🏝️</span>
           </button>
         </div>
 

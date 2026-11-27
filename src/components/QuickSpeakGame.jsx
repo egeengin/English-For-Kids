@@ -108,18 +108,18 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           transcript: finalText,
         });
         if (res?.isAccepted) {
-          setFeedback(res.feedbackEn || 'Harika söyledin!');
+          setFeedback(res.feedbackEn || 'Awesome speaking!');
           handleSuccess();
         } else {
           playGentleWobble(isMuted);
           recordMissedWord(item.phrase, item.emoji, item.tr);
-          setFeedback(res?.feedbackEn || 'Biraz daha net söylemeyi dene!');
+          setFeedback(res?.feedbackEn || 'Try saying it a bit clearer!');
         }
       },
       onError: () => {
         setIsListening(false);
         stopClip();
-        setFeedback('Mikrofon dinlenemedi, "Söyledim ✓" butonunu kullanabilirsin.');
+        setFeedback('Microphone unavailable — you can tap "I said it! ✓".');
       },
       onEnd: () => {
         setIsListening(false);
@@ -170,7 +170,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
                 : 'text-slate-700 hover:bg-white'
             }`}
           >
-            👀 Okuyarak Söyle (+3 ⭐)
+            👀 Echo Mode (+3 ⭐)
           </button>
           <button
             type="button"
@@ -185,15 +185,14 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
                 : 'text-slate-700 hover:bg-white'
             }`}
           >
-            🧠 Hafızadan Söyle (+5 ⭐)
+            🧠 Memory Mode (+5 ⭐)
           </button>
         </div>
 
         <div className="text-6xl mb-3 mt-1 leading-none">{item.emoji}</div>
-        <div className="font-display font-black text-2xl sm:text-4xl text-slate-900 mb-2">
+        <div className="font-display font-black text-2xl sm:text-4xl text-slate-900 mb-4">
           {displayedPhrase}
         </div>
-        <div className="text-sm font-bold text-slate-400 mb-4">{item.tr}</div>
 
         {speakMode === 'memory' && !passed && (
           <div className="mb-5">
@@ -206,7 +205,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-black text-xs border border-amber-300 cursor-pointer"
             >
               {showHint ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-              <span>{showHint ? 'Kelimeleri Gizle' : '💡 İpucu Göster'}</span>
+              <span>{showHint ? 'Hide Words' : '💡 Show Hint'}</span>
             </button>
           </div>
         )}
@@ -221,7 +220,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
             className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-display font-black text-lg shadow-md flex items-center gap-2 cursor-pointer"
           >
             <Volume2 className="w-6 h-6" />
-            <span>Dinle</span>
+            <span>Listen</span>
           </button>
 
           {micSupported && (
@@ -236,7 +235,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               }`}
             >
               <Mic className="w-6 h-6" />
-              <span>{isListening ? 'Dinliyorum...' : 'Konuş'}</span>
+              <span>{isListening ? 'Listening...' : 'Speak Now'}</span>
             </button>
           )}
 
@@ -246,7 +245,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               onClick={handleSuccess}
               className="px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-base shadow-md cursor-pointer"
             >
-              Söyledim ✓
+              I said it! ✓
             </button>
           )}
 
@@ -260,14 +259,14 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               className="px-5 py-3.5 rounded-2xl bg-purple-100 hover:bg-purple-200 text-purple-900 font-display font-black text-base border-2 border-purple-300 flex items-center gap-2 cursor-pointer"
             >
               <Volume2 className="w-5 h-5" />
-              <span>Kaydımı Dinle</span>
+              <span>Hear My Voice</span>
             </button>
           )}
         </div>
 
         {heardText && (
           <div className="mt-4 text-sm font-bold text-slate-600">
-            Duyulan: <span className="text-slate-900">&quot;{heardText}&quot;</span>
+            Heard: <span className="text-slate-900">&quot;{heardText}&quot;</span>
           </div>
         )}
         {feedback && (
@@ -278,7 +277,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
           <div className="mt-5 flex items-center justify-center gap-3 flex-wrap">
             <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-900 px-4 py-2 rounded-xl font-black">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              <span>Harika söyledin! (+{rewardStars} ⭐)</span>
+              <span>Awesome speaking! (+{rewardStars} ⭐)</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </span>
             <button
@@ -286,7 +285,7 @@ export default function QuickSpeakGame({ onRewardEarned, isMuted = false }) {
               onClick={nextPhrase}
               className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-sm flex items-center gap-1 cursor-pointer"
             >
-              <span>Sonraki Cümle</span>
+              <span>Next Phrase</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import {
   speakEnglish,
+  speakEnglishSequence,
   speakPhoneme,
   stopSpeech,
   unlockAudio,
@@ -224,7 +225,7 @@ export default function PhonicsBuilder({
           origin: { y: 0.6 },
         });
         speakTimerRef.current = setTimeout(() => {
-          speakEnglish(`${currentWord.letters.join('... ')}... ${currentWord.word.toLowerCase()}!`);
+          speakEnglishSequence([...currentWord.letters, currentWord.word.toLowerCase()]);
         }, 280);
       }
 

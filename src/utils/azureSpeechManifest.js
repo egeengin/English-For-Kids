@@ -59,12 +59,21 @@ export function preloadSpeechManifest() {
   return loadManifest().catch(() => null);
 }
 
+function normalizeKeyText(value) {
+  return String(value || '')
+    .trim()
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .toLowerCase();
+}
+
 function lookupInManifest(manifest, text, lang = 'en') {
   if (!manifest || typeof manifest !== 'object') return null;
   const directKey = getAzureSpeechManifestKey(text, lang);
   if (manifest[directKey]) return manifest[directKey];
 
-  const lowerKey = `${normalizeSpeechLanguage(lang)}:${String(text || '').trim().toLowerCase()}`;
+  const normLang = normalizeSpeechLanguage(lang);
+  const lowerKey = `${normLang}:${String(text || '').trim().toLowerCase()}`;
   if (manifest[lowerKey]) return manifest[lowerKey];
 
   if (!manifest._lowerMap) {
@@ -72,19 +81,25 @@ function lookupInManifest(manifest, text, lang = 'en') {
     manifest._lowerNoPunctMap = new Map();
     for (const k of Object.keys(manifest)) {
       if (k !== '_lowerMap' && k !== '_lowerNoPunctMap') {
-        const lower = k.toLowerCase();
-        manifest._lowerMap.set(lower, manifest[k]);
-        const noPunct = lower.replace(/[.,!?:;]+$/g, '');
+        const colonIdx = k.indexOf(':');
+        const kNorm = colonIdx === -1
+          ? normalizeKeyText(k)
+          : `${k.slice(0, colonIdx).toLowerCase()}:${normalizeKeyText(k.slice(colonIdx + 1))}`;
+        if (!manifest._lowerMap.has(kNorm)) {
+          manifest._lowerMap.set(kNorm, manifest[k]);
+        }
+        const noPunct = kNorm.replace(/[.,!?:;]+$/g, '');
         if (!manifest._lowerNoPunctMap.has(noPunct)) {
           manifest._lowerNoPunctMap.set(noPunct, manifest[k]);
         }
       }
     }
   }
-  const exactLower = manifest._lowerMap.get(lowerKey);
+  const normKey = `${normLang}:${normalizeKeyText(text)}`;
+  const exactLower = manifest._lowerMap.get(normKey);
   if (exactLower) return exactLower;
 
-  const noPunctKey = lowerKey.replace(/[.,!?:;]+$/g, '');
+  const noPunctKey = normKey.replace(/[.,!?:;]+$/g, '');
   return manifest._lowerNoPunctMap?.get(noPunctKey) || null;
 }
 

@@ -10,7 +10,7 @@ import { getStoryWorlds } from '../src/data/storyData.js';
 import { VOCAB_BANK_500 } from '../src/data/vocabularyBank500.js';
 import { DAY_LESSONS } from '../src/data/dailyLessonsData.js';
 import { ISLAND_STOPS_BY_DAY_ID } from '../src/data/islandMapData.js';
-import { LEO_MISSIONS } from '../src/utils/gemini.js';
+import { LEO_MISSIONS, getOfflineLeoResponse } from '../src/utils/gemini.js';
 import { cleanTextForTTS } from '../src/utils/speech.js';
 import {
   LEO_TICKLE_LINES,
@@ -22,6 +22,13 @@ import {
 
 function cleanText(text) {
   return cleanTextForTTS(text);
+}
+
+function cleanOptionForSpeech(text) {
+  return String(text || '')
+    .replace(/[^\p{L}\p{N}\s']/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function hashClip(text) {
@@ -102,14 +109,24 @@ for (const sc of Object.values(SCENES_DATA || {})) {
 for (const w of getStoryWorlds('Deniz') || []) {
   for (const ch of w.chapters || []) {
     add(ch.characterLine);
+    for (const rawWord of String(ch.characterLine || '').split(' ')) {
+      const cleanWord = rawWord.toLowerCase().replace(/[^a-z]/g, '');
+      if (cleanWord) add(cleanWord);
+    }
     for (const c of ch.choices || []) {
       add(c.text);
-      if (c.reply) add(c.reply.text);
+      if (c.characterReply) add(c.characterReply.text);
     }
     for (const p of ch.sceneBackdrop?.props || []) {
       add(p.name);
       add(`Find the ${p.name}!`);
       add(`Great job! ${p.name}!`);
+    }
+    for (const spot of ch.sceneBackdrop?.hotspots || []) {
+      add(spot.speakText || spot.name);
+      add(spot.name);
+      add(`Find the ${spot.name}!`);
+      add(`Great job! ${spot.name}!`);
     }
     if (ch.sentenceBuilder?.words) {
       add(ch.sentenceBuilder.words.join(' '));
@@ -167,8 +184,7 @@ try {
       add(item.q);
       add(item.word);
       for (const opt of item.options || []) {
-        const cleanOpt = String(opt.text || '').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
-        add(cleanOpt);
+        add(cleanOptionForSpeech(opt.text));
       }
     }
   }
@@ -185,14 +201,25 @@ try {
     const fnCode = mbCode.slice(startIdx, endIdx);
     const getMiniBooksFn = new Function(fnCode + "; return getMiniBooks('Deniz');")();
     for (const b of getMiniBooksFn || []) {
-      for (const p of b.pages || []) add(p.text);
+      for (const p of b.pages || []) {
+        add(p.text);
+        for (const rawWord of String(p.text || '').split(' ')) {
+          const cleanWord = rawWord.replace(/[^a-zA-Z']/g, '');
+          if (cleanWord) add(cleanWord);
+        }
+      }
       add(b.question);
       for (const opt of b.options || []) {
         add(opt.text);
-        const cleanOpt = opt.text.replace(/[^\p{L}\p{N}\s]/gu, '').trim();
+        const cleanOpt = cleanOptionForSpeech(opt.text);
         if (cleanOpt) {
           add(cleanOpt);
           add(`That is ${cleanOpt}. I am asking: ${b.question}`);
+        }
+        const alphaOnlyOpt = String(opt.text || '').replace(/[^\p{L}\p{N}\s]/gu, '').trim();
+        if (alphaOnlyOpt) {
+          add(alphaOnlyOpt);
+          add(`That is ${alphaOnlyOpt}. I am asking: ${b.question}`);
         }
       }
     }
@@ -334,8 +361,79 @@ for (const carrier of [
   'That is',
   'Good try! Find',
   'Not this one. I am asking for',
+  'Great!',
+  'Great job!',
+  'Awesome!',
 ]) {
   add(carrier);
+}
+
+// 21. DailySingLearn 64 Sandbox sentence combinations
+for (const subj of ['I', 'My friend', 'The fox', 'Dad']) {
+  for (const act of ['can swim', 'have got a rocket', 'played basketball', 'is faster than a car']) {
+    for (const extra of ['every day', 'in the park', 'at 8 o’clock', 'tomorrow']) {
+      add(`${subj} ${act} ${extra}!`);
+    }
+  }
+}
+
+// 22. Offline Leo companion replies & hints
+for (const msg of ['', 'hello', 'color', 'name', 'how are you', 'car', 'rocket', 'cat', 'pizza', 'lego']) {
+  for (const stepIdx of [0, 1, 2]) {
+    const res = getOfflineLeoResponse(msg, 'Deniz', 'free', stepIdx);
+    add(res.replyEn);
+    for (const h of res.hints || []) add(h);
+  }
+}
+
+// 23. Individual letters A-Z (PhonicsBuilder sequential spelling)
+for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+  add(letter);
+}
+
+// 24. LegoDiorama sticker palette words
+for (const word of [
+  'Deniz',
+  'Leo the Builder',
+  'School Bus',
+  'Race Car',
+  'Rocket',
+  'Dog',
+  'Cat',
+  'Tree',
+  'Balloons',
+  'Trophy',
+  'Ice Cream',
+  'Red Brick',
+  'Star',
+  'Sun',
+]) {
+  add(word);
+}
+
+// 25. PutItThereGame spot labels
+for (const label of [
+  'On the sofa',
+  'Under the table',
+  'In the box',
+  'Behind the tree',
+  'Under the chair',
+]) {
+  add(label);
+}
+
+// 26. DailyRecallModal greeting phrases
+for (const phrase of [
+  'Welcome back, Deniz!',
+  'Great job yesterday!',
+  'Great job last time!',
+  "I am excited to learn with you today! Let's read mini-books, practice new words, and build awesome Lego models!",
+  "Let's build and learn today!",
+]) {
+  add(phrase);
+}
+for (let streak = 1; streak <= 30; streak++) {
+  add(`You are on a ${streak}-day streak!`);
 }
 
 const all = [...en].map((t) => ({ text: t, hash: hashClip(t) }));

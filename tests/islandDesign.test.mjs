@@ -5,7 +5,8 @@ import path from 'node:path';
 
 import { DAILY_EXPEDITION_DAYS } from '../src/data/dailyMissionsData.js';
 import { VOCAB_BANK_500, VOCAB_CATEGORIES } from '../src/data/vocabularyBank500.js';
-import { LEO_MISSIONS } from '../src/utils/gemini.js';
+import { LEO_MISSIONS, getOfflineLeoResponse } from '../src/utils/gemini.js';
+import { getStoryWorlds } from '../src/data/storyData.js';
 import { cleanTextForTTS } from '../src/utils/speech.js';
 import {
   LEO_TICKLE_LINES,
@@ -253,7 +254,7 @@ test('Audio integrity: zero broken manifest entries and 100% pre-generated cover
     diskExistsCache.set(m4aPath, exists);
     assert.ok(exists, `Broken audio manifest entry: ${k} -> ${m4aPath}`);
 
-    const lk = k.toLowerCase();
+    const lk = k.replace(/[’‘]/g, "'").replace(/[“”]/g, '"').toLowerCase();
     lowerMap.set(lk, asset);
     const noPunct = lk.replace(/[.,!?:;]+$/g, '');
     if (!noPunctMap.has(noPunct)) noPunctMap.set(noPunct, asset);
@@ -262,7 +263,7 @@ test('Audio integrity: zero broken manifest entries and 100% pre-generated cover
   const assertHasAudio = (phrase, context) => {
     const clean = cleanTextForTTS(phrase);
     if (!clean) return;
-    const lk = `en:${clean}`.toLowerCase();
+    const lk = `en:${clean}`.replace(/[’‘]/g, "'").replace(/[“”]/g, '"').toLowerCase();
     const asset =
       manifest[`en:${clean}`] ||
       lowerMap.get(lk) ||
@@ -308,4 +309,71 @@ test('Audio integrity: zero broken manifest entries and 100% pre-generated cover
     for (const part of group) assertHasAudio(part.text, 'Silly Sentence Part');
   }
   for (const vc of SILLY_VOICE_CHALLENGES) assertHasAudio(vc.prompt, `Voice Challenge ${vc.id}`);
+
+  // StoryAdventure: dialogue, clickable words, choices, characterReply, hotspots, props
+  for (const w of getStoryWorlds('Deniz')) {
+    for (const ch of w.chapters || []) {
+      assertHasAudio(ch.characterLine, `Story ${ch.id} line`);
+      for (const rawWord of String(ch.characterLine || '').split(' ')) {
+        const cleanWord = rawWord.toLowerCase().replace(/[^a-z]/g, '');
+        if (cleanWord) assertHasAudio(cleanWord, `Story ${ch.id} word`);
+      }
+      for (const c of ch.choices || []) {
+        assertHasAudio(c.text, `Story ${ch.id} choice`);
+        if (c.characterReply) assertHasAudio(c.characterReply.text, `Story ${ch.id} reply`);
+      }
+      for (const spot of ch.sceneBackdrop?.hotspots || []) {
+        assertHasAudio(spot.speakText || spot.name, `Story ${ch.id} hotspot`);
+        assertHasAudio(`Find the ${spot.name}!`, `Story ${ch.id} find hotspot`);
+        assertHasAudio(`Great job! ${spot.name}!`, `Story ${ch.id} found hotspot`);
+      }
+      for (const prop of ch.sceneBackdrop?.props || []) {
+        assertHasAudio(prop.name, `Story ${ch.id} prop`);
+      }
+    }
+  }
+
+  // MiniBooksReader: pages, clickable words, questions, options
+  const mbCode = fs.readFileSync('src/components/MiniBooksReader.jsx', 'utf8');
+  const mbStart = mbCode.indexOf('function getMiniBooks');
+  const mbEnd = mbCode.indexOf('export default function MiniBooksReader');
+  const books = new Function(`${mbCode.slice(mbStart, mbEnd)}; return getMiniBooks('Deniz');`)();
+  for (const b of books) {
+    for (const p of b.pages || []) {
+      assertHasAudio(p.text, `Book ${b.id} page`);
+      for (const rawWord of String(p.text || '').split(' ')) {
+        const cleanWord = rawWord.replace(/[^a-zA-Z']/g, '');
+        if (cleanWord) assertHasAudio(cleanWord, `Book ${b.id} word`);
+      }
+    }
+    assertHasAudio(b.question, `Book ${b.id} question`);
+    for (const opt of b.options || []) {
+      const cleanOpt = String(opt.text || '').replace(/[^\p{L}\p{N}\s']/gu, '').replace(/\s+/g, ' ').trim();
+      if (cleanOpt) assertHasAudio(cleanOpt, `Book ${b.id} option`);
+    }
+  }
+
+  // DailySingLearn 64 Sandbox sentences
+  for (const subj of ['I', 'My friend', 'The fox', 'Dad']) {
+    for (const act of ['can swim', 'have got a rocket', 'played basketball', 'is faster than a car']) {
+      for (const extra of ['every day', 'in the park', 'at 8 o’clock', 'tomorrow']) {
+        assertHasAudio(`${subj} ${act} ${extra}!`, 'SingLearn Sandbox');
+      }
+    }
+  }
+
+  // Offline Leo replies & hints
+  for (const msg of ['', 'hello', 'color', 'name', 'how are you', 'car', 'rocket', 'cat', 'pizza', 'lego']) {
+    for (const stepIdx of [0, 1, 2]) {
+      const res = getOfflineLeoResponse(msg, 'Deniz', 'free', stepIdx);
+      assertHasAudio(res.replyEn, `Offline Leo ${msg || 'empty'}`);
+      for (const h of res.hints || []) assertHasAudio(h, `Offline Leo hint`);
+    }
+  }
+
+  // Letters A-Z & essential carriers
+  for (const ch of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+    assertHasAudio(ch, `Letter ${ch}`);
+  }
+  assertHasAudio('Great!', 'Carrier Great');
 });

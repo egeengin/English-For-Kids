@@ -767,8 +767,10 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
       'en:Cat': '/audio/gemini/en/cat',
       'en:Dog': '/audio/gemini/en/dog',
       'en:Find': '/audio/gemini/en/find',
+      'en:Great!': '/audio/gemini/en/great',
       'en:That is': '/audio/gemini/en/that_is',
       'en:I am asking for': '/audio/gemini/en/i_am_asking_for',
+      'en:Deniz’s World': '/audio/gemini/en/denizs_world',
       'tr:Elma': '/audio/gemini/tr/elma',
     };
     setGlobal('fetch', async (url) => {
@@ -782,6 +784,7 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     assert.equal(getAzureSpeechAssetSync('Red', 'en'), '/audio/gemini/en/red');
     assert.equal(await getAzureSpeechAsset('Red', 'en'), '/audio/gemini/en/red');
     assert.equal(await getAzureSpeechAsset('RED!', 'en'), '/audio/gemini/en/red');
+    assert.equal(await getAzureSpeechAsset("Deniz's World", 'en'), '/audio/gemini/en/denizs_world');
 
     // 2. cleanTextForTTS & audioDataToWavBlob
     assert.equal(cleanTextForTTS(''), '');
@@ -805,6 +808,10 @@ test('speech + azureSpeechManifest: covers TTS cleaning, WAV construction, seque
     assert.deepEqual(
       await resolveSequentialAssets('Find Red', 'en-US'),
       ['/audio/gemini/en/find', '/audio/gemini/en/red']
+    );
+    assert.deepEqual(
+      await resolveSequentialAssets('Great! Red!', 'en-US'),
+      ['/audio/gemini/en/great', '/audio/gemini/en/red']
     );
     assert.equal(await resolveSequentialAssets('Totally unmapped sentence xyz', 'en-US'), null);
 

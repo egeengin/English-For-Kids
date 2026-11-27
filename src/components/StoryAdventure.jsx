@@ -198,12 +198,17 @@ export default function StoryAdventure({
     };
   }, []);
 
-  // Pre-warm Gemini TTS cache for chapter dialogue, choices, and scene props
+  // Pre-warm audio cache for chapter dialogue, choices, replies, hotspots, and scene props
   useEffect(() => {
     if (isMuted || !chapter) return;
     prefetchSpeech([
       chapter.characterLine,
-      ...(chapter.choices || []).map((c) => c.text),
+      ...(chapter.choices || []).flatMap((c) => [c.text, c.characterReply?.text]),
+      ...(chapter.sceneBackdrop?.hotspots || []).flatMap((h) => [
+        h.speakText || h.name,
+        `Find the ${h.name}!`,
+        `Great job! ${h.name}!`,
+      ]),
       ...(chapter.sceneBackdrop?.props || []).map((p) => p.name),
     ]);
   }, [chapter, isMuted]);

@@ -59,14 +59,14 @@ export const ISLAND_STOPS_BY_DAY_ID = {
     stopNumber: 1,
     biomeId: 'beach',
     emoji: '🍔',
-    titleEn: 'Likes & Magic Words',
+    titleEn: 'Likes and Magic Words',
     taglineEn: 'Order snacks & say please!',
   },
   'level-2': {
     stopNumber: 2,
     biomeId: 'beach',
     emoji: '🚲',
-    titleEn: 'My World & Toys',
+    titleEn: 'My World and Toys',
     taglineEn: 'Talk about things you have!',
   },
   'day-2': {
@@ -94,14 +94,14 @@ export const ISLAND_STOPS_BY_DAY_ID = {
     stopNumber: 6,
     biomeId: 'woods',
     emoji: '🔍',
-    titleEn: 'Count & Spot It',
+    titleEn: 'Count and Spot It',
     taglineEn: 'There is, there are & how many?',
   },
   'day-5': {
     stopNumber: 7,
     biomeId: 'woods',
     emoji: '⚡',
-    titleEn: 'Hide & Seek',
+    titleEn: 'Hide and Seek',
     taglineEn: 'In, on, under & behind!',
   },
   'day-4': {
@@ -129,7 +129,7 @@ export const ISLAND_STOPS_BY_DAY_ID = {
     stopNumber: 11,
     biomeId: 'mountain',
     emoji: '👑',
-    titleEn: 'Compare & Story Time',
+    titleEn: 'Compare and Story Time',
     taglineEn: 'Faster, bigger & stronger!',
   },
   'level-12': {
@@ -164,7 +164,7 @@ export const ISLAND_STOPS_BY_DAY_ID = {
     stopNumber: 16,
     biomeId: 'citadel',
     emoji: '🧮',
-    titleEn: 'Science & Math Wizard',
+    titleEn: 'Science and Math Wizard',
     taglineEn: 'Dad’s lab, hospital & big numbers!',
   },
 };

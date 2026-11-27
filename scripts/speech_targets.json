@@ -2304,1560 +2304,8076 @@
     "hash": "ca59b211d6244627"
   },
   {
+    "text": "Which friendly pet says \"Woof, woof\"?",
+    "hash": "7647faf4557c01ac"
+  },
+  {
+    "text": "Great! Dog!",
+    "hash": "8bb1ea8f1d5da383"
+  },
+  {
+    "text": "Great job! Great! Dog!",
+    "hash": "330568ab1089e281"
+  },
+  {
+    "text": "Which cute pet says \"Meow, meow\"?",
+    "hash": "1f0bf2b175fe01a2"
+  },
+  {
+    "text": "Great! Cat!",
+    "hash": "4d4637b41e26c4dc"
+  },
+  {
+    "text": "Great job! Great! Cat!",
+    "hash": "193bccb1361f37a4"
+  },
+  {
+    "text": "Who is the loud king of the jungle?",
+    "hash": "75c9e6b2d68acc2d"
+  },
+  {
+    "text": "Great! Lion!",
+    "hash": "fbd90356bb897dbc"
+  },
+  {
+    "text": "Great job! Great! Lion!",
+    "hash": "e57123a48cffef6d"
+  },
+  {
+    "text": "Which big striped cat lives in the jungle?",
+    "hash": "d75d52b7b6982700"
+  },
+  {
+    "text": "Great! Tiger!",
+    "hash": "f583ff52ca0e2293"
+  },
+  {
+    "text": "Great job! Great! Tiger!",
+    "hash": "6db213d2b4fb7541"
+  },
+  {
+    "text": "Which big furry animal loves honey?",
+    "hash": "3277919571d921ed"
+  },
+  {
+    "text": "Great! Bear!",
+    "hash": "7ab3efde4e9c863a"
+  },
+  {
+    "text": "Great job! Great! Bear!",
+    "hash": "f45003a8fe60458e"
+  },
+  {
     "text": "Wolf",
     "hash": "acd77d45c3b58bbf"
+  },
+  {
+    "text": "Which wild animal howls at the moon?",
+    "hash": "02763035a3a2b5d8"
+  },
+  {
+    "text": "Great! Wolf!",
+    "hash": "4d0b1470f7208f99"
+  },
+  {
+    "text": "Great job! Great! Wolf!",
+    "hash": "7df31a69badd46fa"
+  },
+  {
+    "text": "Which clever orange animal has a bushy tail?",
+    "hash": "c064eed5ba2349d2"
+  },
+  {
+    "text": "Great! Fox!",
+    "hash": "4795ebc0829b191a"
+  },
+  {
+    "text": "Great job! Great! Fox!",
+    "hash": "ab504a9f1ece472d"
+  },
+  {
+    "text": "Which green animal jumps and says \"Ribbit\"?",
+    "hash": "30e5212acf9ce2e1"
+  },
+  {
+    "text": "Great! Frog!",
+    "hash": "d646e2728c1d21f5"
+  },
+  {
+    "text": "Great job! Great! Frog!",
+    "hash": "c7a2f53dc29e2267"
+  },
+  {
+    "text": "Which animal swims underwater with fins?",
+    "hash": "41201a8410cc9041"
+  },
+  {
+    "text": "Great! Fish!",
+    "hash": "6eb1f0682f8e83cc"
+  },
+  {
+    "text": "Great job! Great! Fish!",
+    "hash": "9351cf815f3463b7"
+  },
+  {
+    "text": "Which animal has wings and sings in trees?",
+    "hash": "e67a999ac7190294"
+  },
+  {
+    "text": "Great! Bird!",
+    "hash": "00502311761a04fa"
+  },
+  {
+    "text": "Great job! Great! Bird!",
+    "hash": "30885bb93005b522"
+  },
+  {
+    "text": "Which bird swims on ponds and says \"Quack\"?",
+    "hash": "f9a2fb2e5a6aecaa"
+  },
+  {
+    "text": "Great! Duck!",
+    "hash": "90109f8a18874fdb"
+  },
+  {
+    "text": "Great job! Great! Duck!",
+    "hash": "30e90aa3d32f7b84"
+  },
+  {
+    "text": "Which wise bird stays awake at night?",
+    "hash": "bd646515f3d66362"
+  },
+  {
+    "text": "Great! Owl!",
+    "hash": "9db7e4c500f4214c"
+  },
+  {
+    "text": "Great job! Great! Owl!",
+    "hash": "ea00b6c739df32e0"
   },
   {
     "text": "Eagle",
     "hash": "d280c7e4ee1e5e0f"
   },
   {
+    "text": "Listen and pop: Eagle!",
+    "hash": "45c6f52eeb1095e6"
+  },
+  {
+    "text": "Great! Eagle!",
+    "hash": "cd766db6f39b3e9a"
+  },
+  {
+    "text": "Great job! Great! Eagle!",
+    "hash": "b9fabc9a07e76429"
+  },
+  {
     "text": "Swan",
     "hash": "08ccff4c95a05b02"
+  },
+  {
+    "text": "Listen and pop: Swan!",
+    "hash": "beb883fdba7095f2"
+  },
+  {
+    "text": "Great! Swan!",
+    "hash": "dd0a52a49872e7c5"
+  },
+  {
+    "text": "Great job! Great! Swan!",
+    "hash": "fe4d64be9fb70a2c"
   },
   {
     "text": "Cow",
     "hash": "5b6ff8547423a4ec"
   },
   {
+    "text": "Which farm animal gives us milk and says \"Moo\"?",
+    "hash": "542ef00a69993b07"
+  },
+  {
+    "text": "Great! Cow!",
+    "hash": "9cb895837549265b"
+  },
+  {
+    "text": "Great job! Great! Cow!",
+    "hash": "a83c823b9b37d597"
+  },
+  {
     "text": "Pig",
     "hash": "57107954639a09ba"
+  },
+  {
+    "text": "Listen and pop: Pig!",
+    "hash": "50e5d5183b518290"
+  },
+  {
+    "text": "Great! Pig!",
+    "hash": "dca949d59a3e37e0"
+  },
+  {
+    "text": "Great job! Great! Pig!",
+    "hash": "e37b5c34df0c26c5"
   },
   {
     "text": "Sheep",
     "hash": "3b3f3213edeb572b"
   },
   {
+    "text": "Listen and pop: Sheep!",
+    "hash": "6a9cbb1fc5642f10"
+  },
+  {
+    "text": "Great! Sheep!",
+    "hash": "3fcc435a5ff3e5d9"
+  },
+  {
+    "text": "Great job! Great! Sheep!",
+    "hash": "97f977fdb4f7cdab"
+  },
+  {
     "text": "Goat",
     "hash": "488939201c608d5a"
+  },
+  {
+    "text": "Listen and pop: Goat!",
+    "hash": "169b855ed3bac470"
+  },
+  {
+    "text": "Great! Goat!",
+    "hash": "87fb6b5f66f40ddf"
+  },
+  {
+    "text": "Great job! Great! Goat!",
+    "hash": "5c7e80cc795bdc1a"
   },
   {
     "text": "Horse",
     "hash": "f46356bcf1d753fc"
   },
   {
+    "text": "Listen and pop: Horse!",
+    "hash": "d05672f015bade24"
+  },
+  {
+    "text": "Great! Horse!",
+    "hash": "dd2ee93c7328b70e"
+  },
+  {
+    "text": "Great job! Great! Horse!",
+    "hash": "359c430040e9c110"
+  },
+  {
     "text": "Donkey",
     "hash": "b1cd949291e8af7f"
+  },
+  {
+    "text": "Listen and pop: Donkey!",
+    "hash": "760c85517d304bd4"
+  },
+  {
+    "text": "Great! Donkey!",
+    "hash": "c6d1e47d6f749acf"
+  },
+  {
+    "text": "Great job! Great! Donkey!",
+    "hash": "3e39dfde7d45713f"
   },
   {
     "text": "Mouse",
     "hash": "03fae819438a3fb6"
   },
   {
+    "text": "Which tiny gray animal loves cheese?",
+    "hash": "20830c368e90e6d2"
+  },
+  {
+    "text": "Great! Mouse!",
+    "hash": "bff7b36e0ec6fcd8"
+  },
+  {
+    "text": "Great job! Great! Mouse!",
+    "hash": "3c82b94db7d33ef8"
+  },
+  {
     "text": "Rabbit",
     "hash": "d01b243792d655b8"
+  },
+  {
+    "text": "Which animal has long ears and hops fast?",
+    "hash": "c2d60c49b118fe96"
+  },
+  {
+    "text": "Great! Rabbit!",
+    "hash": "15ba7b034ec389e2"
+  },
+  {
+    "text": "Great job! Great! Rabbit!",
+    "hash": "27b4b70b7b6b6857"
   },
   {
     "text": "Deer",
     "hash": "a22357082153e4ce"
   },
   {
+    "text": "Listen and pop: Deer!",
+    "hash": "200af55b43d4ba74"
+  },
+  {
+    "text": "Great! Deer!",
+    "hash": "bb6ac4f822304962"
+  },
+  {
+    "text": "Great job! Great! Deer!",
+    "hash": "797fc04e9637873e"
+  },
+  {
+    "text": "Which giant animal lives in the ocean?",
+    "hash": "62e238c588a474f2"
+  },
+  {
+    "text": "Great! Whale!",
+    "hash": "ef6f7c49d064fddb"
+  },
+  {
+    "text": "Great job! Great! Whale!",
+    "hash": "b576c6b625ecb479"
+  },
+  {
+    "text": "Listen and pop: Shark!",
+    "hash": "5ebebe97fcbc6e32"
+  },
+  {
+    "text": "Great! Shark!",
+    "hash": "7f93e2c5f51103a8"
+  },
+  {
+    "text": "Great job! Great! Shark!",
+    "hash": "920827c3fa468c2f"
+  },
+  {
+    "text": "Listen and pop: Dolphin!",
+    "hash": "9f9d2297adfd1b81"
+  },
+  {
+    "text": "Great! Dolphin!",
+    "hash": "f99a280ba7fa3c98"
+  },
+  {
+    "text": "Great job! Great! Dolphin!",
+    "hash": "1a84f2e10ee1960b"
+  },
+  {
     "text": "Seal",
     "hash": "1dd11a9042116261"
+  },
+  {
+    "text": "Listen and pop: Seal!",
+    "hash": "5c79fec44fbdafdd"
+  },
+  {
+    "text": "Great! Seal!",
+    "hash": "2c47128f2616c3ca"
+  },
+  {
+    "text": "Great job! Great! Seal!",
+    "hash": "d85c8528cf372f46"
+  },
+  {
+    "text": "Listen and pop: Crab!",
+    "hash": "9b34ed0a05a659dd"
+  },
+  {
+    "text": "Great! Crab!",
+    "hash": "f5f1221a840634b7"
+  },
+  {
+    "text": "Great job! Great! Crab!",
+    "hash": "0d2e6839238293e7"
   },
   {
     "text": "Bee",
     "hash": "d1dfd5da206ef5ad"
   },
   {
+    "text": "Which yellow insect makes sweet honey?",
+    "hash": "3bc5de58f7b6bc90"
+  },
+  {
+    "text": "Great! Bee!",
+    "hash": "599d77ed36c09b63"
+  },
+  {
+    "text": "Great job! Great! Bee!",
+    "hash": "dc860f0d6dc9e3be"
+  },
+  {
     "text": "Ant",
     "hash": "53188e3a50cbdee5"
+  },
+  {
+    "text": "Listen and pop: Ant!",
+    "hash": "39c72e06b9749586"
+  },
+  {
+    "text": "Great! Ant!",
+    "hash": "9bd2acd8ecfdecd0"
+  },
+  {
+    "text": "Great job! Great! Ant!",
+    "hash": "2d0d08eecf49c303"
   },
   {
     "text": "Butterfly",
     "hash": "a2c7669341d0b129"
   },
   {
+    "text": "Listen and pop: Butterfly!",
+    "hash": "e09239e9ce2c15ec"
+  },
+  {
+    "text": "Great! Butterfly!",
+    "hash": "dd5e025db22121ad"
+  },
+  {
+    "text": "Great job! Great! Butterfly!",
+    "hash": "4bb2e1b6025ca63e"
+  },
+  {
     "text": "Spider",
     "hash": "a55e563355fa8590"
+  },
+  {
+    "text": "Listen and pop: Spider!",
+    "hash": "544a400fb299909c"
+  },
+  {
+    "text": "Great! Spider!",
+    "hash": "6ad8ed4275827491"
+  },
+  {
+    "text": "Great job! Great! Spider!",
+    "hash": "8e5c73990bbc17ad"
   },
   {
     "text": "Snake",
     "hash": "4516a55862fe89f0"
   },
   {
+    "text": "Listen and pop: Snake!",
+    "hash": "47e60519291b799c"
+  },
+  {
+    "text": "Great! Snake!",
+    "hash": "fa846b57b76ad943"
+  },
+  {
+    "text": "Great job! Great! Snake!",
+    "hash": "1fa179d4012b172b"
+  },
+  {
+    "text": "Which animal carries a hard shell slowly?",
+    "hash": "a1e30e162beea927"
+  },
+  {
+    "text": "Great! Turtle!",
+    "hash": "34c6cb3004ac0a51"
+  },
+  {
+    "text": "Great job! Great! Turtle!",
+    "hash": "ea3cb20377566873"
+  },
+  {
     "text": "Lizard",
     "hash": "dfa77e0881122155"
+  },
+  {
+    "text": "Listen and pop: Lizard!",
+    "hash": "a6df9d0ed6462531"
+  },
+  {
+    "text": "Great! Lizard!",
+    "hash": "5dcd2818b4595166"
+  },
+  {
+    "text": "Great job! Great! Lizard!",
+    "hash": "62f3d5b6274d13d7"
+  },
+  {
+    "text": "Which playful animal loves bananas?",
+    "hash": "d9f5ca072bbcbeb9"
+  },
+  {
+    "text": "Great! Monkey!",
+    "hash": "5cc266aa6fd32a89"
+  },
+  {
+    "text": "Great job! Great! Monkey!",
+    "hash": "81ec2e85bcc4729d"
   },
   {
     "text": "Gorilla",
     "hash": "948dcce3b94dbbb4"
   },
   {
+    "text": "Listen and pop: Gorilla!",
+    "hash": "c2ded71f5201fb8d"
+  },
+  {
+    "text": "Great! Gorilla!",
+    "hash": "6c90142f4ef53742"
+  },
+  {
+    "text": "Great job! Great! Gorilla!",
+    "hash": "cd648039711275a3"
+  },
+  {
     "text": "Zebra",
     "hash": "4323bc6ed6a85c81"
+  },
+  {
+    "text": "Listen and pop: Zebra!",
+    "hash": "7921c44b901b68f1"
+  },
+  {
+    "text": "Great! Zebra!",
+    "hash": "b993b19e68538916"
+  },
+  {
+    "text": "Great job! Great! Zebra!",
+    "hash": "6788c7e1a7510d01"
   },
   {
     "text": "Giraffe",
     "hash": "b8ca48c6122aad6d"
   },
   {
+    "text": "Which animal has the longest neck?",
+    "hash": "d9c8fd8db8aac145"
+  },
+  {
+    "text": "Great! Giraffe!",
+    "hash": "52adffff370c036d"
+  },
+  {
+    "text": "Great job! Great! Giraffe!",
+    "hash": "0edd0152f587c14f"
+  },
+  {
     "text": "Elephant",
     "hash": "af8425a0bfe483f8"
+  },
+  {
+    "text": "Which huge animal has a long trunk?",
+    "hash": "71a132e55f72e31e"
+  },
+  {
+    "text": "Great! Elephant!",
+    "hash": "d002dc319121599b"
+  },
+  {
+    "text": "Great job! Great! Elephant!",
+    "hash": "990e446f7c3166e3"
   },
   {
     "text": "Rhino",
     "hash": "d5240e5cb9f8fe50"
   },
   {
+    "text": "Listen and pop: Rhino!",
+    "hash": "afe0760ed464cceb"
+  },
+  {
+    "text": "Great! Rhino!",
+    "hash": "8ab387f00326bc3d"
+  },
+  {
+    "text": "Great job! Great! Rhino!",
+    "hash": "1d2ae8ed238ba0e8"
+  },
+  {
     "text": "Hippo",
     "hash": "327ffdd34a86b646"
+  },
+  {
+    "text": "Listen and pop: Hippo!",
+    "hash": "7f12eeea1c3b4cbe"
+  },
+  {
+    "text": "Great! Hippo!",
+    "hash": "d9ba9e810524d42e"
+  },
+  {
+    "text": "Great job! Great! Hippo!",
+    "hash": "9791f5f4e2cd1491"
   },
   {
     "text": "Camel",
     "hash": "4330eed73fbde85e"
   },
   {
+    "text": "Listen and pop: Camel!",
+    "hash": "99c52bec0e9de2ea"
+  },
+  {
+    "text": "Great! Camel!",
+    "hash": "0d1bee14958e4e55"
+  },
+  {
+    "text": "Great job! Great! Camel!",
+    "hash": "be8891021d60b56a"
+  },
+  {
     "text": "Kangaroo",
     "hash": "401d54b91d50c32b"
+  },
+  {
+    "text": "Listen and pop: Kangaroo!",
+    "hash": "822a901d10871b9f"
+  },
+  {
+    "text": "Great! Kangaroo!",
+    "hash": "165c49919525b8ba"
+  },
+  {
+    "text": "Great job! Great! Kangaroo!",
+    "hash": "0210e5620e6bba6b"
   },
   {
     "text": "Koala",
     "hash": "67ab3fde694dce6e"
   },
   {
+    "text": "Listen and pop: Koala!",
+    "hash": "2f2a87df53cc611d"
+  },
+  {
+    "text": "Great! Koala!",
+    "hash": "a68e32090d738e53"
+  },
+  {
+    "text": "Great job! Great! Koala!",
+    "hash": "a17038eeee029c8e"
+  },
+  {
     "text": "Panda",
     "hash": "a494da3eecf207f1"
+  },
+  {
+    "text": "Listen and pop: Panda!",
+    "hash": "fe2f1e11d774b1d1"
+  },
+  {
+    "text": "Great! Panda!",
+    "hash": "18a849462f4077cc"
+  },
+  {
+    "text": "Great job! Great! Panda!",
+    "hash": "8e3066d175a48f3a"
   },
   {
     "text": "Penguin",
     "hash": "35fa77d8325ba2d9"
   },
   {
+    "text": "Listen and pop: Penguin!",
+    "hash": "4ee18bf8743c20ce"
+  },
+  {
+    "text": "Great! Penguin!",
+    "hash": "1a8c4bb70273433f"
+  },
+  {
+    "text": "Great job! Great! Penguin!",
+    "hash": "aeb92e724d20c901"
+  },
+  {
     "text": "Chicken",
     "hash": "8fc3e7faf662890f"
+  },
+  {
+    "text": "Listen and pop: Chicken!",
+    "hash": "89a0316762c2eabe"
+  },
+  {
+    "text": "Great! Chicken!",
+    "hash": "e574ab6e5ce1d75e"
+  },
+  {
+    "text": "Great job! Great! Chicken!",
+    "hash": "7d766e824adf27b6"
+  },
+  {
+    "text": "Listen and pop: Turkey!",
+    "hash": "f4450898814273ed"
+  },
+  {
+    "text": "Great! Turkey!",
+    "hash": "d2d756df8da8d7a7"
+  },
+  {
+    "text": "Great job! Great! Turkey!",
+    "hash": "b00c5270a600670f"
   },
   {
     "text": "Parrot",
     "hash": "c4f2db4f184984bb"
   },
   {
+    "text": "Listen and pop: Parrot!",
+    "hash": "c28c30d8f5578512"
+  },
+  {
+    "text": "Great! Parrot!",
+    "hash": "15ba1202eb6eab96"
+  },
+  {
+    "text": "Great job! Great! Parrot!",
+    "hash": "970e2f2cd833223c"
+  },
+  {
     "text": "Flamingo",
     "hash": "0711d93f371ec60e"
+  },
+  {
+    "text": "Listen and pop: Flamingo!",
+    "hash": "d6f9cd134978fe53"
+  },
+  {
+    "text": "Great! Flamingo!",
+    "hash": "7a964fcbf9b50134"
+  },
+  {
+    "text": "Great job! Great! Flamingo!",
+    "hash": "d3d27fed2f05fb40"
   },
   {
     "text": "Bat",
     "hash": "8cdc465d10f4a7b2"
   },
   {
+    "text": "Listen and pop: Bat!",
+    "hash": "a12a27f6a867b16e"
+  },
+  {
+    "text": "Great! Bat!",
+    "hash": "fe642e78b259cc36"
+  },
+  {
+    "text": "Great job! Great! Bat!",
+    "hash": "c7313db25142039c"
+  },
+  {
+    "text": "Which crunchy red fruit grows on trees?",
+    "hash": "f4ad3ebc13ccde04"
+  },
+  {
+    "text": "Great! Apple!",
+    "hash": "92792c5d14ceaa02"
+  },
+  {
+    "text": "Great job! Great! Apple!",
+    "hash": "27773040b4d48f9f"
+  },
+  {
+    "text": "Which long yellow fruit do monkeys love?",
+    "hash": "712052d82c86557f"
+  },
+  {
+    "text": "Great! Banana!",
+    "hash": "fc61044bf27ffe33"
+  },
+  {
+    "text": "Great job! Great! Banana!",
+    "hash": "f60cda011151ef57"
+  },
+  {
     "text": "Orange",
     "hash": "df1620066a7d376e"
+  },
+  {
+    "text": "Listen and pop: Orange!",
+    "hash": "e4e5859ad46c9566"
+  },
+  {
+    "text": "Great! Orange!",
+    "hash": "720177cd24ff5d60"
+  },
+  {
+    "text": "Great job! Great! Orange!",
+    "hash": "8e84086f8cf7ff72"
+  },
+  {
+    "text": "Listen and pop: Grape!",
+    "hash": "52c6b8ce09ee88f7"
+  },
+  {
+    "text": "Great! Grape!",
+    "hash": "cdadec025492b1b9"
+  },
+  {
+    "text": "Great job! Great! Grape!",
+    "hash": "3e84d3e8ae7ee82a"
+  },
+  {
+    "text": "Listen and pop: Pear!",
+    "hash": "685ca7575b1097b2"
+  },
+  {
+    "text": "Great! Pear!",
+    "hash": "f585abc53febfee6"
+  },
+  {
+    "text": "Great job! Great! Pear!",
+    "hash": "f21150f3166c72c3"
+  },
+  {
+    "text": "Listen and pop: Peach!",
+    "hash": "1c8b0ea8af19b765"
+  },
+  {
+    "text": "Great! Peach!",
+    "hash": "4ed753cec7fa7ac4"
+  },
+  {
+    "text": "Great job! Great! Peach!",
+    "hash": "c326552a2d3a37fc"
   },
   {
     "text": "Cherry",
     "hash": "dbc2a3259ed64300"
   },
   {
+    "text": "Listen and pop: Cherry!",
+    "hash": "8ef734f2340546dd"
+  },
+  {
+    "text": "Great! Cherry!",
+    "hash": "674fc27d4264501b"
+  },
+  {
+    "text": "Great job! Great! Cherry!",
+    "hash": "70fa72d4134819e8"
+  },
+  {
+    "text": "Listen and pop: Melon!",
+    "hash": "39bf775df6ece49f"
+  },
+  {
+    "text": "Great! Melon!",
+    "hash": "f32c94dc6a0e2e7d"
+  },
+  {
+    "text": "Great job! Great! Melon!",
+    "hash": "ce971419b5bf0eb5"
+  },
+  {
+    "text": "Listen and pop: Lemon!",
+    "hash": "8905554e9960501b"
+  },
+  {
+    "text": "Great! Lemon!",
+    "hash": "32197fa35aaec9ad"
+  },
+  {
+    "text": "Great job! Great! Lemon!",
+    "hash": "d838d40dc5aa0f34"
+  },
+  {
     "text": "Mango",
     "hash": "df2a90f6cd3d4822"
+  },
+  {
+    "text": "Listen and pop: Mango!",
+    "hash": "6a0e7b4a409e7f3d"
+  },
+  {
+    "text": "Great! Mango!",
+    "hash": "c4f88ef485253073"
+  },
+  {
+    "text": "Great job! Great! Mango!",
+    "hash": "8c2e11a9c11e4157"
   },
   {
     "text": "Kiwi",
     "hash": "168325afcbed7961"
   },
   {
+    "text": "Listen and pop: Kiwi!",
+    "hash": "aa2756ab1d6c622b"
+  },
+  {
+    "text": "Great! Kiwi!",
+    "hash": "8b9621c1aaedaf37"
+  },
+  {
+    "text": "Great job! Great! Kiwi!",
+    "hash": "2727f1b6310d68e5"
+  },
+  {
     "text": "Berry",
     "hash": "d0a862240c6fd3ac"
+  },
+  {
+    "text": "Listen and pop: Berry!",
+    "hash": "4a01996286808b56"
+  },
+  {
+    "text": "Great! Berry!",
+    "hash": "814b5b2c097be43b"
+  },
+  {
+    "text": "Great job! Great! Berry!",
+    "hash": "d8ae1645486d2c29"
   },
   {
     "text": "Tomato",
     "hash": "e872f898c66f0a06"
   },
   {
+    "text": "Listen and pop: Tomato!",
+    "hash": "a7bb1d07e7359891"
+  },
+  {
+    "text": "Great! Tomato!",
+    "hash": "26b5414b239a045d"
+  },
+  {
+    "text": "Great job! Great! Tomato!",
+    "hash": "32aa8bf26baa20c7"
+  },
+  {
     "text": "Potato",
     "hash": "749802d1f202f07f"
+  },
+  {
+    "text": "Listen and pop: Potato!",
+    "hash": "e34777f062e28650"
+  },
+  {
+    "text": "Great! Potato!",
+    "hash": "8700ccbd3dac06df"
+  },
+  {
+    "text": "Great job! Great! Potato!",
+    "hash": "617b93b04c8d4a12"
   },
   {
     "text": "Carrot",
     "hash": "3e3dcfb8b70bbce1"
   },
   {
+    "text": "Listen and pop: Carrot!",
+    "hash": "ad8db455a3610910"
+  },
+  {
+    "text": "Great! Carrot!",
+    "hash": "8695995749cca8d0"
+  },
+  {
+    "text": "Great job! Great! Carrot!",
+    "hash": "cf88661bfce2f599"
+  },
+  {
     "text": "Onion",
     "hash": "9f718ae4d86420b9"
+  },
+  {
+    "text": "Listen and pop: Onion!",
+    "hash": "2b6715fdb8d39629"
+  },
+  {
+    "text": "Great! Onion!",
+    "hash": "bffe16f83ce9c578"
+  },
+  {
+    "text": "Great job! Great! Onion!",
+    "hash": "50b9491e6498c2fa"
   },
   {
     "text": "Garlic",
     "hash": "0f982262d0e8a48c"
   },
   {
+    "text": "Listen and pop: Garlic!",
+    "hash": "c2aab0551c0c1517"
+  },
+  {
+    "text": "Great! Garlic!",
+    "hash": "51547f56a6ab336c"
+  },
+  {
+    "text": "Great job! Great! Garlic!",
+    "hash": "22e1eb81fa3b7dba"
+  },
+  {
     "text": "Corn",
     "hash": "4c97c019bb7d8e7b"
+  },
+  {
+    "text": "Listen and pop: Corn!",
+    "hash": "97f22b8844128803"
+  },
+  {
+    "text": "Great! Corn!",
+    "hash": "e22ecddbf94eb648"
+  },
+  {
+    "text": "Great job! Great! Corn!",
+    "hash": "76804cfa0e18db78"
   },
   {
     "text": "Pea",
     "hash": "eb7a63ff4c2fdf70"
   },
   {
+    "text": "Listen and pop: Pea!",
+    "hash": "bde66cc136bc3775"
+  },
+  {
+    "text": "Great! Pea!",
+    "hash": "f46260f186125bc7"
+  },
+  {
+    "text": "Great job! Great! Pea!",
+    "hash": "6a5f45b96f36d897"
+  },
+  {
     "text": "Bean",
     "hash": "653067adc40e32b9"
+  },
+  {
+    "text": "Listen and pop: Bean!",
+    "hash": "8b174e201c16a714"
+  },
+  {
+    "text": "Great! Bean!",
+    "hash": "cb42cabbcc084320"
+  },
+  {
+    "text": "Great job! Great! Bean!",
+    "hash": "038523ddf392ceb5"
   },
   {
     "text": "Pepper",
     "hash": "e40d426e05732538"
   },
   {
+    "text": "Listen and pop: Pepper!",
+    "hash": "78899123d2f8e015"
+  },
+  {
+    "text": "Great! Pepper!",
+    "hash": "d0bbbeb0fd41722e"
+  },
+  {
+    "text": "Great job! Great! Pepper!",
+    "hash": "9ba49fb8930dff88"
+  },
+  {
+    "text": "Listen and pop: Bread!",
+    "hash": "5e83f7d979a0468d"
+  },
+  {
+    "text": "Great! Bread!",
+    "hash": "a4281982c5be6d3c"
+  },
+  {
+    "text": "Great job! Great! Bread!",
+    "hash": "1bd25161f03521f7"
+  },
+  {
     "text": "Toast",
     "hash": "99dab5b5ccd5d0ed"
+  },
+  {
+    "text": "Listen and pop: Toast!",
+    "hash": "4ff7dc69cbbe8a08"
+  },
+  {
+    "text": "Great! Toast!",
+    "hash": "3c1ce3078bbb5eac"
+  },
+  {
+    "text": "Great job! Great! Toast!",
+    "hash": "f12c640c2ae0c9d9"
   },
   {
     "text": "Butter",
     "hash": "aa66ee1be9e5b267"
   },
   {
+    "text": "Listen and pop: Butter!",
+    "hash": "4540fcfaedee495b"
+  },
+  {
+    "text": "Great! Butter!",
+    "hash": "f07f4efcdacf2780"
+  },
+  {
+    "text": "Great job! Great! Butter!",
+    "hash": "1c8b1fec23bad84e"
+  },
+  {
+    "text": "Listen and pop: Cheese!",
+    "hash": "c761673b204407cb"
+  },
+  {
+    "text": "Great! Cheese!",
+    "hash": "9b9903b44236331b"
+  },
+  {
+    "text": "Great job! Great! Cheese!",
+    "hash": "2a4e94800f0373cf"
+  },
+  {
+    "text": "Which healthy white drink goes with cereal?",
+    "hash": "8e6805aff88aed17"
+  },
+  {
+    "text": "Great! Milk!",
+    "hash": "07ed539e0260709c"
+  },
+  {
+    "text": "Great job! Great! Milk!",
+    "hash": "b5c74a8c1310364b"
+  },
+  {
     "text": "Egg",
     "hash": "f6aca9ddd8c70ab2"
+  },
+  {
+    "text": "Listen and pop: Egg!",
+    "hash": "7dc4310395b11de7"
+  },
+  {
+    "text": "Great! Egg!",
+    "hash": "50bf04123cad277d"
+  },
+  {
+    "text": "Great job! Great! Egg!",
+    "hash": "00d0a8c79450c1da"
   },
   {
     "text": "Honey",
     "hash": "4821a3a788122d2e"
   },
   {
+    "text": "Listen and pop: Honey!",
+    "hash": "b272f25d2577d4a0"
+  },
+  {
+    "text": "Great! Honey!",
+    "hash": "76f91243056c442d"
+  },
+  {
+    "text": "Great job! Great! Honey!",
+    "hash": "67350871834001c9"
+  },
+  {
+    "text": "What sweet treat has birthday candles?",
+    "hash": "4639022991507114"
+  },
+  {
+    "text": "Great! Cake!",
+    "hash": "d98f5055d36c90fe"
+  },
+  {
+    "text": "Great job! Great! Cake!",
+    "hash": "30fa58fb9fac8460"
+  },
+  {
+    "text": "Listen and pop: Cookie!",
+    "hash": "37f592c2f8a5ec21"
+  },
+  {
+    "text": "Great! Cookie!",
+    "hash": "08b36efcd21ad00d"
+  },
+  {
+    "text": "Great job! Great! Cookie!",
+    "hash": "ad599dcb048ca268"
+  },
+  {
     "text": "Pie",
     "hash": "e94d7b0cc96b0f4b"
+  },
+  {
+    "text": "Listen and pop: Pie!",
+    "hash": "adf5f328bda7bde7"
+  },
+  {
+    "text": "Great! Pie!",
+    "hash": "ae8fd80b1bd51eb1"
+  },
+  {
+    "text": "Great job! Great! Pie!",
+    "hash": "78124771efa095fb"
   },
   {
     "text": "Donut",
     "hash": "ac1e27fb45a21c7c"
   },
   {
+    "text": "Listen and pop: Donut!",
+    "hash": "a786dcea327a262c"
+  },
+  {
+    "text": "Great! Donut!",
+    "hash": "dd1aad5312ce16b1"
+  },
+  {
+    "text": "Great job! Great! Donut!",
+    "hash": "0f03c426d103c390"
+  },
+  {
     "text": "Candy",
     "hash": "c757c7693a4a21c0"
+  },
+  {
+    "text": "Listen and pop: Candy!",
+    "hash": "342a7437c697fc11"
+  },
+  {
+    "text": "Great! Candy!",
+    "hash": "58067a91da19a3e9"
+  },
+  {
+    "text": "Great job! Great! Candy!",
+    "hash": "ad8674be136b48a7"
   },
   {
     "text": "Sugar",
     "hash": "5a7be228c55ac71e"
   },
   {
+    "text": "Listen and pop: Sugar!",
+    "hash": "929f6167465387e8"
+  },
+  {
+    "text": "Great! Sugar!",
+    "hash": "5f0cef15652b6e98"
+  },
+  {
+    "text": "Great job! Great! Sugar!",
+    "hash": "51091dbe4bf0d11e"
+  },
+  {
     "text": "Salt",
     "hash": "200e5b74b2d2d899"
+  },
+  {
+    "text": "Listen and pop: Salt!",
+    "hash": "e6a14dd5d0e8cf66"
+  },
+  {
+    "text": "Great! Salt!",
+    "hash": "90a9462296950762"
+  },
+  {
+    "text": "Great job! Great! Salt!",
+    "hash": "78945025232ac275"
   },
   {
     "text": "Soup",
     "hash": "8d2108684eeb17fc"
   },
   {
+    "text": "Listen and pop: Soup!",
+    "hash": "ebe2ac0786408043"
+  },
+  {
+    "text": "Great! Soup!",
+    "hash": "38e0ca702ad939f0"
+  },
+  {
+    "text": "Great job! Great! Soup!",
+    "hash": "5be1fbd6f6fe18a6"
+  },
+  {
     "text": "Salad",
     "hash": "25512c86050b34f5"
+  },
+  {
+    "text": "Listen and pop: Salad!",
+    "hash": "0539271a1eea5cc1"
+  },
+  {
+    "text": "Great! Salad!",
+    "hash": "881eb6f739f47811"
+  },
+  {
+    "text": "Great job! Great! Salad!",
+    "hash": "008dde208cdf9d7c"
+  },
+  {
+    "text": "Listen and pop: Pizza!",
+    "hash": "c4d08fd1d2ad4a42"
+  },
+  {
+    "text": "Great! Pizza!",
+    "hash": "b5fa87292068aff2"
+  },
+  {
+    "text": "Great job! Great! Pizza!",
+    "hash": "a11fa1508ddce55f"
   },
   {
     "text": "Pasta",
     "hash": "e681dc2d4dd6dbbf"
   },
   {
+    "text": "Listen and pop: Pasta!",
+    "hash": "f3ea03338feece44"
+  },
+  {
+    "text": "Great! Pasta!",
+    "hash": "3119c6792f8f0db6"
+  },
+  {
+    "text": "Great job! Great! Pasta!",
+    "hash": "f103cdff53990a33"
+  },
+  {
     "text": "Rice",
     "hash": "49e89b1dcf310d0c"
+  },
+  {
+    "text": "Listen and pop: Rice!",
+    "hash": "3cbdb2bdc230bf98"
+  },
+  {
+    "text": "Great! Rice!",
+    "hash": "2c57915a1dc761c3"
+  },
+  {
+    "text": "Great job! Great! Rice!",
+    "hash": "73498eff6409c322"
   },
   {
     "text": "Meat",
     "hash": "692bff5a4625734f"
   },
   {
+    "text": "Listen and pop: Meat!",
+    "hash": "ed2ddf9d84db5834"
+  },
+  {
+    "text": "Great! Meat!",
+    "hash": "92c04ff234c7b6c3"
+  },
+  {
+    "text": "Great job! Great! Meat!",
+    "hash": "c477a8361b27166e"
+  },
+  {
     "text": "Juice",
     "hash": "67bea66c6171069c"
+  },
+  {
+    "text": "Listen and pop: Juice!",
+    "hash": "330b73acc50dd7ca"
+  },
+  {
+    "text": "Great! Juice!",
+    "hash": "264f3b53ca4280e7"
+  },
+  {
+    "text": "Great job! Great! Juice!",
+    "hash": "f2747c211e616f24"
   },
   {
     "text": "Water",
     "hash": "7f7d0d6547191e3c"
   },
   {
+    "text": "Listen and pop: Water!",
+    "hash": "63a92ae3d054f2df"
+  },
+  {
+    "text": "Great! Water!",
+    "hash": "78c9aeea54ce8f27"
+  },
+  {
+    "text": "Great job! Great! Water!",
+    "hash": "2a8e1fd33fe65442"
+  },
+  {
     "text": "Tea",
     "hash": "45ce3873ccb13dc0"
+  },
+  {
+    "text": "Listen and pop: Tea!",
+    "hash": "f1977e6d530975df"
+  },
+  {
+    "text": "Great! Tea!",
+    "hash": "c5b466b47c9c290d"
+  },
+  {
+    "text": "Great job! Great! Tea!",
+    "hash": "d1709f92daef8f45"
   },
   {
     "text": "Cocoa",
     "hash": "f388d24210597ca3"
   },
   {
+    "text": "Listen and pop: Cocoa!",
+    "hash": "b1867114dc7d0445"
+  },
+  {
+    "text": "Great! Cocoa!",
+    "hash": "46b676cb38dcd421"
+  },
+  {
+    "text": "Great job! Great! Cocoa!",
+    "hash": "8eaa2fcf56cea5e7"
+  },
+  {
     "text": "Muffin",
     "hash": "b1b49b67da51c0fc"
+  },
+  {
+    "text": "Listen and pop: Muffin!",
+    "hash": "76baed92ff346bdf"
+  },
+  {
+    "text": "Great! Muffin!",
+    "hash": "aa876f763ddf7f3b"
+  },
+  {
+    "text": "Great job! Great! Muffin!",
+    "hash": "59163d3fe8fc3292"
   },
   {
     "text": "Waffle",
     "hash": "1c8fc27c360d5eb2"
   },
   {
+    "text": "Listen and pop: Waffle!",
+    "hash": "95f4e4fce2626a00"
+  },
+  {
+    "text": "Great! Waffle!",
+    "hash": "362ec39b56907075"
+  },
+  {
+    "text": "Great job! Great! Waffle!",
+    "hash": "df5bbeaeeba0afd0"
+  },
+  {
     "text": "Pretzel",
     "hash": "301164fe3a54124f"
+  },
+  {
+    "text": "Listen and pop: Pretzel!",
+    "hash": "8a50eac750c20c4a"
+  },
+  {
+    "text": "Great! Pretzel!",
+    "hash": "11a4d08bccbae564"
+  },
+  {
+    "text": "Great job! Great! Pretzel!",
+    "hash": "297d61ab92ffdb8e"
   },
   {
     "text": "Burger",
     "hash": "0b7382d06e0d9c18"
   },
   {
+    "text": "Listen and pop: Burger!",
+    "hash": "2ae4d915ff5441e8"
+  },
+  {
+    "text": "Great! Burger!",
+    "hash": "9a0615d5d6a9536c"
+  },
+  {
+    "text": "Great job! Great! Burger!",
+    "hash": "1a07f4351062986b"
+  },
+  {
     "text": "Fries",
     "hash": "2d7af4dd6dae563e"
+  },
+  {
+    "text": "Listen and pop: Fries!",
+    "hash": "c72e23c224c64f7d"
+  },
+  {
+    "text": "Great! Fries!",
+    "hash": "dcb54c579725ddb5"
+  },
+  {
+    "text": "Great job! Great! Fries!",
+    "hash": "36d73359081d07ad"
   },
   {
     "text": "Sandwich",
     "hash": "1d6069e17af8eeac"
   },
   {
+    "text": "Listen and pop: Sandwich!",
+    "hash": "5cb8701815525d32"
+  },
+  {
+    "text": "Great! Sandwich!",
+    "hash": "75240735a94dadda"
+  },
+  {
+    "text": "Great job! Great! Sandwich!",
+    "hash": "adce26cab426a9a6"
+  },
+  {
     "text": "Popcorn",
     "hash": "4d56677c4c4e5b4d"
+  },
+  {
+    "text": "Listen and pop: Popcorn!",
+    "hash": "3b9f68705f758070"
+  },
+  {
+    "text": "Great! Popcorn!",
+    "hash": "8891f6c51434d56d"
+  },
+  {
+    "text": "Great job! Great! Popcorn!",
+    "hash": "96365ac599520a51"
+  },
+  {
+    "text": "What bright yellow ball warms us up?",
+    "hash": "debb85376b1d5edd"
+  },
+  {
+    "text": "Great! Sun!",
+    "hash": "dbe8b619d9280673"
+  },
+  {
+    "text": "Great job! Great! Sun!",
+    "hash": "4cc0a72c4957ffac"
+  },
+  {
+    "text": "Listen and pop: Moon!",
+    "hash": "e87137cc405ac4e4"
+  },
+  {
+    "text": "Great! Moon!",
+    "hash": "cf2ef7fd26698d8f"
+  },
+  {
+    "text": "Great job! Great! Moon!",
+    "hash": "9979b2f2818ffe32"
+  },
+  {
+    "text": "Which bright shape shines in the night sky?",
+    "hash": "fd78711a4cc7ac1b"
+  },
+  {
+    "text": "Great! Star!",
+    "hash": "2cc720dd808dd789"
+  },
+  {
+    "text": "Great job! Great! Star!",
+    "hash": "94ff66da8904a467"
+  },
+  {
+    "text": "Listen and pop: Sky!",
+    "hash": "482388fcd1bc145e"
+  },
+  {
+    "text": "Great! Sky!",
+    "hash": "037d1f91de2dbcef"
+  },
+  {
+    "text": "Great job! Great! Sky!",
+    "hash": "58bb8a99eae74479"
+  },
+  {
+    "text": "Listen and pop: Cloud!",
+    "hash": "9801f96ce681b0e4"
+  },
+  {
+    "text": "Great! Cloud!",
+    "hash": "88ed122c29263901"
+  },
+  {
+    "text": "Great job! Great! Cloud!",
+    "hash": "836fa647d05be3e1"
+  },
+  {
+    "text": "What falls from clouds when you need an umbrella?",
+    "hash": "b53a10340e905490"
+  },
+  {
+    "text": "Great! Rain!",
+    "hash": "8bd32a0f1efb04e7"
+  },
+  {
+    "text": "Great job! Great! Rain!",
+    "hash": "18833955e7242c69"
+  },
+  {
+    "text": "Listen and pop: Snow!",
+    "hash": "cc9f6b2c0c8457f4"
+  },
+  {
+    "text": "Great! Snow!",
+    "hash": "992b7b34f0acab14"
+  },
+  {
+    "text": "Great job! Great! Snow!",
+    "hash": "ab87834ac20331d8"
   },
   {
     "text": "Wind",
     "hash": "09e29447d545cff0"
   },
   {
+    "text": "Listen and pop: Wind!",
+    "hash": "25ead1fb7b048f22"
+  },
+  {
+    "text": "Great! Wind!",
+    "hash": "4da1cf2329f04b61"
+  },
+  {
+    "text": "Great job! Great! Wind!",
+    "hash": "a85fc6274a843d9f"
+  },
+  {
     "text": "Storm",
     "hash": "cedc99976ef6b7fc"
+  },
+  {
+    "text": "Listen and pop: Storm!",
+    "hash": "653dd0dd08740299"
+  },
+  {
+    "text": "Great! Storm!",
+    "hash": "4faf4ff19f26d3f4"
+  },
+  {
+    "text": "Great job! Great! Storm!",
+    "hash": "5cbccc4eaba2e56d"
   },
   {
     "text": "Thunder",
     "hash": "ccf83178a48a9801"
   },
   {
+    "text": "Listen and pop: Thunder!",
+    "hash": "0eeeaef4d07d8f32"
+  },
+  {
+    "text": "Great! Thunder!",
+    "hash": "e3f14b34fd6aba75"
+  },
+  {
+    "text": "Great job! Great! Thunder!",
+    "hash": "3eabae176332e6cd"
+  },
+  {
+    "text": "Listen and pop: Rainbow!",
+    "hash": "113dea71c7db6c22"
+  },
+  {
+    "text": "Great! Rainbow!",
+    "hash": "4d716c2b6433b337"
+  },
+  {
+    "text": "Great job! Great! Rainbow!",
+    "hash": "14f9c7aa9f58473a"
+  },
+  {
     "text": "Fog",
     "hash": "1899cdfc78615800"
+  },
+  {
+    "text": "Listen and pop: Fog!",
+    "hash": "41f0b3f1a57f6c1f"
+  },
+  {
+    "text": "Great! Fog!",
+    "hash": "f1ddd67b7da268dc"
+  },
+  {
+    "text": "Great job! Great! Fog!",
+    "hash": "4eb4755b2007bbc1"
   },
   {
     "text": "Ice",
     "hash": "21fc2fd286d2ec32"
   },
   {
+    "text": "Listen and pop: Ice!",
+    "hash": "23e59cd344bd09fe"
+  },
+  {
+    "text": "Great! Ice!",
+    "hash": "d23bb5e6331774c3"
+  },
+  {
+    "text": "Great job! Great! Ice!",
+    "hash": "8f11586d0fce91fc"
+  },
+  {
     "text": "Fire",
     "hash": "8cadf1736576dea0"
+  },
+  {
+    "text": "Listen and pop: Fire!",
+    "hash": "6bb1886b0a7ae50d"
+  },
+  {
+    "text": "Great! Fire!",
+    "hash": "7cdb28ed92a768c5"
+  },
+  {
+    "text": "Great job! Great! Fire!",
+    "hash": "3abeaf4347f1ef43"
+  },
+  {
+    "text": "Listen and pop: Sea!",
+    "hash": "4bb1605a3845cfed"
+  },
+  {
+    "text": "Great! Sea!",
+    "hash": "703b586df9f4bfc7"
+  },
+  {
+    "text": "Great job! Great! Sea!",
+    "hash": "6fe3683bcae61646"
   },
   {
     "text": "Ocean",
     "hash": "56038e74bfac2457"
   },
   {
+    "text": "Listen and pop: Ocean!",
+    "hash": "e91b639f962070e2"
+  },
+  {
+    "text": "Great! Ocean!",
+    "hash": "3ad2d4b4967554bb"
+  },
+  {
+    "text": "Great job! Great! Ocean!",
+    "hash": "8a9c34dd89779ea5"
+  },
+  {
     "text": "River",
     "hash": "9dd180c02d29ba89"
+  },
+  {
+    "text": "Listen and pop: River!",
+    "hash": "ac2ea98c0608af83"
+  },
+  {
+    "text": "Great! River!",
+    "hash": "d81a3dba8b97515d"
+  },
+  {
+    "text": "Great job! Great! River!",
+    "hash": "63f981bdae1e128d"
   },
   {
     "text": "Lake",
     "hash": "ca86c41ab0970653"
   },
   {
+    "text": "Listen and pop: Lake!",
+    "hash": "b7078e4e00e7f355"
+  },
+  {
+    "text": "Great! Lake!",
+    "hash": "9195ba3e62e844b9"
+  },
+  {
+    "text": "Great job! Great! Lake!",
+    "hash": "a8a528530a5151ec"
+  },
+  {
     "text": "Pond",
     "hash": "8a75d6acb4a9274f"
+  },
+  {
+    "text": "Listen and pop: Pond!",
+    "hash": "ae6f19bb153183e6"
+  },
+  {
+    "text": "Great! Pond!",
+    "hash": "7b78fff7976d12c5"
+  },
+  {
+    "text": "Great job! Great! Pond!",
+    "hash": "adb3bd7a1006b916"
   },
   {
     "text": "Wave",
     "hash": "ba45f7c06ed42327"
   },
   {
+    "text": "Listen and pop: Wave!",
+    "hash": "8f029bebd2fa3d0d"
+  },
+  {
+    "text": "Great! Wave!",
+    "hash": "4ecd1a39a77b63ae"
+  },
+  {
+    "text": "Great job! Great! Wave!",
+    "hash": "90fad45fea7fb97a"
+  },
+  {
     "text": "Beach",
     "hash": "a58b3b4b4076b1a2"
+  },
+  {
+    "text": "Listen and pop: Beach!",
+    "hash": "ced7375c734b8151"
+  },
+  {
+    "text": "Great! Beach!",
+    "hash": "39a79bec8ff3fdf9"
+  },
+  {
+    "text": "Great job! Great! Beach!",
+    "hash": "8b05a12bf145e46c"
   },
   {
     "text": "Sand",
     "hash": "91b374a770840224"
   },
   {
+    "text": "Listen and pop: Sand!",
+    "hash": "b30464add9ea685f"
+  },
+  {
+    "text": "Great! Sand!",
+    "hash": "49d3ba3eb880525c"
+  },
+  {
+    "text": "Great job! Great! Sand!",
+    "hash": "2ff2d5c266e52598"
+  },
+  {
     "text": "Rock",
     "hash": "5fc4ed7f04386b63"
+  },
+  {
+    "text": "Listen and pop: Rock!",
+    "hash": "bff8c3060254ec74"
+  },
+  {
+    "text": "Great! Rock!",
+    "hash": "dd4b215bd004d4cd"
+  },
+  {
+    "text": "Great job! Great! Rock!",
+    "hash": "e73596339ca988ec"
   },
   {
     "text": "Stone",
     "hash": "d3ed5269cd8962c5"
   },
   {
+    "text": "Listen and pop: Stone!",
+    "hash": "6709bc5425c7f649"
+  },
+  {
+    "text": "Great! Stone!",
+    "hash": "6090dc8627fc5e74"
+  },
+  {
+    "text": "Great job! Great! Stone!",
+    "hash": "2166a148aa6b7520"
+  },
+  {
     "text": "Hill",
     "hash": "13db808bb2997d11"
+  },
+  {
+    "text": "Listen and pop: Hill!",
+    "hash": "1412825f934a3840"
+  },
+  {
+    "text": "Great! Hill!",
+    "hash": "185a1f5b68982924"
+  },
+  {
+    "text": "Great job! Great! Hill!",
+    "hash": "ad21e9be916e322e"
   },
   {
     "text": "Mountain",
     "hash": "4c3c8bd639bb508a"
   },
   {
+    "text": "Listen and pop: Mountain!",
+    "hash": "b108665e9b13590d"
+  },
+  {
+    "text": "Great! Mountain!",
+    "hash": "ba66580db4410169"
+  },
+  {
+    "text": "Great job! Great! Mountain!",
+    "hash": "089f9ae273a8572e"
+  },
+  {
     "text": "Valley",
     "hash": "2889e2033e40a905"
+  },
+  {
+    "text": "Listen and pop: Valley!",
+    "hash": "738f069c793b36e3"
+  },
+  {
+    "text": "Great! Valley!",
+    "hash": "bf7b9eecf9f57601"
+  },
+  {
+    "text": "Great job! Great! Valley!",
+    "hash": "484efa822652ac42"
+  },
+  {
+    "text": "Listen and pop: Forest!",
+    "hash": "80551fe0543b008f"
+  },
+  {
+    "text": "Great! Forest!",
+    "hash": "32e5f3e9a9557989"
+  },
+  {
+    "text": "Great job! Great! Forest!",
+    "hash": "ea37de376a79cbda"
   },
   {
     "text": "Jungle",
     "hash": "3b6c7cea106e98d1"
   },
   {
+    "text": "Listen and pop: Jungle!",
+    "hash": "3eff1a3f6d19b26a"
+  },
+  {
+    "text": "Great! Jungle!",
+    "hash": "ea3d5b56c407c70d"
+  },
+  {
+    "text": "Great job! Great! Jungle!",
+    "hash": "6a7c034380fbfc96"
+  },
+  {
+    "text": "Listen and pop: Tree!",
+    "hash": "2f64de7c4087b2b1"
+  },
+  {
+    "text": "Great! Tree!",
+    "hash": "5219532709860fd1"
+  },
+  {
+    "text": "Great job! Great! Tree!",
+    "hash": "983d3e31fc83306e"
+  },
+  {
     "text": "Leaf",
     "hash": "2799b6a9993a44af"
+  },
+  {
+    "text": "Listen and pop: Leaf!",
+    "hash": "4d4c4bf5c6c8bdf7"
+  },
+  {
+    "text": "Great! Leaf!",
+    "hash": "d07efaad303f668e"
+  },
+  {
+    "text": "Great job! Great! Leaf!",
+    "hash": "aaae845effb9342e"
   },
   {
     "text": "Branch",
     "hash": "02c9fabe5ab8bb01"
   },
   {
+    "text": "Listen and pop: Branch!",
+    "hash": "ef69782b64502c7f"
+  },
+  {
+    "text": "Great! Branch!",
+    "hash": "f7ac753c8efca072"
+  },
+  {
+    "text": "Great job! Great! Branch!",
+    "hash": "07ff3814c3fc6563"
+  },
+  {
     "text": "Root",
     "hash": "d3e7f348a7b00019"
+  },
+  {
+    "text": "Listen and pop: Root!",
+    "hash": "dee5e4e12c7632d9"
+  },
+  {
+    "text": "Great! Root!",
+    "hash": "da27ed5579f5bf1b"
+  },
+  {
+    "text": "Great job! Great! Root!",
+    "hash": "3f7a11d27e95f2b3"
+  },
+  {
+    "text": "Listen and pop: Flower!",
+    "hash": "04200b8bd51d792e"
+  },
+  {
+    "text": "Great! Flower!",
+    "hash": "f3d2516032388955"
+  },
+  {
+    "text": "Great job! Great! Flower!",
+    "hash": "6e08eabe9adac675"
   },
   {
     "text": "Rose",
     "hash": "897e581df17a2bd6"
   },
   {
+    "text": "Listen and pop: Rose!",
+    "hash": "acfc3cf517789661"
+  },
+  {
+    "text": "Great! Rose!",
+    "hash": "26667eb6f908bce7"
+  },
+  {
+    "text": "Great job! Great! Rose!",
+    "hash": "c355fdbe75cb3176"
+  },
+  {
     "text": "Tulip",
     "hash": "44f3e1dda5d08557"
+  },
+  {
+    "text": "Listen and pop: Tulip!",
+    "hash": "977d8f350a9a0270"
+  },
+  {
+    "text": "Great! Tulip!",
+    "hash": "3032900f31fc6e79"
+  },
+  {
+    "text": "Great job! Great! Tulip!",
+    "hash": "96aef1e331ccb0c8"
   },
   {
     "text": "Grass",
     "hash": "4a0637c5a46c74e1"
   },
   {
+    "text": "Listen and pop: Grass!",
+    "hash": "4a5721d274f9177e"
+  },
+  {
+    "text": "Great! Grass!",
+    "hash": "c56e71123b7167e3"
+  },
+  {
+    "text": "Great job! Great! Grass!",
+    "hash": "91f19098b4ea38a3"
+  },
+  {
     "text": "Seed",
     "hash": "97a10a883e259810"
+  },
+  {
+    "text": "Listen and pop: Seed!",
+    "hash": "143c47b9be270c26"
+  },
+  {
+    "text": "Great! Seed!",
+    "hash": "c69faba8ce4d6cf1"
+  },
+  {
+    "text": "Great job! Great! Seed!",
+    "hash": "2a334317d09bfa4a"
   },
   {
     "text": "Soil",
     "hash": "b73f987d474b7c1a"
   },
   {
+    "text": "Listen and pop: Soil!",
+    "hash": "6743bdbcfb18e19e"
+  },
+  {
+    "text": "Great! Soil!",
+    "hash": "60b22739003dc191"
+  },
+  {
+    "text": "Great job! Great! Soil!",
+    "hash": "70681ac62abe5e4f"
+  },
+  {
     "text": "Mud",
     "hash": "bd6bea4c7542e420"
+  },
+  {
+    "text": "Listen and pop: Mud!",
+    "hash": "837bb03b674b2ced"
+  },
+  {
+    "text": "Great! Mud!",
+    "hash": "91e2ea43c7fa3f42"
+  },
+  {
+    "text": "Great job! Great! Mud!",
+    "hash": "905d2a514871b5bd"
   },
   {
     "text": "Island",
     "hash": "061cec776bddf1df"
   },
   {
+    "text": "Listen and pop: Island!",
+    "hash": "bc9c342e3af04c2a"
+  },
+  {
+    "text": "Great! Island!",
+    "hash": "a7aabccb24e7a9c5"
+  },
+  {
+    "text": "Great job! Great! Island!",
+    "hash": "537ed9aadbf7cb37"
+  },
+  {
     "text": "Cave",
     "hash": "7f9256aefc4ad678"
+  },
+  {
+    "text": "Listen and pop: Cave!",
+    "hash": "76f3b59e1e2c2dd3"
+  },
+  {
+    "text": "Great! Cave!",
+    "hash": "d6ed01ed15e29c07"
+  },
+  {
+    "text": "Great job! Great! Cave!",
+    "hash": "627239a5690c8d99"
   },
   {
     "text": "World",
     "hash": "f70d23644b046572"
   },
   {
+    "text": "Listen and pop: World!",
+    "hash": "d26b76789fd9e927"
+  },
+  {
+    "text": "Great! World!",
+    "hash": "a5848955afe93d4f"
+  },
+  {
+    "text": "Great job! Great! World!",
+    "hash": "176eb139ae98fbbe"
+  },
+  {
     "text": "Sunrise",
     "hash": "b8bf5f7c24fd589e"
+  },
+  {
+    "text": "Listen and pop: Sunrise!",
+    "hash": "0496d5a3afd9ccbf"
+  },
+  {
+    "text": "Great! Sunrise!",
+    "hash": "c0d3939221bfba56"
+  },
+  {
+    "text": "Great job! Great! Sunrise!",
+    "hash": "60b1c7e3c34f919d"
   },
   {
     "text": "Sunset",
     "hash": "33766f1c9929464f"
   },
   {
+    "text": "Listen and pop: Sunset!",
+    "hash": "74e95ace5ea180a1"
+  },
+  {
+    "text": "Great! Sunset!",
+    "hash": "3733c960858b2e13"
+  },
+  {
+    "text": "Great job! Great! Sunset!",
+    "hash": "71b62079d4784ded"
+  },
+  {
+    "text": "Listen and pop: Spring!",
+    "hash": "637953280929c44c"
+  },
+  {
+    "text": "Great! Spring!",
+    "hash": "237c6b9dd99c70ad"
+  },
+  {
+    "text": "Great job! Great! Spring!",
+    "hash": "2a234570256c0168"
+  },
+  {
+    "text": "Listen and pop: Summer!",
+    "hash": "a5aaa26ed4367bfb"
+  },
+  {
+    "text": "Great! Summer!",
+    "hash": "b354c48bdb736720"
+  },
+  {
+    "text": "Great job! Great! Summer!",
+    "hash": "bfa3d7c84d283845"
+  },
+  {
+    "text": "Listen and pop: Autumn!",
+    "hash": "635fe0ac0baf5409"
+  },
+  {
+    "text": "Great! Autumn!",
+    "hash": "f405b963365e4d9b"
+  },
+  {
+    "text": "Great job! Great! Autumn!",
+    "hash": "648ef433d98b859c"
+  },
+  {
+    "text": "Listen and pop: Winter!",
+    "hash": "2a128010dcdb0dfc"
+  },
+  {
+    "text": "Great! Winter!",
+    "hash": "cc937ec3c966f22b"
+  },
+  {
+    "text": "Great job! Great! Winter!",
+    "hash": "e0a8e805193e2aa1"
+  },
+  {
     "text": "Garden",
     "hash": "537e5e2e4170c8ad"
+  },
+  {
+    "text": "Listen and pop: Garden!",
+    "hash": "b537a180ae805572"
+  },
+  {
+    "text": "Great! Garden!",
+    "hash": "8ab43b45b04fa607"
+  },
+  {
+    "text": "Great job! Great! Garden!",
+    "hash": "29441622d68c83a7"
   },
   {
     "text": "Cactus",
     "hash": "73f9dd67caea9a69"
   },
   {
+    "text": "Listen and pop: Cactus!",
+    "hash": "dcb8455388f9c89f"
+  },
+  {
+    "text": "Great! Cactus!",
+    "hash": "c6243baec877fc92"
+  },
+  {
+    "text": "Great job! Great! Cactus!",
+    "hash": "9d6ae2aea1d94fe0"
+  },
+  {
     "text": "Volcano",
     "hash": "aeff1f1d9c6bd42d"
+  },
+  {
+    "text": "Listen and pop: Volcano!",
+    "hash": "60796d9c8cb243cf"
+  },
+  {
+    "text": "Great! Volcano!",
+    "hash": "c8dbaeb949b6b1b6"
+  },
+  {
+    "text": "Great job! Great! Volcano!",
+    "hash": "cabd5b74e8607895"
   },
   {
     "text": "House",
     "hash": "57c8966519373825"
   },
   {
+    "text": "Listen and pop: House!",
+    "hash": "d25a692450b1012b"
+  },
+  {
+    "text": "Great! House!",
+    "hash": "540996be71e04a76"
+  },
+  {
+    "text": "Great job! Great! House!",
+    "hash": "eebd4685aaca805b"
+  },
+  {
     "text": "Home",
     "hash": "7fb99ab79dd78b89"
+  },
+  {
+    "text": "Listen and pop: Home!",
+    "hash": "33bc2855a4351505"
+  },
+  {
+    "text": "Great! Home!",
+    "hash": "ea2de96909d664df"
+  },
+  {
+    "text": "Great job! Great! Home!",
+    "hash": "a67527973d0662f2"
   },
   {
     "text": "Room",
     "hash": "4808e421fc85ed3b"
   },
   {
+    "text": "Listen and pop: Room!",
+    "hash": "94c04b0ebac0985a"
+  },
+  {
+    "text": "Great! Room!",
+    "hash": "77ead7c5799de157"
+  },
+  {
+    "text": "Great job! Great! Room!",
+    "hash": "b365f2bc1f8e6a6f"
+  },
+  {
+    "text": "Listen and pop: Door!",
+    "hash": "6661c10b565e4d4c"
+  },
+  {
+    "text": "Great! Door!",
+    "hash": "fe10ca4c01b1285e"
+  },
+  {
+    "text": "Great job! Great! Door!",
+    "hash": "0f2e78fd1226fab1"
+  },
+  {
     "text": "Window",
     "hash": "b6ffe22c35e94a36"
+  },
+  {
+    "text": "Listen and pop: Window!",
+    "hash": "e8207a84e49a87aa"
+  },
+  {
+    "text": "Great! Window!",
+    "hash": "7e96391dad6f4010"
+  },
+  {
+    "text": "Great job! Great! Window!",
+    "hash": "cd357472754bfbe4"
   },
   {
     "text": "Wall",
     "hash": "9eb0beb73466c2b3"
   },
   {
+    "text": "Listen and pop: Wall!",
+    "hash": "28ef9b78f8aba417"
+  },
+  {
+    "text": "Great! Wall!",
+    "hash": "9f52e59a9ee7ec6a"
+  },
+  {
+    "text": "Great job! Great! Wall!",
+    "hash": "1a66f17b38629c9a"
+  },
+  {
     "text": "Roof",
     "hash": "da7cee35e01d8d94"
+  },
+  {
+    "text": "Listen and pop: Roof!",
+    "hash": "ed07011264920372"
+  },
+  {
+    "text": "Great! Roof!",
+    "hash": "73935239f206204f"
+  },
+  {
+    "text": "Great job! Great! Roof!",
+    "hash": "d5231a68d3c45c26"
   },
   {
     "text": "Floor",
     "hash": "9124004cf22cd6ad"
   },
   {
+    "text": "Listen and pop: Floor!",
+    "hash": "aee04a070872a078"
+  },
+  {
+    "text": "Great! Floor!",
+    "hash": "787a3fc2ddf34b0b"
+  },
+  {
+    "text": "Great job! Great! Floor!",
+    "hash": "82e8acec5fa24e90"
+  },
+  {
     "text": "Stairs",
     "hash": "5d0fd48adf0cca4b"
+  },
+  {
+    "text": "Listen and pop: Stairs!",
+    "hash": "1b10eceb9cbb6d3c"
+  },
+  {
+    "text": "Great! Stairs!",
+    "hash": "5093b877eec71dba"
+  },
+  {
+    "text": "Great job! Great! Stairs!",
+    "hash": "70f8c91e89e61ba0"
+  },
+  {
+    "text": "Where do you sleep at night?",
+    "hash": "8b25fffa39826eca"
+  },
+  {
+    "text": "Great! Bed!",
+    "hash": "51d7fd24b8a56d63"
+  },
+  {
+    "text": "Great job! Great! Bed!",
+    "hash": "d95c34c9f23a1a1e"
   },
   {
     "text": "Pillow",
     "hash": "e30ba9aea122ce0e"
   },
   {
+    "text": "Listen and pop: Pillow!",
+    "hash": "424031aada309151"
+  },
+  {
+    "text": "Great! Pillow!",
+    "hash": "a91652d8f387de3d"
+  },
+  {
+    "text": "Great job! Great! Pillow!",
+    "hash": "2e18e98bab60f04f"
+  },
+  {
     "text": "Blanket",
     "hash": "d7213c9c11d69719"
+  },
+  {
+    "text": "Listen and pop: Blanket!",
+    "hash": "3adafd44a2193cbd"
+  },
+  {
+    "text": "Great! Blanket!",
+    "hash": "3d24b84fc3f70f9f"
+  },
+  {
+    "text": "Great job! Great! Blanket!",
+    "hash": "20bba6f96ff0f48b"
+  },
+  {
+    "text": "Listen and pop: Chair!",
+    "hash": "343bbdf8896fa234"
+  },
+  {
+    "text": "Great! Chair!",
+    "hash": "374615bfa361dcc4"
+  },
+  {
+    "text": "Great job! Great! Chair!",
+    "hash": "b4c4af88cc84e665"
+  },
+  {
+    "text": "Listen and pop: Table!",
+    "hash": "9f7f22eb01aa947c"
+  },
+  {
+    "text": "Great! Table!",
+    "hash": "2513e0b76e707a2a"
+  },
+  {
+    "text": "Great job! Great! Table!",
+    "hash": "0568f84326dda5df"
   },
   {
     "text": "Desk",
     "hash": "c17d1ae42f4191cd"
   },
   {
+    "text": "Listen and pop: Desk!",
+    "hash": "adf7088291153e8e"
+  },
+  {
+    "text": "Great! Desk!",
+    "hash": "1a5212d89047fcda"
+  },
+  {
+    "text": "Great job! Great! Desk!",
+    "hash": "1e72a17bb3276a35"
+  },
+  {
     "text": "Sofa",
     "hash": "5ff3754c561dd92b"
+  },
+  {
+    "text": "Listen and pop: Sofa!",
+    "hash": "d6043d0649b68622"
+  },
+  {
+    "text": "Great! Sofa!",
+    "hash": "e9a20f2022d83238"
+  },
+  {
+    "text": "Great job! Great! Sofa!",
+    "hash": "c0d990f7e8a415f3"
   },
   {
     "text": "Lamp",
     "hash": "8ff431d82cedf7ac"
   },
   {
+    "text": "Listen and pop: Lamp!",
+    "hash": "b4085c8fd83d52eb"
+  },
+  {
+    "text": "Great! Lamp!",
+    "hash": "9d79c7024e8f1d96"
+  },
+  {
+    "text": "Great job! Great! Lamp!",
+    "hash": "41c839c2ca5c41b1"
+  },
+  {
+    "text": "What tells you the time in the morning?",
+    "hash": "e8cb6a1d23e72113"
+  },
+  {
+    "text": "Great! Clock!",
+    "hash": "e2ffc1c499184dec"
+  },
+  {
+    "text": "Great job! Great! Clock!",
+    "hash": "d4276bca56a358d5"
+  },
+  {
     "text": "Mirror",
     "hash": "f782aa8e9b23c34a"
+  },
+  {
+    "text": "Listen and pop: Mirror!",
+    "hash": "b6353ff84cd6c4cf"
+  },
+  {
+    "text": "Great! Mirror!",
+    "hash": "28cd35b73d13167a"
+  },
+  {
+    "text": "Great job! Great! Mirror!",
+    "hash": "15fe6a4b9e9a5487"
   },
   {
     "text": "Key",
     "hash": "315a346d9acc784f"
   },
   {
+    "text": "Listen and pop: Key!",
+    "hash": "22b4b0ce6c6146c2"
+  },
+  {
+    "text": "Great! Key!",
+    "hash": "5c89e6e4ce624c32"
+  },
+  {
+    "text": "Great job! Great! Key!",
+    "hash": "362c7bd904b074a0"
+  },
+  {
     "text": "Lock",
     "hash": "1b9122ef853594ff"
+  },
+  {
+    "text": "Listen and pop: Lock!",
+    "hash": "3e3e6d027f0226e8"
+  },
+  {
+    "text": "Great! Lock!",
+    "hash": "81d306030ae7890d"
+  },
+  {
+    "text": "Great job! Great! Lock!",
+    "hash": "7ddb750ac725cef4"
   },
   {
     "text": "Box",
     "hash": "b32198d0db355adf"
   },
   {
+    "text": "Listen and pop: Box!",
+    "hash": "b1774614b501a4bd"
+  },
+  {
+    "text": "Great! Box!",
+    "hash": "7792868752c22579"
+  },
+  {
+    "text": "Great job! Great! Box!",
+    "hash": "76d5e72fe2e70ac1"
+  },
+  {
     "text": "Bag",
     "hash": "e2fd4685c1b5052d"
+  },
+  {
+    "text": "Listen and pop: Bag!",
+    "hash": "16e28ebf6de4a5c9"
+  },
+  {
+    "text": "Great! Bag!",
+    "hash": "5d434b904752168b"
+  },
+  {
+    "text": "Great job! Great! Bag!",
+    "hash": "9bca4738bdc6eb1e"
+  },
+  {
+    "text": "What do you wear on your back to school?",
+    "hash": "d7695aebdd77a82c"
+  },
+  {
+    "text": "Great! Backpack!",
+    "hash": "e2b560c652a458d0"
+  },
+  {
+    "text": "Great job! Great! Backpack!",
+    "hash": "22c650d1cc5d0ee7"
+  },
+  {
+    "text": "What has pages with fun stories?",
+    "hash": "1f1da41789e5952e"
+  },
+  {
+    "text": "Great! Book!",
+    "hash": "a4e415ced7f253b4"
+  },
+  {
+    "text": "Great job! Great! Book!",
+    "hash": "b237298277b018e1"
   },
   {
     "text": "Notebook",
     "hash": "ebcedb2f21b88400"
   },
   {
+    "text": "Listen and pop: Notebook!",
+    "hash": "6b386a8b02e23c17"
+  },
+  {
+    "text": "Great! Notebook!",
+    "hash": "6819dca08cc22eb2"
+  },
+  {
+    "text": "Great job! Great! Notebook!",
+    "hash": "0c0fd3985eba5fdb"
+  },
+  {
     "text": "Paper",
     "hash": "b288323acce8db26"
+  },
+  {
+    "text": "Listen and pop: Paper!",
+    "hash": "d6b0abc644dd744a"
+  },
+  {
+    "text": "Great! Paper!",
+    "hash": "7c56c26b8c0307f2"
+  },
+  {
+    "text": "Great job! Great! Paper!",
+    "hash": "da86fdb31de5149c"
+  },
+  {
+    "text": "Listen and pop: Pen!",
+    "hash": "45c94a7237c823b8"
+  },
+  {
+    "text": "Great! Pen!",
+    "hash": "ea86c80488cb7109"
+  },
+  {
+    "text": "Great job! Great! Pen!",
+    "hash": "c703e080ec47c8e0"
+  },
+  {
+    "text": "Listen and pop: Pencil!",
+    "hash": "bc751480d376c76c"
+  },
+  {
+    "text": "Great! Pencil!",
+    "hash": "9f243ca83d22f736"
+  },
+  {
+    "text": "Great job! Great! Pencil!",
+    "hash": "421e8d4a8f88808b"
   },
   {
     "text": "Eraser",
     "hash": "37c592207b6f8b87"
   },
   {
+    "text": "Listen and pop: Eraser!",
+    "hash": "8ea41a78c83fc4a4"
+  },
+  {
+    "text": "Great! Eraser!",
+    "hash": "66975117b55bfe30"
+  },
+  {
+    "text": "Great job! Great! Eraser!",
+    "hash": "761187f773230070"
+  },
+  {
     "text": "Ruler",
     "hash": "4bc5a0d4f9c91993"
+  },
+  {
+    "text": "Listen and pop: Ruler!",
+    "hash": "c4b651d7449678f5"
+  },
+  {
+    "text": "Great! Ruler!",
+    "hash": "8da3b76cbb507e78"
+  },
+  {
+    "text": "Great job! Great! Ruler!",
+    "hash": "9eb063b49e5dc5c6"
   },
   {
     "text": "Scissors",
     "hash": "c5669018be366c73"
   },
   {
+    "text": "Listen and pop: Scissors!",
+    "hash": "f383277cdfa90b75"
+  },
+  {
+    "text": "Great! Scissors!",
+    "hash": "056bbbff6e37eae2"
+  },
+  {
+    "text": "Great job! Great! Scissors!",
+    "hash": "0df0e3b4d0b419cd"
+  },
+  {
     "text": "Glue",
     "hash": "7918da025e2fbf85"
+  },
+  {
+    "text": "Listen and pop: Glue!",
+    "hash": "ddd837a72182852f"
+  },
+  {
+    "text": "Great! Glue!",
+    "hash": "a62f8db23897583d"
+  },
+  {
+    "text": "Great job! Great! Glue!",
+    "hash": "c7be995aad1929ab"
   },
   {
     "text": "Crayon",
     "hash": "381e8b5a8ed3694c"
   },
   {
+    "text": "Listen and pop: Crayon!",
+    "hash": "5b16405ea4057ef4"
+  },
+  {
+    "text": "Great! Crayon!",
+    "hash": "73e6b187eae3dfe8"
+  },
+  {
+    "text": "Great job! Great! Crayon!",
+    "hash": "accd26710297cbc9"
+  },
+  {
     "text": "Chalk",
     "hash": "19a9531d03edc9c0"
+  },
+  {
+    "text": "Listen and pop: Chalk!",
+    "hash": "aa65b083e578a9d7"
+  },
+  {
+    "text": "Great! Chalk!",
+    "hash": "b67efb39b4429576"
+  },
+  {
+    "text": "Great job! Great! Chalk!",
+    "hash": "cc9c32ce7fbe47ed"
   },
   {
     "text": "Board",
     "hash": "2baaa7b5dd0e6707"
   },
   {
+    "text": "Listen and pop: Board!",
+    "hash": "c6e864f97c5be8d9"
+  },
+  {
+    "text": "Great! Board!",
+    "hash": "a1b741fff3523264"
+  },
+  {
+    "text": "Great job! Great! Board!",
+    "hash": "e5d80296354218f4"
+  },
+  {
     "text": "Map",
     "hash": "dc9c95674b16ee20"
+  },
+  {
+    "text": "Listen and pop: Map!",
+    "hash": "8372aee7695f1b50"
+  },
+  {
+    "text": "Great! Map!",
+    "hash": "fc5503b1f69f040e"
+  },
+  {
+    "text": "Great job! Great! Map!",
+    "hash": "7f0dde1eaf3d02cc"
   },
   {
     "text": "Globe",
     "hash": "cdaf5daa58cf0a15"
   },
   {
+    "text": "Listen and pop: Globe!",
+    "hash": "31558066b3e85753"
+  },
+  {
+    "text": "Great! Globe!",
+    "hash": "7357687df45b9f57"
+  },
+  {
+    "text": "Great job! Great! Globe!",
+    "hash": "75788b1a2a59d27c"
+  },
+  {
+    "text": "Listen and pop: School!",
+    "hash": "f7f689303829a3ff"
+  },
+  {
+    "text": "Great! School!",
+    "hash": "afe43202fb7d70fc"
+  },
+  {
+    "text": "Great job! Great! School!",
+    "hash": "8f737195f11d73b2"
+  },
+  {
     "text": "Class",
     "hash": "92a277b415fcfe73"
+  },
+  {
+    "text": "Listen and pop: Class!",
+    "hash": "745d87d5f7c19a36"
+  },
+  {
+    "text": "Great! Class!",
+    "hash": "0a989d6dffa0ecf1"
+  },
+  {
+    "text": "Great job! Great! Class!",
+    "hash": "dc89f42afa5b35af"
+  },
+  {
+    "text": "Listen and pop: Teacher!",
+    "hash": "207859b351c9d368"
+  },
+  {
+    "text": "Great! Teacher!",
+    "hash": "1c0d4deac51fcf78"
+  },
+  {
+    "text": "Great job! Great! Teacher!",
+    "hash": "34a1fe396bc103b8"
   },
   {
     "text": "Student",
     "hash": "7dbd38a05bc3ee1b"
   },
   {
+    "text": "Listen and pop: Student!",
+    "hash": "af076fd4a683c455"
+  },
+  {
+    "text": "Great! Student!",
+    "hash": "03384e9bd8b0afaa"
+  },
+  {
+    "text": "Great job! Great! Student!",
+    "hash": "003fd010f1df9573"
+  },
+  {
+    "text": "Listen and pop: Friend!",
+    "hash": "1f42e6fd86c78294"
+  },
+  {
+    "text": "Great! Friend!",
+    "hash": "cb0fe529171b9021"
+  },
+  {
+    "text": "Great job! Great! Friend!",
+    "hash": "c4739ec43d26c324"
+  },
+  {
     "text": "Bell",
     "hash": "7cb83d2fc204c933"
+  },
+  {
+    "text": "Listen and pop: Bell!",
+    "hash": "b70aed6ab4671455"
+  },
+  {
+    "text": "Great! Bell!",
+    "hash": "303b88e5112790a4"
+  },
+  {
+    "text": "Great job! Great! Bell!",
+    "hash": "ceed1b783c11aa3d"
   },
   {
     "text": "Test",
     "hash": "e03955c4c12e00f8"
   },
   {
+    "text": "Listen and pop: Test!",
+    "hash": "8bae463592a33561"
+  },
+  {
+    "text": "Great! Test!",
+    "hash": "2eb54bae14675298"
+  },
+  {
+    "text": "Great job! Great! Test!",
+    "hash": "df48633be3bc9fb2"
+  },
+  {
     "text": "Word",
     "hash": "ddd66fe77576d45e"
+  },
+  {
+    "text": "Listen and pop: Word!",
+    "hash": "028729ea5138ecf5"
+  },
+  {
+    "text": "Great! Word!",
+    "hash": "bf90dcceea716c6f"
+  },
+  {
+    "text": "Great job! Great! Word!",
+    "hash": "60d58afed3863a65"
   },
   {
     "text": "Letter",
     "hash": "0745be347bb8dd3a"
   },
   {
+    "text": "Listen and pop: Letter!",
+    "hash": "ce69c9cf46bc0f58"
+  },
+  {
+    "text": "Great! Letter!",
+    "hash": "b7c098e7523b7ff1"
+  },
+  {
+    "text": "Great job! Great! Letter!",
+    "hash": "eb4f44aef03e2201"
+  },
+  {
     "text": "Story",
     "hash": "ae33b25c39233b44"
+  },
+  {
+    "text": "Listen and pop: Story!",
+    "hash": "b45ef1668dbd7b2d"
+  },
+  {
+    "text": "Great! Story!",
+    "hash": "758ea6c272fe87df"
+  },
+  {
+    "text": "Great job! Great! Story!",
+    "hash": "bba56e101a0bff9f"
   },
   {
     "text": "Library",
     "hash": "14c8f48b99722284"
   },
   {
+    "text": "Listen and pop: Library!",
+    "hash": "8a4c0d1616e03d0f"
+  },
+  {
+    "text": "Great! Library!",
+    "hash": "85ada8268825c61d"
+  },
+  {
+    "text": "Great job! Great! Library!",
+    "hash": "0852932cd92d2131"
+  },
+  {
     "text": "Cup",
     "hash": "d43d5f8a4bc196cb"
+  },
+  {
+    "text": "Listen and pop: Cup!",
+    "hash": "4a9d4b7f51efb555"
+  },
+  {
+    "text": "Great! Cup!",
+    "hash": "b7b8eb08d0c47186"
+  },
+  {
+    "text": "Great job! Great! Cup!",
+    "hash": "496a77820998b82c"
   },
   {
     "text": "Spoon",
     "hash": "01b490d75ea87f0b"
   },
   {
+    "text": "Listen and pop: Spoon!",
+    "hash": "d2d09b8b605878b0"
+  },
+  {
+    "text": "Great! Spoon!",
+    "hash": "dda8fde85bf2bcbb"
+  },
+  {
+    "text": "Great job! Great! Spoon!",
+    "hash": "333cf35598bdf228"
+  },
+  {
     "text": "Fork",
     "hash": "8b9ee6fda0164d21"
+  },
+  {
+    "text": "Listen and pop: Fork!",
+    "hash": "1327236749caa963"
+  },
+  {
+    "text": "Great! Fork!",
+    "hash": "cb009e44ae546b9b"
+  },
+  {
+    "text": "Great job! Great! Fork!",
+    "hash": "5805a2331618595e"
+  },
+  {
+    "text": "Listen and pop: Red!",
+    "hash": "fc7b33fc730f86a6"
+  },
+  {
+    "text": "Great! Red!",
+    "hash": "e3fefa70a62173c0"
+  },
+  {
+    "text": "Great job! Great! Red!",
+    "hash": "2c23e4d1427313a5"
+  },
+  {
+    "text": "What color is the clear daytime sky?",
+    "hash": "7a05f769f913ac2d"
+  },
+  {
+    "text": "Great! Blue!",
+    "hash": "520b3e5113870707"
+  },
+  {
+    "text": "Great job! Great! Blue!",
+    "hash": "0f25f5ffda72a617"
+  },
+  {
+    "text": "Listen and pop: Yellow!",
+    "hash": "03d331534b73bc9f"
+  },
+  {
+    "text": "Great! Yellow!",
+    "hash": "f961d90c0a085030"
+  },
+  {
+    "text": "Great job! Great! Yellow!",
+    "hash": "06f47c4b384e1aaa"
+  },
+  {
+    "text": "What color is fresh grass in the park?",
+    "hash": "ef77ca3323f80ac8"
+  },
+  {
+    "text": "Great! Green!",
+    "hash": "c0b9a09ed781723a"
+  },
+  {
+    "text": "Great job! Great! Green!",
+    "hash": "2c6c4d5b0172844a"
+  },
+  {
+    "text": "Listen and pop: Purple!",
+    "hash": "9bb0de1e835cdde7"
+  },
+  {
+    "text": "Great! Purple!",
+    "hash": "496cc380776e1d7c"
+  },
+  {
+    "text": "Great job! Great! Purple!",
+    "hash": "359a4f5d99bafb05"
+  },
+  {
+    "text": "Listen and pop: Pink!",
+    "hash": "c58f5a7dc0d85868"
+  },
+  {
+    "text": "Great! Pink!",
+    "hash": "29e0fc696ffeffe7"
+  },
+  {
+    "text": "Great job! Great! Pink!",
+    "hash": "18762d2aee7fa14f"
+  },
+  {
+    "text": "Listen and pop: Brown!",
+    "hash": "538df3ea111b4d6a"
+  },
+  {
+    "text": "Great! Brown!",
+    "hash": "3ab113107d4e0c75"
+  },
+  {
+    "text": "Great job! Great! Brown!",
+    "hash": "46e5689464477aa7"
+  },
+  {
+    "text": "Listen and pop: Black!",
+    "hash": "d732e41810a8459a"
+  },
+  {
+    "text": "Great! Black!",
+    "hash": "71e8f7d973fe2424"
+  },
+  {
+    "text": "Great job! Great! Black!",
+    "hash": "5ed40c5c45d74e20"
   },
   {
     "text": "White",
     "hash": "be2957d110ca94f1"
   },
   {
+    "text": "Listen and pop: White!",
+    "hash": "78e0d051a5ae4e7e"
+  },
+  {
+    "text": "Great! White!",
+    "hash": "55578c432bc8b85c"
+  },
+  {
+    "text": "Great job! Great! White!",
+    "hash": "59946b20e785202e"
+  },
+  {
     "text": "Gray",
     "hash": "b25bbe0fa6575133"
+  },
+  {
+    "text": "Listen and pop: Gray!",
+    "hash": "3efcc64de7456915"
+  },
+  {
+    "text": "Great! Gray!",
+    "hash": "16862d2236c42039"
+  },
+  {
+    "text": "Great job! Great! Gray!",
+    "hash": "078e09da87d1e82e"
   },
   {
     "text": "Gold",
     "hash": "6fe6289ea1e577d7"
   },
   {
+    "text": "Listen and pop: Gold!",
+    "hash": "38b9aea60e19626c"
+  },
+  {
+    "text": "Great! Gold!",
+    "hash": "3df70d18e9b76c51"
+  },
+  {
+    "text": "Great job! Great! Gold!",
+    "hash": "97efc2264fed54ee"
+  },
+  {
     "text": "Silver",
     "hash": "d95a49de3f3b5871"
+  },
+  {
+    "text": "Listen and pop: Silver!",
+    "hash": "848a5d55c2842f33"
+  },
+  {
+    "text": "Great! Silver!",
+    "hash": "b6f8878a10945e21"
+  },
+  {
+    "text": "Great job! Great! Silver!",
+    "hash": "90b26be17ccbd4fc"
+  },
+  {
+    "text": "Listen and pop: Circle!",
+    "hash": "adb90de41a3aff1b"
+  },
+  {
+    "text": "Great! Circle!",
+    "hash": "21aa0cbd9b6864df"
+  },
+  {
+    "text": "Great job! Great! Circle!",
+    "hash": "186f0bf029d54d6a"
+  },
+  {
+    "text": "Listen and pop: Square!",
+    "hash": "181baba045b4eded"
+  },
+  {
+    "text": "Great! Square!",
+    "hash": "94489005a64b40a1"
+  },
+  {
+    "text": "Great job! Great! Square!",
+    "hash": "d962b0f341d42ec6"
+  },
+  {
+    "text": "Which shape has three corners and three sides?",
+    "hash": "00d23add409dc918"
+  },
+  {
+    "text": "Great! Triangle!",
+    "hash": "23d2bae1f3b389af"
+  },
+  {
+    "text": "Great job! Great! Triangle!",
+    "hash": "42ba87f46e5aaca9"
   },
   {
     "text": "Heart",
     "hash": "fa9d7f824642cb2c"
   },
   {
+    "text": "Listen and pop: Heart!",
+    "hash": "4b337623785d8590"
+  },
+  {
+    "text": "Great! Heart!",
+    "hash": "12cacc5a4141c1b2"
+  },
+  {
+    "text": "Great job! Great! Heart!",
+    "hash": "734e1255008b7fb0"
+  },
+  {
     "text": "Oval",
     "hash": "b09bc6bfd1ea3f08"
+  },
+  {
+    "text": "Listen and pop: Oval!",
+    "hash": "7e4bed1d1df7a891"
+  },
+  {
+    "text": "Great! Oval!",
+    "hash": "3e5f5f9be41412a3"
+  },
+  {
+    "text": "Great job! Great! Oval!",
+    "hash": "67da8891e8a7d5ec"
   },
   {
     "text": "Diamond",
     "hash": "fda0f98637434a42"
   },
   {
+    "text": "Listen and pop: Diamond!",
+    "hash": "dfb5ddd70b1c7a6f"
+  },
+  {
+    "text": "Great! Diamond!",
+    "hash": "a1d5c474b2ff9f1e"
+  },
+  {
+    "text": "Great job! Great! Diamond!",
+    "hash": "cf396ac646b4e6e5"
+  },
+  {
     "text": "Cube",
     "hash": "7b911c6b7fd1d1b6"
+  },
+  {
+    "text": "Listen and pop: Cube!",
+    "hash": "13646bc67ffca4e6"
+  },
+  {
+    "text": "Great! Cube!",
+    "hash": "0b99e1c84d3d40a8"
+  },
+  {
+    "text": "Great job! Great! Cube!",
+    "hash": "319e337648008030"
   },
   {
     "text": "Line",
     "hash": "449c40f5a485c94c"
   },
   {
+    "text": "Listen and pop: Line!",
+    "hash": "bb36a4a580cbf4d4"
+  },
+  {
+    "text": "Great! Line!",
+    "hash": "d89d9f764bfa90fe"
+  },
+  {
+    "text": "Great job! Great! Line!",
+    "hash": "64cebc8f3ae030a5"
+  },
+  {
     "text": "Dot",
     "hash": "fad13254062d551d"
+  },
+  {
+    "text": "Listen and pop: Dot!",
+    "hash": "e28471c6f0754086"
+  },
+  {
+    "text": "Great! Dot!",
+    "hash": "4747a18c67e832a3"
+  },
+  {
+    "text": "Great job! Great! Dot!",
+    "hash": "688ce0bf25cb93e7"
   },
   {
     "text": "Ring",
     "hash": "654ea849055691f6"
   },
   {
+    "text": "Listen and pop: Ring!",
+    "hash": "9f3ab89519817d70"
+  },
+  {
+    "text": "Great! Ring!",
+    "hash": "02616d989adc8c20"
+  },
+  {
+    "text": "Great job! Great! Ring!",
+    "hash": "7d643d71f54eeede"
+  },
+  {
     "text": "Zero",
     "hash": "89bc4d4013696ff8"
+  },
+  {
+    "text": "Listen and pop: Zero!",
+    "hash": "4b22e4fbadb55042"
+  },
+  {
+    "text": "Great! Zero!",
+    "hash": "b69f0a7fb5ad362f"
+  },
+  {
+    "text": "Great job! Great! Zero!",
+    "hash": "38b7c0e749c65b91"
+  },
+  {
+    "text": "Listen and pop: One!",
+    "hash": "ee4d22421756a93b"
+  },
+  {
+    "text": "Great! One!",
+    "hash": "960b16fc078a9455"
+  },
+  {
+    "text": "Great job! Great! One!",
+    "hash": "6771fb7a9249cedf"
+  },
+  {
+    "text": "Listen and pop: Two!",
+    "hash": "75faa94503fc3c60"
+  },
+  {
+    "text": "Great! Two!",
+    "hash": "d74ec717c877f523"
+  },
+  {
+    "text": "Great job! Great! Two!",
+    "hash": "5a653865bdf3d909"
+  },
+  {
+    "text": "Listen and pop: Three!",
+    "hash": "3cc3e235b1861f03"
+  },
+  {
+    "text": "Great! Three!",
+    "hash": "29e2c07a7ea36939"
+  },
+  {
+    "text": "Great job! Great! Three!",
+    "hash": "e4e196cca59c90de"
+  },
+  {
+    "text": "Listen and pop: Four!",
+    "hash": "c93d6e184d5c9336"
+  },
+  {
+    "text": "Great! Four!",
+    "hash": "da3eaca6acde328f"
+  },
+  {
+    "text": "Great job! Great! Four!",
+    "hash": "91fd221bd79eeeb7"
+  },
+  {
+    "text": "Listen and pop: Five!",
+    "hash": "49129d4598ccbaa0"
+  },
+  {
+    "text": "Great! Five!",
+    "hash": "54c77278ed1ee309"
+  },
+  {
+    "text": "Great job! Great! Five!",
+    "hash": "bb964baa467d58a2"
+  },
+  {
+    "text": "Listen and pop: Six!",
+    "hash": "93ff5712802d2fe7"
+  },
+  {
+    "text": "Great! Six!",
+    "hash": "ee2c43849580dcc7"
+  },
+  {
+    "text": "Great job! Great! Six!",
+    "hash": "22a76ab285a32027"
+  },
+  {
+    "text": "Count carefully: five plus two equals?",
+    "hash": "4273b59b0975cafc"
+  },
+  {
+    "text": "Great! Seven!",
+    "hash": "01cb648bc76c3e33"
+  },
+  {
+    "text": "Great job! Great! Seven!",
+    "hash": "1f980a1bd7d99bb1"
+  },
+  {
+    "text": "Listen and pop: Eight!",
+    "hash": "6cf348f5cce1f4b1"
+  },
+  {
+    "text": "Great! Eight!",
+    "hash": "31026961dc1ac4a6"
+  },
+  {
+    "text": "Great job! Great! Eight!",
+    "hash": "c4ebd3e6502124ba"
+  },
+  {
+    "text": "Listen and pop: Nine!",
+    "hash": "9c0959cb4d6472c7"
+  },
+  {
+    "text": "Great! Nine!",
+    "hash": "6a0a4e738e26b864"
+  },
+  {
+    "text": "Great job! Great! Nine!",
+    "hash": "96b2cf6c6b4b472d"
+  },
+  {
+    "text": "Listen and pop: Ten!",
+    "hash": "d7141bba87f7dc2e"
+  },
+  {
+    "text": "Great! Ten!",
+    "hash": "52471dc1b623c2c3"
+  },
+  {
+    "text": "Great job! Great! Ten!",
+    "hash": "5556d248c7a70bc6"
+  },
+  {
+    "text": "Listen and pop: Eleven!",
+    "hash": "24297cda2c3242b5"
+  },
+  {
+    "text": "Great! Eleven!",
+    "hash": "5d35b7d5c6a53832"
+  },
+  {
+    "text": "Great job! Great! Eleven!",
+    "hash": "1fb9adee93aa361e"
+  },
+  {
+    "text": "Listen and pop: Twelve!",
+    "hash": "3aa599b62515d8e6"
+  },
+  {
+    "text": "Great! Twelve!",
+    "hash": "445df8a85718b263"
+  },
+  {
+    "text": "Great job! Great! Twelve!",
+    "hash": "380c465e757f14df"
   },
   {
     "text": "Thirteen",
     "hash": "ab38a349195c4dc1"
   },
   {
+    "text": "Listen and pop: Thirteen!",
+    "hash": "d98039f36e6a2bfc"
+  },
+  {
+    "text": "Great! Thirteen!",
+    "hash": "b8878297f86b7607"
+  },
+  {
+    "text": "Great job! Great! Thirteen!",
+    "hash": "1314cbd62440d9ac"
+  },
+  {
     "text": "Fourteen",
     "hash": "1d15a9aefe21d9e6"
+  },
+  {
+    "text": "Listen and pop: Fourteen!",
+    "hash": "f5b2afe8f75e12a1"
+  },
+  {
+    "text": "Great! Fourteen!",
+    "hash": "4a02033a3d3fbc18"
+  },
+  {
+    "text": "Great job! Great! Fourteen!",
+    "hash": "77405b537e4485cf"
   },
   {
     "text": "Fifteen",
     "hash": "a72ce695173b65ee"
   },
   {
+    "text": "Listen and pop: Fifteen!",
+    "hash": "e2ee495919d909f2"
+  },
+  {
+    "text": "Great! Fifteen!",
+    "hash": "81605c7f1379f9f0"
+  },
+  {
+    "text": "Great job! Great! Fifteen!",
+    "hash": "fb1e773b491b7812"
+  },
+  {
     "text": "Sixteen",
     "hash": "1f05dab3cf1fcff1"
+  },
+  {
+    "text": "Listen and pop: Sixteen!",
+    "hash": "6fc4b8320f61335c"
+  },
+  {
+    "text": "Great! Sixteen!",
+    "hash": "8f803df08bad1727"
+  },
+  {
+    "text": "Great job! Great! Sixteen!",
+    "hash": "34ae59c0ab797417"
   },
   {
     "text": "Seventeen",
     "hash": "00c2095f3f93d775"
   },
   {
+    "text": "Listen and pop: Seventeen!",
+    "hash": "a9f09e5a97b166a5"
+  },
+  {
+    "text": "Great! Seventeen!",
+    "hash": "5a50f6c59d44cefd"
+  },
+  {
+    "text": "Great job! Great! Seventeen!",
+    "hash": "e929fa72230a1bba"
+  },
+  {
     "text": "Eighteen",
     "hash": "a916e545ac31e589"
+  },
+  {
+    "text": "Listen and pop: Eighteen!",
+    "hash": "2d2abe81e27137e2"
+  },
+  {
+    "text": "Great! Eighteen!",
+    "hash": "ca7d2e8f54c79664"
+  },
+  {
+    "text": "Great job! Great! Eighteen!",
+    "hash": "45f51d9a2bc05dbe"
   },
   {
     "text": "Nineteen",
     "hash": "047fafc019e20c5d"
   },
   {
+    "text": "Listen and pop: Nineteen!",
+    "hash": "c76b0748f0963976"
+  },
+  {
+    "text": "Great! Nineteen!",
+    "hash": "d02d35d486289c51"
+  },
+  {
+    "text": "Great job! Great! Nineteen!",
+    "hash": "96a516f4bc8f8cbe"
+  },
+  {
     "text": "Twenty",
     "hash": "670f8074ed773474"
+  },
+  {
+    "text": "Listen and pop: Twenty!",
+    "hash": "82b6b529715470be"
+  },
+  {
+    "text": "Great! Twenty!",
+    "hash": "b6693fcabf058d19"
+  },
+  {
+    "text": "Great job! Great! Twenty!",
+    "hash": "2326b73b3d5f6b30"
   },
   {
     "text": "Thirty",
     "hash": "a3ca53ab6816d143"
   },
   {
+    "text": "Listen and pop: Thirty!",
+    "hash": "d6b7bde142ca93e5"
+  },
+  {
+    "text": "Great! Thirty!",
+    "hash": "c282d58d0f54a599"
+  },
+  {
+    "text": "Great job! Great! Thirty!",
+    "hash": "8ed0f00ab35e494b"
+  },
+  {
     "text": "Forty",
     "hash": "cf1612bd88ec8da4"
+  },
+  {
+    "text": "Listen and pop: Forty!",
+    "hash": "a92a1b620788a94c"
+  },
+  {
+    "text": "Great! Forty!",
+    "hash": "bc80b0ba67683f20"
+  },
+  {
+    "text": "Great job! Great! Forty!",
+    "hash": "aa22b38ab0e09633"
   },
   {
     "text": "Fifty",
     "hash": "eaf5ad4b74e073cf"
   },
   {
+    "text": "Listen and pop: Fifty!",
+    "hash": "b0a5bee1fbac6f1f"
+  },
+  {
+    "text": "Great! Fifty!",
+    "hash": "31322e7029c99c4f"
+  },
+  {
+    "text": "Great job! Great! Fifty!",
+    "hash": "ebe01dd2146da1e8"
+  },
+  {
     "text": "Sixty",
     "hash": "41c20f83421561a8"
+  },
+  {
+    "text": "Listen and pop: Sixty!",
+    "hash": "ac4740ed020741b0"
+  },
+  {
+    "text": "Great! Sixty!",
+    "hash": "0e2532805fa9e7b1"
+  },
+  {
+    "text": "Great job! Great! Sixty!",
+    "hash": "157e65a989393040"
   },
   {
     "text": "Seventy",
     "hash": "27e4a9ae840c2bd0"
   },
   {
+    "text": "Listen and pop: Seventy!",
+    "hash": "a605a50d96643951"
+  },
+  {
+    "text": "Great! Seventy!",
+    "hash": "d4239f0da83b24d2"
+  },
+  {
+    "text": "Great job! Great! Seventy!",
+    "hash": "1e01835127d201ec"
+  },
+  {
     "text": "Eighty",
     "hash": "185653a2cccb416b"
+  },
+  {
+    "text": "Listen and pop: Eighty!",
+    "hash": "1b06ca2a68e144df"
+  },
+  {
+    "text": "Great! Eighty!",
+    "hash": "5cdc60b3eb29ffd3"
+  },
+  {
+    "text": "Great job! Great! Eighty!",
+    "hash": "7080eed138341a9d"
   },
   {
     "text": "Ninety",
     "hash": "d4cea02ef1cc2509"
   },
   {
+    "text": "Listen and pop: Ninety!",
+    "hash": "227a198ceeac3af1"
+  },
+  {
+    "text": "Great! Ninety!",
+    "hash": "123166391df59158"
+  },
+  {
+    "text": "Great job! Great! Ninety!",
+    "hash": "508743bceaea7763"
+  },
+  {
     "text": "Hundred",
     "hash": "825f90440ab656e8"
+  },
+  {
+    "text": "Listen and pop: Hundred!",
+    "hash": "a7e28358b014a7e3"
+  },
+  {
+    "text": "Great! Hundred!",
+    "hash": "aeaf1a9cdfaf563e"
+  },
+  {
+    "text": "Great job! Great! Hundred!",
+    "hash": "5dab9fe60907aedb"
   },
   {
     "text": "Thousand",
     "hash": "34fcdff2de1b9c4c"
   },
   {
+    "text": "Listen and pop: Thousand!",
+    "hash": "0510db8cb8c9a659"
+  },
+  {
+    "text": "Great! Thousand!",
+    "hash": "6c0da610a322ab3d"
+  },
+  {
+    "text": "Great job! Great! Thousand!",
+    "hash": "5685dd0851932845"
+  },
+  {
+    "text": "Listen and pop: Car!",
+    "hash": "5fe415dbef3c45f0"
+  },
+  {
+    "text": "Great! Car!",
+    "hash": "9c148937323fe4ae"
+  },
+  {
+    "text": "Great job! Great! Car!",
+    "hash": "343516f0091a97e3"
+  },
+  {
+    "text": "Listen and pop: Bus!",
+    "hash": "1825846e8b0cad85"
+  },
+  {
+    "text": "Great! Bus!",
+    "hash": "73daeb62316627cf"
+  },
+  {
+    "text": "Great job! Great! Bus!",
+    "hash": "8e06dab72a098ddb"
+  },
+  {
+    "text": "Which long vehicle rides on iron tracks?",
+    "hash": "ef95c64a75420f21"
+  },
+  {
+    "text": "Great! Train!",
+    "hash": "d48272d31d008977"
+  },
+  {
+    "text": "Great job! Great! Train!",
+    "hash": "8c4789c998263cac"
+  },
+  {
     "text": "Tram",
     "hash": "1298d255063a7ca6"
+  },
+  {
+    "text": "Listen and pop: Tram!",
+    "hash": "b4bffcd08292999d"
+  },
+  {
+    "text": "Great! Tram!",
+    "hash": "6ff3a06d016e2cf4"
+  },
+  {
+    "text": "Great job! Great! Tram!",
+    "hash": "5d3c836ab2f7268e"
+  },
+  {
+    "text": "Listen and pop: Bike!",
+    "hash": "3607b0a00e168236"
+  },
+  {
+    "text": "Great! Bike!",
+    "hash": "6449ce33e3573bab"
+  },
+  {
+    "text": "Great job! Great! Bike!",
+    "hash": "6eec0783fa31ac1c"
   },
   {
     "text": "Bicycle",
     "hash": "ad4d6003570def41"
   },
   {
+    "text": "Which ride has two wheels and pedals?",
+    "hash": "cdba63f18034acde"
+  },
+  {
+    "text": "Great! Bicycle!",
+    "hash": "2cf91f05430d9f04"
+  },
+  {
+    "text": "Great job! Great! Bicycle!",
+    "hash": "dde5e3d9d2578584"
+  },
+  {
+    "text": "Listen and pop: Scooter!",
+    "hash": "81074e4d25e05d6d"
+  },
+  {
+    "text": "Great! Scooter!",
+    "hash": "5e9bbe6e097d1329"
+  },
+  {
+    "text": "Great job! Great! Scooter!",
+    "hash": "a845c40aa3c05929"
+  },
+  {
+    "text": "Listen and pop: Truck!",
+    "hash": "c5c1926a43aca771"
+  },
+  {
+    "text": "Great! Truck!",
+    "hash": "bb504449f4908d3d"
+  },
+  {
+    "text": "Great job! Great! Truck!",
+    "hash": "d320c03667f15f5f"
+  },
+  {
     "text": "Van",
     "hash": "3daf20df2d5cb049"
+  },
+  {
+    "text": "Listen and pop: Van!",
+    "hash": "b808ce9ae6d7f5cf"
+  },
+  {
+    "text": "Great! Van!",
+    "hash": "745baac9ceeff105"
+  },
+  {
+    "text": "Great job! Great! Van!",
+    "hash": "49e9be4881946527"
   },
   {
     "text": "Taxi",
     "hash": "2dba07072293c5d8"
   },
   {
+    "text": "Listen and pop: Taxi!",
+    "hash": "9e0045dc3d984d96"
+  },
+  {
+    "text": "Great! Taxi!",
+    "hash": "32954fb8047d1c72"
+  },
+  {
+    "text": "Great job! Great! Taxi!",
+    "hash": "f7f329ca99a202d6"
+  },
+  {
     "text": "Jeep",
     "hash": "b9190d31fb394985"
+  },
+  {
+    "text": "Listen and pop: Jeep!",
+    "hash": "e74ffa4d7204ba39"
+  },
+  {
+    "text": "Great! Jeep!",
+    "hash": "0283c0e24ca26390"
+  },
+  {
+    "text": "Great job! Great! Jeep!",
+    "hash": "1a903ea2ca8a0896"
+  },
+  {
+    "text": "Listen and pop: Boat!",
+    "hash": "62d0f5000bbd56b8"
+  },
+  {
+    "text": "Great! Boat!",
+    "hash": "93e92f8d953dea88"
+  },
+  {
+    "text": "Great job! Great! Boat!",
+    "hash": "1181425a4e4f2438"
+  },
+  {
+    "text": "Listen and pop: Ship!",
+    "hash": "f9b55edf7f431144"
+  },
+  {
+    "text": "Great! Ship!",
+    "hash": "bc9d8b3e81d3c22d"
+  },
+  {
+    "text": "Great job! Great! Ship!",
+    "hash": "2ea66dd3c6a40695"
   },
   {
     "text": "Yacht",
     "hash": "35bd3acf1bdc3ace"
   },
   {
+    "text": "Listen and pop: Yacht!",
+    "hash": "bee38ac0fd092341"
+  },
+  {
+    "text": "Great! Yacht!",
+    "hash": "9a28a59bd01222b1"
+  },
+  {
+    "text": "Great job! Great! Yacht!",
+    "hash": "b199ac9ca7078bb3"
+  },
+  {
     "text": "Ferry",
     "hash": "cc36be70dba30b03"
+  },
+  {
+    "text": "Listen and pop: Ferry!",
+    "hash": "0464e6050dd3ba30"
+  },
+  {
+    "text": "Great! Ferry!",
+    "hash": "85b634bca5016390"
+  },
+  {
+    "text": "Great job! Great! Ferry!",
+    "hash": "0aab5ad764a1a8e3"
   },
   {
     "text": "Canoe",
     "hash": "ee5a6f9edd3a0c6a"
   },
   {
+    "text": "Listen and pop: Canoe!",
+    "hash": "45cbbd3657bca5a9"
+  },
+  {
+    "text": "Great! Canoe!",
+    "hash": "7447a836a66b1452"
+  },
+  {
+    "text": "Great job! Great! Canoe!",
+    "hash": "db2eeeabb41d7f81"
+  },
+  {
+    "text": "Which machine flies high above the clouds?",
+    "hash": "a5d66b722a4cf34e"
+  },
+  {
+    "text": "Great! Airplane!",
+    "hash": "30850c7037f5b85d"
+  },
+  {
+    "text": "Great job! Great! Airplane!",
+    "hash": "921e9669ebb9ab76"
+  },
+  {
     "text": "Plane",
     "hash": "818f10cf34ed7700"
+  },
+  {
+    "text": "Listen and pop: Plane!",
+    "hash": "e55f61127bd07f15"
+  },
+  {
+    "text": "Great! Plane!",
+    "hash": "afcd5e888dc012dc"
+  },
+  {
+    "text": "Great job! Great! Plane!",
+    "hash": "4c3cd0c765fbbb0f"
   },
   {
     "text": "Jet",
     "hash": "413e41e68d9d30a9"
   },
   {
+    "text": "Listen and pop: Jet!",
+    "hash": "bf07a7bb46bef5eb"
+  },
+  {
+    "text": "Great! Jet!",
+    "hash": "7587780ffc1c80c4"
+  },
+  {
+    "text": "Great job! Great! Jet!",
+    "hash": "b13eec72135b79cd"
+  },
+  {
+    "text": "Listen and pop: Helicopter!",
+    "hash": "eafb018451b34a23"
+  },
+  {
+    "text": "Great! Helicopter!",
+    "hash": "55159725b8acfce7"
+  },
+  {
+    "text": "Great job! Great! Helicopter!",
+    "hash": "25b94d9d638b061f"
+  },
+  {
+    "text": "Which fast ship blasts off to space?",
+    "hash": "514ac7a11d546fe3"
+  },
+  {
+    "text": "Great! Rocket!",
+    "hash": "1e28c2d3f42b9b83"
+  },
+  {
+    "text": "Great job! Great! Rocket!",
+    "hash": "35e01c911370404c"
+  },
+  {
     "text": "Spaceship",
     "hash": "d5d5d3feb35d2982"
+  },
+  {
+    "text": "Listen and pop: Spaceship!",
+    "hash": "72af24adab704753"
+  },
+  {
+    "text": "Great! Spaceship!",
+    "hash": "5c01641dbc5c46b7"
+  },
+  {
+    "text": "Great job! Great! Spaceship!",
+    "hash": "e886ecccf79fe6d1"
+  },
+  {
+    "text": "Listen and pop: Planet!",
+    "hash": "1fc1ab661db7fdef"
+  },
+  {
+    "text": "Great! Planet!",
+    "hash": "1f8ff45cf9987e27"
+  },
+  {
+    "text": "Great job! Great! Planet!",
+    "hash": "a8913b898e656cbc"
   },
   {
     "text": "Mars",
     "hash": "731b939420179e2a"
   },
   {
+    "text": "Listen and pop: Mars!",
+    "hash": "b2c4a320d41173f9"
+  },
+  {
+    "text": "Great! Mars!",
+    "hash": "7a48226959a5fc8b"
+  },
+  {
+    "text": "Great job! Great! Mars!",
+    "hash": "620c1e730e064667"
+  },
+  {
     "text": "Earth",
     "hash": "ee0c8a75326080d8"
+  },
+  {
+    "text": "Listen and pop: Earth!",
+    "hash": "0531b93098af695d"
+  },
+  {
+    "text": "Great! Earth!",
+    "hash": "428852275c061db4"
+  },
+  {
+    "text": "Great job! Great! Earth!",
+    "hash": "17e875d9fa0cb1ee"
   },
   {
     "text": "Venus",
     "hash": "9885326d76dc5c1a"
   },
   {
+    "text": "Listen and pop: Venus!",
+    "hash": "299d243b2ebad80d"
+  },
+  {
+    "text": "Great! Venus!",
+    "hash": "a7497514454f3268"
+  },
+  {
+    "text": "Great job! Great! Venus!",
+    "hash": "61145f3621f92423"
+  },
+  {
     "text": "Saturn",
     "hash": "e9735c6f3d4288cf"
+  },
+  {
+    "text": "Listen and pop: Saturn!",
+    "hash": "a765aebd5f553150"
+  },
+  {
+    "text": "Great! Saturn!",
+    "hash": "638eff98ebcc02f7"
+  },
+  {
+    "text": "Great job! Great! Saturn!",
+    "hash": "bf91ef63cd592f1b"
+  },
+  {
+    "text": "Listen and pop: Comet!",
+    "hash": "da5df50402ad15db"
+  },
+  {
+    "text": "Great! Comet!",
+    "hash": "5df4322edce81ee8"
+  },
+  {
+    "text": "Great job! Great! Comet!",
+    "hash": "7201972c95074cb0"
+  },
+  {
+    "text": "Listen and pop: Galaxy!",
+    "hash": "7986b3a24bbc32ec"
+  },
+  {
+    "text": "Great! Galaxy!",
+    "hash": "5621c9b5fe2ce1aa"
+  },
+  {
+    "text": "Great job! Great! Galaxy!",
+    "hash": "66d851d55ab71984"
   },
   {
     "text": "Orbit",
     "hash": "69fbdcd140e97af2"
   },
   {
+    "text": "Listen and pop: Orbit!",
+    "hash": "6798c90a628505c3"
+  },
+  {
+    "text": "Great! Orbit!",
+    "hash": "dd965b238848d5b0"
+  },
+  {
+    "text": "Great job! Great! Orbit!",
+    "hash": "c480fd184fec8111"
+  },
+  {
+    "text": "Listen and pop: Astronaut!",
+    "hash": "ddab865aedcbc5ba"
+  },
+  {
+    "text": "Great! Astronaut!",
+    "hash": "ee7bad36734c1f1d"
+  },
+  {
+    "text": "Great job! Great! Astronaut!",
+    "hash": "392e1974b2e012c3"
+  },
+  {
     "text": "Helmet",
     "hash": "92e15308a8f3036c"
+  },
+  {
+    "text": "Listen and pop: Helmet!",
+    "hash": "7baeb6643783236b"
+  },
+  {
+    "text": "Great! Helmet!",
+    "hash": "74c26244e8356286"
+  },
+  {
+    "text": "Great job! Great! Helmet!",
+    "hash": "29b977e0c24796f4"
   },
   {
     "text": "Wing",
     "hash": "048785344bcf3bae"
   },
   {
+    "text": "Listen and pop: Wing!",
+    "hash": "c5a11ca5d3910a76"
+  },
+  {
+    "text": "Great! Wing!",
+    "hash": "dc0b28fbebd84ae6"
+  },
+  {
+    "text": "Great job! Great! Wing!",
+    "hash": "d56da1e6a26600a4"
+  },
+  {
     "text": "Wheel",
     "hash": "c40f496c254f3edc"
+  },
+  {
+    "text": "Listen and pop: Wheel!",
+    "hash": "d3d4ae72b138fff9"
+  },
+  {
+    "text": "Great! Wheel!",
+    "hash": "f602ac2d13a1d851"
+  },
+  {
+    "text": "Great job! Great! Wheel!",
+    "hash": "9a1fe50ab2156ad1"
   },
   {
     "text": "Tire",
     "hash": "0bffb1f3698e2a5d"
   },
   {
+    "text": "Listen and pop: Tire!",
+    "hash": "aefa6ab2cd49a798"
+  },
+  {
+    "text": "Great! Tire!",
+    "hash": "3227e9aa6fcf1104"
+  },
+  {
+    "text": "Great job! Great! Tire!",
+    "hash": "f3cefbefc312589f"
+  },
+  {
     "text": "Engine",
     "hash": "4d34e0319a8d81ee"
+  },
+  {
+    "text": "Listen and pop: Engine!",
+    "hash": "ca98cfe68ab07dce"
+  },
+  {
+    "text": "Great! Engine!",
+    "hash": "78e3f40370ee22a5"
+  },
+  {
+    "text": "Great job! Great! Engine!",
+    "hash": "aef490b7f6e7a6ad"
   },
   {
     "text": "Horn",
     "hash": "e1368e16de1f8101"
   },
   {
+    "text": "Listen and pop: Horn!",
+    "hash": "b6fa1b43cb17c803"
+  },
+  {
+    "text": "Great! Horn!",
+    "hash": "23399b84e00e1ae5"
+  },
+  {
+    "text": "Great job! Great! Horn!",
+    "hash": "e3b9f0bf9db1b912"
+  },
+  {
     "text": "Brake",
     "hash": "0dcaa108e2957bb1"
+  },
+  {
+    "text": "Listen and pop: Brake!",
+    "hash": "30d702061891c280"
+  },
+  {
+    "text": "Great! Brake!",
+    "hash": "0ff0099016b816f0"
+  },
+  {
+    "text": "Great job! Great! Brake!",
+    "hash": "b87f1a1a4f4c0a56"
   },
   {
     "text": "Road",
     "hash": "e6507fd0662307b6"
   },
   {
+    "text": "Listen and pop: Road!",
+    "hash": "bfd1da1893fe1396"
+  },
+  {
+    "text": "Great! Road!",
+    "hash": "d37c49268620be61"
+  },
+  {
+    "text": "Great job! Great! Road!",
+    "hash": "4a38629af17d6358"
+  },
+  {
     "text": "Street",
     "hash": "b08163e2ce4a3ccb"
+  },
+  {
+    "text": "Listen and pop: Street!",
+    "hash": "413c227bc90e2332"
+  },
+  {
+    "text": "Great! Street!",
+    "hash": "36faaabdea185b98"
+  },
+  {
+    "text": "Great job! Great! Street!",
+    "hash": "5d6022a28bee8874"
   },
   {
     "text": "Bridge",
     "hash": "33efe25110b2b455"
   },
   {
+    "text": "Listen and pop: Bridge!",
+    "hash": "1cdebf1797659b87"
+  },
+  {
+    "text": "Great! Bridge!",
+    "hash": "7ad3b3672552b2b1"
+  },
+  {
+    "text": "Great job! Great! Bridge!",
+    "hash": "491dfb5f6674b023"
+  },
+  {
     "text": "Tunnel",
     "hash": "f4c284fc5c492e89"
+  },
+  {
+    "text": "Listen and pop: Tunnel!",
+    "hash": "6066f4b81fc43b32"
+  },
+  {
+    "text": "Great! Tunnel!",
+    "hash": "9d53c14ff899dae1"
+  },
+  {
+    "text": "Great job! Great! Tunnel!",
+    "hash": "369c929b03d12b96"
   },
   {
     "text": "Station",
     "hash": "3acc79ac4358a4e4"
   },
   {
+    "text": "Listen and pop: Station!",
+    "hash": "879ea465d04bb694"
+  },
+  {
+    "text": "Great! Station!",
+    "hash": "5c525317a02aab73"
+  },
+  {
+    "text": "Great job! Great! Station!",
+    "hash": "5d725217217683a3"
+  },
+  {
     "text": "Airport",
     "hash": "4d3030f38cff754d"
+  },
+  {
+    "text": "Listen and pop: Airport!",
+    "hash": "231f9fcedfcdb55e"
+  },
+  {
+    "text": "Great! Airport!",
+    "hash": "842300e0db1fefd4"
+  },
+  {
+    "text": "Great job! Great! Airport!",
+    "hash": "a07d49107e6411c3"
   },
   {
     "text": "Harbor",
     "hash": "6838be3bc3fd2efc"
   },
   {
+    "text": "Listen and pop: Harbor!",
+    "hash": "d0e22567f3e770b0"
+  },
+  {
+    "text": "Great! Harbor!",
+    "hash": "9a13072d154ef056"
+  },
+  {
+    "text": "Great job! Great! Harbor!",
+    "hash": "be5fd93c6b167af1"
+  },
+  {
     "text": "Ticket",
     "hash": "76e3b811185754ef"
+  },
+  {
+    "text": "Listen and pop: Ticket!",
+    "hash": "002d6d44309204af"
+  },
+  {
+    "text": "Great! Ticket!",
+    "hash": "7700b19b55db194d"
+  },
+  {
+    "text": "Great job! Great! Ticket!",
+    "hash": "ac91ba7734460f63"
   },
   {
     "text": "Traffic",
     "hash": "aa71448db2ffb4ce"
   },
   {
+    "text": "Listen and pop: Traffic!",
+    "hash": "a3264dbb07c1b194"
+  },
+  {
+    "text": "Great! Traffic!",
+    "hash": "a4319c01af7818ad"
+  },
+  {
+    "text": "Great job! Great! Traffic!",
+    "hash": "246c7020d1420da9"
+  },
+  {
+    "text": "Listen and pop: Signal!",
+    "hash": "481e5591f8cd7d5b"
+  },
+  {
+    "text": "Great! Signal!",
+    "hash": "eae4031ab8287526"
+  },
+  {
+    "text": "Great job! Great! Signal!",
+    "hash": "2ad00ae601e39bc9"
+  },
+  {
     "text": "Compass",
     "hash": "65092d89ef030ac6"
+  },
+  {
+    "text": "Listen and pop: Compass!",
+    "hash": "b12a4dfc66a95b57"
+  },
+  {
+    "text": "Great! Compass!",
+    "hash": "ec9ef8b1452bc8cf"
+  },
+  {
+    "text": "Great job! Great! Compass!",
+    "hash": "6727b70748fc77c1"
   },
   {
     "text": "Anchor",
     "hash": "11289d081dc08f61"
   },
   {
+    "text": "Listen and pop: Anchor!",
+    "hash": "e7aeb30609c2f9ed"
+  },
+  {
+    "text": "Great! Anchor!",
+    "hash": "f62308614bd4b596"
+  },
+  {
+    "text": "Great job! Great! Anchor!",
+    "hash": "21ce3fb4e778606b"
+  },
+  {
     "text": "Sail",
     "hash": "e76d5a5357c208a4"
+  },
+  {
+    "text": "Listen and pop: Sail!",
+    "hash": "f98dce207c6508aa"
+  },
+  {
+    "text": "Great! Sail!",
+    "hash": "709a6d104b39e23c"
+  },
+  {
+    "text": "Great job! Great! Sail!",
+    "hash": "2695034ae7b97ea5"
   },
   {
     "text": "Track",
     "hash": "fc5335ed7f28d894"
   },
   {
+    "text": "Listen and pop: Track!",
+    "hash": "b0e7c241f5b711cd"
+  },
+  {
+    "text": "Great! Track!",
+    "hash": "5fd48c3df029b33d"
+  },
+  {
+    "text": "Great job! Great! Track!",
+    "hash": "81d541cc70af7aca"
+  },
+  {
+    "text": "Listen and pop: Run!",
+    "hash": "d39221e379ef9420"
+  },
+  {
+    "text": "Great! Run!",
+    "hash": "6c9c65338516298a"
+  },
+  {
+    "text": "Great job! Great! Run!",
+    "hash": "38642dd6355b73b1"
+  },
+  {
+    "text": "Listen and pop: Walk!",
+    "hash": "5ccb2708763b6eab"
+  },
+  {
+    "text": "Great! Walk!",
+    "hash": "0d32fb725135ea38"
+  },
+  {
+    "text": "Great job! Great! Walk!",
+    "hash": "9174ff5b26244851"
+  },
+  {
+    "text": "Listen and pop: Jump!",
+    "hash": "43f6b76ae9dae5d7"
+  },
+  {
+    "text": "Great! Jump!",
+    "hash": "d507357e121897cd"
+  },
+  {
+    "text": "Great job! Great! Jump!",
+    "hash": "76a241d09aa05558"
+  },
+  {
     "text": "Hop",
     "hash": "0fe0e174139221b0"
+  },
+  {
+    "text": "Listen and pop: Hop!",
+    "hash": "7fa47a8c45bc8981"
+  },
+  {
+    "text": "Great! Hop!",
+    "hash": "acd1dc7586b249f2"
+  },
+  {
+    "text": "Great job! Great! Hop!",
+    "hash": "f668ec81f196ab00"
   },
   {
     "text": "Climb",
     "hash": "348d03751406de15"
   },
   {
+    "text": "Listen and pop: Climb!",
+    "hash": "26ae9eafaf13e9b6"
+  },
+  {
+    "text": "Great! Climb!",
+    "hash": "6ea3c9c3f54a2374"
+  },
+  {
+    "text": "Great job! Great! Climb!",
+    "hash": "cfab34f13a09c6be"
+  },
+  {
+    "text": "Listen and pop: Swim!",
+    "hash": "34aefbb90c8931af"
+  },
+  {
+    "text": "Great! Swim!",
+    "hash": "7dcbad5f6ba708ac"
+  },
+  {
+    "text": "Great job! Great! Swim!",
+    "hash": "2608a1f4e3b62789"
+  },
+  {
     "text": "Dive",
     "hash": "1b6e15018ece6a8f"
+  },
+  {
+    "text": "Listen and pop: Dive!",
+    "hash": "22ee7eac5f59dcb5"
+  },
+  {
+    "text": "Great! Dive!",
+    "hash": "a1013f868e54cdbf"
+  },
+  {
+    "text": "Great job! Great! Dive!",
+    "hash": "563fd322521f713f"
+  },
+  {
+    "text": "Listen and pop: Fly!",
+    "hash": "0cd5abf9d5671640"
+  },
+  {
+    "text": "Great! Fly!",
+    "hash": "1356241ee75b1936"
+  },
+  {
+    "text": "Great job! Great! Fly!",
+    "hash": "8de424e483e19dae"
+  },
+  {
+    "text": "Listen and pop: Dance!",
+    "hash": "9e5715dedef5b43e"
+  },
+  {
+    "text": "Great! Dance!",
+    "hash": "9982df286518934d"
+  },
+  {
+    "text": "Great job! Great! Dance!",
+    "hash": "42768f34a7375b33"
+  },
+  {
+    "text": "Listen and pop: Sing!",
+    "hash": "652d3f7dee95403a"
+  },
+  {
+    "text": "Great! Sing!",
+    "hash": "dcbfedf43687901a"
+  },
+  {
+    "text": "Great job! Great! Sing!",
+    "hash": "f35c314d1330049d"
   },
   {
     "text": "Clap",
     "hash": "53fe977a0725623d"
   },
   {
+    "text": "Listen and pop: Clap!",
+    "hash": "52a3fbba3ba2f6af"
+  },
+  {
+    "text": "Great! Clap!",
+    "hash": "6074b750b3d82da0"
+  },
+  {
+    "text": "Great job! Great! Clap!",
+    "hash": "da5d3805fa9e4c48"
+  },
+  {
+    "text": "Listen and pop: Smile!",
+    "hash": "fb32f7852c0ebff0"
+  },
+  {
+    "text": "Great! Smile!",
+    "hash": "b9bec5146f1ca171"
+  },
+  {
+    "text": "Great job! Great! Smile!",
+    "hash": "ad9def7fc606a96f"
+  },
+  {
     "text": "Laugh",
     "hash": "db7b381d77666434"
+  },
+  {
+    "text": "Listen and pop: Laugh!",
+    "hash": "2310daebd978f1ba"
+  },
+  {
+    "text": "Great! Laugh!",
+    "hash": "32151fb68cf4ad29"
+  },
+  {
+    "text": "Great job! Great! Laugh!",
+    "hash": "64b04fcdd2f46527"
   },
   {
     "text": "Cry",
     "hash": "a29644f596667e23"
   },
   {
+    "text": "Listen and pop: Cry!",
+    "hash": "d2c5fe9fcaebacd6"
+  },
+  {
+    "text": "Great! Cry!",
+    "hash": "5eb683f9929f3ae7"
+  },
+  {
+    "text": "Great job! Great! Cry!",
+    "hash": "33fd404544bbd6ff"
+  },
+  {
+    "text": "Listen and pop: Sleep!",
+    "hash": "de5b15b72d9a5c3e"
+  },
+  {
+    "text": "Great! Sleep!",
+    "hash": "3cfd6710a6a572cc"
+  },
+  {
+    "text": "Great job! Great! Sleep!",
+    "hash": "5bbf3abf837facee"
+  },
+  {
     "text": "Wake",
     "hash": "4d5136c9aba552a6"
+  },
+  {
+    "text": "Listen and pop: Wake!",
+    "hash": "344e029224c88e4a"
+  },
+  {
+    "text": "Great! Wake!",
+    "hash": "e087e70aaaa19fb3"
+  },
+  {
+    "text": "Great job! Great! Wake!",
+    "hash": "e8fcca810996f124"
   },
   {
     "text": "Eat",
     "hash": "b70a825f3d5da24f"
   },
   {
+    "text": "Listen and pop: Eat!",
+    "hash": "c838aacc5fa5022b"
+  },
+  {
+    "text": "Great! Eat!",
+    "hash": "c98ad71ad342c7f7"
+  },
+  {
+    "text": "Great job! Great! Eat!",
+    "hash": "c7aa6da40af31c4f"
+  },
+  {
     "text": "Drink",
     "hash": "c39d23a233fe9fe5"
+  },
+  {
+    "text": "Listen and pop: Drink!",
+    "hash": "182fb579acbcf0b3"
+  },
+  {
+    "text": "Great! Drink!",
+    "hash": "766928ea2f441313"
+  },
+  {
+    "text": "Great job! Great! Drink!",
+    "hash": "5ee16086271161a1"
   },
   {
     "text": "Cook",
     "hash": "bf70e3af93a44f95"
   },
   {
+    "text": "Listen and pop: Cook!",
+    "hash": "f99a3e1a05877c0e"
+  },
+  {
+    "text": "Great! Cook!",
+    "hash": "5d9e1e8100369a61"
+  },
+  {
+    "text": "Great job! Great! Cook!",
+    "hash": "2ba31b61d097e0d2"
+  },
+  {
     "text": "Bake",
     "hash": "4622a764734c99d3"
+  },
+  {
+    "text": "Listen and pop: Bake!",
+    "hash": "e2f23d02f8f771b9"
+  },
+  {
+    "text": "Great! Bake!",
+    "hash": "1fd4488c7c0c8123"
+  },
+  {
+    "text": "Great job! Great! Bake!",
+    "hash": "fae08918c9154ba3"
   },
   {
     "text": "Wash",
     "hash": "68069b37d7d03e13"
   },
   {
+    "text": "Listen and pop: Wash!",
+    "hash": "7a32a77695908e55"
+  },
+  {
+    "text": "Great! Wash!",
+    "hash": "d6e80bac7510bfc8"
+  },
+  {
+    "text": "Great job! Great! Wash!",
+    "hash": "a663cb10d1a93073"
+  },
+  {
+    "text": "Listen and pop: Read!",
+    "hash": "19460f3ccc453b88"
+  },
+  {
+    "text": "Great! Read!",
+    "hash": "32cc91cf0bf9792d"
+  },
+  {
+    "text": "Great job! Great! Read!",
+    "hash": "55b04ea556cfc2f8"
+  },
+  {
     "text": "Write",
     "hash": "57a609e8acf65495"
+  },
+  {
+    "text": "Listen and pop: Write!",
+    "hash": "fe99c8593029e035"
+  },
+  {
+    "text": "Great! Write!",
+    "hash": "5063962e1f6175e8"
+  },
+  {
+    "text": "Great job! Great! Write!",
+    "hash": "cd71c9ce1d0ccf82"
+  },
+  {
+    "text": "Listen and pop: Draw!",
+    "hash": "6edcb708a31eb9ed"
+  },
+  {
+    "text": "Great! Draw!",
+    "hash": "d050a62957845f3f"
+  },
+  {
+    "text": "Great job! Great! Draw!",
+    "hash": "9209272269d0d23b"
   },
   {
     "text": "Paint",
     "hash": "ceb3a107168781ca"
   },
   {
+    "text": "Listen and pop: Paint!",
+    "hash": "e55b03454dd423ee"
+  },
+  {
+    "text": "Great! Paint!",
+    "hash": "505b43639663520a"
+  },
+  {
+    "text": "Great job! Great! Paint!",
+    "hash": "019e5accd15fa3f6"
+  },
+  {
     "text": "Count",
     "hash": "b2c9affa1bb0483c"
+  },
+  {
+    "text": "Listen and pop: Count!",
+    "hash": "19a711404fca7bf6"
+  },
+  {
+    "text": "Great! Count!",
+    "hash": "454ac13014763ee8"
+  },
+  {
+    "text": "Great job! Great! Count!",
+    "hash": "eae29740268b6df7"
+  },
+  {
+    "text": "Listen and pop: Play!",
+    "hash": "016abd16a040b6ae"
+  },
+  {
+    "text": "Great! Play!",
+    "hash": "2cfc429f48e9be3f"
+  },
+  {
+    "text": "Great job! Great! Play!",
+    "hash": "4c028ff69cd1315b"
   },
   {
     "text": "Kick",
     "hash": "b59773a21d4e288f"
   },
   {
+    "text": "Listen and pop: Kick!",
+    "hash": "fb07e176ca32e4e3"
+  },
+  {
+    "text": "Great! Kick!",
+    "hash": "8c18dd6d19fb2cae"
+  },
+  {
+    "text": "Great job! Great! Kick!",
+    "hash": "efa33fd26715fe66"
+  },
+  {
     "text": "Throw",
     "hash": "cf8461a6d184d1d5"
+  },
+  {
+    "text": "Listen and pop: Throw!",
+    "hash": "6224d64e2ab69324"
+  },
+  {
+    "text": "Great! Throw!",
+    "hash": "2bfd7ff5b1a72ecc"
+  },
+  {
+    "text": "Great job! Great! Throw!",
+    "hash": "cb8f9b48abdc04c2"
   },
   {
     "text": "Catch",
     "hash": "59d6458f19c5453a"
   },
   {
+    "text": "Listen and pop: Catch!",
+    "hash": "37fc11ca82bab04f"
+  },
+  {
+    "text": "Great! Catch!",
+    "hash": "8aa48bebe1458f6e"
+  },
+  {
+    "text": "Great job! Great! Catch!",
+    "hash": "7b350521c4ef699e"
+  },
+  {
     "text": "Score",
     "hash": "4fa820d6d94092ab"
+  },
+  {
+    "text": "Listen and pop: Score!",
+    "hash": "29288441e7c33483"
+  },
+  {
+    "text": "Great! Score!",
+    "hash": "fadb95ce6ac1fbc0"
+  },
+  {
+    "text": "Great job! Great! Score!",
+    "hash": "74aff82c059c8a3e"
   },
   {
     "text": "Win",
     "hash": "9189825a2488b085"
   },
   {
+    "text": "Listen and pop: Win!",
+    "hash": "dbc0687ba2a59e18"
+  },
+  {
+    "text": "Great! Win!",
+    "hash": "bd0e4f690095b210"
+  },
+  {
+    "text": "Great job! Great! Win!",
+    "hash": "0d61ce675babf53c"
+  },
+  {
     "text": "Race",
     "hash": "5bed415c7746fd6b"
+  },
+  {
+    "text": "Listen and pop: Race!",
+    "hash": "a0f273af0ea3e0aa"
+  },
+  {
+    "text": "Great! Race!",
+    "hash": "d202de0a84da6d5c"
+  },
+  {
+    "text": "Great job! Great! Race!",
+    "hash": "88e6dc46208dbf42"
   },
   {
     "text": "Ride",
     "hash": "a97a9253bb8c5525"
   },
   {
+    "text": "Listen and pop: Ride!",
+    "hash": "967bb19f426afc27"
+  },
+  {
+    "text": "Great! Ride!",
+    "hash": "2d1afb33f5af81b4"
+  },
+  {
+    "text": "Great job! Great! Ride!",
+    "hash": "91903e9ca13087e1"
+  },
+  {
     "text": "Drive",
     "hash": "515924d896a5ab61"
+  },
+  {
+    "text": "Listen and pop: Drive!",
+    "hash": "20fb975e922581cc"
+  },
+  {
+    "text": "Great! Drive!",
+    "hash": "6ed4de9f45be8964"
+  },
+  {
+    "text": "Great job! Great! Drive!",
+    "hash": "0f04129bb268b1c9"
   },
   {
     "text": "Push",
     "hash": "697d87818156f3ad"
   },
   {
+    "text": "Listen and pop: Push!",
+    "hash": "1f4f0229900fc26f"
+  },
+  {
+    "text": "Great! Push!",
+    "hash": "bc0c89dcc2b0e942"
+  },
+  {
+    "text": "Great job! Great! Push!",
+    "hash": "bed11a04a0db3f27"
+  },
+  {
     "text": "Pull",
     "hash": "4c32914209e6b24f"
+  },
+  {
+    "text": "Listen and pop: Pull!",
+    "hash": "60a7f2d535d79be7"
+  },
+  {
+    "text": "Great! Pull!",
+    "hash": "500dfca56681a6e4"
+  },
+  {
+    "text": "Great job! Great! Pull!",
+    "hash": "465b9a813c299a14"
   },
   {
     "text": "Open",
     "hash": "83eabfe97d041e2a"
   },
   {
+    "text": "Listen and pop: Open!",
+    "hash": "56a86f40dba1a93f"
+  },
+  {
+    "text": "Great! Open!",
+    "hash": "8878025b76508354"
+  },
+  {
+    "text": "Great job! Great! Open!",
+    "hash": "dd527fca584f1269"
+  },
+  {
     "text": "Close",
     "hash": "52a802077f57bbe1"
+  },
+  {
+    "text": "Listen and pop: Close!",
+    "hash": "58171a1c839ca2ae"
+  },
+  {
+    "text": "Great! Close!",
+    "hash": "667ac1fd2a8f7cc1"
+  },
+  {
+    "text": "Great job! Great! Close!",
+    "hash": "d7f072b1301f91f1"
   },
   {
     "text": "Look",
     "hash": "0d1964b1626cce78"
   },
   {
+    "text": "Listen and pop: Look!",
+    "hash": "ba7e25b16ba62fa7"
+  },
+  {
+    "text": "Great! Look!",
+    "hash": "6f3cebed2ab6d087"
+  },
+  {
+    "text": "Great job! Great! Look!",
+    "hash": "cf86cef41e2ba5ac"
+  },
+  {
     "text": "Listen",
     "hash": "992165a8c54cbb93"
+  },
+  {
+    "text": "Listen and pop: Listen!",
+    "hash": "c2da84c780c06554"
+  },
+  {
+    "text": "Great! Listen!",
+    "hash": "a6da532f2b397a59"
+  },
+  {
+    "text": "Great job! Great! Listen!",
+    "hash": "45bb3176594cfcb4"
   },
   {
     "text": "Speak",
     "hash": "17e11466359fb3ef"
   },
   {
+    "text": "Listen and pop: Speak!",
+    "hash": "a11ac79723d370a6"
+  },
+  {
+    "text": "Great! Speak!",
+    "hash": "e732b0eef73bc117"
+  },
+  {
+    "text": "Great job! Great! Speak!",
+    "hash": "eec6c2025e1e5458"
+  },
+  {
     "text": "Shout",
     "hash": "b9b8ca16aedc80b5"
+  },
+  {
+    "text": "Listen and pop: Shout!",
+    "hash": "0f963065f52a6bc4"
+  },
+  {
+    "text": "Great! Shout!",
+    "hash": "02eca7d6c3843850"
+  },
+  {
+    "text": "Great job! Great! Shout!",
+    "hash": "a9b1831fc11931eb"
   },
   {
     "text": "Whisper",
     "hash": "801dcfb315887e44"
   },
   {
+    "text": "Listen and pop: Whisper!",
+    "hash": "24f2f4af08e2b75a"
+  },
+  {
+    "text": "Great! Whisper!",
+    "hash": "b98c1d75eb5c980f"
+  },
+  {
+    "text": "Great job! Great! Whisper!",
+    "hash": "e30055134b160a5a"
+  },
+  {
     "text": "Think",
     "hash": "9a5d20f2f75c1d7f"
+  },
+  {
+    "text": "Listen and pop: Think!",
+    "hash": "491f42cfea9e0caf"
+  },
+  {
+    "text": "Great! Think!",
+    "hash": "ce26831e9bdf252b"
+  },
+  {
+    "text": "Great job! Great! Think!",
+    "hash": "87abe7e58053c69e"
   },
   {
     "text": "Learn",
     "hash": "e34d3e5d2f5c5ff6"
   },
   {
+    "text": "Listen and pop: Learn!",
+    "hash": "ada4eeffbd64ef11"
+  },
+  {
+    "text": "Great! Learn!",
+    "hash": "c85b89d8337dd489"
+  },
+  {
+    "text": "Great job! Great! Learn!",
+    "hash": "f4070700eac6ba63"
+  },
+  {
     "text": "Help",
     "hash": "bb6a009140896c80"
+  },
+  {
+    "text": "Listen and pop: Help!",
+    "hash": "efcdb0a30b967e35"
+  },
+  {
+    "text": "Great! Help!",
+    "hash": "31a85ab0751d79be"
+  },
+  {
+    "text": "Great job! Great! Help!",
+    "hash": "cf12644c2b76b8b2"
   },
   {
     "text": "Build",
     "hash": "d31ed31e8375712c"
   },
   {
+    "text": "Listen and pop: Build!",
+    "hash": "aea34da641bacffe"
+  },
+  {
+    "text": "Great! Build!",
+    "hash": "6478fefb672f7300"
+  },
+  {
+    "text": "Great job! Great! Build!",
+    "hash": "417dd28140b7848a"
+  },
+  {
     "text": "Goal",
     "hash": "0cc8e68276d52f2d"
+  },
+  {
+    "text": "Listen and pop: Goal!",
+    "hash": "e4fd3300c12462c7"
+  },
+  {
+    "text": "Great! Goal!",
+    "hash": "1f876ec2093459e1"
+  },
+  {
+    "text": "Great job! Great! Goal!",
+    "hash": "d49ce6da38b8f986"
   },
   {
     "text": "Basket",
     "hash": "8dea93a02df06d2b"
   },
   {
+    "text": "Listen and pop: Basket!",
+    "hash": "bc2eaf6b5c4efb27"
+  },
+  {
+    "text": "Great! Basket!",
+    "hash": "4e237b074afe4920"
+  },
+  {
+    "text": "Great job! Great! Basket!",
+    "hash": "a85c5c4a6fffccd5"
+  },
+  {
     "text": "Team",
     "hash": "118f7987d557e823"
+  },
+  {
+    "text": "Listen and pop: Team!",
+    "hash": "c3b1b9f56e75f5ec"
+  },
+  {
+    "text": "Great! Team!",
+    "hash": "df9e0216c2d614c2"
+  },
+  {
+    "text": "Great job! Great! Team!",
+    "hash": "2533de1c6bf671c2"
+  },
+  {
+    "text": "Listen and pop: Hat!",
+    "hash": "63a3f573ace342b9"
+  },
+  {
+    "text": "Great! Hat!",
+    "hash": "6ab04bf2cf168e82"
+  },
+  {
+    "text": "Great job! Great! Hat!",
+    "hash": "b7f833f7c280f4e8"
   },
   {
     "text": "Cap",
     "hash": "4f3a91ab0e868e5d"
   },
   {
+    "text": "Listen and pop: Cap!",
+    "hash": "760d644212f932ae"
+  },
+  {
+    "text": "Great! Cap!",
+    "hash": "b37641d4aaf027a1"
+  },
+  {
+    "text": "Great job! Great! Cap!",
+    "hash": "c6ef8cb4c4ed7931"
+  },
+  {
+    "text": "Listen and pop: Coat!",
+    "hash": "dbc382e948dd30fa"
+  },
+  {
+    "text": "Great! Coat!",
+    "hash": "084b6391499f6e4b"
+  },
+  {
+    "text": "Great job! Great! Coat!",
+    "hash": "a87c959ab0e81745"
+  },
+  {
+    "text": "Listen and pop: Jacket!",
+    "hash": "94dd99024d365a44"
+  },
+  {
+    "text": "Great! Jacket!",
+    "hash": "9be5da00a027ce48"
+  },
+  {
+    "text": "Great job! Great! Jacket!",
+    "hash": "0013ae416fa3c140"
+  },
+  {
+    "text": "Listen and pop: Shirt!",
+    "hash": "6f3835ce2a30b92b"
+  },
+  {
+    "text": "Great! Shirt!",
+    "hash": "e5defe62a1899632"
+  },
+  {
+    "text": "Great job! Great! Shirt!",
+    "hash": "463e66552a97922e"
+  },
+  {
     "text": "Sweater",
     "hash": "a8d9903d460e3ff9"
+  },
+  {
+    "text": "Listen and pop: Sweater!",
+    "hash": "65dbe3d095fbcc9c"
+  },
+  {
+    "text": "Great! Sweater!",
+    "hash": "e2f13342fc4fa740"
+  },
+  {
+    "text": "Great job! Great! Sweater!",
+    "hash": "54227ca129f6dcf7"
+  },
+  {
+    "text": "Listen and pop: Dress!",
+    "hash": "4e41d9fd475cc894"
+  },
+  {
+    "text": "Great! Dress!",
+    "hash": "5e4268bc85489a91"
+  },
+  {
+    "text": "Great job! Great! Dress!",
+    "hash": "f021a104b9a77f98"
   },
   {
     "text": "Skirt",
     "hash": "4e86c3119da8264a"
   },
   {
+    "text": "Listen and pop: Skirt!",
+    "hash": "96e57bbfab174c39"
+  },
+  {
+    "text": "Great! Skirt!",
+    "hash": "9bf44813194ffd1a"
+  },
+  {
+    "text": "Great job! Great! Skirt!",
+    "hash": "94240eea0599db22"
+  },
+  {
+    "text": "Listen and pop: Pants!",
+    "hash": "db0c726d0c4dcf0d"
+  },
+  {
+    "text": "Great! Pants!",
+    "hash": "a86f437c1240908b"
+  },
+  {
+    "text": "Great job! Great! Pants!",
+    "hash": "3ec2aea82e8dbe83"
+  },
+  {
     "text": "Jeans",
     "hash": "db032eb1c7f45983"
+  },
+  {
+    "text": "Listen and pop: Jeans!",
+    "hash": "5fbbc5b43ed2f5ab"
+  },
+  {
+    "text": "Great! Jeans!",
+    "hash": "f8c5d9e4cce2aff9"
+  },
+  {
+    "text": "Great job! Great! Jeans!",
+    "hash": "e88ec0bf7217f76e"
   },
   {
     "text": "Shorts",
     "hash": "1b627149532305a0"
   },
   {
+    "text": "Listen and pop: Shorts!",
+    "hash": "95e920b06475f1cc"
+  },
+  {
+    "text": "Great! Shorts!",
+    "hash": "f266dfe155d5c2ca"
+  },
+  {
+    "text": "Great job! Great! Shorts!",
+    "hash": "d29f807c7caf719a"
+  },
+  {
     "text": "Socks",
     "hash": "731a38c31c755332"
+  },
+  {
+    "text": "Listen and pop: Socks!",
+    "hash": "b7622b61b46d7b9e"
+  },
+  {
+    "text": "Great! Socks!",
+    "hash": "f36768ce977dcfdd"
+  },
+  {
+    "text": "Great job! Great! Socks!",
+    "hash": "98aba3eeb59b7a7d"
   },
   {
     "text": "Shoes",
     "hash": "62c9b77556257b0f"
   },
   {
+    "text": "Listen and pop: Shoes!",
+    "hash": "4ab8761197ac2080"
+  },
+  {
+    "text": "Great! Shoes!",
+    "hash": "77f34c8512a06d4b"
+  },
+  {
+    "text": "Great job! Great! Shoes!",
+    "hash": "bcf3f03960ec9a16"
+  },
+  {
     "text": "Boots",
     "hash": "c7644ad37c0cdeea"
+  },
+  {
+    "text": "Listen and pop: Boots!",
+    "hash": "09e0c0fd6dfeb90a"
+  },
+  {
+    "text": "Great! Boots!",
+    "hash": "e5d686c78f39b726"
+  },
+  {
+    "text": "Great job! Great! Boots!",
+    "hash": "d04b09642760979a"
   },
   {
     "text": "Gloves",
     "hash": "462a25302cfd85c2"
   },
   {
+    "text": "Listen and pop: Gloves!",
+    "hash": "f02516d507006076"
+  },
+  {
+    "text": "Great! Gloves!",
+    "hash": "109cc992c8b5e365"
+  },
+  {
+    "text": "Great job! Great! Gloves!",
+    "hash": "5cdfcf9ae29aaad4"
+  },
+  {
+    "text": "Listen and pop: Scarf!",
+    "hash": "f1a5fc3b3dfe2192"
+  },
+  {
+    "text": "Great! Scarf!",
+    "hash": "ab67e8ed031f3fdf"
+  },
+  {
+    "text": "Great job! Great! Scarf!",
+    "hash": "38c5f47e6fade49d"
+  },
+  {
+    "text": "Listen and pop: Belt!",
+    "hash": "114e64ccbcf88dcf"
+  },
+  {
+    "text": "Great! Belt!",
+    "hash": "c0c22b8986a3a824"
+  },
+  {
+    "text": "Great job! Great! Belt!",
+    "hash": "b4d30c7d48d428d2"
+  },
+  {
+    "text": "Listen and pop: Glasses!",
+    "hash": "3c6d66ec1569a255"
+  },
+  {
+    "text": "Great! Glasses!",
+    "hash": "361d16867769f005"
+  },
+  {
+    "text": "Great job! Great! Glasses!",
+    "hash": "2e3a43ad52af6d3a"
+  },
+  {
     "text": "Watch",
     "hash": "ede63ec3a3269fff"
+  },
+  {
+    "text": "Listen and pop: Watch!",
+    "hash": "ca8147d433775c0d"
+  },
+  {
+    "text": "Great! Watch!",
+    "hash": "2468963c2b08362e"
+  },
+  {
+    "text": "Great job! Great! Watch!",
+    "hash": "360102a5e02be7e7"
   },
   {
     "text": "Crown",
     "hash": "ba65a0cd7554abf2"
   },
   {
+    "text": "Listen and pop: Crown!",
+    "hash": "93c437fdf488a850"
+  },
+  {
+    "text": "Great! Crown!",
+    "hash": "b676ca08890765d4"
+  },
+  {
+    "text": "Great job! Great! Crown!",
+    "hash": "2a74e9746f155722"
+  },
+  {
     "text": "Pocket",
     "hash": "8379c01dd5cc7ed6"
+  },
+  {
+    "text": "Listen and pop: Pocket!",
+    "hash": "3fcacba4b2d65525"
+  },
+  {
+    "text": "Great! Pocket!",
+    "hash": "b3b6444a34b6cda6"
+  },
+  {
+    "text": "Great job! Great! Pocket!",
+    "hash": "ff085f7dfef94a96"
   },
   {
     "text": "Button",
     "hash": "b4e97bb30ba055ac"
   },
   {
+    "text": "Listen and pop: Button!",
+    "hash": "f4876a51bf02bd68"
+  },
+  {
+    "text": "Great! Button!",
+    "hash": "6a25ff31a7afbb5e"
+  },
+  {
+    "text": "Great job! Great! Button!",
+    "hash": "d2107a3099b00609"
+  },
+  {
     "text": "Zipper",
     "hash": "638ce71a4e21fa23"
+  },
+  {
+    "text": "Listen and pop: Zipper!",
+    "hash": "e6cd5c722dee15af"
+  },
+  {
+    "text": "Great! Zipper!",
+    "hash": "fac7c4342bcaa7c6"
+  },
+  {
+    "text": "Great job! Great! Zipper!",
+    "hash": "7e8b683387849443"
+  },
+  {
+    "text": "Listen and pop: Head!",
+    "hash": "777ace403ab74c8d"
+  },
+  {
+    "text": "Great! Head!",
+    "hash": "32235fda36b88231"
+  },
+  {
+    "text": "Great job! Great! Head!",
+    "hash": "47ff68ea1be76afa"
+  },
+  {
+    "text": "Listen and pop: Hair!",
+    "hash": "77fe10660bfaa258"
+  },
+  {
+    "text": "Great! Hair!",
+    "hash": "71d29feda1150b2b"
+  },
+  {
+    "text": "Great job! Great! Hair!",
+    "hash": "ea11f42ce0146240"
   },
   {
     "text": "Face",
     "hash": "94b7a1a6a175f6a5"
   },
   {
+    "text": "Listen and pop: Face!",
+    "hash": "55f07965849c3688"
+  },
+  {
+    "text": "Great! Face!",
+    "hash": "e30af48b7a15ec89"
+  },
+  {
+    "text": "Great job! Great! Face!",
+    "hash": "f92808cb1c0aca63"
+  },
+  {
+    "text": "Listen and pop: Eye!",
+    "hash": "1c15fa64bccf4bd3"
+  },
+  {
+    "text": "Great! Eye!",
+    "hash": "21bd80a136a1d5d9"
+  },
+  {
+    "text": "Great job! Great! Eye!",
+    "hash": "d8239cf0916a5e14"
+  },
+  {
+    "text": "Listen and pop: Ear!",
+    "hash": "276f6b370e07caab"
+  },
+  {
+    "text": "Great! Ear!",
+    "hash": "26845c576f185201"
+  },
+  {
+    "text": "Great job! Great! Ear!",
+    "hash": "bc44b7891f7aeeca"
+  },
+  {
+    "text": "Listen and pop: Nose!",
+    "hash": "41ccfefeb934852e"
+  },
+  {
+    "text": "Great! Nose!",
+    "hash": "e344f8303cfccc36"
+  },
+  {
+    "text": "Great job! Great! Nose!",
+    "hash": "c1452b4acd614bd2"
+  },
+  {
+    "text": "Listen and pop: Mouth!",
+    "hash": "0eb9cf90252a9542"
+  },
+  {
+    "text": "Great! Mouth!",
+    "hash": "b59e45a68686b5b4"
+  },
+  {
+    "text": "Great job! Great! Mouth!",
+    "hash": "bbf14c43202dfe15"
+  },
+  {
+    "text": "Listen and pop: Tooth!",
+    "hash": "b99603786df134fd"
+  },
+  {
+    "text": "Great! Tooth!",
+    "hash": "2a00e11f457f4ccb"
+  },
+  {
+    "text": "Great job! Great! Tooth!",
+    "hash": "a9f4e2bcfbf03efb"
+  },
+  {
     "text": "Tongue",
     "hash": "522b8fad7ad24db4"
+  },
+  {
+    "text": "Listen and pop: Tongue!",
+    "hash": "2203592786bc1397"
+  },
+  {
+    "text": "Great! Tongue!",
+    "hash": "ea21373252bf7aa2"
+  },
+  {
+    "text": "Great job! Great! Tongue!",
+    "hash": "0b2b837db6cbe6d1"
   },
   {
     "text": "Neck",
     "hash": "34265a2d15473004"
   },
   {
+    "text": "Listen and pop: Neck!",
+    "hash": "c44b8f998cc9207e"
+  },
+  {
+    "text": "Great! Neck!",
+    "hash": "6b2e49862e8e8f8c"
+  },
+  {
+    "text": "Great job! Great! Neck!",
+    "hash": "dc92b94d9b2d3568"
+  },
+  {
     "text": "Shoulder",
     "hash": "2dc95693105f0f12"
+  },
+  {
+    "text": "Listen and pop: Shoulder!",
+    "hash": "a0be14e361939b94"
+  },
+  {
+    "text": "Great! Shoulder!",
+    "hash": "cc9b26ff4384c54c"
+  },
+  {
+    "text": "Great job! Great! Shoulder!",
+    "hash": "cb142d17c2867da4"
+  },
+  {
+    "text": "Listen and pop: Arm!",
+    "hash": "542ccd63dc9a89a2"
+  },
+  {
+    "text": "Great! Arm!",
+    "hash": "c46383f493044591"
+  },
+  {
+    "text": "Great job! Great! Arm!",
+    "hash": "74924a313c77a0dc"
   },
   {
     "text": "Elbow",
     "hash": "095ca8ed4d7ec3c1"
   },
   {
+    "text": "Listen and pop: Elbow!",
+    "hash": "fbe362c164be573f"
+  },
+  {
+    "text": "Great! Elbow!",
+    "hash": "dd624bae235e4bf0"
+  },
+  {
+    "text": "Great job! Great! Elbow!",
+    "hash": "e6b1d48bcebc8692"
+  },
+  {
+    "text": "Listen and pop: Hand!",
+    "hash": "f37c3942f8fd9e19"
+  },
+  {
+    "text": "Great! Hand!",
+    "hash": "7a3826ad26429090"
+  },
+  {
+    "text": "Great job! Great! Hand!",
+    "hash": "06fc216cc24c23eb"
+  },
+  {
+    "text": "Listen and pop: Finger!",
+    "hash": "91ab835f212c422d"
+  },
+  {
+    "text": "Great! Finger!",
+    "hash": "fd8ef3e77e3815ba"
+  },
+  {
+    "text": "Great job! Great! Finger!",
+    "hash": "d3dc54506dd8d53c"
+  },
+  {
     "text": "Thumb",
     "hash": "979dbe9f6ecb2958"
+  },
+  {
+    "text": "Listen and pop: Thumb!",
+    "hash": "d0469e86bccb6ed2"
+  },
+  {
+    "text": "Great! Thumb!",
+    "hash": "c12fdeb8c3174474"
+  },
+  {
+    "text": "Great job! Great! Thumb!",
+    "hash": "58a71f1ed6a17af1"
+  },
+  {
+    "text": "Listen and pop: Leg!",
+    "hash": "f578bb272fe2c177"
+  },
+  {
+    "text": "Great! Leg!",
+    "hash": "bbb7ba7903c199ef"
+  },
+  {
+    "text": "Great job! Great! Leg!",
+    "hash": "e74af62329436bf1"
   },
   {
     "text": "Knee",
     "hash": "0a9f9234396976f5"
   },
   {
+    "text": "Listen and pop: Knee!",
+    "hash": "dcfb2a69abee3198"
+  },
+  {
+    "text": "Great! Knee!",
+    "hash": "2090e0135707c485"
+  },
+  {
+    "text": "Great job! Great! Knee!",
+    "hash": "e2b2a84c0ed57869"
+  },
+  {
+    "text": "Listen and pop: Foot!",
+    "hash": "b482287e33aa5ed4"
+  },
+  {
+    "text": "Great! Foot!",
+    "hash": "b400ba9f9b67c204"
+  },
+  {
+    "text": "Great job! Great! Foot!",
+    "hash": "fa0103502af024e1"
+  },
+  {
     "text": "Toe",
     "hash": "e47b0a418097aae8"
+  },
+  {
+    "text": "Listen and pop: Toe!",
+    "hash": "d468e7f45592c5a7"
+  },
+  {
+    "text": "Great! Toe!",
+    "hash": "95ab952fddb63454"
+  },
+  {
+    "text": "Great job! Great! Toe!",
+    "hash": "143d46dbb2f665d6"
   },
   {
     "text": "Back",
     "hash": "ff3dcf4aeeb3660e"
   },
   {
+    "text": "Listen and pop: Back!",
+    "hash": "a31eac70b891cefa"
+  },
+  {
+    "text": "Great! Back!",
+    "hash": "77d8b31d4972713e"
+  },
+  {
+    "text": "Great job! Great! Back!",
+    "hash": "2358e8e20a211a23"
+  },
+  {
     "text": "Skin",
     "hash": "92e789c92f7fea78"
+  },
+  {
+    "text": "Listen and pop: Skin!",
+    "hash": "2eebc97032291f6b"
+  },
+  {
+    "text": "Great! Skin!",
+    "hash": "e7c2ab0a6b595f11"
+  },
+  {
+    "text": "Great job! Great! Skin!",
+    "hash": "3483288819aaf763"
   },
   {
     "text": "Bone",
     "hash": "64434717c82cefa1"
   },
   {
+    "text": "Listen and pop: Bone!",
+    "hash": "59aee8d3a8937bde"
+  },
+  {
+    "text": "Great! Bone!",
+    "hash": "716e5f6d646c6126"
+  },
+  {
+    "text": "Great job! Great! Bone!",
+    "hash": "fbf5b0f39d51c5fc"
+  },
+  {
     "text": "Muscle",
     "hash": "a98e3e413ac87026"
+  },
+  {
+    "text": "Listen and pop: Muscle!",
+    "hash": "3258a5f2ffcf62ac"
+  },
+  {
+    "text": "Great! Muscle!",
+    "hash": "cc2d3a08304e2f3d"
+  },
+  {
+    "text": "Great job! Great! Muscle!",
+    "hash": "d707a26429880cb0"
   },
   {
     "text": "Voice",
     "hash": "ebe532a9b3b0dcdd"
   },
   {
+    "text": "Listen and pop: Voice!",
+    "hash": "95d6713e22d73931"
+  },
+  {
+    "text": "Great! Voice!",
+    "hash": "ff093c985ce3e1e7"
+  },
+  {
+    "text": "Great job! Great! Voice!",
+    "hash": "f983eef8a2e9d541"
+  },
+  {
     "text": "Breath",
     "hash": "4fedf0fac63c0d96"
+  },
+  {
+    "text": "Listen and pop: Breath!",
+    "hash": "6beda3f2b267c26a"
+  },
+  {
+    "text": "Great! Breath!",
+    "hash": "1877ebe3bf958133"
+  },
+  {
+    "text": "Great job! Great! Breath!",
+    "hash": "a81a3e4020fef723"
   },
   {
     "text": "Step",
     "hash": "e41afa546db2802f"
   },
   {
+    "text": "Listen and pop: Step!",
+    "hash": "a03a03cc01da0c22"
+  },
+  {
+    "text": "Great! Step!",
+    "hash": "04873ae8056941a7"
+  },
+  {
+    "text": "Great job! Great! Step!",
+    "hash": "1e4b6225efd3f827"
+  },
+  {
     "text": "Chin",
     "hash": "7f6e72bdffc42baa"
+  },
+  {
+    "text": "Listen and pop: Chin!",
+    "hash": "e337e04c479b753f"
+  },
+  {
+    "text": "Great! Chin!",
+    "hash": "7868b22cb4d09477"
+  },
+  {
+    "text": "Great job! Great! Chin!",
+    "hash": "f1e880d7fa96e624"
   },
   {
     "text": "Cheek",
     "hash": "8677c70804bf5778"
   },
   {
+    "text": "Listen and pop: Cheek!",
+    "hash": "78ec1acac5f46cb0"
+  },
+  {
+    "text": "Great! Cheek!",
+    "hash": "df3d051b3e77a75c"
+  },
+  {
+    "text": "Great job! Great! Cheek!",
+    "hash": "fa9867024306f40d"
+  },
+  {
+    "text": "Listen and pop: Big!",
+    "hash": "306666a510781a39"
+  },
+  {
+    "text": "Great! Big!",
+    "hash": "697173f7ffa216fb"
+  },
+  {
+    "text": "Great job! Great! Big!",
+    "hash": "6fca0b04019e17ca"
+  },
+  {
+    "text": "Listen and pop: Small!",
+    "hash": "f1d4a6a5b3aac99a"
+  },
+  {
+    "text": "Great! Small!",
+    "hash": "4ff5b49b453a8241"
+  },
+  {
+    "text": "Great job! Great! Small!",
+    "hash": "3a829a1651167860"
+  },
+  {
     "text": "Tall",
     "hash": "e95cb86fb06148c1"
+  },
+  {
+    "text": "Listen and pop: Tall!",
+    "hash": "1eacce896d61dc7d"
+  },
+  {
+    "text": "Great! Tall!",
+    "hash": "52d81cec2daa7734"
+  },
+  {
+    "text": "Great job! Great! Tall!",
+    "hash": "40a4c00aa2599364"
   },
   {
     "text": "Short",
     "hash": "cdf3dac846225fdd"
   },
   {
+    "text": "Listen and pop: Short!",
+    "hash": "c7c303a4dfa56f09"
+  },
+  {
+    "text": "Great! Short!",
+    "hash": "6784e5a70716dd4d"
+  },
+  {
+    "text": "Great job! Great! Short!",
+    "hash": "fab34a63d22bdff6"
+  },
+  {
     "text": "Long",
     "hash": "b9b0a813d3930cfc"
+  },
+  {
+    "text": "Listen and pop: Long!",
+    "hash": "40f800db3b28a715"
+  },
+  {
+    "text": "Great! Long!",
+    "hash": "21d61813a5162d38"
+  },
+  {
+    "text": "Great job! Great! Long!",
+    "hash": "5dbe44537ff462c6"
   },
   {
     "text": "Wide",
     "hash": "42515c08539fb465"
   },
   {
+    "text": "Listen and pop: Wide!",
+    "hash": "b0b1f9339b2122a8"
+  },
+  {
+    "text": "Great! Wide!",
+    "hash": "3bc1ba66211e535e"
+  },
+  {
+    "text": "Great job! Great! Wide!",
+    "hash": "118d33ed15d5cdd8"
+  },
+  {
+    "text": "Listen and pop: Fast!",
+    "hash": "3f0f950626eda752"
+  },
+  {
+    "text": "Great! Fast!",
+    "hash": "b340b85e614824fc"
+  },
+  {
+    "text": "Great job! Great! Fast!",
+    "hash": "fd6f36cc6db01ce9"
+  },
+  {
+    "text": "Listen and pop: Slow!",
+    "hash": "61ec0a302ccaf113"
+  },
+  {
+    "text": "Great! Slow!",
+    "hash": "2ed1381edcd47eae"
+  },
+  {
+    "text": "Great job! Great! Slow!",
+    "hash": "1df044171c843872"
+  },
+  {
+    "text": "What is the opposite of COLD?",
+    "hash": "660b130165a95006"
+  },
+  {
+    "text": "Great! Hot!",
+    "hash": "f83d7c4e5e924182"
+  },
+  {
+    "text": "Great job! Great! Hot!",
+    "hash": "044512928dc20045"
+  },
+  {
+    "text": "How does snow and ice feel?",
+    "hash": "71201ed183fc771f"
+  },
+  {
+    "text": "Great! Cold!",
+    "hash": "782035702132f424"
+  },
+  {
+    "text": "Great job! Great! Cold!",
+    "hash": "2b6a25e82574b7c0"
+  },
+  {
     "text": "Warm",
     "hash": "a7307d6b404b93fd"
+  },
+  {
+    "text": "Listen and pop: Warm!",
+    "hash": "19c47697e7442696"
+  },
+  {
+    "text": "Great! Warm!",
+    "hash": "1aac1b0cfb784b56"
+  },
+  {
+    "text": "Great job! Great! Warm!",
+    "hash": "0f1080777cecc9c0"
   },
   {
     "text": "Cool",
     "hash": "370c08db0b8a4caf"
   },
   {
+    "text": "Listen and pop: Cool!",
+    "hash": "0d003a97235ff6ec"
+  },
+  {
+    "text": "Great! Cool!",
+    "hash": "8e18b1882e04bdbe"
+  },
+  {
+    "text": "Great job! Great! Cool!",
+    "hash": "38f3d994b68f4740"
+  },
+  {
     "text": "New",
     "hash": "bd9728f742fdba3c"
+  },
+  {
+    "text": "Listen and pop: New!",
+    "hash": "dd7fe8d3b1c4f76b"
+  },
+  {
+    "text": "Great! New!",
+    "hash": "09378043c1029c57"
+  },
+  {
+    "text": "Great job! Great! New!",
+    "hash": "6809d80415991d9c"
   },
   {
     "text": "Old",
     "hash": "79f9dc4163df7a2c"
   },
   {
+    "text": "Listen and pop: Old!",
+    "hash": "e95e05550afe6b2c"
+  },
+  {
+    "text": "Great! Old!",
+    "hash": "c4a625a632ad0c3b"
+  },
+  {
+    "text": "Great job! Great! Old!",
+    "hash": "af46ec9f4d2b033c"
+  },
+  {
     "text": "Young",
     "hash": "62896462e2823c88"
+  },
+  {
+    "text": "Listen and pop: Young!",
+    "hash": "abf23e12bd6bf673"
+  },
+  {
+    "text": "Great! Young!",
+    "hash": "e584544c438817da"
+  },
+  {
+    "text": "Great job! Great! Young!",
+    "hash": "789e026ea11bd40a"
   },
   {
     "text": "Good",
     "hash": "0d5eb32b321a4d32"
   },
   {
+    "text": "Listen and pop: Good!",
+    "hash": "1f79520ed3195b5f"
+  },
+  {
+    "text": "Great! Good!",
+    "hash": "413d6ee66aee75b9"
+  },
+  {
+    "text": "Great job! Great! Good!",
+    "hash": "e2b1412c4780bf89"
+  },
+  {
     "text": "Nice",
     "hash": "d4092f7925d606cd"
+  },
+  {
+    "text": "Listen and pop: Nice!",
+    "hash": "1b14d35313b8b08b"
+  },
+  {
+    "text": "Great! Nice!",
+    "hash": "cbb61d678ed8ae95"
+  },
+  {
+    "text": "Great job! Great! Nice!",
+    "hash": "6535aff2a8037c5c"
   },
   {
     "text": "Kind",
     "hash": "58271a6901d7411a"
   },
   {
+    "text": "Listen and pop: Kind!",
+    "hash": "180c504ef19a8244"
+  },
+  {
+    "text": "Great! Kind!",
+    "hash": "4c866601dce0e941"
+  },
+  {
+    "text": "Great job! Great! Kind!",
+    "hash": "feaac431c4453708"
+  },
+  {
     "text": "Brave",
     "hash": "76d72853325c8297"
+  },
+  {
+    "text": "Listen and pop: Brave!",
+    "hash": "a88e1e138afd9c32"
+  },
+  {
+    "text": "Great! Brave!",
+    "hash": "684d5244db3ee7c3"
+  },
+  {
+    "text": "Great job! Great! Brave!",
+    "hash": "5ecd4d27a6284bb6"
   },
   {
     "text": "Smart",
     "hash": "08a672192f7e865a"
   },
   {
+    "text": "Listen and pop: Smart!",
+    "hash": "df2bcd98997f6d58"
+  },
+  {
+    "text": "Great! Smart!",
+    "hash": "fd67d8a113f57499"
+  },
+  {
+    "text": "Great job! Great! Smart!",
+    "hash": "3abe444a2ed4f3a4"
+  },
+  {
     "text": "Funny",
     "hash": "e0e068a457dafd95"
+  },
+  {
+    "text": "Listen and pop: Funny!",
+    "hash": "596a355e53796e28"
+  },
+  {
+    "text": "Great! Funny!",
+    "hash": "e0a732c020af3002"
+  },
+  {
+    "text": "Great job! Great! Funny!",
+    "hash": "617a80c1062b1539"
+  },
+  {
+    "text": "Listen and pop: Happy!",
+    "hash": "5213c1d4e44b7c8c"
+  },
+  {
+    "text": "Great! Happy!",
+    "hash": "8981e1f36d69dbb5"
+  },
+  {
+    "text": "Great job! Great! Happy!",
+    "hash": "cf8fd315da0967c5"
+  },
+  {
+    "text": "Listen and pop: Sad!",
+    "hash": "a4158ee6ef8a7123"
+  },
+  {
+    "text": "Great! Sad!",
+    "hash": "a83a5c2f60625723"
+  },
+  {
+    "text": "Great job! Great! Sad!",
+    "hash": "7705894150866ffd"
+  },
+  {
+    "text": "Listen and pop: Angry!",
+    "hash": "758e651eaa7ee204"
+  },
+  {
+    "text": "Great! Angry!",
+    "hash": "49450b4474335e12"
+  },
+  {
+    "text": "Great job! Great! Angry!",
+    "hash": "d0247a174bd30a2c"
+  },
+  {
+    "text": "Listen and pop: Scared!",
+    "hash": "67d212081a92934b"
+  },
+  {
+    "text": "Great! Scared!",
+    "hash": "8781b581459ed476"
+  },
+  {
+    "text": "Great job! Great! Scared!",
+    "hash": "29595b095d5a61f1"
   },
   {
     "text": "Proud",
     "hash": "c86db5ddb60cffc3"
   },
   {
+    "text": "Listen and pop: Proud!",
+    "hash": "69cabca84e4e3cd1"
+  },
+  {
+    "text": "Great! Proud!",
+    "hash": "e7d2aa2c26a044f7"
+  },
+  {
+    "text": "Great job! Great! Proud!",
+    "hash": "d6a94d666430a988"
+  },
+  {
     "text": "Shy",
     "hash": "503c4c746b6cc1fa"
+  },
+  {
+    "text": "Listen and pop: Shy!",
+    "hash": "453c03870f5ef8f6"
+  },
+  {
+    "text": "Great! Shy!",
+    "hash": "d2b99834551c05da"
+  },
+  {
+    "text": "Great job! Great! Shy!",
+    "hash": "5505ede9b1cb8e07"
+  },
+  {
+    "text": "Listen and pop: Tired!",
+    "hash": "74332c565b235660"
+  },
+  {
+    "text": "Great! Tired!",
+    "hash": "3d83407692de4be8"
+  },
+  {
+    "text": "Great job! Great! Tired!",
+    "hash": "58a5e896960ac12e"
+  },
+  {
+    "text": "Listen and pop: Hungry!",
+    "hash": "e84be534b8afb944"
+  },
+  {
+    "text": "Great! Hungry!",
+    "hash": "6e907acdbfa11432"
+  },
+  {
+    "text": "Great job! Great! Hungry!",
+    "hash": "70b856e75bb833cd"
   },
   {
     "text": "Thirsty",
     "hash": "19e852c3ab824f94"
   },
   {
+    "text": "Listen and pop: Thirsty!",
+    "hash": "32b68cbfcc32fba9"
+  },
+  {
+    "text": "Great! Thirsty!",
+    "hash": "6b2d0248074d94d8"
+  },
+  {
+    "text": "Great job! Great! Thirsty!",
+    "hash": "577a136c7ccb717e"
+  },
+  {
     "text": "Full",
     "hash": "54bc6bce313f6ad0"
+  },
+  {
+    "text": "Listen and pop: Full!",
+    "hash": "8df5a8af4bef0768"
+  },
+  {
+    "text": "Great! Full!",
+    "hash": "b2b5ac4cbd5db7f4"
+  },
+  {
+    "text": "Great job! Great! Full!",
+    "hash": "3fca10d3c941a634"
   },
   {
     "text": "Empty",
     "hash": "0e47ae8ec6f2cabb"
   },
   {
+    "text": "Listen and pop: Empty!",
+    "hash": "39d39925f71ef67b"
+  },
+  {
+    "text": "Great! Empty!",
+    "hash": "0824dd2ff9263ecd"
+  },
+  {
+    "text": "Great job! Great! Empty!",
+    "hash": "971c2ad6a5e03ae3"
+  },
+  {
     "text": "Clean",
     "hash": "14fcaf21e1932a33"
+  },
+  {
+    "text": "Listen and pop: Clean!",
+    "hash": "18145626c8ed9b85"
+  },
+  {
+    "text": "Great! Clean!",
+    "hash": "b5d27f3d951d0a23"
+  },
+  {
+    "text": "Great job! Great! Clean!",
+    "hash": "02ed84fe7d7781d2"
   },
   {
     "text": "Dirty",
     "hash": "d4b4a52443ff1fde"
   },
   {
+    "text": "Listen and pop: Dirty!",
+    "hash": "17b907d9832bdce6"
+  },
+  {
+    "text": "Great! Dirty!",
+    "hash": "559c191f51981371"
+  },
+  {
+    "text": "Great job! Great! Dirty!",
+    "hash": "269dea983205fbb3"
+  },
+  {
     "text": "Wet",
     "hash": "8ec9627199be3a6d"
+  },
+  {
+    "text": "Listen and pop: Wet!",
+    "hash": "6c8583231e5a12a2"
+  },
+  {
+    "text": "Great! Wet!",
+    "hash": "9f6c29f22a5cd3d5"
+  },
+  {
+    "text": "Great job! Great! Wet!",
+    "hash": "ecc6ad9e1651eb92"
   },
   {
     "text": "Dry",
     "hash": "7bc9bb883e566f75"
   },
   {
+    "text": "Listen and pop: Dry!",
+    "hash": "ec8011ca033cc118"
+  },
+  {
+    "text": "Great! Dry!",
+    "hash": "a19b8285558b419b"
+  },
+  {
+    "text": "Great job! Great! Dry!",
+    "hash": "f9f0fce1b37072fd"
+  },
+  {
     "text": "Hard",
     "hash": "ffcb861df966e342"
+  },
+  {
+    "text": "Listen and pop: Hard!",
+    "hash": "ae13f5f343a12e1a"
+  },
+  {
+    "text": "Great! Hard!",
+    "hash": "b303f8c8f07f7f9e"
+  },
+  {
+    "text": "Great job! Great! Hard!",
+    "hash": "598b86cb818a2194"
   },
   {
     "text": "Soft",
     "hash": "9fe5d4c32e3afc7a"
   },
   {
+    "text": "Listen and pop: Soft!",
+    "hash": "b54de323acb098e6"
+  },
+  {
+    "text": "Great! Soft!",
+    "hash": "b11a056287dc3f3e"
+  },
+  {
+    "text": "Great job! Great! Soft!",
+    "hash": "caffdcdb4d498874"
+  },
+  {
     "text": "Heavy",
     "hash": "5468d41de2ea81f5"
+  },
+  {
+    "text": "Listen and pop: Heavy!",
+    "hash": "f90c33a2326e2579"
+  },
+  {
+    "text": "Great! Heavy!",
+    "hash": "3f5bd1d4c0496ebe"
+  },
+  {
+    "text": "Great job! Great! Heavy!",
+    "hash": "31a2b7e7eabb1290"
   },
   {
     "text": "Light",
     "hash": "83fbc6aa9fb3bf48"
   },
   {
+    "text": "Listen and pop: Light!",
+    "hash": "911ffc50c486ceb7"
+  },
+  {
+    "text": "Great! Light!",
+    "hash": "d8db31ffddcf175c"
+  },
+  {
+    "text": "Great job! Great! Light!",
+    "hash": "26e05de26feef53a"
+  },
+  {
     "text": "Loud",
     "hash": "67d36b6134e5a7cf"
+  },
+  {
+    "text": "Listen and pop: Loud!",
+    "hash": "dddb65e880ef7404"
+  },
+  {
+    "text": "Great! Loud!",
+    "hash": "155d331422fb2e74"
+  },
+  {
+    "text": "Great job! Great! Loud!",
+    "hash": "15cfb0bfd36a62f2"
   },
   {
     "text": "Quiet",
     "hash": "ffdab6531bb0eede"
   },
   {
+    "text": "Listen and pop: Quiet!",
+    "hash": "1a9a8a50ea8a60cb"
+  },
+  {
+    "text": "Great! Quiet!",
+    "hash": "3e81cc0e726f7e06"
+  },
+  {
+    "text": "Great job! Great! Quiet!",
+    "hash": "04d33ac310958c40"
+  },
+  {
     "text": "Easy",
     "hash": "a81da1f4dfaa60cb"
+  },
+  {
+    "text": "Listen and pop: Easy!",
+    "hash": "d70c318879775513"
+  },
+  {
+    "text": "Great! Easy!",
+    "hash": "0ba1e19f51385f58"
+  },
+  {
+    "text": "Great job! Great! Easy!",
+    "hash": "a1e8f41b1c2fde22"
   },
   {
     "text": "Sweet",
     "hash": "7c484cc323c16326"
   },
   {
+    "text": "Listen and pop: Sweet!",
+    "hash": "68eba4a5653b0746"
+  },
+  {
+    "text": "Great! Sweet!",
+    "hash": "1d7debb323112d77"
+  },
+  {
+    "text": "Great job! Great! Sweet!",
+    "hash": "bd74d6aad76eae30"
+  },
+  {
     "text": "Sour",
     "hash": "11bf932a317cb9c4"
+  },
+  {
+    "text": "Listen and pop: Sour!",
+    "hash": "73e1e0f4d66829cb"
+  },
+  {
+    "text": "Great! Sour!",
+    "hash": "17cfbecab7b63c49"
+  },
+  {
+    "text": "Great job! Great! Sour!",
+    "hash": "ab7698dec55ba54c"
   },
   {
     "text": "Salty",
     "hash": "17eb2b3b5cb64dbc"
   },
   {
+    "text": "Listen and pop: Salty!",
+    "hash": "037942c8fdcb8e0b"
+  },
+  {
+    "text": "Great! Salty!",
+    "hash": "d1b9272ea14b6f5a"
+  },
+  {
+    "text": "Great job! Great! Salty!",
+    "hash": "55b094d8bbd9027f"
+  },
+  {
     "text": "Fresh",
     "hash": "6319374add76cfed"
+  },
+  {
+    "text": "Listen and pop: Fresh!",
+    "hash": "355e1a1cf377a5e3"
+  },
+  {
+    "text": "Great! Fresh!",
+    "hash": "fcd6bdc90873225e"
+  },
+  {
+    "text": "Great job! Great! Fresh!",
+    "hash": "31b1fdb6325b9890"
   },
   {
     "text": "Safe",
     "hash": "437e7a661700201d"
   },
   {
+    "text": "Listen and pop: Safe!",
+    "hash": "0843f62577e4f363"
+  },
+  {
+    "text": "Great! Safe!",
+    "hash": "c446566b09ee9ef9"
+  },
+  {
+    "text": "Great job! Great! Safe!",
+    "hash": "db637b5d4998601e"
+  },
+  {
     "text": "Strong",
     "hash": "733f0d02f8017046"
+  },
+  {
+    "text": "Listen and pop: Strong!",
+    "hash": "93e44c89f40a407a"
+  },
+  {
+    "text": "Great! Strong!",
+    "hash": "c76e518c706eb8c3"
+  },
+  {
+    "text": "Great job! Great! Strong!",
+    "hash": "c1f9620b66cbf6cd"
   },
   {
     "text": "Dark",
     "hash": "dd188c3cef657e9c"
   },
   {
+    "text": "Listen and pop: Dark!",
+    "hash": "b1e93822bba76009"
+  },
+  {
+    "text": "Great! Dark!",
+    "hash": "853a074cd3c72dc6"
+  },
+  {
+    "text": "Great job! Great! Dark!",
+    "hash": "8dce6d7a0320d711"
+  },
+  {
     "text": "Bright",
     "hash": "2f3bbd23d20dae14"
+  },
+  {
+    "text": "Listen and pop: Bright!",
+    "hash": "958b9c9624beb69e"
+  },
+  {
+    "text": "Great! Bright!",
+    "hash": "9d6771c9b02ed456"
+  },
+  {
+    "text": "Great job! Great! Bright!",
+    "hash": "10e6cb668cb28037"
   },
   {
     "text": "Huge",
     "hash": "cce14dac299d4f0e"
   },
   {
+    "text": "Listen and pop: Huge!",
+    "hash": "f41f0471b3d14250"
+  },
+  {
+    "text": "Great! Huge!",
+    "hash": "c3a5d9e2574025ff"
+  },
+  {
+    "text": "Great job! Great! Huge!",
+    "hash": "150f508fded49336"
+  },
+  {
+    "text": "Listen and pop: Park!",
+    "hash": "8640982e142fba7c"
+  },
+  {
+    "text": "Great! Park!",
+    "hash": "6a2ae777228f1ce5"
+  },
+  {
+    "text": "Great job! Great! Park!",
+    "hash": "faec9af1d8272be4"
+  },
+  {
     "text": "Zoo",
     "hash": "858fe61bbbebe2de"
+  },
+  {
+    "text": "Listen and pop: Zoo!",
+    "hash": "c565ea672f0609f8"
+  },
+  {
+    "text": "Great! Zoo!",
+    "hash": "63def5542014b951"
+  },
+  {
+    "text": "Great job! Great! Zoo!",
+    "hash": "a8aa2fa0112fdbbc"
   },
   {
     "text": "Farm",
     "hash": "38be291e2e03450b"
   },
   {
+    "text": "Listen and pop: Farm!",
+    "hash": "2e03d4bd4e64172e"
+  },
+  {
+    "text": "Great! Farm!",
+    "hash": "7cd72fdb05f902b5"
+  },
+  {
+    "text": "Great job! Great! Farm!",
+    "hash": "ef3e48143937324c"
+  },
+  {
     "text": "Shop",
     "hash": "e3d9641e58c51812"
+  },
+  {
+    "text": "Listen and pop: Shop!",
+    "hash": "65535b4e6a9fe33f"
+  },
+  {
+    "text": "Great! Shop!",
+    "hash": "66d9763d4080927f"
+  },
+  {
+    "text": "Great job! Great! Shop!",
+    "hash": "ae477cb50c7bcf13"
   },
   {
     "text": "Market",
     "hash": "10f2b0d856d8c780"
   },
   {
+    "text": "Listen and pop: Market!",
+    "hash": "df2f85055475c577"
+  },
+  {
+    "text": "Great! Market!",
+    "hash": "5d8ebf5a27719a2e"
+  },
+  {
+    "text": "Great job! Great! Market!",
+    "hash": "6d06ed9818d7d90f"
+  },
+  {
     "text": "Bakery",
     "hash": "772eba850b9bd8f3"
+  },
+  {
+    "text": "Listen and pop: Bakery!",
+    "hash": "6d8c75e6cf7a35f1"
+  },
+  {
+    "text": "Great! Bakery!",
+    "hash": "d3f6a26a8bb20f33"
+  },
+  {
+    "text": "Great job! Great! Bakery!",
+    "hash": "1313d32ae24f63fe"
   },
   {
     "text": "Cafe",
     "hash": "10982a61591b437e"
   },
   {
+    "text": "Listen and pop: Cafe!",
+    "hash": "6599c3a8b60c7c79"
+  },
+  {
+    "text": "Great! Cafe!",
+    "hash": "69c4e71af56e257c"
+  },
+  {
+    "text": "Great job! Great! Cafe!",
+    "hash": "657f6f14ad32d7de"
+  },
+  {
     "text": "Museum",
     "hash": "4c9ef4665933718d"
+  },
+  {
+    "text": "Listen and pop: Museum!",
+    "hash": "a31c8d1569633489"
+  },
+  {
+    "text": "Great! Museum!",
+    "hash": "1d7453ceb5cadd0a"
+  },
+  {
+    "text": "Great job! Great! Museum!",
+    "hash": "292f10dd15f7f4f4"
   },
   {
     "text": "Cinema",
     "hash": "17c5eb00c3071b4b"
   },
   {
+    "text": "Listen and pop: Cinema!",
+    "hash": "00b794b35725fdb5"
+  },
+  {
+    "text": "Great! Cinema!",
+    "hash": "e2f106e7d2470cfe"
+  },
+  {
+    "text": "Great job! Great! Cinema!",
+    "hash": "b226d0bbebfa484a"
+  },
+  {
     "text": "Theater",
     "hash": "58eb248d6c454cd9"
+  },
+  {
+    "text": "Listen and pop: Theater!",
+    "hash": "e489b87d05d39be6"
+  },
+  {
+    "text": "Great! Theater!",
+    "hash": "6d145568d427d0a4"
+  },
+  {
+    "text": "Great job! Great! Theater!",
+    "hash": "c2cefa3e957a65f2"
+  },
+  {
+    "text": "Listen and pop: Hospital!",
+    "hash": "c38f9d3e4100f094"
+  },
+  {
+    "text": "Great! Hospital!",
+    "hash": "bc78be10e03e7f84"
+  },
+  {
+    "text": "Great job! Great! Hospital!",
+    "hash": "0e1c61d7d0c0aba9"
   },
   {
     "text": "Bank",
     "hash": "13c0d350d138cbd3"
   },
   {
+    "text": "Listen and pop: Bank!",
+    "hash": "b52a8881a4ca4326"
+  },
+  {
+    "text": "Great! Bank!",
+    "hash": "19b19dad7bf908a3"
+  },
+  {
+    "text": "Great job! Great! Bank!",
+    "hash": "a8c6b98fe46b4afa"
+  },
+  {
     "text": "City",
     "hash": "f1e2b3a3f2b7e180"
+  },
+  {
+    "text": "Listen and pop: City!",
+    "hash": "09c5188849c3ce47"
+  },
+  {
+    "text": "Great! City!",
+    "hash": "7abe67bb8d35bceb"
+  },
+  {
+    "text": "Great job! Great! City!",
+    "hash": "ab35e2dc2e4f65eb"
   },
   {
     "text": "Town",
     "hash": "bc12908a70aac7c6"
   },
   {
+    "text": "Listen and pop: Town!",
+    "hash": "de934cfe6eef3755"
+  },
+  {
+    "text": "Great! Town!",
+    "hash": "de2ed90d267e27bf"
+  },
+  {
+    "text": "Great job! Great! Town!",
+    "hash": "ac752e004c0809d4"
+  },
+  {
     "text": "Village",
     "hash": "c433492e60afe015"
+  },
+  {
+    "text": "Listen and pop: Village!",
+    "hash": "8f474ac605eb212a"
+  },
+  {
+    "text": "Great! Village!",
+    "hash": "6958cf5348151716"
+  },
+  {
+    "text": "Great job! Great! Village!",
+    "hash": "e61edbca2122122b"
   },
   {
     "text": "Castle",
     "hash": "e594980daa80e865"
   },
   {
+    "text": "Listen and pop: Castle!",
+    "hash": "bbc8568259530603"
+  },
+  {
+    "text": "Great! Castle!",
+    "hash": "719c2175117353e3"
+  },
+  {
+    "text": "Great job! Great! Castle!",
+    "hash": "ffcac52b27c602c1"
+  },
+  {
     "text": "Tower",
     "hash": "6aea6ce95ce09032"
+  },
+  {
+    "text": "Listen and pop: Tower!",
+    "hash": "0a4447aaaa8d1303"
+  },
+  {
+    "text": "Great! Tower!",
+    "hash": "3545a7201288e119"
+  },
+  {
+    "text": "Great job! Great! Tower!",
+    "hash": "b8fbc635bdbac56a"
   },
   {
     "text": "Palace",
     "hash": "f389e474a92d796c"
   },
   {
+    "text": "Listen and pop: Palace!",
+    "hash": "f7ee8b5efd361fc6"
+  },
+  {
+    "text": "Great! Palace!",
+    "hash": "6f8075cc2a0fb0b3"
+  },
+  {
+    "text": "Great job! Great! Palace!",
+    "hash": "945b11a8fdf28858"
+  },
+  {
     "text": "Tent",
     "hash": "a0e23a05405c1a62"
+  },
+  {
+    "text": "Listen and pop: Tent!",
+    "hash": "83d8d64ce6f1e577"
+  },
+  {
+    "text": "Great! Tent!",
+    "hash": "2f59174e08e66447"
+  },
+  {
+    "text": "Great job! Great! Tent!",
+    "hash": "b726ac9007d23f6c"
   },
   {
     "text": "Camp",
     "hash": "fa033bf5fe7f5774"
   },
   {
+    "text": "Listen and pop: Camp!",
+    "hash": "471fb982177ceb7b"
+  },
+  {
+    "text": "Great! Camp!",
+    "hash": "4ca69187ed9f7183"
+  },
+  {
+    "text": "Great job! Great! Camp!",
+    "hash": "6dcfa16ddb166f01"
+  },
+  {
     "text": "Drum",
     "hash": "8c5cdf1d8c1d40ca"
+  },
+  {
+    "text": "Listen and pop: Drum!",
+    "hash": "23c9b329dea03078"
+  },
+  {
+    "text": "Great! Drum!",
+    "hash": "de2d5c669319c2f9"
+  },
+  {
+    "text": "Great job! Great! Drum!",
+    "hash": "9f6f90f972024a03"
+  },
+  {
+    "text": "Listen and pop: Piano!",
+    "hash": "1ccc5c0a08d6d0cd"
+  },
+  {
+    "text": "Great! Piano!",
+    "hash": "76fe8eea4aab35c3"
+  },
+  {
+    "text": "Great job! Great! Piano!",
+    "hash": "39047df02d0e8d8c"
   },
   {
     "text": "Guitar",
     "hash": "bcccbb37be859141"
   },
   {
+    "text": "Listen and pop: Guitar!",
+    "hash": "171e699856f07036"
+  },
+  {
+    "text": "Great! Guitar!",
+    "hash": "0da51abf1343f5fd"
+  },
+  {
+    "text": "Great job! Great! Guitar!",
+    "hash": "77409d81d6ea08b9"
+  },
+  {
     "text": "Violin",
     "hash": "a4a6ecd93872b7a6"
+  },
+  {
+    "text": "Listen and pop: Violin!",
+    "hash": "6b6486b2c8c1eeb0"
+  },
+  {
+    "text": "Great! Violin!",
+    "hash": "b297d257a4c4f292"
+  },
+  {
+    "text": "Great job! Great! Violin!",
+    "hash": "54bc17a7ba98ea29"
   },
   {
     "text": "Flute",
     "hash": "dae6f1a26dab6034"
   },
   {
+    "text": "Listen and pop: Flute!",
+    "hash": "59cb36bd29ae8431"
+  },
+  {
+    "text": "Great! Flute!",
+    "hash": "2f3604ad659152a1"
+  },
+  {
+    "text": "Great job! Great! Flute!",
+    "hash": "216d12186f7dc7bb"
+  },
+  {
     "text": "Trumpet",
     "hash": "0912c7a556dfc170"
+  },
+  {
+    "text": "Listen and pop: Trumpet!",
+    "hash": "94feb1af2626495f"
+  },
+  {
+    "text": "Great! Trumpet!",
+    "hash": "d10472d54bbe791f"
+  },
+  {
+    "text": "Great job! Great! Trumpet!",
+    "hash": "adec08466274d53b"
   },
   {
     "text": "Song",
     "hash": "cd580dc60d472c3f"
   },
   {
+    "text": "Listen and pop: Song!",
+    "hash": "9bcf7d38c1b3a6e4"
+  },
+  {
+    "text": "Great! Song!",
+    "hash": "97c8a4e0d4942138"
+  },
+  {
+    "text": "Great job! Great! Song!",
+    "hash": "fdd45962de1c006c"
+  },
+  {
     "text": "Tune",
     "hash": "a4de22392188a7b2"
+  },
+  {
+    "text": "Listen and pop: Tune!",
+    "hash": "6120afeaaf6caa31"
+  },
+  {
+    "text": "Great! Tune!",
+    "hash": "38169ca85f6d5766"
+  },
+  {
+    "text": "Great job! Great! Tune!",
+    "hash": "c5f66671e90198c0"
   },
   {
     "text": "Beat",
     "hash": "d1c7298d467fbc26"
   },
   {
+    "text": "Listen and pop: Beat!",
+    "hash": "e83721422138683f"
+  },
+  {
+    "text": "Great! Beat!",
+    "hash": "aa15015ec147ad60"
+  },
+  {
+    "text": "Great job! Great! Beat!",
+    "hash": "c9ea9d0f7d660e05"
+  },
+  {
     "text": "Band",
     "hash": "2b0618f4f9d2b913"
+  },
+  {
+    "text": "Listen and pop: Band!",
+    "hash": "789e2e373a01b400"
+  },
+  {
+    "text": "Great! Band!",
+    "hash": "be6d435360ce900b"
+  },
+  {
+    "text": "Great job! Great! Band!",
+    "hash": "3057fecde063802a"
+  },
+  {
+    "text": "Listen and pop: Toy!",
+    "hash": "67f1c8a930a95655"
+  },
+  {
+    "text": "Great! Toy!",
+    "hash": "da8338eb1aefeeac"
+  },
+  {
+    "text": "Great job! Great! Toy!",
+    "hash": "8175fb452238cde4"
   },
   {
     "text": "Doll",
     "hash": "5056811d518f2005"
   },
   {
+    "text": "Listen and pop: Doll!",
+    "hash": "2caac673671007da"
+  },
+  {
+    "text": "Great! Doll!",
+    "hash": "e014d04d635f7c7e"
+  },
+  {
+    "text": "Great job! Great! Doll!",
+    "hash": "4af6db08acde26ab"
+  },
+  {
     "text": "Ball",
     "hash": "b166effc199d3dd2"
+  },
+  {
+    "text": "Listen and pop: Ball!",
+    "hash": "61b89c169fa6727c"
+  },
+  {
+    "text": "Great! Ball!",
+    "hash": "8278d2fc87fddfca"
+  },
+  {
+    "text": "Great job! Great! Ball!",
+    "hash": "ed6abda31b538ef7"
   },
   {
     "text": "Kite",
     "hash": "ec122cd537eb41a0"
   },
   {
+    "text": "Listen and pop: Kite!",
+    "hash": "59c65dbb831dbe0e"
+  },
+  {
+    "text": "Great! Kite!",
+    "hash": "23e27693c58393aa"
+  },
+  {
+    "text": "Great job! Great! Kite!",
+    "hash": "a93a991723cd2450"
+  },
+  {
+    "text": "Listen and pop: Puzzle!",
+    "hash": "fd17e73f6d1dfd05"
+  },
+  {
+    "text": "Great! Puzzle!",
+    "hash": "40c707d6d0a09360"
+  },
+  {
+    "text": "Great job! Great! Puzzle!",
+    "hash": "6d1814c7076b1a2e"
+  },
+  {
     "text": "Robot",
     "hash": "19a7cf06bfa236c6"
+  },
+  {
+    "text": "Listen and pop: Robot!",
+    "hash": "47064e20ee7e0d84"
+  },
+  {
+    "text": "Great! Robot!",
+    "hash": "10bb5fe5ec52558d"
+  },
+  {
+    "text": "Great job! Great! Robot!",
+    "hash": "63b4e81e926ec992"
   },
   {
     "text": "Teddy",
     "hash": "3de51fcfb273b592"
   },
   {
+    "text": "Listen and pop: Teddy!",
+    "hash": "0ac1b46f2e231983"
+  },
+  {
+    "text": "Great! Teddy!",
+    "hash": "754c85596a089aa7"
+  },
+  {
+    "text": "Great job! Great! Teddy!",
+    "hash": "1fb55762ab296bba"
+  },
+  {
     "text": "Bricks",
     "hash": "ad041b9ecc91ef08"
+  },
+  {
+    "text": "What blocks do we snap together to build towers?",
+    "hash": "098920068ab3f43a"
+  },
+  {
+    "text": "Great! Bricks!",
+    "hash": "abf65db7934d0136"
+  },
+  {
+    "text": "Great job! Great! Bricks!",
+    "hash": "203334832109b1e8"
   },
   {
     "text": "Block",
     "hash": "650005c4f7cc5605"
   },
   {
+    "text": "Listen and pop: Block!",
+    "hash": "b2d3af68d8fd9613"
+  },
+  {
+    "text": "Great! Block!",
+    "hash": "7719cf248035cdf2"
+  },
+  {
+    "text": "Great job! Great! Block!",
+    "hash": "e664718678e83939"
+  },
+  {
     "text": "Swing",
     "hash": "f743524ab8bfab59"
+  },
+  {
+    "text": "Listen and pop: Swing!",
+    "hash": "8ef3965f9b08da40"
+  },
+  {
+    "text": "Great! Swing!",
+    "hash": "19d0cfba9761e393"
+  },
+  {
+    "text": "Great job! Great! Swing!",
+    "hash": "3f9f5fb868152883"
   },
   {
     "text": "Slide",
     "hash": "e06595356cfb81ce"
   },
   {
+    "text": "Listen and pop: Slide!",
+    "hash": "46bfe61af51b9801"
+  },
+  {
+    "text": "Great! Slide!",
+    "hash": "62f124ec1cba5f31"
+  },
+  {
+    "text": "Great job! Great! Slide!",
+    "hash": "89ed324111196f67"
+  },
+  {
+    "text": "Listen and pop: Game!",
+    "hash": "b48bd3eb70a74893"
+  },
+  {
+    "text": "Great! Game!",
+    "hash": "9c8bca5082a51e17"
+  },
+  {
+    "text": "Great job! Great! Game!",
+    "hash": "12122050a3a96107"
+  },
+  {
     "text": "Card",
     "hash": "0a986f9837ba698d"
+  },
+  {
+    "text": "Listen and pop: Card!",
+    "hash": "1022775ccd71a733"
+  },
+  {
+    "text": "Great! Card!",
+    "hash": "ea357f95eea2c28a"
+  },
+  {
+    "text": "Great job! Great! Card!",
+    "hash": "0f0d69d541dee546"
   },
   {
     "text": "Dice",
     "hash": "23cdabb2ca13ab44"
   },
   {
+    "text": "Listen and pop: Dice!",
+    "hash": "b7b49ec3e54a04f0"
+  },
+  {
+    "text": "Great! Dice!",
+    "hash": "adf04e9cfa8f8482"
+  },
+  {
+    "text": "Great job! Great! Dice!",
+    "hash": "b5e773f032f8d717"
+  },
+  {
     "text": "Prize",
     "hash": "6350c657e5a6a09b"
+  },
+  {
+    "text": "Listen and pop: Prize!",
+    "hash": "2143deab6ae33a1c"
+  },
+  {
+    "text": "Great! Prize!",
+    "hash": "dd57d9b8c8c8f001"
+  },
+  {
+    "text": "Great job! Great! Prize!",
+    "hash": "e12884b4a9c324ee"
+  },
+  {
+    "text": "Listen and pop: Medal!",
+    "hash": "f00d2c2c246c17bf"
+  },
+  {
+    "text": "Great! Medal!",
+    "hash": "d9dea420b98c16ec"
+  },
+  {
+    "text": "Great job! Great! Medal!",
+    "hash": "9b3733e178e10d43"
   },
   {
     "text": "Trophy",
     "hash": "c37db1a93d7aac65"
   },
   {
+    "text": "Listen and pop: Trophy!",
+    "hash": "bc8250286ec4c6e9"
+  },
+  {
+    "text": "Great! Trophy!",
+    "hash": "90ed165a8eb737db"
+  },
+  {
+    "text": "Great job! Great! Trophy!",
+    "hash": "982474a1bb645e89"
+  },
+  {
     "text": "Magic",
     "hash": "39418b236c7d148a"
+  },
+  {
+    "text": "Listen and pop: Magic!",
+    "hash": "bcee14fc1d64acb6"
+  },
+  {
+    "text": "Great! Magic!",
+    "hash": "1560f9588573822c"
+  },
+  {
+    "text": "Great job! Great! Magic!",
+    "hash": "a4f090309cb914fa"
   },
   {
     "text": "Hero",
     "hash": "6f4539258ee79fbb"
   },
   {
+    "text": "Listen and pop: Hero!",
+    "hash": "ad482b9dd9c36cba"
+  },
+  {
+    "text": "Great! Hero!",
+    "hash": "1582c4462c8db761"
+  },
+  {
+    "text": "Great job! Great! Hero!",
+    "hash": "86f481ff4cdb4039"
+  },
+  {
     "text": "King",
     "hash": "15f4367259c91065"
+  },
+  {
+    "text": "Listen and pop: King!",
+    "hash": "9e8e2c8eb9849a23"
+  },
+  {
+    "text": "Great! King!",
+    "hash": "069d124a1c5d647f"
+  },
+  {
+    "text": "Great job! Great! King!",
+    "hash": "d34f14dfe621e407"
   },
   {
     "text": "Queen",
     "hash": "e3db746f765a15a8"
   },
   {
+    "text": "Listen and pop: Queen!",
+    "hash": "1adaa3923e8197c4"
+  },
+  {
+    "text": "Great! Queen!",
+    "hash": "2a097681f2d66dd6"
+  },
+  {
+    "text": "Great job! Great! Queen!",
+    "hash": "31543bcaeb2b64e8"
+  },
+  {
     "text": "Pirate",
     "hash": "bdba97cc7cea873c"
+  },
+  {
+    "text": "Listen and pop: Pirate!",
+    "hash": "a538c353d92beaea"
+  },
+  {
+    "text": "Great! Pirate!",
+    "hash": "3fc4cbc757cb37f8"
+  },
+  {
+    "text": "Great job! Great! Pirate!",
+    "hash": "ef4d8b98fdbeb468"
   },
   {
     "text": "Wizard",
     "hash": "02e2e172993f563b"
   },
   {
+    "text": "Listen and pop: Wizard!",
+    "hash": "5d617680b2a333bc"
+  },
+  {
+    "text": "Great! Wizard!",
+    "hash": "fa65faded88516f8"
+  },
+  {
+    "text": "Great job! Great! Wizard!",
+    "hash": "5f38c290749a678d"
+  },
+  {
     "text": "Flag",
     "hash": "fdc7d0eeea7bad10"
+  },
+  {
+    "text": "Listen and pop: Flag!",
+    "hash": "0da8b288d5cefb20"
+  },
+  {
+    "text": "Great! Flag!",
+    "hash": "540b2c0cba385bfb"
+  },
+  {
+    "text": "Great job! Great! Flag!",
+    "hash": "ae3a5d549d7aeb58"
   },
   {
     "text": "Suitcase",
     "hash": "f89f4be6ff54f0e9"
   },
   {
+    "text": "What rolling bag do we pack for vacation?",
+    "hash": "1667d84d0e8113bc"
+  },
+  {
+    "text": "Great! Suitcase!",
+    "hash": "261b3932f529dc04"
+  },
+  {
+    "text": "Great job! Great! Suitcase!",
+    "hash": "7ee63a08d29b6dff"
+  },
+  {
     "text": "Passport",
     "hash": "497b7d05689566e9"
+  },
+  {
+    "text": "What little book do we show at the airport?",
+    "hash": "02cc772b47c731ee"
+  },
+  {
+    "text": "Great! Passport!",
+    "hash": "c78156d0c12ef80e"
+  },
+  {
+    "text": "Great job! Great! Passport!",
+    "hash": "0068efe1350c39b1"
+  },
+  {
+    "text": "Where do families stay on holiday?",
+    "hash": "aa4e13b1b3a57722"
+  },
+  {
+    "text": "Great! Hotel!",
+    "hash": "43d26a608028b03c"
+  },
+  {
+    "text": "Great job! Great! Hotel!",
+    "hash": "cb7c648cebaae9d6"
   },
   {
     "text": "Pool",
     "hash": "fe4a4b365088a260"
   },
   {
+    "text": "Where do we splash and swim at the hotel?",
+    "hash": "63d6e59f41b52c3e"
+  },
+  {
+    "text": "Great! Pool!",
+    "hash": "f172e5855f750163"
+  },
+  {
+    "text": "Great job! Great! Pool!",
+    "hash": "e004dfc19c08bbb1"
+  },
+  {
     "text": "Goggles",
     "hash": "c361782bd3b3c26b"
+  },
+  {
+    "text": "What do we wear on our eyes to see underwater?",
+    "hash": "3422c090d59fccc7"
+  },
+  {
+    "text": "Great! Goggles!",
+    "hash": "d1b85495d341a27b"
+  },
+  {
+    "text": "Great job! Great! Goggles!",
+    "hash": "82e7bfad0959c165"
   },
   {
     "text": "Seagull",
     "hash": "89e549f568f24ca8"
   },
   {
+    "text": "Which white bird flies near the ferry and sea?",
+    "hash": "dc52e6aab14dcc8e"
+  },
+  {
+    "text": "Great! Seagull!",
+    "hash": "3bdcbbb7fc3a3f5b"
+  },
+  {
+    "text": "Great job! Great! Seagull!",
+    "hash": "c107ae40b5d5e60d"
+  },
+  {
     "text": "Carousel",
     "hash": "9a4a1e7ab5ceb3f4"
+  },
+  {
+    "text": "Which ride goes round and round at the funfair?",
+    "hash": "8b084ee6ca35e4cf"
+  },
+  {
+    "text": "Great! Carousel!",
+    "hash": "88703fd39da8f0ba"
+  },
+  {
+    "text": "Great job! Great! Carousel!",
+    "hash": "5e20a964ea4232cc"
+  },
+  {
+    "text": "Who helps sick people feel better at the hospital?",
+    "hash": "9728bced8ef0d161"
+  },
+  {
+    "text": "Great! Doctor!",
+    "hash": "c55dbd0f0f3675c3"
+  },
+  {
+    "text": "Great job! Great! Doctor!",
+    "hash": "fd742a6994cf9263"
   },
   {
     "text": "Bandage",
     "hash": "0788f31434c5bc73"
   },
   {
+    "text": "What gentle strip protects a small scrape?",
+    "hash": "fe1bfe88e58e7336"
+  },
+  {
+    "text": "Great! Bandage!",
+    "hash": "39751f1e9961e70a"
+  },
+  {
+    "text": "Great job! Great! Bandage!",
+    "hash": "db4e524fa986a69b"
+  },
+  {
     "text": "Medicine",
     "hash": "d869e2f51a88c1d9"
+  },
+  {
+    "text": "Listen and pop: Medicine!",
+    "hash": "c1651c70fa3f841f"
+  },
+  {
+    "text": "Great! Medicine!",
+    "hash": "998791dcdc89ee36"
+  },
+  {
+    "text": "Great job! Great! Medicine!",
+    "hash": "05f51d6ce6aac782"
   },
   {
     "text": "Monitor",
     "hash": "9dcf5e0375e1fe95"
   },
   {
+    "text": "Which big screen is on Dad’s desk?",
+    "hash": "5bfa9d724034e5b3"
+  },
+  {
+    "text": "Great! Monitor!",
+    "hash": "a38f522335559abf"
+  },
+  {
+    "text": "Great job! Great! Monitor!",
+    "hash": "7507416293fa6726"
+  },
+  {
     "text": "Printer",
     "hash": "03169c9a818f7c37"
+  },
+  {
+    "text": "Listen and pop: Printer!",
+    "hash": "1e2b749b671f2955"
+  },
+  {
+    "text": "Great! Printer!",
+    "hash": "80f29ca615b11a24"
+  },
+  {
+    "text": "Great job! Great! Printer!",
+    "hash": "5f5d64575031d48e"
   },
   {
     "text": "Under",
     "hash": "a8dd533265a69132"
   },
   {
+    "text": "Where is a ball hiding below a table?",
+    "hash": "52b5624107892c02"
+  },
+  {
+    "text": "Great! Under!",
+    "hash": "666c607d20d32ab7"
+  },
+  {
+    "text": "Great job! Great! Under!",
+    "hash": "29465629cad5fad0"
+  },
+  {
     "text": "Behind",
     "hash": "1b309a059d9875fb"
+  },
+  {
+    "text": "Where is a puppy hiding at the back of a tree?",
+    "hash": "22331ae0718a7ba9"
+  },
+  {
+    "text": "Great! Behind!",
+    "hash": "457a9a5c9a4d565c"
+  },
+  {
+    "text": "Great job! Great! Behind!",
+    "hash": "796be11090b17225"
   },
   {
     "text": "Between",
     "hash": "f18d1f7da5dfa978"
   },
   {
+    "text": "Where is a backpack sitting with a desk and chair on each side?",
+    "hash": "e1cb3688399efa16"
+  },
+  {
+    "text": "Great! Between!",
+    "hash": "22f0148de16274c8"
+  },
+  {
+    "text": "Great job! Great! Between!",
+    "hash": "27721921dabddacf"
+  },
+  {
     "text": "Above",
     "hash": "57a0f16a6b52ed92"
+  },
+  {
+    "text": "Where does a kite fly high over the park?",
+    "hash": "c96e2b4564270412"
+  },
+  {
+    "text": "Great! Above!",
+    "hash": "5c493c66c9bdc486"
+  },
+  {
+    "text": "Great job! Great! Above!",
+    "hash": "f2412882c711ca30"
   },
   {
     "text": "Umbrella",
     "hash": "0e28da301894752e"
   },
   {
+    "text": "What do we hold over our head in the rain?",
+    "hash": "764ae4e1b68ac04a"
+  },
+  {
+    "text": "Great! Umbrella!",
+    "hash": "4a92efedbdcde862"
+  },
+  {
+    "text": "Great job! Great! Umbrella!",
+    "hash": "e32d5d3611429ff0"
+  },
+  {
     "text": "Raincoat",
     "hash": "d8dd49cc97f33d7c"
+  },
+  {
+    "text": "Listen and pop: Raincoat!",
+    "hash": "23ca65e9c783b0f1"
+  },
+  {
+    "text": "Great! Raincoat!",
+    "hash": "bc4994be6a76bc53"
+  },
+  {
+    "text": "Great job! Great! Raincoat!",
+    "hash": "e38f6981b4c87f62"
   },
   {
     "text": "Snowman",
     "hash": "b26a6b13c3e3882b"
   },
   {
+    "text": "What friendly snow friend has a carrot nose?",
+    "hash": "e01a62436c87d3dc"
+  },
+  {
+    "text": "Great! Snowman!",
+    "hash": "8c305c8bf3c6a446"
+  },
+  {
+    "text": "Great job! Great! Snowman!",
+    "hash": "22d5313b43dd324c"
+  },
+  {
+    "text": "Which sea animal has eight arms?",
+    "hash": "c3cc597a76ef98df"
+  },
+  {
+    "text": "Great! Octopus!",
+    "hash": "e9aae534363ec442"
+  },
+  {
+    "text": "Great job! Great! Octopus!",
+    "hash": "4e525aeda799644d"
+  },
+  {
     "text": "Treasure",
     "hash": "aebe33983c0c7fed"
+  },
+  {
+    "text": "What shiny gold coins do pirates hide in a chest?",
+    "hash": "682f02f67a4201d1"
+  },
+  {
+    "text": "Great! Treasure!",
+    "hash": "5cb90b0b830ff307"
+  },
+  {
+    "text": "Great job! Great! Treasure!",
+    "hash": "650a8a6b3b82b120"
+  },
+  {
+    "text": "Which boat dives deep underwater?",
+    "hash": "2f5333d12e9b037f"
+  },
+  {
+    "text": "Great! Submarine!",
+    "hash": "ce6978de7b7ee975"
+  },
+  {
+    "text": "Great job! Great! Submarine!",
+    "hash": "f1c526e36a1f3d5f"
   },
   {
     "text": "I like red apples! Yummy!",
@@ -11946,5 +18462,1201 @@
   {
     "text": "That is A submarine. I am asking: What appears in the sky after the rain?",
     "hash": "7cd378ed74f5d4c4"
+  },
+  {
+    "text": "Likes and Magic Words",
+    "hash": "d1ca3e9a9a423f35"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 1: Likes and Magic Words?",
+    "hash": "829b4dc3f4671c96"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 1 is complete!",
+    "hash": "d32393ded2ae8fcc"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 1!",
+    "hash": "afaf2e927356cd0e"
+  },
+  {
+    "text": "My World and Toys",
+    "hash": "a2a5fe2b59f3a43e"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 2: My World and Toys?",
+    "hash": "b196c3b9b04d3d21"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 2 is complete!",
+    "hash": "c7c5c19f019ab6bf"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 2!",
+    "hash": "85a00124ad983404"
+  },
+  {
+    "text": "I Can Do It!",
+    "hash": "d9ba70544165bcac"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 3: I Can Do It!?",
+    "hash": "f8093e866b8d6d0a"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 3 is complete!",
+    "hash": "fea0491f5b69de88"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 3!",
+    "hash": "1e8986b5803f06d1"
+  },
+  {
+    "text": "Game Time Talk",
+    "hash": "c94a68d95d5be4c1"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 4: Game Time Talk?",
+    "hash": "fad5789de21fc620"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 4 is complete!",
+    "hash": "a39e9680c76ae297"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 4!",
+    "hash": "85a2920001bfbe39"
+  },
+  {
+    "text": "Move Freeze!",
+    "hash": "8804708370315a03"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 5: Move Freeze!?",
+    "hash": "8c17b17fc393c786"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 5 is complete!",
+    "hash": "7282e27d1bb43268"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 5!",
+    "hash": "acdd6c136e6972ac"
+  },
+  {
+    "text": "Count and Spot It",
+    "hash": "220a3de6b92c62e6"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 6: Count and Spot It?",
+    "hash": "cf614e2401415850"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 6 is complete!",
+    "hash": "5604bf81bf72ac2c"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 6!",
+    "hash": "a487ed8c636190dd"
+  },
+  {
+    "text": "Hide and Seek",
+    "hash": "f0c4e9559ca4bd60"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 7: Hide and Seek?",
+    "hash": "4dd04ac7d8093413"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 7 is complete!",
+    "hash": "af0f56d5addd7d45"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 7!",
+    "hash": "e28ee706c1cfc838"
+  },
+  {
+    "text": "Sink or Float Lab",
+    "hash": "2a177411360fcff9"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 8: Sink or Float Lab?",
+    "hash": "cf4ca4970ce4c60b"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 8 is complete!",
+    "hash": "20597f8243bb3add"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 8!",
+    "hash": "a92410d7d163451b"
+  },
+  {
+    "text": "School Morning Clock",
+    "hash": "9eacb9d62881092b"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 9: School Morning Clock?",
+    "hash": "e21bfaae7bcc3312"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 9 is complete!",
+    "hash": "47e76e1e7f960898"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 9!",
+    "hash": "b9949f7ecc336799"
+  },
+  {
+    "text": "Question Detective",
+    "hash": "253bed1d55d1ccab"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 10: Question Detective?",
+    "hash": "4d56924f5766cb49"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 10 is complete!",
+    "hash": "33010905946f0950"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 10!",
+    "hash": "2070739c701191a7"
+  },
+  {
+    "text": "Compare and Story Time",
+    "hash": "1d20b728c0ced975"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 11: Compare and Story Time?",
+    "hash": "aeb05a1636deae20"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 11 is complete!",
+    "hash": "d92d730cc5372dad"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 11!",
+    "hash": "fd1441b4b20d3d90"
+  },
+  {
+    "text": "World Records",
+    "hash": "2bd55f6ad1ddc477"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 12: World Records?",
+    "hash": "12e196417ca39677"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 12 is complete!",
+    "hash": "8aa59b930ada6692"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 12!",
+    "hash": "7df9346f12ca32ea"
+  },
+  {
+    "text": "Yesterday Time Machine",
+    "hash": "b14ca9a34ebf5c0d"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 13: Yesterday Time Machine?",
+    "hash": "2e856c01ecb00f72"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 13 is complete!",
+    "hash": "7f89edfc10266dda"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 13!",
+    "hash": "eddbc31a0726f6eb"
+  },
+  {
+    "text": "Tomorrow Dreams",
+    "hash": "fc4a9f5d486813ae"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 14: Tomorrow Dreams?",
+    "hash": "3ec1a6484ec75141"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 14 is complete!",
+    "hash": "077085c78b9ffe12"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 14!",
+    "hash": "b4bd5cc8cd1efdad"
+  },
+  {
+    "text": "Deniz’s World",
+    "hash": "5ea9e6efa2f29dfb"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 15: Deniz’s World?",
+    "hash": "5fd28352f944b9fc"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 15 is complete!",
+    "hash": "594facb0bebf1b43"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 15!",
+    "hash": "862ab1282c10a103"
+  },
+  {
+    "text": "Science and Math Wizard",
+    "hash": "ff5eebdacdaa5af8"
+  },
+  {
+    "text": "Hi Deniz! Ready for Stop 16: Science and Math Wizard?",
+    "hash": "b66ba97c7e1c1122"
+  },
+  {
+    "text": "Woohoo, Deniz! Stop 16 is complete!",
+    "hash": "eb4e58029fe8cbad"
+  },
+  {
+    "text": "Amazing job Deniz! You finished Stop 16!",
+    "hash": "24f4f39879d79eec"
+  },
+  {
+    "text": "Great going, Deniz! Just 1 more to open the chest!",
+    "hash": "b55cbabbe3df9da2"
+  },
+  {
+    "text": "Great going, Deniz! Just 2 more to open the chest!",
+    "hash": "c8749082236f4f7a"
+  },
+  {
+    "text": "Great going, Deniz! Just 3 more to open the chest!",
+    "hash": "3577853b9aafa98a"
+  },
+  {
+    "text": "Awesome job Deniz! You opened the treasure chest!",
+    "hash": "233d614b86b5becd"
+  },
+  {
+    "text": "Welcome to Arcade Pier, Deniz! Pick a game to win stars!",
+    "hash": "e7d851d9fd628250"
+  },
+  {
+    "text": "Listen to all 4 phrases, or tap Say It to echo me!",
+    "hash": "caf8085e01e37639"
+  },
+  {
+    "text": "Your turn, Deniz! Listen and say this aloud!",
+    "hash": "4043227c21fd6fcb"
+  },
+  {
+    "text": "Superstar Deniz! You spoke every phrase!",
+    "hash": "94037c1b219aa5d3"
+  },
+  {
+    "text": "Great speaking!",
+    "hash": "17b0e86bf020bb27"
+  },
+  {
+    "text": "Hello Deniz! I am Leo. What is your favorite color?",
+    "hash": "e9808b0113298b20"
+  },
+  {
+    "text": "My favorite color is red!",
+    "hash": "939d17fab5c0934f"
+  },
+  {
+    "text": "I like blue!",
+    "hash": "0abd8d94a56a66ca"
+  },
+  {
+    "text": "Cool! What animal do you like?",
+    "hash": "b99685e04c35038a"
+  },
+  {
+    "text": "I like dogs!",
+    "hash": "708372ce27350e96"
+  },
+  {
+    "text": "I like dolphins!",
+    "hash": "e1dd7d0bbc3b990b"
+  },
+  {
+    "text": "Awesome! Are you hungry? Pizza or apple?",
+    "hash": "e5fc14a72b8c5d08"
+  },
+  {
+    "text": "Pizza, please!",
+    "hash": "58130a66cfe00f34"
+  },
+  {
+    "text": "An apple, please!",
+    "hash": "a44b0c96eb210d9c"
+  },
+  {
+    "text": "Yum! You spoke great English today! High five!",
+    "hash": "fa2533cddbeae90d"
+  },
+  {
+    "text": "Thank you Leo!",
+    "hash": "61bb721c3598bec2"
+  },
+  {
+    "text": "Let us play again!",
+    "hash": "36bdd90382aec5d6"
+  },
+  {
+    "text": "Welcome Deniz! I am the Pizza Chef! Say hello and order!",
+    "hash": "9dd150cb5b828e1d"
+  },
+  {
+    "text": "Hello Chef!",
+    "hash": "b58106e9e1bd9db0"
+  },
+  {
+    "text": "I want a pizza, please!",
+    "hash": "0501c861df513c59"
+  },
+  {
+    "text": "Hello! Cheese pizza or salami pizza?",
+    "hash": "1a8584c921296971"
+  },
+  {
+    "text": "Cheese pizza, please!",
+    "hash": "eddf8610eaeb728d"
+  },
+  {
+    "text": "Salami pizza, please!",
+    "hash": "47cbde7efc49e5a6"
+  },
+  {
+    "text": "Great choice! Do you want apple juice or water?",
+    "hash": "ffe3ca6dcc88a5d0"
+  },
+  {
+    "text": "Apple juice, please!",
+    "hash": "5caa8c22aff83768"
+  },
+  {
+    "text": "Water, please!",
+    "hash": "702dd3ea96cba57c"
+  },
+  {
+    "text": "Here you go! Hot pizza and a cold drink!",
+    "hash": "1a27361069857adf"
+  },
+  {
+    "text": "Thank you very much!",
+    "hash": "85b831256c47e24f"
+  },
+  {
+    "text": "It is yummy!",
+    "hash": "bc2577364d40b4a3"
+  },
+  {
+    "text": "Oh no Deniz! I lost my orange basketball! Where is it?",
+    "hash": "f2f5f60d30bc26ac"
+  },
+  {
+    "text": "Where is the ball?",
+    "hash": "f5c2c305d77d5b0d"
+  },
+  {
+    "text": "Let us look for it!",
+    "hash": "06ef86356d47eb1a"
+  },
+  {
+    "text": "Is it under the bed or behind the door?",
+    "hash": "7fc450aa64a33e3f"
+  },
+  {
+    "text": "Look under the bed!",
+    "hash": "b982b85fc4ed359b"
+  },
+  {
+    "text": "Look behind the door!",
+    "hash": "c0713d80ec7d1c04"
+  },
+  {
+    "text": "Aha! I found the ball! Can you pass or shoot?",
+    "hash": "b77de6aa988c6cfb"
+  },
+  {
+    "text": "I can shoot!",
+    "hash": "be66bc66851899c6"
+  },
+  {
+    "text": "Swish! Three points! Great teamwork!",
+    "hash": "a7881591f4ee03cc"
+  },
+  {
+    "text": "Let us play!",
+    "hash": "d7ec17338b6a548c"
+  },
+  {
+    "text": "Hey Deniz! Which card do you pick: Pikachu or Fire Dragon?",
+    "hash": "3aa322b4dfd5d979"
+  },
+  {
+    "text": "I pick Pikachu!",
+    "hash": "7577e6e6a87ca71d"
+  },
+  {
+    "text": "I pick Fire Dragon!",
+    "hash": "0fd321fa92248326"
+  },
+  {
+    "text": "Cool card! What can it do? Fly or jump?",
+    "hash": "548cb7a6735d8c46"
+  },
+  {
+    "text": "It can fly fast!",
+    "hash": "4d71f9e949afbe5f"
+  },
+  {
+    "text": "It can jump high!",
+    "hash": "cb03258a24965241"
+  },
+  {
+    "text": "Wow, super power! What color is your card?",
+    "hash": "32c8a39c62e48b19"
+  },
+  {
+    "text": "It is bright yellow!",
+    "hash": "7dc0d0e5b8f657b5"
+  },
+  {
+    "text": "It is red and orange!",
+    "hash": "17491bb4a13148ee"
+  },
+  {
+    "text": "You win the card battle! Shiny champion!",
+    "hash": "6211727d6cbd15a2"
+  },
+  {
+    "text": "I am the champion!",
+    "hash": "3585370ad876c081"
+  },
+  {
+    "text": "Hello Chef Deniz! Welcome to the Italian Kitchen! What pasta do you want?",
+    "hash": "b8113a230ccdf805"
+  },
+  {
+    "text": "Spaghetti Bolognese, please!",
+    "hash": "bde2c447bbbd21ad"
+  },
+  {
+    "text": "With extra sauce, please!",
+    "hash": "c62294a316628739"
+  },
+  {
+    "text": "Yum! Bolognese is delicious! Do you want cheese on top?",
+    "hash": "9ee6b9e502fcd1b1"
+  },
+  {
+    "text": "Yes, lots of cheese, please!",
+    "hash": "a6cef058da30c318"
+  },
+  {
+    "text": "A little bit of cheese!",
+    "hash": "2a3758bde81503d7"
+  },
+  {
+    "text": "Here is your warm spaghetti! What dessert should we bake: cake or chocolate pudding?",
+    "hash": "90d01f6cb9242bf9"
+  },
+  {
+    "text": "Chocolate pudding, please!",
+    "hash": "e9d824076cb60d34"
+  },
+  {
+    "text": "Yummy cake with Mom and Dad!",
+    "hash": "524ce08f11038be7"
+  },
+  {
+    "text": "Delicious feast with Mom Melis and Dad Ege! High five, Master Chef!",
+    "hash": "2b9137ca608dab37"
+  },
+  {
+    "text": "Thank you Chef Leo!",
+    "hash": "00f85b6a84d65c71"
+  },
+  {
+    "text": "That was so yummy!",
+    "hash": "a4d5c2276b703ae1"
+  },
+  {
+    "text": "Welcome to the pool Deniz! Are you ready to earn the Silver Medal?",
+    "hash": "b30addebdba5fa74"
+  },
+  {
+    "text": "Yes, I am ready!",
+    "hash": "ad638b304b25da6e"
+  },
+  {
+    "text": "Let us jump in the water!",
+    "hash": "acb68cad89e89006"
+  },
+  {
+    "text": "Splendid! Can you swim fast or dive deep to find a ring?",
+    "hash": "b8da443e9f478abb"
+  },
+  {
+    "text": "I can dive deep!",
+    "hash": "b53e1770b2d6e51a"
+  },
+  {
+    "text": "Great job! How many laps did you finish in the big pool?",
+    "hash": "1176a3ddd43aa2be"
+  },
+  {
+    "text": "I swam ten laps!",
+    "hash": "780b262f0c1ae6c9"
+  },
+  {
+    "text": "I swam twenty laps!",
+    "hash": "9fe5b320f16c1382"
+  },
+  {
+    "text": "Hooray! Coach says you earned the Silver Medal! Shining silver champion!",
+    "hash": "bc51bb96413e0769"
+  },
+  {
+    "text": "I got the Silver Medal!",
+    "hash": "ced034099efe6030"
+  },
+  {
+    "text": "Thank you Coach Leo!",
+    "hash": "57d8f3718506bbbe"
+  },
+  {
+    "text": "Welcome Master Builder Deniz! What huge Lego set are we building today?",
+    "hash": "a452d426bf868e35"
+  },
+  {
+    "text": "A giant space rocket!",
+    "hash": "b8055deccfb83772"
+  },
+  {
+    "text": "A grand medieval castle!",
+    "hash": "11198cec1f938842"
+  },
+  {
+    "text": "Awesome! We have thousands of colorful bricks! Which color first?",
+    "hash": "f44f9b2fb2a5b243"
+  },
+  {
+    "text": "Red and yellow bricks!",
+    "hash": "03483130622f0a0f"
+  },
+  {
+    "text": "Blue and grey bricks!",
+    "hash": "3bf211173f9785cb"
+  },
+  {
+    "text": "Snap, snap! Look at that tall tower! Should we put a minifigure on top?",
+    "hash": "8b454d4968751800"
+  },
+  {
+    "text": "Yes, put the astronaut on top!",
+    "hash": "ccd353ad06c4caec"
+  },
+  {
+    "text": "Put Master Deniz on top!",
+    "hash": "6334752115c26cf0"
+  },
+  {
+    "text": "Incredible build! You truly are a Lego Master Genius!",
+    "hash": "543ae928d00cfa2b"
+  },
+  {
+    "text": "Lego building is the best!",
+    "hash": "b3888540f8191c04"
+  },
+  {
+    "text": "Let us build more!",
+    "hash": "ae9d0dc6a42383a4"
+  },
+  {
+    "text": "It is Monday piano time with Jeremias, Deniz! What song do you want to play?",
+    "hash": "44794b7084148553"
+  },
+  {
+    "text": "A happy fast song!",
+    "hash": "ae1640938932a439"
+  },
+  {
+    "text": "A gentle classical melody!",
+    "hash": "a25c04cbac39da82"
+  },
+  {
+    "text": "Lovely! Press the black and white keys gently! Fast tempo or slow tempo?",
+    "hash": "5a43334d84de46e0"
+  },
+  {
+    "text": "Fast tempo, please!",
+    "hash": "7f8c979c114fb9d8"
+  },
+  {
+    "text": "Slow and sweet melody!",
+    "hash": "bd65812814666e36"
+  },
+  {
+    "text": "Listen to those chords: Do, Re, Mi, Fa, Sol! Can you play with both hands?",
+    "hash": "4ca461a40a0cfa7c"
+  },
+  {
+    "text": "Yes, with both hands!",
+    "hash": "51c9e8f7f85c202e"
+  },
+  {
+    "text": "I practice every week!",
+    "hash": "63c48081bd2aa748"
+  },
+  {
+    "text": "Bravo! Jeremias and the audience are applauding! Standing ovation!",
+    "hash": "4f1926ae255dc3c5"
+  },
+  {
+    "text": "Thank you Jeremias!",
+    "hash": "21381d53c19e8f57"
+  },
+  {
+    "text": "Music is so fun!",
+    "hash": "2e64b74d252d3d37"
+  },
+  {
+    "text": "Checker Deniz is on air! Woozle Goozle has a wild invention! What question should we solve?",
+    "hash": "4f1257b4cd43df3e"
+  },
+  {
+    "text": "Why do rockets fly to space?",
+    "hash": "d6915d232e6263d0"
+  },
+  {
+    "text": "How do 5G phone signals travel?",
+    "hash": "ba6e062abf2606fa"
+  },
+  {
+    "text": "Woozle says: BOOM! The experiment is ready! What happens if we press the red button?",
+    "hash": "421ca0b632cec49e"
+  },
+  {
+    "text": "Press the button and watch it fly!",
+    "hash": "136ee94bba123985"
+  },
+  {
+    "text": "Check the science screen!",
+    "hash": "c079d46b5b7ee6de"
+  },
+  {
+    "text": "Aha! Science mystery solved! Who should we ask next: Dad Dr. Ege or Mom Melis?",
+    "hash": "95d3b622932c25ac"
+  },
+  {
+    "text": "Ask Dad Dr. Ege about 5G signals!",
+    "hash": "cda3ac71bceea79f"
+  },
+  {
+    "text": "Ask Mom Melis about the hospital!",
+    "hash": "61b7ee3f12ce152c"
+  },
+  {
+    "text": "Checker Question checked! High five, Junior Scientist Deniz!",
+    "hash": "d9b6687f06322c6c"
+  },
+  {
+    "text": "Checker Deniz checks it all!",
+    "hash": "ce7a60f7a07593fe"
+  },
+  {
+    "text": "Woozle was so funny!",
+    "hash": "5bae75e10596cdc8"
+  },
+  {
+    "text": "Good morning Deniz! Welcome to Class 1b at GGS Laurensberg! What is our first lesson?",
+    "hash": "82ac5fe54521dc8f"
+  },
+  {
+    "text": "Reading and writing!",
+    "hash": "cb082714f6a90d0e"
+  },
+  {
+    "text": "Math and numbers!",
+    "hash": "88c26480f27909d0"
+  },
+  {
+    "text": "Frau Schwarz writes a puzzle on the board! Can you solve two-digit addition: 20 plus 15?",
+    "hash": "ccb4b13b5462605f"
+  },
+  {
+    "text": "Thirty-five! 3 5",
+    "hash": "0905e1ec4e0b8cc6"
+  },
+  {
+    "text": "I love math puzzles!",
+    "hash": "4905ec164d45c6c9"
+  },
+  {
+    "text": "Ding dong! Recess bell rings! Which friends are playing in the schoolyard: Ojas, Elias, Julius, Vukasin, or Liam?",
+    "hash": "2e57b22e685ab2c0"
+  },
+  {
+    "text": "Let us play tag with all of them!",
+    "hash": "a40c6897f2d16bee"
+  },
+  {
+    "text": "Let us play soccer together!",
+    "hash": "e82ecaca40209d06"
+  },
+  {
+    "text": "School day in Aachen is awesome! You are a brilliant student, Deniz!",
+    "hash": "952b0317c837bae3"
+  },
+  {
+    "text": "See you tomorrow Frau Schwarz!",
+    "hash": "e39d0158ddf719cc"
+  },
+  {
+    "text": "High five friends!",
+    "hash": "821dc0408fd25c84"
+  },
+  {
+    "text": "Ready for space Deniz? Let us build a rocket! What color?",
+    "hash": "8bbc4e8d9e28c0ba"
+  },
+  {
+    "text": "A red rocket, please!",
+    "hash": "864faa3a659bb019"
+  },
+  {
+    "text": "Blue and yellow!",
+    "hash": "5b633f3aa199a6b9"
+  },
+  {
+    "text": "Awesome rocket! Now count down: three, two, one!",
+    "hash": "4dea91164913b81f"
+  },
+  {
+    "text": "Three, two, one!",
+    "hash": "d2da3752d8d42ad9"
+  },
+  {
+    "text": "Blast off!",
+    "hash": "077dcd5b01f2e057"
+  },
+  {
+    "text": "Whoosh! Look out the window! What do you see?",
+    "hash": "5f68404859ae832d"
+  },
+  {
+    "text": "I see bright stars!",
+    "hash": "698fbf98dc28dd05"
+  },
+  {
+    "text": "I see the big moon!",
+    "hash": "77c6023075f42103"
+  },
+  {
+    "text": "We landed on Mars! Great space mission!",
+    "hash": "120920b7c33905fe"
+  },
+  {
+    "text": "That was awesome!",
+    "hash": "d2f9a8c906282372"
+  },
+  {
+    "text": "Fly back home!",
+    "hash": "97a465ba65ae9b60"
+  },
+  {
+    "text": "A burger and fries, please!",
+    "hash": "85b64868b71d15e8"
+  },
+  {
+    "text": "Where is the pool?",
+    "hash": "819409142593d6f8"
+  },
+  {
+    "text": "I feel happy today!",
+    "hash": "5a616ed89fc26598"
+  },
+  {
+    "text": "Good night, sweet dreams!",
+    "hash": "cef5b419fc3b09d1"
+  },
+  {
+    "text": "Let us fly to Antalya!",
+    "hash": "53c88eb6f078e951"
+  },
+  {
+    "text": "Let us go on the water slide!",
+    "hash": "c94e6c0eb2658898"
+  },
+  {
+    "text": "What is on the monitor?",
+    "hash": "2e506fc83cdc6c3b"
+  },
+  {
+    "text": "You help people feel better!",
+    "hash": "8a28c18b01e31775"
+  },
+  {
+    "text": "The ball is under the table.",
+    "hash": "8d9525112590e083"
+  },
+  {
+    "text": "The puppy is behind the tree.",
+    "hash": "48309fc48505d0ab"
+  },
+  {
+    "text": "Happy birthday at Ballorig!",
+    "hash": "3b9d7e437225ea86"
+  },
+  {
+    "text": "I want ice cream, please!",
+    "hash": "1dff4a7be26aa82a"
+  },
+  {
+    "text": "I have a red umbrella.",
+    "hash": "9ef1e9acbce25532"
+  },
+  {
+    "text": "The giraffe is very tall!",
+    "hash": "6609ab4ff1c90187"
+  },
+  {
+    "text": "Color the car red!",
+    "hash": "a4dfdc882758e796"
+  },
+  {
+    "text": "Color the elephant blue!",
+    "hash": "4704df5e4f277add"
+  },
+  {
+    "text": "Color the umbrella yellow!",
+    "hash": "87be1bd50c227e70"
+  },
+  {
+    "text": "Color the dinosaur green!",
+    "hash": "746407f7d1bcaa72"
+  },
+  {
+    "text": "Color the backpack purple!",
+    "hash": "9c91b4ff9accfac6"
+  },
+  {
+    "text": "Awesome! red Car!",
+    "hash": "b1feaad538c92280"
+  },
+  {
+    "text": "Awesome! blue Elephant!",
+    "hash": "8997ca479c21b0be"
+  },
+  {
+    "text": "Awesome! yellow Umbrella!",
+    "hash": "9ee16aed3d82f29f"
+  },
+  {
+    "text": "Awesome! green Dinosaur!",
+    "hash": "46df190a216544dd"
+  },
+  {
+    "text": "Awesome! purple Backpack!",
+    "hash": "5036166933fd4f3f"
+  },
+  {
+    "text": "Put the soccer ball UNDER the table!",
+    "hash": "5ee898c4f7a4bfcb"
+  },
+  {
+    "text": "Put the orange cat ON the sofa!",
+    "hash": "bc14bd8cd9dfa16c"
+  },
+  {
+    "text": "Put the teddy bear IN the box!",
+    "hash": "c70013863ee3375d"
+  },
+  {
+    "text": "Put the puppy BEHIND the tree!",
+    "hash": "c076fe9119b29aca"
+  },
+  {
+    "text": "Put the shoes UNDER the chair!",
+    "hash": "9ff0092907205d7f"
+  },
+  {
+    "text": "Great! On the sofa!",
+    "hash": "e365115e50ce36c5"
+  },
+  {
+    "text": "Great! Under the table!",
+    "hash": "e1835d515ba195e0"
+  },
+  {
+    "text": "Great! In the box!",
+    "hash": "8a2d6026b78850b2"
+  },
+  {
+    "text": "Great! Behind the tree!",
+    "hash": "2bd1072b83e05e6d"
+  },
+  {
+    "text": "Great! Under the chair!",
+    "hash": "aadb84471c723645"
+  },
+  {
+    "text": "I can fly to Antalya!",
+    "hash": "b38be8e6ef1a5fa4"
+  },
+  {
+    "text": "I am a pilot on a big plane!",
+    "hash": "6210a262e7b5586e"
+  },
+  {
+    "text": "Look at the blue sea from the sky!",
+    "hash": "fe73420e2497c4e7"
+  },
+  {
+    "text": "Earn 10 bricks to unlock Antalya Pilot!",
+    "hash": "c4f4752304b60b31"
+  },
+  {
+    "text": "Max level! Awesome Antalya Pilot!",
+    "hash": "4c17afa0b8ef5e17"
+  },
+  {
+    "text": "Dolphins swim fast in the sea!",
+    "hash": "2fa5a330f9563814"
+  },
+  {
+    "text": "The happy dolphin can jump high!",
+    "hash": "4a8f38d716af6697"
+  },
+  {
+    "text": "I see two dolphins in the blue water!",
+    "hash": "540af7a832bad4cb"
+  },
+  {
+    "text": "Earn 25 bricks to unlock Happy Dolphin!",
+    "hash": "a6d5bc7caaafdf12"
+  },
+  {
+    "text": "Max level! Awesome Happy Dolphin!",
+    "hash": "e2b1b4a046801bef"
+  },
+  {
+    "text": "The giant dinosaur lives in the museum!",
+    "hash": "04f5df45794e6525"
+  },
+  {
+    "text": "T-Rex has got very big white teeth!",
+    "hash": "c08084a745787e5b"
+  },
+  {
+    "text": "Dinosaur bones are super old and huge!",
+    "hash": "b70e4af0a027ec87"
+  },
+  {
+    "text": "Earn 45 bricks to unlock Museum T-Rex!",
+    "hash": "ac6879eaef64ae5c"
+  },
+  {
+    "text": "Max level! Awesome Museum T-Rex!",
+    "hash": "28b9791c111d3895"
+  },
+  {
+    "text": "I play a happy song on the piano!",
+    "hash": "f1052da116ff9401"
+  },
+  {
+    "text": "Listen to my fast piano music!",
+    "hash": "a6077fd07435c6aa"
+  },
+  {
+    "text": "I practice piano every day at home!",
+    "hash": "2200728b9ce1446e"
+  },
+  {
+    "text": "Earn 70 bricks to unlock Piano Star!",
+    "hash": "85bc5c2e63089398"
+  },
+  {
+    "text": "Max level! Awesome Piano Star!",
+    "hash": "f757d1dc28e7c4d1"
+  },
+  {
+    "text": "Three, two, one, blast off to space!",
+    "hash": "9683d98b87eba5d8"
+  },
+  {
+    "text": "My red Lego rocket flies to Mars!",
+    "hash": "228d9e4636f8cad6"
+  },
+  {
+    "text": "I can see the bright stars and moon!",
+    "hash": "d18f074f9225d369"
+  },
+  {
+    "text": "Earn 100 bricks to unlock Space Explorer!",
+    "hash": "f647fb2cfa6c089a"
+  },
+  {
+    "text": "Max level! Awesome Space Explorer!",
+    "hash": "8dfbc5ba86de08f1"
+  },
+  {
+    "text": "We found the gold treasure chest!",
+    "hash": "13d473f93ddb7779"
+  },
+  {
+    "text": "The green pirate parrot can talk!",
+    "hash": "cb6bba8b8b2a1f01"
+  },
+  {
+    "text": "Look behind the tree for the treasure!",
+    "hash": "8a4208fe8aaa7ceb"
+  },
+  {
+    "text": "Earn 140 bricks to unlock Pirate Parrot!",
+    "hash": "a3e60920d415d5ce"
+  },
+  {
+    "text": "Max level! Awesome Pirate Parrot!",
+    "hash": "066f91c9f984ee91"
+  },
+  {
+    "text": "Seagulls fly next to our ferry in Istanbul!",
+    "hash": "aea89e146acec0ef"
+  },
+  {
+    "text": "Our big white ferry crosses the sea!",
+    "hash": "ffa10d72001a5b8a"
+  },
+  {
+    "text": "I like drinking tea on the ferry boat!",
+    "hash": "784af0bcaf809ad4"
+  },
+  {
+    "text": "Earn 190 bricks to unlock Bosphorus Captain!",
+    "hash": "f2057f2382be41ca"
+  },
+  {
+    "text": "Max level! Awesome Bosphorus Captain!",
+    "hash": "8bed9787cb1de201"
+  },
+  {
+    "text": "Happy birthday party in Ballorig Kerkrade!",
+    "hash": "9cd516618f704e5c"
+  },
+  {
+    "text": "Let us jump in the colorful ball pit!",
+    "hash": "0b5aa7129c52be7c"
+  },
+  {
+    "text": "Can I have a slice of birthday cake, please?",
+    "hash": "9d0015411b50c8ac"
+  },
+  {
+    "text": "Earn 250 bricks to unlock Ballorig Champion!",
+    "hash": "42768a75b9160157"
+  },
+  {
+    "text": "Max level! Awesome Ballorig Champion!",
+    "hash": "74655b65a20a6bc7"
+  },
+  {
+    "text": "Cat and Hat rhyme!",
+    "hash": "1cdf1abbb2ffd25d"
+  },
+  {
+    "text": "Dog and Frog rhyme!",
+    "hash": "2a4c6267b499c6ce"
+  },
+  {
+    "text": "Sun and Run rhyme!",
+    "hash": "b12b7a3014d0def7"
+  },
+  {
+    "text": "Ball and Tall rhyme!",
+    "hash": "45697fc12a6d6c3c"
+  },
+  {
+    "text": "Star and Car rhyme!",
+    "hash": "49948273c5df00de"
+  },
+  {
+    "text": "Cake and Snake rhyme!",
+    "hash": "499f2b60356f3f25"
+  },
+  {
+    "text": "Bee and Tree rhyme!",
+    "hash": "b7f1c319a6463c9c"
+  },
+  {
+    "text": "Fox and Box rhyme!",
+    "hash": "86037cb515ae26ef"
+  },
+  {
+    "text": "Boat and Coat rhyme!",
+    "hash": "749951df558fb275"
+  },
+  {
+    "text": "Moon and Spoon rhyme!",
+    "hash": "c599f4c84f836d77"
+  },
+  {
+    "text": "Bed and Red rhyme!",
+    "hash": "d58538ea1b98cc90"
+  },
+  {
+    "text": "Mouse and House rhyme!",
+    "hash": "7e253a89d02b5550"
+  },
+  {
+    "text": "Bear and Pear rhyme!",
+    "hash": "17f587f38873c81f"
+  },
+  {
+    "text": "Duck and Truck rhyme!",
+    "hash": "b7838fdc879da9f8"
+  },
+  {
+    "text": "King and Ring rhyme!",
+    "hash": "431f815eafb71548"
+  },
+  {
+    "text": "Train and Rain rhyme!",
+    "hash": "6fa27e70d8422296"
+  },
+  {
+    "text": "Trip",
+    "hash": "e50f4124dbfa2acc"
+  },
+  {
+    "text": "Ship and Trip rhyme!",
+    "hash": "61de0a68c47f7cd1"
+  },
+  {
+    "text": "Dish",
+    "hash": "67b6e0f499544908"
+  },
+  {
+    "text": "Fish and Dish rhyme!",
+    "hash": "5d6faf8a0b19fe4c"
+  },
+  {
+    "text": "Book and Cook rhyme!",
+    "hash": "aadea6faa183a292"
+  },
+  {
+    "text": "Clock and Rock rhyme!",
+    "hash": "fc35194a6c090e34"
+  },
+  {
+    "text": "Pin",
+    "hash": "49152bc5dd45a4d0"
+  },
+  {
+    "text": "Crane",
+    "hash": "1cfce3433986a239"
   }
 ]

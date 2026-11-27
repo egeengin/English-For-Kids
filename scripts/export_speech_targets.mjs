@@ -1,4 +1,5 @@
 import { writeFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
 import { CURRICULUM_LEVELS } from '../src/data/curriculum.js';
@@ -8,18 +9,12 @@ import { SCENES_DATA } from '../src/data/scenesData.js';
 import { getStoryWorlds } from '../src/data/storyData.js';
 import { VOCAB_BANK_500 } from '../src/data/vocabularyBank500.js';
 import { DAY_LESSONS } from '../src/data/dailyLessonsData.js';
+import { ISLAND_STOPS_BY_DAY_ID } from '../src/data/islandMapData.js';
+import { LEO_MISSIONS } from '../src/utils/gemini.js';
+import { cleanTextForTTS } from '../src/utils/speech.js';
 
 function cleanText(text) {
-  const value = String(text || '').trim();
-  if (!value) return '';
-  const withSpaces = /^[a-z0-9_]+$/i.test(value) && value.includes('_')
-    ? value.replace(/_/g, ' ')
-    : value;
-  return withSpaces
-    .replace(/[^\p{L}\p{N}\s.,!?\x27’":;-]/gu, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 1800);
+  return cleanTextForTTS(text);
 }
 
 function hashClip(text) {
@@ -49,9 +44,14 @@ for (const lvl of EXTRA_LEVELS || []) {
   }
 }
 
-// 3. Vocab bank 500
+// 3. Vocab bank 500 (Balloon Pop words, clues, and repeat phrases)
 for (const it of VOCAB_BANK_500 || []) {
   add(it.word);
+  if (it.questionEn) add(it.questionEn);
+  if (it.repeatPhrase) {
+    add(it.repeatPhrase);
+    add(`Great job! ${it.repeatPhrase}`);
+  }
 }
 
 // 4. Daily Lessons
@@ -170,7 +170,6 @@ try {
 }
 
 // 11. Mini Books
-import { readFileSync } from 'node:fs';
 try {
   const mbCode = readFileSync('src/components/MiniBooksReader.jsx', 'utf8');
   const startIdx = mbCode.indexOf('function getMiniBooks');
@@ -190,6 +189,114 @@ try {
         }
       }
     }
+  }
+} catch {
+  // ignore
+}
+
+// 12. Adventure Island stops & Leo greetings/celebrations
+for (const stop of Object.values(ISLAND_STOPS_BY_DAY_ID || {})) {
+  add(stop.titleEn);
+  add(`Hi Deniz! Ready for Stop ${stop.stopNumber}: ${stop.titleEn}?`);
+  add(`Woohoo, Deniz! Stop ${stop.stopNumber} is complete!`);
+  add(`Amazing job Deniz! You finished Stop ${stop.stopNumber}!`);
+}
+for (const n of [1, 2, 3]) {
+  add(`Great going, Deniz! Just ${n} more to open the chest!`);
+}
+add('Awesome job Deniz! You opened the treasure chest!');
+add('Welcome to Arcade Pier, Deniz! Pick a game to win stars!');
+add('Listen to all 4 phrases, or tap Say It to echo me!');
+add('Your turn, Deniz! Listen and say this aloud!');
+add('Superstar Deniz! You spoke every phrase!');
+add('Great speaking!');
+
+// 13. Walkie-Talkie Leo Missions
+for (const m of LEO_MISSIONS || []) {
+  if (typeof m.starterEn === 'function') add(m.starterEn('Deniz'));
+  for (const h of m.starterHints || []) add(h);
+  for (const sp of m.stepPrompts || []) {
+    add(sp.en);
+    for (const h of sp.hints || []) add(h);
+  }
+}
+
+// 14. QuickSpeakGame
+try {
+  const qsCode = readFileSync('src/components/QuickSpeakGame.jsx', 'utf8');
+  for (const match of qsCode.matchAll(/phrase:\s*'([^']+)'/g)) {
+    add(match[1]);
+  }
+} catch {
+  // ignore
+}
+
+// 15. ListenColorGame
+for (const prompt of [
+  'Color the car red!',
+  'Color the elephant blue!',
+  'Color the umbrella yellow!',
+  'Color the dinosaur green!',
+  'Color the backpack purple!',
+  'Red',
+  'Blue',
+  'Yellow',
+  'Green',
+  'Purple',
+  'Awesome! red Car!',
+  'Awesome! blue Elephant!',
+  'Awesome! yellow Umbrella!',
+  'Awesome! green Dinosaur!',
+  'Awesome! purple Backpack!',
+]) {
+  add(prompt);
+}
+
+// 16. PutItThereGame
+for (const prompt of [
+  'Put the soccer ball UNDER the table!',
+  'Put the orange cat ON the sofa!',
+  'Put the teddy bear IN the box!',
+  'Put the puppy BEHIND the tree!',
+  'Put the shoes UNDER the chair!',
+  'Great! On the sofa!',
+  'Great! Under the table!',
+  'Great! In the box!',
+  'Great! Behind the tree!',
+  'Great! Under the chair!',
+]) {
+  add(prompt);
+}
+
+// 17. StickerCollection
+try {
+  const scCode = readFileSync('src/components/StickerCollection.jsx', 'utf8');
+  const startIdx = scCode.indexOf('const STICKER_BADGES = [');
+  const endIdx = scCode.indexOf('export default function StickerCollection');
+  if (startIdx !== -1 && endIdx !== -1) {
+    const badgesCode = scCode.slice(startIdx, endIdx).replace('const STICKER_BADGES =', 'return');
+    const badges = new Function(badgesCode)();
+    for (const b of badges || []) {
+      for (const line of b.powerLines || []) add(line);
+      add(`Earn ${b.cost} bricks to unlock ${b.title}!`);
+      add(`Max level! Awesome ${b.title}!`);
+    }
+  }
+} catch {
+  // ignore
+}
+
+// 18. RhymingPairsGame & SoundDetectiveGame
+try {
+  const rpCode = readFileSync('src/components/RhymingPairsGame.jsx', 'utf8');
+  for (const match of rpCode.matchAll(/left:\s*\{\s*word:\s*'([^']+)'[^}]*\},\s*right:\s*\{\s*word:\s*'([^']+)'/g)) {
+    add(match[1]);
+    add(match[2]);
+    add(`${match[1]} and ${match[2]} rhyme!`);
+  }
+  const sdCode = readFileSync('src/components/SoundDetectiveGame.jsx', 'utf8');
+  for (const match of sdCode.matchAll(/word:\s*'([^']+)'/g)) {
+    add(match[1]);
   }
 } catch {
   // ignore

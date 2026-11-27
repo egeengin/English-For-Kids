@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 
 import { DAILY_EXPEDITION_DAYS } from '../src/data/dailyMissionsData.js';
-import { VOCAB_CATEGORIES } from '../src/data/vocabularyBank500.js';
+import { VOCAB_BANK_500, VOCAB_CATEGORIES } from '../src/data/vocabularyBank500.js';
 import { LEO_MISSIONS } from '../src/utils/gemini.js';
+import { cleanTextForTTS } from '../src/utils/speech.js';
 import {
   ISLAND_BIOMES,
   ISLAND_STOPS_BY_DAY_ID,
@@ -174,5 +176,64 @@ test('Code quality & accessibility integrity: no invalid nested buttons, dead an
   ]) {
     const content = fs.readFileSync(gameFile, 'utf8');
     assert.ok(content.includes('stopSpeech()'), `${gameFile} must call stopSpeech() on unmount`);
+  }
+});
+
+test('Audio integrity: zero broken manifest entries and 100% pre-generated coverage across Island, Missions, and Arcade', () => {
+  const manifest = JSON.parse(fs.readFileSync('public/audio/manifest.json', 'utf8'));
+  const lowerMap = new Map();
+  const noPunctMap = new Map();
+  const diskExistsCache = new Map();
+
+  for (const [k, asset] of Object.entries(manifest)) {
+    const m4aPath = path.join('public', `${asset}.m4a`);
+    const exists = diskExistsCache.has(m4aPath)
+      ? diskExistsCache.get(m4aPath)
+      : fs.existsSync(m4aPath);
+    diskExistsCache.set(m4aPath, exists);
+    assert.ok(exists, `Broken audio manifest entry: ${k} -> ${m4aPath}`);
+
+    const lk = k.toLowerCase();
+    lowerMap.set(lk, asset);
+    const noPunct = lk.replace(/[.,!?:;]+$/g, '');
+    if (!noPunctMap.has(noPunct)) noPunctMap.set(noPunct, asset);
+  }
+
+  const assertHasAudio = (phrase, context) => {
+    const clean = cleanTextForTTS(phrase);
+    if (!clean) return;
+    const lk = `en:${clean}`.toLowerCase();
+    const asset =
+      manifest[`en:${clean}`] ||
+      lowerMap.get(lk) ||
+      noPunctMap.get(lk.replace(/[.,!?:;]+$/g, ''));
+    assert.ok(asset, `Missing pre-generated audio for [${context}]: "${clean}"`);
+  };
+
+  for (const stop of Object.values(ISLAND_STOPS_BY_DAY_ID)) {
+    assertHasAudio(stop.titleEn, 'Island Stop Title');
+    assertHasAudio(`Hi Deniz! Ready for Stop ${stop.stopNumber}: ${stop.titleEn}?`, 'Island Greeting');
+  }
+  assertHasAudio('Awesome job Deniz! You opened the treasure chest!', 'Island Chest');
+
+  for (const mission of LEO_MISSIONS) {
+    assertHasAudio(mission.starterEn('Deniz'), `Leo Mission ${mission.id}`);
+    for (const sp of mission.stepPrompts || []) {
+      assertHasAudio(sp.en, `Leo Mission ${mission.id} step`);
+    }
+  }
+
+  for (const entry of VOCAB_BANK_500) {
+    assertHasAudio(entry.word, 'Vocab Word');
+    assertHasAudio(entry.questionEn, 'Balloon Pop Clue');
+  }
+
+  for (const phrase of [
+    'Color the car red!',
+    'Put the soccer ball UNDER the table!',
+    'A burger and fries, please!',
+    'Where is the pool?',
+  ]) {
+    assertHasAudio(phrase, 'Mini-game Prompt');
   }
 });

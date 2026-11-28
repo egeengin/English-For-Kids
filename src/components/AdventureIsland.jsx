@@ -588,17 +588,17 @@ export default function AdventureIsland({
           type="button"
           onClick={() => {
             playBoing(isMuted);
-            onNavigateTab('silly_sentences');
+            onNavigateTab('balloons');
           }}
           className="rounded-3xl bg-white hover:bg-amber-50 border-3 border-amber-300 hover:border-amber-500 p-4 text-left shadow-sm flex items-center gap-3.5 cursor-pointer transition"
         >
           <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
-            🤪
+            🎈
           </div>
           <div>
-            <div className="font-display font-black text-base text-slate-900">Silly Sentences</div>
+            <div className="font-display font-black text-base text-slate-900">Balloon Pop</div>
             <div className="text-xs font-bold text-slate-500">
-              Mix funny crazy sentences!
+              Listen &amp; pop the balloons!
             </div>
           </div>
         </button>

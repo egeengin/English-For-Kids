@@ -5,14 +5,6 @@ import { playTap } from '../utils/soundEffects';
 
 const VOICE_SPOTLIGHT = [
   {
-    id: 'quick_speak',
-    emoji: '🎙️',
-    title: 'Say It Fast!',
-    desc: 'Echo or speak from memory for bonus stars',
-    badge: 'Voice Game',
-    cardClass: 'from-violet-500 to-purple-600 text-white border-purple-800',
-  },
-  {
     id: 'walkie_talkie',
     emoji: '📻',
     title: 'Talk to Leo',
@@ -31,15 +23,12 @@ const VOICE_SPOTLIGHT = [
 ];
 
 const ARCADE_GAMES = [
-  { id: 'balloons', emoji: '🎈', title: 'Balloon Pop', desc: 'Listen & pop the floating balloons', color: 'border-rose-300 hover:border-rose-500 bg-rose-50/70' },
-  { id: 'phonics', emoji: '🔤', title: 'Phonics Snap', desc: 'Snap letter bricks into words', color: 'border-amber-300 hover:border-amber-500 bg-amber-50/70' },
+  { id: 'balloons', emoji: '🎈', title: 'Balloon Pop', desc: 'Listen & pop the right balloon', color: 'border-rose-300 hover:border-rose-500 bg-rose-50/70' },
+  { id: 'listen_color', emoji: '🎨', title: 'Listen & Color', desc: 'Color fun drawings step by step', color: 'border-pink-300 hover:border-pink-500 bg-pink-50/70' },
+  { id: 'rhymes', emoji: '🎵', title: 'Rhyming Pairs', desc: 'Draw lines to match rhyming words', color: 'border-purple-300 hover:border-purple-500 bg-purple-50/70' },
+  { id: 'put_it', emoji: '📦', title: 'Put It There!', desc: 'In, on, under & behind room game', color: 'border-teal-300 hover:border-teal-500 bg-teal-50/70' },
+  { id: 'differences', emoji: '🔍', title: 'Spot 7 Differences', desc: 'Find 7 real changes in pictures', color: 'border-emerald-300 hover:border-emerald-500 bg-emerald-50/70' },
   { id: 'memory', emoji: '🃏', title: 'Sound Memory', desc: 'Flip & match English sound pairs', color: 'border-indigo-300 hover:border-indigo-500 bg-indigo-50/70' },
-  { id: 'rhymes', emoji: '🎵', title: 'Rhyming Pairs', desc: 'Match words that sound alike', color: 'border-purple-300 hover:border-purple-500 bg-purple-50/70' },
-  { id: 'sound_pairs', emoji: '👂', title: 'Sound Detective', desc: 'Hear the clue & catch the picture', color: 'border-sky-300 hover:border-sky-500 bg-sky-50/70' },
-  { id: 'listen_color', emoji: '🎨', title: 'Listen & Color', desc: 'Color each item by listening', color: 'border-pink-300 hover:border-pink-500 bg-pink-50/70' },
-  { id: 'put_it', emoji: '📦', title: 'Put It There!', desc: 'In, on, under & behind puzzles', color: 'border-teal-300 hover:border-teal-500 bg-teal-50/70' },
-  { id: 'differences', emoji: '🔍', title: 'Spot 7 Differences', desc: 'Find 7 secrets & learn new words', color: 'border-emerald-300 hover:border-emerald-500 bg-emerald-50/70' },
-  { id: 'questions', emoji: '❓', title: 'Question Quiz', desc: 'Fun picture Q&A rounds', color: 'border-cyan-300 hover:border-cyan-500 bg-cyan-50/70' },
 ];
 
 export default function ArcadeHub({
@@ -74,7 +63,7 @@ export default function ArcadeHub({
           <Mic className="w-5 h-5 text-purple-600" />
           <span>Voice &amp; Speak Spotlight</span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {VOICE_SPOTLIGHT.map((item) => (
             <button
               key={item.id}

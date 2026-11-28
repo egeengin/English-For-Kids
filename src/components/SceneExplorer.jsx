@@ -134,7 +134,7 @@ export default function SceneExplorer({
         </div>
 
         {/* Scene Selection Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 sm:pb-0">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-1.5 max-w-full">
           {SCENES_DATA.map((scene, idx) => {
             const isCurrent = idx === selectedSceneIndex;
             return (
@@ -639,6 +639,365 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
           <circle cx="-20" cy="10" r="6" fill="#000000" />
           <circle cx="20" cy="10" r="6" fill="#000000" />
         </g>
+      </svg>
+    );
+  }
+
+  if (sceneId === 'zoo') {
+    return (
+      <svg viewBox="0 0 800 600" className="w-full h-full">
+        <rect x="0" y="0" width="800" height="320" fill="#bae6fd" />
+        <rect x="0" y="320" width="800" height="280" fill="#86efac" />
+        {/* 1. SUN (14%, 15%) */}
+        <g transform="translate(112, 90)">
+          <circle cx="0" cy="0" r="42" fill="#fde047" stroke="#f59e0b" strokeWidth="4" />
+          {isChanged ? (
+            <>
+              <rect x="-24" y="-12" width="20" height="14" rx="4" fill="#0f172a" />
+              <rect x="4" y="-12" width="20" height="14" rx="4" fill="#0f172a" />
+              <line x1="-4" y1="-6" x2="4" y2="-6" stroke="#0f172a" strokeWidth="4" />
+            </>
+          ) : (
+            <>
+              <circle cx="-12" cy="-6" r="4" fill="#0f172a" />
+              <circle cx="12" cy="-6" r="4" fill="#0f172a" />
+            </>
+          )}
+          <path d="M -12 12 Q 0 22 12 12" stroke="#0f172a" strokeWidth="3" fill="none" />
+        </g>
+
+        {/* Tree & 5. MONKEY (42%, 24%) */}
+        <rect x="305" y="180" width="32" height="160" fill="#78350f" />
+        <circle cx="321" cy="145" r="78" fill="#22c55e" stroke="#15803d" strokeWidth="5" />
+        <g transform="translate(336, 144)">
+          <circle cx="0" cy="0" r="22" fill="#92400e" />
+          <circle cx="0" cy="4" r="14" fill="#fde68a" />
+          <circle cx="-6" cy="-2" r="3" fill="#000" />
+          <circle cx="6" cy="-2" r="3" fill="#000" />
+          {isChanged && <path d="M 22 -8 Q 38 6 26 24" stroke="#facc15" strokeWidth="8" fill="none" strokeLinecap="round" />}
+        </g>
+
+        {/* 3. GIRAFFE (74%, 34%) */}
+        <g transform="translate(592, 204)">
+          <rect x="-14" y="0" width="24" height="150" rx="10" fill="#facc15" stroke="#ca8a04" strokeWidth="3" />
+          <ellipse cx="0" cy="150" rx="42" ry="26" fill="#facc15" stroke="#ca8a04" strokeWidth="3" />
+          <circle cx="0" cy="-12" r="22" fill="#facc15" stroke="#ca8a04" strokeWidth="3" />
+          <circle cx="-4" cy="40" r="7" fill={isChanged ? '#ef4444' : '#78350f'} />
+          <circle cx="4" cy="80" r="8" fill={isChanged ? '#ef4444' : '#78350f'} />
+          <circle cx="-12" cy="148" r="9" fill={isChanged ? '#ef4444' : '#78350f'} />
+          <circle cx="15" cy="152" r="8" fill={isChanged ? '#ef4444' : '#78350f'} />
+        </g>
+
+        {/* 2. LION (25%, 58%) */}
+        <g transform="translate(200, 348)">
+          <circle cx="0" cy="0" r="44" fill="#d97706" />
+          <circle cx="0" cy="0" r="30" fill="#fbbf24" />
+          <circle cx="-10" cy="-6" r="4" fill="#000" />
+          <circle cx="10" cy="-6" r="4" fill="#000" />
+          <polygon points="-5,2 5,2 0,9" fill="#78350f" />
+          {isChanged && <polygon points="-20,-34 -10,-54 0,-38 10,-54 20,-34" fill="#fde047" stroke="#b45309" strokeWidth="3" />}
+        </g>
+
+        {/* 4. ELEPHANT (52%, 62%) */}
+        <g transform="translate(416, 372)">
+          <ellipse cx="0" cy="10" rx="56" ry="42" fill="#94a3b8" stroke="#475569" strokeWidth="4" />
+          <circle cx="-38" cy="-10" r="32" fill="#94a3b8" stroke="#475569" strokeWidth="4" />
+          <path d="M -62 -5 Q -85 20 -68 42" stroke="#64748b" strokeWidth="12" fill="none" strokeLinecap="round" />
+          {isChanged && (
+            <>
+              <path d="M -68 42 Q -95 10 -110 -10" stroke="#38bdf8" strokeWidth="6" strokeDasharray="6 4" fill="none" />
+              <circle cx="-112" cy="-14" r="8" fill="#38bdf8" />
+            </>
+          )}
+        </g>
+
+        {/* 6. POND & FISH (68%, 82%) */}
+        <ellipse cx="544" cy="492" rx="95" ry="42" fill="#38bdf8" stroke="#0284c7" strokeWidth="4" />
+        {isChanged && (
+          <g transform="translate(544, 480)">
+            <ellipse cx="0" cy="0" rx="22" ry="13" fill="#f97316" stroke="#c2410c" strokeWidth="2" />
+            <polygon points="18,0 32,-10 32,10" fill="#f97316" />
+          </g>
+        )}
+
+        {/* 7. SAFARI JEEP (14%, 80%) */}
+        <g transform="translate(112, 480)">
+          <rect x="-56" y="-28" width="112" height="52" rx="10" fill={isChanged ? '#ef4444' : '#16a34a'} stroke="#1e293b" strokeWidth="4" />
+          <rect x="-36" y="-50" width="60" height="24" rx="4" fill="#bae6fd" stroke="#1e293b" strokeWidth="3" />
+          <circle cx="-32" cy="24" r="16" fill="#0f172a" />
+          <circle cx="32" cy="24" r="16" fill="#0f172a" />
+        </g>
+      </svg>
+    );
+  }
+
+  if (sceneId === 'space') {
+    return (
+      <svg viewBox="0 0 800 600" className="w-full h-full">
+        <rect x="0" y="0" width="800" height="600" fill="#0f172a" />
+        <circle cx="90" cy="90" r="3" fill="#fff" />
+        <circle cx="480" cy="70" r="3" fill="#fff" />
+        <circle cx="710" cy="310" r="3" fill="#fff" />
+        <circle cx="290" cy="490" r="3" fill="#fff" />
+
+        {/* 1. PLANET (20%, 24%) */}
+        <g transform="translate(160, 144)">
+          <circle cx="0" cy="0" r="46" fill={isChanged ? '#a855f7' : '#3b82f6'} />
+          {isChanged && <ellipse cx="0" cy="0" rx="76" ry="18" fill="none" stroke="#facc15" strokeWidth="8" transform="rotate(-18)" />}
+        </g>
+
+        {/* 5. UFO (34%, 18%) */}
+        <g transform="translate(272, 108)">
+          {isChanged && <polygon points="-24,14 24,14 48,95 -48,95" fill="#fef08a" opacity="0.45" />}
+          <ellipse cx="0" cy="0" rx="44" ry="16" fill="#22c55e" stroke="#15803d" strokeWidth="3" />
+          <path d="M -22 -4 Q 0 -32 22 -4 Z" fill="#bae6fd" />
+        </g>
+
+        {/* 4. MOON (82%, 18%) */}
+        <g transform="translate(656, 108)">
+          {isChanged ? (
+            <path d="M -10 -38 A 38 38 0 1 0 28 24 A 28 28 0 1 1 -10 -38 Z" fill="#fde047" />
+          ) : (
+            <circle cx="0" cy="0" r="38" fill="#fde047" />
+          )}
+        </g>
+
+        {/* 2. ROCKET (50%, 48%) */}
+        <g transform="translate(400, 288)">
+          {isChanged && <polygon points="-26,65 0,145 26,65" fill="#f97316" stroke="#fde047" strokeWidth="4" />}
+          <polygon points="-40,20 -66,68 -36,56" fill="#ef4444" />
+          <polygon points="40,20 66,68 36,56" fill="#ef4444" />
+          <path d="M 0 -85 Q 46 -20 40 65 L -40 65 Q -46 -20 0 -85 Z" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="4" />
+          <circle cx="0" cy="-10" r="20" fill="#38bdf8" stroke="#0284c7" strokeWidth="4" />
+        </g>
+
+        {/* 3. ASTRONAUT (76%, 56%) */}
+        <g transform="translate(608, 336)">
+          <rect x="-24" y="10" width="48" height="54" rx="14" fill="#f8fafc" />
+          <circle cx="0" cy="-14" r="26" fill="#f8fafc" />
+          <rect x="-16" y="-24" width="32" height="20" rx="8" fill="#38bdf8" />
+          {isChanged && (
+            <>
+              <line x1="28" y1="30" x2="28" y2="-40" stroke="#e2e8f0" strokeWidth="4" />
+              <rect x="28" y="-40" width="36" height="24" fill="#ec4899" rx="3" />
+            </>
+          )}
+        </g>
+
+        {/* 6. SHOOTING STAR (16%, 68%) */}
+        <g transform="translate(128, 408)">
+          {isChanged && <line x1="-60" y1="-25" x2="0" y2="0" stroke="#fde047" strokeWidth="6" strokeLinecap="round" />}
+          <text x="0" y="12" fontSize={isChanged ? '46' : '28'} textAnchor="middle">⭐</text>
+        </g>
+
+        {/* 7. SPACE ROBOT (64%, 78%) */}
+        <g transform="translate(512, 468)">
+          <rect x="-32" y="-28" width="64" height="56" rx="10" fill="#94a3b8" stroke="#e2e8f0" strokeWidth="3" />
+          <rect x="-22" y="-66" width="44" height="34" rx="8" fill="#cbd5e1" />
+          <circle cx="-8" cy="-50" r="4" fill="#0f172a" />
+          <circle cx="8" cy="-50" r="4" fill="#0f172a" />
+          {isChanged && <text x="0" y="10" fontSize="28" textAnchor="middle">❤️</text>}
+        </g>
+      </svg>
+    );
+  }
+
+  if (sceneId === 'beach') {
+    return (
+      <svg viewBox="0 0 800 600" className="w-full h-full">
+        <rect x="0" y="0" width="800" height="230" fill="#bae6fd" />
+        <rect x="0" y="230" width="800" height="140" fill="#0ea5e9" />
+        <rect x="0" y="370" width="800" height="230" fill="#fde68a" />
+
+        {/* 5. SEAGULLS (36%, 18%) */}
+        <path d="M 250 110 Q 268 92 286 110 Q 304 92 322 110" stroke="#1e293b" strokeWidth="4" fill="none" />
+        {isChanged && <path d="M 310 78 Q 324 62 338 78 Q 352 62 366 78" stroke="#1e293b" strokeWidth="4" fill="none" />}
+
+        {/* 4. SAILBOAT (76%, 36%) */}
+        <g transform="translate(608, 216)">
+          <polygon points="-50,20 50,20 35,48 -35,48" fill="#b45309" />
+          <polygon points="0,-55 0,18 44,18" fill="#ffffff" stroke="#cbd5e1" strokeWidth="2" />
+          {isChanged && <text x="16" y="10" fontSize="22" textAnchor="middle">⭐</text>}
+        </g>
+
+        {/* 1. UMBRELLA (22%, 52%) */}
+        <g transform="translate(176, 312)">
+          <line x1="0" y1="-40" x2="0" y2="110" stroke="#78350f" strokeWidth="8" />
+          <path d="M -82 0 Q 0 -86 82 0 Z" fill={isChanged ? '#3b82f6' : '#ef4444'} stroke="#1e293b" strokeWidth="3" />
+          <path d="M -32 0 Q 0 -86 32 0 Z" fill={isChanged ? '#facc15' : '#ffffff'} />
+        </g>
+
+        {/* 7. BEACH BALL (38%, 66%) */}
+        <g transform="translate(304, 396)">
+          <circle cx="0" cy="0" r="28" fill={isChanged ? '#a855f7' : '#ef4444'} stroke="#1e293b" strokeWidth="3" />
+          <path d="M -20 -18 Q 0 0 -20 18" stroke="#facc15" strokeWidth="8" fill="none" />
+        </g>
+
+        {/* 2. SANDCASTLE (50%, 74%) */}
+        <g transform="translate(400, 444)">
+          <rect x="-52" y="-20" width="104" height="58" fill="#f59e0b" stroke="#b45309" strokeWidth="3" />
+          <rect x="-20" y="-54" width="40" height="40" fill="#fbbf24" stroke="#b45309" strokeWidth="3" />
+          {isChanged && (
+            <>
+              <line x1="0" y1="-54" x2="0" y2="-92" stroke="#78350f" strokeWidth="4" />
+              <polygon points="0,-92 30,-80 0,-68" fill="#ef4444" />
+            </>
+          )}
+        </g>
+
+        {/* 6. ICE CREAM (16%, 82%) */}
+        <g transform="translate(128, 492)">
+          <polygon points="-20,0 20,0 0,48" fill="#d97706" />
+          <circle cx="0" cy="-12" r="20" fill="#f472b6" />
+          {isChanged && <circle cx="0" cy="-36" r="18" fill="#38bdf8" />}
+        </g>
+
+        {/* 3. CRAB (74%, 82%) */}
+        <g transform="translate(592, 492)">
+          <ellipse cx="0" cy="8" rx="28" ry="18" fill="#ef4444" />
+          <circle cx="-10" cy="-8" r="5" fill="#000" />
+          <circle cx="10" cy="-8" r="5" fill="#000" />
+          {isChanged && <rect x="-18" y="-30" width="36" height="16" rx="4" fill="#3b82f6" />}
+        </g>
+      </svg>
+    );
+  }
+
+  if (sceneId === 'bakery') {
+    return (
+      <svg viewBox="0 0 800 600" className="w-full h-full">
+        <rect x="0" y="0" width="800" height="360" fill="#fff1f2" />
+        <rect x="0" y="360" width="800" height="240" fill="#fde68a" />
+
+        {/* 5. SIGN (18%, 22%) */}
+        <g transform="translate(144, 132)">
+          <rect x="-54" y="-26" width="108" height="52" rx="10" fill={isChanged ? '#ec4899' : '#10b981'} stroke="#1e293b" strokeWidth="4" />
+          <text x="0" y="8" fill="#ffffff" fontSize="22" fontWeight="bold" textAnchor="middle">
+            {isChanged ? 'YUM!' : 'OPEN'}
+          </text>
+        </g>
+
+        {/* 6. TEAPOT (82%, 26%) */}
+        <g transform="translate(656, 156)">
+          <circle cx="0" cy="10" r="30" fill={isChanged ? '#ef4444' : '#3b82f6'} stroke="#1e293b" strokeWidth="3" />
+          <circle cx="0" cy="-22" r="8" fill={isChanged ? '#ef4444' : '#3b82f6'} />
+          {isChanged && <path d="M -8 -40 Q 0 -55 -6 -70 M 8 -40 Q 16 -55 10 -70" stroke="#94a3b8" strokeWidth="4" fill="none" />}
+        </g>
+
+        {/* 4. BAKER (50%, 28%) */}
+        <g transform="translate(400, 168)">
+          <circle cx="0" cy="0" r="32" fill="#fed7aa" stroke="#9a3412" strokeWidth="3" />
+          <rect x="-26" y="-56" width="52" height="34" rx="12" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
+          <circle cx="-10" cy="-4" r="3.5" fill="#000" />
+          <circle cx="10" cy="-4" r="3.5" fill="#000" />
+          <path d="M -8 12 Q 0 18 8 12" stroke="#000" strokeWidth="3" fill="none" />
+          {isChanged && <line x1="42" y1="45" x2="72" y2="-15" stroke="#92400e" strokeWidth="8" strokeLinecap="round" />}
+        </g>
+
+        {/* 1. CAKE (50%, 56%) */}
+        <g transform="translate(400, 336)">
+          <rect x="-60" y="-20" width="120" height="65" rx="10" fill={isChanged ? '#78350f' : '#ffffff'} stroke="#f472b6" strokeWidth="5" />
+          {isChanged && (
+            <>
+              <rect x="-30" y="-48" width="10" height="28" fill="#facc15" />
+              <rect x="-5" y="-48" width="10" height="28" fill="#38bdf8" />
+              <rect x="20" y="-48" width="10" height="28" fill="#22c55e" />
+            </>
+          )}
+        </g>
+
+        {/* 2. CROISSANT (22%, 62%) */}
+        <g transform="translate(176, 372)">
+          <ellipse cx="0" cy="0" rx="44" ry="22" fill="#f59e0b" stroke="#b45309" strokeWidth="3" />
+          {isChanged && <circle cx="0" cy="-22" r="14" fill="#ef4444" />}
+        </g>
+
+        {/* 3. CUPCAKE (76%, 60%) */}
+        <g transform="translate(608, 360)">
+          <polygon points="-24,10 24,10 18,44 -18,44" fill="#d97706" />
+          <circle cx="0" cy="-4" r="28" fill={isChanged ? '#3b82f6' : '#f472b6'} />
+          {isChanged && <circle cx="0" cy="-34" r="9" fill="#ef4444" />}
+        </g>
+
+        {/* 7. COOKIE (36%, 82%) */}
+        <g transform="translate(288, 492)">
+          <circle cx="0" cy="0" r="32" fill="#d97706" stroke="#92400e" strokeWidth="3" />
+          {isChanged && (
+            <>
+              <circle cx="-12" cy="-10" r="5" fill="#451a03" />
+              <circle cx="10" cy="-6" r="5" fill="#451a03" />
+              <circle cx="-4" cy="12" r="5" fill="#451a03" />
+            </>
+          )}
+        </g>
+      </svg>
+    );
+  }
+
+  if (sceneId === 'pirate') {
+    return (
+      <svg viewBox="0 0 800 600" className="w-full h-full">
+        <rect x="0" y="0" width="800" height="420" fill="#bae6fd" />
+        <rect x="0" y="420" width="800" height="180" fill="#0284c7" />
+        {/* Ship Mast & Deck */}
+        <line x1="400" y1="40" x2="400" y2="380" stroke="#78350f" strokeWidth="14" />
+        <polygon points="140,340 660,340 600,450 200,450" fill="#92400e" stroke="#451a03" strokeWidth="5" />
+
+        {/* 1. FLAG (50%, 12%) */}
+        <g transform="translate(400, 72)">
+          <rect x="4" y="-32" width="96" height="54" fill={isChanged ? '#ef4444' : '#0f172a'} rx="4" />
+          <text x="52" y="4" fontSize="24" textAnchor="middle">{isChanged ? '⭐' : '☠️'}</text>
+        </g>
+
+        {/* 2. PARROT (28%, 38%) */}
+        <g transform="translate(224, 228)">
+          <ellipse cx="0" cy="0" rx="22" ry="30" fill={isChanged ? '#ef4444' : '#22c55e'} />
+          <circle cx="0" cy="-24" r="16" fill={isChanged ? '#ef4444' : '#22c55e'} />
+          <polygon points="12,-24 28,-18 12,-12" fill="#facc15" />
+        </g>
+
+        {/* 7. TELESCOPE (74%, 34%) */}
+        {isChanged && (
+          <g transform="translate(592, 204)">
+            <line x1="-28" y1="16" x2="28" y2="-16" stroke="#facc15" strokeWidth="14" strokeLinecap="round" />
+            <line x1="0" y1="0" x2="0" y2="60" stroke="#78350f" strokeWidth="5" />
+          </g>
+        )}
+
+        {/* 5. SHIP WHEEL (50%, 52%) */}
+        <g transform="translate(400, 312)">
+          <circle cx="0" cy="0" r="34" fill="none" stroke="#78350f" strokeWidth="8" />
+          <circle cx="0" cy="0" r="14" fill={isChanged ? '#38bdf8' : '#b45309'} />
+        </g>
+
+        {/* 3. TREASURE CHEST (68%, 68%) */}
+        <g transform="translate(544, 408)">
+          <rect x="-42" y="-12" width="84" height="48" rx="6" fill="#b45309" stroke="#451a03" strokeWidth="4" />
+          {isChanged ? (
+            <>
+              <rect x="-42" y="-36" width="84" height="20" rx="6" fill="#78350f" />
+              <circle cx="-16" cy="-12" r="10" fill="#fde047" />
+              <circle cx="4" cy="-14" r="10" fill="#fde047" />
+              <circle cx="22" cy="-11" r="10" fill="#fde047" />
+            </>
+          ) : (
+            <rect x="-42" y="-20" width="84" height="16" rx="6" fill="#78350f" stroke="#451a03" strokeWidth="3" />
+          )}
+        </g>
+
+        {/* 4. ANCHOR (18%, 72%) */}
+        <g transform="translate(144, 432)">
+          <line x1="0" y1="-28" x2="0" y2="28" stroke={isChanged ? '#facc15' : '#64748b'} strokeWidth="8" />
+          <path d="M -26 8 Q 0 42 26 8" stroke={isChanged ? '#facc15' : '#64748b'} strokeWidth="8" fill="none" />
+        </g>
+
+        {/* 6. WHALE (84%, 80%) */}
+        {isChanged && (
+          <g transform="translate(672, 480)">
+            <ellipse cx="0" cy="10" rx="46" ry="26" fill="#3b82f6" />
+            <path d="M 0 -16 Q -12 -46 -26 -38 M 0 -16 Q 12 -46 26 -38" stroke="#bae6fd" strokeWidth="5" fill="none" />
+          </g>
+        )}
       </svg>
     );
   }

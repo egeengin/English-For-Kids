@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import confetti from 'canvas-confetti';
-import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
+import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2, Sparkles } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech, prefetchSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
 import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
@@ -464,6 +464,7 @@ function getMiniBooks(childName = 'Deniz') {
 export default function MiniBooksReader({ onRewardEarned, isMuted = false, childName = 'Deniz' }) {
   const books = useMemo(() => getMiniBooks(childName), [childName]);
   const [bookIdx, setBookIdx] = useState(0);
+  const [isShelfView, setIsShelfView] = useState(true);
   const [pageIdx, setPageIdx] = useState(0); // 0..pages.length (last index = question)
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const [isReading, setIsReading] = useState(false);
@@ -541,7 +542,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   }, [book, isMuted]);
 
   useEffect(() => {
-    if (isQuestionPage || !currentPageText) return undefined;
+    if (isShelfView || isQuestionPage || !currentPageText) return undefined;
     const timer = setTimeout(() => readLine(currentPageText), 350);
     return () => {
       clearTimeout(timer);
@@ -549,7 +550,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
       clearReadingTimers();
       stopSpeech();
     };
-  }, [bookIdx, pageIdx, isQuestionPage, currentPageText, readLine, clearReadingTimers]);
+  }, [isShelfView, bookIdx, pageIdx, isQuestionPage, currentPageText, readLine, clearReadingTimers]);
 
   const handlePrevPage = () => {
     playTap(isMuted);
@@ -575,13 +576,24 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     playTap(isMuted);
     stopSpeech();
     readingSessionRef.current += 1;
-    if (timerRef.current) clearInterval(timerRef.current);
+    clearReadingTimers();
     setBookIdx(idx);
     setPageIdx(0);
     setHighlightIdx(-1);
     setIsReading(false);
     setQuizSolved(false);
     setWrongOptions(new Set());
+    setIsShelfView(false);
+  };
+
+  const backToShelf = () => {
+    playTap(isMuted);
+    stopSpeech();
+    readingSessionRef.current += 1;
+    clearReadingTimers();
+    setHighlightIdx(-1);
+    setIsReading(false);
+    setIsShelfView(true);
   };
 
   const handleAnswer = (opt) => {
@@ -602,49 +614,111 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     }
   };
 
-  return (
-    <div className="w-full max-w-4xl mx-auto px-3 py-4">
-      {/* Read Counter + Book Picker */}
-      <div className="flex items-center justify-center mb-2.5">
-        <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-display font-black text-xs sm:text-sm">
-          📚 Read: {completedBookIds.size} / {books.length} ✓
-        </span>
-      </div>
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
-        {books.map((b, idx) => {
-          const isDone = completedBookIds.has(b.id);
-          return (
-            <button
-              key={b.id}
-              type="button"
-              onClick={() => selectBook(idx)}
-              className={`px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base border-2 flex items-center gap-2 cursor-pointer transition shadow-sm ${
-                idx === bookIdx
-                  ? `bg-gradient-to-r ${b.color} text-white border-white shadow-md scale-[1.03]`
-                  : isDone
-                  ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
-                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
-              }`}
-            >
-              <span className="text-xl">{b.emoji}</span>
-              <span>{b.title}</span>
-              {isDone && <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${idx === bookIdx ? 'text-white' : 'text-emerald-600'}`} />}
-            </button>
-          );
-        })}
-      </div>
+  const nextUnreadIdx = books.findIndex((b) => !completedBookIds.has(b.id));
+  const recommendedIdx = nextUnreadIdx >= 0 ? nextUnreadIdx : 0;
+  const recommendedBook = books[recommendedIdx];
 
-      {/* Book Page Card */}
-      <div className="bg-white rounded-3xl shadow-xl border-4 border-slate-200 overflow-hidden">
-        <div className={`bg-gradient-to-r ${book.color} px-5 py-3.5 text-white flex items-center justify-between`}>
-          <div className="flex items-center gap-2 font-display font-black text-lg sm:text-xl">
-            <BookOpen className="w-6 h-6" />
-            <span>{book.title}</span>
+  return (
+    <div className="w-full max-w-5xl mx-auto px-3 py-4">
+      {isShelfView ? (
+        <div className="space-y-5">
+          {/* Reading Trail Hero Banner */}
+          <div className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-3xl p-5 sm:p-6 text-white shadow-xl border-4 border-white/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 border-2 border-white/40 flex items-center justify-center text-4xl flex-shrink-0">
+                {recommendedBook.emoji}
+              </div>
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 text-xs font-black uppercase tracking-wide mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                  <span>{childName}’s Reading Trail • {completedBookIds.size} / {books.length} Read</span>
+                </div>
+                <h2 className="font-display font-black text-xl sm:text-2xl leading-tight">
+                  Next Book #{recommendedIdx + 1}: {recommendedBook.title}
+                </h2>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => selectBook(recommendedIdx)}
+              className="px-6 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-base shadow-lg border-b-4 border-amber-600 flex items-center gap-2 cursor-pointer transition active:scale-95 flex-shrink-0"
+            >
+              <BookOpen className="w-5 h-5" />
+              <span>Open Book</span>
+            </button>
           </div>
-          <span className="px-3 py-1 rounded-full bg-slate-900/40 text-xs sm:text-sm font-black">
-            {isQuestionPage ? 'Quiz' : `Page ${pageIdx + 1} / ${book.pages.length}`}
-          </span>
+
+          {/* Visual Book Cover Grid (24 Colorful Storybooks with Trail Numbers & Read Badges) */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
+            {books.map((b, idx) => {
+              const isDone = completedBookIds.has(b.id);
+              const isNext = idx === recommendedIdx && !isDone;
+              return (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => selectBook(idx)}
+                  className={`group relative rounded-3xl p-4 text-left border-3 transition cursor-pointer flex flex-col justify-between gap-3 min-h-[148px] shadow-sm hover:-translate-y-1 hover:shadow-lg ${
+                    isDone
+                      ? 'bg-emerald-50 border-emerald-400 text-slate-900'
+                      : isNext
+                      ? `bg-gradient-to-br ${b.color} text-white border-yellow-300 ring-4 ring-yellow-300/60 shadow-md`
+                      : `bg-gradient-to-br ${b.color} text-white border-white/60`
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span
+                      className={`w-7 h-7 rounded-full font-display font-black text-xs flex items-center justify-center ${
+                        isDone ? 'bg-emerald-500 text-white' : 'bg-black/25 text-white'
+                      }`}
+                    >
+                      {idx + 1}
+                    </span>
+                    {isDone ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-black">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Read</span>
+                      </span>
+                    ) : isNext ? (
+                      <span className="px-2 py-0.5 rounded-full bg-yellow-300 text-slate-950 text-[10px] font-black uppercase">
+                        Next!
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="text-4xl sm:text-5xl leading-none drop-shadow-sm group-hover:scale-110 transition-transform">
+                    {b.emoji}
+                  </div>
+
+                  <div className={`font-display font-black text-sm leading-snug line-clamp-2 ${isDone ? 'text-emerald-950' : 'text-white'}`}>
+                    {b.title}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
+      ) : (
+        /* Open Storybook Reader */
+        <div className="bg-white rounded-3xl shadow-xl border-4 border-slate-200 overflow-hidden">
+          <div className={`bg-gradient-to-r ${book.color} px-4 sm:px-5 py-3.5 text-white flex items-center justify-between gap-2`}>
+            <button
+              type="button"
+              onClick={backToShelf}
+              className="px-3 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 text-white font-display font-black text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer transition"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Bookshelf</span>
+            </button>
+            <div className="flex items-center gap-2 font-display font-black text-base sm:text-xl truncate">
+              <span>{book.emoji}</span>
+              <span className="truncate">{book.title}</span>
+            </div>
+            <span className="px-3 py-1 rounded-full bg-slate-900/40 text-xs sm:text-sm font-black flex-shrink-0">
+              {isQuestionPage ? 'Quiz' : `Page ${pageIdx + 1} / ${book.pages.length}`}
+            </span>
+          </div>
 
         <div className="p-6 sm:p-10 text-center">
           {!isQuestionPage && currentPage ? (
@@ -833,6 +907,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }

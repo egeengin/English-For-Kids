@@ -1,212 +1,543 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { Volume2, CheckCircle2, Sparkles } from 'lucide-react';
-import { speakEnglish, stopSpeech } from '../utils/speech';
-import { playSnap, playStarSparkle, playGentleWobble, playTap } from '../utils/soundEffects';
+import { Volume2, CheckCircle2, Sparkles, ArrowRight, Paintbrush } from 'lucide-react';
+import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
+import { playSnap, playStarSparkle, playGentleWobble, playTap, playVictoryFanfare } from '../utils/soundEffects';
 
-const COLORS = [
-  { id: 'red', name: 'Red', hex: '#ef4444', ring: 'ring-red-400', bg: 'bg-red-500' },
-  { id: 'blue', name: 'Blue', hex: '#3b82f6', ring: 'ring-blue-400', bg: 'bg-blue-500' },
-  { id: 'yellow', name: 'Yellow', hex: '#facc15', ring: 'ring-yellow-400', bg: 'bg-yellow-400' },
-  { id: 'green', name: 'Green', hex: '#22c55e', ring: 'ring-green-400', bg: 'bg-emerald-500' },
-  { id: 'purple', name: 'Purple', hex: '#a855f7', ring: 'ring-purple-400', bg: 'bg-purple-500' },
+const PALETTE = [
+  { id: 'pink', name: 'Pink', hex: '#f472b6', ring: 'ring-pink-300', bg: 'bg-pink-400' },
+  { id: 'red', name: 'Red', hex: '#ef4444', ring: 'ring-red-300', bg: 'bg-red-500' },
+  { id: 'orange', name: 'Orange', hex: '#f97316', ring: 'ring-orange-300', bg: 'bg-orange-500' },
+  { id: 'yellow', name: 'Yellow', hex: '#facc15', ring: 'ring-yellow-300', bg: 'bg-yellow-400' },
+  { id: 'green', name: 'Green', hex: '#22c55e', ring: 'ring-green-300', bg: 'bg-emerald-500' },
+  { id: 'blue', name: 'Blue', hex: '#3b82f6', ring: 'ring-blue-300', bg: 'bg-blue-500' },
+  { id: 'purple', name: 'Purple', hex: '#a855f7', ring: 'ring-purple-300', bg: 'bg-purple-500' },
 ];
 
-const CHALLENGES = [
+const COLOR_HEX = Object.fromEntries(PALETTE.map((c) => [c.id, c.hex]));
+
+const COLORING_SCENES = [
   {
-    prompt: 'Color the car red!',
-    targetObject: 'car',
-    targetColor: 'red',
-    objects: [
-      { id: 'car', name: 'Car', emoji: '🚗' },
-      { id: 'duck', name: 'Duck', emoji: '🦆' },
-      { id: 'hat', name: 'Hat', emoji: '🎩' },
-      { id: 'ball', name: 'Ball', emoji: '⚽' },
+    id: 'clown',
+    title: 'Happy Clown',
+    emoji: '🤡',
+    steps: [
+      { partId: 'face', partLabel: 'Face', targetColor: 'pink', prompt: 'Color the face pink!' },
+      { partId: 'nose', partLabel: 'Nose', targetColor: 'red', prompt: 'Color the nose red!' },
+      { partId: 'hat', partLabel: 'Hat', targetColor: 'blue', prompt: 'Color the hat blue!' },
+      { partId: 'bowtie', partLabel: 'Bow Tie', targetColor: 'yellow', prompt: 'Color the bow tie yellow!' },
     ],
   },
   {
-    prompt: 'Color the elephant blue!',
-    targetObject: 'elephant',
-    targetColor: 'blue',
-    objects: [
-      { id: 'elephant', name: 'Elephant', emoji: '🐘' },
-      { id: 'banana', name: 'Banana', emoji: '🍌' },
-      { id: 'book', name: 'Book', emoji: '📘' },
-      { id: 'kite', name: 'Kite', emoji: '🪁' },
+    id: 'rocket',
+    title: 'Space Rocket',
+    emoji: '🚀',
+    steps: [
+      { partId: 'body', partLabel: 'Rocket Body', targetColor: 'blue', prompt: 'Color the rocket body blue!' },
+      { partId: 'window', partLabel: 'Window', targetColor: 'yellow', prompt: 'Color the window yellow!' },
+      { partId: 'wings', partLabel: 'Wings', targetColor: 'red', prompt: 'Color the wings red!' },
+      { partId: 'flame', partLabel: 'Flame', targetColor: 'orange', prompt: 'Color the flame orange!' },
     ],
   },
   {
-    prompt: 'Color the umbrella yellow!',
-    targetObject: 'umbrella',
-    targetColor: 'yellow',
-    objects: [
-      { id: 'umbrella', name: 'Umbrella', emoji: '☔' },
-      { id: 'rocket', name: 'Rocket', emoji: '🚀' },
-      { id: 'apple', name: 'Apple', emoji: '🍎' },
-      { id: 'boat', name: 'Boat', emoji: '⛵' },
+    id: 'house',
+    title: 'Cozy House',
+    emoji: '🏠',
+    steps: [
+      { partId: 'roof', partLabel: 'Roof', targetColor: 'red', prompt: 'Color the roof red!' },
+      { partId: 'walls', partLabel: 'Walls', targetColor: 'yellow', prompt: 'Color the walls yellow!' },
+      { partId: 'door', partLabel: 'Door', targetColor: 'green', prompt: 'Color the door green!' },
+      { partId: 'sun', partLabel: 'Sun', targetColor: 'orange', prompt: 'Color the sun orange!' },
     ],
   },
   {
-    prompt: 'Color the dinosaur green!',
-    targetObject: 'dino',
-    targetColor: 'green',
-    objects: [
-      { id: 'dino', name: 'Dinosaur', emoji: '🦖' },
-      { id: 'cake', name: 'Cake', emoji: '🎂' },
-      { id: 'bus', name: 'Bus', emoji: '🚌' },
-      { id: 'cat', name: 'Cat', emoji: '🐱' },
-    ],
-  },
-  {
-    prompt: 'Color the backpack purple!',
-    targetObject: 'backpack',
-    targetColor: 'purple',
-    objects: [
-      { id: 'backpack', name: 'Backpack', emoji: '🎒' },
-      { id: 'guitar', name: 'Guitar', emoji: '🎸' },
-      { id: 'fish', name: 'Fish', emoji: '🐠' },
-      { id: 'clock', name: 'Clock', emoji: '⏰' },
+    id: 'robot',
+    title: 'Friendly Robot',
+    emoji: '🤖',
+    steps: [
+      { partId: 'head', partLabel: 'Head', targetColor: 'purple', prompt: 'Color the head purple!' },
+      { partId: 'body', partLabel: 'Body', targetColor: 'blue', prompt: 'Color the body blue!' },
+      { partId: 'heart', partLabel: 'Heart', targetColor: 'red', prompt: 'Color the heart red!' },
+      { partId: 'boots', partLabel: 'Boots', targetColor: 'green', prompt: 'Color the boots green!' },
     ],
   },
 ];
 
 export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
-  const [roundIdx, setRoundIdx] = useState(0);
-  const [selectedColor, setSelectedColor] = useState('red');
-  const [coloredMap, setColoredMap] = useState({});
-  const [solved, setSolved] = useState(false);
+  const [sceneIdx, setSceneIdx] = useState(0);
+  const [stepIdx, setStepIdx] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [coloredParts, setColoredParts] = useState({});
+  const [feedback, setFeedback] = useState('');
+  const [wobblePart, setWobblePart] = useState(null);
   const [score, setScore] = useState(0);
-  const advanceTimerRef = useRef(null);
+  const timerRef = useRef(null);
+
+  const scene = COLORING_SCENES[sceneIdx % COLORING_SCENES.length];
+  const isSceneComplete = stepIdx >= scene.steps.length;
+  const activeStep = !isSceneComplete ? scene.steps[stepIdx] : null;
 
   useEffect(() => {
     return () => {
-      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
       stopSpeech();
     };
   }, []);
 
-  const challenge = CHALLENGES[roundIdx % CHALLENGES.length];
-
   const speakPrompt = useCallback(() => {
-    if (!isMuted && challenge) speakEnglish(challenge.prompt);
-  }, [isMuted, challenge]);
+    if (!isMuted && activeStep) {
+      speakEnglish(activeStep.prompt);
+    }
+  }, [isMuted, activeStep]);
 
   useEffect(() => {
-    const t = setTimeout(speakPrompt, 300);
+    if (!activeStep) return undefined;
+    const t = setTimeout(speakPrompt, 280);
     return () => clearTimeout(t);
-  }, [roundIdx, speakPrompt]);
+  }, [sceneIdx, stepIdx, activeStep, speakPrompt]);
 
-  const handleObjectTap = (obj) => {
-    if (solved) return;
+  const handlePartClick = (partId) => {
+    if (isSceneComplete || !activeStep) return;
+    unlockAudio();
+
+    if (!selectedColor) {
+      playGentleWobble(isMuted);
+      setFeedback('Pick a paint color first! 🎨');
+      if (!isMuted) speakEnglish('Pick a paint color first!');
+      return;
+    }
+
     playSnap(isMuted);
 
-    if (obj.id === challenge.targetObject && selectedColor === challenge.targetColor) {
+    const isRightPart = partId === activeStep.partId;
+    const isRightColor = selectedColor === activeStep.targetColor;
+
+    if (isRightPart && isRightColor) {
       playStarSparkle(isMuted);
-      setColoredMap((prev) => ({ ...prev, [obj.id]: selectedColor }));
-      setSolved(true);
+      setColoredParts((prev) => ({ ...prev, [partId]: selectedColor }));
+      setFeedback(`Awesome! ${selectedColor} ${activeStep.partLabel}! ✨`);
       setScore((s) => s + 1);
-      if (onRewardEarned) onRewardEarned(2);
-      if ((score + 1) % 3 === 0) {
-        confetti({ particleCount: 55, spread: 60, origin: { y: 0.65 } });
+      if (onRewardEarned) onRewardEarned({ stars: 1, bricks: 1 });
+
+      const nextStep = stepIdx + 1;
+      if (nextStep >= scene.steps.length) {
+        playVictoryFanfare(isMuted);
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        if (onRewardEarned) onRewardEarned({ stars: 3, bricks: 1 });
+        if (!isMuted) speakEnglish(`Hooray! You colored the ${scene.title}!`);
+      } else if (!isMuted) {
+        speakEnglish(`Great! ${selectedColor} ${activeStep.partLabel}!`);
       }
-      if (!isMuted) speakEnglish(`Awesome! ${selectedColor} ${obj.name}!`);
-      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
-      advanceTimerRef.current = setTimeout(() => {
-        setRoundIdx((i) => i + 1);
-        setColoredMap({});
-        setSolved(false);
-      }, 1050);
+      setStepIdx(nextStep);
     } else {
       playGentleWobble(isMuted);
-      if (!isMuted) {
-        speakEnglish(`Try again! ${challenge.prompt}`);
+      setWobblePart(partId);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setWobblePart(null), 600);
+
+      if (!isRightColor && isRightPart) {
+        setFeedback(`Oops! Try ${activeStep.targetColor} paint!`);
+      } else {
+        setFeedback(`Oops! Find the ${activeStep.partLabel.toLowerCase()}!`);
       }
+      if (!isMuted) speakEnglish(`Try again! ${activeStep.prompt}`);
     }
   };
 
+  const handleNextScene = () => {
+    playTap(isMuted);
+    stopSpeech();
+    setSceneIdx((i) => i + 1);
+    setStepIdx(0);
+    setColoredParts({});
+    setSelectedColor(null);
+    setFeedback('');
+  };
+
+  const handleSelectScene = (idx) => {
+    playTap(isMuted);
+    stopSpeech();
+    setSceneIdx(idx);
+    setStepIdx(0);
+    setColoredParts({});
+    setSelectedColor(null);
+    setFeedback('');
+  };
+
+  const fillFor = (partId) => COLOR_HEX[coloredParts[partId]] || '#ffffff';
+
   return (
-    <div className="w-full max-w-3xl mx-auto px-3 py-4">
-      <div className="bg-white rounded-3xl shadow-xl border-4 border-pink-200 p-5 sm:p-7 text-center">
-        <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+    <div className="w-full max-w-4xl mx-auto px-3 py-4">
+      <div className="bg-white rounded-3xl shadow-xl border-4 border-pink-200 p-4 sm:p-6 space-y-5">
+        {/* Header & Scene Tabs */}
+        <div className="flex items-center justify-between gap-3 flex-wrap">
           <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 flex items-center gap-2">
             <span>🎨</span>
             <span>Listen &amp; Color</span>
           </h2>
-          <span className="px-3.5 py-1 rounded-full bg-pink-100 text-pink-900 font-black text-sm border border-pink-300">
-            ⭐ Score: {score}
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            {COLORING_SCENES.map((s, idx) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => handleSelectScene(idx)}
+                className={`px-3 py-1.5 rounded-2xl font-display font-black text-xs sm:text-sm border-2 cursor-pointer transition flex items-center gap-1.5 ${
+                  idx === sceneIdx % COLORING_SCENES.length
+                    ? 'bg-pink-500 text-white border-pink-700 shadow-sm'
+                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-pink-50'
+                }`}
+              >
+                <span>{s.emoji}</span>
+                <span className="hidden sm:inline">{s.title}</span>
+              </button>
+            ))}
+            <span className="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 font-black text-xs sm:text-sm border border-amber-300">
+              ⭐ {score}
+            </span>
+          </div>
         </div>
 
-        <p className="font-display font-black text-xl sm:text-3xl text-slate-900 mb-3">
-          {challenge.prompt}
-        </p>
-
-        <button
-          type="button"
-          onClick={() => {
-            playTap(isMuted);
-            speakPrompt();
-          }}
-          className="mb-5 px-5 py-2 rounded-2xl bg-pink-600 hover:bg-pink-700 text-white font-display font-black text-sm sm:text-base shadow-sm inline-flex items-center gap-2 cursor-pointer"
-        >
-          <Volume2 className="w-5 h-5" />
-          <span>Listen</span>
-        </button>
-
-        {/* Color Palette */}
-        <div className="flex items-center justify-center gap-3 flex-wrap mb-6">
-          {COLORS.map((c) => {
-            const isActive = selectedColor === c.id;
-            return (
+        {/* Instruction Prompt Banner */}
+        {activeStep ? (
+          <div className="bg-slate-900 text-white rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+            <div className="flex items-center gap-3.5">
               <button
-                key={c.id}
                 type="button"
                 onClick={() => {
                   playTap(isMuted);
-                  setSelectedColor(c.id);
-                  if (!isMuted) speakEnglish(c.name);
+                  unlockAudio();
+                  speakPrompt();
                 }}
-                className={`px-4 py-2 rounded-2xl font-display font-black text-sm text-white shadow-md cursor-pointer transition flex items-center gap-2 ${c.bg} ${
-                  isActive ? `scale-110 ring-4 ${c.ring} border-2 border-white` : 'opacity-85 hover:opacity-100'
-                }`}
+                className="w-14 h-14 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 flex items-center justify-center shadow-md cursor-pointer transition active:scale-95 flex-shrink-0"
+                title="Listen"
               >
-                <span>{c.name}</span>
+                <Volume2 className="w-7 h-7" />
               </button>
-            );
-          })}
-        </div>
+              <div className="text-left">
+                <div className="text-xs font-black uppercase tracking-wider text-yellow-300">
+                  Step {stepIdx + 1} of {scene.steps.length} • Pick a paint &amp; tap!
+                </div>
+                <div className="font-display font-black text-xl sm:text-2xl text-white">
+                  {activeStep.prompt}
+                </div>
+              </div>
+            </div>
 
-        {/* 4 Objects Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {challenge.objects.map((obj) => {
-            const appliedColorId = coloredMap[obj.id];
-            const colorObj = COLORS.find((c) => c.id === appliedColorId);
-            return (
-              <button
-                key={obj.id}
-                type="button"
-                onClick={() => handleObjectTap(obj)}
-                style={colorObj ? { backgroundColor: `${colorObj.hex}22`, borderColor: colorObj.hex } : undefined}
-                className={`p-6 rounded-3xl border-4 flex flex-col items-center gap-2 cursor-pointer transition shadow-sm ${
-                  colorObj
-                    ? 'scale-105'
-                    : 'bg-slate-50 hover:bg-pink-50 border-slate-200 hover:border-pink-300'
-                }`}
-              >
-                <span className="text-5xl sm:text-6xl leading-none">{obj.emoji}</span>
-                <span className="font-display font-black text-lg text-slate-900">{obj.name}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {solved && (
-          <div className="mt-4 inline-flex items-center gap-2 text-emerald-700 font-black">
-            <CheckCircle2 className="w-5 h-5" />
-            <span>Awesome coloring! (+2 ⭐)</span>
-            <Sparkles className="w-5 h-5 text-amber-500" />
+            {feedback && (
+              <span className="px-3.5 py-1.5 rounded-full bg-white/15 text-amber-200 font-display font-black text-xs sm:text-sm">
+                {feedback}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="bg-emerald-100 border-3 border-emerald-400 rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="w-8 h-8 text-emerald-600 flex-shrink-0" />
+              <div>
+                <div className="font-display font-black text-xl text-emerald-950 flex items-center gap-1.5">
+                  <span>Beautiful {scene.title}!</span>
+                  <Sparkles className="w-5 h-5 text-amber-500" />
+                </div>
+                <div className="text-xs sm:text-sm font-bold text-emerald-800">
+                  You colored every part! (+3 Bonus ⭐)
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleNextScene}
+              className="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm sm:text-base shadow-md flex items-center gap-2 cursor-pointer transition active:scale-95"
+            >
+              <span>Next Drawing</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         )}
+
+        {/* Main Workspace: Paint Palette + Interactive Coloring SVG */}
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-5 items-center">
+          {/* Paint Palette */}
+          <div className="bg-amber-50/80 border-3 border-amber-200 rounded-3xl p-3.5 space-y-2.5">
+            <div className="font-display font-black text-xs uppercase tracking-wider text-amber-900 flex items-center justify-center gap-1.5">
+              <Paintbrush className="w-4 h-4" />
+              <span>Paint Box</span>
+            </div>
+            <div className="grid grid-cols-4 md:grid-cols-2 gap-2">
+              {PALETTE.map((c) => {
+                const isActive = selectedColor === c.id;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => {
+                      playTap(isMuted);
+                      unlockAudio();
+                      setSelectedColor(c.id);
+                      setFeedback('');
+                      if (!isMuted) speakEnglish(c.name);
+                    }}
+                    className={`p-2 rounded-2xl border-2 flex flex-col items-center justify-center gap-1 cursor-pointer transition ${
+                      isActive
+                        ? `bg-white border-slate-900 ring-4 ${c.ring} scale-105 shadow-md`
+                        : 'bg-white/80 hover:bg-white border-amber-200'
+                    }`}
+                  >
+                    <span className={`w-8 h-8 rounded-full border-2 border-white shadow-inner ${c.bg}`} />
+                    <span className="font-display font-black text-[11px] text-slate-800">{c.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Interactive SVG Coloring Canvas */}
+          <div className="bg-gradient-to-b from-sky-50 to-white border-4 border-slate-200 rounded-3xl p-4 flex items-center justify-center shadow-inner">
+            <svg
+              viewBox="0 0 400 320"
+              className="w-full max-w-md h-auto select-none"
+              role="img"
+              aria-label={scene.title}
+            >
+              {scene.id === 'clown' && (
+                <g>
+                  {/* Hat */}
+                  <g
+                    onClick={() => handlePartClick('hat')}
+                    className={`cursor-pointer transition-opacity hover:opacity-90 ${wobblePart === 'hat' ? 'animate-wobble' : ''}`}
+                  >
+                    <polygon
+                      points="135,95 200,18 265,95"
+                      fill={fillFor('hat')}
+                      stroke="#1e293b"
+                      strokeWidth="5"
+                      strokeLinejoin="round"
+                    />
+                    <rect
+                      x="115"
+                      y="90"
+                      width="170"
+                      height="18"
+                      rx="9"
+                      fill={fillFor('hat')}
+                      stroke="#1e293b"
+                      strokeWidth="5"
+                    />
+                    <circle cx="200" cy="18" r="11" fill="#fde047" stroke="#1e293b" strokeWidth="4" />
+                  </g>
+
+                  {/* Face */}
+                  <circle
+                    cx="200"
+                    cy="170"
+                    r="72"
+                    fill={fillFor('face')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('face')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'face' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Eyes & Smile (non-blocking) */}
+                  <circle cx="174" cy="152" r="9" fill="#1e293b" className="pointer-events-none" />
+                  <circle cx="226" cy="152" r="9" fill="#1e293b" className="pointer-events-none" />
+                  <circle cx="172" cy="149" r="3" fill="#ffffff" className="pointer-events-none" />
+                  <circle cx="224" cy="149" r="3" fill="#ffffff" className="pointer-events-none" />
+                  <path
+                    d="M 168 194 Q 200 222 232 194"
+                    fill="none"
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    className="pointer-events-none"
+                  />
+
+                  {/* Nose */}
+                  <circle
+                    cx="200"
+                    cy="174"
+                    r="18"
+                    fill={fillFor('nose')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('nose')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'nose' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Bow Tie */}
+                  <g
+                    onClick={() => handlePartClick('bowtie')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'bowtie' ? 'animate-wobble' : ''}`}
+                  >
+                    <polygon points="145,250 200,272 145,294" fill={fillFor('bowtie')} stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+                    <polygon points="255,250 200,272 255,294" fill={fillFor('bowtie')} stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+                    <circle cx="200" cy="272" r="12" fill={fillFor('bowtie')} stroke="#1e293b" strokeWidth="5" />
+                  </g>
+                </g>
+              )}
+
+              {scene.id === 'rocket' && (
+                <g>
+                  {/* Flame */}
+                  <path
+                    d="M 172 230 Q 200 310 228 230 Z"
+                    fill={fillFor('flame')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    strokeLinejoin="round"
+                    onClick={() => handlePartClick('flame')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'flame' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Wings */}
+                  <g
+                    onClick={() => handlePartClick('wings')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'wings' ? 'animate-wobble' : ''}`}
+                  >
+                    <polygon points="150,175 100,235 155,225" fill={fillFor('wings')} stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+                    <polygon points="250,175 300,235 245,225" fill={fillFor('wings')} stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+                  </g>
+
+                  {/* Rocket Body */}
+                  <path
+                    d="M 200 24 Q 255 95 250 230 L 150 230 Q 145 95 200 24 Z"
+                    fill={fillFor('body')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    strokeLinejoin="round"
+                    onClick={() => handlePartClick('body')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'body' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Window */}
+                  <circle
+                    cx="200"
+                    cy="130"
+                    r="28"
+                    fill={fillFor('window')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('window')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'window' ? 'animate-wobble' : ''}`}
+                  />
+                </g>
+              )}
+
+              {scene.id === 'house' && (
+                <g>
+                  {/* Sun */}
+                  <circle
+                    cx="330"
+                    cy="56"
+                    r="30"
+                    fill={fillFor('sun')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('sun')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'sun' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Roof */}
+                  <polygon
+                    points="85,145 200,52 315,145"
+                    fill={fillFor('roof')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    strokeLinejoin="round"
+                    onClick={() => handlePartClick('roof')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'roof' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Walls */}
+                  <rect
+                    x="105"
+                    y="145"
+                    width="190"
+                    height="145"
+                    rx="6"
+                    fill={fillFor('walls')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('walls')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'walls' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Door */}
+                  <rect
+                    x="172"
+                    y="200"
+                    width="56"
+                    height="90"
+                    rx="8"
+                    fill={fillFor('door')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('door')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'door' ? 'animate-wobble' : ''}`}
+                  />
+                  <circle cx="216" cy="248" r="4" fill="#1e293b" className="pointer-events-none" />
+                </g>
+              )}
+
+              {scene.id === 'robot' && (
+                <g>
+                  {/* Antenna */}
+                  <line x1="200" y1="28" x2="200" y2="52" stroke="#1e293b" strokeWidth="5" />
+                  <circle cx="200" cy="22" r="9" fill="#fde047" stroke="#1e293b" strokeWidth="4" />
+
+                  {/* Head */}
+                  <rect
+                    x="145"
+                    y="52"
+                    width="110"
+                    height="78"
+                    rx="18"
+                    fill={fillFor('head')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('head')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'head' ? 'animate-wobble' : ''}`}
+                  />
+                  <circle cx="176" cy="86" r="9" fill="#1e293b" className="pointer-events-none" />
+                  <circle cx="224" cy="86" r="9" fill="#1e293b" className="pointer-events-none" />
+                  <line x1="178" y1="112" x2="222" y2="112" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" className="pointer-events-none" />
+
+                  {/* Body */}
+                  <rect
+                    x="130"
+                    y="140"
+                    width="140"
+                    height="105"
+                    rx="18"
+                    fill={fillFor('body')}
+                    stroke="#1e293b"
+                    strokeWidth="5"
+                    onClick={() => handlePartClick('body')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'body' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Heart */}
+                  <path
+                    d="M 200 218 C 165 194, 165 166, 186 166 C 194 166, 200 174, 200 174 C 200 174, 206 166, 214 166 C 235 166, 235 194, 200 218 Z"
+                    fill={fillFor('heart')}
+                    stroke="#1e293b"
+                    strokeWidth="4.5"
+                    onClick={() => handlePartClick('heart')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'heart' ? 'animate-wobble' : ''}`}
+                  />
+
+                  {/* Boots */}
+                  <g
+                    onClick={() => handlePartClick('boots')}
+                    className={`cursor-pointer hover:opacity-90 ${wobblePart === 'boots' ? 'animate-wobble' : ''}`}
+                  >
+                    <rect x="142" y="254" width="44" height="36" rx="10" fill={fillFor('boots')} stroke="#1e293b" strokeWidth="5" />
+                    <rect x="214" y="254" width="44" height="36" rx="10" fill={fillFor('boots')} stroke="#1e293b" strokeWidth="5" />
+                  </g>
+                </g>
+              )}
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );

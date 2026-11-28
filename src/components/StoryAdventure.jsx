@@ -17,6 +17,31 @@ import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobbl
 import { createSpeechListener, evaluateKidPronunciation, isSpeechRecognitionSupported } from '../utils/speechRecognition';
 import { startAudioClipRecorder } from '../utils/audioRecorder';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
+
+const SOLVED_CHAPTERS_KEY = 'lego_story_solved_chapters_v1';
+const WORLD_CHAPTERS_MAP_KEY = 'lego_story_world_chapters_v1';
+
+function readWorldChaptersMap() {
+  if (typeof window === 'undefined' || !window.localStorage) return {};
+  try {
+    const raw = window.localStorage.getItem(WORLD_CHAPTERS_MAP_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveWorldChapterIndex(worldId, idx) {
+  if (typeof window === 'undefined' || !window.localStorage || !worldId) return;
+  try {
+    const map = readWorldChaptersMap();
+    map[worldId] = idx;
+    window.localStorage.setItem(WORLD_CHAPTERS_MAP_KEY, JSON.stringify(map));
+  } catch {
+    // ignore
+  }
+}
 
 // Lightweight dictionary for word-by-word inspector in karaoke read-along
 const WORD_TRANSLATIONS = {
@@ -98,7 +123,9 @@ export default function StoryAdventure({
     } catch {
       // ignore
     }
-  }, [currentChapterIndex]);
+    saveWorldChapterIndex(selectedWorldId, currentChapterIndex);
+  }, [currentChapterIndex, selectedWorldId]);
+  const [solvedChapterKeys, setSolvedChapterKeys] = useState(() => loadCompletedSet(SOLVED_CHAPTERS_KEY));
   const [interactionMode, setInteractionMode] = useState('choices'); // 'choices' | 'sentence' | 'voice'
   const interactionAreaRef = useRef(null);
 
@@ -141,6 +168,13 @@ export default function StoryAdventure({
   const story = worlds.find((w) => w.id === selectedWorldId) || worlds[0];
   const chapter = story.chapters[currentChapterIndex] || story.chapters[0];
   const totalChapters = story.chapters.length;
+  const currentChapterKey = `${story.id}:${chapter.id}`;
+  const effectiveChapterSolved = isChapterSolved || solvedChapterKeys.has(currentChapterKey);
+
+  const markCurrentChapterSolved = () => {
+    setIsChapterSolved(true);
+    setSolvedChapterKeys((prev) => markCompletedId(SOLVED_CHAPTERS_KEY, prev, currentChapterKey));
+  };
 
   const targetChoice = chapter.choices.find(c => c.isCorrect) || chapter.choices[0];
   const targetPhraseClean = (targetChoice?.text || '')
@@ -275,7 +309,7 @@ export default function StoryAdventure({
     }
 
     if (choice.isCorrect) {
-      setIsChapterSolved(true);
+      markCurrentChapterSolved();
       setFeedbackMessage(choice.feedback);
       recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
       playStarSparkle(isMuted);
@@ -347,7 +381,7 @@ export default function StoryAdventure({
 
     // Check if complete
     if (updated.length === targetWords.length) {
-      setIsChapterSolved(true);
+      markCurrentChapterSolved();
       setFeedbackMessage('Fantastic sentence building! You snapped the bricks together!');
       recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
       playStarSparkle(isMuted);
@@ -440,8 +474,8 @@ export default function StoryAdventure({
           setVoiceEvaluation(evalResult);
 
           if (evalResult.isAccepted) {
-            const wasAlreadySolved = isChapterSolved;
-            setIsChapterSolved(true);
+            const wasAlreadySolved = effectiveChapterSolved;
+            markCurrentChapterSolved();
             setFeedbackMessage(evalResult.feedbackEn);
             recordMasteredWord(targetPhraseClean, chapter.sceneBackdrop?.props?.[0]?.emoji || '📖');
             playSnap(isMuted);
@@ -524,25 +558,32 @@ export default function StoryAdventure({
           aria-label="Choose Story World"
           value={story.id}
           onChange={(e) => {
+            const nextWorldId = e.target.value;
             playTap(isMuted);
             resetChapterState();
-            setSelectedWorldId(e.target.value);
-            setCurrentChapterIndex(0);
+            setSelectedWorldId(nextWorldId);
+            const savedMap = readWorldChaptersMap();
+            const restoredIdx = Number.isFinite(Number(savedMap[nextWorldId])) ? Number(savedMap[nextWorldId]) : 0;
+            setCurrentChapterIndex(restoredIdx);
             setIsStoryComplete(false);
           }}
           className="bg-slate-800 text-white font-display font-black text-sm px-3 py-1.5 rounded-xl border border-slate-600 cursor-pointer"
         >
-          {worlds.map((w) => (
-            <option key={w.id} value={w.id}>
-              {w.emoji} {w.title}
-            </option>
-          ))}
+          {worlds.map((w) => {
+            const worldDone = w.chapters.every((c) => solvedChapterKeys.has(`${w.id}:${c.id}`));
+            return (
+              <option key={w.id} value={w.id}>
+                {w.emoji} {w.title}{worldDone ? ' ✓' : ''}
+              </option>
+            );
+          })}
         </select>
 
         <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
           {story.chapters.map((chap, idx) => {
             const isCurrent = idx === currentChapterIndex;
-            const isPast = idx < currentChapterIndex || (idx === currentChapterIndex && isChapterSolved);
+            const isSolved = solvedChapterKeys.has(`${story.id}:${chap.id}`) || (isCurrent && isChapterSolved);
+            const isPast = idx < currentChapterIndex || isSolved;
             const chapEmoji = chap.sceneBackdrop?.props?.[0]?.emoji || '⭐';
             return (
               <button

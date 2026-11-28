@@ -1508,7 +1508,7 @@ export function getStoryData(childName = 'Deniz') {
           color: 'from-indigo-600 to-purple-700',
           actionBadge: '✨ Sweet Dreams',
         },
-        characterLine: `What a wonderful day, ${childName}! Did you brush your teeth and put on your pajamas?`,
+        characterLine: `Time for bed, ${childName}! Are you sleepy?`,
         audioKey: 'goodnight',
         translationDe: `Was für ein toller Tag, ${childName}! Hast du deine Zähne geputzt und deinen Schlafanzug angezogen?`,
         translationTr: `Ne harika bir gündü ${childName}! Dişlerini fırçalayıp pijamalarını giydin mi?`,

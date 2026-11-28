@@ -20248,6 +20248,146 @@
     "hash": "78546c9e70a8cf33"
   },
   {
+    "text": "sun",
+    "hash": "52ab41d42c9a5e40"
+  },
+  {
+    "text": "lion",
+    "hash": "3990296c724310a3"
+  },
+  {
+    "text": "giraffe",
+    "hash": "21e3269d36043ad9"
+  },
+  {
+    "text": "elephant",
+    "hash": "65fbc92bfe4642b3"
+  },
+  {
+    "text": "monkey",
+    "hash": "bd6d3446fe6acec7"
+  },
+  {
+    "text": "fish",
+    "hash": "7cde150f29053547"
+  },
+  {
+    "text": "car",
+    "hash": "f9c26110dd277b4e"
+  },
+  {
+    "text": "planet",
+    "hash": "f2708e958ac74f22"
+  },
+  {
+    "text": "rocket",
+    "hash": "2a53eb01eb444c8e"
+  },
+  {
+    "text": "astronaut",
+    "hash": "9a4e2a686056f756"
+  },
+  {
+    "text": "moon",
+    "hash": "ccdb1f087dd126c5"
+  },
+  {
+    "text": "spaceship",
+    "hash": "7157667c6383ae1a"
+  },
+  {
+    "text": "star",
+    "hash": "47ae74b910e8e350"
+  },
+  {
+    "text": "robot",
+    "hash": "e112703291f3e31c"
+  },
+  {
+    "text": "umbrella",
+    "hash": "865033f2fd28e318"
+  },
+  {
+    "text": "castle",
+    "hash": "107e5f4e8dff35fe"
+  },
+  {
+    "text": "crab",
+    "hash": "9cb750e99a0fcfa8"
+  },
+  {
+    "text": "boat",
+    "hash": "abc3ac792134f079"
+  },
+  {
+    "text": "bird",
+    "hash": "778f4d272e1b187e"
+  },
+  {
+    "text": "ice cream",
+    "hash": "753ec685da20c631"
+  },
+  {
+    "text": "ball",
+    "hash": "666dccf7799b270b"
+  },
+  {
+    "text": "cake",
+    "hash": "aeec393480b936b6"
+  },
+  {
+    "text": "bread",
+    "hash": "44a645fe7b5ecb9c"
+  },
+  {
+    "text": "cupcake",
+    "hash": "5db4c9abccb2adb4"
+  },
+  {
+    "text": "spoon",
+    "hash": "f8d3a2d2cb53daf6"
+  },
+  {
+    "text": "sign",
+    "hash": "e7319c87b6d95df5"
+  },
+  {
+    "text": "teapot",
+    "hash": "5492d3e0bb8ea02d"
+  },
+  {
+    "text": "cookie",
+    "hash": "abe5e238121bbdb0"
+  },
+  {
+    "text": "flag",
+    "hash": "8c440440c7bcae8d"
+  },
+  {
+    "text": "parrot",
+    "hash": "09c11431388344d5"
+  },
+  {
+    "text": "treasure",
+    "hash": "ee34e5e4ea783a9c"
+  },
+  {
+    "text": "anchor",
+    "hash": "4a863632aaf145ca"
+  },
+  {
+    "text": "wheel",
+    "hash": "274f2622e010f31b"
+  },
+  {
+    "text": "whale",
+    "hash": "426ef3ad5c1e97b4"
+  },
+  {
+    "text": "telescope",
+    "hash": "3bd968ef887844f3"
+  },
+  {
     "text": "Good morning, Deniz! Time for school!",
     "hash": "b0ae50f886b770f6"
   },
@@ -21314,10 +21454,6 @@
   {
     "text": "play",
     "hash": "1c61410c44f39314"
-  },
-  {
-    "text": "ball",
-    "hash": "666dccf7799b270b"
   },
   {
     "text": "Yes, let's play!",
@@ -22416,32 +22552,16 @@
     "hash": "88df2a9277070e0b"
   },
   {
-    "text": "What a wonderful day, Deniz! Did you brush your teeth and put on your pajamas?",
-    "hash": "baadacff19dc607a"
+    "text": "Time for bed, Deniz! Are you sleepy?",
+    "hash": "dc0a71463a3b72b4"
   },
   {
-    "text": "wonderful",
-    "hash": "eb4ad9810d285f25"
+    "text": "bed",
+    "hash": "52c74dbae5478e9a"
   },
   {
-    "text": "did",
-    "hash": "0716b9c4fccee836"
-  },
-  {
-    "text": "brush",
-    "hash": "3f9da1b545b116c4"
-  },
-  {
-    "text": "your",
-    "hash": "e88a6bd6718131a4"
-  },
-  {
-    "text": "teeth",
-    "hash": "e303e08130f8fcad"
-  },
-  {
-    "text": "pajamas",
-    "hash": "aa50928af5672654"
+    "text": "sleepy",
+    "hash": "69a7dd901f23b2b9"
   },
   {
     "text": "Good night! Sweet dreams!",
@@ -22650,6 +22770,10 @@
   {
     "text": "hotel",
     "hash": "d00dc14c55a55559"
+  },
+  {
+    "text": "your",
+    "hash": "e88a6bd6718131a4"
   },
   {
     "text": "room",
@@ -24224,10 +24348,6 @@
     "hash": "2e5ef13a5be82757"
   },
   {
-    "text": "rocket",
-    "hash": "2a53eb01eb444c8e"
-  },
-  {
     "text": "see",
     "hash": "23da835d80aec19e"
   },
@@ -24508,16 +24628,8 @@
     "hash": "e3c79d58e7aa3496"
   },
   {
-    "text": "giraffe",
-    "hash": "21e3269d36043ad9"
-  },
-  {
     "text": "friendly",
     "hash": "1a283c90d2681ac7"
-  },
-  {
-    "text": "elephant",
-    "hash": "65fbc92bfe4642b3"
   },
   {
     "text": "animal",
@@ -24660,20 +24772,20 @@
     "hash": "fbabd55dbaee1a89"
   },
   {
-    "text": "Welcome aboard the Bosphorus ferry, Deniz! Look at the bridge and seagulls!",
-    "hash": "5e14d0841679377c"
+    "text": "Look, Deniz! A big boat and white birds!",
+    "hash": "69b64d28c2866d54"
   },
   {
-    "text": "bosphorus",
-    "hash": "a3be2c7d5adc0447"
+    "text": "big",
+    "hash": "6e07067d09b071e5"
   },
   {
-    "text": "ferry",
-    "hash": "df070a31af6211b7"
+    "text": "white",
+    "hash": "a321bc0b6e3e0f8c"
   },
   {
-    "text": "seagulls",
-    "hash": "0c114e9d275703a9"
+    "text": "birds",
+    "hash": "014e9b2a0f21a7d3"
   },
   {
     "text": "Let's feed the seagulls and eat simit!",
@@ -24844,28 +24956,12 @@
     "hash": "a8c252f291b84267"
   },
   {
-    "text": "Hello Deniz! Welcome to Aachen! Look at the warm fountain and sweet Printen cookies!",
-    "hash": "e15c46370bbd2a74"
+    "text": "Hello Deniz! Let us walk in Aachen!",
+    "hash": "56e6ed71a6b67c33"
   },
   {
     "text": "aachen",
     "hash": "fe1a7240b4ba460c"
-  },
-  {
-    "text": "fountain",
-    "hash": "eec7d428c7f7fd39"
-  },
-  {
-    "text": "sweet",
-    "hash": "9bf0c08c555843a5"
-  },
-  {
-    "text": "printen",
-    "hash": "7a8eb051da04bb61"
-  },
-  {
-    "text": "cookies",
-    "hash": "588293e5af635b81"
   },
   {
     "text": "Let us taste a sweet cookie by the fountain!",
@@ -26352,10 +26448,6 @@
     "hash": "f6fbbb9390021fbf"
   },
   {
-    "text": "big",
-    "hash": "6e07067d09b071e5"
-  },
-  {
     "text": "small",
     "hash": "f72277e9b570d8c8"
   },
@@ -26760,10 +26852,6 @@
     "hash": "2f93a7cd61683a0a"
   },
   {
-    "text": "star",
-    "hash": "47ae74b910e8e350"
-  },
-  {
     "text": "feel",
     "hash": "1e2678b1d0d65e18"
   },
@@ -26892,36 +26980,16 @@
     "hash": "0ab26ea9e912f47d"
   },
   {
-    "text": "Dive in, Deniz! Look outside our yellow submarine! Who swims with eight arms?",
-    "hash": "166c7be7830b515c"
+    "text": "Dive in, Deniz! Look at the sea animals!",
+    "hash": "a8856a429b59bfc6"
   },
   {
     "text": "dive",
     "hash": "baf319e95a787dd0"
   },
   {
-    "text": "our",
-    "hash": "2afb0d94d2e94bdf"
-  },
-  {
-    "text": "yellow",
-    "hash": "ce7bc087957c3eb3"
-  },
-  {
-    "text": "submarine",
-    "hash": "cae9b38a1acacd80"
-  },
-  {
-    "text": "swims",
-    "hash": "7e214854ed0f7636"
-  },
-  {
-    "text": "eight",
-    "hash": "4cd66021bfb3a257"
-  },
-  {
-    "text": "arms",
-    "hash": "098a815936d92f4e"
+    "text": "animals",
+    "hash": "6593ac3f04b39441"
   },
   {
     "text": "The purple octopus has eight arms!",
@@ -27052,36 +27120,16 @@
     "hash": "4e51c40a3a13199a"
   },
   {
-    "text": "Ahoy, Captain Deniz! We found the treasure chest on the island! What is inside?",
-    "hash": "0d78f3e1b798fed2"
+    "text": "Ahoy, Deniz! Look at the treasure box!",
+    "hash": "a0ef60f6d5b7d914"
   },
   {
     "text": "ahoy",
     "hash": "aea165242491e816"
   },
   {
-    "text": "captain",
-    "hash": "f18399576aed6cf2"
-  },
-  {
-    "text": "found",
-    "hash": "eaf8f3d5dfd6870c"
-  },
-  {
-    "text": "treasure",
-    "hash": "ee34e5e4ea783a9c"
-  },
-  {
-    "text": "chest",
-    "hash": "4f90ce1524d6e643"
-  },
-  {
-    "text": "island",
-    "hash": "66d37989a1005975"
-  },
-  {
-    "text": "inside",
-    "hash": "a6a5b573b9bee15e"
+    "text": "box",
+    "hash": "1f92b820e41a39cb"
   },
   {
     "text": "Shiny gold coins and jewels!",
@@ -27324,10 +27372,6 @@
     "hash": "8175390a049df602"
   },
   {
-    "text": "sun",
-    "hash": "52ab41d42c9a5e40"
-  },
-  {
     "text": "bus",
     "hash": "e94b93ad67dfbfd0"
   },
@@ -27350,10 +27394,6 @@
   {
     "text": "hat",
     "hash": "5291f12e8fcf9a9e"
-  },
-  {
-    "text": "box",
-    "hash": "1f92b820e41a39cb"
   },
   {
     "text": "bug",
@@ -27956,10 +27996,6 @@
     "hash": "c6701b1721c50c8e"
   },
   {
-    "text": "cake",
-    "hash": "aeec393480b936b6"
-  },
-  {
     "text": "What did Deniz jump into at Ballorig?",
     "hash": "6525cc3852fed2a7"
   },
@@ -28072,8 +28108,8 @@
     "hash": "8e7184aa1a7315f1"
   },
   {
-    "text": "white",
-    "hash": "a321bc0b6e3e0f8c"
+    "text": "ferry",
+    "hash": "df070a31af6211b7"
   },
   {
     "text": "Istanbul",
@@ -28084,12 +28120,12 @@
     "hash": "3d4d329fd2882b72"
   },
   {
-    "text": "next",
-    "hash": "78f1a68336284c1c"
+    "text": "seagulls",
+    "hash": "0c114e9d275703a9"
   },
   {
-    "text": "boat",
-    "hash": "abc3ac792134f079"
+    "text": "next",
+    "hash": "78f1a68336284c1c"
   },
   {
     "text": "We eat warm sesame simit on the deck.",
@@ -28302,6 +28338,10 @@
   {
     "text": "cool",
     "hash": "c834d7f68e4e57cd"
+  },
+  {
+    "text": "swims",
+    "hash": "7e214854ed0f7636"
   },
   {
     "text": "laps",
@@ -28546,6 +28586,10 @@
   {
     "text": "stir",
     "hash": "b3aae0a9fb9f17d4"
+  },
+  {
+    "text": "sweet",
+    "hash": "9bf0c08c555843a5"
   },
   {
     "text": "batter",
@@ -29088,10 +29132,6 @@
     "hash": "892e8cd96408a7ea"
   },
   {
-    "text": "umbrella",
-    "hash": "865033f2fd28e318"
-  },
-  {
     "text": "After the rain, a bright rainbow appears!",
     "hash": "52d345615381ec77"
   },
@@ -29162,6 +29202,1014 @@
   {
     "text": "That is A submarine. I am asking: What appears in the sky after the rain?",
     "hash": "7cd378ed74f5d4c4"
+  },
+  {
+    "text": "Deniz walks into the big Dinosaur Museum.",
+    "hash": "669e88aedf913017"
+  },
+  {
+    "text": "walks",
+    "hash": "e0c1d5d2f08cc7a2"
+  },
+  {
+    "text": "Look at the giant dinosaur bones!",
+    "hash": "4dc511c1e0894e8c"
+  },
+  {
+    "text": "bones",
+    "hash": "b78bd7e79397d385"
+  },
+  {
+    "text": "We see a round dinosaur egg in the glass case.",
+    "hash": "4453cbadc937a93b"
+  },
+  {
+    "text": "round",
+    "hash": "815fcd8b3aedf077"
+  },
+  {
+    "text": "egg",
+    "hash": "c560d269a5810dd7"
+  },
+  {
+    "text": "glass",
+    "hash": "2308ad61b0e76b89"
+  },
+  {
+    "text": "case",
+    "hash": "871286ff593ef336"
+  },
+  {
+    "text": "Deniz roars like a friendly dinosaur!",
+    "hash": "03c88da78fcd6e52"
+  },
+  {
+    "text": "roars",
+    "hash": "0b4d1c1a8ff0b509"
+  },
+  {
+    "text": "What giant bones did Deniz see at the museum?",
+    "hash": "8f74edceb6d30c59"
+  },
+  {
+    "text": "A bicycle",
+    "hash": "a354e624705c1fe7"
+  },
+  {
+    "text": "That is A bicycle. I am asking: What giant bones did Deniz see at the museum?",
+    "hash": "39e5c882344086e4"
+  },
+  {
+    "text": "A banana",
+    "hash": "2a7eb5c43aa947f6"
+  },
+  {
+    "text": "That is A banana. I am asking: What giant bones did Deniz see at the museum?",
+    "hash": "09d9ff1f8f57608f"
+  },
+  {
+    "text": "Dinosaur bones",
+    "hash": "916a7028c067362f"
+  },
+  {
+    "text": "That is Dinosaur bones. I am asking: What giant bones did Deniz see at the museum?",
+    "hash": "80a712a1d8f4332e"
+  },
+  {
+    "text": "Deniz puts on a shiny space helmet.",
+    "hash": "a5fd551f61e311a8"
+  },
+  {
+    "text": "puts",
+    "hash": "ff06aaee52a859d8"
+  },
+  {
+    "text": "helmet",
+    "hash": "2d845201484d2a62"
+  },
+  {
+    "text": "Three, two, one, blast off to space!",
+    "hash": "9683d98b87eba5d8"
+  },
+  {
+    "text": "two",
+    "hash": "49965e94021f0f69"
+  },
+  {
+    "text": "blast",
+    "hash": "a0a0e327e21ad249"
+  },
+  {
+    "text": "off",
+    "hash": "ee7bf9d0df41dac8"
+  },
+  {
+    "text": "He floats and bounces on the dusty moon.",
+    "hash": "d810e09ad74eb78c"
+  },
+  {
+    "text": "floats",
+    "hash": "16c23e8fbb8aa2db"
+  },
+  {
+    "text": "bounces",
+    "hash": "5a4a585ba7ceea84"
+  },
+  {
+    "text": "dusty",
+    "hash": "9c4c5a8751fbeb25"
+  },
+  {
+    "text": "Look! Blue Earth looks like a little marble!",
+    "hash": "36da0898209d564f"
+  },
+  {
+    "text": "little",
+    "hash": "1251b3c6c637f4c0"
+  },
+  {
+    "text": "marble",
+    "hash": "e39cd877bfce8705"
+  },
+  {
+    "text": "How does Deniz move on the moon?",
+    "hash": "9fc30d64c344cac5"
+  },
+  {
+    "text": "Rides a bus",
+    "hash": "7c6db9c9e2a40126"
+  },
+  {
+    "text": "That is Rides a bus. I am asking: How does Deniz move on the moon?",
+    "hash": "06206582dcb4fc84"
+  },
+  {
+    "text": "Floats and bounces",
+    "hash": "bf0c687d4d50a6b8"
+  },
+  {
+    "text": "That is Floats and bounces. I am asking: How does Deniz move on the moon?",
+    "hash": "a79a21ba5f1caa4c"
+  },
+  {
+    "text": "Swims in a pool",
+    "hash": "c0f907a02ec1d29f"
+  },
+  {
+    "text": "That is Swims in a pool. I am asking: How does Deniz move on the moon?",
+    "hash": "c863b959562184e9"
+  },
+  {
+    "text": "Tonight we make homemade pizza together!",
+    "hash": "a5f257b4fa8aa152"
+  },
+  {
+    "text": "Tonight",
+    "hash": "20fe5344b49c050b"
+  },
+  {
+    "text": "make",
+    "hash": "1155efc055d8cbaf"
+  },
+  {
+    "text": "homemade",
+    "hash": "5a637d42bc4f625b"
+  },
+  {
+    "text": "pizza",
+    "hash": "e30b677083610d4d"
+  },
+  {
+    "text": "Deniz spreads red tomato sauce on the dough.",
+    "hash": "e9590b6cabbf1d07"
+  },
+  {
+    "text": "spreads",
+    "hash": "517cea05f4ef2f11"
+  },
+  {
+    "text": "tomato",
+    "hash": "04e2ef9c1bba38a2"
+  },
+  {
+    "text": "sauce",
+    "hash": "7d7e9c996d00b93c"
+  },
+  {
+    "text": "dough",
+    "hash": "0fc29e5691362918"
+  },
+  {
+    "text": "We sprinkle lots of yummy yellow cheese.",
+    "hash": "162236a583f05939"
+  },
+  {
+    "text": "sprinkle",
+    "hash": "4befc569dfddfb14"
+  },
+  {
+    "text": "lots",
+    "hash": "f6e7967b1a54ed50"
+  },
+  {
+    "text": "yellow",
+    "hash": "ce7bc087957c3eb3"
+  },
+  {
+    "text": "cheese",
+    "hash": "5503fd841dcd2344"
+  },
+  {
+    "text": "Hot out of the oven! Everyone grabs a slice!",
+    "hash": "712fa6e7d17aea2c"
+  },
+  {
+    "text": "oven",
+    "hash": "75e710ccfcdbeaeb"
+  },
+  {
+    "text": "grabs",
+    "hash": "ac3429e7d5c38fcc"
+  },
+  {
+    "text": "slice",
+    "hash": "54ce2cd747c748c9"
+  },
+  {
+    "text": "What does Deniz spread on the pizza dough?",
+    "hash": "b10414acdecec19d"
+  },
+  {
+    "text": "Red tomato sauce",
+    "hash": "c1a4874907bf2aaf"
+  },
+  {
+    "text": "That is Red tomato sauce. I am asking: What does Deniz spread on the pizza dough?",
+    "hash": "7baa473d0bab8b7d"
+  },
+  {
+    "text": "Blue paint",
+    "hash": "b72e2c68ed1ee806"
+  },
+  {
+    "text": "That is Blue paint. I am asking: What does Deniz spread on the pizza dough?",
+    "hash": "b204c39cef0a8536"
+  },
+  {
+    "text": "Cold snow",
+    "hash": "0d75eebbb883a8b6"
+  },
+  {
+    "text": "That is Cold snow. I am asking: What does Deniz spread on the pizza dough?",
+    "hash": "a6f5aa2e3f9896e7"
+  },
+  {
+    "text": "Beep beep! A bright red fire truck zooms past.",
+    "hash": "9283de7eda9adeb8"
+  },
+  {
+    "text": "Beep",
+    "hash": "51f9e0139d4048ce"
+  },
+  {
+    "text": "beep",
+    "hash": "1edb2b3f950edbe6"
+  },
+  {
+    "text": "A",
+    "hash": "d35aa568cfde26b7"
+  },
+  {
+    "text": "truck",
+    "hash": "f6608ca2aae73088"
+  },
+  {
+    "text": "past",
+    "hash": "5ef613094e9e5e6b"
+  },
+  {
+    "text": "The firefighters lift a tall ladder.",
+    "hash": "845cadb44930f719"
+  },
+  {
+    "text": "lift",
+    "hash": "8793162df5a031b7"
+  },
+  {
+    "text": "ladder",
+    "hash": "c61e630de31d5f1c"
+  },
+  {
+    "text": "A little orange cat is stuck in the tree!",
+    "hash": "f1d8edfac3e672be"
+  },
+  {
+    "text": "stuck",
+    "hash": "76520d041ce967e3"
+  },
+  {
+    "text": "They rescue the kitty safely. Hurray!",
+    "hash": "56fd58a1fd9e200b"
+  },
+  {
+    "text": "rescue",
+    "hash": "4941aecf970ebdd8"
+  },
+  {
+    "text": "kitty",
+    "hash": "3c2c61e07d838c34"
+  },
+  {
+    "text": "Hurray",
+    "hash": "d131edef4cb637e3"
+  },
+  {
+    "text": "Who was stuck up in the tree?",
+    "hash": "e704743c023c7deb"
+  },
+  {
+    "text": "A green frog",
+    "hash": "bbcc11184898c53d"
+  },
+  {
+    "text": "That is A green frog. I am asking: Who was stuck up in the tree?",
+    "hash": "dfdf8dfaee9e1221"
+  },
+  {
+    "text": "A big whale",
+    "hash": "e4650b87084aaa6a"
+  },
+  {
+    "text": "That is A big whale. I am asking: Who was stuck up in the tree?",
+    "hash": "f904738790aef6f4"
+  },
+  {
+    "text": "A little orange cat",
+    "hash": "dbd9cfb6fc16e3c8"
+  },
+  {
+    "text": "That is A little orange cat. I am asking: Who was stuck up in the tree?",
+    "hash": "5bb714929cb23512"
+  },
+  {
+    "text": "Deniz finds an old treasure map in a bottle.",
+    "hash": "60d458dd7e58b2f7"
+  },
+  {
+    "text": "finds",
+    "hash": "33ff660c60857e63"
+  },
+  {
+    "text": "old",
+    "hash": "9462ca169bcff6a1"
+  },
+  {
+    "text": "map",
+    "hash": "ad6064df3834734f"
+  },
+  {
+    "text": "bottle",
+    "hash": "ec68ad7dc34e56c3"
+  },
+  {
+    "text": "We sail across the blue waves on a boat.",
+    "hash": "21518e83f39c0367"
+  },
+  {
+    "text": "sail",
+    "hash": "72bb2c3ddd8d01f1"
+  },
+  {
+    "text": "across",
+    "hash": "6da818058561a25c"
+  },
+  {
+    "text": "waves",
+    "hash": "8a6730b8c48dd201"
+  },
+  {
+    "text": "X marks the spot under a tall palm tree!",
+    "hash": "e81a50fab45e87b3"
+  },
+  {
+    "text": "X",
+    "hash": "e41c5752de933e7e"
+  },
+  {
+    "text": "marks",
+    "hash": "3c1667349492ed6f"
+  },
+  {
+    "text": "spot",
+    "hash": "55b19f22c27181d3"
+  },
+  {
+    "text": "palm",
+    "hash": "dd59bf3a14e95c19"
+  },
+  {
+    "text": "Dig, dig, dig! A chest full of gold coins!",
+    "hash": "99f2a63a83df7fdf"
+  },
+  {
+    "text": "Dig",
+    "hash": "237ab34c54ff29a7"
+  },
+  {
+    "text": "dig",
+    "hash": "a1e5e179b53a8012"
+  },
+  {
+    "text": "chest",
+    "hash": "4f90ce1524d6e643"
+  },
+  {
+    "text": "full",
+    "hash": "d5f7912b8645b106"
+  },
+  {
+    "text": "coins",
+    "hash": "3b8d56e8bf3ba57d"
+  },
+  {
+    "text": "Where was the treasure hidden?",
+    "hash": "7a77a3fa902b1845"
+  },
+  {
+    "text": "On a cloud",
+    "hash": "7d6086ac91497495"
+  },
+  {
+    "text": "That is On a cloud. I am asking: Where was the treasure hidden?",
+    "hash": "2dcf71424b7c96e5"
+  },
+  {
+    "text": "Under a palm tree",
+    "hash": "9926f8fa83b2a71e"
+  },
+  {
+    "text": "That is Under a palm tree. I am asking: Where was the treasure hidden?",
+    "hash": "a2940217c2721b28"
+  },
+  {
+    "text": "Inside a fridge",
+    "hash": "5428af54369a67eb"
+  },
+  {
+    "text": "That is Inside a fridge. I am asking: Where was the treasure hidden?",
+    "hash": "3b22a33a0ca350fc"
+  },
+  {
+    "text": "Little puppy Milo has a sore paw today.",
+    "hash": "5c4dcd6f02b650e6"
+  },
+  {
+    "text": "Little",
+    "hash": "36d20ec5095b8bee"
+  },
+  {
+    "text": "Milo",
+    "hash": "9488213db60e1abd"
+  },
+  {
+    "text": "sore",
+    "hash": "92c1038b16cea99a"
+  },
+  {
+    "text": "The kind animal doctor checks his heartbeat.",
+    "hash": "2e118cdac95a0997"
+  },
+  {
+    "text": "doctor",
+    "hash": "ab0faaa88de514d8"
+  },
+  {
+    "text": "checks",
+    "hash": "a3c000388524837b"
+  },
+  {
+    "text": "heartbeat",
+    "hash": "80ff851563d2f283"
+  },
+  {
+    "text": "She wraps a blue bandage around his paw.",
+    "hash": "702454856d024c68"
+  },
+  {
+    "text": "She",
+    "hash": "cf364ffc568daa51"
+  },
+  {
+    "text": "wraps",
+    "hash": "7202338fff22662f"
+  },
+  {
+    "text": "Milo gets a crunchy treat and wags his tail!",
+    "hash": "8a77f06eb2cf2fc8"
+  },
+  {
+    "text": "gets",
+    "hash": "0f592fd46279a950"
+  },
+  {
+    "text": "crunchy",
+    "hash": "a34763e250b84f0e"
+  },
+  {
+    "text": "wags",
+    "hash": "3879af647142a574"
+  },
+  {
+    "text": "tail",
+    "hash": "4b358bfb4b94accd"
+  },
+  {
+    "text": "What color bandage did Milo get?",
+    "hash": "27d7d11ccbda8a0b"
+  },
+  {
+    "text": "A blue bandage",
+    "hash": "f1eb9a699389f181"
+  },
+  {
+    "text": "That is A blue bandage. I am asking: What color bandage did Milo get?",
+    "hash": "7589711c15ceca2b"
+  },
+  {
+    "text": "A paper hat",
+    "hash": "569f43b1bf13c6f9"
+  },
+  {
+    "text": "That is A paper hat. I am asking: What color bandage did Milo get?",
+    "hash": "a03ddf6f933dfe73"
+  },
+  {
+    "text": "A red shoe",
+    "hash": "34ad8a8d2ccdbeb1"
+  },
+  {
+    "text": "That is A red shoe. I am asking: What color bandage did Milo get?",
+    "hash": "bb0d101c1a78281f"
+  },
+  {
+    "text": "Deniz pushes the little shopping cart.",
+    "hash": "1737f39da842cc71"
+  },
+  {
+    "text": "pushes",
+    "hash": "333081f5d00a95b3"
+  },
+  {
+    "text": "We pick five crunchy red apples.",
+    "hash": "dfe3961ec2c4381d"
+  },
+  {
+    "text": "five",
+    "hash": "aadcbbca2c8cff42"
+  },
+  {
+    "text": "apples",
+    "hash": "df0c6742ef654957"
+  },
+  {
+    "text": "Next we put orange carrots and milk in the cart.",
+    "hash": "05f45d8062c1dc48"
+  },
+  {
+    "text": "Next",
+    "hash": "ff34a0920bee2262"
+  },
+  {
+    "text": "carrots",
+    "hash": "21d049d70d40fd4a"
+  },
+  {
+    "text": "milk",
+    "hash": "673c93c41094d02a"
+  },
+  {
+    "text": "And one sweet cupcake as a special treat!",
+    "hash": "780c1df99add281f"
+  },
+  {
+    "text": "And",
+    "hash": "5df6f7075c7ccdaa"
+  },
+  {
+    "text": "as",
+    "hash": "65cceef0f97c3a6c"
+  },
+  {
+    "text": "special",
+    "hash": "5719982813c311d1"
+  },
+  {
+    "text": "How many red apples did Deniz pick?",
+    "hash": "a237772a1546e3f5"
+  },
+  {
+    "text": "Fifty cars",
+    "hash": "eeba5022701a1a38"
+  },
+  {
+    "text": "That is Fifty cars. I am asking: How many red apples did Deniz pick?",
+    "hash": "5816145489cfb144"
+  },
+  {
+    "text": "Zero bananas",
+    "hash": "f26bdb58dbb30b36"
+  },
+  {
+    "text": "That is Zero bananas. I am asking: How many red apples did Deniz pick?",
+    "hash": "95f756ab5b04f122"
+  },
+  {
+    "text": "Five apples",
+    "hash": "0de6964bf93c7ef2"
+  },
+  {
+    "text": "That is Five apples. I am asking: How many red apples did Deniz pick?",
+    "hash": "a263880e90900837"
+  },
+  {
+    "text": "A tiny green caterpillar munches on a leaf.",
+    "hash": "86baa75e7cfe4e44"
+  },
+  {
+    "text": "tiny",
+    "hash": "4641b350673f10d8"
+  },
+  {
+    "text": "caterpillar",
+    "hash": "144c26a9390fd289"
+  },
+  {
+    "text": "munches",
+    "hash": "75007bef4b7a36ce"
+  },
+  {
+    "text": "leaf",
+    "hash": "aa8b0a550d1a90b0"
+  },
+  {
+    "text": "Soon it builds a cozy little house.",
+    "hash": "512d94b34f44e0c1"
+  },
+  {
+    "text": "Soon",
+    "hash": "7fb645c3313ca0e2"
+  },
+  {
+    "text": "builds",
+    "hash": "3e16a20dd59213df"
+  },
+  {
+    "text": "cozy",
+    "hash": "96e3867899bfa1c9"
+  },
+  {
+    "text": "house",
+    "hash": "860fc00e36bb1063"
+  },
+  {
+    "text": "It sleeps quietly for many days.",
+    "hash": "63b7e39b51e5fe89"
+  },
+  {
+    "text": "It",
+    "hash": "36a09b4c767f6e14"
+  },
+  {
+    "text": "quietly",
+    "hash": "b058f3ccc66cadcf"
+  },
+  {
+    "text": "many",
+    "hash": "387471411746d488"
+  },
+  {
+    "text": "days",
+    "hash": "739a077e326ac6f3"
+  },
+  {
+    "text": "Pop! Out flies a colorful butterfly!",
+    "hash": "9017791fdb7191d5"
+  },
+  {
+    "text": "Pop",
+    "hash": "a028cf6a952bbdd6"
+  },
+  {
+    "text": "Out",
+    "hash": "56edc3db094d0c95"
+  },
+  {
+    "text": "butterfly",
+    "hash": "ef7686891a1463cc"
+  },
+  {
+    "text": "What did the caterpillar turn into?",
+    "hash": "d1f9fe09f26df3d8"
+  },
+  {
+    "text": "A big rock",
+    "hash": "0dbb687a4d0d5547"
+  },
+  {
+    "text": "That is A big rock. I am asking: What did the caterpillar turn into?",
+    "hash": "e96680b27f4039c6"
+  },
+  {
+    "text": "A colorful butterfly",
+    "hash": "f43b629d81c5f0e4"
+  },
+  {
+    "text": "That is A colorful butterfly. I am asking: What did the caterpillar turn into?",
+    "hash": "4616c7140ac0eae1"
+  },
+  {
+    "text": "A yellow bus",
+    "hash": "0410b31e0739424b"
+  },
+  {
+    "text": "That is A yellow bus. I am asking: What did the caterpillar turn into?",
+    "hash": "6946c24f59ae5cb1"
+  },
+  {
+    "text": "Deniz holds his train ticket tightly.",
+    "hash": "58fd6c7910637d4d"
+  },
+  {
+    "text": "holds",
+    "hash": "caeaed01d2c73f8f"
+  },
+  {
+    "text": "train",
+    "hash": "b3a563cc88b5847b"
+  },
+  {
+    "text": "ticket",
+    "hash": "bbf1d065f7deed74"
+  },
+  {
+    "text": "tightly",
+    "hash": "30946092bd9c53b7"
+  },
+  {
+    "text": "Choo choo! The fast silver train leaves the station.",
+    "hash": "b453a587a20de7c6"
+  },
+  {
+    "text": "Choo",
+    "hash": "71c1c09988187edc"
+  },
+  {
+    "text": "choo",
+    "hash": "9b900981a9581c28"
+  },
+  {
+    "text": "silver",
+    "hash": "48db35917b6792b1"
+  },
+  {
+    "text": "leaves",
+    "hash": "ef62aa217dc9829e"
+  },
+  {
+    "text": "Through the window, we wave at cows on green hills.",
+    "hash": "ac3271d2a63b318a"
+  },
+  {
+    "text": "Through",
+    "hash": "f72006f1cbf9a1d2"
+  },
+  {
+    "text": "window",
+    "hash": "02d613966fbaa92e"
+  },
+  {
+    "text": "wave",
+    "hash": "e5f0e4132859df28"
+  },
+  {
+    "text": "cows",
+    "hash": "303f46e973727a5b"
+  },
+  {
+    "text": "hills",
+    "hash": "6620cb234f977f11"
+  },
+  {
+    "text": "Hooray! Grandma and Grandpa hug us at the platform!",
+    "hash": "aebb3d9b5ed0d6d3"
+  },
+  {
+    "text": "Hooray",
+    "hash": "cacf9e7a5476234f"
+  },
+  {
+    "text": "hug",
+    "hash": "e275218f5fbb9d2c"
+  },
+  {
+    "text": "platform",
+    "hash": "f98f4fbe64fe2c13"
+  },
+  {
+    "text": "Who did Deniz wave at through the train window?",
+    "hash": "a0b76ba4442b1385"
+  },
+  {
+    "text": "Cows on green hills",
+    "hash": "e2b91c4821b1c7aa"
+  },
+  {
+    "text": "That is Cows on green hills. I am asking: Who did Deniz wave at through the train window?",
+    "hash": "fc4909861a7b187c"
+  },
+  {
+    "text": "Sharks in the sky",
+    "hash": "580dc44c0bed30cb"
+  },
+  {
+    "text": "That is Sharks in the sky. I am asking: Who did Deniz wave at through the train window?",
+    "hash": "4adf8efdb26ba368"
+  },
+  {
+    "text": "Robots on Mars",
+    "hash": "6aa5648a4fddaa6d"
+  },
+  {
+    "text": "That is Robots on Mars. I am asking: Who did Deniz wave at through the train window?",
+    "hash": "5c20f3d7da4a5d3a"
+  },
+  {
+    "text": "Deniz helps Dad put up a blue camping tent.",
+    "hash": "c595ffd34f95c62a"
+  },
+  {
+    "text": "camping",
+    "hash": "c494a1bcb9d91974"
+  },
+  {
+    "text": "tent",
+    "hash": "eb50f393c5b9f30a"
+  },
+  {
+    "text": "At night, we sit around a warm campfire.",
+    "hash": "686cc011fa2141ae"
+  },
+  {
+    "text": "night",
+    "hash": "c3d5a0e6fe88af09"
+  },
+  {
+    "text": "sit",
+    "hash": "0e62dc3e75531da4"
+  },
+  {
+    "text": "campfire",
+    "hash": "17818d123c28884a"
+  },
+  {
+    "text": "Glowing fireflies dance in the dark woods.",
+    "hash": "f43202841cf27c59"
+  },
+  {
+    "text": "Glowing",
+    "hash": "dd59817caa5a53e2"
+  },
+  {
+    "text": "fireflies",
+    "hash": "e2c11a54e89c64ad"
+  },
+  {
+    "text": "dance",
+    "hash": "4c0c02d83e4f344e"
+  },
+  {
+    "text": "dark",
+    "hash": "9a7b1961b355b646"
+  },
+  {
+    "text": "woods",
+    "hash": "89a7987fc0022b4f"
+  },
+  {
+    "text": "Good night! Sleeping in a tent is so cozy!",
+    "hash": "924008c3ca30651c"
+  },
+  {
+    "text": "Sleeping",
+    "hash": "b9cef7c0b926e8ae"
+  },
+  {
+    "text": "What danced in the dark woods at night?",
+    "hash": "4506ae894f3e4654"
+  },
+  {
+    "text": "Pink elephants",
+    "hash": "53928aedc6d057a7"
+  },
+  {
+    "text": "That is Pink elephants. I am asking: What danced in the dark woods at night?",
+    "hash": "ab9b43a0ee4a2888"
+  },
+  {
+    "text": "Ice cream trucks",
+    "hash": "06ab63502a55f9d7"
+  },
+  {
+    "text": "That is Ice cream trucks. I am asking: What danced in the dark woods at night?",
+    "hash": "255a65189e08813d"
+  },
+  {
+    "text": "Glowing fireflies",
+    "hash": "1070aaca75e83cf2"
+  },
+  {
+    "text": "That is Glowing fireflies. I am asking: What danced in the dark woods at night?",
+    "hash": "f957bf917df9ec1c"
+  },
+  {
+    "text": "Deniz bounces the orange basketball fast.",
+    "hash": "56206e796c24a33b"
+  },
+  {
+    "text": "basketball",
+    "hash": "c1f9412b56d76b2b"
+  },
+  {
+    "text": "He passes the ball to his teammate on the court.",
+    "hash": "ebbfbeb598012a4e"
+  },
+  {
+    "text": "passes",
+    "hash": "5a33d7ad7fd3c9ba"
+  },
+  {
+    "text": "teammate",
+    "hash": "1f827e2e48433d2c"
+  },
+  {
+    "text": "court",
+    "hash": "68b882db3d2fd19f"
+  },
+  {
+    "text": "Swish! The ball flies right through the hoop!",
+    "hash": "3755d56288960013"
+  },
+  {
+    "text": "Swish",
+    "hash": "d3f78116626c5811"
+  },
+  {
+    "text": "through",
+    "hash": "c12190be8a6ac3f2"
+  },
+  {
+    "text": "hoop",
+    "hash": "0d72b38f85b2967d"
+  },
+  {
+    "text": "High five! Teamwork makes the game so fun!",
+    "hash": "eff4fc9e5f681099"
+  },
+  {
+    "text": "game",
+    "hash": "1564631aa888aa5c"
+  },
+  {
+    "text": "fun",
+    "hash": "00c15a94b511d80a"
+  },
+  {
+    "text": "What did Deniz do before the ball went in the hoop?",
+    "hash": "2a7a55c03fdce12c"
+  },
+  {
+    "text": "Baked a cake",
+    "hash": "23442ceccfcc1e75"
+  },
+  {
+    "text": "That is Baked a cake. I am asking: What did Deniz do before the ball went in the hoop?",
+    "hash": "7033a6a225447271"
+  },
+  {
+    "text": "Passed to his teammate",
+    "hash": "41502ce66c6ed9e3"
+  },
+  {
+    "text": "That is Passed to his teammate. I am asking: What did Deniz do before the ball went in the hoop?",
+    "hash": "b22de2e9012718ba"
+  },
+  {
+    "text": "Took a nap",
+    "hash": "b6830a57cbde23f3"
+  },
+  {
+    "text": "That is Took a nap. I am asking: What did Deniz do before the ball went in the hoop?",
+    "hash": "5db8bd2e3190e52c"
   },
   {
     "text": "Likes and Magic Words",
@@ -30644,10 +31692,6 @@
     "hash": "f757d1dc28e7c4d1"
   },
   {
-    "text": "Three, two, one, blast off to space!",
-    "hash": "9683d98b87eba5d8"
-  },
-  {
     "text": "My red Lego rocket flies to Mars!",
     "hash": "228d9e4636f8cad6"
   },
@@ -31460,10 +32504,6 @@
     "hash": "7a843c25a72eb482"
   },
   {
-    "text": "A",
-    "hash": "d35aa568cfde26b7"
-  },
-  {
     "text": "B",
     "hash": "2eeb11da9b1a8566"
   },
@@ -31546,10 +32586,6 @@
   {
     "text": "W",
     "hash": "c2e4cdc6a97bd9ac"
-  },
-  {
-    "text": "X",
-    "hash": "e41c5752de933e7e"
   },
   {
     "text": "Y",

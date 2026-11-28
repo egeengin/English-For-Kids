@@ -46,9 +46,9 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             color: 'from-sky-500 to-blue-600',
             actionBadge: '🇹🇷 Istanbul Tour',
           },
-          characterLine: `Welcome aboard the Bosphorus ferry, ${childName}! Look at the bridge and seagulls!`,
+          characterLine: `Look, ${childName}! A big boat and white birds!`,
           audioKey: 'welcome',
-          questionPrompt: `What does ${childName} say on the Istanbul ferry?`,
+          questionPrompt: `What does ${childName} say?`,
           choices: [
             {
               id: 'opt_1',
@@ -78,8 +78,8 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             },
           ],
           sentenceBuilder: {
-            target: ['We', 'ride', 'the', 'ferry', 'in', 'Istanbul!'],
-            options: ['Istanbul!', 'We', 'ride', 'snow', 'the', 'ferry', 'in'],
+            target: ['We', 'ride', 'the', 'boat!'],
+            options: ['boat!', 'We', 'ride', 'snow', 'the'],
           },
         },
         {
@@ -118,9 +118,9 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             color: 'from-amber-500 to-orange-600',
             actionBadge: '🇩🇪 Aachen Walk',
           },
-          characterLine: `Hello ${childName}! Welcome to Aachen! Look at the warm fountain and sweet Printen cookies!`,
+          characterLine: `Hello ${childName}! Let us walk in Aachen!`,
           audioKey: 'welcome',
-          questionPrompt: `What does ${childName} say in Aachen?`,
+          questionPrompt: `What does ${childName} say?`,
           choices: [
             {
               id: 'opt_1',
@@ -1019,9 +1019,9 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             color: 'from-cyan-600 to-blue-700',
             actionBadge: '🌊 Ocean Dive',
           },
-          characterLine: `Dive in, ${childName}! Look outside our yellow submarine! Who swims with eight arms?`,
+          characterLine: `Dive in, ${childName}! Look at the sea animals!`,
           audioKey: 'welcome',
-          questionPrompt: `Which ocean animal has eight arms?`,
+          questionPrompt: `Who has eight arms?`,
           choices: [
             {
               id: 'opt_1',
@@ -1091,9 +1091,9 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             color: 'from-amber-500 to-orange-600',
             actionBadge: '💰 Found It!',
           },
-          characterLine: `Ahoy, Captain ${childName}! We found the treasure chest on the island! What is inside?`,
+          characterLine: `Ahoy, ${childName}! Look at the treasure box!`,
           audioKey: 'welcome',
-          questionPrompt: `What did Captain ${childName} find inside the treasure chest?`,
+          questionPrompt: `What is inside the box?`,
           choices: [
             {
               id: 'opt_1',

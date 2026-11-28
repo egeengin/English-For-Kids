@@ -6,12 +6,13 @@ import {
   RotateCcw,
   ArrowRight,
   Repeat,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import {
   speakEnglish,
   stopSpeech,
   unlockAudio,
-  triggerHoverSpeech,
   cancelHoverSpeech,
   prefetchSpeech,
 } from '../utils/speech';
@@ -68,11 +69,11 @@ function getCategoryPool(categoryId) {
 function buildRoundOptions(target, categoryId = 'all') {
   const pool = getCategoryPool(categoryId).filter((b) => b.id !== target.id);
   const fallbackPool =
-    pool.length >= 2
+    pool.length >= 3
       ? pool
       : VOCAB_BANK_500.filter((b) => b.id !== target.id);
   const others = shuffleArray(fallbackPool);
-  return shuffleArray([target, others[0], others[1]]);
+  return shuffleArray([target, others[0], others[1], others[2]].filter(Boolean));
 }
 
 function createInitialDeck(categoryId = 'all', masteredIds = new Set(), reviewIds = new Set()) {
@@ -115,6 +116,7 @@ export default function BalloonPopGame({
   const [isGameOver, setIsGameOver] = useState(false);
   const [wobbleId, setWobbleId] = useState(null);
   const [oopsBanner, setOopsBanner] = useState('');
+  const [showQuestionText, setShowQuestionText] = useState(false);
 
   const deckRef = useRef(deck);
   useEffect(() => {
@@ -206,6 +208,7 @@ export default function BalloonPopGame({
       setWrongCountInRound(0);
       setWobbleId(null);
       setOopsBanner('');
+      setShowQuestionText(false);
       setIsRoundLocked(false);
     },
     [clearPendingTimers, isMuted, onRewardEarned, selectedCategory]
@@ -462,7 +465,7 @@ export default function BalloonPopGame({
         })}
       </div>
 
-      {/* Question Prompt Banner (Hover or Click to Listen) */}
+      {/* Listening-First Prompt Banner (Text hidden by default so kids listen!) */}
       {oopsBanner && !isGameOver && (
         <div className="w-full mb-2 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-amber-100 border-2 border-amber-300 text-amber-950 font-display font-black text-xs sm:text-sm animate-bounce">
@@ -471,16 +474,7 @@ export default function BalloonPopGame({
         </div>
       )}
       {targetItem && !isGameOver && (
-        <div
-          onPointerEnter={(e) =>
-            triggerHoverSpeech(targetItem.questionEn, {
-              isMuted,
-              pointerType: e.pointerType,
-            })
-          }
-          onPointerLeave={cancelHoverSpeech}
-          className="w-full bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-slate-800 mb-4 flex flex-col sm:flex-row items-center justify-between gap-4"
-        >
+        <div className="w-full bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-slate-800 mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -489,23 +483,41 @@ export default function BalloonPopGame({
                 unlockAudio();
                 speakEnglish(targetItem.questionEn);
               }}
-              className="w-14 h-14 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 flex items-center justify-center shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer"
+              className="w-16 h-16 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 flex items-center justify-center shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer ring-4 ring-yellow-400/30"
               title="Listen"
             >
-              <Volume2 className="w-7 h-7" />
+              <Volume2 className="w-8 h-8" />
             </button>
 
             <div>
               <span className="text-xs font-bold text-yellow-300/90 uppercase tracking-wider block">
                 {currentEntry?.isReview
-                  ? '🔁 Review Time! Pop the right balloon:'
-                  : '🎯 Listen and pop the right balloon (Keys 1, 2, 3):'}
+                  ? '🔁 Review Time! Listen & Pop:'
+                  : '👂 Listen & Pop the Right Balloon!'}
               </span>
-              <p className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-white leading-snug mt-0.5">
-                {targetItem.questionEn}
-              </p>
+              {showQuestionText ? (
+                <p className="font-display font-black text-xl sm:text-2xl lg:text-3xl text-white leading-snug mt-0.5">
+                  {targetItem.questionEn}
+                </p>
+              ) : (
+                <p className="font-display font-black text-lg sm:text-xl text-sky-200 leading-snug mt-0.5">
+                  Tap 🔊 to hear the clue, then pop the balloon!
+                </p>
+              )}
             </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              playTap(isMuted);
+              setShowQuestionText((prev) => !prev);
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-display font-black text-xs cursor-pointer transition flex-shrink-0"
+          >
+            {showQuestionText ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            <span>{showQuestionText ? 'Hide Words' : 'Show Words'}</span>
+          </button>
         </div>
       )}
 
@@ -594,20 +606,16 @@ export default function BalloonPopGame({
               );
             }
 
+            const floatOffsetClass = idx % 2 === 0 ? '-translate-y-4 sm:-translate-y-6' : 'translate-y-4 sm:translate-y-6';
+
             return (
               <button
                 key={balloon.id}
                 type="button"
-                onPointerEnter={(e) =>
-                  triggerHoverSpeech(balloon.word, {
-                    isMuted,
-                    pointerType: e.pointerType,
-                  })
-                }
-                onPointerLeave={cancelHoverSpeech}
                 onClick={() => handleBalloonClick(balloon)}
                 className={`
                   relative flex flex-col items-center justify-center cursor-pointer transition-transform duration-200 active:scale-95
+                  ${floatOffsetClass}
                   ${isWobbling ? 'animate-wobble' : 'animate-balloon-float hover:scale-105'}
                 `}
                 style={{

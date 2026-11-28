@@ -3,7 +3,9 @@ import confetti from 'canvas-confetti';
 import { RotateCcw, Sparkles, Volume2 } from 'lucide-react';
 import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap, playVictoryFanfare } from '../utils/soundEffects';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
 
+const COMPLETED_RHYMES_KEY = 'lego_completed_rhyme_sets_v1';
 const LINE_COLORS = ['#8b5cf6', '#ec4899', '#10b981', '#f59e0b'];
 
 function buildCurvyPath(x1, y1, x2, y2, curveSeed = 0) {
@@ -53,6 +55,7 @@ const RHYME_SETS = [
 
 export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
   const [setIdx, setSetIdx] = useState(0);
+  const [completedSets, setCompletedSets] = useState(() => loadCompletedSet(COMPLETED_RHYMES_KEY));
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matchedIds, setMatchedIds] = useState([]);
   const [wrongRightId, setWrongRightId] = useState(null);
@@ -154,6 +157,7 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
         rhymeTimerRef.current = setTimeout(() => speakEnglish(`${pair.left.word} and ${pair.right.word} rhyme!`), 320);
       }
       if (next.length === pairs.length) {
+        setCompletedSets((prev) => markCompletedId(COMPLETED_RHYMES_KEY, prev, `set-${setIdx % RHYME_SETS.length}`));
         playVictoryFanfare(isMuted);
         confetti({ particleCount: 65, spread: 65, origin: { y: 0.65 } });
         if (onRewardEarned) onRewardEarned({ stars: 5, bricks: 1, gameName: 'Rhyming Pairs' });
@@ -188,6 +192,9 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
             <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 flex items-center gap-2">
               <span>🎵</span>
               <span>Rhyming Pairs</span>
+              <span className="text-xs font-black px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300">
+                {completedSets.size} / {RHYME_SETS.length} ✓
+              </span>
             </h2>
             <p className="text-sm font-bold text-slate-500">
               Pick a word on the left, then find its rhyme on the right! ({matchedIds.length}/{pairs.length})

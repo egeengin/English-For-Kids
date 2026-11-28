@@ -15,6 +15,28 @@ import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 const COMPLETED_SCENES_KEY = 'lego_completed_scenes_v1';
+const SCENE_FOUND_MAP_KEY = 'lego_scene_found_map_v1';
+
+function readFoundMap() {
+  if (typeof window === 'undefined' || !window.localStorage) return {};
+  try {
+    const raw = window.localStorage.getItem(SCENE_FOUND_MAP_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeFoundForScene(sceneId, idsArray) {
+  if (typeof window === 'undefined' || !window.localStorage || !sceneId) return;
+  try {
+    const map = readFoundMap();
+    map[sceneId] = idsArray;
+    window.localStorage.setItem(SCENE_FOUND_MAP_KEY, JSON.stringify(map));
+  } catch {
+    // ignore
+  }
+}
 
 export default function SceneExplorer({
   onRewardEarned,
@@ -23,9 +45,17 @@ export default function SceneExplorer({
 }) {
   const [selectedSceneIndex, setSelectedSceneIndex] = useState(0);
   const [completedSceneIds, setCompletedSceneIds] = useState(() => loadCompletedSet(COMPLETED_SCENES_KEY));
-  const [foundDiffIds, setFoundDiffIds] = useState(new Set());
+  const [foundDiffIds, setFoundDiffIds] = useState(() => {
+    const firstId = SCENES_DATA[0]?.id;
+    const saved = readFoundMap()[firstId];
+    return Array.isArray(saved) ? new Set(saved) : new Set();
+  });
   const [activeItem, setActiveItem] = useState(null);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(() => {
+    const first = SCENES_DATA[0];
+    const saved = readFoundMap()[first?.id];
+    return Array.isArray(saved) && first && saved.length >= first.differences.length;
+  });
   const [showHint, setShowHint] = useState(false);
   const [missPoint, setMissPoint] = useState(null);
   const missTimerRef = useRef(null);
@@ -42,10 +72,13 @@ export default function SceneExplorer({
   }, []);
 
   const selectScene = (idx) => {
+    const target = SCENES_DATA[idx] || SCENES_DATA[0];
+    const saved = readFoundMap()[target.id];
+    const restoredSet = Array.isArray(saved) ? new Set(saved) : new Set();
     setSelectedSceneIndex(idx);
-    setFoundDiffIds(new Set());
+    setFoundDiffIds(restoredSet);
     setActiveItem(null);
-    setIsCompleted(false);
+    setIsCompleted(restoredSet.size >= target.differences.length);
     setShowHint(false);
     setMissPoint(null);
   };
@@ -75,6 +108,7 @@ export default function SceneExplorer({
       const updated = new Set(foundDiffIds);
       updated.add(diff.id);
       setFoundDiffIds(updated);
+      writeFoundForScene(currentScene.id, [...updated]);
 
       // Reward 1 Lego brick for discovering a difference
       if (onRewardEarned) {
@@ -119,6 +153,7 @@ export default function SceneExplorer({
   const handleResetScene = () => {
     playTap(isMuted);
     setFoundDiffIds(new Set());
+    writeFoundForScene(currentScene.id, []);
     setActiveItem(null);
     setIsCompleted(false);
     setShowHint(false);

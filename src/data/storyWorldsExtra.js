@@ -627,7 +627,7 @@ export function getExtraStoryWorlds(childName = 'Deniz') {
             timeTag: 'Position 2',
             badge: '📍 Behind • In Front Of',
             bgGradient: 'from-sky-500 via-emerald-500 to-green-600',
-            sceneImage: 'images/scene_prep_park.svg',
+            sceneImage: 'images/scene_prep_park.jpg',
             hotspots: [
               { id: 'sky', x: 50, y: 18, emoji: '🌤️', name: 'Blue sky' },
               { id: 'kite_above', x: 74, y: 18, emoji: '🪁', name: 'Kite ABOVE park', speakText: 'The kite is ABOVE the park!' },

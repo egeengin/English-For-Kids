@@ -570,10 +570,11 @@ export default function StoryAdventure({
           className="bg-slate-800 text-white font-display font-black text-sm px-3 py-1.5 rounded-xl border border-slate-600 cursor-pointer"
         >
           {worlds.map((w) => {
-            const worldDone = w.chapters.every((c) => solvedChapterKeys.has(`${w.id}:${c.id}`));
+            const doneCount = w.chapters.filter((c) => solvedChapterKeys.has(`${w.id}:${c.id}`)).length;
+            const worldDone = doneCount === w.chapters.length;
             return (
               <option key={w.id} value={w.id}>
-                {w.emoji} {w.title}{worldDone ? ' ✓' : ''}
+                {w.emoji} {w.title} ({doneCount}/{w.chapters.length}{worldDone ? ' ✓' : ''})
               </option>
             );
           })}

@@ -808,14 +808,20 @@ export default function DailyMissionHub({
         {/* STEP 1: LEARN (Visual Flashcards + Voice Echo) */}
         {lessonStep === 'learn' && (
           <div className="space-y-4 pt-2">
-            <div className="flex items-center justify-between flex-wrap gap-2 bg-sky-50 border border-sky-200 rounded-2xl p-3">
+            <div className="flex items-center justify-between flex-wrap gap-3 bg-sky-50 border-2 border-sky-200 rounded-2xl p-3.5">
               <LeoBuddy
                 mood="happy"
                 size="sm"
                 costume={leoCostume}
-                speechBubble={`Listen to all ${vocabList.length} phrases, or tap Say It to echo me!`}
+                speechBubble={`Step 1: Tap 🔊 to listen, then tap 🎤 Say It and speak aloud!`}
                 isMuted={isMuted}
               />
+              <div className="px-3.5 py-2 rounded-2xl bg-purple-100 border-2 border-purple-300 text-purple-950 font-display font-black text-xs sm:text-sm flex items-center gap-2">
+                <Mic className="w-4 h-4 text-purple-700" />
+                <span>
+                  Spoken: {Object.keys(learnSpokenWords).length} / {vocabList.length}
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -871,17 +877,17 @@ export default function DailyMissionHub({
                         <button
                           type="button"
                           onClick={() => handleLearnSayIt(v)}
-                          className={`px-2.5 py-2.5 rounded-xl font-display font-black text-xs flex items-center gap-1 shadow-xs cursor-pointer transition ${
+                          className={`px-3.5 py-2.5 rounded-xl font-display font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-sm cursor-pointer transition ${
                             isListeningThis
-                              ? 'bg-rose-500 text-white animate-pulse'
+                              ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-300'
                               : isSpoken
                               ? 'bg-emerald-500 text-white'
-                              : 'bg-purple-600 hover:bg-purple-700 text-white'
+                              : 'bg-purple-600 hover:bg-purple-700 text-white ring-2 ring-purple-300'
                           }`}
-                          title="Say this phrase aloud"
+                          title="Tap and say this phrase aloud!"
                         >
-                          <Mic className="w-3.5 h-3.5" />
-                          <span>{isListeningThis ? '...' : isSpoken ? '✓' : 'Say It'}</span>
+                          <Mic className="w-4 h-4" />
+                          <span>{isListeningThis ? 'Listening...' : isSpoken ? 'Said ✓' : 'Say It!'}</span>
                         </button>
                       </div>
                     </div>

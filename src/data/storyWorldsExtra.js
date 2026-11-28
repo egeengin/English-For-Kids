@@ -18,7 +18,7 @@ export function getExtraStoryWorlds(childName = 'Deniz') {
             timeTag: '09:00 AM',
             badge: '✈️ Flying to Antalya',
             bgGradient: 'from-sky-500 via-blue-500 to-indigo-600',
-            sceneImage: 'images/scene_airport.svg',
+            sceneImage: 'images/scene_airport.jpg',
             hotspots: [
               { id: 'clouds', x: 18, y: 18, emoji: '☁️', name: 'Clouds' },
               { id: 'airplane', x: 30, y: 30, emoji: '✈️', name: 'Airplane', speakText: 'The airplane is ready to fly to Antalya!' },

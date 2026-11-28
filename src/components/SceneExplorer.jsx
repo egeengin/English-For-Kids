@@ -78,7 +78,7 @@ export default function SceneExplorer({
 
       // Reward 1 Lego brick for discovering a difference
       if (onRewardEarned) {
-        onRewardEarned({ stars: 1, bricks: 1 });
+        onRewardEarned({ stars: 1, bricks: 1, gameName: 'Spot 7 Differences', word: { word: diff.name, emoji: diff.emoji } });
       }
 
       // Check if all differences in the scene are found

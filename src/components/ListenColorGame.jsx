@@ -121,7 +121,7 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
       setColoredParts((prev) => ({ ...prev, [partId]: selectedColor }));
       setFeedback(`Awesome! ${selectedColor} ${activeStep.partLabel}! ✨`);
       setScore((s) => s + 1);
-      if (onRewardEarned) onRewardEarned({ stars: 1, bricks: 1 });
+      if (onRewardEarned) onRewardEarned({ stars: 1, bricks: 1, gameName: 'Listen & Color' });
 
       const nextStep = stepIdx + 1;
       if (nextStep >= scene.steps.length) {

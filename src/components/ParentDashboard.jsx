@@ -71,6 +71,7 @@ export default function ParentDashboard({
   const [newCategory, setNewCategory] = useState('Home');
   const [newHintSentence, setNewHintSentence] = useState('');
   const [formSuccess, setFormSuccess] = useState(false);
+  const [selectedLogDate, setSelectedLogDate] = useState(null);
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'profile' | 'gemini' | 'words' | 'add'
 
   // Map all curriculum items for lookup
@@ -311,55 +312,157 @@ export default function ParentDashboard({
         <div className="space-y-6 animate-fadeIn">
           {(() => {
             const logs = readDailyLogs();
-            const entries = Object.entries(logs).sort().reverse().slice(0, 5);
+            const entries = Object.entries(logs).sort().reverse();
             if (entries.length === 0) return null;
+            const activeEntry =
+              entries.find(([d]) => d === selectedLogDate) || entries[0];
+            const [activeDate, activeLog] = activeEntry;
+            const timelineEvents = Array.isArray(activeLog.events)
+              ? [...activeLog.events].reverse()
+              : [];
 
             return (
-              <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-xs space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
-                    🧠 Günlük Çalışma Hafızası (Son Günler)
-                  </h3>
-                  <span className="text-xs text-slate-400 font-bold">
-                    {entries.length} kayıt
+              <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div>
+                    <h3 className="font-display font-black text-base sm:text-lg text-slate-800">
+                      📋 Günlük Çalışma Kaydı (Detaylı Log)
+                    </h3>
+                    <p className="text-xs text-slate-500 font-bold">
+                      Seçilen günde çözülen sorular, okunan kitaplar, oynanan oyunlar ve saatli akış
+                    </p>
+                  </div>
+                  <span className="text-xs text-slate-500 font-black bg-slate-100 px-2.5 py-1 rounded-full">
+                    {entries.length} gün kayıtlı
                   </span>
                 </div>
 
-                <div className="space-y-2">
-                  {entries.map(([date, log]) => (
-                    <div
-                      key={date}
-                      className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
-                    >
-                      <div className="space-y-1">
-                        <div className="font-black text-slate-900 flex items-center gap-2">
-                          <span>📅 {date}</span>
-                          {log.booksRead && log.booksRead.length > 0 && (
-                            <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold">
-                              📖 {log.booksRead[0]}
+                {/* Day Selector Pills */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                  {entries.slice(0, 14).map(([date, log]) => {
+                    const isSel = date === activeDate;
+                    return (
+                      <button
+                        key={date}
+                        type="button"
+                        onClick={() => setSelectedLogDate(date)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap border cursor-pointer transition ${
+                          isSel
+                            ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        📅 {date} ({log.stars || 0} ⭐)
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Selected Day Summary Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-center">
+                    <div className="font-black text-amber-800 text-base">⭐ {activeLog.stars || 0}</div>
+                    <div className="font-bold text-amber-700">Yıldız</div>
+                  </div>
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-2.5 text-center">
+                    <div className="font-black text-blue-800 text-base">🧱 {activeLog.bricks || 0}</div>
+                    <div className="font-bold text-blue-700">Tuğla</div>
+                  </div>
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 text-center">
+                    <div className="font-black text-emerald-800 text-base">🎯 {activeLog.questionsCount || 0}</div>
+                    <div className="font-bold text-emerald-700">Soru</div>
+                  </div>
+                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-2.5 text-center">
+                    <div className="font-black text-purple-800 text-base">📖 {(activeLog.booksRead || []).length}</div>
+                    <div className="font-bold text-purple-700">Kitap</div>
+                  </div>
+                  <div className="bg-rose-50 border border-rose-200 rounded-xl p-2.5 text-center col-span-2 sm:col-span-1">
+                    <div className="font-black text-rose-800 text-base">🎮 {(activeLog.games || []).length}</div>
+                    <div className="font-bold text-rose-700">Oyun</div>
+                  </div>
+                </div>
+
+                {/* Books, Games, Missions, Words */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  {activeLog.booksRead && activeLog.booksRead.length > 0 && (
+                    <div className="bg-purple-50/60 border border-purple-200 rounded-xl p-3 space-y-1.5">
+                      <div className="font-black text-purple-900">📖 Okunan Kitaplar</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeLog.booksRead.map((b) => (
+                          <span key={b} className="px-2 py-0.5 rounded-lg bg-white border border-purple-200 font-bold text-slate-800">
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeLog.games && activeLog.games.length > 0 && (
+                    <div className="bg-rose-50/60 border border-rose-200 rounded-xl p-3 space-y-1.5">
+                      <div className="font-black text-rose-900">🎮 Oynanan Oyunlar</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeLog.games.map((g) => (
+                          <span key={g} className="px-2 py-0.5 rounded-lg bg-white border border-rose-200 font-bold text-slate-800">
+                            {g}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeLog.missions && activeLog.missions.length > 0 && (
+                    <div className="bg-sky-50/60 border border-sky-200 rounded-xl p-3 space-y-1.5">
+                      <div className="font-black text-sky-900">🗺️ Tamamlanan Görevler</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeLog.missions.map((m) => (
+                          <span key={m} className="px-2 py-0.5 rounded-lg bg-white border border-sky-200 font-bold text-slate-800">
+                            {m}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeLog.words && activeLog.words.length > 0 && (
+                    <div className="bg-emerald-50/60 border border-emerald-200 rounded-xl p-3 space-y-1.5">
+                      <div className="font-black text-emerald-900">🔤 Çalışılan Kelimeler ({activeLog.words.length})</div>
+                      <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto">
+                        {activeLog.words.map((w, idx) => (
+                          <span key={idx} className="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 font-bold text-slate-800">
+                            {typeof w === 'string' ? w : `${w.emoji || ''} ${w.word}`}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Chronological Timestamped Timeline */}
+                {timelineEvents.length > 0 && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
+                    <div className="font-black text-xs text-slate-700">🕒 Saatli Aktivite Akışı</div>
+                    <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                      {timelineEvents.map((ev, idx) => (
+                        <div
+                          key={`${ev.time}-${idx}`}
+                          className="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs"
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="font-mono font-bold text-[11px] text-slate-400 flex-shrink-0">
+                              {ev.time}
+                            </span>
+                            <span className="font-bold text-slate-800 truncate">{ev.label}</span>
+                          </div>
+                          {(ev.stars > 0 || ev.bricks > 0) && (
+                            <span className="font-black text-[11px] text-amber-700 flex-shrink-0">
+                              {ev.stars > 0 ? `+${ev.stars} ⭐` : ''} {ev.bricks > 0 ? `+${ev.bricks} 🧱` : ''}
                             </span>
                           )}
                         </div>
-                        {log.words && log.words.length > 0 && (
-                          <div className="flex flex-wrap gap-1 text-[11px] text-slate-600">
-                            <span>Kelimeler:</span>
-                            {log.words.slice(0, 6).map((w, idx) => (
-                              <span key={idx} className="font-bold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                                {typeof w === 'string' ? w : `${w.emoji || ''} ${w.word}`}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-3 font-bold text-slate-600 flex-shrink-0">
-                        <span className="text-amber-600">⭐ +{log.stars || 0}</span>
-                        <span className="text-blue-600">🧱 +{log.bricks || 0}</span>
-                        <span className="text-emerald-600">🎯 {log.questionsCount || 0} soru</span>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
             );
           })()}

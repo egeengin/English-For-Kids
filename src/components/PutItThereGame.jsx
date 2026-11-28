@@ -98,7 +98,7 @@ export default function PutItThereGame({ onRewardEarned, isMuted = false }) {
       setWrongSpotId(null);
       const nextScore = score + 1;
       setScore(nextScore);
-      if (onRewardEarned) onRewardEarned({ stars: 2, bricks: 1 });
+      if (onRewardEarned) onRewardEarned({ stars: 2, bricks: 1, gameName: 'Put It There!' });
       if (nextScore % PLACE_TASKS.length === 0) {
         playVictoryFanfare(isMuted);
         confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });

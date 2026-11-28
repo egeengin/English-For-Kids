@@ -156,7 +156,7 @@ export default function RhymingPairsGame({ onRewardEarned, isMuted = false }) {
       if (next.length === pairs.length) {
         playVictoryFanfare(isMuted);
         confetti({ particleCount: 65, spread: 65, origin: { y: 0.65 } });
-        if (onRewardEarned) onRewardEarned(5);
+        if (onRewardEarned) onRewardEarned({ stars: 5, bricks: 1, gameName: 'Rhyming Pairs' });
       }
     } else {
       playGentleWobble(isMuted);

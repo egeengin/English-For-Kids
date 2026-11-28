@@ -152,6 +152,7 @@ export default function App() {
 
   const handleMarkQuestStep = useCallback((dayId, stepKey) => {
     if (!dayId || !stepKey) return;
+    logDailyActivity({ missionTitle: `${dayId} (${stepKey})` });
     setState((prev) => {
       const nextProgress = markQuestStepInProgress(prev.questProgress, dayId, stepKey);
       if (nextProgress === prev.questProgress) return prev;
@@ -164,6 +165,7 @@ export default function App() {
 
   const handleMarkSpokenPhrase = useCallback((dayId, phrase) => {
     if (!dayId || !phrase) return;
+    logDailyActivity({ word: phrase });
     setState((prev) => {
       const nextProgress = markSpokenPhraseInProgress(prev.questProgress, dayId, phrase);
       if (nextProgress === prev.questProgress) return prev;

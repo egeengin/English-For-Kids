@@ -60,6 +60,7 @@ export function logDailyActivity({
   missionTitle = null,
   gameName = null,
   questionAnswered = false,
+  detail = null,
 }) {
   const todayKey = getTodayKey();
   const logs = readDailyLogs();
@@ -72,8 +73,10 @@ export function logDailyActivity({
     booksRead: [], // ['Holiday at Nirvana Cosmopolitan']
     missions: [], // ['Day 1 Şarkı']
     games: [], // ['Mini Books', 'Sound Detective']
+    events: [], // [{ time: '15:40', type: 'book'|'mission'|'game'|'word'|'quiz', label: '...', stars, bricks }]
     lastTimestamp: Date.now(),
   };
+  if (!Array.isArray(current.events)) current.events = [];
 
   if (stars > 0) current.stars += stars;
   if (bricks > 0) current.bricks += bricks;
@@ -141,6 +144,44 @@ export function logDailyActivity({
     const g = gameName.trim();
     if (g && !current.games.includes(g)) {
       current.games.push(g);
+    }
+  }
+
+  // Append timestamped timeline event for detailed parent log
+  const now = new Date();
+  const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  let eventType = 'quiz';
+  let eventLabel = detail || '';
+  if (bookTitle) {
+    eventType = 'book';
+    eventLabel = eventLabel || `📖 Kitap: ${bookTitle.trim()}`;
+  } else if (missionTitle) {
+    eventType = 'mission';
+    eventLabel = eventLabel || `🗺️ Görev: ${missionTitle.trim()}`;
+  } else if (gameName) {
+    eventType = 'game';
+    eventLabel = eventLabel || `🎮 Oyun: ${gameName.trim()}`;
+  } else if (word) {
+    eventType = 'word';
+    const wLabel = typeof word === 'string' ? word.trim() : `${word.emoji || '⭐'} ${word.word}`;
+    eventLabel = eventLabel || `🔤 Kelime: ${wLabel}`;
+  } else if (questionAnswered) {
+    eventType = 'quiz';
+    eventLabel = eventLabel || '🎯 Soru cevaplandı';
+  } else if (stars > 0 || bricks > 0) {
+    eventLabel = eventLabel || '⭐ Ödül kazanıldı';
+  }
+
+  if (eventLabel) {
+    current.events.push({
+      time: timeStr,
+      type: eventType,
+      label: eventLabel,
+      stars: stars > 0 ? stars : 0,
+      bricks: bricks > 0 ? bricks : 0,
+    });
+    if (current.events.length > 60) {
+      current.events = current.events.slice(-60);
     }
   }
 

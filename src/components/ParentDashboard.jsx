@@ -409,7 +409,7 @@ export default function ParentDashboard({
             );
           })()}
 
-          {/* Adventure Island 16-Stop Progress */}
+          {/* Adventure Island Progress */}
           {(() => {
             const islandSummary = getIslandOverallSummary(
               DAILY_EXPEDITION_DAYS,
@@ -421,7 +421,7 @@ export default function ParentDashboard({
               <div className="bg-white border-2 border-sky-200 rounded-2xl p-4 shadow-xs space-y-3">
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <h3 className="font-display font-black text-sm sm:text-base text-slate-800">
-                    🏝️ Adventure Island İlerlemesi (16 Durak)
+                    🏝️ Adventure Island İlerlemesi ({islandSummary.totalStops} Durak)
                   </h3>
                   <div className="flex items-center gap-2 text-xs font-black">
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900">
@@ -445,7 +445,7 @@ export default function ParentDashboard({
                       }`}
                     >
                       <div className="font-bold text-slate-800 truncate">
-                        #{stop.stopNumber} {stop.emoji} {stop.titleEn}
+                        #{stop.stopNumber} {stop.emoji} {stop.isPitStop ? '🏁 ' : ''}{stop.titleEn}
                       </div>
                       <div className="flex items-center gap-1 text-[10px] font-black">
                         {[

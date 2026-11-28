@@ -1,13 +1,15 @@
+import { EXTENDED_DAY_LESSONS } from './extendedDailyLessons.js';
+
 // Animated Sing-Along Chants, Visual Mini-Lessons & Interactive Sentence Pattern Builders (Gün 1 - Gün 7)
 export const DAY_LESSONS = {
   'day-1': {
     songTitle: 'Yummy Food & Polite Magic Words 🎵',
     songSubtitleTr: 'Önce şarkıyı dinle, kalıplarla cümle kur, sonra teste geç!',
     youtubeClip: {
-      videoId: 'YCf-PGu55Nc',
-      title: 'Do You Like Broccoli Ice Cream? (Super Simple Songs)',
+      videoId: 'frN3nvhIHUk',
+      title: "Do You Like Broccoli Ice Cream? (Super Simple Songs)",
       start: 10,
-      end: 48,
+      end: 55,
     },
     chantLines: [
       { emoji: '🍎', en: 'I like red apples! Yummy!', tr: 'Kırmızı elmaları severim! Nefis!' },
@@ -78,9 +80,9 @@ export const DAY_LESSONS = {
     songSubtitleTr: 'Yeteneklerini ve hızları şarkıyla ve kalıplarla öğren!',
     youtubeClip: {
       videoId: '_Ir0Mc6Qilo',
-      title: 'Yes, I Can! Animal Song (Super Simple Songs)',
+      title: "Yes, I Can! Animal Song (Super Simple Songs)",
       start: 8,
-      end: 46,
+      end: 50,
     },
     chantLines: [
       { emoji: '🏊', en: 'I can jump and I can swim!', tr: 'Zıplayabilirim ve yüzebilirim!' },
@@ -148,10 +150,10 @@ export const DAY_LESSONS = {
     songTitle: 'Move & Freeze Action Song! ❄️',
     songSubtitleTr: 'Hareketleri canlandır, -ing kalıbını öğren!',
     youtubeClip: {
-      videoId: 'T2qXSMENrQA',
-      title: 'Action Song (The Singing Walrus)',
-      start: 12,
-      end: 50,
+      videoId: 'dUXk8Nc5qQ8',
+      title: "Action Song for Kids (The Singing Walrus)",
+      start: 10,
+      end: 55,
     },
     chantLines: [
       { emoji: '🦘', en: 'What are you doing? I am jumping!', tr: 'Ne yapıyorsun? Zıplıyorum!' },
@@ -220,9 +222,9 @@ export const DAY_LESSONS = {
     songSubtitleTr: 'Batma, yüzme ve "Why / Because" kalıbını öğren!',
     youtubeClip: {
       videoId: 'MiMALONJUBY',
-      title: 'Float or Sink Science Song (The Learning Station)',
+      title: "Float or Sink Science Song (The Learning Station)",
       start: 15,
-      end: 53,
+      end: 60,
     },
     chantLines: [
       { emoji: '🧱', en: 'Drop a brick, does it sink or float?', tr: 'Tuğlayı bırak, batar mı yüzer mi?' },
@@ -290,10 +292,10 @@ export const DAY_LESSONS = {
     songTitle: 'In, On, Under — Where is Pikachu? ⚡',
     songSubtitleTr: 'Yer yön kelimelerini ve 10-20 sayılarını şarkıyla ezberle!',
     youtubeClip: {
-      videoId: 'QYerFOnPxu8',
-      title: 'In On Under Song (Busy Beavers)',
-      start: 10,
-      end: 48,
+      videoId: 'DHb4-CCif7U',
+      title: "On In Under By Song (Maple Leaf Learning)",
+      start: 5,
+      end: 50,
     },
     chantLines: [
       { emoji: '📦', en: 'In the box, on the chair, under the bed!', tr: 'Kutunun içinde, sandalyenin üstünde, yatağın altında!' },
@@ -361,10 +363,10 @@ export const DAY_LESSONS = {
     songTitle: 'School Morning & Clock Song! ⏰',
     songSubtitleTr: 'Sabah rutinini, saatleri ve "Who / Where" sorularını öğren!',
     youtubeClip: {
-      videoId: '4XLQpRI_wOQ',
-      title: 'This Is The Way (Super Simple Songs)',
-      start: 8,
-      end: 46,
+      videoId: 'pEx5entLOFQ',
+      title: "This Is The Way Daily Routines (Noodle & Pals)",
+      start: 5,
+      end: 50,
     },
     chantLines: [
       { emoji: '🪥', en: 'Wake up, brush your teeth, grab your bag!', tr: 'Uyan, dişlerini fırçala, çantanı al!' },
@@ -432,10 +434,10 @@ export const DAY_LESSONS = {
     songTitle: 'Champion Comparison & Past Song! 👑',
     songSubtitleTr: 'Karşılaştırma (-er) ve dün yaptıklarımızı şarkıyla pekiştir!',
     youtubeClip: {
-      videoId: 'l4WNrvVjiTw',
-      title: "If You're Happy (Super Simple Songs)",
+      videoId: 'UGzKzBsRKrs',
+      title: "Comparatives Song (Scratch Garden)",
       start: 8,
-      end: 46,
+      end: 55,
     },
     chantLines: [
       { emoji: '💪', en: 'A lion is stronger than a cat!', tr: 'Aslan kediden daha güçlüdür!' },
@@ -503,10 +505,10 @@ export const DAY_LESSONS = {
     songTitle: 'My World & My Toys Song! 🚲',
     songSubtitleTr: 'Sahiplik kalıplarını (I have got / My / Your / This is) şarkıyla öğren!',
     youtubeClip: {
-      videoId: 'l4WNrvVjiTw',
-      title: "If You're Happy & My World (Super Simple Songs)",
+      videoId: '8-SWzpdcl6E',
+      title: "What Is It? Toys Song (Fun Kids English)",
       start: 8,
-      end: 46,
+      end: 55,
     },
     chantLines: [
       { emoji: '🚲', en: 'I have got a red bike!', tr: 'Benim kırmızı bir bisikletim var!' },
@@ -568,9 +570,9 @@ export const DAY_LESSONS = {
     songTitle: 'Game Talk & Friends Song! 🎮',
     songSubtitleTr: 'Arkadaşlarınla oyun oynarken kullanacağın altın İngilizce cümleler!',
     youtubeClip: {
-      videoId: 'T2qXSMENrQA',
-      title: 'Action & Play Song (The Singing Walrus)',
-      start: 12,
+      videoId: 'ALcL3MuU4xQ',
+      title: "Make A Circle Play Song (Super Simple Songs)",
+      start: 5,
       end: 50,
     },
     chantLines: [
@@ -633,10 +635,10 @@ export const DAY_LESSONS = {
     songTitle: 'There Is / There Are Discovery Song! 🔍',
     songSubtitleTr: 'Etrafında gördüklerini saymayı ve anlatmayı öğren!',
     youtubeClip: {
-      videoId: 'QYerFOnPxu8',
-      title: 'Where & What Is There? (Busy Beavers)',
-      start: 10,
-      end: 48,
+      videoId: 'D0Ajq682yrA',
+      title: "Number Song 1-20 (The Singing Walrus)",
+      start: 8,
+      end: 55,
     },
     chantLines: [
       { emoji: '🚀', en: 'There is one big rocket on the desk!', tr: 'Masanın üstünde bir büyük roket var!' },
@@ -698,10 +700,10 @@ export const DAY_LESSONS = {
     songTitle: 'Detective Questions Song! 🕵️',
     songSubtitleTr: 'Kim, Nerede, Ne, Ne Zaman, Kimin? Dedektif sorularını öğren!',
     youtubeClip: {
-      videoId: '4XLQpRI_wOQ',
-      title: 'Daily Detective Questions (Super Simple Songs)',
+      videoId: 'vXWK1-L41f0',
+      title: "The Five W's Song (Scratch Garden)",
       start: 8,
-      end: 46,
+      end: 55,
     },
     chantLines: [
       { emoji: '🕵️', en: 'Who is behind the door? It is Dad!', tr: 'Kapının arkasında kim var? Babam!' },
@@ -751,10 +753,10 @@ export const DAY_LESSONS = {
     songTitle: 'World Records: The Biggest & Fastest! 🏆',
     songSubtitleTr: 'En büyük, en hızlı, en uzun! Rekorlar dünyasını öğren!',
     youtubeClip: {
-      videoId: '_Ir0Mc6Qilo',
-      title: 'Animal World Records (Super Simple Songs)',
+      videoId: 'AVqMU_E7A9U',
+      title: "Superlatives Song (Scratch Garden)",
       start: 8,
-      end: 46,
+      end: 55,
     },
     chantLines: [
       { emoji: '🐆', en: 'The cheetah is the fastest animal!', tr: 'Çita en hızlı hayvandır!' },
@@ -804,10 +806,10 @@ export const DAY_LESSONS = {
     songTitle: 'Time Machine: Yesterday I Played! ⏳',
     songSubtitleTr: 'Dün ne yaptığını anlat! (Played, Went, Saw, Ate)',
     youtubeClip: {
-      videoId: 'l4WNrvVjiTw',
-      title: 'Yesterday Adventures (Super Simple Songs)',
+      videoId: 'H6gTpZ-7a4I',
+      title: "What Did You Do Yesterday? Past Tense Song (English Singsing)",
       start: 8,
-      end: 46,
+      end: 55,
     },
     chantLines: [
       { emoji: '🏀', en: 'Yesterday, I played basketball with friends!', tr: 'Dün arkadaşlarımla basketbol oynadım!' },
@@ -857,10 +859,10 @@ export const DAY_LESSONS = {
     songTitle: 'Future Dreams: Tomorrow I Will! 🚀',
     songSubtitleTr: 'Yarınki planlarını ve hayallerini İngilizce anlat!',
     youtubeClip: {
-      videoId: 'YCf-PGu55Nc',
-      title: 'Tomorrow Plans & Dreams (Super Simple Songs)',
-      start: 10,
-      end: 48,
+      videoId: '5rdlXji2jR0',
+      title: "When I Grow Up Future Dreams Song (Super Simple Songs)",
+      start: 8,
+      end: 55,
     },
     chantLines: [
       { emoji: '🧱', en: 'Tomorrow, I am going to build a spaceship!', tr: 'Yarın bir uzay gemisi inşa edeceğim!' },
@@ -910,10 +912,10 @@ export const DAY_LESSONS = {
     songTitle: 'Deniz’s World: Aachen, Spaghetti & Hotel! 🍝',
     songSubtitleTr: 'Deniz’in Aachen’daki evini, favori yemeğini ve tatil otelini şarkıyla söyle!',
     youtubeClip: {
-      videoId: 'YCf-PGu55Nc',
-      title: 'Yummy Food & My Favorite Things',
-      start: 10,
-      end: 48,
+      videoId: 'AF2Ou6uoD7k',
+      title: "On Top of Spaghetti Song (Scratch Garden)",
+      start: 8,
+      end: 55,
     },
     chantLines: [
       { emoji: '🍝', en: 'Spaghetti bolognese is my favorite food!', tr: 'Spagetti bolonez en sevdiğim yemektir!' },
@@ -975,10 +977,10 @@ export const DAY_LESSONS = {
     songTitle: 'Science with Dad & Math Wizard! 🧮',
     songSubtitleTr: '5G sinyalleri, hastane ve iki basamaklı toplama bilmeceleri!',
     youtubeClip: {
-      videoId: 'MiMALONJUBY',
-      title: 'Science & Math Explorers',
-      start: 15,
-      end: 53,
+      videoId: 'EO1GV4qUxgE',
+      title: "8 Little Planets STEM Song (Super Simple Songs)",
+      start: 8,
+      end: 55,
     },
     chantLines: [
       { emoji: '📡', en: 'Dad Dr. Ege sends 5G signals into space!', tr: 'Baba Dr. Ege uzaya 5G sinyalleri gönderiyor!' },
@@ -1036,4 +1038,5 @@ export const DAY_LESSONS = {
       },
     ],
   },
+  ...EXTENDED_DAY_LESSONS,
 };

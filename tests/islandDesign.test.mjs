@@ -28,16 +28,24 @@ import {
   getIslandOverallSummary,
 } from '../src/data/islandMapData.js';
 import { getWorksheetQuestions } from '../src/data/dailyMissionsData.js';
+import { DAY_LESSONS } from '../src/data/dailyLessonsData.js';
 import { INITIAL_STATE, loadSavedState, saveState } from '../src/utils/storage.js';
 
-test('Island Map: all 16 expedition days have English metadata and belong to 4 biomes', () => {
-  assert.equal(ISLAND_BIOMES.length, 4);
-  assert.equal(DAILY_EXPEDITION_DAYS.length, 16);
+test('Island Map: all 36 expedition days have English metadata, 7 biomes, Pit-Stops, and unique YouTube songs', () => {
+  assert.equal(ISLAND_BIOMES.length, 7);
+  assert.equal(DAILY_EXPEDITION_DAYS.length, 36);
 
   const biomeDayIds = ISLAND_BIOMES.flatMap((b) => b.dayIds);
-  assert.equal(biomeDayIds.length, 16);
+  assert.equal(biomeDayIds.length, 36);
+
+  for (const biome of ISLAND_BIOMES) {
+    const lastId = biome.dayIds[biome.dayIds.length - 1];
+    assert.equal(ISLAND_STOPS_BY_DAY_ID[lastId]?.isPitStop, true, `Biome ${biome.id} must end with a Pit-Stop`);
+  }
+  assert.equal(ISLAND_STOPS_BY_DAY_ID['pitstop-7']?.isGrandFinale, true, 'Stop 36 must be Grand Finale');
 
   const seenStopNumbers = new Set();
+  const seenVideoIds = new Set();
   for (const day of DAILY_EXPEDITION_DAYS) {
     assert.ok(biomeDayIds.includes(day.id), `Missing ${day.id} from ISLAND_BIOMES`);
     const meta = ISLAND_STOPS_BY_DAY_ID[day.id];
@@ -45,6 +53,14 @@ test('Island Map: all 16 expedition days have English metadata and belong to 4 b
     assert.ok(meta.titleEn && meta.taglineEn && meta.emoji);
     assert.equal(seenStopNumbers.has(meta.stopNumber), false, `Duplicate stopNumber ${meta.stopNumber}`);
     seenStopNumbers.add(meta.stopNumber);
+
+    assert.ok((day.vocabFocus || []).length >= 6, `${day.id} must have at least 6 vocabFocus items`);
+    assert.equal((day.questions || []).length, 10, `${day.id} must have 10 questions`);
+
+    const lesson = DAY_LESSONS[day.id];
+    assert.ok(lesson?.youtubeClip?.videoId, `Missing YouTube clip for ${day.id}`);
+    assert.equal(seenVideoIds.has(lesson.youtubeClip.videoId), false, `Duplicate YouTube videoId for ${day.id}`);
+    seenVideoIds.add(lesson.youtubeClip.videoId);
 
     const resolved = getIslandStopMeta(day.id);
     assert.equal(resolved.titleEn, meta.titleEn);
@@ -136,8 +152,8 @@ test('Island Map: pure progression helpers and summary behave immutably and prev
     {},
     (dayId) => getWorksheetQuestions({ mode: 'day', dayId })?.questions || []
   );
-  assert.equal(summary.totalStops, 16);
-  assert.equal(summary.maxStars, 48);
+  assert.equal(summary.totalStops, 36);
+  assert.equal(summary.maxStars, 108);
   assert.equal(summary.completedStops, 1);
   assert.equal(summary.totalStars, 3);
   assert.equal(getWorksheetQuestions({ mode: 'stage', stageId: 'nonexistent' }).questions.length, 10);
@@ -274,8 +290,30 @@ test('Audio integrity: zero broken manifest entries and 100% pre-generated cover
   for (const stop of Object.values(ISLAND_STOPS_BY_DAY_ID)) {
     assertHasAudio(stop.titleEn, 'Island Stop Title');
     assertHasAudio(`Hi Deniz! Ready for Stop ${stop.stopNumber}: ${stop.titleEn}?`, 'Island Greeting');
+    assertHasAudio(`Amazing job Deniz! You finished Stop ${stop.stopNumber}!`, 'Island Finish');
   }
   assertHasAudio('Awesome job Deniz! You opened the treasure chest!', 'Island Chest');
+  assertHasAudio('Watch the fireworks!', 'Grand Finale Fireworks');
+  assertHasAudio('Listen to all 6 phrases, or tap Say It to echo me!', 'Learn Greeting 6');
+
+  for (const day of DAILY_EXPEDITION_DAYS) {
+    for (const v of day.vocabFocus || []) {
+      assertHasAudio(v.en, `Day ${day.id} vocab`);
+      if (v.exampleEn) assertHasAudio(v.exampleEn, `Day ${day.id} example`);
+    }
+    for (const q of day.questions || []) {
+      assertHasAudio(q.promptEn, `Day ${day.id} Q ${q.id}`);
+      for (const opt of q.options || []) {
+        assertHasAudio(opt.textEn, `Day ${day.id} opt ${q.id}`);
+      }
+    }
+    const lesson = DAY_LESSONS[day.id];
+    for (const c of lesson?.chantLines || []) assertHasAudio(c.en, `Lesson ${day.id} chant`);
+    for (const vc of lesson?.visualCards || []) assertHasAudio(vc.en, `Lesson ${day.id} card`);
+    for (const p of lesson?.patterns || []) {
+      for (const o of p.options || []) assertHasAudio(o.fullEn, `Lesson ${day.id} pattern`);
+    }
+  }
 
   for (const mission of LEO_MISSIONS) {
     assertHasAudio(mission.starterEn('Deniz'), `Leo Mission ${mission.id}`);

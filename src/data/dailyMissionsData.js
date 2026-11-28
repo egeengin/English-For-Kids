@@ -6,6 +6,7 @@
  */
 
 import { EXTRA_LEVELS } from './extraLevelsData.js';
+import { EXTENDED_ISLAND_LEVELS } from './extendedIslandLevels.js';
 
 export const DISCOVERY_STAGES = [
   {
@@ -1815,6 +1816,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'I don’t like', tr: 'Sevmem', de: 'Ich mag nicht', emoji: '🤢', exampleEn: 'I don’t like broccoli!', exampleTr: 'Brokoliyi sevmem!' },
       { en: 'I am hungry!', tr: 'Açım!', de: 'Ich habe Hunger!', emoji: '🍕', exampleEn: 'I am hungry! Let us eat!', exampleTr: 'Açım! Haydi yiyelim!' },
       { en: 'Can I have...?', tr: '... alabilir miyim?', de: 'Kann ich ... haben?', emoji: '🙏', exampleEn: 'Can I have water, please?', exampleTr: 'Su alabilir miyim lütfen?' },
+      { en: "Yummy!", tr: "Nefis!", de: "Lecker!", emoji: '😋', exampleEn: "This chocolate pudding is yummy!", exampleTr: "Bu çikolatalı puding nefis!" },
+      { en: "Thank you!", tr: "Teşekkürler!", de: "Danke!", emoji: '🙏', exampleEn: "Thank you for the warm pizza!", exampleTr: "Sıcak pizza için teşekkürler!" },
     ],
     questions: [
       makeDayQ('d1-q1', '🍎', 'I ___ red apples! Yummy!', 'Kırmızı elmaları severim demek için hangisini seçersin?', [
@@ -1909,6 +1912,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'I can’t', tr: 'Yapamam', de: 'Ich kann nicht', emoji: '🕊️', exampleEn: 'I can’t fly like a bird!', exampleTr: 'Kuş gibi uçamam!' },
       { en: 'Fast / Slow', tr: 'Hızlı / Yavaş', de: 'Schnell / Langsam', emoji: '⚡', exampleEn: 'I can run fast and walk slow!', exampleTr: 'Hızlı koşabilir ve yavaş yürüyebilirim!' },
       { en: 'Loud / Quiet', tr: 'Yüksek / Sessiz', de: 'Laut / Leise', emoji: '🤫', exampleEn: 'Play piano loud and quiet!', exampleTr: 'Piyanoyu yüksek ve sessiz çal!' },
+      { en: "Can you...?", tr: "... yapabilir misin?", de: "Kannst du...?", emoji: '🤸', exampleEn: "Can you spin around three times?", exampleTr: "Üç kez etrafında dönebilir misin?" },
+      { en: "Very well!", tr: "Çok iyi!", de: "Sehr gut!", emoji: '🌟', exampleEn: "I can play piano very well!", exampleTr: "Piyanoyu çok iyi çalabilirim!" },
     ],
     questions: [
       makeDayQ('d2-q1', '🏊', 'You know how to swim! What do you say?', 'Yüzebildiğini İngilizce nasıl söylersin?', [
@@ -1992,7 +1997,7 @@ const BASE_EXPEDITION_DAYS = [
   },
   {
     id: 'day-3',
-    dayNumber: 5,
+    dayNumber: 6,
     shortLabel: 'Bölüm 5',
     badge: '🏃 Hareket & Şu An Ne Yapıyorum?',
     title: 'Dad Says (TPR) & Donma Oyunu (-ing)',
@@ -2003,6 +2008,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'Clap your hands', tr: 'Ellerini çırp', de: 'Klatsch in die Hände', emoji: '👏', exampleEn: 'Clap your hands, clap, clap, clap!', exampleTr: 'Ellerini çırp, şak şak şak!' },
       { en: 'Touch your nose', tr: 'Burnuna dokun', de: 'Fass dir an die Nase', emoji: '👃', exampleEn: 'Touch your nose! One, two, three!', exampleTr: 'Burnuna dokun! Bir, iki, üç!' },
       { en: 'Freeze!', tr: 'Don! Kıpırdama!', de: 'Stopp! Nicht bewegen!', emoji: '❄️', exampleEn: 'Now freeze! Don’t move!', exampleTr: 'Şimdi don! Kıpırdama!' },
+      { en: "Running", tr: "Koşuyorum", de: "Rennen", emoji: '🏃', exampleEn: "Look at me! I am running fast!", exampleTr: "Bana bak! Hızlı koşuyorum!" },
+      { en: "Dancing", tr: "Dans ediyorum", de: "Tanzen", emoji: '💃', exampleEn: "I am dancing to the music!", exampleTr: "Müziğe göre dans ediyorum!" },
     ],
     questions: [
       makeDayQ('d3-q1', '🦘', 'What are you doing right now? (Zıplıyorum)', '"Şu an zıplıyorum" İngilizce nasıl söylenir?', [
@@ -2086,7 +2093,7 @@ const BASE_EXPEDITION_DAYS = [
   },
   {
     id: 'day-4',
-    dayNumber: 8,
+    dayNumber: 9,
     shortLabel: 'Bölüm 8',
     badge: '🔬 Checker Deniz Bilim & Canavar',
     title: 'Batar mı Yüzer mi? (Why/Because) & Zarla Canavar',
@@ -2097,6 +2104,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'Sink', tr: 'Batmak', de: 'Sinken', emoji: '🪨', exampleEn: 'The heavy stone sinks!', exampleTr: 'Ağır taş batar!' },
       { en: 'Heavy / Light', tr: 'Ağır / Hafif', de: 'Schwer / Leicht', emoji: '⚖️', exampleEn: 'Heavy goes down, light stays up!', exampleTr: 'Ağır dibe iner, hafif yukarıda kalır!' },
       { en: 'Because...', tr: 'Çünkü...', de: 'Weil...', emoji: '🔬', exampleEn: 'Why does it float? Because it is light!', exampleTr: 'Neden yüzer? Çünkü hafiftir!' },
+      { en: "Why?", tr: "Neden?", de: "Warum?", emoji: '❓', exampleEn: "Why does the boat float?", exampleTr: "Tekne neden yüzer?" },
+      { en: "Experiment", tr: "Deney", de: "Experiment", emoji: '🧪', exampleEn: "Let’s do a fun water experiment!", exampleTr: "Haydi eğlenceli bir su deneyi yapalım!" },
     ],
     questions: [
       makeDayQ('d4-q1', '🦆', 'A light toy duck stays on top of water. It...', 'Hafif oyuncak ördek suyun üstünde kalır. Buna ne denir?', [
@@ -2180,7 +2189,7 @@ const BASE_EXPEDITION_DAYS = [
   },
   {
     id: 'day-5',
-    dayNumber: 7,
+    dayNumber: 8,
     shortLabel: 'Bölüm 7',
     badge: '🗺️ Hazine Avı & Pokemon Matematik',
     title: 'Nerede Saklanıyor? & Pokemon Kart Takası',
@@ -2191,6 +2200,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'Under', tr: 'Altında', de: 'Unter', emoji: '🪑', exampleEn: 'It is under the bed!', exampleTr: 'Yatağın altında!' },
       { en: 'Next to', tr: 'Yanında', de: 'Neben', emoji: '🧸', exampleEn: 'Pikachu is next to me!', exampleTr: 'Pikachu benim yanımda!' },
       { en: 'Twelve', tr: 'On iki (12)', de: 'Zwölf', emoji: '🔢', exampleEn: 'Ten, eleven, twelve — count with me!', exampleTr: 'On, on bir, on iki — benimle say!' },
+      { en: "Behind", tr: "Arkasında", de: "Hinter", emoji: '🚪', exampleEn: "The cat is hiding behind the door!", exampleTr: "Kedi kapının arkasında saklanıyor!" },
+      { en: "Between", tr: "Arasında", de: "Zwischen", emoji: '↔️', exampleEn: "The ball is between the two chairs!", exampleTr: "Top iki sandalyenin arasında!" },
     ],
     questions: [
       makeDayQ('d5-q1', '🛏️', 'The ball is BELOW the bed. Where is it?', 'Top yatağın ALTINDA. Hangisi "altında" demektir?', [
@@ -2274,7 +2285,7 @@ const BASE_EXPEDITION_DAYS = [
   },
   {
     id: 'day-6',
-    dayNumber: 9,
+    dayNumber: 16,
     shortLabel: 'Bölüm 9',
     badge: '⏰ Sabah Rutinim & Hikaye Dedektifi',
     title: 'Okul Günü Pantomimi, Saatler & Who/Where',
@@ -2285,6 +2296,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'Kitchen', tr: 'Mutfak', de: 'Küche', emoji: '🍳', exampleEn: 'Breakfast is in the kitchen!', exampleTr: 'Kahvaltı mutfakta!' },
       { en: 'Where?', tr: 'Nerede?', de: 'Wo?', emoji: '❓', exampleEn: 'Where is my pencil? In my bag!', exampleTr: 'Kalemim nerede? Çantamda!' },
       { en: 'Eight o’clock', tr: 'Saat sekiz', de: 'Acht Uhr', emoji: '🕗', exampleEn: 'What time is it? Eight o’clock!', exampleTr: 'Saat kaç? Saat sekiz!' },
+      { en: "Wake up", tr: "Uyanmak", de: "Aufwachen", emoji: '⏰', exampleEn: "I wake up at seven o’clock!", exampleTr: "Saat yedide uyanırım!" },
+      { en: "Pack my bag", tr: "Çantamı hazırlamak", de: "Tasche packen", emoji: '🎒', exampleEn: "I pack my bag for school!", exampleTr: "Okul için çantamı hazırlarım!" },
     ],
     questions: [
       makeDayQ('d6-q1', '🪥', 'Every morning after breakfast, what do you do?', 'Her sabah kahvaltıdan sonra dişlerini ne yaparsın?', [
@@ -2368,7 +2381,7 @@ const BASE_EXPEDITION_DAYS = [
   },
   {
     id: 'day-7',
-    dayNumber: 11,
+    dayNumber: 18,
     shortLabel: 'Bölüm 11',
     badge: '👑 Büyük Turnuva & Boss Finali',
     title: 'Pokemon Karşılaştırma, Geçmiş Zaman & 3 Cümle Finali',
@@ -2379,6 +2392,8 @@ const BASE_EXPEDITION_DAYS = [
       { en: 'Faster than', tr: '...dan daha hızlı', de: 'Schneller als', emoji: '⚡', exampleEn: 'A cheetah is faster than a turtle!', exampleTr: 'Çita kaplumbağadan daha hızlıdır!' },
       { en: 'Biggest', tr: 'En büyük', de: 'Am größten', emoji: '🐋', exampleEn: 'The blue whale is the biggest!', exampleTr: 'Mavi balina en büyüğüdür!' },
       { en: 'Yesterday I...', tr: 'Dün ben...', de: 'Gestern habe ich...', emoji: '⏳', exampleEn: 'Yesterday I played and had fun!', exampleTr: 'Dün oyun oynadım ve çok eğlendim!' },
+      { en: "Taller than", tr: "...dan daha uzun", de: "Größer als", emoji: '🦒', exampleEn: "A giraffe is taller than a horse!", exampleTr: "Zürafa attan daha uzundur!" },
+      { en: "Smaller than", tr: "...dan daha küçük", de: "Kleiner als", emoji: '🐭', exampleEn: "A mouse is smaller than a cat!", exampleTr: "Fare kediden daha küçüktür!" },
     ],
     questions: [
       makeDayQ('d7-q1', '🦁', 'Compare a lion and a cat! A lion is...', 'Aslan ile kediyi karşılaştır: Aslan kediden daha...', [
@@ -2462,7 +2477,7 @@ const BASE_EXPEDITION_DAYS = [
   },
 ];
 
-export const DAILY_EXPEDITION_DAYS = [...BASE_EXPEDITION_DAYS, ...EXTRA_LEVELS].sort(
+export const DAILY_EXPEDITION_DAYS = [...BASE_EXPEDITION_DAYS, ...EXTRA_LEVELS, ...EXTENDED_ISLAND_LEVELS].sort(
   (a, b) => a.dayNumber - b.dayNumber
 );
 

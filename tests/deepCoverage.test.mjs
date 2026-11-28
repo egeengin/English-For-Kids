@@ -1004,3 +1004,14 @@ test('funnyData: covers silly sentence builder, cyclic indices, costumes, jokes,
   assert.equal(getFunnyLineByIndex([], 1), '');
   assert.equal(SILLY_SENTENCE_PARTS.subjects.length, 6);
 });
+
+test('fireworks: launchFireworksShow triggers bursts safely and returns cleanup', async () => {
+  const { launchFireworksShow } = await import('../src/utils/fireworks.js');
+  const cleanupStandard = launchFireworksShow({ grand: false, isMuted: true });
+  assert.equal(typeof cleanupStandard, 'function');
+  cleanupStandard();
+
+  const cleanupGrand = launchFireworksShow({ grand: true, isMuted: true });
+  assert.equal(typeof cleanupGrand, 'function');
+  cleanupGrand();
+});

@@ -242,6 +242,8 @@ for (const n of [1, 2, 3]) {
 add('Awesome job Deniz! You opened the treasure chest!');
 add('Welcome to Arcade Pier, Deniz! Pick a game to win stars!');
 add('Listen to all 4 phrases, or tap Say It to echo me!');
+add('Listen to all 6 phrases, or tap Say It to echo me!');
+add('Watch the fireworks!');
 add('Your turn, Deniz! Listen and say this aloud!');
 add('Superstar Deniz! You spoke every phrase!');
 add('Great speaking!');

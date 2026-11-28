@@ -20,7 +20,7 @@ import {
 export default function DailySingLearn({ dayId, isMuted = false, showHelper = false, onGoToQuiz }) {
   const lesson = DAY_LESSONS[dayId];
   const [isSinging, setIsSinging] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
+  const [showVideo, setShowVideo] = useState(() => Boolean(lesson?.youtubeClip));
   const [showExamples, setShowExamples] = useState(true);
   const [activeLineIdx, setActiveLineIdx] = useState(-1);
   const [beatStep, setBeatStep] = useState(0);
@@ -212,7 +212,6 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
       return;
     }
 
-    setShowVideo(false);
     singSessionRef.current += 1;
     const sessionId = singSessionRef.current;
     const dayNum = parseInt(String(dayId).replace(/\D/g, ''), 10) || 1;
@@ -225,7 +224,7 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
 
   return (
     <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white rounded-3xl p-4 sm:p-6 shadow-xl border-4 border-indigo-400/50 space-y-5">
-      {/* Header + Leo Buddy + Sing-Along Action */}
+      {/* Header + Leo Buddy */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-3.5">
         <div className="flex items-center gap-3">
           <LeoBuddy
@@ -236,7 +235,7 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
           <div>
             <div className="text-[11px] font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1">
               <Music className="w-3.5 h-3.5" />
-              <span>Sing Along with Leo</span>
+              <span>Step 2 • Watch YouTube First, Then Listen with Leo!</span>
             </div>
             <h3 className="font-display font-black text-base sm:text-xl text-white">
               {lesson.songTitle}
@@ -244,32 +243,104 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
-          {lesson.youtubeClip && (
-            <button
-              type="button"
-              onClick={() => {
-                cancelHoverSpeech();
-                if (!showVideo) {
-                  stopSingAlong();
-                }
-                setShowVideo((prev) => !prev);
-              }}
-              className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer ${
-                showVideo
-                  ? 'bg-slate-800 hover:bg-slate-700 text-white border-2 border-red-400'
-                  : 'bg-red-600 hover:bg-red-500 text-white'
-              }`}
-            >
-              {showVideo ? <X className="w-4 h-4" /> : <Tv className="w-4 h-4" />}
-              <span>{showVideo ? 'Close' : '🎬 Watch Song'}</span>
-            </button>
-          )}
+        {lesson.youtubeClip && (
+          <button
+            type="button"
+            onClick={() => {
+              cancelHoverSpeech();
+              setShowVideo((prev) => !prev);
+            }}
+            className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer flex-shrink-0 ${
+              showVideo
+                ? 'bg-slate-800 hover:bg-slate-700 text-white border-2 border-red-400'
+                : 'bg-red-600 hover:bg-red-500 text-white'
+            }`}
+          >
+            {showVideo ? <X className="w-4 h-4" /> : <Tv className="w-4 h-4" />}
+            <span>{showVideo ? 'Hide Video' : '🎬 Show YouTube Song'}</span>
+          </button>
+        )}
+      </div>
 
+      {/* PART 1: Topic-Matched YouTube Song FIRST */}
+      {lesson.youtubeClip && showVideo && (
+        <div className="bg-slate-950/85 border-2 border-red-400/70 rounded-2xl p-3 sm:p-4 space-y-3 shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-lg bg-red-600 text-white font-black text-[11px] uppercase">
+                1. 🎬 Watch YouTube Song ({lesson.youtubeClip.start}s – {lesson.youtubeClip.end}s)
+              </span>
+              <span className="font-display font-bold text-xs sm:text-sm text-white">
+                {lesson.youtubeClip.title}
+              </span>
+            </div>
+            <a
+              href={`https://www.youtube.com/watch?v=${lesson.youtubeClip.videoId}&t=${lesson.youtubeClip.start}s`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-red-300 hover:text-red-200 underline"
+            >
+              Open on YouTube ↗
+            </a>
+          </div>
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${lesson.youtubeClip.videoId}?start=${lesson.youtubeClip.start}&end=${lesson.youtubeClip.end}&autoplay=0&rel=0&modestbranding=1`}
+              title={lesson.youtubeClip.title}
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+            <span className="text-xs font-semibold text-indigo-200">
+              ⏱️ {lesson.youtubeClip.end - lesson.youtubeClip.start}s topic-matched song clip
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('sing-listen-leo-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-display font-black text-xs shadow-sm cursor-pointer transition"
+              >
+                <span>2. 🎧 Listen with Leo ↓</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  playSparkle(isMuted);
+                  setShowVideo(false);
+                  if (onGoToQuiz) {
+                    onGoToQuiz();
+                  } else {
+                    const el = document.getElementById('daily-step-quiz');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-display font-black text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95"
+              >
+                <span>✅ Done! Let’s Play ↓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PART 2: Now Listen & Sing Along with Leo */}
+      <div id="sing-listen-leo-section" className="space-y-3 pt-1">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-lg bg-indigo-500 text-white font-black text-[11px] uppercase">
+              2. 🎧 Now Listen &amp; Sing Along with Leo!
+            </span>
+          </div>
           <button
             type="button"
             onClick={handleToggleSingAlong}
-            className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl font-display font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer ${
+            className={`inline-flex items-center justify-center gap-2 px-4 py-2 rounded-2xl font-display font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer ${
               isSinging
                 ? 'bg-rose-500 hover:bg-rose-600 text-white ring-4 ring-yellow-300/60'
                 : 'bg-yellow-400 hover:bg-yellow-300 text-slate-950'
@@ -291,107 +362,52 @@ export default function DailySingLearn({ dayId, isMuted = false, showHelper = fa
             )}
           </button>
         </div>
-      </div>
 
-      {/* Curated YouTube Song Clip */}
-      {showVideo && lesson.youtubeClip && (
-        <div className="bg-slate-950/80 border-2 border-red-400/60 rounded-2xl p-3 sm:p-4 space-y-2.5 shadow-xl">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-lg bg-red-600 text-white font-black text-[11px] uppercase">
-                🎬 Clip ({lesson.youtubeClip.start}s – {lesson.youtubeClip.end}s)
-              </span>
-              <span className="font-display font-bold text-xs sm:text-sm text-white">
-                {lesson.youtubeClip.title}
-              </span>
-            </div>
-            <a
-              href={`https://www.youtube.com/watch?v=${lesson.youtubeClip.videoId}&t=${lesson.youtubeClip.start}s`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-bold text-red-300 hover:text-red-200 underline"
-            >
-              Open on YouTube ↗
-            </a>
-          </div>
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
-            <iframe
-              className="w-full h-full"
-              src={`https://www.youtube.com/embed/${lesson.youtubeClip.videoId}?start=${lesson.youtubeClip.start}&end=${lesson.youtubeClip.end}&autoplay=1&rel=0&modestbranding=1`}
-              title={lesson.youtubeClip.title}
-              referrerPolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
-          <div className="flex items-center justify-between gap-2 pt-1">
-            <span className="text-xs font-semibold text-indigo-200">
-              ⏱️ {lesson.youtubeClip.end - lesson.youtubeClip.start}s song clip
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                playSparkle(isMuted);
-                setShowVideo(false);
-                if (onGoToQuiz) {
-                  onGoToQuiz();
-                } else {
-                  const el = document.getElementById('daily-step-quiz');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-display font-black text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95"
-            >
-              <span>✅ Done! Let’s Play ↓</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Karaoke Chant Lines */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        {lesson.chantLines.map((line, idx) => {
-          const isActive = activeLineIdx === idx;
-          return (
-            <button
-              key={line.en}
-              type="button"
-              onPointerEnter={(e) => {
-                if (!isSinging) {
-                  triggerHoverSpeech(line.en, { isMuted, pointerType: e.pointerType });
-                }
-              }}
-              onPointerLeave={cancelHoverSpeech}
-              onClick={() => {
-                if (isSinging) stopSingAlong();
-                cancelHoverSpeech();
-                unlockAudio();
-                setActiveLineIdx(idx);
-                speakEnglish(line.en, () => setActiveLineIdx(-1));
-              }}
-              className={`rounded-2xl p-3.5 sm:p-4 border-2 text-left transition flex items-center gap-3 cursor-pointer ${
-                isActive
-                  ? 'bg-yellow-400 text-slate-950 border-white scale-[1.03] shadow-lg'
-                  : 'bg-white/10 hover:bg-white/15 text-white border-white/15'
-              }`}
-            >
-              <span className={`text-3xl sm:text-4xl flex-shrink-0 ${isActive ? 'animate-bounce' : ''}`}>
-                {line.emoji}
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="font-display font-black text-base sm:text-lg leading-snug">
-                  {line.en}
-                </div>
-                {showHelper && line.tr && (
-                  <div className={`text-xs sm:text-sm font-bold mt-0.5 ${isActive ? 'text-slate-700' : 'text-indigo-200'}`}>
-                    {line.tr}
+        {/* Karaoke Chant Lines */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          {lesson.chantLines.map((line, idx) => {
+            const isActive = activeLineIdx === idx;
+            return (
+              <button
+                key={line.en}
+                type="button"
+                onPointerEnter={(e) => {
+                  if (!isSinging) {
+                    triggerHoverSpeech(line.en, { isMuted, pointerType: e.pointerType });
+                  }
+                }}
+                onPointerLeave={cancelHoverSpeech}
+                onClick={() => {
+                  if (isSinging) stopSingAlong();
+                  cancelHoverSpeech();
+                  unlockAudio();
+                  setActiveLineIdx(idx);
+                  speakEnglish(line.en, () => setActiveLineIdx(-1));
+                }}
+                className={`rounded-2xl p-3.5 sm:p-4 border-2 text-left transition flex items-center gap-3 cursor-pointer ${
+                  isActive
+                    ? 'bg-yellow-400 text-slate-950 border-white scale-[1.03] shadow-lg'
+                    : 'bg-white/10 hover:bg-white/15 text-white border-white/15'
+                }`}
+              >
+                <span className={`text-3xl sm:text-4xl flex-shrink-0 ${isActive ? 'animate-bounce' : ''}`}>
+                  {line.emoji}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="font-display font-black text-base sm:text-lg leading-snug">
+                    {line.en}
                   </div>
-                )}
-              </div>
-              <Volume2 className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-slate-900' : 'text-yellow-300'}`} />
-            </button>
-          );
-        })}
+                  {showHelper && line.tr && (
+                    <div className={`text-xs sm:text-sm font-bold mt-0.5 ${isActive ? 'text-slate-700' : 'text-indigo-200'}`}>
+                      {line.tr}
+                    </div>
+                  )}
+                </div>
+                <Volume2 className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-slate-900' : 'text-yellow-300'}`} />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Collapsible Examples & Sentence Builder */}

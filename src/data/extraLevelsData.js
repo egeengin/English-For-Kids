@@ -45,6 +45,8 @@ export const EXTRA_LEVELS = [
       { en: 'My / Your', tr: 'Benim / Senin', de: 'Mein / Dein', emoji: '🎒', exampleEn: 'This is my book. That is your bag!', exampleTr: 'Bu benim kitabım. Şu senin çantan!' },
       { en: 'This is', tr: 'Bu (yakın)', de: 'Das hier ist', emoji: '👇', exampleEn: 'This is my blue Lego box!', exampleTr: 'Bu benim mavi Lego kutum!' },
       { en: 'That is', tr: 'Şu (uzak)', de: 'Das dort ist', emoji: '👉', exampleEn: 'That is your green backpack!', exampleTr: 'Şu senin yeşil sırt çantan!' },
+      { en: "Have you got...?", tr: "Senin ... var mı?", de: "Hast du...?", emoji: '❓', exampleEn: "Have you got a red bike?", exampleTr: "Senin kırmızı bisikletin var mı?" },
+      { en: "My favorite toy", tr: "En sevdiğim oyuncak", de: "Mein Lieblingsspielzeug", emoji: '🧸', exampleEn: "My favorite toy is a Lego rocket!", exampleTr: "En sevdiğim oyuncak bir Lego roketi!" },
     ],
     tvRecommendation: {
       title: 'Yes, I Have! Toys & School Song',
@@ -129,6 +131,8 @@ export const EXTRA_LEVELS = [
       { en: 'Wait for me!', tr: 'Beni bekle!', de: 'Warte auf mich!', emoji: '⏳', exampleEn: 'Wait for me! I am coming!', exampleTr: 'Beni bekle! Geliyorum!' },
       { en: 'Let’s play!', tr: 'Haydi oynayalım!', de: 'Lass uns spielen!', emoji: '🎮', exampleEn: 'Ready, steady, go! Let’s play!', exampleTr: 'Hazır, başla! Haydi oynayalım!' },
       { en: 'Good game!', tr: 'İyi oyundu!', de: 'Gutes Spiel!', emoji: '🤝', exampleEn: 'Good game! That was super fun!', exampleTr: 'İyi oyundu! Çok eğlenceliydi!' },
+      { en: "Ready, steady, go!", tr: "Hazır, dikkat, başla!", de: "Auf die Plätze, fertig, los!", emoji: '🏁', exampleEn: "Ready, steady, go! Run to the tree!", exampleTr: "Hazır, dikkat, başla! Ağaca koş!" },
+      { en: "Can I play too?", tr: "Ben de oynayabilir miyim?", de: "Darf ich mitspielen?", emoji: '🙋', exampleEn: "Excuse me, can I play too?", exampleTr: "Affedersiniz, ben de oynayabilir miyim?" },
     ],
     tvRecommendation: {
       title: 'Action & Play Together Song',
@@ -202,7 +206,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-6',
-    dayNumber: 6,
+    dayNumber: 7,
     shortLabel: 'Bölüm 6',
     badge: '🔍 Keşif & Varlık Bildirme',
     title: 'There Is / There Are & How Many?',
@@ -213,6 +217,8 @@ export const EXTRA_LEVELS = [
       { en: 'There are', tr: 'Var (birden çok)', de: 'Es gibt (viele)', emoji: '🔢', exampleEn: 'There are three yellow bricks in the box!', exampleTr: 'Kutuda 3 sarı tuğla var!' },
       { en: 'How many?', tr: 'Kaç tane?', de: 'Wie viele?', emoji: '❓', exampleEn: 'How many stars are there? Five stars!', exampleTr: 'Kaç tane yıldız var? Beş yıldız!' },
       { en: 'Look at', tr: '... bak!', de: 'Schau dir ... an!', emoji: '👀', exampleEn: 'Look! There is a cute fox!', exampleTr: 'Bak! Şirin bir tilki var!' },
+      { en: "Twenty", tr: "Yirmi (20)", de: "Zwanzig", emoji: '🔟', exampleEn: "Eighteen, nineteen, twenty — wow!", exampleTr: "On sekiz, on dokuz, yirmi — vay!" },
+      { en: "A lot of", tr: "Bir sürü", de: "Viele", emoji: '🧱', exampleEn: "There are a lot of bricks on the floor!", exampleTr: "Yerde bir sürü tuğla var!" },
     ],
     tvRecommendation: {
       title: 'How Many & There Are Counting Song',
@@ -286,7 +292,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-10',
-    dayNumber: 10,
+    dayNumber: 17,
     shortLabel: 'Bölüm 10',
     badge: '🕵️ Dedektif Soruları',
     title: 'Who, Where, What, When, Whose?',
@@ -297,6 +303,8 @@ export const EXTRA_LEVELS = [
       { en: 'Where?', tr: 'Nerede?', de: 'Wo?', emoji: '📍', exampleEn: 'Where is my blue key? Under the book!', exampleTr: 'Mavi anahtarım nerede? Kitabın altında!' },
       { en: 'When?', tr: 'Ne zaman?', de: 'Wann?', emoji: '⏰', exampleEn: 'When do we play piano? At four o’clock!', exampleTr: 'Ne zaman piyano çalarız? Saat dörtte!' },
       { en: 'Whose?', tr: 'Kimin?', de: 'Wessen?', emoji: '🔑', exampleEn: 'Whose backpack is this? It is mine!', exampleTr: 'Bu kimin sırt çantası? Benim!' },
+      { en: "What?", tr: "Ne?", de: "Was?", emoji: '🤔', exampleEn: "What is in the box? A toy car!", exampleTr: "Kutuda ne var? Bir oyuncak araba!" },
+      { en: "Why?", tr: "Neden?", de: "Warum?", emoji: '💡', exampleEn: "Why is the sky blue?", exampleTr: "Gökyüzü neden mavi?" },
     ],
     tvRecommendation: {
       title: 'WH Questions Detective Song',
@@ -370,7 +378,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-12',
-    dayNumber: 12,
+    dayNumber: 19,
     shortLabel: 'Bölüm 12',
     badge: '🏆 Rekorlar Dünyası',
     title: 'The Fastest, The Biggest, The Tallest!',
@@ -381,6 +389,8 @@ export const EXTRA_LEVELS = [
       { en: 'The biggest', tr: 'En büyük', de: 'Am größten', emoji: '🐳', exampleEn: 'The blue whale is the biggest animal!', exampleTr: 'Mavi balina en büyük hayvandır!' },
       { en: 'The tallest', tr: 'En uzun', de: 'Am höchsten', emoji: '🦒', exampleEn: 'The giraffe is the tallest animal!', exampleTr: 'Zürafa en uzun hayvandır!' },
       { en: 'The smartest', tr: 'En akıllı', de: 'Am klügsten', emoji: '🧠', exampleEn: 'The owl is the smartest bird!', exampleTr: 'Baykuş en akıllı kuştur!' },
+      { en: "The strongest", tr: "En güçlü", de: "Der Stärkste", emoji: '💪', exampleEn: "The elephant is the strongest animal!", exampleTr: "Fil en güçlü hayvandır!" },
+      { en: "The best", tr: "En iyi", de: "Der Beste", emoji: '🏆', exampleEn: "You are the best friend ever!", exampleTr: "Sen dünyanın en iyi arkadaşısın!" },
     ],
     tvRecommendation: {
       title: 'Superlatives & Animal Records Song',
@@ -454,7 +464,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-13',
-    dayNumber: 13,
+    dayNumber: 31,
     shortLabel: 'Bölüm 13',
     badge: '⏳ Zaman Makinesi (Dün)',
     title: 'Yesterday I Played / Went / Saw / Ate!',
@@ -465,6 +475,8 @@ export const EXTRA_LEVELS = [
       { en: 'Went', tr: 'Gittim', de: 'Ging', emoji: '🚌', exampleEn: 'Yesterday, I went to school!', exampleTr: 'Dün okula gittim!' },
       { en: 'Saw', tr: 'Gördüm', de: 'Sah', emoji: '👀', exampleEn: 'I saw a giant lion at the zoo!', exampleTr: 'Hayvanat bahçesinde dev bir aslan gördüm!' },
       { en: 'Ate', tr: 'Yedim', de: 'Aß', emoji: '🍕', exampleEn: 'We ate hot pizza and had fun!', exampleTr: 'Sıcak pizza yedik ve çok eğlendik!' },
+      { en: "Had fun", tr: "Eğlendim", de: "Hatte Spaß", emoji: '🥳', exampleEn: "We had fun at the park yesterday!", exampleTr: "Dün parkta çok eğlendik!" },
+      { en: "Built", tr: "İnşa ettim", de: "Baute", emoji: '🧱', exampleEn: "Yesterday I built a Lego castle!", exampleTr: "Dün bir Lego kalesi yaptım!" },
     ],
     tvRecommendation: {
       title: 'Yesterday Adventures Song',
@@ -538,7 +550,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-14',
-    dayNumber: 14,
+    dayNumber: 32,
     shortLabel: 'Bölüm 14',
     badge: '🚀 Planlar & Hayaller (Yarın)',
     title: 'Tomorrow I Will / I Am Going To & I Want To Be!',
@@ -549,6 +561,8 @@ export const EXTRA_LEVELS = [
       { en: 'Tomorrow I will', tr: 'Yarın ... yapacağım', de: 'Morgen werde ich', emoji: '📅', exampleEn: 'Tomorrow I will swim in the pool!', exampleTr: 'Yarın havuzda yüzeceğim!' },
       { en: 'I want to be', tr: '... olmak istiyorum', de: 'Ich möchte ... werden', emoji: '👩‍🚀', exampleEn: 'I want to be a brave astronaut!', exampleTr: 'Cesur bir astronot olmak istiyorum!' },
       { en: 'Next weekend', tr: 'Gelecek hafta sonu', de: 'Nächstes Wochenende', emoji: '🌟', exampleEn: 'Next weekend I will play basketball!', exampleTr: 'Gelecek hafta sonu basketbol oynayacağım!' },
+      { en: "Astronaut", tr: "Astronot", de: "Astronaut", emoji: '👩‍🚀', exampleEn: "One day I will be an astronaut!", exampleTr: "Bir gün astronot olacağım!" },
+      { en: "Next summer", tr: "Gelecek yaz", de: "Nächsten Sommer", emoji: '☀️', exampleEn: "Next summer we will swim in the sea!", exampleTr: "Gelecek yaz denizde yüzeceğiz!" },
     ],
     tvRecommendation: {
       title: 'Future Dreams & Plans Song',
@@ -622,7 +636,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-15',
-    dayNumber: 15,
+    dayNumber: 33,
     shortLabel: 'Bölüm 15',
     badge: '🌟 Deniz’in Dünyası & Favorileri',
     title: 'Deniz’s World: Aachen, Spaghetti & Nirvana Hotel',
@@ -633,6 +647,8 @@ export const EXTRA_LEVELS = [
       { en: 'Pudding', tr: 'Muhallebi / Puding', de: 'Pudding', emoji: '🍮', exampleEn: 'Baking fluffy cake and sweet pudding is fun!', exampleTr: 'Yumuşacık kek ve tatlı puding pişirmek çok eğlenceli!' },
       { en: 'Aachen', tr: 'Aachen', de: 'Aachen', emoji: '⛲', exampleEn: 'We live in Aachen!', exampleTr: 'Biz Aachen’da yaşıyoruz!' },
       { en: 'Hotel', tr: 'Otel', de: 'Hotel', emoji: '🏨', exampleEn: 'We love staying at Nirvana Cosmopolitan Hotel!', exampleTr: 'Nirvana Cosmopolitan Otelinde kalmayı çok severiz!' },
+      { en: "My favorite", tr: "En sevdiğim", de: "Mein Liebling", emoji: '❤️', exampleEn: "My favorite food is spaghetti!", exampleTr: "En sevdiğim yemek spagetti!" },
+      { en: "Holiday", tr: "Tatil", de: "Urlaub", emoji: '🏖️', exampleEn: "We go on holiday in summer!", exampleTr: "Yazın tatile gideriz!" },
     ],
     tvRecommendation: {
       title: 'Checker Tobi & Woozle Goozle Science',
@@ -706,7 +722,7 @@ export const EXTRA_LEVELS = [
   },
   {
     id: 'level-16',
-    dayNumber: 16,
+    dayNumber: 34,
     shortLabel: 'Bölüm 16',
     badge: '🧮 Babamla Bilim & Matematik Dehası',
     title: 'Science with Dad, Hospital & Math Wizard',
@@ -717,6 +733,8 @@ export const EXTRA_LEVELS = [
       { en: 'Hospital', tr: 'Hastane', de: 'Krankenhaus', emoji: '🏥', exampleEn: 'Mom Melis helps patients at the hospital!', exampleTr: 'Annem Melis hastanede hastalara yardım eder!' },
       { en: 'Plus / Equal', tr: 'Artı / Eşittir', de: 'Plus / Gleich', emoji: '➕', exampleEn: 'Twenty plus fifteen equals thirty-five!', exampleTr: 'Yirmi artı on beş eşittir otuz beş!' },
       { en: 'Genius', tr: 'Dahi', de: 'Genie', emoji: '🧠', exampleEn: 'Deniz is a math wizard and genius!', exampleTr: 'Deniz bir matematik sihirbazı ve dahidir!' },
+      { en: "Minus", tr: "Eksi", de: "Minus", emoji: '➖', exampleEn: "Ten minus four equals six!", exampleTr: "On eksi dört eşittir altı!" },
+      { en: "Scientist", tr: "Bilim insanı", de: "Wissenschaftler", emoji: '🔬', exampleEn: "A scientist asks many questions!", exampleTr: "Bir bilim insanı çok soru sorar!" },
     ],
     tvRecommendation: {
       title: 'SciShow Kids: How Do Satellites & Signals Work?',

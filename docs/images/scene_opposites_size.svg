@@ -7,8 +7,28 @@
     <filter id="sho" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
     </filter>
+  
+    <radialGradient id="sunGlow_scene_opposites_size.svg" cx="50%" cy="20%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vignette_scene_opposites_size.svg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.16"/>
+    </linearGradient>
   </defs>
   <rect width="1600" height="630" fill="url(#oppBg)"/>
+
+      <g data-enriched="true" opacity="0.85">
+        <g fill="#ffffff" opacity="0.75">
+          <ellipse cx="260" cy="125" rx="75" ry="28"/>
+          <ellipse cx="305" cy="112" rx="52" ry="26"/>
+          <ellipse cx="1220" cy="145" rx="85" ry="30"/>
+          <ellipse cx="1270" cy="132" rx="58" ry="28"/>
+        </g>
+        <path d="M0 595 Q400 535 800 585 T1600 570 L1600 630 L0 630 Z" fill="#0f172a" opacity="0.06"/>
+      </g>
   <rect y="630" width="1600" height="270" fill="#fde68a"/>
   <!-- Big Elephant Toy (left, x:22%, y:52% -> 352, 468) -->
   <g filter="url(#sho)">
@@ -44,4 +64,7 @@
     <rect x="1355" y="545" width="135" height="95" rx="12" fill="#a855f7"/>
     <polygon points="1355,545 1320,505 1420,505 1422,545" fill="#c084fc"/>
   </g>
+
+    <rect width="1600" height="900" fill="url(#sunGlow_scene_opposites_size.svg)" pointer-events="none"/>
+    <rect width="1600" height="900" fill="url(#vignette_scene_opposites_size.svg)" pointer-events="none"/>
 </svg>

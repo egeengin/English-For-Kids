@@ -7,9 +7,29 @@
     <filter id="sh11" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity="0.35"/>
     </filter>
+  
+    <radialGradient id="sunGlow_scene_dino_space.svg" cx="50%" cy="20%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vignette_scene_dino_space.svg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.16"/>
+    </linearGradient>
   </defs>
 
   <rect width="1600" height="630" fill="url(#musWall)"/>
+
+      <g data-enriched="true" opacity="0.75">
+        <circle cx="180" cy="140" r="3" fill="#fff"/>
+        <circle cx="420" cy="95" r="4" fill="#fde047"/>
+        <circle cx="780" cy="160" r="3" fill="#fff"/>
+        <circle cx="1140" cy="110" r="4" fill="#bae6fd"/>
+        <circle cx="1420" cy="190" r="3" fill="#fff"/>
+        <circle cx="260" cy="340" r="2.5" fill="#fff"/>
+        <circle cx="1320" cy="410" r="3.5" fill="#fde047"/>
+      </g>
   <rect y="630" width="1600" height="270" fill="#334155"/>
 
   <!-- Stars & Saturn Planet (top-right, x:78%, y:22% -> 1248, 198) -->
@@ -67,4 +87,7 @@
     <circle cx="862" cy="466" r="4.5" fill="#1e293b"/>
     <path d="M836 482 Q848 492 860 482" fill="none" stroke="#9a3412" stroke-width="4" stroke-linecap="round"/>
   </g>
+
+    <rect width="1600" height="900" fill="url(#sunGlow_scene_dino_space.svg)" pointer-events="none"/>
+    <rect width="1600" height="900" fill="url(#vignette_scene_dino_space.svg)" pointer-events="none"/>
 </svg>

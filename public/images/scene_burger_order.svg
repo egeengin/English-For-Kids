@@ -7,10 +7,27 @@
     <filter id="sh4" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.14"/>
     </filter>
+  
+    <radialGradient id="sunGlow_scene_burger_order.svg" cx="50%" cy="20%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vignette_scene_burger_order.svg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.16"/>
+    </linearGradient>
   </defs>
 
   <!-- Restaurant Wall & Floor -->
   <rect width="1600" height="620" fill="url(#restWall)"/>
+
+      <g data-enriched="true">
+        <rect x="0" y="608" width="1600" height="14" fill="#0f172a" opacity="0.08"/>
+        <line x1="0" y1="690" x2="1600" y2="690" stroke="#0f172a" stroke-opacity="0.06" stroke-width="3"/>
+        <line x1="0" y1="775" x2="1600" y2="775" stroke="#0f172a" stroke-opacity="0.06" stroke-width="3"/>
+        <line x1="0" y1="855" x2="1600" y2="855" stroke="#0f172a" stroke-opacity="0.06" stroke-width="3"/>
+      </g>
   <rect y="620" width="1600" height="280" fill="#fed7aa"/>
 
   <!-- Big Menu Board on Wall (x:24%, y:22% -> 384, 198) -->
@@ -97,4 +114,7 @@
       <circle cx="30" cy="6" r="6" fill="#ef4444"/>
     </g>
   </g>
+
+    <rect width="1600" height="900" fill="url(#sunGlow_scene_burger_order.svg)" pointer-events="none"/>
+    <rect width="1600" height="900" fill="url(#vignette_scene_burger_order.svg)" pointer-events="none"/>
 </svg>

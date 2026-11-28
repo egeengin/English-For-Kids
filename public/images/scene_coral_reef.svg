@@ -7,8 +7,27 @@
     <filter id="shoc" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity="0.28"/>
     </filter>
+  
+    <radialGradient id="sunGlow_scene_coral_reef.svg" cx="50%" cy="20%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vignette_scene_coral_reef.svg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.16"/>
+    </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#oceanGrad)"/>
+
+      <g data-enriched="true" opacity="0.35">
+        <polygon points="220,0 380,0 520,900 120,900" fill="#bae6fd"/>
+        <polygon points="880,0 1060,0 1240,900 760,900" fill="#bae6fd"/>
+        <circle cx="280" cy="240" r="14" fill="none" stroke="#fff" stroke-width="3"/>
+        <circle cx="310" cy="180" r="9" fill="none" stroke="#fff" stroke-width="3"/>
+        <circle cx="1180" cy="280" r="16" fill="none" stroke="#fff" stroke-width="3"/>
+        <circle cx="1210" cy="210" r="10" fill="none" stroke="#fff" stroke-width="3"/>
+      </g>
   <path d="M0 780 Q400 740 800 780 T1600 760 L1600 900 L0 900 Z" fill="#fde68a"/>
   <!-- Yellow Submarine (x:22%, y:34% -> 352, 306) -->
   <g filter="url(#shoc)" transform="translate(180, 210)">
@@ -45,4 +64,7 @@
   </g>
   <!-- Coral (x:72%, y:78% -> 1152, 702) -->
   <path d="M1130 780 L1130 690 M1130 730 L1100 700 M1130 720 L1165 690" fill="none" stroke="#fb7185" stroke-width="20" stroke-linecap="round"/>
+
+    <rect width="1600" height="900" fill="url(#sunGlow_scene_coral_reef.svg)" pointer-events="none"/>
+    <rect width="1600" height="900" fill="url(#vignette_scene_coral_reef.svg)" pointer-events="none"/>
 </svg>

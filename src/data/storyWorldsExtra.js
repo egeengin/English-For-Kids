@@ -166,7 +166,7 @@ export function getExtraStoryWorlds(childName = 'Deniz') {
             timeTag: '02:00 PM',
             badge: '🌊 Splash Time',
             bgGradient: 'from-cyan-500 via-sky-500 to-blue-600',
-            sceneImage: 'images/scene_aquapark.svg',
+            sceneImage: 'images/scene_aquapark.jpg',
             hotspots: [
               { id: 'sun', x: 14, y: 15, emoji: '☀️', name: 'Sun' },
               { id: 'water_slide', x: 32, y: 36, emoji: '🛝', name: 'Water slide', speakText: 'Whoosh! Slide down the big water slide!' },
@@ -400,7 +400,7 @@ export function getExtraStoryWorlds(childName = 'Deniz') {
             timeTag: '01:30 PM',
             badge: '🏖️ Sea & Sandcastle',
             bgGradient: 'from-sky-500 via-cyan-500 to-amber-400',
-            sceneImage: 'images/scene_beach_sea.svg',
+            sceneImage: 'images/scene_beach_sea.jpg',
             hotspots: [
               { id: 'sun', x: 14, y: 15, emoji: '☀️', name: 'Sun' },
               { id: 'sailboat', x: 74, y: 34, emoji: '⛵', name: 'Sailboat' },
@@ -926,7 +926,7 @@ export function getExtraStoryWorlds(childName = 'Deniz') {
             timeTag: 'Animal Friends',
             badge: '🦁 Wild Animals',
             bgGradient: 'from-lime-500 via-emerald-500 to-teal-500',
-            sceneImage: 'images/scene_zoo_safari.svg',
+            sceneImage: 'images/scene_zoo_safari.jpg',
             hotspots: [
               { id: 'giraffe', x: 18, y: 38, emoji: '🦒', name: 'Giraffe', speakText: 'The giraffe has a super long neck!' },
               { id: 'giraffe_spots', x: 16, y: 48, emoji: '🟡', name: 'Brown spots' },

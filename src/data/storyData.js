@@ -1181,7 +1181,7 @@ export function getStoryData(childName = 'Deniz') {
           timeTag: '07:00 PM',
           badge: '🏥 Helping People',
           bgGradient: 'from-rose-500 via-red-500 to-pink-500',
-          sceneImage: 'images/scene_hospital.svg',
+          sceneImage: 'images/scene_hospital.jpg',
           hotspots: [
             { id: 'window', x: 19, y: 20, emoji: '🪟', name: 'Window' },
             { id: 'ambulance', x: 22, y: 34, emoji: '🚑', name: 'Ambulance' },
@@ -1333,7 +1333,7 @@ export function getStoryData(childName = 'Deniz') {
           timeTag: '07:45 PM',
           badge: '🛒 Fresh Food',
           bgGradient: 'from-emerald-500 via-green-500 to-lime-500',
-          sceneImage: 'images/scene_supermarket.svg',
+          sceneImage: 'images/scene_supermarket.jpg',
           hotspots: [
             { id: 'bananas', x: 10, y: 36, emoji: '🍌', name: 'Bananas' },
             { id: 'apples', x: 20, y: 36, emoji: '🍎', name: 'Apples' },
@@ -1447,7 +1447,7 @@ export function getStoryData(childName = 'Deniz') {
           timeTag: '09:00 PM',
           badge: '🌙 Good Night',
           bgGradient: 'from-indigo-800 via-purple-800 to-slate-900',
-          sceneImage: 'images/scene_bedtime.svg',
+          sceneImage: 'images/scene_bedtime.jpg',
           hotspots: [
             { id: 'moon', x: 20, y: 20, emoji: '🌙', name: 'Moon' },
             { id: 'stars', x: 29, y: 26, emoji: '⭐', name: 'Stars' },

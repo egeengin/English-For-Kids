@@ -1064,7 +1064,7 @@ export function getMoreStoryWorlds(childName = 'Deniz') {
             timeTag: 'Adventure!',
             badge: '🏴‍☠️ Gold Treasure',
             bgGradient: 'from-amber-500 via-sky-500 to-blue-700',
-            sceneImage: 'images/scene_pirate_ship.svg',
+            sceneImage: 'images/scene_pirate_ship.jpg',
             hotspots: [
               { id: 'pirate_flag', x: 27, y: 28, emoji: '🏴‍☠️', name: 'Black flag' },
               { id: 'sail', x: 28, y: 40, emoji: '⛵', name: 'White sail' },

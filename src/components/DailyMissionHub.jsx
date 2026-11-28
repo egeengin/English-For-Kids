@@ -33,6 +33,7 @@ import {
   playVictoryFanfare,
   playGentleWobble,
 } from '../utils/soundEffects';
+import { launchFireworksShow } from '../utils/fireworks';
 import { FUNNY_COMBO_CHEERS, getFunnyLineByIndex } from '../data/funnyData';
 import { recordMissedWord, recordMasteredWord } from '../utils/reviewTracker';
 import { useVoiceQuizAnswer } from '../utils/useVoiceQuizAnswer';
@@ -105,6 +106,7 @@ export default function DailyMissionHub({
   const quizSpeechSessionRef = useRef(0);
   const quizSpeechTimerRef = useRef(null);
   const burstTimerRef = useRef(null);
+  const fireworksCleanupRef = useRef(null);
   const voiceBonusIdsRef = useRef(new Set());
   const micSupported = isSpeechRecognitionSupported();
 
@@ -123,6 +125,7 @@ export default function DailyMissionHub({
       stopQuizSpeech();
       cancelHoverSpeech();
       if (burstTimerRef.current) clearTimeout(burstTimerRef.current);
+      if (fireworksCleanupRef.current) fireworksCleanupRef.current();
       if (learnListenerRef.current) learnListenerRef.current.abort();
       if (speakListenerRef.current) speakListenerRef.current.abort();
     };
@@ -414,12 +417,20 @@ export default function DailyMissionHub({
       if (nextDoneCount === vocabList.length && !isStopCelebrated) {
         setIsStopCelebrated(true);
         if (onMarkQuestStep) onMarkQuestStep(activeDay.id, 'speak');
-        playVictoryFanfare(isMuted);
         if (onRewardEarned) onRewardEarned({ stars: 5, bricks: 2 });
-        try {
-          confetti({ particleCount: 110, spread: 85, origin: { y: 0.55 } });
-        } catch {
-          // ignore
+        if (stopMeta.isPitStop || stopMeta.isGrandFinale) {
+          if (fireworksCleanupRef.current) fireworksCleanupRef.current();
+          fireworksCleanupRef.current = launchFireworksShow({
+            grand: Boolean(stopMeta.isGrandFinale),
+            isMuted,
+          });
+        } else {
+          playVictoryFanfare(isMuted);
+          try {
+            confetti({ particleCount: 110, spread: 85, origin: { y: 0.55 } });
+          } catch {
+            // ignore
+          }
         }
         if (!isMuted) {
           speakEnglish(`Amazing job ${childName}! You finished Stop ${stopMeta.stopNumber}!`);
@@ -437,6 +448,8 @@ export default function DailyMissionHub({
       onMarkSpokenPhrase,
       onRewardEarned,
       speakPassedMap,
+      stopMeta.isGrandFinale,
+      stopMeta.isPitStop,
       stopMeta.stopNumber,
       triggerBurst,
       vocabList,
@@ -636,9 +649,9 @@ export default function DailyMissionHub({
         </div>
       )}
 
-      {/* Clean Horizontal Stop Selector */}
-      <div className="bg-white rounded-3xl p-2.5 sm:p-3 shadow-sm border-2 border-amber-200 flex items-center gap-2">
-        {onBackToIsland && (
+      {/* Focused Lesson Bar (Prev / Current Stop / Next + Back to Island Map) */}
+      <div className="bg-white rounded-3xl p-2.5 sm:p-3 shadow-sm border-2 border-amber-200 flex items-center justify-between gap-2">
+        {onBackToIsland ? (
           <button
             type="button"
             onClick={() => {
@@ -646,39 +659,47 @@ export default function DailyMissionHub({
               stopQuizSpeech();
               onBackToIsland();
             }}
-            className="px-3 py-2 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-900 border-2 border-sky-200 font-display font-black text-xs sm:text-sm whitespace-nowrap cursor-pointer transition flex items-center gap-1 flex-shrink-0"
+            className="px-3.5 py-2 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-900 border-2 border-sky-200 font-display font-black text-xs sm:text-sm whitespace-nowrap cursor-pointer transition flex items-center gap-1.5 flex-shrink-0"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Island</span>
+            <span>Island Map</span>
           </button>
+        ) : (
+          <div />
         )}
 
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 flex-1">
-          {DAILY_EXPEDITION_DAYS.map((day) => {
-            const meta = getIslandStopMeta(day.id);
-            const isSelected = day.id === activeDay.id;
-            const entry = questProgress?.[day.id] || {};
-            const isComplete = Boolean(entry.learn && entry.song && entry.speak);
+        <div className="flex items-center gap-2 min-w-0">
+          <button
+            type="button"
+            disabled={activeDayIndex <= 0}
+            onClick={() => {
+              const prevDay = DAILY_EXPEDITION_DAYS[activeDayIndex - 1];
+              if (prevDay) setDayId(prevDay.id);
+            }}
+            aria-label="Previous stop"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 disabled:opacity-35 text-slate-700 cursor-pointer transition"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
 
-            return (
-              <button
-                key={day.id}
-                type="button"
-                onClick={() => setDayId(day.id)}
-                className={`px-3 py-2 rounded-2xl border-2 font-display font-black text-xs sm:text-sm whitespace-nowrap transition flex items-center gap-1.5 cursor-pointer ${
-                  isSelected
-                    ? 'bg-blue-600 text-white border-blue-800 shadow-xs'
-                    : isComplete
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
-                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-300'
-                }`}
-              >
-                <span>{meta.emoji}</span>
-                <span>Stop {meta.stopNumber}</span>
-                {isComplete && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />}
-              </button>
-            );
-          })}
+          <div className="px-3.5 py-1.5 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-950 font-display font-black text-xs sm:text-sm flex items-center gap-2 truncate">
+            <span className="text-base">{stopMeta.emoji}</span>
+            <span className="truncate">
+              Lesson {stopMeta.stopNumber}/{DAILY_EXPEDITION_DAYS.length}: {stopMeta.titleEn}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            disabled={activeDayIndex >= DAILY_EXPEDITION_DAYS.length - 1}
+            onClick={() => {
+              if (nextDay) setDayId(nextDay.id);
+            }}
+            aria-label="Next stop"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 disabled:opacity-35 text-slate-700 cursor-pointer transition"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -691,7 +712,8 @@ export default function DailyMissionHub({
             </div>
             <div>
               <div className="text-[11px] font-black uppercase tracking-wider text-sky-700">
-                Stop {stopMeta.stopNumber} of 16
+                Stop {stopMeta.stopNumber} of {DAILY_EXPEDITION_DAYS.length}
+                {stopMeta.isGrandFinale ? ' • 🎆 Grand Finale' : stopMeta.isPitStop ? ' • 🏁 Pit-Stop Review' : ''}
               </div>
               <h2 className="text-base sm:text-xl font-display font-black text-slate-900">
                 {stopMeta.titleEn}
@@ -1354,20 +1376,52 @@ export default function DailyMissionHub({
 
           {/* Step 4 Footer / Stop Celebration */}
           {allSpeakDone ? (
-            <div className="rounded-3xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+            <div
+              className={`rounded-3xl text-white p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md ${
+                stopMeta.isGrandFinale
+                  ? 'bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 border-4 border-amber-300'
+                  : stopMeta.isPitStop
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 border-2 border-yellow-200'
+                  : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+              }`}
+            >
               <div className="flex items-center gap-3">
                 <Trophy className="w-10 h-10 text-yellow-300 flex-shrink-0" />
                 <div>
                   <div className="font-display font-black text-lg sm:text-xl flex items-center gap-1.5">
                     <Sparkles className="w-5 h-5 text-yellow-300" />
-                    <span>Stop {stopMeta.stopNumber} Complete!</span>
+                    <span>
+                      {stopMeta.isGrandFinale
+                        ? '🏆 Island Champion! Grand Finale Complete!'
+                        : stopMeta.isPitStop
+                        ? `🏁 Pit-Stop ${stopMeta.stopNumber} Complete!`
+                        : `Stop ${stopMeta.stopNumber} Complete!`}
+                    </span>
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-emerald-100">
-                    Awesome work! Head back to the Island to open your Treasure Chest!
+                  <div className="text-xs sm:text-sm font-bold text-white/90">
+                    {stopMeta.isGrandFinale
+                      ? 'Fireworks for Deniz! You mastered all 36 Island Stops!'
+                      : 'Awesome work! Head back to the Island to open your Treasure Chest!'}
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-wrap">
+                {(stopMeta.isPitStop || stopMeta.isGrandFinale) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      unlockAudio();
+                      if (fireworksCleanupRef.current) fireworksCleanupRef.current();
+                      fireworksCleanupRef.current = launchFireworksShow({
+                        grand: Boolean(stopMeta.isGrandFinale),
+                        isMuted,
+                      });
+                    }}
+                    className="px-4 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 text-white border border-white/40 font-display font-black text-sm cursor-pointer"
+                  >
+                    🎆 Fireworks!
+                  </button>
+                )}
                 {onBackToIsland && (
                   <button
                     type="button"

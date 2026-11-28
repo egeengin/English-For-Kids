@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech, prefetchSpeech } from '../utils/speech';
@@ -261,7 +261,7 @@ function getMiniBooks(childName = 'Deniz') {
 }
 
 export default function MiniBooksReader({ onRewardEarned, isMuted = false, childName = 'Deniz' }) {
-  const books = getMiniBooks(childName);
+  const books = useMemo(() => getMiniBooks(childName), [childName]);
   const [bookIdx, setBookIdx] = useState(0);
   const [pageIdx, setPageIdx] = useState(0); // 0..pages.length (last index = question)
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -274,17 +274,27 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   const book = books[bookIdx];
   const isQuestionPage = pageIdx >= book.pages.length;
   const currentPage = !isQuestionPage ? book.pages[pageIdx] : null;
+  const currentPageText = currentPage?.text || '';
+
+  const clearReadingTimers = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
+      readingSessionRef.current += 1;
       stopSpeech();
-      if (timerRef.current) clearInterval(timerRef.current);
+      clearReadingTimers();
     };
-  }, []);
+  }, [clearReadingTimers]);
 
   const readLine = useCallback((sentence) => {
     const readingSession = ++readingSessionRef.current;
-    if (timerRef.current) clearInterval(timerRef.current);
+    clearReadingTimers();
     if (!sentence) return;
 
     setIsReading(true);
@@ -292,18 +302,18 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     let hasStarted = false;
     let idx = 0;
     const startHighlight = () => {
-      if (hasStarted) return;
+      if (readingSession !== readingSessionRef.current || hasStarted) return;
       hasStarted = true;
       setHighlightIdx(0);
       timerRef.current = setInterval(() => {
+        if (readingSession !== readingSessionRef.current) return;
         idx++;
         if (idx < words.length) setHighlightIdx(idx);
       }, 360);
     };
     const finishReading = () => {
       if (readingSession !== readingSessionRef.current) return;
-      if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = null;
+      clearReadingTimers();
       setHighlightIdx(-1);
       setIsReading(false);
       // Wait on page so the child hears the full story; continue with button!
@@ -317,7 +327,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     }
 
     speakEnglish(sentence, finishReading, { onStart: startHighlight });
-  }, [isMuted]);
+  }, [isMuted, clearReadingTimers]);
 
   useEffect(() => {
     if (isMuted || !book) return;
@@ -329,13 +339,15 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   }, [book, isMuted]);
 
   useEffect(() => {
-    if (isQuestionPage || !currentPage) return undefined;
-    const timer = setTimeout(() => readLine(currentPage.text), 350);
+    if (isQuestionPage || !currentPageText) return undefined;
+    const timer = setTimeout(() => readLine(currentPageText), 350);
     return () => {
       clearTimeout(timer);
+      readingSessionRef.current += 1;
+      clearReadingTimers();
       stopSpeech();
     };
-  }, [bookIdx, pageIdx, isQuestionPage, currentPage, readLine]);
+  }, [bookIdx, pageIdx, isQuestionPage, currentPageText, readLine, clearReadingTimers]);
 
   const handlePrevPage = () => {
     playTap(isMuted);
@@ -430,8 +442,17 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
                     key={idx}
                     type="button"
                     onClick={() => {
+                      readingSessionRef.current += 1;
+                      clearReadingTimers();
+                      setIsReading(false);
+                      setHighlightIdx(idx);
                       playSnap(isMuted);
-                      if (!isMuted) speakEnglish(word.replace(/[^a-zA-Z']/g, ''));
+                      const cleanWord = word.replace(/[^a-zA-Z0-9'’-]/g, '');
+                      if (!isMuted && cleanWord) {
+                        speakEnglish(cleanWord, () => {
+                          setHighlightIdx((curr) => (curr === idx ? -1 : curr));
+                        });
+                      }
                     }}
                     className={`font-display font-black text-2xl sm:text-4xl px-2 py-1 rounded-xl transition cursor-pointer ${
                       highlightIdx === idx

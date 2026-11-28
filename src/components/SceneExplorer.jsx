@@ -11,7 +11,10 @@ import {
 import { SCENES_DATA } from '../data/scenesData';
 import { speakEnglish, stopSpeech } from '../utils/speech';
 import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
+
+const COMPLETED_SCENES_KEY = 'lego_completed_scenes_v1';
 
 export default function SceneExplorer({
   onRewardEarned,
@@ -19,6 +22,7 @@ export default function SceneExplorer({
   isMuted = false,
 }) {
   const [selectedSceneIndex, setSelectedSceneIndex] = useState(0);
+  const [completedSceneIds, setCompletedSceneIds] = useState(() => loadCompletedSet(COMPLETED_SCENES_KEY));
   const [foundDiffIds, setFoundDiffIds] = useState(new Set());
   const [activeItem, setActiveItem] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -80,6 +84,7 @@ export default function SceneExplorer({
       // Check if all differences in the scene are found
       if (updated.size === totalDifferences) {
         setIsCompleted(true);
+        setCompletedSceneIds((prev) => markCompletedId(COMPLETED_SCENES_KEY, prev, currentScene.id));
         playVictoryFanfare(isMuted);
         confetti({
           particleCount: 100,
@@ -137,6 +142,7 @@ export default function SceneExplorer({
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-1.5 max-w-full">
           {SCENES_DATA.map((scene, idx) => {
             const isCurrent = idx === selectedSceneIndex;
+            const isDone = completedSceneIds.has(scene.id);
             return (
               <button
                 key={scene.id}
@@ -145,14 +151,17 @@ export default function SceneExplorer({
                   selectScene(idx);
                 }}
                 className={`
-                  flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all whitespace-nowrap
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all whitespace-nowrap cursor-pointer
                   ${isCurrent
                     ? `${scene.badgeColor} text-white shadow-md border-2 ${scene.borderColor} scale-105`
+                    : isDone
+                    ? 'bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border-2 border-emerald-300'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-200'}
                 `}
               >
                 <span>{scene.icon}</span>
                 <span>{scene.title.replace('The Lego ', '')}</span>
+                {isDone && <CheckCircle2 className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : 'text-emerald-600'}`} />}
               </button>
             );
           })}

@@ -3,6 +3,9 @@ import confetti from 'canvas-confetti';
 import { Volume2, CheckCircle2, Sparkles, ArrowRight, Paintbrush } from 'lucide-react';
 import { speakEnglish, stopSpeech, unlockAudio } from '../utils/speech';
 import { playSnap, playStarSparkle, playGentleWobble, playTap, playVictoryFanfare } from '../utils/soundEffects';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
+
+const COMPLETED_COLORING_KEY = 'lego_completed_coloring_v1';
 
 const PALETTE = [
   { id: 'pink', name: 'Pink', hex: '#f472b6', ring: 'ring-pink-300', bg: 'bg-pink-400' },
@@ -71,6 +74,7 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
   const [feedback, setFeedback] = useState('');
   const [wobblePart, setWobblePart] = useState(null);
   const [score, setScore] = useState(0);
+  const [completedDrawings, setCompletedDrawings] = useState(() => loadCompletedSet(COMPLETED_COLORING_KEY));
   const timerRef = useRef(null);
 
   const scene = COLORING_SCENES[sceneIdx % COLORING_SCENES.length];
@@ -121,6 +125,7 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
 
       const nextStep = stepIdx + 1;
       if (nextStep >= scene.steps.length) {
+        setCompletedDrawings((prev) => markCompletedId(COMPLETED_COLORING_KEY, prev, scene.id));
         playVictoryFanfare(isMuted);
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
         if (onRewardEarned) onRewardEarned({ stars: 3, bricks: 1 });
@@ -176,21 +181,28 @@ export default function ListenColorGame({ onRewardEarned, isMuted = false }) {
             <span>Listen &amp; Color</span>
           </h2>
           <div className="flex items-center gap-2 flex-wrap">
-            {COLORING_SCENES.map((s, idx) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => handleSelectScene(idx)}
-                className={`px-3 py-1.5 rounded-2xl font-display font-black text-xs sm:text-sm border-2 cursor-pointer transition flex items-center gap-1.5 ${
-                  idx === sceneIdx % COLORING_SCENES.length
-                    ? 'bg-pink-500 text-white border-pink-700 shadow-sm'
-                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-pink-50'
-                }`}
-              >
-                <span>{s.emoji}</span>
-                <span className="hidden sm:inline">{s.title}</span>
-              </button>
-            ))}
+            {COLORING_SCENES.map((s, idx) => {
+              const isDone = completedDrawings.has(s.id);
+              const isCurr = idx === sceneIdx % COLORING_SCENES.length;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => handleSelectScene(idx)}
+                  className={`px-3 py-1.5 rounded-2xl font-display font-black text-xs sm:text-sm border-2 cursor-pointer transition flex items-center gap-1.5 ${
+                    isCurr
+                      ? 'bg-pink-500 text-white border-pink-700 shadow-sm'
+                      : isDone
+                      ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-pink-50'
+                  }`}
+                >
+                  <span>{s.emoji}</span>
+                  <span className="hidden sm:inline">{s.title}</span>
+                  {isDone && <CheckCircle2 className={`w-3.5 h-3.5 ${isCurr ? 'text-white' : 'text-emerald-600'}`} />}
+                </button>
+              );
+            })}
             <span className="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 font-black text-xs sm:text-sm border border-amber-300">
               ⭐ {score}
             </span>

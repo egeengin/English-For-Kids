@@ -1,7 +1,10 @@
-import React from 'react';
-import { Mic, Radio, Trophy, Compass } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mic, Radio, Trophy, Compass, CheckCircle2 } from 'lucide-react';
 import LeoBuddy from './LeoBuddy';
 import { playTap } from '../utils/soundEffects';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
+
+const PLAYED_ARCADE_KEY = 'lego_played_arcade_v1';
 
 const VOICE_SPOTLIGHT = [
   {
@@ -39,6 +42,14 @@ export default function ArcadeHub({
   onOpenWalkieTalkie,
   isMuted = false,
 }) {
+  const [playedIds, setPlayedIds] = useState(() => loadCompletedSet(PLAYED_ARCADE_KEY));
+
+  const handleOpenGame = (gameId) => {
+    playTap(isMuted);
+    setPlayedIds((prev) => markCompletedId(PLAYED_ARCADE_KEY, prev, gameId));
+    onSelectGame(gameId);
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 py-5 sm:py-6 space-y-6 flex-1 island-pop-in">
       {/* Arcade Banner */}
@@ -98,27 +109,35 @@ export default function ArcadeHub({
           <span>Arcade Mini-Games</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          {ARCADE_GAMES.map((game) => (
-            <button
-              key={game.id}
-              type="button"
-              onClick={() => {
-                playTap(isMuted);
-                onSelectGame(game.id);
-              }}
-              className={`rounded-3xl border-3 ${game.color} p-4 text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer flex items-center gap-3.5`}
-            >
-              <div className="w-14 h-14 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl flex-shrink-0 shadow-2xs">
-                {game.emoji}
-              </div>
-              <div className="min-w-0">
-                <div className="font-display font-black text-base sm:text-lg text-slate-900 leading-tight">
-                  {game.title}
+          {ARCADE_GAMES.map((game) => {
+            const isPlayed = playedIds.has(game.id);
+            return (
+              <button
+                key={game.id}
+                type="button"
+                onClick={() => handleOpenGame(game.id)}
+                className={`relative rounded-3xl border-3 ${game.color} p-4 text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer flex items-center gap-3.5`}
+              >
+                <div className="w-14 h-14 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-3xl flex-shrink-0 shadow-2xs">
+                  {game.emoji}
                 </div>
-                <div className="text-xs font-bold text-slate-600 mt-0.5">{game.desc}</div>
-              </div>
-            </button>
-          ))}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="font-display font-black text-base sm:text-lg text-slate-900 leading-tight">
+                      {game.title}
+                    </div>
+                    {isPlayed && (
+                      <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-black flex-shrink-0">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Played</span>
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs font-bold text-slate-600 mt-0.5">{game.desc}</div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
 

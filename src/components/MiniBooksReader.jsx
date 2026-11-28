@@ -3,6 +3,9 @@ import confetti from 'canvas-confetti';
 import { Volume2, ArrowRight, ArrowLeft, BookOpen, CheckCircle2 } from 'lucide-react';
 import { speakEnglish, stopSpeech, triggerHoverSpeech, cancelHoverSpeech, prefetchSpeech } from '../utils/speech';
 import { playSnap, playStarSparkle, playTap, playDiDit } from '../utils/soundEffects';
+import { loadCompletedSet, markCompletedId } from '../utils/seenTracker';
+
+const COMPLETED_MINIBOOKS_KEY = 'lego_completed_minibooks_v1';
 
 function cleanOptionForSpeech(text) {
   return String(text || '')
@@ -267,6 +270,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const [isReading, setIsReading] = useState(false);
   const [quizSolved, setQuizSolved] = useState(false);
+  const [completedBookIds, setCompletedBookIds] = useState(() => loadCompletedSet(COMPLETED_MINIBOOKS_KEY));
   const [wrongOptions, setWrongOptions] = useState(new Set());
   const timerRef = useRef(null);
   const readingSessionRef = useRef(0);
@@ -387,6 +391,7 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     if (opt.isCorrect) {
       playStarSparkle(isMuted);
       setQuizSolved(true);
+      setCompletedBookIds((prev) => markCompletedId(COMPLETED_MINIBOOKS_KEY, prev, book?.id));
       confetti({ particleCount: 60, spread: 60, origin: { y: 0.65 } });
       if (onRewardEarned) {
         onRewardEarned({ stars: 4, bricks: 1, bookTitle: book?.title || 'Mini Book' });
@@ -403,21 +408,27 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
     <div className="w-full max-w-4xl mx-auto px-3 py-4">
       {/* Simple Book Picker */}
       <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
-        {books.map((b, idx) => (
-          <button
-            key={b.id}
-            type="button"
-            onClick={() => selectBook(idx)}
-            className={`px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base border-2 flex items-center gap-2 cursor-pointer transition shadow-sm ${
-              idx === bookIdx
-                ? `bg-gradient-to-r ${b.color} text-white border-white shadow-md scale-[1.03]`
-                : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
-            }`}
-          >
-            <span className="text-xl">{b.emoji}</span>
-            <span>{b.title}</span>
-          </button>
-        ))}
+        {books.map((b, idx) => {
+          const isDone = completedBookIds.has(b.id);
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => selectBook(idx)}
+              className={`px-4 py-2.5 rounded-2xl font-display font-black text-sm sm:text-base border-2 flex items-center gap-2 cursor-pointer transition shadow-sm ${
+                idx === bookIdx
+                  ? `bg-gradient-to-r ${b.color} text-white border-white shadow-md scale-[1.03]`
+                  : isDone
+                  ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300'
+              }`}
+            >
+              <span className="text-xl">{b.emoji}</span>
+              <span>{b.title}</span>
+              {isDone && <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${idx === bookIdx ? 'text-white' : 'text-emerald-600'}`} />}
+            </button>
+          );
+        })}
       </div>
 
       {/* Book Page Card */}

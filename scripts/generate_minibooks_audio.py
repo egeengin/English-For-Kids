@@ -110,11 +110,15 @@ async def main():
     phrases = set()
 
     for b in books:
-        # Pages
+        # Pages & individual clickable words
         for p in b.get("pages", []):
             clean = clean_text_for_tts(p["text"])
             if clean:
                 phrases.add(clean)
+            for w in str(p["text"]).split():
+                w_clean = re.sub(r"[^a-zA-Z']", "", w)
+                if w_clean:
+                    phrases.add(w_clean)
 
         # Question
         q_clean = clean_text_for_tts(b.get("question", ""))

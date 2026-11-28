@@ -252,6 +252,204 @@ function getMiniBooks(childName = 'Deniz') {
         { text: 'A submarine 🚤', isCorrect: false },
       ],
     },
+    {
+      id: 'dino_museum_book',
+      title: 'Dinosaur Museum',
+      emoji: '🦕',
+      color: 'from-lime-500 to-emerald-600',
+      pages: [
+        { emoji: '🦕', text: `${childName} walks into the big Dinosaur Museum.` },
+        { emoji: '🦴', text: 'Look at the giant dinosaur bones!' },
+        { emoji: '🥚', text: 'We see a round dinosaur egg in the glass case.' },
+        { emoji: '🦖', text: `${childName} roars like a friendly dinosaur!` },
+      ],
+      question: `What giant bones did ${childName} see at the museum?`,
+      options: [
+        { text: 'Dinosaur bones 🦴', isCorrect: true },
+        { text: 'A bicycle 🚲', isCorrect: false },
+        { text: 'A banana 🍌', isCorrect: false },
+      ],
+    },
+    {
+      id: 'space_rocket_book',
+      title: 'Trip to the Moon',
+      emoji: '🚀',
+      color: 'from-indigo-600 to-slate-800',
+      pages: [
+        { emoji: '👩‍🚀', text: `${childName} puts on a shiny space helmet.` },
+        { emoji: '🚀', text: 'Three, two, one, blast off to space!' },
+        { emoji: '🌙', text: 'He floats and bounces on the dusty moon.' },
+        { emoji: '🌍', text: 'Look! Blue Earth looks like a little marble!' },
+      ],
+      question: `How does ${childName} move on the moon?`,
+      options: [
+        { text: 'Floats and bounces 🌙', isCorrect: true },
+        { text: 'Swims in a pool 🏊', isCorrect: false },
+        { text: 'Rides a bus 🚌', isCorrect: false },
+      ],
+    },
+    {
+      id: 'pizza_night_book',
+      title: 'Friday Pizza Night',
+      emoji: '🍕',
+      color: 'from-orange-500 to-red-500',
+      pages: [
+        { emoji: '🥣', text: 'Tonight we make homemade pizza together!' },
+        { emoji: '🍅', text: `${childName} spreads red tomato sauce on the dough.` },
+        { emoji: '🧀', text: 'We sprinkle lots of yummy yellow cheese.' },
+        { emoji: '🍕', text: 'Hot out of the oven! Everyone grabs a slice!' },
+      ],
+      question: `What does ${childName} spread on the pizza dough?`,
+      options: [
+        { text: 'Red tomato sauce 🍅', isCorrect: true },
+        { text: 'Blue paint 🎨', isCorrect: false },
+        { text: 'Cold snow ❄️', isCorrect: false },
+      ],
+    },
+    {
+      id: 'fire_truck_book',
+      title: 'The Red Fire Truck',
+      emoji: '🚒',
+      color: 'from-red-600 to-rose-600',
+      pages: [
+        { emoji: '🚒', text: 'Beep beep! A bright red fire truck zooms past.' },
+        { emoji: '🪜', text: 'The firefighters lift a tall ladder.' },
+        { emoji: '🐱', text: 'A little orange cat is stuck in the tree!' },
+        { emoji: '🥳', text: 'They rescue the kitty safely. Hurray!' },
+      ],
+      question: 'Who was stuck up in the tree?',
+      options: [
+        { text: 'A little orange cat 🐱', isCorrect: true },
+        { text: 'A green frog 🐸', isCorrect: false },
+        { text: 'A big whale 🐳', isCorrect: false },
+      ],
+    },
+    {
+      id: 'pirate_map_book',
+      title: 'The Treasure Map',
+      emoji: '🏴‍☠️',
+      color: 'from-amber-600 to-yellow-600',
+      pages: [
+        { emoji: '🗺️', text: `${childName} finds an old treasure map in a bottle.` },
+        { emoji: '⛵', text: 'We sail across the blue waves on a boat.' },
+        { emoji: '🌴', text: 'X marks the spot under a tall palm tree!' },
+        { emoji: '🪙', text: 'Dig, dig, dig! A chest full of gold coins!' },
+      ],
+      question: 'Where was the treasure hidden?',
+      options: [
+        { text: 'Under a palm tree 🌴', isCorrect: true },
+        { text: 'Inside a fridge 🧊', isCorrect: false },
+        { text: 'On a cloud ☁️', isCorrect: false },
+      ],
+    },
+    {
+      id: 'pet_vet_book',
+      title: 'At the Animal Doctor',
+      emoji: '🩺',
+      color: 'from-teal-500 to-emerald-500',
+      pages: [
+        { emoji: '🐶', text: 'Little puppy Milo has a sore paw today.' },
+        { emoji: '🩺', text: 'The kind animal doctor checks his heartbeat.' },
+        { emoji: '🩹', text: 'She wraps a blue bandage around his paw.' },
+        { emoji: '🦴', text: 'Milo gets a crunchy treat and wags his tail!' },
+      ],
+      question: 'What color bandage did Milo get?',
+      options: [
+        { text: 'A blue bandage 🩹', isCorrect: true },
+        { text: 'A paper hat 🎩', isCorrect: false },
+        { text: 'A red shoe 👟', isCorrect: false },
+      ],
+    },
+    {
+      id: 'supermarket_book',
+      title: 'Supermarket Shopping',
+      emoji: '🛒',
+      color: 'from-green-500 to-lime-600',
+      pages: [
+        { emoji: '🛒', text: `${childName} pushes the little shopping cart.` },
+        { emoji: '🍎', text: 'We pick five crunchy red apples.' },
+        { emoji: '🥕', text: 'Next we put orange carrots and milk in the cart.' },
+        { emoji: '🧁', text: 'And one sweet cupcake as a special treat!' },
+      ],
+      question: `How many red apples did ${childName} pick?`,
+      options: [
+        { text: 'Five apples 🍎', isCorrect: true },
+        { text: 'Fifty cars 🚗', isCorrect: false },
+        { text: 'Zero bananas 🍌', isCorrect: false },
+      ],
+    },
+    {
+      id: 'garden_butterfly_book',
+      title: 'The Little Butterfly',
+      emoji: '🦋',
+      color: 'from-fuchsia-500 to-pink-500',
+      pages: [
+        { emoji: '🐛', text: 'A tiny green caterpillar munches on a leaf.' },
+        { emoji: '🌿', text: 'Soon it builds a cozy little house.' },
+        { emoji: '😴', text: 'It sleeps quietly for many days.' },
+        { emoji: '🦋', text: 'Pop! Out flies a colorful butterfly!' },
+      ],
+      question: 'What did the caterpillar turn into?',
+      options: [
+        { text: 'A colorful butterfly 🦋', isCorrect: true },
+        { text: 'A yellow bus 🚌', isCorrect: false },
+        { text: 'A big rock 🪨', isCorrect: false },
+      ],
+    },
+    {
+      id: 'train_trip_book',
+      title: 'Fast Train Ride',
+      emoji: '🚆',
+      color: 'from-sky-600 to-blue-700',
+      pages: [
+        { emoji: '🎟️', text: `${childName} holds his train ticket tightly.` },
+        { emoji: '🚆', text: 'Choo choo! The fast silver train leaves the station.' },
+        { emoji: '🐄', text: 'Through the window, we wave at cows on green hills.' },
+        { emoji: '👵', text: 'Hooray! Grandma and Grandpa hug us at the platform!' },
+      ],
+      question: `Who did ${childName} wave at through the train window?`,
+      options: [
+        { text: 'Cows on green hills 🐄', isCorrect: true },
+        { text: 'Sharks in the sky 🦈', isCorrect: false },
+        { text: 'Robots on Mars 🤖', isCorrect: false },
+      ],
+    },
+    {
+      id: 'camping_tent_book',
+      title: 'Camping Under Stars',
+      emoji: '⛺',
+      color: 'from-emerald-600 to-teal-700',
+      pages: [
+        { emoji: '⛺', text: `${childName} helps Dad put up a blue camping tent.` },
+        { emoji: '🔥', text: 'At night, we sit around a warm campfire.' },
+        { emoji: '✨', text: 'Glowing fireflies dance in the dark woods.' },
+        { emoji: '😴', text: 'Good night! Sleeping in a tent is so cozy!' },
+      ],
+      question: 'What danced in the dark woods at night?',
+      options: [
+        { text: 'Glowing fireflies ✨', isCorrect: true },
+        { text: 'Pink elephants 🐘', isCorrect: false },
+        { text: 'Ice cream trucks 🍦', isCorrect: false },
+      ],
+    },
+    {
+      id: 'basketball_team_book',
+      title: 'Basketball Teamwork',
+      emoji: '🏀',
+      color: 'from-orange-500 to-amber-600',
+      pages: [
+        { emoji: '🏀', text: `${childName} bounces the orange basketball fast.` },
+        { emoji: '🏃', text: 'He passes the ball to his teammate on the court.' },
+        { emoji: '🥅', text: 'Swish! The ball flies right through the hoop!' },
+        { emoji: '🙌', text: 'High five! Teamwork makes the game so fun!' },
+      ],
+      question: `What did ${childName} do before the ball went in the hoop?`,
+      options: [
+        { text: 'Passed to his teammate 🙌', isCorrect: true },
+        { text: 'Took a nap 😴', isCorrect: false },
+        { text: 'Baked a cake 🎂', isCorrect: false },
+      ],
+    },
   ];
 
   return rawBooks.map((b, bIdx) => {
@@ -406,8 +604,13 @@ export default function MiniBooksReader({ onRewardEarned, isMuted = false, child
 
   return (
     <div className="w-full max-w-4xl mx-auto px-3 py-4">
-      {/* Simple Book Picker */}
-      <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+      {/* Read Counter + Book Picker */}
+      <div className="flex items-center justify-center mb-2.5">
+        <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-display font-black text-xs sm:text-sm">
+          📚 Read: {completedBookIds.size} / {books.length} ✓
+        </span>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
         {books.map((b, idx) => {
           const isDone = completedBookIds.has(b.id);
           return (

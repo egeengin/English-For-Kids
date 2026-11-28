@@ -377,7 +377,7 @@ test('MiniBooksReader: Holiday at Nirvana and all books have audio assets and do
   const endIdx = readerCode.indexOf('export default function MiniBooksReader');
   const fnCode = readerCode.slice(startIdx, endIdx);
   const getMiniBooksFn = new Function(fnCode + "; return getMiniBooks('Deniz');")();
-  assert.equal(getMiniBooksFn.length, 13, 'There should be 13 mini-books');
+  assert.ok(getMiniBooksFn.length >= 24, 'There should be at least 24 mini-books');
 
   const nirvanaBook = getMiniBooksFn.find((b) => b.id === 'nirvana_hotel_book');
   assert.ok(nirvanaBook, 'Nirvana book must exist in getMiniBooks');

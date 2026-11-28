@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Sparkles,
@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { SCENES_DATA } from '../data/scenesData';
 import { speakEnglish, stopSpeech } from '../utils/speech';
-import { playSnap, playVictoryFanfare, playStarSparkle, playTap } from '../utils/soundEffects';
+import { playSnap, playVictoryFanfare, playStarSparkle, playTap, playGentleWobble } from '../utils/soundEffects';
 import VoiceRecorderWidget from './VoiceRecorderWidget';
 
 export default function SceneExplorer({
@@ -23,7 +23,8 @@ export default function SceneExplorer({
   const [activeItem, setActiveItem] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const [viewMode, setViewMode] = useState('spot'); // 'spot' (side-by-side) | 'map' (single explorer)
+  const [missPoint, setMissPoint] = useState(null);
+  const missTimerRef = useRef(null);
 
   const currentScene = SCENES_DATA[selectedSceneIndex] || SCENES_DATA[0];
   const totalDifferences = currentScene.differences.length;
@@ -32,6 +33,7 @@ export default function SceneExplorer({
   useEffect(() => {
     return () => {
       stopSpeech();
+      if (missTimerRef.current) clearTimeout(missTimerRef.current);
     };
   }, []);
 
@@ -41,10 +43,25 @@ export default function SceneExplorer({
     setActiveItem(null);
     setIsCompleted(false);
     setShowHint(false);
+    setMissPoint(null);
+  };
+
+  // Handle clicking an empty spot (not a difference)
+  const handleMissClick = (panel, e) => {
+    if (isCompleted) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    playGentleWobble(isMuted);
+    setMissPoint({ panel, x, y });
+    if (missTimerRef.current) clearTimeout(missTimerRef.current);
+    missTimerRef.current = setTimeout(() => setMissPoint(null), 900);
   };
 
   // Handle clicking a difference hotspot
-  const handleSpotClick = (diff) => {
+  const handleSpotClick = (diff, e) => {
+    if (e) e.stopPropagation();
+    setMissPoint(null);
     playSnap(isMuted);
 
     const isNewFind = !foundDiffIds.has(diff.id);
@@ -77,9 +94,12 @@ export default function SceneExplorer({
 
     setActiveItem(diff);
 
-    // Pronounce English word immediately
+    // Pronounce the word and explain what changed!
     if (!isMuted) {
-      speakEnglish(diff.audioKey || diff.targetWord);
+      const spokenLine = diff.differenceText
+        ? `${diff.name}! ${diff.differenceText}`
+        : (diff.audioKey || diff.targetWord);
+      speakEnglish(spokenLine);
     }
   };
 
@@ -156,45 +176,25 @@ export default function SceneExplorer({
           </div>
         </div>
 
-        {/* View mode toggle & Hint */}
+        {/* Hint & Reset */}
         <div className="flex items-center gap-2">
-          {/* View toggle */}
-          <div className="flex items-center bg-slate-800 rounded-xl p-0.5 border border-slate-700">
-            <button
-              onClick={() => setViewMode('spot')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                viewMode === 'spot' ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Side-by-Side
-            </button>
-            <button
-              onClick={() => setViewMode('map')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                viewMode === 'map' ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Single Map
-            </button>
-          </div>
-
           {/* Hint Button */}
           <button
             onClick={() => {
               playTap(isMuted);
               setShowHint(!showHint);
             }}
-            className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 text-xs font-bold transition-all"
+            className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 text-xs font-bold transition-all cursor-pointer"
             title="Need a hint?"
           >
             <HelpCircle className="w-4 h-4" />
-            <span className="hidden sm:inline">Hint</span>
+            <span>Hint</span>
           </button>
 
           {/* Reset */}
           <button
             onClick={handleResetScene}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all"
+            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer"
             title="Reset scene differences"
           >
             <RotateCcw className="w-4 h-4" />
@@ -222,50 +222,59 @@ export default function SceneExplorer({
       )}
 
       {/* Main Interactive Scene Canvas Container */}
-      <div className={`
-        w-full grid gap-4 mb-4
-        ${viewMode === 'spot' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}
-      `}>
+      <div className="w-full grid gap-4 mb-4 grid-cols-1 md:grid-cols-2">
 
         {/* Scene 1: Original Scene Panel */}
         <div className="relative bg-white rounded-2xl shadow-md border-4 border-slate-300 overflow-hidden flex flex-col">
           {/* Lego top header */}
           <div className="w-full bg-slate-200 border-b-2 border-slate-300 px-3 py-1.5 flex items-center justify-between">
             <span className="text-xs font-black font-display text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <span>🖼️</span> Original Scene
+              <span>🖼️</span> Picture A
             </span>
           </div>
 
           {/* SVG Scene Graphic */}
-          <div className="relative w-full aspect-[4/3] bg-gradient-to-b from-sky-100 to-amber-50 select-none">
+          <div
+            onClick={(e) => handleMissClick('orig', e)}
+            className="relative w-full aspect-[4/3] bg-gradient-to-b from-sky-100 to-amber-50 select-none cursor-crosshair"
+          >
             <SceneGraphic sceneId={currentScene.id} variant="original" />
 
-            {/* Clickable Hotspots overlay on Original */}
+            {missPoint?.panel === 'orig' && (
+              <div
+                style={{ left: `${missPoint.x}%`, top: `${missPoint.y}%` }}
+                className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-full bg-rose-500 text-white font-black text-xs shadow-md"
+              >
+                👀 Look closer!
+              </div>
+            )}
+
+            {/* Clickable Hotspots overlay on Original (completely hidden until found!) */}
             {currentScene.differences.map((diff) => {
               const isFound = foundDiffIds.has(diff.id);
               return (
                 <button
                   key={`orig-${diff.id}`}
-                  onClick={() => handleSpotClick(diff)}
+                  type="button"
+                  onClick={(e) => handleSpotClick(diff, e)}
                   style={{
                     left: `${diff.x}%`,
                     top: `${diff.y}%`,
-                    width: `${Math.max(diff.r * 2.2, 10)}%`,
-                    height: `${Math.max(diff.r * 2.2, 10)}%`,
+                    width: `${Math.max(diff.r * 2.1, 10)}%`,
+                    height: `${Math.max(diff.r * 2.1, 10)}%`,
                   }}
                   className={`
-                    absolute -translate-x-1/2 -translate-y-1/2 rounded-full cursor-pointer transition-all duration-300
+                    absolute -translate-x-1/2 -translate-y-1/2 rounded-full cursor-crosshair transition-all duration-300
                     flex items-center justify-center
                     ${isFound
-                      ? 'border-4 border-yellow-400 bg-yellow-400/25 shadow-lg scale-105'
-                      : 'hover:border-2 hover:border-amber-400/60 hover:bg-amber-400/10'}
+                      ? 'border-4 border-emerald-500 bg-emerald-400/25 shadow-lg scale-105'
+                      : 'border-0 bg-transparent'}
                   `}
-                  title={`Click to explore: ${diff.name}`}
-                  aria-label={diff.name}
+                  aria-label={isFound ? diff.name : 'Hidden spot'}
                 >
                   {isFound && (
-                    <div className="bg-yellow-400 text-slate-950 font-black text-xs px-1.5 py-0.5 rounded-full shadow-md flex items-center gap-0.5 animate-bounce">
-                      <span>⭐</span>
+                    <div className="bg-emerald-500 text-white font-black text-xs px-1.5 py-0.5 rounded-full shadow-md flex items-center gap-0.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                       <span className="hidden xs:inline">{diff.emoji}</span>
                     </div>
                   )}
@@ -275,60 +284,68 @@ export default function SceneExplorer({
           </div>
         </div>
 
-        {/* Scene 2: The Differences Scene Panel (or hidden in single map mode) */}
-        {viewMode === 'spot' && (
-          <div className="relative bg-white rounded-2xl shadow-md border-4 border-amber-400 overflow-hidden flex flex-col">
-            {/* Lego top header */}
-            <div className="w-full bg-amber-100 border-b-2 border-amber-300 px-3 py-1.5 flex items-center justify-between">
-              <span className="text-xs font-black font-display text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
-                <span>🔍</span> Spot The 7 Changes!
-              </span>
-              <span className="text-xs font-black text-amber-700 bg-amber-200 px-2 py-0.5 rounded-full">
-                {foundCount} / 7 Found
-              </span>
-            </div>
-
-            {/* SVG Scene Graphic with subtle changes */}
-            <div className="relative w-full aspect-[4/3] bg-gradient-to-b from-sky-100 to-amber-50 select-none">
-              <SceneGraphic sceneId={currentScene.id} variant="changed" />
-
-              {/* Clickable Hotspots overlay on Differences */}
-              {currentScene.differences.map((diff) => {
-                const isFound = foundDiffIds.has(diff.id);
-                return (
-                  <button
-                    key={`diff-${diff.id}`}
-                    onClick={() => handleSpotClick(diff)}
-                    style={{
-                      left: `${diff.x}%`,
-                      top: `${diff.y}%`,
-                      width: `${Math.max(diff.r * 2.4, 12)}%`,
-                      height: `${Math.max(diff.r * 2.4, 12)}%`,
-                    }}
-                    className={`
-                      absolute -translate-x-1/2 -translate-y-1/2 rounded-full cursor-pointer transition-all duration-300
-                      flex items-center justify-center
-                      ${isFound
-                        ? 'border-4 border-emerald-500 bg-emerald-400/30 shadow-lg scale-110'
-                        : 'border-2 border-dashed border-amber-400/40 hover:border-amber-500 hover:bg-amber-300/20'}
-                    `}
-                    title={`Click difference: ${diff.name}`}
-                    aria-label={diff.name}
-                  >
-                    {isFound ? (
-                      <div className="bg-emerald-500 text-white font-black text-xs px-2 py-0.5 rounded-full shadow-md flex items-center gap-1 animate-pulse">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>{diff.name}</span>
-                      </div>
-                    ) : (
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60 animate-ping" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+        {/* Scene 2: The Differences Scene Panel */}
+        <div className="relative bg-white rounded-2xl shadow-md border-4 border-amber-400 overflow-hidden flex flex-col">
+          {/* Lego top header */}
+          <div className="w-full bg-amber-100 border-b-2 border-amber-300 px-3 py-1.5 flex items-center justify-between">
+            <span className="text-xs font-black font-display text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🔍</span> Picture B — Spot 7 Changes!
+            </span>
+            <span className="text-xs font-black text-amber-800 bg-amber-200 px-2 py-0.5 rounded-full">
+              {foundCount} / 7
+            </span>
           </div>
-        )}
+
+          {/* SVG Scene Graphic with real visual differences */}
+          <div
+            onClick={(e) => handleMissClick('diff', e)}
+            className="relative w-full aspect-[4/3] bg-gradient-to-b from-sky-100 to-amber-50 select-none cursor-crosshair"
+          >
+            <SceneGraphic sceneId={currentScene.id} variant="changed" />
+
+            {missPoint?.panel === 'diff' && (
+              <div
+                style={{ left: `${missPoint.x}%`, top: `${missPoint.y}%` }}
+                className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-full bg-rose-500 text-white font-black text-xs shadow-md"
+              >
+                👀 Look closer!
+              </div>
+            )}
+
+            {/* Clickable Hotspots overlay on Differences (completely hidden until found!) */}
+            {currentScene.differences.map((diff) => {
+              const isFound = foundDiffIds.has(diff.id);
+              return (
+                <button
+                  key={`diff-${diff.id}`}
+                  type="button"
+                  onClick={(e) => handleSpotClick(diff, e)}
+                  style={{
+                    left: `${diff.x}%`,
+                    top: `${diff.y}%`,
+                    width: `${Math.max(diff.r * 2.1, 10)}%`,
+                    height: `${Math.max(diff.r * 2.1, 10)}%`,
+                  }}
+                  className={`
+                    absolute -translate-x-1/2 -translate-y-1/2 rounded-full cursor-crosshair transition-all duration-300
+                    flex items-center justify-center
+                    ${isFound
+                      ? 'border-4 border-emerald-500 bg-emerald-400/25 shadow-lg scale-105'
+                      : 'border-0 bg-transparent'}
+                  `}
+                  aria-label={isFound ? diff.name : 'Hidden spot'}
+                >
+                  {isFound && (
+                    <div className="bg-emerald-500 text-white font-black text-xs px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>{diff.name}</span>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
       </div>
 
@@ -440,19 +457,18 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
           ABC • 1 2 3
         </text>
 
-        {/* 1. CLOCK (top center) - Difference: shows 3:00 vs 9:00 */}
-        <g transform="translate(400, 45)">
-          <circle cx="0" cy="0" r="28" fill="#ffffff" stroke="#ef4444" strokeWidth="5" />
+        {/* 1. CLOCK (top center) - Difference: 3:00 white vs 9:00 yellow */}
+        <g transform="translate(400, 60)">
+          <circle cx="0" cy="0" r="28" fill={isChanged ? '#fef08a' : '#ffffff'} stroke="#ef4444" strokeWidth="5" />
           <circle cx="0" cy="0" r="3" fill="#000000" />
-          {/* Hands */}
           <line x1="0" y1="0" x2="0" y2="-18" stroke="#000000" strokeWidth="3" />
           <line
             x1="0"
             y1="0"
-            x2={isChanged ? -14 : 14}
+            x2={isChanged ? -16 : 16}
             y2="0"
             stroke="#ef4444"
-            strokeWidth="3.5"
+            strokeWidth="4"
           />
         </g>
 
@@ -464,27 +480,34 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
         <rect x="60" y="200" width="20" height="60" fill="#3b82f6" rx="3" />
         <rect x="85" y="210" width="18" height="50" fill="#10b981" rx="3" />
         <rect x="110" y="195" width="22" height="65" fill="#f59e0b" rx="3" />
-        {/* Globe */}
+        {/* Globe - Difference: Earth vs Ringed Space Globe */}
         <g transform="translate(144, 228)">
           <path d="M -15 25 L 15 25 L 0 0 Z" fill="#64748b" />
-          <circle cx="0" cy="-12" r="22" fill="#0284c7" stroke="#38bdf8" strokeWidth="2" />
-          <circle cx="-5" cy="-15" r="8" fill="#22c55e" />
-          <circle cx="8" cy="-8" r="6" fill="#22c55e" />
-          {isChanged && <circle cx="0" cy="-12" r="4" fill="#fbbf24" />}
+          <circle cx="0" cy="-12" r="22" fill={isChanged ? '#a855f7' : '#0284c7'} stroke="#38bdf8" strokeWidth="2" />
+          <circle cx="-5" cy="-15" r="8" fill={isChanged ? '#fde047' : '#22c55e'} />
+          <circle cx="8" cy="-8" r="6" fill={isChanged ? '#fde047' : '#22c55e'} />
+          {isChanged && (
+            <ellipse cx="0" cy="-12" rx="30" ry="7" fill="none" stroke="#facc15" strokeWidth="3.5" transform="rotate(-18 0 -12)" />
+          )}
         </g>
 
         {/* Right Bookshelf & 6. BOOK */}
         <rect x="600" y="120" width="160" height="240" rx="8" fill="#d97706" stroke="#b45309" strokeWidth="6" />
         <rect x="610" y="180" width="140" height="10" fill="#b45309" />
         <rect x="610" y="260" width="140" height="10" fill="#b45309" />
-        {/* Open Book */}
+        {/* Book - Difference: Closed Red Book vs Open Book with Star */}
         <g transform="translate(680, 240)">
-          <path d="M -26 -10 Q 0 -5 26 -10 L 26 15 Q 0 20 -26 15 Z" fill="#ffffff" stroke="#334155" strokeWidth="2" />
-          <line x1="0" y1="-8" x2="0" y2="18" stroke="#334155" strokeWidth="2" />
           {isChanged ? (
-            <text x="0" y="8" fontSize="14" textAnchor="middle">⭐</text>
+            <>
+              <path d="M -28 -12 Q 0 -6 28 -12 L 28 16 Q 0 22 -28 16 Z" fill="#ffffff" stroke="#334155" strokeWidth="2.5" />
+              <line x1="0" y1="-9" x2="0" y2="19" stroke="#334155" strokeWidth="2" />
+              <text x="13" y="8" fontSize="16" textAnchor="middle">⭐</text>
+            </>
           ) : (
-            <line x1="-15" y1="2" x2="-5" y2="2" stroke="#64748b" strokeWidth="2" />
+            <>
+              <rect x="-18" y="-14" width="36" height="30" rx="4" fill="#ef4444" stroke="#991b1b" strokeWidth="2.5" />
+              <line x1="-10" y1="-14" x2="-10" y2="16" stroke="#fee2e2" strokeWidth="2" />
+            </>
           )}
         </g>
 
@@ -506,11 +529,12 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
         </g>
 
         {/* 3. PENCIL on Teacher Desk - Difference: Present vs Missing */}
-        <g transform="translate(460, 320)">
-          {!isChanged ? (
-            <rect x="0" y="0" width="35" height="8" rx="2" fill="#eab308" stroke="#a16207" strokeWidth="1.5" />
-          ) : (
-            <rect x="0" y="0" width="35" height="8" rx="2" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" />
+        <g transform="translate(460, 316)">
+          {!isChanged && (
+            <>
+              <rect x="0" y="0" width="36" height="9" rx="2" fill="#eab308" stroke="#a16207" strokeWidth="1.5" />
+              <polygon points="36,0 44,4.5 36,9" fill="#fed7aa" stroke="#a16207" strokeWidth="1" />
+            </>
           )}
         </g>
 
@@ -521,13 +545,15 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
           <circle cx="0" cy="0" r="4" fill="#f59e0b" />
         </g>
 
-        {/* 7. SCISSORS on Right Student Table */}
-        <g transform="translate(610, 450)">
-          <circle cx="-8" cy="0" r="8" fill="none" stroke={isChanged ? '#f97316' : '#94a3b8'} strokeWidth="3" />
-          <circle cx="8" cy="0" r="8" fill="none" stroke={isChanged ? '#f97316' : '#94a3b8'} strokeWidth="3" />
-          <line x1="-4" y1="-5" x2="16" y2="-24" stroke="#64748b" strokeWidth="3" />
-          <line x1="4" y1="-5" x2="-16" y2="-24" stroke="#64748b" strokeWidth="3" />
-        </g>
+        {/* 7. SCISSORS on Right Student Table - Difference: Missing on Left, Orange on Right */}
+        {isChanged && (
+          <g transform="translate(610, 446)">
+            <circle cx="-10" cy="0" r="9" fill="none" stroke="#f97316" strokeWidth="4" />
+            <circle cx="10" cy="0" r="9" fill="none" stroke="#f97316" strokeWidth="4" />
+            <line x1="-5" y1="-6" x2="18" y2="-28" stroke="#475569" strokeWidth="4" />
+            <line x1="5" y1="-6" x2="-18" y2="-28" stroke="#475569" strokeWidth="4" />
+          </g>
+        )}
       </svg>
     );
   }
@@ -550,7 +576,15 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
         {/* 5. KITE - Top left */}
         <g transform="translate(112, 96)">
           <polygon points="0,-25 20,0 0,25 -20,0" fill={isChanged ? '#f59e0b' : '#ec4899'} stroke="#be185d" strokeWidth="2" />
-          <path d="M 0 25 Q 15 45 5 70" stroke="#f43f5e" strokeWidth="2" fill="none" />
+          <path d={isChanged ? 'M 0 25 Q 18 50 4 85' : 'M 0 25 Q 15 45 5 70'} stroke="#f43f5e" strokeWidth="2.5" fill="none" />
+          {isChanged && (
+            <>
+              <polygon points="3,48 13,44 13,52" fill="#3b82f6" />
+              <polygon points="15,48 5,44 5,52" fill="#3b82f6" />
+              <polygon points="1,68 11,64 11,72" fill="#10b981" />
+              <polygon points="13,68 3,64 3,72" fill="#10b981" />
+            </>
+          )}
         </g>
 
         {/* 6. BIG TREE in Center */}
@@ -618,33 +652,39 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
       {/* Road Dashes */}
       <line x1="0" y1="450" x2="800" y2="450" stroke="#facc15" strokeWidth="8" strokeDasharray="40 30" />
 
-      {/* 6. BRIDGE in Distance */}
+      {/* 6. BRIDGE in Distance - Difference: Grey Stone vs Red Suspension Bridge */}
       <g transform="translate(400, 108)">
-        <path d="M -160 80 Q 0 0 160 80" stroke="#ef4444" strokeWidth="8" fill="none" />
-        <line x1="-80" y1="50" x2="-80" y2="80" stroke="#ef4444" strokeWidth="3" />
-        <line x1="80" y1="50" x2="80" y2="80" stroke="#ef4444" strokeWidth="3" />
+        <path d="M -160 80 Q 0 0 160 80" stroke={isChanged ? '#ef4444' : '#94a3b8'} strokeWidth={isChanged ? '10' : '6'} fill="none" />
+        <line x1="-80" y1="45" x2="-80" y2="80" stroke={isChanged ? '#ef4444' : '#94a3b8'} strokeWidth="4" />
+        <line x1="80" y1="45" x2="80" y2="80" stroke={isChanged ? '#ef4444' : '#94a3b8'} strokeWidth="4" />
+        {isChanged && <line x1="0" y1="20" x2="0" y2="80" stroke="#ef4444" strokeWidth="4" />}
       </g>
 
-      {/* 7. BUILDING on Right */}
+      {/* 7. BUILDING on Right - Difference: Flat Roof vs Golden Clock Tower */}
       <g transform="translate(656, 132)">
         <rect x="-40" y="-80" width="80" height="160" fill="#0284c7" rx="4" />
         <rect x="-30" y="-70" width="16" height="16" fill="#fef08a" />
         <rect x="14" y="-70" width="16" height="16" fill="#fef08a" />
         <rect x="-30" y="-40" width="16" height="16" fill="#fef08a" />
         <rect x="14" y="-40" width="16" height="16" fill="#fef08a" />
-        {isChanged && <circle cx="0" cy="-60" r="10" fill="#f59e0b" />}
+        {isChanged && (
+          <>
+            <polygon points="-24,-80 0,-118 24,-80" fill="#f59e0b" stroke="#b45309" strokeWidth="2" />
+            <circle cx="0" cy="-94" r="9" fill="#ffffff" stroke="#b45309" strokeWidth="2" />
+          </>
+        )}
       </g>
 
       {/* 3. TRAFFIC LIGHT in Center */}
       <g transform="translate(416, 210)">
         <rect x="-6" y="0" width="12" height="110" fill="#475569" />
         <rect x="-18" y="-65" width="36" height="75" rx="8" fill="#0f172a" stroke="#cbd5e1" strokeWidth="2" />
-        <circle cx="0" cy="-45" r="8" fill={isChanged ? '#22c55e' : '#ef4444'} />
+        <circle cx="0" cy="-45" r="8" fill={isChanged ? '#475569' : '#ef4444'} />
         <circle cx="0" cy="-25" r="8" fill="#eab308" opacity={0.3} />
-        <circle cx="0" cy="-5" r="8" fill={isChanged ? '#ef4444' : '#22c55e'} />
+        <circle cx="0" cy="-5" r="8" fill={isChanged ? '#22c55e' : '#475569'} />
       </g>
 
-      {/* 1. SCHOOL BUS on Left Lane */}
+      {/* 1. SCHOOL BUS on Left Lane - Difference: Headlight & Roof Beacon ON */}
       <g transform="translate(256, 336)">
         <rect x="-80" y="-45" width="160" height="90" rx="14" fill="#eab308" stroke="#ca8a04" strokeWidth="4" />
         <rect x="-70" y="-35" width="35" height="30" rx="4" fill="#bae6fd" />
@@ -653,9 +693,13 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
         <circle cx="-50" cy="45" r="18" fill="#000000" />
         <circle cx="50" cy="45" r="18" fill="#000000" />
         {isChanged ? (
-          <circle cx="78" cy="20" r="8" fill="#fef08a" className="animate-ping" />
+          <>
+            <polygon points="82,12 135,-8 135,36" fill="#fef08a" opacity="0.55" />
+            <circle cx="78" cy="20" r="10" fill="#fef08a" stroke="#f59e0b" strokeWidth="2" />
+            <circle cx="0" cy="-52" r="9" fill="#facc15" />
+          </>
         ) : (
-          <circle cx="78" cy="20" r="6" fill="#fef08a" />
+          <circle cx="78" cy="20" r="6" fill="#64748b" />
         )}
       </g>
 
@@ -665,32 +709,37 @@ function SceneGraphic({ sceneId, variant = 'original' }) {
         <rect x="-60" y="0" width="120" height="20" fill="#1e3a8a" />
         <circle cx="-35" cy="30" r="14" fill="#000000" />
         <circle cx="35" cy="30" r="14" fill="#000000" />
-        {/* Siren */}
-        <polygon points="-8,-36 8,-36 0,-44" fill={isChanged ? '#3b82f6' : '#ef4444'} />
+        {/* Siren: Red vs Glowing Blue */}
+        <polygon points="-10,-32 10,-32 0,-46" fill={isChanged ? '#3b82f6' : '#ef4444'} />
+        {isChanged && <circle cx="0" cy="-42" r="14" fill="#60a5fa" opacity="0.45" />}
       </g>
 
-      {/* 4. SCOOTER on Sidewalk */}
-      <g transform="translate(96, 444)">
-        <line x1="0" y1="0" x2="0" y2="-45" stroke="#10b981" strokeWidth="5" />
-        <line x1="-12" y1="-45" x2="12" y2="-45" stroke="#1e293b" strokeWidth="4" />
-        <rect x="-25" y="0" width="50" height="8" rx="4" fill="#10b981" />
-        <circle cx="-25" cy="8" r="7" fill="#000000" />
-        <circle cx="25" cy="8" r="7" fill="#000000" />
-      </g>
+      {/* 4. SCOOTER on Sidewalk - Difference: Absent on Left, Green Scooter on Right */}
+      {isChanged && (
+        <g transform="translate(96, 444)">
+          <line x1="0" y1="0" x2="0" y2="-45" stroke="#10b981" strokeWidth="6" />
+          <line x1="-14" y1="-45" x2="14" y2="-45" stroke="#1e293b" strokeWidth="5" />
+          <rect x="-26" y="0" width="52" height="9" rx="4" fill="#10b981" />
+          <circle cx="-25" cy="9" r="8" fill="#000000" />
+          <circle cx="25" cy="9" r="8" fill="#000000" />
+        </g>
+      )}
 
-      {/* 5. STOP SIGN on Right Edge */}
-      <g transform="translate(704, 252)">
-        <rect x="-4" y="0" width="8" height="90" fill="#94a3b8" />
-        <polygon
-          points="0,-30 22,-22 30,0 22,22 0,30 -22,22 -30,0 -22,-22"
-          fill="#ef4444"
-          stroke="#ffffff"
-          strokeWidth="3"
-        />
-        <text x="0" y="5" fill="#ffffff" fontSize="11" fontWeight="black" textAnchor="middle">
-          STOP
-        </text>
-      </g>
+      {/* 5. STOP SIGN on Right Edge - Difference: Absent on Left, Red STOP Sign on Right */}
+      {isChanged && (
+        <g transform="translate(704, 252)">
+          <rect x="-4" y="0" width="8" height="90" fill="#94a3b8" />
+          <polygon
+            points="0,-30 22,-22 30,0 22,22 0,30 -22,22 -30,0 -22,-22"
+            fill="#ef4444"
+            stroke="#ffffff"
+            strokeWidth="3"
+          />
+          <text x="0" y="5" fill="#ffffff" fontSize="11" fontWeight="black" textAnchor="middle">
+            STOP
+          </text>
+        </g>
+      )}
     </svg>
   );
 }
